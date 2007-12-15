@@ -4,19 +4,28 @@
 #include "mapFlatAbstraction.h"
 #include "aStar3.h"
 
+#include <iostream>
+#include <fstream>
+
 /* 
 TODO: add extra parameter to generatePaths: outputfilename and write the generated stuff directly to file instead of printing to console.
 */
 
+using namespace std;
 
-void AHAScenarioManager::generatePaths(const char* _map, int numscenarios, int validterrain, int agentsize)
+void AHAScenarioManager::generatePaths(const char* _map, const char* outfilename, int numscenarios, int validterrain, int agentsize)
 {
 
 	Map *m = new Map(_map);
 	mapFlatAbstraction *absMap = new mapFlatAbstraction(m);
 	graph *g = absMap->getAbstractGraph(0);
-    printf("# map\tfromx\tfromy\ttox\ttoy\tA*len\n");
+	float version = 2.0;
 	
+    ofstream scenariofile;
+	scenariofile.open(outfilename, ios::out);
+	scenariofile << version<<std::endl;
+	
+	printf("# map\tfromx\tfromy\ttox\ttoy\tA*len\n");
 	node *r1, *r2;
 	while(numscenarios > 0)
 	{
@@ -48,12 +57,15 @@ void AHAScenarioManager::generatePaths(const char* _map, int numscenarios, int v
 		int x1, x2, y1, y2;
 		x1 = r1->getLabelL(kFirstData); y1 = r1->getLabelL(kFirstData+1);
 		x2 = r2->getLabelL(kFirstData); y2 = r2->getLabelL(kFirstData+1);
+		
 		printf("%s\t%d\t%d\t%d\t%d\t%1.2f\n", _map, x1, y1, x2, y2, length);
+		scenariofile << _map<<"\t"<<x1<<"\t"<<y1<<"\t"<<x2<<"\t"<<y2<<"\t"<<length<<std::endl;
 		
 		delete p;
 		numscenarios--;
 	}
 	
+	scenariofile.close();
 	delete absMap;
 		
 }
