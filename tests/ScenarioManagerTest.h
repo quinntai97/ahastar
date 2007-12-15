@@ -1,5 +1,5 @@
 /*
- *  ScenarioGeneratorTest.h
+ *  ScenarioManagerTest.h
  *  hog
 	Tests: 
 		- generateScenarioTest
@@ -10,26 +10,26 @@
  *
  */
 
-#ifndef SCENARIOGENERATORTEST_H
-#define SCENARIOGENERATORTEST_H
+#ifndef SCENARIOMANAGERTEST_H
+#define SCENARIOMANAGERTEST_H
 
 #include <cppunit/TestFixture.h>
 #include <cppunit/extensions/HelperMacros.h>
 
-#include "ScenarioGenerator.h"
+#include "ScenarioManager.h"
 #include "TestHelper.h"
+#include "map.h"
 
 using namespace CppUnit;
 
-class ScenarioGeneratorTest: TestFixture
+class ScenarioManagerTest: public TestFixture
 {
-	CPPUNIT_TEST_SUITE( ScenarioGeneratorTest );
+	CPPUNIT_TEST_SUITE( ScenarioManagerTest );
 	CPPUNIT_TEST( GenerateScenarioTest );
 	CPPUNIT_TEST( LoadScenarioTest );
 	CPPUNIT_TEST_SUITE_END();
 
 	public:
-		ScenarioGeneratorTest();
 		void setUp();
 		void tearDown();
 		
@@ -37,7 +37,7 @@ class ScenarioGeneratorTest: TestFixture
 		void LoadScenarioTest();
 
 	private:
-		ScenarioGenerator* sg;
+		AHAScenarioManager* sg;
 		int targetterrain;
 		int agentsize;
 		int numscenarios;

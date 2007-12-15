@@ -1,11 +1,11 @@
-#include "ScenarioGenerator.h"
+#include "ScenarioManager.h"
 
-void AHAScenarioManager::generatePaths(char* _map, int numscenarios, int validterrain, int agentsize)
+void AHAScenarioManager::generatePaths(const char* _map, int numscenarios, int validterrain, int agentsize)
 {
 	return;
 }
 
-void AHAScenarioManager::loadScenario(char* filelocation)
+void AHAScenarioManager::loadScenario(const char* filelocation)
 {
 	return;
 }

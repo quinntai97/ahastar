@@ -1,5 +1,5 @@
 /*
- *  ScenarioGenerator.h
+ *  ScenarioManager.h
  *  hog
  
 	Similar to HOG's pathGeneration class but adds suport for scenario generation according to some set of restrictions:
@@ -28,8 +28,8 @@
  *
  */
 
-#ifndef SCENARIOGENERATOR_H
-#define SCENARIOGENERATOR_H
+#ifndef SCENARIOMANAGER_H
+#define SCENARIOMANAGER_H
 
 #include "map.h"
 #include "aStar.h"
@@ -39,10 +39,10 @@
 /* NB: HOG's stuff sucks. Need a ScenarioManager here and combine functionality from pathGeneration and ScenarioLoader. */
 class AbstractScenarioManager 
 {
-	
-	Experiment* getNthExperiment(int which) { if(which < experiments.size()) return &(experiments[which]); return 0; }
-	virtual void generatePaths(char* _map, int numscenarios, int validterrain, int agentsize) = 0;
-	virtual void loadScenario(char* filelocation) = 0;
+	public:
+		Experiment* getNthExperiment(int which) { if(which < experiments.size()) return &(experiments[which]); return 0; }
+		virtual void generatePaths(const char* _map, int numscenarios, int validterrain, int agentsize) = 0;
+		virtual void loadScenario(const char* filelocation) = 0;
 	
 	protected: 
 		std::vector<Experiment> experiments;
@@ -51,8 +51,9 @@ class AbstractScenarioManager
 
 class AHAScenarioManager: public AbstractScenarioManager
 {
-	virtual void generatePaths(char* _map, int numscenarios, int validterrain, int agentsize);
-	virtual void loadScenario(char* filelocation);
+	public: 
+		virtual void generatePaths(const char* _map, int numscenarios, int validterrain, int agentsize);
+		virtual void loadScenario(const char* filelocation);
 };
 
 #endif
