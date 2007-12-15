@@ -50,7 +50,7 @@ class AbstractScenarioManager
 {
 	public:
 		Experiment* getNthExperiment(int which) { if(which < experiments.size()) return &(experiments[which]); return 0; }
-		virtual void generatePaths(const char* _map, int numscenarios, int validterrain, int agentsize) = 0;
+		virtual void generatePaths(const char* _map, const char* outfilename, int numscenarios, int validterrain, int agentsize) = 0;
 		virtual void loadScenario(const char* filelocation) = 0;
 	
 	protected: 
@@ -61,7 +61,7 @@ class AbstractScenarioManager
 class AHAScenarioManager: public AbstractScenarioManager
 {
 	public: 
-		virtual void generatePaths(const char* _map, int numscenarios, int validterrain, int agentsize);
+		virtual void generatePaths(const char* _map, const char* outfilename, int numscenarios, int validterrain, int agentsize);
 		virtual void loadScenario(const char* filelocation);
 };
 

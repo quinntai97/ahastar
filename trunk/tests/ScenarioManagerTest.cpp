@@ -35,7 +35,7 @@ void ScenarioManagerTest::GenerateScenarioTest()
 
 	// TEST1: file at appropriate location
 	remove(tslocation.c_str()); // NB: randomly created each time the test is executed
-	sg->generatePaths(maplocation.c_str(), numscenarios, targetterrain, agentsize);
+	sg->generatePaths(maplocation.c_str(), tslocation.c_str(), numscenarios, targetterrain, agentsize);
 	ifstream testfile;
 	testfile.open("test.scenario", ios::in);
 	CPPUNIT_ASSERT_MESSAGE("failed to open 'test.scenario'", testfile.is_open() != 0);
@@ -56,7 +56,7 @@ void ScenarioManagerTest::GenerateScenarioTest()
 		CPPUNIT_ASSERT_MESSAGE("expectedly found scenario that does not match test parameters", (xs>=0 && ys >=0 && xg >=0 && yg >=0 && dist>0));
 
 		// TEST2: no scenarios with start/goal at same position
-		CPPUNIT_ASSERT_MESSAGE("found a scenario with same start and goal locations", (xs != xg && xg != yg));
+		CPPUNIT_ASSERT_MESSAGE("found a scenario with same start and goal locations", !(xs == xg && ys == yg));
 		i++;
 	}
 
