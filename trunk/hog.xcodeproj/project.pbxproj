@@ -7,12 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		625BF8A60D13D79E0028A447 /* ScenarioManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 625BF8A40D13D79E0028A447 /* ScenarioManager.cpp */; };
+		625BF8A70D13D79E0028A447 /* ScenarioManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 625BF8A40D13D79E0028A447 /* ScenarioManager.cpp */; };
+		625BF8AA0D13D7B40028A447 /* ScenarioManagerTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 625BF8A80D13D7B40028A447 /* ScenarioManagerTest.cpp */; };
+		625BF8AB0D13D7B40028A447 /* ScenarioManagerTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 625BF8A80D13D7B40028A447 /* ScenarioManagerTest.cpp */; };
+		625BF99E0D13E23C0028A447 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 62E911770CFD4B3000AA46AB /* OpenGL.framework */; };
+		625BF99F0D13E23C0028A447 /* GLUT.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 62E911730CFD4B1B00AA46AB /* GLUT.framework */; };
 		62D0A9BB0D1262830022B351 /* AnnotatedAStar.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 62D0A9BA0D1262830022B351 /* AnnotatedAStar.cpp */; };
 		62D0A9BC0D1262830022B351 /* AnnotatedAStar.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 62D0A9BA0D1262830022B351 /* AnnotatedAStar.cpp */; };
 		62D0A9C30D1262990022B351 /* AnnotatedAStarTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 62D0A9C20D1262990022B351 /* AnnotatedAStarTest.cpp */; };
-		62D0A9ED0D12694B0022B351 /* ScenarioGenerator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 62D0A9EC0D12694B0022B351 /* ScenarioGenerator.cpp */; };
-		62D0A9EE0D12694B0022B351 /* ScenarioGenerator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 62D0A9EC0D12694B0022B351 /* ScenarioGenerator.cpp */; };
-		62D0AA260D126E800022B351 /* ScenarioGeneratorTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 62D0AA250D126E800022B351 /* ScenarioGeneratorTest.cpp */; };
 		62E914040CFD4D5100AA46AB /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 62E911770CFD4B3000AA46AB /* OpenGL.framework */; };
 		62E914050CFD4D5100AA46AB /* GLUT.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 62E911730CFD4B1B00AA46AB /* GLUT.framework */; };
 		62E914060CFD4D5100AA46AB /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 20286C33FDCF999611CA2CEA /* Carbon.framework */; };
@@ -154,14 +157,14 @@
 		20286C33FDCF999611CA2CEA /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = /System/Library/Frameworks/Carbon.framework; sourceTree = "<absolute>"; };
 		4A9504C8FFE6A3BC11CA0CBA /* ApplicationServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ApplicationServices.framework; path = /System/Library/Frameworks/ApplicationServices.framework; sourceTree = "<absolute>"; };
 		4A9504CAFFE6A41611CA0CBA /* CoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreServices.framework; path = /System/Library/Frameworks/CoreServices.framework; sourceTree = "<absolute>"; };
+		625BF8A40D13D79E0028A447 /* ScenarioManager.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = ScenarioManager.cpp; path = aha/ScenarioManager.cpp; sourceTree = "<group>"; };
+		625BF8A50D13D79E0028A447 /* ScenarioManager.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ScenarioManager.h; path = aha/ScenarioManager.h; sourceTree = "<group>"; };
+		625BF8A80D13D7B40028A447 /* ScenarioManagerTest.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = ScenarioManagerTest.cpp; path = tests/ScenarioManagerTest.cpp; sourceTree = "<group>"; };
+		625BF8A90D13D7B40028A447 /* ScenarioManagerTest.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ScenarioManagerTest.h; path = tests/ScenarioManagerTest.h; sourceTree = "<group>"; };
 		62D0A9B90D1262830022B351 /* AnnotatedAStar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AnnotatedAStar.h; path = aha/AnnotatedAStar.h; sourceTree = "<group>"; };
 		62D0A9BA0D1262830022B351 /* AnnotatedAStar.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = AnnotatedAStar.cpp; path = aha/AnnotatedAStar.cpp; sourceTree = "<group>"; };
 		62D0A9C10D1262990022B351 /* AnnotatedAStarTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AnnotatedAStarTest.h; path = tests/AnnotatedAStarTest.h; sourceTree = "<group>"; };
 		62D0A9C20D1262990022B351 /* AnnotatedAStarTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = AnnotatedAStarTest.cpp; path = tests/AnnotatedAStarTest.cpp; sourceTree = "<group>"; };
-		62D0A9EB0D12694B0022B351 /* ScenarioGenerator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ScenarioGenerator.h; path = aha/ScenarioGenerator.h; sourceTree = "<group>"; };
-		62D0A9EC0D12694B0022B351 /* ScenarioGenerator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ScenarioGenerator.cpp; path = aha/ScenarioGenerator.cpp; sourceTree = "<group>"; };
-		62D0AA240D126E800022B351 /* ScenarioGeneratorTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ScenarioGeneratorTest.h; path = aha/ScenarioGeneratorTest.h; sourceTree = "<group>"; };
-		62D0AA250D126E800022B351 /* ScenarioGeneratorTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ScenarioGeneratorTest.cpp; path = aha/ScenarioGeneratorTest.cpp; sourceTree = "<group>"; };
 		62E911730CFD4B1B00AA46AB /* GLUT.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLUT.framework; path = /System/Library/Frameworks/GLUT.framework; sourceTree = "<absolute>"; };
 		62E911770CFD4B3000AA46AB /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = /System/Library/Frameworks/OpenGL.framework; sourceTree = "<absolute>"; };
 		62E911920CFD4CE200AA46AB /* hog.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = hog.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -333,6 +336,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				625BF99E0D13E23C0028A447 /* OpenGL.framework in Frameworks */,
+				625BF99F0D13E23C0028A447 /* GLUT.framework in Frameworks */,
 				62E918EA0D042A6600AA46AB /* hog.framework in Frameworks */,
 				62E915950CFD5A7800AA46AB /* libcppunit.a in Frameworks */,
 			);
@@ -541,6 +546,8 @@
 		62E915890CFD59CB00AA46AB /* tests */ = {
 			isa = PBXGroup;
 			children = (
+				625BF8A80D13D7B40028A447 /* ScenarioManagerTest.cpp */,
+				625BF8A90D13D7B40028A447 /* ScenarioManagerTest.h */,
 				62E9192C0D04306B00AA46AB /* AnnotatedMapAbstractionTest.h */,
 				62E9192D0D04306B00AA46AB /* AnnotatedMapAbstractionTest.cpp */,
 				62E916C70D03EB8800AA46AB /* ComplexNumberTest.h */,
@@ -554,8 +561,6 @@
 				62E91B400D09852D00AA46AB /* TestHelper.cpp */,
 				62D0A9C10D1262990022B351 /* AnnotatedAStarTest.h */,
 				62D0A9C20D1262990022B351 /* AnnotatedAStarTest.cpp */,
-				62D0AA240D126E800022B351 /* ScenarioGeneratorTest.h */,
-				62D0AA250D126E800022B351 /* ScenarioGeneratorTest.cpp */,
 			);
 			name = tests;
 			sourceTree = "<group>";
@@ -563,12 +568,12 @@
 		62E91A7A0D068E5000AA46AB /* aha */ = {
 			isa = PBXGroup;
 			children = (
+				625BF8A40D13D79E0028A447 /* ScenarioManager.cpp */,
+				625BF8A50D13D79E0028A447 /* ScenarioManager.h */,
 				62E91A740D068E4300AA46AB /* AnnotatedMapAbstraction.h */,
 				62E91A750D068E4300AA46AB /* AnnotatedMapAbstraction.cpp */,
 				62D0A9B90D1262830022B351 /* AnnotatedAStar.h */,
 				62D0A9BA0D1262830022B351 /* AnnotatedAStar.cpp */,
-				62D0A9EB0D12694B0022B351 /* ScenarioGenerator.h */,
-				62D0A9EC0D12694B0022B351 /* ScenarioGenerator.cpp */,
 			);
 			name = aha;
 			sourceTree = "<group>";
@@ -803,7 +808,8 @@
 				62E91A760D068E4300AA46AB /* AnnotatedMapAbstraction.cpp in Sources */,
 				62E91B420D09852D00AA46AB /* TestHelper.cpp in Sources */,
 				62D0A9BC0D1262830022B351 /* AnnotatedAStar.cpp in Sources */,
-				62D0A9EE0D12694B0022B351 /* ScenarioGenerator.cpp in Sources */,
+				625BF8A70D13D79E0028A447 /* ScenarioManager.cpp in Sources */,
+				625BF8AB0D13D7B40028A447 /* ScenarioManagerTest.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -820,8 +826,8 @@
 				62E91B410D09852D00AA46AB /* TestHelper.cpp in Sources */,
 				62D0A9BB0D1262830022B351 /* AnnotatedAStar.cpp in Sources */,
 				62D0A9C30D1262990022B351 /* AnnotatedAStarTest.cpp in Sources */,
-				62D0A9ED0D12694B0022B351 /* ScenarioGenerator.cpp in Sources */,
-				62D0AA260D126E800022B351 /* ScenarioGeneratorTest.cpp in Sources */,
+				625BF8A60D13D79E0028A447 /* ScenarioManager.cpp in Sources */,
+				625BF8AA0D13D7B40028A447 /* ScenarioManagerTest.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
