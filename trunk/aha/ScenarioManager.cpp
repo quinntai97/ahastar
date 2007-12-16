@@ -72,5 +72,20 @@ void AHAScenarioManager::generatePaths(const char* _map, const char* outfilename
 
 void AHAScenarioManager::loadScenario(const char* filelocation)
 {
-	return;
+	ifstream infile;
+	infile.open(filelocation,ios::in);
+	
+	float version=0;
+	infile >> version;
+	
+	if(version != 3.0)
+		return;
+	
+	int xs, ys, xg, yg;
+	float dist;
+	string mapfile;
+	while(infile>>mapfile>>xs>>ys>>xg>>yg>>dist)
+		experiments.push_back(Experiment(xs, ys, xg, yg, 0, dist, mapfile));
+	
+	infile.close();
 }

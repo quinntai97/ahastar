@@ -19,7 +19,7 @@ using namespace std;
 const int validterrains[3] = {kGround, kTrees, (kGround|kTrees)}; // terrains supported by AHA*
 const string maplocation = "/Users/dharabor/src/hog/maps/local/demo.map"; // testmap
 const string tslocation = "test.scenario"; // test scenario file
-
+const int agentsizes[2] = {1, 2};
 
 /* helper methods */
 string* getMessage(stringstream *ss);

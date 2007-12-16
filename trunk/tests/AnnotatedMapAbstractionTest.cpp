@@ -13,6 +13,7 @@
 #include "mapAbstraction.h"
 #include "map.h"
 #include "graph.h"
+#include "aStar3.h"
 
 CPPUNIT_TEST_SUITE_REGISTRATION( AnnotatedMapAbstractionTest );
 
@@ -27,12 +28,48 @@ void AnnotatedMapAbstractionTest::setUp()
 void AnnotatedMapAbstractionTest::tearDown()
 {
 	delete ama; // also kills testmap
-//	delete testmap;
+}
+
+void AnnotatedMapAbstractionTest::PathableTest()
+{
+	bool isok = false;
+	graph *g = ama->getAbstractGraph(0);
+	node *from, *to;
+	path *p;
+	int cnt=0;
+	int maxrepeat=0;
+
+	/* TEST1: given 2 locations, run an a* search between them to find a solution; bool value of pathable should be consistet with this
+		ie. if a path exists, pathable returns true, else false. */
+	while(cnt<50) 
+	{
+		//get some valid locations; 50 tries max
+		while(maxrepeat < 50 || !isok)
+		{
+			int agentsize = agentsizes[rand()%2];
+			int terrain = validterrains[rand()%3];
+			
+			from = g->getRandomNode();
+			to = g->getRandomNode();
+			
+			/* check if the path is valid for the given agent size and terrain traversal capabilities */
+			if((from->getTerrainType()&terrain) == terrain && (to->getTerrainType()&terrain) == terrain
+				&& from->getClearance(from->getTerrainType()) >= agentsize && to->getClearance(to->getTerrainType()) >= agentsize)
+				isok = true;
+
+			maxrepeat++;
+		}
+		
+		/* check if pathable is consistent with a* results */
+		aStarOld astar;
+		path* p = astar.getPath(ama,from, to);
+		CPPUNIT_ASSERT_MESSAGE("a* path and pathable() not consistent", (p && ama->pathable(from,to)));
+		cnt++;
+	}
 }
 
 void AnnotatedMapAbstractionTest::ValidateAnnotationsTest() 
 {
-
 	stringstream ss;
 	for(int x=0; x<testmap->getMapWidth(); x++) 
 	{
