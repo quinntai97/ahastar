@@ -142,6 +142,42 @@ void AnnotatedMapAbstraction::addMissingEdges()
 		}
 }
 
+bool AnnotatedMapAbstraction::pathable(node* from, node* to, int terrain, int agentsize)
+{
+	if(!((from->getTerrainType()&terrain) == terrain && (to->getTerrainType()&terrain) == terrain
+		&& from->getClearance(from->getTerrainType()) >= agentsize && to->getClearance(to->getTerrainType()) >= agentsize))
+		return false;
+	
+	// wtf?? what if the shortest path doesn't respect the capability restrictions? what if one exists but it's not the shortest?
+	// could need a dfs here. Iterative DFS even
+		
+	/* check if a* found a path */
+/*	aStarOld astar;
+	path* p = astar.getPath(ama,from, to);
+	if(!p)
+		return false;
+		
+	
+	// gah, what about multi-size units? how do I know the two locations from above are OK?
+	
+	/* TEST2: each location along the solution path is OK for the specified capabilities */
+/*	path* q;
+	q = p;
+	while(q->n)
+	{
+		node *n = q->n;
+		CPPUNIT_ASSERT_MESSAGE("calculated path is invalid (invalid terrain)", n->getTerrainType() == terrain);
+	}*/
+	
+	return false;
+
+}
+
+bool AnnotatedMapAbstraction::pathable(node* from, node* to)
+{
+	return pathable(from, to, (kGround|kTrees), 1); // default values if none specified
+}
+
 void AnnotatedMapAbstraction::openGLDraw()
 {
 	drawClearanceInfo();

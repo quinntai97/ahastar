@@ -37,7 +37,7 @@ void ScenarioManagerTest::GenerateScenarioTest()
 	remove(tslocation.c_str()); // NB: randomly created each time the test is executed
 	sg->generatePaths(maplocation.c_str(), tslocation.c_str(), numscenarios, targetterrain, agentsize);
 	ifstream testfile;
-	testfile.open("test.scenario", ios::in);
+	testfile.open(tslocation.c_str(), ios::in);
 	CPPUNIT_ASSERT_MESSAGE("failed to open 'test.scenario'", testfile.is_open() != 0);
 	
 	// TEST2: check file version (should be 2.0)
@@ -48,7 +48,7 @@ void ScenarioManagerTest::GenerateScenarioTest()
 	// Read in & store experiments
 	
 	string map;
-	int xs, ys, xg, yg, i;
+	int xs, ys, xg, yg, i=0;
 	float dist;
 	while(testfile>>map>>xs>>ys>>xg>>yg>>dist) // NB: could break if values are not int/float; how to handle it?
 	{
@@ -69,4 +69,24 @@ void ScenarioManagerTest::GenerateScenarioTest()
 void ScenarioManagerTest::LoadScenarioTest()
 {
 	sg->loadScenario(tslocation.c_str());
+	
+	//TEST1: check that 'test.scenario' exists (NB: duplicated above in generate but required in both places)
+	ifstream testfile;
+	testfile.open(tslocation.c_str(), ios::in);
+	CPPUNIT_ASSERT_MESSAGE("failed to open scenario file", testfile.is_open() != 0);
+
+	//TEST2: Each Experiment object contains the same information as each line in the .scenario file	
+	int numscenarios=0;
+	int xs, ys, xg, yg;
+	float dist;
+	int i=0;
+	string map;
+	while(testfile>>map>>xs>>ys>>xg>>yg>>dist) // NB: could break if values are not int/float; how to handle it?
+	{
+		Experiment *exp = sg->getNthExperiment(i);
+		CPPUNIT_ASSERT((exp->getDistance() == dist && exp->getStartX() == xs && exp->getStartY() == ys && exp->getGoalX()
+						&& exp->getGoalY() == yg && exp->getMapName() == map));
+		
+		i++;
+	}
 }

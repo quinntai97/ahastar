@@ -21,6 +21,7 @@ class AnnotatedMapAbstractionTest: public CPPUNIT_NS::TestFixture
 {
 	CPPUNIT_TEST_SUITE( AnnotatedMapAbstractionTest );
 	CPPUNIT_TEST( ValidateAnnotationsTest );
+	CPPUNIT_TEST( PathableTest );
 	CPPUNIT_TEST_SUITE_END();
 
 	public:
@@ -29,6 +30,7 @@ class AnnotatedMapAbstractionTest: public CPPUNIT_NS::TestFixture
 		
 		/* tests */
 		void ValidateAnnotationsTest();
+		void PathableTest();
 	
 	private:
 		void checkSingleNodeAnnotations(node*, int, int);
