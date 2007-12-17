@@ -10,3 +10,32 @@
  *
  */
 
+#ifndef ANNOTATEDASTARTEST_H
+#define ANNOTATEDASTARTEST_H
+
+#include <cppunit/TestFixture.h>
+#include <cppunit/extensions/HelperMacros.h>
+
+#include "AnnotatedMapAbstraction.h"
+#include "AnnotatedAStar.h"
+
+class AnnotatedAStarTest : public CPPUNIT_NS::TestFixture
+{
+	CPPUNIT_TEST_SUITE( AnnotatedAStarTest );
+	CPPUNIT_TEST( CheckPath );
+	CPPUNIT_TEST_SUITE_END();
+
+	
+	public:
+		void setUp();
+		void tearDown();
+		
+		void CheckPath();
+		
+	private:
+		AnnotatedMapAbstraction* ama;
+		AnnotatedAStar* aastar;
+	
+};
+
+#endif
