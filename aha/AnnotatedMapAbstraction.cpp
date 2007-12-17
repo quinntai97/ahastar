@@ -25,6 +25,7 @@
  */
 
 #include "AnnotatedMapAbstraction.h"
+#include "AnnotatedAStar.h"
 //#ifdef OSMAC
 #include "GLUT/glut.h"
 #include <OpenGL/gl.h>
@@ -142,35 +143,28 @@ void AnnotatedMapAbstraction::addMissingEdges()
 		}
 }
 
+/*	Determines if a valid solution exists between two locations given some size and terrain constraints 
+	NB: Unlike other HOG mapAbstractions, pathable is really difficult to do here; there's no actual abstraction going on; 
+	only a 1:1 node/tile representation which we annotate with clearance values for navigation.
+	Consequently, the only way to determine pathability is to run the search and see if it's OK -- so, not very useful for quickly
+	evaluating sets of locations!
+	
+	Class is a building-block for AnnotatedClusterAbstraction (which handles the above much better)
+*/
+
 bool AnnotatedMapAbstraction::pathable(node* from, node* to, int terrain, int agentsize)
 {
 	if(!((from->getTerrainType()&terrain) == terrain && (to->getTerrainType()&terrain) == terrain
 		&& from->getClearance(from->getTerrainType()) >= agentsize && to->getClearance(to->getTerrainType()) >= agentsize))
 		return false;
 	
-	// wtf?? what if the shortest path doesn't respect the capability restrictions? what if one exists but it's not the shortest?
-	// could need a dfs here. Iterative DFS even
-		
-	/* check if a* found a path */
-/*	aStarOld astar;
-	path* p = astar.getPath(ama,from, to);
-	if(!p)
-		return false;
-		
+	AnnotatedAStar aastar; 
+	path *p = aastar.getPath(this, from, to, terrain, agentsize);
 	
-	// gah, what about multi-size units? how do I know the two locations from above are OK?
+	if(p)
+		return true;
 	
-	/* TEST2: each location along the solution path is OK for the specified capabilities */
-/*	path* q;
-	q = p;
-	while(q->n)
-	{
-		node *n = q->n;
-		CPPUNIT_ASSERT_MESSAGE("calculated path is invalid (invalid terrain)", n->getTerrainType() == terrain);
-	}*/
-	
-	return false;
-
+	return false;	
 }
 
 bool AnnotatedMapAbstraction::pathable(node* from, node* to)
