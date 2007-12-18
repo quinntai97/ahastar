@@ -143,7 +143,6 @@
 		62E915950CFD5A7800AA46AB /* libcppunit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 62E915940CFD5A7800AA46AB /* libcppunit.a */; };
 		62E9159A0CFD5AF900AA46AB /* TestNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 62E915990CFD5AF900AA46AB /* TestNode.cpp */; };
 		62E915DC0CFD9F1000AA46AB /* RunTests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 62E915DB0CFD9F1000AA46AB /* RunTests.cpp */; };
-		62E916960D03E87A00AA46AB /* ComplexNumberTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 62E916950D03E87A00AA46AB /* ComplexNumberTest.cpp */; };
 		62E918EA0D042A6600AA46AB /* hog.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 62E911920CFD4CE200AA46AB /* hog.framework */; };
 		62E9192E0D04306B00AA46AB /* AnnotatedMapAbstractionTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 62E9192D0D04306B00AA46AB /* AnnotatedMapAbstractionTest.cpp */; };
 		62E91A5A0D05553100AA46AB /* EdgeTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 62E91A590D05553100AA46AB /* EdgeTest.cpp */; };
@@ -298,8 +297,6 @@
 		62E915980CFD5AF900AA46AB /* TestNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TestNode.h; path = tests/TestNode.h; sourceTree = "<group>"; };
 		62E915990CFD5AF900AA46AB /* TestNode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestNode.cpp; path = tests/TestNode.cpp; sourceTree = "<group>"; };
 		62E915DB0CFD9F1000AA46AB /* RunTests.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = RunTests.cpp; path = tests/RunTests.cpp; sourceTree = "<group>"; };
-		62E916950D03E87A00AA46AB /* ComplexNumberTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ComplexNumberTest.cpp; path = tests/ComplexNumberTest.cpp; sourceTree = "<group>"; };
-		62E916C70D03EB8800AA46AB /* ComplexNumberTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ComplexNumberTest.h; path = tests/ComplexNumberTest.h; sourceTree = "<group>"; };
 		62E9192C0D04306B00AA46AB /* AnnotatedMapAbstractionTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AnnotatedMapAbstractionTest.h; path = tests/AnnotatedMapAbstractionTest.h; sourceTree = "<group>"; };
 		62E9192D0D04306B00AA46AB /* AnnotatedMapAbstractionTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = AnnotatedMapAbstractionTest.cpp; path = tests/AnnotatedMapAbstractionTest.cpp; sourceTree = "<group>"; };
 		62E91A580D05553100AA46AB /* EdgeTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EdgeTest.h; path = tests/EdgeTest.h; sourceTree = "<group>"; };
@@ -551,10 +548,8 @@
 				625BF8A90D13D7B40028A447 /* ScenarioManagerTest.h */,
 				62E9192C0D04306B00AA46AB /* AnnotatedMapAbstractionTest.h */,
 				62E9192D0D04306B00AA46AB /* AnnotatedMapAbstractionTest.cpp */,
-				62E916C70D03EB8800AA46AB /* ComplexNumberTest.h */,
 				62E915980CFD5AF900AA46AB /* TestNode.h */,
 				62E915990CFD5AF900AA46AB /* TestNode.cpp */,
-				62E916950D03E87A00AA46AB /* ComplexNumberTest.cpp */,
 				62E915DB0CFD9F1000AA46AB /* RunTests.cpp */,
 				62E91A580D05553100AA46AB /* EdgeTest.h */,
 				62E91A590D05553100AA46AB /* EdgeTest.cpp */,
@@ -821,7 +816,6 @@
 			files = (
 				62E9159A0CFD5AF900AA46AB /* TestNode.cpp in Sources */,
 				62E915DC0CFD9F1000AA46AB /* RunTests.cpp in Sources */,
-				62E916960D03E87A00AA46AB /* ComplexNumberTest.cpp in Sources */,
 				62E9192E0D04306B00AA46AB /* AnnotatedMapAbstractionTest.cpp in Sources */,
 				62E91A5A0D05553100AA46AB /* EdgeTest.cpp in Sources */,
 				62E91A770D068E4300AA46AB /* AnnotatedMapAbstraction.cpp in Sources */,
