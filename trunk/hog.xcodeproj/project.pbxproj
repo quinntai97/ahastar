@@ -165,6 +165,7 @@
 		62D0A9BA0D1262830022B351 /* AnnotatedAStar.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = AnnotatedAStar.cpp; path = aha/AnnotatedAStar.cpp; sourceTree = "<group>"; };
 		62D0A9C10D1262990022B351 /* AnnotatedAStarTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AnnotatedAStarTest.h; path = tests/AnnotatedAStarTest.h; sourceTree = "<group>"; };
 		62D0A9C20D1262990022B351 /* AnnotatedAStarTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = AnnotatedAStarTest.cpp; path = tests/AnnotatedAStarTest.cpp; sourceTree = "<group>"; };
+		62D8B96E0D17FC0400CDEE75 /* AHAConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AHAConstants.h; path = aha/AHAConstants.h; sourceTree = "<group>"; };
 		62E911730CFD4B1B00AA46AB /* GLUT.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLUT.framework; path = /System/Library/Frameworks/GLUT.framework; sourceTree = "<absolute>"; };
 		62E911770CFD4B3000AA46AB /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = /System/Library/Frameworks/OpenGL.framework; sourceTree = "<absolute>"; };
 		62E911920CFD4CE200AA46AB /* hog.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = hog.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -574,6 +575,7 @@
 				62E91A750D068E4300AA46AB /* AnnotatedMapAbstraction.cpp */,
 				62D0A9B90D1262830022B351 /* AnnotatedAStar.h */,
 				62D0A9BA0D1262830022B351 /* AnnotatedAStar.cpp */,
+				62D8B96E0D17FC0400CDEE75 /* AHAConstants.h */,
 			);
 			name = aha;
 			sourceTree = "<group>";
