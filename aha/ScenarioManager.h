@@ -5,6 +5,14 @@
 	Similar to HOG's pathGeneration class but adds suport for scenario generation according to some set of restrictions:
 		- agent size (generate valid paths for both large and small agents)
 		- agent capabilities (generate paths guaranteed traversable given some terrain traversal capabilities)
+
+	Replacement for HOG's pathGeneration and ScenarioLoader functionality. 
+	AbstractScenarioManager brings these together into a single class for managing all aspects of scenario creation and loading of scenarios
+	into Experiment classes. Specific requiements for scenario files can be achieved by implementing the virtual methods.
+	No reference implementation currently;
+		
+	NB: 1. AHAScenarioManager provides a custom generator/loader. Doesn't need buckets or cares about map sizes. 
+		2. Could provide HOG's behaviour as the default implementation.
  *
  *  Created by Daniel Harabor on 14/12/07.
  *  Created by Nathan Sturtevant on 11/30/05.
@@ -22,15 +30,6 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  * 
-	Replacement for HOG's pathGeneration and ScenarioLoader functionality. 
-	AbstractScenarioManager brings these together into a single class for managing all aspects of scenario creation and loading of scenarios
-	into Experiment classes. Specific requiements for scenario files can be achieved by implementing the virtual methods.
-	No reference implementation currently;
-	
-	NB: Could provide HOG's behaviour as the default implementation.
-	
-	AHAScenarioManager provides a custom generator/loader. Doesn't need buckets or cares about map sizes. 
- 
  * You should have received a copy of the GNU General Public License
  * along with HOG; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
@@ -44,8 +43,22 @@
 #include "aStar.h"
 #include "scenarioLoader.h"
 
+const int MAXTRIES=1000;
+class AHAExperiment : public Experiment
+{
+	public:
+		AHAExperiment(int xs, int ys, int xg, int yg, int terrain, int agentsize, float dist, string mapname) :
+			Experiment(xs, ys, xg, yg, 0, dist, mapname), terrain(terrain), agentsize(agentsize) { }
+		
+		int getTerrain() { return terrain; }
+		void setTerrain(int newterrain) { terrain = newterrain; }
+		int getAgentsize() { return agentsize; }
+		void setAgentsize(int newsize) { agentsize = newsize; }
+		
+	private:
+		int terrain, agentsize;
+};
 
-/* NB: HOG's stuff sucks. Need a ScenarioManager here and combine functionality from pathGeneration and ScenarioLoader. */
 class AbstractScenarioManager 
 {
 	public:

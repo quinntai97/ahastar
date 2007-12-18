@@ -48,12 +48,12 @@ void ScenarioManagerTest::GenerateScenarioTest()
 	// Read in & store experiments
 	
 	string map;
-	int xs, ys, xg, yg, i=0;
+	int xs, ys, xg, yg, i=0, terrain, agentsize;
 	float dist;
-	while(testfile>>map>>xs>>ys>>xg>>yg>>dist) // NB: could break if values are not int/float; how to handle it?
+	while(testfile>>map>>xs>>ys>>xg>>yg>>terrain>>agentsize>>dist) // NB: could break if values are not int/float; how to handle it?
 	{
 		// TEST3: each scenario includes all required parameters (all non-zero, positive integers)
-		CPPUNIT_ASSERT_MESSAGE("expectedly found scenario that does not match test parameters", (xs>=0 && ys >=0 && xg >=0 && yg >=0 && dist>0));
+		CPPUNIT_ASSERT_MESSAGE("expectedly found scenario that does not match test parameters", (xs>=0 && ys >=0 && xg >=0 && yg >=0 && dist>0 && agentsize >0 && terrain >0));
 
 		// TEST2: no scenarios with start/goal at same position
 		CPPUNIT_ASSERT_MESSAGE("found a scenario with same start and goal locations", !(xs == xg && ys == yg));
@@ -77,15 +77,15 @@ void ScenarioManagerTest::LoadScenarioTest()
 
 	//TEST2: Each Experiment object contains the same information as each line in the .scenario file	
 	int numscenarios=0;
-	int xs, ys, xg, yg;
+	int xs, ys, xg, yg, terrain, agentsize;
 	float dist;
 	int i=0;
 	string map;
-	while(testfile>>map>>xs>>ys>>xg>>yg>>dist) // NB: could break if values are not int/float; how to handle it?
+	while(testfile>>map>>xs>>ys>>xg>>yg>>terrain>>agentsize>>dist) // NB: could break if values are not int/float; how to handle it?
 	{
-		Experiment *exp = sg->getNthExperiment(i);
+		AHAExperiment *exp = ((AHAExperiment*)sg->getNthExperiment(i));
 		CPPUNIT_ASSERT((exp->getDistance() == dist && exp->getStartX() == xs && exp->getStartY() == ys && exp->getGoalX()
-						&& exp->getGoalY() == yg && exp->getMapName() == map));
+						&& exp->getGoalY() == yg && exp->getMapName() == map && exp->getAgentsize() == agentsize && exp->getTerrain() == terrain));
 		
 		i++;
 	}
