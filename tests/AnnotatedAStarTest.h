@@ -21,8 +21,8 @@
 #include <cppunit/TestFixture.h>
 #include <cppunit/extensions/HelperMacros.h>
 
-#include "AnnotatedMapAbstraction.h"
-#include "AnnotatedAStar.h"
+class AnnotatedMapAbstraction;
+class AnnotatedAStar;
 
 class AnnotatedAStarTest : public CPPUNIT_NS::TestFixture
 {

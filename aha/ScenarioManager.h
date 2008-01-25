@@ -40,7 +40,8 @@
 #define SCENARIOMANAGER_H
 
 #include "map.h"
-#include "aStar.h"
+#include "AnnotatedAStar.h"
+#include "AnnotatedMapAbstraction.h"
 #include "scenarioLoader.h"
 
 const int MAXTRIES=1000;
@@ -62,20 +63,27 @@ class AHAExperiment : public Experiment
 class AbstractScenarioManager 
 {
 	public:
-		Experiment* getNthExperiment(int which) { if(which < experiments.size()) return &(experiments[which]); return 0; }
-		virtual void generatePaths(const char* _map, const char* outfilename, int numscenarios, int validterrain, int agentsize) = 0;
-		virtual void loadScenario(const char* filelocation) = 0;
+		AbstractScenarioManager(){};
+		~AbstractScenarioManager();
+		Experiment* getNthExperiment(int which) { if(which < experiments.size()) return experiments[which]; return 0; }
+		void addExperiment(Experiment* newexp) { experiments.push_back(newexp); }
+		int getNumExperiments() { return experiments.size(); }
+		virtual void generateExperiments(searchAlgorithm*, mapAbstraction*, int numscenarios, int validterrain, int agentsize) = 0;
+		virtual void loadScenarioFile(const char* filelocation) = 0;
+		virtual void writeScenarioFile(const char* filelocation) = 0;
+		void clearExperiments() { experiments.clear(); }
 	
 	protected: 
-		std::vector<Experiment> experiments;
-
+		std::vector<Experiment*> experiments;		
 };
 
 class AHAScenarioManager: public AbstractScenarioManager
 {
 	public: 
-		virtual void generatePaths(const char* _map, const char* outfilename, int numscenarios, int validterrain, int agentsize);
-		virtual void loadScenario(const char* filelocation);
+		AHAScenarioManager() {};
+		virtual void generateExperiments(searchAlgorithm*, mapAbstraction*, int numscenarios, int validterrain, int agentsize);
+		virtual void loadScenarioFile(const char* filelocation);
+		virtual void writeScenarioFile(const char* filelocation);
 };
 
 #endif
