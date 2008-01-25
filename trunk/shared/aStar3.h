@@ -45,10 +45,16 @@ public:
 	path *getPath(graphAbstraction *aMap, node *from, node *to, reservationProvider *rp = 0);
 	virtual const char *getName() { return aStarName; }
 	void drawPath(bool _doPathDraw) { doPathDraw = _doPathDraw; }
+	void seDefaultEdgeWeight(int newwh) { wh = newwh; }
+	int getDefaultEdgeWeight() { return wh; }
+	void setGraphAbstraction(graphAbstraction *aMap) { map = aMap; }
+	graphAbstraction* getGraphAbstraction() { return map; }
 	
-private:
-		void relaxEdge(heap *nodeHeap, graph *g, edge *e, int source, int nextNode, node *to);
+protected:
+	void relaxEdge(heap *nodeHeap, graph *g, edge *e, int source, int nextNode, node *to);
 	path *extractBestPath(graph *g, unsigned int current);
+
+private:
 	graphAbstraction *map;
 	double wh;
 	char aStarName[128];

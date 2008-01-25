@@ -36,13 +36,18 @@
 
 using namespace std;
 
-AnnotatedMapAbstraction::AnnotatedMapAbstraction(Map* m) : mapAbstraction(m) 
+AbstractAnnotatedMapAbstraction::AbstractAnnotatedMapAbstraction(Map* m, AbstractAnnotatedAStar* alg) : mapAbstraction(m)
+{
+	abstractions.push_back(getMapGraph(m));	
+	this->searchalg = alg;
+}
+
+AnnotatedMapAbstraction::AnnotatedMapAbstraction(Map* m, AbstractAnnotatedAStar* searchalg) : AbstractAnnotatedMapAbstraction(m, searchalg) 
 {
 	validterrains[0] = kGround; 
 	validterrains[1] = kTrees; 
 	validterrains[2] = (kGround|kTrees);
-	
-	abstractions.push_back(getMapGraph(m));
+
 	addMissingEdges();
 	annotateMap();
 	
@@ -151,18 +156,15 @@ void AnnotatedMapAbstraction::addMissingEdges()
 	
 	Class is a building-block for AnnotatedClusterAbstraction (which handles the above much better)
 */
-
 bool AnnotatedMapAbstraction::pathable(node* from, node* to, int terrain, int agentsize)
-{
-	if(!((from->getTerrainType()&terrain) == terrain && (to->getTerrainType()&terrain) == terrain
-		&& from->getClearance(from->getTerrainType()) >= agentsize && to->getClearance(to->getTerrainType()) >= agentsize))
-		return false;
+{	
+	path *p = getSearchAlgorithm()->getPath(this, from, to, terrain, agentsize);
 	
-	AnnotatedAStar aastar; 
-	path *p = aastar.getPath(this, from, to, terrain, agentsize);
-	
-	if(p)
+	if(p) 
+	{
+		delete p;
 		return true;
+	}
 	
 	return false;	
 }

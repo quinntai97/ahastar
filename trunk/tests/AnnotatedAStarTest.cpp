@@ -7,17 +7,22 @@
  *
  */
 
+#include "AnnotatedMapAbstraction.h"
+#include "AnnotatedAStar.h"
 #include "AnnotatedAStarTest.h"
-#include "TestHelper.h"
-#include "map.h"
+#include "AnnotatedAStarMock.h"
+#include "TestConstants.h"
 
-CPPUNIT_TEST_SUITE_REGISTRATION( AnnotatedAStarTest );
+//CPPUNIT_TEST_SUITE_REGISTRATION( AnnotatedAStarTest );
 
 void AnnotatedAStarTest::setUp()
 {
-	ama = new AnnotatedMapAbstraction(new Map(maplocation.c_str()));
 	aastar = new AnnotatedAStar();
+	ama = new AnnotatedMapAbstraction(new Map(maplocation.c_str()), new AnnotatedAStarMock());
+
 }
+
+//AnnotatedAStarTest::CreateSearchProblem
 
 void AnnotatedAStarTest::tearDown()
 {
@@ -30,6 +35,8 @@ NB:
 	Method generates pathfinding problems. different from test to test (which could be problematic).
 	Inconsistencies between runs, failure to generate problems, no guarantees that all combinations of sizes/terrains are tested. 
 	Using a fixed test dataset fixes some of these (if known good answers exist) but exhaustive coverage is also hard to do. 
+	
+	TODO: create test maps.
 */
 void AnnotatedAStarTest::CheckPath()
 {

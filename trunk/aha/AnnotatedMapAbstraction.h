@@ -17,38 +17,52 @@
 #define ANNOTATEDMAPABSTRACTION_H
 
 #include "mapAbstraction.h"
+#include "AnnotatedAStar.h"
 #include "graph.h"
 
-class AnnotatedMapAbstraction : public mapAbstraction
+class AbstractAnnotatedMapAbstraction : public mapAbstraction
 {
 	public:
-		AnnotatedMapAbstraction(Map *m);
-
-		void annotateMap();
-		void setDebugInfo(bool debug) { debuginfo = debug; }
-		bool getDebugInfo() { return debuginfo; }
+		AbstractAnnotatedMapAbstraction(Map *m, AbstractAnnotatedAStar* searchalg); 
+		~AbstractAnnotatedMapAbstraction() { delete searchalg; }
 		
-		virtual bool pathable(node*, node*, int, int);
+		virtual void annotateMap()=0; // add annotation info
+		virtual void openGLDraw()=0; // display function
+		virtual bool pathable(node* from, node* to, int terrain, int agentsize) = 0; // check if path is OK for some size agent w/ some caps.
 		
-		/* why is all this crap pure virtual in graph abstraction?! why doesn't mapAbstraction implement any!?!?! */
-		virtual bool pathable(node*, node*);
-		virtual void verifyHierarchy() {}
-		virtual void removeNode(node*) {} 
-		virtual void removeEdge(edge*, unsigned int) {}
-		virtual void addNode(node*) {}
-		virtual void addEdge(edge*, unsigned int) { /* need to  implement to add missing edges??*/ }
-		virtual void repairAbstraction() {}
-		virtual mapAbstraction *clone(Map *) {}
+		void setDebugInfo(bool debug) { this->debuginfo = debug; }
+		bool getDebugInfo() { return this->debuginfo; }
+		AbstractAnnotatedAStar* getSearchAlgorithm() { return searchalg; }
+	
+	private:
+		bool debuginfo;
+		AbstractAnnotatedAStar* searchalg;
 
-		// display function
-		virtual void openGLDraw();
+};
+
+class AnnotatedMapAbstraction : public AbstractAnnotatedMapAbstraction
+{
+	public:
+		AnnotatedMapAbstraction(Map *m, AbstractAnnotatedAStar* searchalg);		
+		virtual bool pathable(node* from, node* to, int terrain, int agentsize);
+		virtual void openGLDraw(); 
+	
+		/* all the pure-virtual stuff we need to implement for a concrete mapAbstraction */
+		virtual void annotateMap(); 
+		bool pathable(node*, node*);
+		void verifyHierarchy() {}
+		void removeNode(node*) {} 
+		void removeEdge(edge*, unsigned int) {}
+		void addNode(node*) {}
+		void addEdge(edge*, unsigned int) { /* need to  implement to add missing edges?? */ }
+		void repairAbstraction() {}
+		mapAbstraction *clone(Map *) {}
+
 	
 	private:
 		void drawClearanceInfo();
-		
 		int validterrains[3];
 		void addMissingEdges();
-		bool debuginfo;
 		bool drawCV; 
 
 };

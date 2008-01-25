@@ -7,36 +7,144 @@
  *
  */
 
-#include "TestHelper.h"
 #include "AnnotatedMapAbstractionTest.h"
+#include "TestConstants.h"
+#include "ExperimentManager.h"
 
+#include "AnnotatedAStarMock.h"
 #include "mapAbstraction.h"
 #include "map.h"
-#include "graph.h"
 #include "aStar3.h"
-#include "AnnotatedAStar.h"
+
 
 CPPUNIT_TEST_SUITE_REGISTRATION( AnnotatedMapAbstractionTest );
 
+using namespace std;
+using namespace ExpMgrUtil;
+
 void AnnotatedMapAbstractionTest::setUp()
 {
+	expmgr = new ExperimentManager();
+	
 	// need to setup a map
 	testmap = new Map(maplocation.c_str());
-	ama = new AnnotatedMapAbstraction(testmap);
+	AnnotatedAStarMock* aastar_mock = new AnnotatedAStarMock();
+	ama = new AnnotatedMapAbstraction(testmap, aastar_mock);
 	g = ama->getAbstractGraph(0);
-}
+		
+	string targetmap("/Users/dharabor/src/ahastar/maps/local/demo.map");
+	assert(maplocation == targetmap); //make sure we're loading data for the right map
+	}
 
 void AnnotatedMapAbstractionTest::tearDown()
 {
 	delete ama; // also kills testmap
+	delete expmgr;
 }
 
-/* 
-	No test required here; pathable just calls AnnotatedAStar's getPath method; if that passes this must also. */
-void AnnotatedMapAbstractionTest::PathableTest()
+/*	runExperiment
+
+	Load some data (pathable known + params known) & compare result with what comes out of pathable 
+*/
+void AnnotatedMapAbstractionTest::runExperiment(ExperimentKey expkey)
 {	
+	TestExperiment* exp = expmgr->getExperiment(expkey);
+	((AnnotatedAStarMock*)ama->getSearchAlgorithm())->setCurrentTestExperiment(exp);
+
+	node* start = ama->getNodeFromMap(exp->startx, exp->starty);
+	node* goal = ama->getNodeFromMap(exp->goalx, exp->goaly);
+	CPPUNIT_ASSERT_EQUAL(ama->pathable(start, goal, exp->terrain, exp->size), exp->pathable);
+
+
 }
 
+void AnnotatedMapAbstractionTest::PathableReturnsTrueWhenValidPathExistsForLargeSingleTerrainAgent()
+{
+	runExperiment(kNotPathableGoalIsSoftObstacleLST);
+}
+
+void AnnotatedMapAbstractionTest::PathableReturnsFalseWhenNoValidPathExistsForLargeSingleTerrainAgent()
+{	
+	runExperiment(kPathableToyProblemLST);
+}
+
+
+
+/*void AnnotatedMapAbstractionTest::PathableReturnsTrueWhenValidPathExistsForSmallMultiTerrainAgent()
+{
+	runExperiment(getExperiment(kPathableSMT));
+}
+
+void AnnotatedMapAbstractionTest::PathableReturnsTrueWhenValidPathExistsForLargeMultiTerrainAgent()
+{
+	runExperiment(getExperiment(kPathableLMT));
+}
+
+void AnnotatedMapAbstractionTest::PathableReturnsTrueWhenValidPathExistsForLargeSingleTerrainAgent()
+{
+	runExperiment(getExperiment(kPathableLST));
+}
+
+void AnnotatedMapAbstractionTest::PathableReturnsTrueWhenValidPathExistsForSmallSingleTerrainAgent()
+{	
+	runExperiment(getExperiment(kPathableSST));
+}
+
+void AnnotatedMapAbstractionTest::PathableReturnsFalseWhenNoValidPathExistsForSmallSingleTerrainAgent()
+{	
+	runExperiment(getExperiment(kNotPathableSST));
+}
+
+void AnnotatedMapAbstractionTest::PathableReturnsFalseWhenNoValidPathExistsForLargeSingleTerrainAgent()
+{	
+	runExperiment(getExperiment(kNotPathableLST));
+}
+
+void AnnotatedMapAbstractionTest::PathableReturnsFalseWhenStartIsNotTraversableForSmallSingleTerrainAgent()
+{	
+	runExperiment(getExperiment(kStartNotTraversableSST));
+}
+
+void AnnotatedMapAbstractionTest::PathableReturnsFalseWhenStartIsNotTraversableForLargeSingleTerrainAgent()
+{	
+	runExperiment(getExperiment(kStartNotTraversableLST));
+}
+
+void AnnotatedMapAbstractionTest::PathableReturnsFalseWhenGoalIsNotTraversableForSmallSingleTerrainAgent()
+{	
+	runExperiment(getExperiment(kGoalNotTraversableSST));
+}
+
+void AnnotatedMapAbstractionTest::PathableReturnsFalseWhenGoalIsNotTraversableForLargeSingleTerrainAgent()
+{	
+	runExperiment(getExperiment(kGoalNotTraversableLST));
+}
+
+void AnnotatedMapAbstractionTest::PathableReturnsFalseWhenStartIsNotValidMapLocationForSmallSingleTerrainAgent()
+{	
+	runExperiment(getExperiment(kInvalidStartLocationSST));
+}
+
+void AnnotatedMapAbstractionTest::PathableReturnsFalseWhenStartIsNotValidMapLocationForLargeSingleTerrainAgent()
+{	
+	runExperiment(getExperiment(kInvalidStartLocationLST));
+}
+
+void AnnotatedMapAbstractionTest::PathableReturnsFalseWhenGoalIsNotValidMapLocationForSmallSingleTerrainAgent()
+{	
+	runExperiment(getExperiment(kInvalidGoalLocationSST));
+}
+
+void AnnotatedMapAbstractionTest::PathableReturnsFalseWhenGoalIsNotValidMapLocationForLargeSingleTerrainAgent()
+{	
+	runExperiment(getExperiment(kInvalidGoalLocationLST));
+}
+
+void AnnotatedMapAbstractionTest::PathableReturnsTrueWhenStartAndGoalAreIdentical()
+{
+	runExperiment(getExperiment(kStartAndGoalIdenticalSST));
+}
+*/
 void AnnotatedMapAbstractionTest::ValidateAnnotationsTest() 
 {
 	stringstream ss;
