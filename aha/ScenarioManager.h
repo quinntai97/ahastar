@@ -64,7 +64,7 @@ class AbstractScenarioManager
 {
 	public:
 		AbstractScenarioManager(){};
-		~AbstractScenarioManager();
+		virtual ~AbstractScenarioManager();
 		Experiment* getNthExperiment(int which) { if(which < experiments.size()) return experiments[which]; return 0; }
 		void addExperiment(Experiment* newexp) { experiments.push_back(newexp); }
 		int getNumExperiments() { return experiments.size(); }

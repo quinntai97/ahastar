@@ -24,7 +24,7 @@ class AbstractAnnotatedMapAbstraction : public mapAbstraction
 {
 	public:
 		AbstractAnnotatedMapAbstraction(Map *m, AbstractAnnotatedAStar* searchalg); 
-		~AbstractAnnotatedMapAbstraction() { delete searchalg; }
+		virtual ~AbstractAnnotatedMapAbstraction() { delete searchalg; }
 		
 		virtual void annotateMap()=0; // add annotation info
 		virtual void openGLDraw()=0; // display function
