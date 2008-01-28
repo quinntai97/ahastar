@@ -32,25 +32,37 @@ namespace AAStarUtil {
 
 class AbstractAnnotatedAStar : public aStarOld
 {
-	public:
-		virtual path* getPath(graphAbstraction*, node*, node*, int, int) = 0;
+	public:		
+		
 		virtual const char* getName() { return "AbstractAnnotatedAStar"; }
-	
+		virtual path* getPath(graphAbstraction*, node*, node*, int, int) = 0;
+		path* getPath(node* from, node* to, int terrain, int size) { return getPath(this->getGraphAbstraction(), from, to, terrain, size); }
+		
+		int getMinClearance() { return minclearance;}
+		void setMinClearance(int minclearance) { this->minclearance = minclearance; }
+		int getSearchTerrain() { return searchterrain; }
+		void setSearchTerrain(int searchterrain) { this->searchterrain = searchterrain; }
+
+		
 	protected:
 		virtual bool evaluate(node* n, node* target, edge* e) = 0; // check if a node is traversable
-		
-		/* TODO: all these might need to be private at some point. */
-		int searchterrain, minclearance; 
 		AAStarUtil::NodeMap closedList;		
 		heap *openList;
+		
+	private:
+		int searchterrain, minclearance; 
 };
 
 class AnnotatedAStar : public AbstractAnnotatedAStar
 {
 	public:
+		#ifdef UNITTEST
+			friend class AnnotatedAStarTest; // need to make the test class a friend to enable private/protected method testing
+		#endif
+	
 		virtual path* getPath(graphAbstraction*, node*, node*, int, int);
 		virtual const char* getName() { return "AnnotatedAStar"; }
-		
+
 	protected:
 		virtual bool evaluate(node* n, node* target, edge* e);
 	

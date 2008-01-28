@@ -7,86 +7,127 @@
  *
  */
 
-#include "AnnotatedMapAbstraction.h"
-#include "AnnotatedAStar.h"
 #include "AnnotatedAStarTest.h"
+#include "AnnotatedAStar.h"
+#include "AnnotatedMapAbstractionMock.h"
 #include "AnnotatedAStarMock.h"
 #include "TestConstants.h"
 
-//CPPUNIT_TEST_SUITE_REGISTRATION( AnnotatedAStarTest );
+CPPUNIT_TEST_SUITE_REGISTRATION( AnnotatedAStarTest );
 
 void AnnotatedAStarTest::setUp()
 {
+	amamock = new AnnotatedMapAbstractionMock(new Map(maplocation.c_str()), new AnnotatedAStarMock());
 	aastar = new AnnotatedAStar();
-	ama = new AnnotatedMapAbstraction(new Map(maplocation.c_str()), new AnnotatedAStarMock());
+	aastar->setGraphAbstraction(amamock);
+	aastar->setMinClearance(2);
+	aastar->setSearchTerrain(4);
 
+
+	n=s=e=w=ne=nw=se=sw=NULL;
+	testedge = NULL;
 }
-
-//AnnotatedAStarTest::CreateSearchProblem
 
 void AnnotatedAStarTest::tearDown()
 {
-	delete ama;
+	delete amamock;
 	delete aastar;
+	
+	if(pos != NULL)
+		delete pos;
+	if(n != NULL)
+		delete n;
+	if(s != NULL)
+		delete s;
+	if(e != NULL)
+		delete e;
+	if(w != NULL)
+		delete w;
+	if(ne != NULL)
+		delete ne;
+	if(nw != NULL)
+		delete nw;
+	if(se != NULL)
+		delete se;
+	if(sw != NULL)
+		delete sw;
+	if(testedge != NULL)
+		delete testedge;
 }
 
-/*
-NB: 
-	Method generates pathfinding problems. different from test to test (which could be problematic).
-	Inconsistencies between runs, failure to generate problems, no guarantees that all combinations of sizes/terrains are tested. 
-	Using a fixed test dataset fixes some of these (if known good answers exist) but exhaustive coverage is also hard to do. 
-	
-	TODO: create test maps.
-*/
-void AnnotatedAStarTest::CheckPath()
+void AnnotatedAStarTest::evaluateMoveNorthLST()
 {
-	bool isok = false;
-	graph *g = ama->getAbstractGraph(0);
-	node *from, *to;
-	path *p;
-	int cnt=0;
-	int maxrepeat=0;
-	
-	while(cnt<50) 
-	{
-		//try to generate a valid search problem; 50 tries max
-		int agentsize, terrain;
-		path *p;
-		while(maxrepeat < 50)
-		{
-			agentsize = agentsizes[rand()%2];
-			terrain = validterrains[rand()%3];
-			
-			from = g->getRandomNode();
-			to = g->getRandomNode();
-			
-			/* check if the path is valid for the given agent size and terrain traversal capabilities */
-			if((from->getTerrainType()&terrain) == terrain && (to->getTerrainType()&terrain) == terrain
-				&& from->getClearance(from->getTerrainType()) >= agentsize && to->getClearance(to->getTerrainType()) >= agentsize)
-				{
-					AnnotatedAStar aastar;
-					p = aastar.getPath(ama, from, to, terrain, agentsize);
-					if(p) break;
-				}
-
-			maxrepeat++;
-		}
+	/* testing agent of size=2 moving north (1,1 to 1,0) over terrain=kGround */
+	n = getNode(1, 0, kGround);
+	pos = getNode(1, 1, kGround);
+	testedge = new edge(pos->getNum(), n->getNum(), 1.0);
 		
-		/* TEST1: did we generate a problem successfully? */
-		CPPUNIT_ASSERT_MESSAGE("test map is rubbish. couldn't generate a pathable problem", p != 0);
-				
-		/* TEST2: each location along the solution path is OK for the specified capabilities */
-		path* q;
-		q = p;
-		while(q->n)
-		{
-			node *n = q->n;
-			CPPUNIT_ASSERT_MESSAGE("calculated path is invalid (invalid terrain)", n->getTerrainType() == terrain);
-			CPPUNIT_ASSERT_MESSAGE("calculated path is invalid (insufficient clearance)", n->getClearance(terrain) >= agentsize);
-		}
-		
-		delete p;
-		cnt++;
-	}
+	bool result = aastar->evaluate(pos, n, testedge);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("evaluate() failed to return true for legal move north", true, result); 
+}
 
+void AnnotatedAStarTest::evaluateMoveSouthLST()
+{
+	/* testing agent of size=2 moving north (1,1 to 1,0) over terrain=kGround */
+	n = getNode(1, 2, kGround);
+	pos = getNode(1, 1, kGround);
+	testedge = new edge(pos->getNum(), n->getNum(), 1.0);
+		
+	bool result = aastar->evaluate(pos, n, testedge);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("evaluate() failed to return true for legal move north", true, result); 
+}
+
+void AnnotatedAStarTest::evaluateMoveEastLST()
+{
+	/* testing agent of size=2 moving north (1,1 to 1,0) over terrain=kGround */
+	n = getNode(2, 1, kGround);
+	pos = getNode(1, 1, kGround);
+	testedge = new edge(pos->getNum(), n->getNum(), 1.0);
+		
+	bool result = aastar->evaluate(pos, n, testedge);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("evaluate() failed to return true for legal move north", true, result); 
+}
+
+void AnnotatedAStarTest::evaluateMoveWestLST()
+{
+	/* testing agent of size=2 moving north (1,1 to 1,0) over terrain=kGround */
+	n = getNode(0, 1, kGround);
+	pos = getNode(1, 1, kGround);
+	testedge = new edge(pos->getNum(), n->getNum(), 1.0);
+		
+	bool result = aastar->evaluate(pos, n, testedge);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("evaluate() failed to return true for legal move north", true, result); 
+}
+
+void AnnotatedAStarTest::evaluateMoveNorthWestLST()
+{
+	/* testing agent of size=2 moving north (1,1 to 1,0) over terrain=kGround */
+	n = getNode(0, 0, kGround);
+	pos = getNode(1, 1, kGround);
+	testedge = new edge(pos->getNum(), n->getNum(), ROOT_TWO);
+		
+	bool result = aastar->evaluate(pos, n, testedge);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("evaluate() failed to return true for legal move north", true, result); 
+}
+
+
+
+void AnnotatedAStarTest::annotateNode(node* n, int t1, int t1c, int t2, int t2c, int t3, int t3c)
+{
+	n->setTerrainType(t1);
+	n->setClearance(t1,t1c);
+	n->setClearance(t2,t2c);
+	n->setClearance(t3,t3c);
+
+}
+
+node* AnnotatedAStarTest::getNode(int x, int y, int nodeterrain)
+{
+	node* n = new node("test");
+	n->setTerrainType(nodeterrain);
+	n->setLabelL(kFirstData, x);
+	n->setLabelL(kFirstData+1, y);
+	annotateNode(n, kGround, 2, kTrees, 0, (kGround|kTrees), 0);
+
+	return n;
 }

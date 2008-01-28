@@ -106,7 +106,7 @@ path *aStarOld::getPath(graphAbstraction *aMap, node *from, node *to, reservatio
 			else if ((nextChild->key >= closedList.size()) ||
 							 (closedList[nextChild->key] != nextChild))
 			{
-				nextChild->setLabelF(kTemporaryLabel, MAXINT);
+				nextChild->setLabelF(kTemporaryLabel, MAXINT); // initial fCost = infinity
 				nextChild->setKeyLabel(kTemporaryLabel);
 				nextChild->markEdge(0);
 				openList->add(nextChild);
@@ -135,15 +135,17 @@ void aStarOld::relaxEdge(heap *nodeHeap, graph *g, edge *e, int source, int next
 	double weight;
 	node *from = g->getNode(source);
 	node *to = g->getNode(nextNode);
-	weight = from->getLabelF(kTemporaryLabel)-wh*map->h(from, d)+wh*map->h(to, d)+e->getWeight();
+	
+	/* alternate path fCost = from.gCost (derived as from.fCost - from.hCost) + to.hCost + length(from, to) */
+	weight = from->getLabelF(kTemporaryLabel)-wh*map->h(from, d)+wh*map->h(to, d)+e->getWeight(); 
+	
 	if (fless(weight, to->getLabelF(kTemporaryLabel)))
 	{
 		if (verbose)
 			printf("Updating %d to %1.2f from %1.2f\n", nextNode, weight, to->getLabelF(kTemporaryLabel));
 		to->setLabelF(kTemporaryLabel, weight);
-		nodeHeap->decreaseKey(to);
-		// this is the edge used to get to this node in the min. path tree
-		to->markEdge(e);
+		nodeHeap->decreaseKey(to); // move the node up in priority
+		to->markEdge(e); // this is the edge used to get to this node in the min. path tree
 	}
 }
 

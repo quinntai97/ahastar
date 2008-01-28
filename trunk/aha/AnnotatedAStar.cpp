@@ -8,11 +8,12 @@
  */
 
 #include "AnnotatedAStar.h"
+#include "AnnotatedMapAbstraction.h"
 
 using namespace std;
 
 /*
-	1. get the next node on the open list
+	1. get the current node on the open list
 	2. check if node is the goal; goto 6 if yes.
 	3. evaluate each neighbour of the newly opened node
 		b. if neighbour is on the closed list, skip it
@@ -46,8 +47,8 @@ path* AnnotatedAStar::getPath(graphAbstraction *aMap, node *from, node* to, int 
 	
 	/* initialise the search params */
 	setGraphAbstraction(aMap);
-	searchterrain = terrain;
-	minclearance = agentsize;
+	this->setSearchTerrain(terrain);
+	this->setMinClearance(agentsize);
 	graph *g = aMap->getAbstractGraph(0);
 	openList = new heap(30);
 	openList->add(from);
@@ -55,39 +56,44 @@ path* AnnotatedAStar::getPath(graphAbstraction *aMap, node *from, node* to, int 
 	
 	while(1) 
 	{
-		/* get the next node on the open list and check if it contains the goal */
-		node* next = ((node*)openList->remove()); 
-		if(next == to)
+		/* get the current node on the open list and check if it contains the goal */
+		node* current = ((node*)openList->remove()); 
+		if(current == to)
 		{
-			p = aStarOld::extractBestPath(g, next->getNum());
+			p = extractBestPath(g, current->getNum());
 			break;
 		}
 		
 		/* evaluate each neighbour of the newly opened node */
-		edge_iterator ei = next->getEdgeIter();
-		edge *e = next->edgeIterNext(ei);
+		edge_iterator ei = current->getEdgeIter();
+		edge *e = current->edgeIterNext(ei);
 		while(e)
 		{
 			// TODO: fix HOG's graph stuff; nodes identified using position in array instead of uniqueid. graph should just store a hash_map
-			int neighbourid = e->getFrom()==next->getNum()?e->getTo():e->getFrom();
+			int neighbourid = e->getFrom()==current->getNum()?e->getTo():e->getFrom();
 			node* neighbour = g->getNode(neighbourid);
 			if(!closedList[neighbour->getUniqueID()]) // skip nodes we've already closed
 			{
 				// if a node on the openlist is reachable via this new edge, relax the edge (see cormen et al)
 				if(openList->isIn(neighbour)) 
 				{	
-					/* (heap *nodeHeap, graph *g, edge *e, int source, int nextNode, node *d) */
-					if(evaluate(next, neighbour, e))
-						aStarOld::relaxEdge(openList, g, e, next->getNum(), neighbourid, to); 
+					if(evaluate(current, neighbour, e))
+						relaxEdge(openList, g, e, current->getNum(), neighbourid, to); 
 				}
 				else
 				{
-					if(evaluate(next, neighbour, e))
-						openList->add(neighbour); // add all neighbouring nodes reachable by the agent to the open list
+					if(evaluate(current, neighbour, e)) 
+					{
+						neighbour->setLabelF(kTemporaryLabel, MAXINT); // initial fCost = inifinity
+						neighbour->setKeyLabel(kTemporaryLabel); // an initial key value for prioritisation in the openlist
+						neighbour->markEdge(0);  // reset any marked edges (we use marked edges to backtrack over optimal path when goal is found)
+						openList->add(neighbour);
+						relaxEdge(openList, g, e, current->getNum(), neighbourid, to); 
+					}
 				}
 				
 			}
-			e = next->edgeIterNext(ei);
+			e = current->edgeIterNext(ei);
 		}
 		
 		/* check if there is anything left to search; fail if not */
@@ -106,32 +112,41 @@ path* AnnotatedAStar::getPath(graphAbstraction *aMap, node *from, node* to, int 
 		- if the traversal involves a diagonal move, is there an equivalent 2-step move using the cardinal directions?
 		
 		3hrs - 23/12
+		
+		need to move this into abstract implementation; if edge weight > 1.0 (ie. we're looking at an edge part of an abstract graph) then
+		we need to check the width of the corridor to determine if the edge is traversable.
+		
+		So, does that mean I don't need a separate AHA*?! The actual A* search should be identical to AA* except for this bit!
 */
 bool AnnotatedAStar::evaluate(node* current, node* target, edge* e)
 {
 	if(!current || !target)
 		return false;
 		
-	graph *g = getGraphAbstraction()->getAbstractGraph(0);
-	if(target->getClearance(searchterrain) < minclearance)
-		return false;
-		
-	// need to find the edge between the two nodes. also need tomove all this checking code into a private checkLocations method
+	AbstractAnnotatedMapAbstraction* ama = (AbstractAnnotatedMapAbstraction*)getGraphAbstraction();
+	graph *g = ama->getAbstractGraph(0);
 
-	if(e->getWeight() > 2) 
-	{
-		cerr << "fatal: edge weight > sqroot(2); target node not adjacent. something wrong with the graph \n";
-		exit(-1);
-	}
+	if(target->getClearance(this->getSearchTerrain()) < this->getMinClearance())
+		return false;
+
+	/* check if we're moving in a cardinal direction */
+	tDirection dir = getDirection(current, target);
+	if(dir == kN || dir == kS || dir == kE || dir == kW)
+		return true;
+
+	// need to find the edge between the two nodes. also need tomove all this checking code into a private checkLocations method
 	
 	/* check diagonal move is equivalent to 2-step cardinal move */
-	if(e->getWeight() > 1)
-	{
-		tDirection dir = getDirection(current, target);
+	if(e->getWeight() > 1) // cardinal move distance on a non-abstract map = 1. Diagonal move is sqrt(2) (~1.41)
+	{			
+		int curx = current->getLabelL(kFirstData);
+		int cury = current->getLabelL(kFirstData);
 		switch(dir)
 		{
 			case kNE:
-				//stuff;
+//				if(evaluate(current, ama->getNodeFromMap(curx-1,cury)) && evaluate(current, ama->getNodeFromMap(curx+1, cury)))
+//					return true;
+// do I need to pass the edge? it's implied.. if so, need to iterate over neighbours. might need a method to do that for a given pair of nodes
 				break;
 			case kSE:
 				// stuff;

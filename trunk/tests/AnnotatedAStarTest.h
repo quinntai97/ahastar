@@ -21,25 +21,45 @@
 #include <cppunit/TestFixture.h>
 #include <cppunit/extensions/HelperMacros.h>
 
-class AnnotatedMapAbstraction;
+class AnnotatedMapAbstractionMock;
 class AnnotatedAStar;
+class node;
+class edge;
 
 class AnnotatedAStarTest : public CPPUNIT_NS::TestFixture
 {
 	CPPUNIT_TEST_SUITE( AnnotatedAStarTest );
-	CPPUNIT_TEST( CheckPath );
+	CPPUNIT_TEST( evaluateMoveNorthLST );
+	CPPUNIT_TEST( evaluateMoveSouthLST );
+	CPPUNIT_TEST( evaluateMoveEastLST );
+	CPPUNIT_TEST( evaluateMoveWestLST );
+//	CPPUNIT_TEST( evaluateMoveNorthWestLST );
+
+	//CPPUNIT_TEST( getPathNonAnnotatedMapAbstractionParameter );
 	CPPUNIT_TEST_SUITE_END();
+
 
 	
 	public:
 		void setUp();
 		void tearDown();
 		
-		void CheckPath();
+		void evaluateMoveNorthLST();
+		void evaluateMoveSouthLST();
+		void evaluateMoveEastLST();
+		void evaluateMoveWestLST();
+		void evaluateMoveNorthWestLST();
+
+		//void getPathNonAnnotatedMapAbstractionParameter(); 
 		
 	private:
-		AnnotatedMapAbstraction* ama;
+		void annotateNode(node* n, int t1, int t1c, int t2, int t2c, int t3, int t3c);
+		node* getNode(int x, int y, int nodeterrain);
+
+		AnnotatedMapAbstractionMock* amamock;
 		AnnotatedAStar* aastar;
+		node  *pos, *n, *s, *e, *w, *ne, *nw, *se, *sw;
+		edge* testedge;
 	
 };
 
