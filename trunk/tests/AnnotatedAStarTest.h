@@ -20,7 +20,9 @@
 
 #include <cppunit/TestFixture.h>
 #include <cppunit/extensions/HelperMacros.h>
+#include "ExperimentManager.h"
 
+class ExperimentManager;
 class AnnotatedMapAbstractionMock;
 class AnnotatedAStar;
 class node;
@@ -33,7 +35,10 @@ class AnnotatedAStarTest : public CPPUNIT_NS::TestFixture
 	CPPUNIT_TEST( evaluateMoveSouthLST );
 	CPPUNIT_TEST( evaluateMoveEastLST );
 	CPPUNIT_TEST( evaluateMoveWestLST );
-//	CPPUNIT_TEST( evaluateMoveNorthWestLST );
+	CPPUNIT_TEST( evaluateMoveNorthWestLST );
+	CPPUNIT_TEST( evaluateMoveNorthEastLST );
+	CPPUNIT_TEST( evaluateMoveSouthEastLST );
+	CPPUNIT_TEST( evaluateMoveSouthWestLST );
 
 	//CPPUNIT_TEST( getPathNonAnnotatedMapAbstractionParameter );
 	CPPUNIT_TEST_SUITE_END();
@@ -49,13 +54,22 @@ class AnnotatedAStarTest : public CPPUNIT_NS::TestFixture
 		void evaluateMoveEastLST();
 		void evaluateMoveWestLST();
 		void evaluateMoveNorthWestLST();
+		void evaluateMoveNorthEastLST();
+		void evaluateMoveSouthEastLST();
+		void evaluateMoveSouthWestLST();
+
+		//void evaluateMoveToCurrentLocationLST(); //ie. pass the same node as the pos & target
+		// void evaluateMoveToHardObstacle
+		// void evaluateMoveToSoftObstacle
 
 		//void getPathNonAnnotatedMapAbstractionParameter(); 
 		
 	private:
 		void annotateNode(node* n, int t1, int t1c, int t2, int t2c, int t3, int t3c);
 		node* getNode(int x, int y, int nodeterrain);
+		void runEvaluateTest(ExpMgrUtil::TestExperiment*);
 
+		ExperimentManager* expmgr;
 		AnnotatedMapAbstractionMock* amamock;
 		AnnotatedAStar* aastar;
 		node  *pos, *n, *s, *e, *w, *ne, *nw, *se, *sw;

@@ -56,7 +56,8 @@ namespace ExpMgrUtil
 	class TestExperiment
 	{
 		public:
-			TestExperiment(int, int, int, int, int, int, double, std::string, bool);
+			TestExperiment(ExperimentKey, int, int, int, int, int, int, double, std::string, bool);
+			ExperimentKey key;
 			int startx;
 			int starty;
 			int goalx;

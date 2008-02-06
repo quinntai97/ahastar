@@ -54,7 +54,7 @@ path* AnnotatedAStarMock::getPath(graphAbstraction* aMap, node* start, node* goa
 	return p;*/
 }
 
-bool AnnotatedAStarMock::evaluate(node* n, node* target, edge* e)
+bool AnnotatedAStarMock::evaluate(node* n, node* target)
 {
 	return false;
 }
