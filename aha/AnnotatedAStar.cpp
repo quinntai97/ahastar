@@ -77,12 +77,12 @@ path* AnnotatedAStar::getPath(graphAbstraction *aMap, node *from, node* to, int 
 				// if a node on the openlist is reachable via this new edge, relax the edge (see cormen et al)
 				if(openList->isIn(neighbour)) 
 				{	
-					if(evaluate(current, neighbour, e))
+					if(evaluate(current, neighbour))
 						relaxEdge(openList, g, e, current->getNum(), neighbourid, to); 
 				}
 				else
 				{
-					if(evaluate(current, neighbour, e)) 
+					if(evaluate(current, neighbour)) 
 					{
 						neighbour->setLabelF(kTemporaryLabel, MAXINT); // initial fCost = inifinity
 						neighbour->setKeyLabel(kTemporaryLabel); // an initial key value for prioritisation in the openlist
@@ -118,7 +118,7 @@ path* AnnotatedAStar::getPath(graphAbstraction *aMap, node *from, node* to, int 
 		
 		So, does that mean I don't need a separate AHA*?! The actual A* search should be identical to AA* except for this bit!
 */
-bool AnnotatedAStar::evaluate(node* current, node* target, edge* e)
+bool AnnotatedAStar::evaluate(node* current, node* target)
 {
 	if(!current || !target)
 		return false;
@@ -126,41 +126,49 @@ bool AnnotatedAStar::evaluate(node* current, node* target, edge* e)
 	AbstractAnnotatedMapAbstraction* ama = (AbstractAnnotatedMapAbstraction*)getGraphAbstraction();
 	graph *g = ama->getAbstractGraph(0);
 
+	int tx, ty, tcl, tterr;
+	tterr = target->getTerrainType();
+	tcl = target->getClearance(this->getSearchTerrain());
+	tx = target->getLabelL(kFirstData);
+	ty = target->getLabelL(kFirstData+1);
 	if(target->getClearance(this->getSearchTerrain()) < this->getMinClearance())
 		return false;
 
 	/* check if we're moving in a cardinal direction */
 	tDirection dir = getDirection(current, target);
+	if(dir == kStay)
+		return false;
+		
 	if(dir == kN || dir == kS || dir == kE || dir == kW)
 		return true;
 
 	// need to find the edge between the two nodes. also need tomove all this checking code into a private checkLocations method
 	
 	/* check diagonal move is equivalent to 2-step cardinal move */
-	if(e->getWeight() > 1) // cardinal move distance on a non-abstract map = 1. Diagonal move is sqrt(2) (~1.41)
-	{			
-		int curx = current->getLabelL(kFirstData);
-		int cury = current->getLabelL(kFirstData);
-		switch(dir)
-		{
-			case kNE:
-//				if(evaluate(current, ama->getNodeFromMap(curx-1,cury)) && evaluate(current, ama->getNodeFromMap(curx+1, cury)))
-//					return true;
-// do I need to pass the edge? it's implied.. if so, need to iterate over neighbours. might need a method to do that for a given pair of nodes
-				break;
-			case kSE:
-				// stuff;
-				break;
-			case kSW:
-				// stuff
-				break;
-			case kNW: 
-				// stuff
-				break;
-			default:
-				cerr << "\nfatal: edge weight > 1 but move direction is not diagonal!\n ";
-				break;
-		}
+	int curx = current->getLabelL(kFirstData);
+	int cury = current->getLabelL(kFirstData+1);
+
+	switch(dir) // nb: use of abstractannotatedmapabstraction implies edge exists between each pair of nodes
+	{
+		case kNW:
+			if(evaluate(current, ama->getNodeFromMap(curx-1,cury)) && evaluate(current, ama->getNodeFromMap(curx, cury-1)))
+				return true;
+			break;
+		case kNE: 
+			if(evaluate(current, ama->getNodeFromMap(curx+1,cury)) && evaluate(current, ama->getNodeFromMap(curx, cury-1)))
+				return true;
+			break;
+		case kSE:
+			if(evaluate(current, ama->getNodeFromMap(curx+1,cury)) && evaluate(current, ama->getNodeFromMap(curx, cury+1)))
+				return true;
+			break;
+		case kSW:
+			if(evaluate(current, ama->getNodeFromMap(curx-1,cury)) && evaluate(current, ama->getNodeFromMap(curx, cury+1)))
+				return true;
+			break;
+		default:
+			cerr << "\nfatal: edge weight > 1 but move direction is not diagonal!\n ";
+			break;
 	}
 	
 	return false;

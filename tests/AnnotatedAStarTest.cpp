@@ -11,9 +11,12 @@
 #include "AnnotatedAStar.h"
 #include "AnnotatedMapAbstractionMock.h"
 #include "AnnotatedAStarMock.h"
+#include "ExperimentManager.h"
 #include "TestConstants.h"
 
 CPPUNIT_TEST_SUITE_REGISTRATION( AnnotatedAStarTest );
+
+using namespace ExpMgrUtil;
 
 void AnnotatedAStarTest::setUp()
 {
@@ -26,6 +29,7 @@ void AnnotatedAStarTest::setUp()
 
 	n=s=e=w=ne=nw=se=sw=NULL;
 	testedge = NULL;
+	expmgr = new ExperimentManager();
 }
 
 void AnnotatedAStarTest::tearDown()
@@ -57,59 +61,52 @@ void AnnotatedAStarTest::tearDown()
 
 void AnnotatedAStarTest::evaluateMoveNorthLST()
 {
-	/* testing agent of size=2 moving north (1,1 to 1,0) over terrain=kGround */
-	n = getNode(1, 0, kGround);
-	pos = getNode(1, 1, kGround);
-	testedge = new edge(pos->getNum(), n->getNum(), 1.0);
-		
-	bool result = aastar->evaluate(pos, n, testedge);
-	CPPUNIT_ASSERT_EQUAL_MESSAGE("evaluate() failed to return true for legal move north", true, result); 
+	ExpMgrUtil::TestExperiment* te = expmgr->getExperiment(kPathableMoveNorthLST);
+	runEvaluateTest(te);
 }
 
 void AnnotatedAStarTest::evaluateMoveSouthLST()
 {
-	/* testing agent of size=2 moving north (1,1 to 1,0) over terrain=kGround */
-	n = getNode(1, 2, kGround);
-	pos = getNode(1, 1, kGround);
-	testedge = new edge(pos->getNum(), n->getNum(), 1.0);
-		
-	bool result = aastar->evaluate(pos, n, testedge);
-	CPPUNIT_ASSERT_EQUAL_MESSAGE("evaluate() failed to return true for legal move north", true, result); 
+	TestExperiment* te = expmgr->getExperiment(kPathableMoveSouthLST);
+	runEvaluateTest(te);
 }
 
 void AnnotatedAStarTest::evaluateMoveEastLST()
 {
-	/* testing agent of size=2 moving north (1,1 to 1,0) over terrain=kGround */
-	n = getNode(2, 1, kGround);
-	pos = getNode(1, 1, kGround);
-	testedge = new edge(pos->getNum(), n->getNum(), 1.0);
-		
-	bool result = aastar->evaluate(pos, n, testedge);
-	CPPUNIT_ASSERT_EQUAL_MESSAGE("evaluate() failed to return true for legal move north", true, result); 
+	TestExperiment* te = expmgr->getExperiment(kPathableMoveEastLST);
+	runEvaluateTest(te);
 }
 
 void AnnotatedAStarTest::evaluateMoveWestLST()
 {
-	/* testing agent of size=2 moving north (1,1 to 1,0) over terrain=kGround */
-	n = getNode(0, 1, kGround);
-	pos = getNode(1, 1, kGround);
-	testedge = new edge(pos->getNum(), n->getNum(), 1.0);
-		
-	bool result = aastar->evaluate(pos, n, testedge);
-	CPPUNIT_ASSERT_EQUAL_MESSAGE("evaluate() failed to return true for legal move north", true, result); 
+	TestExperiment* te = expmgr->getExperiment(kPathableMoveWestLST);
+	runEvaluateTest(te);
+
 }
 
 void AnnotatedAStarTest::evaluateMoveNorthWestLST()
 {
-	/* testing agent of size=2 moving north (1,1 to 1,0) over terrain=kGround */
-	n = getNode(0, 0, kGround);
-	pos = getNode(1, 1, kGround);
-	testedge = new edge(pos->getNum(), n->getNum(), ROOT_TWO);
-		
-	bool result = aastar->evaluate(pos, n, testedge);
-	CPPUNIT_ASSERT_EQUAL_MESSAGE("evaluate() failed to return true for legal move north", true, result); 
+	TestExperiment* te = expmgr->getExperiment(kPathableMoveNorthWestLST);
+	runEvaluateTest(te);
 }
 
+void AnnotatedAStarTest::evaluateMoveNorthEastLST()
+{
+	TestExperiment* te = expmgr->getExperiment(kPathableMoveNorthEastLST);
+	runEvaluateTest(te);
+}
+
+void AnnotatedAStarTest::evaluateMoveSouthEastLST()
+{
+	TestExperiment* te = expmgr->getExperiment(kPathableMoveSouthEastLST);
+	runEvaluateTest(te);
+}
+
+void AnnotatedAStarTest::evaluateMoveSouthWestLST()
+{
+	TestExperiment* te = expmgr->getExperiment(kPathableMoveSouthWestLST);
+	runEvaluateTest(te);
+}
 
 
 void AnnotatedAStarTest::annotateNode(node* n, int t1, int t1c, int t2, int t2c, int t3, int t3c)
@@ -127,7 +124,18 @@ node* AnnotatedAStarTest::getNode(int x, int y, int nodeterrain)
 	n->setTerrainType(nodeterrain);
 	n->setLabelL(kFirstData, x);
 	n->setLabelL(kFirstData+1, y);
-	annotateNode(n, kGround, 2, kTrees, 0, (kGround|kTrees), 0);
 
 	return n;
+}
+
+void AnnotatedAStarTest::runEvaluateTest(TestExperiment* exp)
+{
+	amamock->setCurrentTestExperiment(exp);
+	pos = getNode(exp->startx, exp->starty, exp->terrain);
+	pos->setClearance(exp->terrain, exp->size);
+	n = getNode(exp->goalx, exp->goaly, exp->terrain);
+	n->setClearance(exp->terrain, exp->size);
+		
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("evaluate() failed to return true for legal move", exp->pathable, aastar->evaluate(pos, n)); 
+
 }

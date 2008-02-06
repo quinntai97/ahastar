@@ -20,6 +20,7 @@ class AnnotatedMapAbstractionMock : public AbstractAnnotatedMapAbstraction
 	public:
 		AnnotatedMapAbstractionMock(Map* m, AbstractAnnotatedAStar* searchalg) : AbstractAnnotatedMapAbstraction(m, searchalg) {}
 		~AnnotatedMapAbstractionMock() {}
+				
 		virtual void annotateMap() {}
 		virtual bool pathable(node*, node*, int, int);
 		bool pathable(node*, node*);
@@ -32,7 +33,7 @@ class AnnotatedMapAbstractionMock : public AbstractAnnotatedMapAbstraction
 		mapAbstraction *clone(Map *) {}
 		void openGLDraw() { }
 		
-		void setCurrentTestExperiment(ExpMgrUtil::TestExperiment* exp) { curexp = exp; }
+		void setCurrentTestExperiment(ExpMgrUtil::TestExperiment* exp);
 		
 	private:
 		ExpMgrUtil::TestExperiment* curexp;

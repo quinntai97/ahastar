@@ -45,7 +45,7 @@ class AbstractAnnotatedAStar : public aStarOld
 
 		
 	protected:
-		virtual bool evaluate(node* n, node* target, edge* e) = 0; // check if a node is traversable
+		virtual bool evaluate(node* n, node* target) = 0; // check if a node is traversable
 		AAStarUtil::NodeMap closedList;		
 		heap *openList;
 		
@@ -64,7 +64,7 @@ class AnnotatedAStar : public AbstractAnnotatedAStar
 		virtual const char* getName() { return "AnnotatedAStar"; }
 
 	protected:
-		virtual bool evaluate(node* n, node* target, edge* e);
+		virtual bool evaluate(node* n, node* target);
 	
 	private:
 		tDirection getDirection(node* current, node* target); // TODO: move this to a common AStar base class

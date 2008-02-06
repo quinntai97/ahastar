@@ -19,7 +19,7 @@ class AnnotatedAStarMock : public AbstractAnnotatedAStar
 		AnnotatedAStarMock() { curexp = NULL; }
 		virtual path* getPath(graphAbstraction*, node*, node*, int, int);
 		virtual const char* getName() { return "AnnotatedAStarMock"; }
-		virtual bool evaluate(node* n, node* target, edge* e); 
+		virtual bool evaluate(node* n, node* target); 
 		void setCurrentTestExperiment(ExpMgrUtil::TestExperiment* exp) { curexp = exp; }
 
 	private:
