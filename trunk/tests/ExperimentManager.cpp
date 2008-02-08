@@ -81,6 +81,7 @@ void ExperimentManager::generateExperiments()
 		tests->insert(pair<int, TestExperiment*>((int)kPathableMoveSouthWestLST, new TestExperiment(kPathableMoveSouthWestLST, 4,8,kGround,3,9,kGround,kGround,2,1, maplocation, true)));
 		tests->insert(pair<int, TestExperiment*>((int)kNotPathableMoveToHardObstacleLST, new TestExperiment(kNotPathableMoveToHardObstacleLST, 2,2,kGround,1,1,kWater,kGround,2,1, maplocation, false)));
 		tests->insert(pair<int, TestExperiment*>((int)kNotPathableMoveToSoftObstacleLST, new TestExperiment(kNotPathableMoveToSoftObstacleLST, 5,9,kGround,6,9,kTrees,kGround,2,1, maplocation, false)));
+		tests->insert(pair<int, TestExperiment*>((int)kNotPathableMoveToNonAdjacentLocationLST,  new TestExperiment(kNotPathableMoveToNonAdjacentLocationLST, 4,2,kGround,1,7,kGround,kGround,2,6.0+ROOT_TWO, maplocation, false)));
 	}
 }
 
