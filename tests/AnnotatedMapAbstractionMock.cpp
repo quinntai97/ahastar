@@ -16,9 +16,9 @@ using namespace ExpMgrUtil;
 
 
 /* fake it for every map except "demo.map"; when we have demo.map we still fake pathable using a* instead of annotateda*/
-bool AnnotatedMapAbstractionMock::pathable(node* start, node* goal, int terrain, int agentsize)
+bool AnnotatedMapAbstractionMock::pathable(node* start, node* goal, int caps, int agentsize)
 {
-	if(terrain = curexp->terrain && agentsize == curexp->size)
+	if(caps = curexp->caps && agentsize == curexp->size)
 	{
 		int sx, sy, gx, gy;
 		sx = start->getLabelL(kFirstData);
@@ -54,20 +54,20 @@ void AnnotatedMapAbstractionMock::setCurrentTestExperiment(TestExperiment* exp)
 	switch(exp->key)
 	{
 		case kPathableMoveNorthWestLST: 
-			this->getNodeFromMap(exp->startx,exp->starty-1)->setClearance(exp->terrain, exp->size); // north neighbour
-			this->getNodeFromMap(exp->startx-1,exp->starty)->setClearance(exp->terrain, exp->size); // west neighbour
+			this->getNodeFromMap(exp->startx,exp->starty-1)->setClearance(exp->sterrain, exp->size); // north neighbour
+			this->getNodeFromMap(exp->startx-1,exp->starty)->setClearance(exp->sterrain, exp->size); // west neighbour
 			
 		case kPathableMoveNorthEastLST: 
-			this->getNodeFromMap(exp->startx,exp->starty-1)->setClearance(exp->terrain, exp->size); // north neighbour
-			this->getNodeFromMap(exp->startx+1,exp->starty)->setClearance(exp->terrain, exp->size); // east neighbour
+			this->getNodeFromMap(exp->startx,exp->starty-1)->setClearance(exp->sterrain, exp->size); // north neighbour
+			this->getNodeFromMap(exp->startx+1,exp->starty)->setClearance(exp->sterrain, exp->size); // east neighbour
 			
 		case kPathableMoveSouthEastLST: 
-			this->getNodeFromMap(exp->startx,exp->starty+1)->setClearance(exp->terrain, exp->size); // south neighbour
-			this->getNodeFromMap(exp->startx+1,exp->starty)->setClearance(exp->terrain, exp->size); // east neighbour
+			this->getNodeFromMap(exp->startx,exp->starty+1)->setClearance(exp->sterrain, exp->size); // south neighbour
+			this->getNodeFromMap(exp->startx+1,exp->starty)->setClearance(exp->sterrain, exp->size); // east neighbour
 
 		case kPathableMoveSouthWestLST: 
-			this->getNodeFromMap(exp->startx,exp->starty+1)->setClearance(exp->terrain, exp->size); // south neighbour
-			this->getNodeFromMap(exp->startx-1,exp->starty)->setClearance(exp->terrain, exp->size); // west neighbour
+			this->getNodeFromMap(exp->startx,exp->starty+1)->setClearance(exp->sterrain, exp->size); // south neighbour
+			this->getNodeFromMap(exp->startx-1,exp->starty)->setClearance(exp->sterrain, exp->size); // west neighbour
 
 	}
 

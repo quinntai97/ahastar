@@ -70,7 +70,7 @@ void ScenarioManagerTest::ScenarioFileWrittenToDiskAndWellFormatted()
 
 	/* need some test data */
 	TestExperiment* texp = expmgr->getExperiment(kPathableToyProblemLST);
-	sg->addExperiment(new AHAExperiment(texp->startx, texp->starty, texp->goalx, texp->goaly, texp->terrain, texp->size, texp->distance, texp->mapname.c_str())); 
+	sg->addExperiment(new AHAExperiment(texp->startx, texp->starty, texp->goalx, texp->goaly, texp->caps, texp->size, texp->distance, texp->mapname.c_str())); 
 	int numexperiments=1;
 
 	/* target function */

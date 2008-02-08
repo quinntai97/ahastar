@@ -19,7 +19,7 @@ namespace ExpMgrUtil
 {
 	enum ExperimentKey
 	{	
-		/* pathable problems; experiments for large agents are supersets of small agents so we can avoid duplication by testing only large cases */
+		/* experiments testing single step agent movements */
 		kPathableMoveNorthLST, 
 		kPathableMoveSouthLST,
 		kPathableMoveEastLST,
@@ -28,12 +28,19 @@ namespace ExpMgrUtil
 		kPathableMoveSouthWestLST,
 		kPathableMoveNorthEastLST,
 		kPathableMoveNorthWestLST,
+		kNotPathableMoveToHardObstacleLST,
+		kNotPathableMoveToSoftObstacleLST,
+		
+
+		/* longer problems, pathable */
 		kPathableToyProblemLST, 
 
 		/* not pathable; hard obstacle */
 		kNotPathableStartIsHardObstacleLST,
 		kNotPathableGoalIsHardObstacleLST,
 		kNotPathableHardObstacleBlocksGoal,
+
+
 
 		/* not pathable; soft obstacle */
 		kNotPathableStartIsSoftObstacleLST,
@@ -56,13 +63,15 @@ namespace ExpMgrUtil
 	class TestExperiment
 	{
 		public:
-			TestExperiment(ExperimentKey, int, int, int, int, int, int, double, std::string, bool);
+			TestExperiment(ExperimentKey, int, int, int, int, int, int, int, int, double, std::string, bool);
 			ExperimentKey key;
 			int startx;
 			int starty;
 			int goalx;
 			int goaly;
-			int terrain; // agent capabilities; ie. which terrain types are traversable
+			int sterrain; 
+			int gterrain;
+			int caps; // agent capabilities; ie. which terrain types are traversable
 			int size; // agent size
 			double distance; // actual distance between the start and goal
 			std::string mapname;

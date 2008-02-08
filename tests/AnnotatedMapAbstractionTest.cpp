@@ -53,7 +53,7 @@ void AnnotatedMapAbstractionTest::runExperiment(ExperimentKey expkey)
 
 	node* start = ama->getNodeFromMap(exp->startx, exp->starty);
 	node* goal = ama->getNodeFromMap(exp->goalx, exp->goaly);
-	CPPUNIT_ASSERT_EQUAL(ama->pathable(start, goal, exp->terrain, exp->size), exp->pathable);
+	CPPUNIT_ASSERT_EQUAL(ama->pathable(start, goal, exp->caps, exp->size), exp->pathable);
 
 
 }
