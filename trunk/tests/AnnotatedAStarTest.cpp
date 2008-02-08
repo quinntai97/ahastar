@@ -36,7 +36,7 @@ void AnnotatedAStarTest::tearDown()
 {
 	delete amamock;
 	delete aastar;
-	
+/*	
 	if(pos != NULL)
 		delete pos;
 	if(n != NULL)
@@ -56,7 +56,7 @@ void AnnotatedAStarTest::tearDown()
 	if(sw != NULL)
 		delete sw;
 	if(testedge != NULL)
-		delete testedge;
+		delete testedge;*/
 }
 
 void AnnotatedAStarTest::evaluateMoveNorthLST()
@@ -108,6 +108,17 @@ void AnnotatedAStarTest::evaluateMoveSouthWestLST()
 	runEvaluateTest(te);
 }
 
+void AnnotatedAStarTest::evaluateMoveToHardObstacle()
+{
+	TestExperiment* te = expmgr->getExperiment(kNotPathableMoveToHardObstacleLST);
+	runEvaluateTest(te);
+}
+
+void AnnotatedAStarTest::evaluateMoveToSoftObstacle()
+{
+	TestExperiment* te = expmgr->getExperiment(kNotPathableMoveToSoftObstacleLST);
+	runEvaluateTest(te);
+}
 
 void AnnotatedAStarTest::annotateNode(node* n, int t1, int t1c, int t2, int t2c, int t3, int t3c)
 {
@@ -131,11 +142,13 @@ node* AnnotatedAStarTest::getNode(int x, int y, int nodeterrain)
 void AnnotatedAStarTest::runEvaluateTest(TestExperiment* exp)
 {
 	amamock->setCurrentTestExperiment(exp);
-	pos = getNode(exp->startx, exp->starty, exp->terrain);
-	pos->setClearance(exp->terrain, exp->size);
-	n = getNode(exp->goalx, exp->goaly, exp->terrain);
-	n->setClearance(exp->terrain, exp->size);
+	pos = getNode(exp->startx, exp->starty, exp->sterrain);
+	pos->setClearance(exp->sterrain, exp->size);
+	n = getNode(exp->goalx, exp->goaly, exp->gterrain);
+	n->setClearance(exp->gterrain, exp->size);
 		
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("evaluate() failed to return true for legal move", exp->pathable, aastar->evaluate(pos, n)); 
 
+	delete pos;
+	delete n;
 }
