@@ -41,6 +41,7 @@ class AnnotatedAStarTest : public CPPUNIT_NS::TestFixture
 	CPPUNIT_TEST( evaluateMoveSouthWestLST );
 	CPPUNIT_TEST( evaluateMoveToHardObstacle );
 	CPPUNIT_TEST( evaluateMoveToSoftObstacle );
+	CPPUNIT_TEST( evaluateMoveToNonAdjacentLocation );
 
 	CPPUNIT_TEST_SUITE_END();
 
@@ -60,6 +61,7 @@ class AnnotatedAStarTest : public CPPUNIT_NS::TestFixture
 		void evaluateMoveSouthWestLST();
 		void evaluateMoveToHardObstacle();
 		void evaluateMoveToSoftObstacle();
+		void evaluateMoveToNonAdjacentLocation();
 
 		//void getPathNonAnnotatedMapAbstractionParameter(); 
 		

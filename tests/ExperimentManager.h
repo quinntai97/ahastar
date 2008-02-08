@@ -30,6 +30,7 @@ namespace ExpMgrUtil
 		kPathableMoveNorthWestLST,
 		kNotPathableMoveToHardObstacleLST,
 		kNotPathableMoveToSoftObstacleLST,
+		kNotPathableMoveToNonAdjacentLocationLST,
 		
 
 		/* longer problems, pathable */

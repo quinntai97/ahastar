@@ -120,6 +120,13 @@ void AnnotatedAStarTest::evaluateMoveToSoftObstacle()
 	runEvaluateTest(te);
 }
 
+void AnnotatedAStarTest::evaluateMoveToNonAdjacentLocation()
+{
+	TestExperiment* te = expmgr->getExperiment(kNotPathableMoveToNonAdjacentLocationLST);
+	runEvaluateTest(te);
+
+}
+
 void AnnotatedAStarTest::annotateNode(node* n, int t1, int t1c, int t2, int t2c, int t3, int t3c)
 {
 	n->setTerrainType(t1);

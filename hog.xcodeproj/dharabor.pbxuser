@@ -13,7 +13,6 @@
 			6275E4B00D45932C0065E195 /* ScenarioManagerTest.cpp:72 */,
 			6275E5130D459AB10065E195 /* ScenarioManagerTest.cpp:62 */,
 			621654020D4DEA5F00536A5B /* ScenarioManager.cpp:61 */,
-			62FB160D0D5C30FC002A6136 /* AnnotatedAStarTest.cpp:119 */,
 		);
 		breakpointsGroup = 62B1888B0D34F4280061AE72 /* XCBreakpointsBucket */;
 		codeSenseManager = 62E910C50CFD49B200AA46AB /* Code sense */;
@@ -275,6 +274,22 @@
 			62FB161C0D5C312C002A6136 /* PBXTextBookmark */ = 62FB161C0D5C312C002A6136 /* PBXTextBookmark */;
 			62FB161D0D5C312C002A6136 /* PBXTextBookmark */ = 62FB161D0D5C312C002A6136 /* PBXTextBookmark */;
 			62FB161E0D5C312C002A6136 /* PBXTextBookmark */ = 62FB161E0D5C312C002A6136 /* PBXTextBookmark */;
+			62FB16220D5C3226002A6136 /* PBXTextBookmark */ = 62FB16220D5C3226002A6136 /* PBXTextBookmark */;
+			62FB16390D5C34D5002A6136 /* PBXTextBookmark */ = 62FB16390D5C34D5002A6136 /* PBXTextBookmark */;
+			62FB16440D5C3516002A6136 /* PBXTextBookmark */ = 62FB16440D5C3516002A6136 /* PBXTextBookmark */;
+			62FB16450D5C351D002A6136 /* PBXTextBookmark */ = 62FB16450D5C351D002A6136 /* PBXTextBookmark */;
+			62FB16460D5C351D002A6136 /* PBXTextBookmark */ = 62FB16460D5C351D002A6136 /* PBXTextBookmark */;
+			62FB16470D5C351D002A6136 /* PBXTextBookmark */ = 62FB16470D5C351D002A6136 /* PBXTextBookmark */;
+			62FB16480D5C351D002A6136 /* PBXTextBookmark */ = 62FB16480D5C351D002A6136 /* PBXTextBookmark */;
+			62FB16490D5C351D002A6136 /* PBXTextBookmark */ = 62FB16490D5C351D002A6136 /* PBXTextBookmark */;
+			62FB164C0D5C351D002A6136 /* PBXTextBookmark */ = 62FB164C0D5C351D002A6136 /* PBXTextBookmark */;
+			62FB164D0D5C351D002A6136 /* PBXTextBookmark */ = 62FB164D0D5C351D002A6136 /* PBXTextBookmark */;
+			62FB16500D5C351D002A6136 /* PBXTextBookmark */ = 62FB16500D5C351D002A6136 /* PBXTextBookmark */;
+			62FB16510D5C351D002A6136 /* PBXTextBookmark */ = 62FB16510D5C351D002A6136 /* PBXTextBookmark */;
+			62FB16520D5C351D002A6136 /* PBXTextBookmark */ = 62FB16520D5C351D002A6136 /* PBXTextBookmark */;
+			62FB16530D5C351D002A6136 /* PBXTextBookmark */ = 62FB16530D5C351D002A6136 /* PBXTextBookmark */;
+			62FB16540D5C351D002A6136 /* PBXTextBookmark */ = 62FB16540D5C351D002A6136 /* PBXTextBookmark */;
+			62FB16550D5C351D002A6136 /* PBXTextBookmark */ = 62FB16550D5C351D002A6136 /* PBXTextBookmark */;
 		};
 		sourceControlManager = 62E910C40CFD49B200AA46AB /* Source Control */;
 		userBuildSettings = {
@@ -382,7 +397,7 @@
 		hitCount = 1;
 		lineNumber = 61;
 		location = testsimulation;
-		modificationTime = 224145662.827697;
+		modificationTime = 224146705.964703;
 		state = 1;
 	};
 	621654B50D4DFA3C00536A5B /* PBXTextBookmark */ = {
@@ -420,7 +435,7 @@
 		fRef = 62D0A9C10D1262990022B351 /* AnnotatedAStarTest.h */;
 		name = "AnnotatedAStarTest.h: tearDown";
 		rLen = 0;
-		rLoc = 1554;
+		rLoc = 1606;
 		rType = 0;
 		vrLen = 141;
 		vrLoc = 1142;
@@ -504,7 +519,7 @@
 		fRef = 62D0A9C10D1262990022B351 /* AnnotatedAStarTest.h */;
 		name = "AnnotatedAStarTest.h: tearDown";
 		rLen = 0;
-		rLoc = 1554;
+		rLoc = 1606;
 		rType = 0;
 		vrLen = 223;
 		vrLoc = 1115;
@@ -564,7 +579,7 @@
 		fRef = 62D0A9C20D1262990022B351 /* AnnotatedAStarTest.cpp */;
 		name = "AnnotatedAStarTest.cpp: 135";
 		rLen = 0;
-		rLoc = 3280;
+		rLoc = 3456;
 		rType = 0;
 		vrLen = 206;
 		vrLoc = 2541;
@@ -584,7 +599,7 @@
 		fRef = 62D0A9C10D1262990022B351 /* AnnotatedAStarTest.h */;
 		name = "AnnotatedAStarTest.h: tearDown";
 		rLen = 0;
-		rLoc = 1554;
+		rLoc = 1606;
 		rType = 0;
 		vrLen = 223;
 		vrLoc = 1115;
@@ -644,7 +659,7 @@
 		fRef = 62D0A9C20D1262990022B351 /* AnnotatedAStarTest.cpp */;
 		name = "AnnotatedAStarTest.cpp: 130";
 		rLen = 0;
-		rLoc = 3280;
+		rLoc = 3456;
 		rType = 0;
 		vrLen = 230;
 		vrLoc = 2593;
@@ -704,7 +719,7 @@
 		fRef = 62D0A9C20D1262990022B351 /* AnnotatedAStarTest.cpp */;
 		name = "AnnotatedAStarTest.cpp: 135";
 		rLen = 0;
-		rLoc = 3280;
+		rLoc = 3456;
 		rType = 0;
 		vrLen = 206;
 		vrLoc = 2541;
@@ -888,7 +903,7 @@
 		hitCount = 1;
 		lineNumber = 92;
 		location = testsimulation;
-		modificationTime = 224145662.82767;
+		modificationTime = 224146680.087479;
 		state = 1;
 	};
 	625BF8A40D13D79E0028A447 /* ScenarioManager.cpp */ = {
@@ -935,7 +950,7 @@
 		hitCount = 1;
 		lineNumber = 72;
 		location = testsimulation;
-		modificationTime = 224145662.827679;
+		modificationTime = 224146680.087607;
 		state = 1;
 	};
 	6275E5130D459AB10065E195 /* ScenarioManagerTest.cpp:62 */ = {
@@ -950,7 +965,7 @@
 		hitCount = 1;
 		lineNumber = 62;
 		location = testsimulation;
-		modificationTime = 224145662.827688;
+		modificationTime = 224146680.08763;
 		state = 1;
 	};
 	62B185490D3200870061AE72 /* AHAScenarioManagerMock.h */ = {
@@ -1010,7 +1025,6 @@
 			6275E4B00D45932C0065E195 /* ScenarioManagerTest.cpp:72 */,
 			6275E5130D459AB10065E195 /* ScenarioManagerTest.cpp:62 */,
 			621654020D4DEA5F00536A5B /* ScenarioManager.cpp:61 */,
-			62FB160D0D5C30FC002A6136 /* AnnotatedAStarTest.cpp:119 */,
 		);
 	};
 	62B18BD50D3654860061AE72 /* TestHelper.cpp:27 */ = {
@@ -1025,7 +1039,7 @@
 		hitCount = 1;
 		lineNumber = 27;
 		location = hog;
-		modificationTime = 224145700.327316;
+		modificationTime = 224146709.674717;
 		state = 1;
 	};
 	62B18C610D3741600061AE72 /* TestConstants.h */ = {
@@ -1071,24 +1085,24 @@
 	62D0A9BA0D1262830022B351 /* AnnotatedAStar.cpp */ = {
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {896, 3024}}";
-			sepNavSelRange = "{4467, 0}";
-			sepNavVisRect = "{{0, 2387}, {809, 197}}";
+			sepNavSelRange = "{4406, 59}";
+			sepNavVisRect = "{{0, 1609}, {618, 127}}";
 			sepNavWindowFrame = "{{15, 45}, {939, 696}}";
 		};
 	};
 	62D0A9C10D1262990022B351 /* AnnotatedAStarTest.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {894, 1106}}";
-			sepNavSelRange = "{1856, 32}";
-			sepNavVisRect = "{{0, 462}, {894, 567}}";
+			sepNavIntBoundsRect = "{{0, 0}, {894, 1134}}";
+			sepNavSelRange = "{1499, 33}";
+			sepNavVisRect = "{{0, 395}, {894, 567}}";
 			sepNavWindowFrame = "{{31, 36}, {939, 696}}";
 		};
 	};
 	62D0A9C20D1262990022B351 /* AnnotatedAStarTest.cpp */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {890, 2156}}";
-			sepNavSelRange = "{2395, 0}";
-			sepNavVisRect = "{{0, 1429}, {890, 293}}";
+			sepNavIntBoundsRect = "{{0, 0}, {894, 2254}}";
+			sepNavSelRange = "{2832, 0}";
+			sepNavVisRect = "{{0, 1534}, {894, 567}}";
 			sepNavWindowFrame = "{{17, 46}, {939, 696}}";
 		};
 	};
@@ -1735,7 +1749,7 @@
 		fRef = 62D0A9C20D1262990022B351 /* AnnotatedAStarTest.cpp */;
 		name = "AnnotatedAStarTest.cpp: 141";
 		rLen = 0;
-		rLoc = 3280;
+		rLoc = 3456;
 		rType = 0;
 		vrLen = 202;
 		vrLoc = 2603;
@@ -1765,7 +1779,7 @@
 		fRef = 62D0A9C20D1262990022B351 /* AnnotatedAStarTest.cpp */;
 		name = evaluateMoveSouthWestLST;
 		rLen = 0;
-		rLoc = 2660;
+		rLoc = 2836;
 		rType = 0;
 		vrLen = 973;
 		vrLoc = 1879;
@@ -1775,7 +1789,7 @@
 		fRef = 62D0A9C20D1262990022B351 /* AnnotatedAStarTest.cpp */;
 		name = "AnnotatedAStarTest.cpp: 114";
 		rLen = 0;
-		rLoc = 2660;
+		rLoc = 2836;
 		rType = 0;
 		vrLen = 989;
 		vrLoc = 1879;
@@ -1795,7 +1809,7 @@
 		fRef = 62D0A9C10D1262990022B351 /* AnnotatedAStarTest.h */;
 		name = evaluateMoveToCurrentLocationLST;
 		rLen = 0;
-		rLoc = 1824;
+		rLoc = 1876;
 		rType = 0;
 		vrLen = 1247;
 		vrLoc = 1068;
@@ -1859,7 +1873,7 @@
 		fRef = 62D0A9C20D1262990022B351 /* AnnotatedAStarTest.cpp */;
 		name = "AnnotatedAStarTest.cpp: 141";
 		rLen = 0;
-		rLoc = 3280;
+		rLoc = 3456;
 		rType = 0;
 		vrLen = 202;
 		vrLoc = 2603;
@@ -1869,7 +1883,7 @@
 		fRef = 62C9BF200D40606E0063A898 /* ExperimentManager.cpp */;
 		name = "ExperimentManager.cpp: 80";
 		rLen = 0;
-		rLoc = 3861;
+		rLoc = 4084;
 		rType = 0;
 		vrLen = 2468;
 		vrLoc = 1083;
@@ -1889,7 +1903,7 @@
 		fRef = 62D0A9C20D1262990022B351 /* AnnotatedAStarTest.cpp */;
 		name = "AnnotatedAStarTest.cpp: 114";
 		rLen = 0;
-		rLoc = 2660;
+		rLoc = 2836;
 		rType = 0;
 		vrLen = 989;
 		vrLoc = 1879;
@@ -1899,7 +1913,7 @@
 		fRef = 62D0A9C10D1262990022B351 /* AnnotatedAStarTest.h */;
 		name = evaluateMoveToCurrentLocationLST;
 		rLen = 0;
-		rLoc = 1824;
+		rLoc = 1876;
 		rType = 0;
 		vrLen = 1247;
 		vrLoc = 1068;
@@ -1959,7 +1973,7 @@
 		fRef = 62D0A9C20D1262990022B351 /* AnnotatedAStarTest.cpp */;
 		name = "AnnotatedAStarTest.cpp: 141";
 		rLen = 0;
-		rLoc = 3280;
+		rLoc = 3456;
 		rType = 0;
 		vrLen = 202;
 		vrLoc = 2607;
@@ -1969,7 +1983,7 @@
 		fRef = 62D0A9C20D1262990022B351 /* AnnotatedAStarTest.cpp */;
 		name = "AnnotatedAStarTest.cpp: 141";
 		rLen = 0;
-		rLoc = 3280;
+		rLoc = 3456;
 		rType = 0;
 		vrLen = 202;
 		vrLoc = 2607;
@@ -1988,7 +2002,7 @@
 		isa = PBXTextBookmark;
 		fRef = 62C9BF1F0D40606E0063A898 /* ExperimentManager.h */;
 		rLen = 0;
-		rLoc = "-2147483648";
+		rLoc = "-2147483604";
 		rType = 0;
 	};
 	62FB14EC0D5C1B03002A6136 /* PBXTextBookmark */ = {
@@ -2006,7 +2020,7 @@
 		fRef = 62C9BF200D40606E0063A898 /* ExperimentManager.cpp */;
 		name = "ExperimentManager.cpp: 80";
 		rLen = 0;
-		rLoc = 3861;
+		rLoc = 4084;
 		rType = 0;
 		vrLen = 2468;
 		vrLoc = 1083;
@@ -2016,7 +2030,7 @@
 		fRef = 62C9BF200D40606E0063A898 /* ExperimentManager.cpp */;
 		name = "ExperimentManager.cpp: 80";
 		rLen = 0;
-		rLoc = 3861;
+		rLoc = 4084;
 		rType = 0;
 		vrLen = 2475;
 		vrLoc = 1083;
@@ -2056,7 +2070,7 @@
 		fRef = 62D0A9C20D1262990022B351 /* AnnotatedAStarTest.cpp */;
 		name = "AnnotatedAStarTest.cpp: 114";
 		rLen = 0;
-		rLoc = 2660;
+		rLoc = 2836;
 		rType = 0;
 		vrLen = 1104;
 		vrLoc = 2037;
@@ -2066,7 +2080,7 @@
 		fRef = 62D0A9C10D1262990022B351 /* AnnotatedAStarTest.h */;
 		name = evaluateMoveToCurrentLocationLST;
 		rLen = 0;
-		rLoc = 1824;
+		rLoc = 1876;
 		rType = 0;
 		vrLen = 1247;
 		vrLoc = 1068;
@@ -2126,7 +2140,7 @@
 		fRef = 62D0A9C20D1262990022B351 /* AnnotatedAStarTest.cpp */;
 		name = "AnnotatedAStarTest.cpp: 116";
 		rLen = 0;
-		rLoc = 2660;
+		rLoc = 2836;
 		rType = 0;
 		vrLen = 517;
 		vrLoc = 2187;
@@ -2144,7 +2158,7 @@
 		fRef = 62D0A9C20D1262990022B351 /* AnnotatedAStarTest.cpp */;
 		name = "AnnotatedAStarTest.cpp: 116";
 		rLen = 0;
-		rLoc = 2660;
+		rLoc = 2836;
 		rType = 0;
 		vrLen = 517;
 		vrLoc = 2187;
@@ -2154,7 +2168,7 @@
 		fRef = 62C9BF200D40606E0063A898 /* ExperimentManager.cpp */;
 		name = "ExperimentManager.cpp: 79";
 		rLen = 0;
-		rLoc = 3861;
+		rLoc = 4084;
 		rType = 0;
 		vrLen = 1537;
 		vrLoc = 1770;
@@ -2192,7 +2206,7 @@
 		fRef = 62D0A9C20D1262990022B351 /* AnnotatedAStarTest.cpp */;
 		name = "AnnotatedAStarTest.cpp: 116";
 		rLen = 0;
-		rLoc = 2660;
+		rLoc = 2836;
 		rType = 0;
 		vrLen = 263;
 		vrLoc = 2338;
@@ -2222,7 +2236,7 @@
 		fRef = 62C9BF200D40606E0063A898 /* ExperimentManager.cpp */;
 		name = "ExperimentManager.cpp: 79";
 		rLen = 0;
-		rLoc = 3861;
+		rLoc = 4084;
 		rType = 0;
 		vrLen = 2312;
 		vrLoc = 1083;
@@ -2292,7 +2306,7 @@
 		fRef = 62C9BF200D40606E0063A898 /* ExperimentManager.cpp */;
 		name = "ExperimentManager.cpp: 79";
 		rLen = 0;
-		rLoc = 3861;
+		rLoc = 4084;
 		rType = 0;
 		vrLen = 1537;
 		vrLoc = 1770;
@@ -2302,7 +2316,7 @@
 		fRef = 62C9BF200D40606E0063A898 /* ExperimentManager.cpp */;
 		name = "ExperimentManager.cpp: 79";
 		rLen = 0;
-		rLoc = 3861;
+		rLoc = 4084;
 		rType = 0;
 		vrLen = 1537;
 		vrLoc = 1770;
@@ -2312,7 +2326,7 @@
 		fRef = 62C9BF200D40606E0063A898 /* ExperimentManager.cpp */;
 		name = "ExperimentManager.cpp: 81";
 		rLen = 0;
-		rLoc = 3862;
+		rLoc = 4085;
 		rType = 0;
 		vrLen = 1708;
 		vrLoc = 1770;
@@ -2322,7 +2336,7 @@
 		fRef = 62C9BF200D40606E0063A898 /* ExperimentManager.cpp */;
 		name = "ExperimentManager.cpp: 81";
 		rLen = 0;
-		rLoc = 3862;
+		rLoc = 4085;
 		rType = 0;
 		vrLen = 1708;
 		vrLoc = 1770;
@@ -2332,7 +2346,7 @@
 		fRef = 62C9BF200D40606E0063A898 /* ExperimentManager.cpp */;
 		name = "ExperimentManager.cpp: 81";
 		rLen = 0;
-		rLoc = 3862;
+		rLoc = 4085;
 		rType = 0;
 		vrLen = 1708;
 		vrLoc = 1770;
@@ -2342,7 +2356,7 @@
 		fRef = 62C9BF200D40606E0063A898 /* ExperimentManager.cpp */;
 		name = "ExperimentManager.cpp: 81";
 		rLen = 0;
-		rLoc = 3862;
+		rLoc = 4085;
 		rType = 0;
 		vrLen = 1708;
 		vrLoc = 1770;
@@ -2352,7 +2366,7 @@
 		fRef = 62C9BF200D40606E0063A898 /* ExperimentManager.cpp */;
 		name = "ExperimentManager.cpp: 81";
 		rLen = 0;
-		rLoc = 3862;
+		rLoc = 4085;
 		rType = 0;
 		vrLen = 1708;
 		vrLoc = 1770;
@@ -2362,7 +2376,7 @@
 		fRef = 62C9BF200D40606E0063A898 /* ExperimentManager.cpp */;
 		name = "ExperimentManager.cpp: 81";
 		rLen = 0;
-		rLoc = 3862;
+		rLoc = 4085;
 		rType = 0;
 		vrLen = 1708;
 		vrLoc = 1770;
@@ -2372,7 +2386,7 @@
 		fRef = 62C9BF200D40606E0063A898 /* ExperimentManager.cpp */;
 		name = "ExperimentManager.cpp: 81";
 		rLen = 0;
-		rLoc = 3862;
+		rLoc = 4085;
 		rType = 0;
 		vrLen = 1708;
 		vrLoc = 1770;
@@ -2392,7 +2406,7 @@
 		fRef = 62D0A9C20D1262990022B351 /* AnnotatedAStarTest.cpp */;
 		name = "AnnotatedAStarTest.cpp: 121";
 		rLen = 0;
-		rLoc = 2660;
+		rLoc = 2836;
 		rType = 0;
 		vrLen = 411;
 		vrLoc = 2338;
@@ -2402,7 +2416,7 @@
 		fRef = 62D0A9C20D1262990022B351 /* AnnotatedAStarTest.cpp */;
 		name = "AnnotatedAStarTest.cpp: 121";
 		rLen = 0;
-		rLoc = 2660;
+		rLoc = 2836;
 		rType = 0;
 		vrLen = 411;
 		vrLoc = 2338;
@@ -2422,7 +2436,7 @@
 		fRef = 62D0A9C20D1262990022B351 /* AnnotatedAStarTest.cpp */;
 		name = "AnnotatedAStarTest.cpp: 121";
 		rLen = 0;
-		rLoc = 2660;
+		rLoc = 2836;
 		rType = 0;
 		vrLen = 411;
 		vrLoc = 2338;
@@ -2451,7 +2465,7 @@
 		isa = PBXTextBookmark;
 		fRef = 62D0A9C10D1262990022B351 /* AnnotatedAStarTest.h */;
 		rLen = 0;
-		rLoc = 2147483629;
+		rLoc = "-2147483571";
 		rType = 0;
 	};
 	62FB155D0D5C24C5002A6136 /* PBXTextBookmark */ = {
@@ -2459,7 +2473,7 @@
 		fRef = 62D0A9C10D1262990022B351 /* AnnotatedAStarTest.h */;
 		name = "AnnotatedAStarTest.h: evaluateMoveToHardObstacle";
 		rLen = 29;
-		rLoc = 1838;
+		rLoc = 1890;
 		rType = 0;
 		vrLen = 1247;
 		vrLoc = 1068;
@@ -2468,7 +2482,7 @@
 		isa = PBXTextBookmark;
 		fRef = 62C9BF1F0D40606E0063A898 /* ExperimentManager.h */;
 		rLen = 0;
-		rLoc = "-2147483609";
+		rLoc = "-2147483565";
 		rType = 0;
 	};
 	62FB15610D5C24C5002A6136 /* PBXTextBookmark */ = {
@@ -2536,7 +2550,7 @@
 		fRef = 62D0A9C20D1262990022B351 /* AnnotatedAStarTest.cpp */;
 		name = "AnnotatedAStarTest.cpp: 121";
 		rLen = 0;
-		rLoc = 2660;
+		rLoc = 2836;
 		rType = 0;
 		vrLen = 411;
 		vrLoc = 2338;
@@ -2586,7 +2600,7 @@
 		fRef = 62D0A9C10D1262990022B351 /* AnnotatedAStarTest.h */;
 		name = "AnnotatedAStarTest.h: evaluateMoveToHardObstacle";
 		rLen = 29;
-		rLoc = 1838;
+		rLoc = 1890;
 		rType = 0;
 		vrLen = 1247;
 		vrLoc = 1068;
@@ -2656,7 +2670,7 @@
 		fRef = 62D0A9C20D1262990022B351 /* AnnotatedAStarTest.cpp */;
 		name = "AnnotatedAStarTest.cpp: 142";
 		rLen = 0;
-		rLoc = 3324;
+		rLoc = 3500;
 		rType = 0;
 		vrLen = 597;
 		vrLoc = 2774;
@@ -2714,7 +2728,7 @@
 		fRef = 62C9BF200D40606E0063A898 /* ExperimentManager.cpp */;
 		name = "ExperimentManager.cpp: 84";
 		rLen = 0;
-		rLoc = 3862;
+		rLoc = 4085;
 		rType = 0;
 		vrLen = 2180;
 		vrLoc = 1505;
@@ -2734,7 +2748,7 @@
 		fRef = 62D0A9C20D1262990022B351 /* AnnotatedAStarTest.cpp */;
 		name = "AnnotatedAStarTest.cpp: 142";
 		rLen = 0;
-		rLoc = 3324;
+		rLoc = 3500;
 		rType = 0;
 		vrLen = 597;
 		vrLoc = 2774;
@@ -2864,7 +2878,7 @@
 		fRef = 62D0A9C20D1262990022B351 /* AnnotatedAStarTest.cpp */;
 		name = "AnnotatedAStarTest.cpp: 116";
 		rLen = 0;
-		rLoc = 2660;
+		rLoc = 2836;
 		rType = 0;
 		vrLen = 263;
 		vrLoc = 2338;
@@ -2888,7 +2902,7 @@
 		fRef = 62D0A9C20D1262990022B351 /* AnnotatedAStarTest.cpp */;
 		name = "AnnotatedAStarTest.cpp: 116";
 		rLen = 0;
-		rLoc = 2660;
+		rLoc = 2836;
 		rType = 0;
 		vrLen = 263;
 		vrLoc = 2338;
@@ -2958,7 +2972,7 @@
 		fRef = 62D0A9C10D1262990022B351 /* AnnotatedAStarTest.h */;
 		name = "AnnotatedAStarTest.h: evaluateMoveToHardObstacle";
 		rLen = 29;
-		rLoc = 1838;
+		rLoc = 1890;
 		rType = 0;
 		vrLen = 1247;
 		vrLoc = 1068;
@@ -3041,21 +3055,6 @@
 		vrLen = 574;
 		vrLoc = 2185;
 	};
-	62FB160D0D5C30FC002A6136 /* AnnotatedAStarTest.cpp:119 */ = {
-		isa = PBXFileBreakpoint;
-		actions = (
-		);
-		breakpointStyle = 0;
-		continueAfterActions = 0;
-		delayBeforeContinue = 0;
-		fileReference = 62D0A9C20D1262990022B351 /* AnnotatedAStarTest.cpp */;
-		functionName = "AnnotatedAStarTest::evaluateMoveToSoftObstacle()";
-		hitCount = 1;
-		lineNumber = 119;
-		location = testsimulation;
-		modificationTime = 224145671.443826;
-		state = 1;
-	};
 	62FB16110D5C3125002A6136 /* PBXTextBookmark */ = {
 		isa = PBXTextBookmark;
 		fRef = 62D0A9C20D1262990022B351 /* AnnotatedAStarTest.cpp */;
@@ -3127,6 +3126,166 @@
 		vrLoc = 1825;
 	};
 	62FB161E0D5C312C002A6136 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62D0A9B90D1262830022B351 /* AnnotatedAStar.h */;
+		name = "AnnotatedAStar.h: evaluate";
+		rLen = 0;
+		rLoc = 2124;
+		rType = 0;
+		vrLen = 1342;
+		vrLoc = 911;
+	};
+	62FB16220D5C3226002A6136 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62D0A9C20D1262990022B351 /* AnnotatedAStarTest.cpp */;
+		name = "AnnotatedAStarTest.cpp: 113";
+		rLen = 0;
+		rLoc = 2395;
+		rType = 0;
+		vrLen = 574;
+		vrLoc = 2185;
+	};
+	62FB16390D5C34D5002A6136 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62D0A9C20D1262990022B351 /* AnnotatedAStarTest.cpp */;
+		name = "AnnotatedAStarTest.cpp: 113";
+		rLen = 0;
+		rLoc = 2395;
+		rType = 0;
+		vrLen = 537;
+		vrLoc = 2185;
+	};
+	62FB16440D5C3516002A6136 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62D0A9C20D1262990022B351 /* AnnotatedAStarTest.cpp */;
+		name = "AnnotatedAStarTest.cpp: 113";
+		rLen = 0;
+		rLoc = 2395;
+		rType = 0;
+		vrLen = 537;
+		vrLoc = 2185;
+	};
+	62FB16450D5C351D002A6136 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62E914F40CFD4FDB00AA46AB /* map.cpp */;
+		name = ROOT;
+		rLen = 4;
+		rLoc = 53162;
+		rType = 0;
+		vrLen = 117;
+		vrLoc = 53108;
+	};
+	62FB16460D5C351D002A6136 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62D0A9C20D1262990022B351 /* AnnotatedAStarTest.cpp */;
+		name = "AnnotatedAStarTest.cpp: 129";
+		rLen = 0;
+		rLoc = 2836;
+		rType = 0;
+		vrLen = 298;
+		vrLoc = 2338;
+	};
+	62FB16470D5C351D002A6136 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62E914F40CFD4FDB00AA46AB /* map.cpp */;
+		name = ROOT;
+		rLen = 4;
+		rLoc = 53162;
+		rType = 0;
+		vrLen = 117;
+		vrLoc = 53108;
+	};
+	62FB16480D5C351D002A6136 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62D0A9C20D1262990022B351 /* AnnotatedAStarTest.cpp */;
+		name = "AnnotatedAStarTest.cpp: 129";
+		rLen = 0;
+		rLoc = 2836;
+		rType = 0;
+		vrLen = 298;
+		vrLoc = 2338;
+	};
+	62FB16490D5C351D002A6136 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62D0A9BA0D1262830022B351 /* AnnotatedAStar.cpp */;
+		name = "bool AnnotatedAStar::evaluate(node* current, node* target)";
+		rLen = 59;
+		rLoc = 4406;
+		rType = 0;
+		vrLen = 626;
+		vrLoc = 3655;
+	};
+	62FB164C0D5C351D002A6136 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62D0A9C20D1262990022B351 /* AnnotatedAStarTest.cpp */;
+		name = "runEvaluateTest(te);";
+		rLen = 1;
+		rLoc = 2832;
+		rType = 0;
+		vrLen = 1137;
+		vrLoc = 2554;
+	};
+	62FB164D0D5C351D002A6136 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62D0A9C20D1262990022B351 /* AnnotatedAStarTest.cpp */;
+		name = "AnnotatedAStarTest.cpp: 126";
+		rLen = 0;
+		rLoc = 2832;
+		rType = 0;
+		vrLen = 1016;
+		vrLoc = 2338;
+	};
+	62FB16500D5C351D002A6136 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62D0A9C10D1262990022B351 /* AnnotatedAStarTest.h */;
+		name = "AnnotatedAStarTest.h: evaluateMoveToNonAdjacentLocation";
+		rLen = 0;
+		rLoc = 1532;
+		rType = 0;
+		vrLen = 1194;
+		vrLoc = 952;
+	};
+	62FB16510D5C351D002A6136 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62D0A9C10D1262990022B351 /* AnnotatedAStarTest.h */;
+		name = evaluateMoveToNonAdjacentLocation;
+		rLen = 33;
+		rLoc = 1499;
+		rType = 0;
+		vrLen = 1194;
+		vrLoc = 952;
+	};
+	62FB16520D5C351D002A6136 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62B186C40D33789A0061AE72 /* AnnotatedMapAbstractionMock.h */;
+		name = "AnnotatedMapAbstractionMock.h: 23";
+		rLen = 0;
+		rLoc = 580;
+		rType = 0;
+		vrLen = 1119;
+		vrLoc = 0;
+	};
+	62FB16530D5C351D002A6136 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62E9146A0CFD4FBB00AA46AB /* mapAbstraction.h */;
+		name = "mapAbstraction.h: 53";
+		rLen = 0;
+		rLoc = 1876;
+		rType = 0;
+		vrLen = 1245;
+		vrLoc = 980;
+	};
+	62FB16540D5C351D002A6136 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62E914690CFD4FBB00AA46AB /* mapAbstraction.cpp */;
+		name = "mapAbstraction.cpp: 315";
+		rLen = 0;
+		rLoc = 9309;
+		rType = 0;
+		vrLen = 1148;
+		vrLoc = 1825;
+	};
+	62FB16550D5C351D002A6136 /* PBXTextBookmark */ = {
 		isa = PBXTextBookmark;
 		fRef = 62D0A9B90D1262830022B351 /* AnnotatedAStar.h */;
 		name = "AnnotatedAStar.h: evaluate";
