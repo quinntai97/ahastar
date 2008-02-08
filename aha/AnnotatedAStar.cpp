@@ -106,23 +106,29 @@ path* AnnotatedAStar::getPath(graphAbstraction *aMap, node *from, node* to, int 
 	return p;	
 }
 
-/* check if it is possible to move from the current location to an adjacent target location.
+/* evaluate()
+	check if it is possible to move from the current location to an adjacent target location.
 	things we look for:
 		- clearance value of the target >= minclearance
 		- if the traversal involves a diagonal move, is there an equivalent 2-step move using the cardinal directions?
 		
-		3hrs - 23/12
+		NB: we assume that an edge exists between the current and target node parameters. Could check this explicitly but HOG's 
+		implementation for this stuff is expensive (iteratres over all neighbours). We also only call this from getPath which ensures that
+		we only evaluate pairs of connected nodes. 
 		
-		need to move this into abstract implementation; if edge weight > 1.0 (ie. we're looking at an edge part of an abstract graph) then
-		we need to check the width of the corridor to determine if the edge is traversable.
+		Probably need to make this function protected rather than public.
+								
+		Other stuff: 
+			* need to move this into abstract implementation; if edge weight > 1.0 (ie. we're looking at an edge part of an abstract graph) then
+			* we need to check the width of the corridor to determine if the edge is traversable.
 		
-		So, does that mean I don't need a separate AHA*?! The actual A* search should be identical to AA* except for this bit!
+			So, does that mean I don't need a separate AHA*?! The actual A* search should be identical to AA* except for this bit!
 */
 bool AnnotatedAStar::evaluate(node* current, node* target)
 {
 	if(!current || !target)
 		return false;
-		
+				
 	AbstractAnnotatedMapAbstraction* ama = (AbstractAnnotatedMapAbstraction*)getGraphAbstraction();
 	graph *g = ama->getAbstractGraph(0);
 
@@ -141,8 +147,6 @@ bool AnnotatedAStar::evaluate(node* current, node* target)
 		
 	if(dir == kN || dir == kS || dir == kE || dir == kW)
 		return true;
-
-	// need to find the edge between the two nodes. also need tomove all this checking code into a private checkLocations method
 	
 	/* check diagonal move is equivalent to 2-step cardinal move */
 	int curx = current->getLabelL(kFirstData);
