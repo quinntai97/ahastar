@@ -45,6 +45,7 @@ class AbstractAnnotatedAStar : public aStarOld
 
 		
 	protected:
+		bool verbose;
 		virtual bool evaluate(node* n, node* target) = 0; // check if a node is traversable
 		AAStarUtil::NodeMap closedList;		
 		heap *openList;

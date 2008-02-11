@@ -27,25 +27,20 @@ using namespace std;
 */
 path* AnnotatedAStar::getPath(graphAbstraction *aMap, node *from, node* to, int terrain, int agentsize)
 {
-
-	/* both locations need to be valid */
 	if(!from || !to)
 		return 0;
-		
-	/* both locations need to have terrain clearance >= agentsize -- ie. reachable by agent */
-	if(from->getClearance(terrain) < agentsize || to->getClearance(terrain) < agentsize) 
-		return 0;
-		
-		
-	// can this shit. repeats above
-	/* both start & goal need to be traversable by the agent NB: we end up making this check twice over the goal if solution exists */
-/*	if(	(from->getTerrainType()&terrain) != from->getTerrainType() || (to->getTerrainType()&terrain) != to->getTerrainType())
-		return 0;
-*/	
-	
-	/* finally, make sure there actually exists a search problem to solve*/
+
 	if(from == to)
 		return 0;
+
+	if(agentsize <= 0)
+	{	
+		if(verbose) std::cout << "AnnotatedAStar: attempted to getPath for agentsize <= 0" << std::endl;
+		return 0;
+	}
+	/* both locations need to be reachable by agent */
+	if(from->getClearance(terrain) < agentsize || to->getClearance(terrain) < agentsize) 
+		return 0;		
 	
 	/* initialise the search params */
 	setGraphAbstraction(aMap);

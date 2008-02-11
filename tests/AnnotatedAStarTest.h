@@ -51,6 +51,9 @@ class AnnotatedAStarTest : public CPPUNIT_NS::TestFixture
 	CPPUNIT_TEST( getPathReturnNullWhenGoalSoftObstacle );
 	CPPUNIT_TEST( getPathReturnNullWhenStartAndGoalSameLocation );
 	CPPUNIT_TEST( getPathReturnNullWhenStartAndGoalNodesIdentical );
+	CPPUNIT_TEST( getPathReturnNullOnInvalidCapabilityParam );
+	CPPUNIT_TEST( getPathReturnNulWhenAgentSizeParamLessThanMin );
+
 
 	CPPUNIT_TEST_SUITE_END();
 
@@ -81,6 +84,8 @@ class AnnotatedAStarTest : public CPPUNIT_NS::TestFixture
 		void getPathReturnNullWhenGoalSoftObstacle();
 		void getPathReturnNullWhenStartAndGoalSameLocation();
 		void getPathReturnNullWhenStartAndGoalNodesIdentical();
+		void getPathReturnNullOnInvalidCapabilityParam();
+		void getPathReturnNulWhenAgentSizeParamLessThanMin();
 
 		//void getPathNonAnnotatedMapAbstractionParameter(); 
 		
