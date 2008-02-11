@@ -42,6 +42,15 @@ class AnnotatedAStarTest : public CPPUNIT_NS::TestFixture
 	CPPUNIT_TEST( evaluateMoveToHardObstacle );
 	CPPUNIT_TEST( evaluateMoveToSoftObstacle );
 	CPPUNIT_TEST( evaluateMoveToNonAdjacentLocation );
+	CPPUNIT_TEST( getPathStartClearanceTooSmall );
+	CPPUNIT_TEST( getPathGoalClearanceTooSmall );
+	CPPUNIT_TEST( getPathReturnNullWhenStartOrGoalNull );
+	CPPUNIT_TEST( getPathReturnNullWhenStartHardObstacle );
+	CPPUNIT_TEST( getPathReturnNullWhenGoalHardObstacle );
+	CPPUNIT_TEST( getPathReturnNullWhenStartSoftObstacle );
+	CPPUNIT_TEST( getPathReturnNullWhenGoalSoftObstacle );
+	CPPUNIT_TEST( getPathReturnNullWhenStartAndGoalSameLocation );
+	CPPUNIT_TEST( getPathReturnNullWhenStartAndGoalNodesIdentical );
 
 	CPPUNIT_TEST_SUITE_END();
 
@@ -62,6 +71,16 @@ class AnnotatedAStarTest : public CPPUNIT_NS::TestFixture
 		void evaluateMoveToHardObstacle();
 		void evaluateMoveToSoftObstacle();
 		void evaluateMoveToNonAdjacentLocation();
+		
+		void getPathStartClearanceTooSmall();
+		void getPathGoalClearanceTooSmall();
+		void getPathReturnNullWhenStartOrGoalNull();
+		void getPathReturnNullWhenStartHardObstacle();
+		void getPathReturnNullWhenGoalHardObstacle();
+		void getPathReturnNullWhenStartSoftObstacle();
+		void getPathReturnNullWhenGoalSoftObstacle();
+		void getPathReturnNullWhenStartAndGoalSameLocation();
+		void getPathReturnNullWhenStartAndGoalNodesIdentical();
 
 		//void getPathNonAnnotatedMapAbstractionParameter(); 
 		
@@ -69,13 +88,12 @@ class AnnotatedAStarTest : public CPPUNIT_NS::TestFixture
 		void annotateNode(node* n, int t1, int t1c, int t2, int t2c, int t3, int t3c);
 		node* getNode(int x, int y, int nodeterrain);
 		void runEvaluateTest(ExpMgrUtil::TestExperiment*);
+		void runGetPathTest(ExpMgrUtil::TestExperiment* exp, std::string &errmsg);
 
 		ExperimentManager* expmgr;
 		AnnotatedMapAbstractionMock* amamock;
 		AnnotatedAStar* aastar;
-		node  *pos, *n, *s, *e, *w, *ne, *nw, *se, *sw;
-		edge* testedge;
-	
+		node  *pos, *n;	
 };
 
 #endif

@@ -15,8 +15,11 @@
 
 #include <ext/hash_map>
 
+class node;
+
 namespace ExpMgrUtil
 {
+
 	enum ExperimentKey
 	{	
 		/* experiments testing single step agent movements */
@@ -41,19 +44,21 @@ namespace ExpMgrUtil
 		kNotPathableGoalIsHardObstacleLST,
 		kNotPathableHardObstacleBlocksGoal,
 
-
-
 		/* not pathable; soft obstacle */
 		kNotPathableStartIsSoftObstacleLST,
 		kNotPathableGoalIsSoftObstacleLST,
 		kNotPathableSoftObstacleBlocksGoal,
 
+		/* not pathable; agent too big */
+		kNotPathableStartClearanceTooSmallLST,
+		kNotPathableGoalClearanceTooSmallLST,
+
 		/* not pathable; invalid parameters */
 		kNotPathableStartPositionOutOfBoundsLST,
 		kNotPathableGoalPositionOutOfBoundsLST,
-		kNotPathableStartPositionOverlapsMapEdgeLST,
-		kNotPathableGoalPositionOverlapsMapEdgeLST,
-		kNotPathableInvalidTerrain,
+		kNotPathableStartAndGoalIdenticalLST,
+
+		kNotPathableInvalidCapability, 
 		kNotPathableAgentSizeLessThanMin,
 		kNotPathableAgentSizeGreaterThanMax,
 		
@@ -65,6 +70,7 @@ namespace ExpMgrUtil
 	{
 		public:
 			TestExperiment(ExperimentKey, int, int, int, int, int, int, int, int, double, std::string, bool);
+			~TestExperiment();
 			ExperimentKey key;
 			int startx;
 			int starty;
@@ -77,6 +83,12 @@ namespace ExpMgrUtil
 			double distance; // actual distance between the start and goal
 			std::string mapname;
 			bool pathable; // does a solution exist for this problem?
+			
+			node* getStartNode();
+			node* getGoalNode();
+			
+		private:
+			node *snode, *gnode;
 	}; 
 	
 /*	struct TestExperiment
