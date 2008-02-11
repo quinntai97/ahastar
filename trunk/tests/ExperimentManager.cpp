@@ -9,6 +9,8 @@
 
 #include "ExperimentManager.h"
 #include "TestConstants.h"
+#include "graph.h"
+#include "constants.h"
 
 using namespace ExpMgrUtil;
 
@@ -29,7 +31,63 @@ ExpMgrUtil::TestExperiment::TestExperiment(ExperimentKey key, int sx, int sy, in
 	this->distance = dist;
 	this->mapname = mapname;
 	this->pathable = pathable;
+
+	snode = gnode = NULL;
 }
+
+ExpMgrUtil::TestExperiment::~TestExperiment()
+{
+	if(snode != NULL)
+		delete snode;
+	if(gnode != NULL)
+		delete gnode;
+}
+
+node* ExpMgrUtil::TestExperiment::getStartNode()
+{
+
+	if(snode != NULL)
+		return snode;
+		
+	// NB: might need an extension later for different clearance values (!= size)
+	snode = new node("start");
+	snode->setTerrainType(sterrain);
+	snode->setClearance(sterrain, size);		
+	snode->setLabelL(kFirstData, startx);
+	snode->setLabelL(kFirstData+1, starty);
+	
+	if(sterrain == (kGround|kTrees))
+	{
+		snode->setClearance(kGround, size);
+		snode->setClearance(kTrees, size);
+	}
+
+	return snode;
+
+}
+
+node* ExpMgrUtil::TestExperiment::getGoalNode()
+{
+
+	// NB: might need an extension later for different clearance values (!= size)
+	if(gnode != NULL)
+		return snode;
+
+	gnode = new node("goal");
+	gnode->setTerrainType(gterrain);
+	gnode->setClearance(gterrain, size);
+	gnode->setLabelL(kFirstData, goalx);
+	gnode->setLabelL(kFirstData+1, goaly);
+
+	if(gterrain == (kGround|kTrees))
+	{
+		gnode->setClearance(kGround, size);
+		gnode->setClearance(kTrees, size);
+	}
+
+	return gnode;
+}
+
 
 
 ExperimentManager::ExperimentManager()
@@ -63,14 +121,17 @@ TestExperiment* ExperimentManager::getExperiment(ExperimentKey expkey)
 	return (*tests)[expkey]; // TODO: check behaviour when expkey is nonexistent in the hashtable
 }
 
+
+/* TODO: have the experiment generate the start/goal nodes & all annotations etc */
 void ExperimentManager::generateExperiments()
 {	
 	if(tests->size() == 0)
 	{
 		tests->insert(pair<int, TestExperiment*>((int)kPathableToyProblemLST,  new TestExperiment(kPathableToyProblemLST, 4,2,kGround,1,7,kGround,kGround,2,6.0+ROOT_TWO, maplocation, true)));
-		tests->insert(pair<int, TestExperiment*>((int)kNotPathableGoalIsSoftObstacleLST, new TestExperiment(kNotPathableGoalIsSoftObstacleLST, 1,2,kGround,22,1,kGround,kGround,2,0, maplocation, false)));
-		tests->insert(pair<int, TestExperiment*>((int)kNotPathableStartIsHardObstacleLST, new TestExperiment(kNotPathableStartIsHardObstacleLST, 0,0,4,22,6,4,4,2,0, maplocation, false)));
-
+		tests->insert(pair<int, TestExperiment*>((int)kNotPathableGoalIsSoftObstacleLST, new TestExperiment(kNotPathableGoalIsSoftObstacleLST, 1,2,kGround,22,1,kTrees,kGround,2,0, maplocation, false)));
+		tests->insert(pair<int, TestExperiment*>((int)kNotPathableStartIsSoftObstacleLST, new TestExperiment(kNotPathableStartIsSoftObstacleLST, 22,1,kTrees,1,2,kGround,kGround,2,0, maplocation, false)));
+		tests->insert(pair<int, TestExperiment*>((int)kNotPathableStartIsHardObstacleLST, new TestExperiment(kNotPathableStartIsHardObstacleLST, 0,0,kWater,22,6,kGround,kGround,2,0, maplocation, false)));
+		tests->insert(pair<int, TestExperiment*>((int)kNotPathableGoalIsHardObstacleLST, new TestExperiment(kNotPathableGoalIsHardObstacleLST, 22,6,kGround,0,0,kWater,kGround,2,0, maplocation, false)));
 		tests->insert(pair<int, TestExperiment*>((int)kPathableMoveNorthLST, new TestExperiment(kPathableMoveNorthLST, 4,8,kGround,4,7,kGround,kGround,2,1, maplocation, true)));
 		tests->insert(pair<int, TestExperiment*>((int)kPathableMoveSouthLST, new TestExperiment(kPathableMoveSouthLST, 4,8,kGround,4,9,kGround,4,2,1, maplocation, true)));
 		tests->insert(pair<int, TestExperiment*>((int)kPathableMoveEastLST, new TestExperiment(kPathableMoveEastLST, 4,8,kGround,5,8,kGround,kGround,2,1, maplocation, true)));
@@ -82,6 +143,9 @@ void ExperimentManager::generateExperiments()
 		tests->insert(pair<int, TestExperiment*>((int)kNotPathableMoveToHardObstacleLST, new TestExperiment(kNotPathableMoveToHardObstacleLST, 2,2,kGround,1,1,kWater,kGround,2,1, maplocation, false)));
 		tests->insert(pair<int, TestExperiment*>((int)kNotPathableMoveToSoftObstacleLST, new TestExperiment(kNotPathableMoveToSoftObstacleLST, 5,9,kGround,6,9,kTrees,kGround,2,1, maplocation, false)));
 		tests->insert(pair<int, TestExperiment*>((int)kNotPathableMoveToNonAdjacentLocationLST,  new TestExperiment(kNotPathableMoveToNonAdjacentLocationLST, 4,2,kGround,1,7,kGround,kGround,2,6.0+ROOT_TWO, maplocation, false)));
+		tests->insert(pair<int, TestExperiment*>((int)kNotPathableStartClearanceTooSmallLST,  new TestExperiment(kNotPathableStartClearanceTooSmallLST, 1,8,kGround,5,8,kGround,kGround,2,4, maplocation, false)));
+		tests->insert(pair<int, TestExperiment*>((int)kNotPathableGoalClearanceTooSmallLST,  new TestExperiment(kNotPathableGoalClearanceTooSmallLST, 5,8,kGround,1,8,kGround,kGround,2,4, maplocation, false)));		
+		tests->insert(pair<int, TestExperiment*>((int)kNotPathableStartAndGoalIdenticalLST,  new TestExperiment(kNotPathableStartAndGoalIdenticalLST, 5,8,kGround,5,8,kGround,kGround,2,4, maplocation, false)));		
 	}
 }
 

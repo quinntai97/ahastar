@@ -36,10 +36,12 @@ path* AnnotatedAStar::getPath(graphAbstraction *aMap, node *from, node* to, int 
 	if(from->getClearance(terrain) < agentsize || to->getClearance(terrain) < agentsize) 
 		return 0;
 		
+		
+	// can this shit. repeats above
 	/* both start & goal need to be traversable by the agent NB: we end up making this check twice over the goal if solution exists */
-	if(	(from->getTerrainType()&terrain) != from->getTerrainType() || (to->getTerrainType()&terrain) != to->getTerrainType())
+/*	if(	(from->getTerrainType()&terrain) != from->getTerrainType() || (to->getTerrainType()&terrain) != to->getTerrainType())
 		return 0;
-	
+*/	
 	
 	/* finally, make sure there actually exists a search problem to solve*/
 	if(from == to)
