@@ -57,10 +57,8 @@ namespace ExpMgrUtil
 		kNotPathableStartPositionOutOfBoundsLST,
 		kNotPathableGoalPositionOutOfBoundsLST,
 		kNotPathableStartAndGoalIdenticalLST,
-
 		kNotPathableInvalidCapability, 
 		kNotPathableAgentSizeLessThanMin,
-		kNotPathableAgentSizeGreaterThanMax,
 		
 		kNoExperiment
 

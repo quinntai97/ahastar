@@ -181,6 +181,20 @@ void AnnotatedAStarTest::getPathReturnNullWhenStartAndGoalNodesIdentical()
 	CPPUNIT_ASSERT_EQUAL_MESSAGE(errmsg.c_str(), int(p), NULL);
 }
 
+void AnnotatedAStarTest::getPathReturnNullOnInvalidCapabilityParam()
+{
+	TestExperiment *te = expmgr->getExperiment(kNotPathableInvalidCapability);
+	string errmsg("getPath() failed to return null when using invalid capability parameter");
+	runGetPathTest(te, errmsg);
+}
+
+void AnnotatedAStarTest::getPathReturnNulWhenAgentSizeParamLessThanMin()
+{
+	TestExperiment *te = expmgr->getExperiment(kNotPathableAgentSizeLessThanMin);
+	string errmsg("getPath() failed to return null when agent size parameter < minAgentSize");
+	runGetPathTest(te, errmsg);
+
+}
 
 
 void AnnotatedAStarTest::annotateNode(node* n, int t1, int t1c, int t2, int t2c, int t3, int t3c)
