@@ -54,8 +54,6 @@ namespace ExpMgrUtil
 		kNotPathableGoalClearanceTooSmallLST,
 
 		/* not pathable; invalid parameters */
-		kNotPathableStartPositionOutOfBoundsLST,
-		kNotPathableGoalPositionOutOfBoundsLST,
 		kNotPathableStartAndGoalIdenticalLST,
 		kNotPathableInvalidCapability, 
 		kNotPathableAgentSizeLessThanMin,
