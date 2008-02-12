@@ -151,6 +151,11 @@ void ExperimentManager::generateExperiments()
 
 		tests->insert(pair<int, TestExperiment*>((int)kNotPathableInvalidCapability,  new TestExperiment(kNotPathableInvalidCapability, 4,2,kGround,1,7,kGround,kSwamp,2,0, maplocation, false)));		
 		tests->insert(pair<int, TestExperiment*>((int)kNotPathableAgentSizeLessThanMin,  new TestExperiment(kNotPathableAgentSizeLessThanMin, 4,8,kGround,4,7,kGround,kGround,0,0, maplocation, false)));			
+
+		tests->insert(pair<int, TestExperiment*>((int)kNotPathableHardObstacleBlocksGoal,  new TestExperiment(kNotPathableHardObstacleBlocksGoal, 1,2,kGround,22,1,kGround,kGround,2,0, maplocation, false)));			
+
+
+
 	}
 }
 

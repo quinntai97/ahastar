@@ -53,11 +53,10 @@ class AnnotatedAStarTest : public CPPUNIT_NS::TestFixture
 	CPPUNIT_TEST( getPathReturnNullWhenStartAndGoalNodesIdentical );
 	CPPUNIT_TEST( getPathReturnNullOnInvalidCapabilityParam );
 	CPPUNIT_TEST( getPathReturnNulWhenAgentSizeParamLessThanMin );
-
+	CPPUNIT_TEST( getPathReturnNullWhenNonAnnotatedMapAbstractionParameter );
+	CPPUNIT_TEST( getPathReturnNullWhenMapAbstractionParameterNull );
 
 	CPPUNIT_TEST_SUITE_END();
-
-
 	
 	public:
 		void setUp();
@@ -75,6 +74,7 @@ class AnnotatedAStarTest : public CPPUNIT_NS::TestFixture
 		void evaluateMoveToSoftObstacle();
 		void evaluateMoveToNonAdjacentLocation();
 		
+		/* check for valid start/goal params */
 		void getPathStartClearanceTooSmall();
 		void getPathGoalClearanceTooSmall();
 		void getPathReturnNullWhenStartOrGoalNull();
@@ -84,10 +84,16 @@ class AnnotatedAStarTest : public CPPUNIT_NS::TestFixture
 		void getPathReturnNullWhenGoalSoftObstacle();
 		void getPathReturnNullWhenStartAndGoalSameLocation();
 		void getPathReturnNullWhenStartAndGoalNodesIdentical();
+
+		/* check for valid capability and size params */
 		void getPathReturnNullOnInvalidCapabilityParam();
 		void getPathReturnNulWhenAgentSizeParamLessThanMin();
+		void getPathReturnNullWhenNonAnnotatedMapAbstractionParameter(); 
+		void getPathReturnNullWhenMapAbstractionParameterNull();
+		
+		/* check for correct behaviour when path is blocked */
+//		void getPathReturnNullWhenHardObstacleBlocksGoal();
 
-		//void getPathNonAnnotatedMapAbstractionParameter(); 
 		
 	private:
 		void annotateNode(node* n, int t1, int t1c, int t2, int t2c, int t3, int t3c);

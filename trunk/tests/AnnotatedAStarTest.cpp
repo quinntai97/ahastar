@@ -13,6 +13,7 @@
 #include "AnnotatedAStarMock.h"
 #include "ExperimentManager.h"
 #include "TestConstants.h"
+#include "mapFlatAbstraction.h"
 
 CPPUNIT_TEST_SUITE_REGISTRATION( AnnotatedAStarTest );
 
@@ -193,8 +194,41 @@ void AnnotatedAStarTest::getPathReturnNulWhenAgentSizeParamLessThanMin()
 	TestExperiment *te = expmgr->getExperiment(kNotPathableAgentSizeLessThanMin);
 	string errmsg("getPath() failed to return null when agent size parameter < minAgentSize");
 	runGetPathTest(te, errmsg);
-
 }
+
+void AnnotatedAStarTest::getPathReturnNullWhenNonAnnotatedMapAbstractionParameter()
+{
+	mapAbstraction* mfa = new mapFlatAbstraction(amamock->getMap());
+	pos = getNode(1,2, kGround);
+	pos->setClearance(kGround, 2);
+	n = getNode(22,1, kGround);
+	n->setClearance(kGround, 2);
+	
+	path* p = aastar->getPath(mfa, pos, n, kGround, 2);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("getPath() failed to return false when called with non-annotated map parameter", NULL, (int)p); 
+	
+	delete pos;
+	delete n;
+}
+
+void AnnotatedAStarTest::getPathReturnNullWhenMapAbstractionParameterNull()
+{
+	TestExperiment *te = expmgr->getExperiment(kPathableToyProblemLST);
+	pos = te->getStartNode();
+	n = te->getGoalNode();
+	path* p = aastar->getPath(NULL, pos, n, te->caps, te->size);
+	
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("getPath() failed to return false when called with NULL map abstraction parameter", NULL, (int)p); 
+}
+
+/*void AnnotatedAStarTest::getPathReturnNullWhenHardObstacleBlocksGoal()
+{
+	TestExperiment *te = expmgr->getExperiment(kNotPathableHardObstacleBlocksGoal);
+	string errmsg("getPath() failed to return null when the only solution is blocked by a hard obstacle");
+	runGetPathTest(te, errmsg);
+}*/
+
+
 
 
 void AnnotatedAStarTest::annotateNode(node* n, int t1, int t1c, int t2, int t2c, int t3, int t3c)

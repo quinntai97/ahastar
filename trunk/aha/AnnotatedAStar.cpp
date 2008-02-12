@@ -27,20 +27,24 @@ using namespace std;
 */
 path* AnnotatedAStar::getPath(graphAbstraction *aMap, node *from, node* to, int terrain, int agentsize)
 {
+	if(aMap == NULL || !dynamic_cast<AbstractAnnotatedMapAbstraction*>(aMap))
+		return NULL;
+
 	if(!from || !to)
-		return 0;
+		return NULL;
 
 	if(from == to)
-		return 0;
+		return NULL;
 
 	if(agentsize <= 0)
 	{	
 		if(verbose) std::cout << "AnnotatedAStar: attempted to getPath for agentsize <= 0" << std::endl;
-		return 0;
+		return NULL;
 	}
 	/* both locations need to be reachable by agent */
 	if(from->getClearance(terrain) < agentsize || to->getClearance(terrain) < agentsize) 
-		return 0;		
+		return NULL;		
+	
 	
 	/* initialise the search params */
 	setGraphAbstraction(aMap);
@@ -49,7 +53,7 @@ path* AnnotatedAStar::getPath(graphAbstraction *aMap, node *from, node* to, int 
 	graph *g = aMap->getAbstractGraph(0);
 	openList = new heap(30);
 	openList->add(from);
-	path *p = 0;
+	path *p = NULL;
 	
 	while(1) 
 	{

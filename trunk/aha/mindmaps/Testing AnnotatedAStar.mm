@@ -76,5 +76,32 @@
 </node>
 </node>
 </node>
+<node CREATED="1202807646809" ID="Freemind_Link_735925781" MODIFIED="1202807703550" POSITION="left" TEXT="getPath function">
+<node CREATED="1202807704048" ID="Freemind_Link_1507365629" MODIFIED="1202807865474" TEXT="valid &amp; invalid params">
+<node CREATED="1202807729671" ID="Freemind_Link_250449299" MODIFIED="1202807736709" TEXT="size"/>
+<node CREATED="1202807737497" ID="Freemind_Link_1807139374" MODIFIED="1202807738677" TEXT="caps"/>
+<node CREATED="1202807739636" ID="Freemind_Link_187548725" MODIFIED="1202807748174" TEXT="map abstraction"/>
+<node CREATED="1202807749272" ID="Freemind_Link_683472030" MODIFIED="1202807761665" TEXT="start node"/>
+<node CREATED="1202807754981" ID="Freemind_Link_1668848100" MODIFIED="1202807757471" TEXT="goal node"/>
+</node>
+<node CREATED="1202807778459" ID="Freemind_Link_1287785002" MODIFIED="1202807857536" TEXT="correct A* behaviour">
+<node CREATED="1202807846938" FOLDED="true" ID="Freemind_Link_775395841" MODIFIED="1202807850570" TEXT="tests">
+<node CREATED="1202807809202" ID="Freemind_Link_65030444" MODIFIED="1202807817530" TEXT="goal  blocked (hard obstacle)"/>
+<node CREATED="1202807818273" ID="Freemind_Link_1652122434" MODIFIED="1202807823248" TEXT="goal blocked (soft obstacle)"/>
+<node CREATED="1202807824226" ID="Freemind_Link_516867321" MODIFIED="1202807842331" TEXT="goal found"/>
+</node>
+<node CREATED="1202808045529" ID="Freemind_Link_1485930552" MODIFIED="1202808049659" TEXT="involves lots of nodes"/>
+<node CREATED="1202807884335" ID="Freemind_Link_801438518" MODIFIED="1202807971987" TEXT="map not fully annotated">
+<node CREATED="1202807925232" ID="Freemind_Link_1661152228" MODIFIED="1202807933819" TEXT="using mock AMA"/>
+<node CREATED="1202807935089" ID="Freemind_Link_185302228" MODIFIED="1202807997080" TEXT="other annotations hand-crafted per test"/>
+</node>
+<node CREATED="1202808065582" ID="Freemind_Link_1825361214" MODIFIED="1202808109259" TEXT="Option #1: load all annotations from file">
+<node CREATED="1202808110358" ID="Freemind_Link_638959587" MODIFIED="1202808116630" TEXT="need to hand-craft file"/>
+<node CREATED="1202808119314" ID="Freemind_Link_1031777150" MODIFIED="1202808150425" TEXT="hand-crafting error prone"/>
+<node CREATED="1202808155411" ID="Freemind_Link_1982925297" MODIFIED="1202808185292" TEXT="need extra scaffolding code to load file"/>
+<node CREATED="1202808187710" ID="Freemind_Link_1034302668" MODIFIED="1202808217231" TEXT="allows pure unit testing of A*"/>
+</node>
+</node>
+</node>
 </node>
 </map>
