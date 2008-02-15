@@ -55,6 +55,9 @@ class AnnotatedAStarTest : public CPPUNIT_NS::TestFixture
 	CPPUNIT_TEST( getPathReturnNulWhenAgentSizeParamLessThanMin );
 	CPPUNIT_TEST( getPathReturnNullWhenNonAnnotatedMapAbstractionParameter );
 	CPPUNIT_TEST( getPathReturnNullWhenMapAbstractionParameterNull );
+	CPPUNIT_TEST( getPathReturnNullWhenHardObstacleBlocksGoal );
+	CPPUNIT_TEST( getPathReturnNullWhenSoftObstacleBlocksGoal );
+//	CPPUNIT_TEST( getPathReturnNullWhenSoftObstacleBlocksGoal );
 
 	CPPUNIT_TEST_SUITE_END();
 	
@@ -92,8 +95,10 @@ class AnnotatedAStarTest : public CPPUNIT_NS::TestFixture
 		void getPathReturnNullWhenMapAbstractionParameterNull();
 		
 		/* check for correct behaviour when path is blocked */
-//		void getPathReturnNullWhenHardObstacleBlocksGoal();
-
+		void getPathReturnNullWhenHardObstacleBlocksGoal();
+		void getPathReturnNullWhenSoftObstacleBlocksGoal();
+		
+//		void getPathWhenSolutionExistsForGroundCapabilityLST();
 		
 	private:
 		void annotateNode(node* n, int t1, int t1c, int t2, int t2c, int t3, int t3c);

@@ -25,15 +25,9 @@ using namespace std;
 	5. if openlist is null return failure
 	6. else, goto 1
 */
-path* AnnotatedAStar::getPath(graphAbstraction *aMap, node *from, node* to, int terrain, int agentsize)
+path* AnnotatedAStar::getPath(graphAbstraction *aMap, node *from, node* to, int capability, int agentsize)
 {
 	if(aMap == NULL || !dynamic_cast<AbstractAnnotatedMapAbstraction*>(aMap))
-		return NULL;
-
-	if(!from || !to)
-		return NULL;
-
-	if(from == to)
 		return NULL;
 
 	if(agentsize <= 0)
@@ -41,17 +35,28 @@ path* AnnotatedAStar::getPath(graphAbstraction *aMap, node *from, node* to, int 
 		if(verbose) std::cout << "AnnotatedAStar: attempted to getPath for agentsize <= 0" << std::endl;
 		return NULL;
 	}
+
+	if(!from || !to)
+		return NULL;
+
+	if(from == to)
+		return NULL;
+		
+	if(from->getLabelL(kFirstData) == to->getLabelL(kFirstData) && from->getLabelL(kFirstData+1) == to->getLabelL(kFirstData+1))
+		return NULL;
+
 	/* both locations need to be reachable by agent */
-	if(from->getClearance(terrain) < agentsize || to->getClearance(terrain) < agentsize) 
+	if(from->getClearance(capability) < agentsize || to->getClearance(capability) < agentsize) 
 		return NULL;		
 	
 	
 	/* initialise the search params */
 	setGraphAbstraction(aMap);
-	this->setSearchTerrain(terrain);
+	this->setSearchTerrain(capability);
 	this->setMinClearance(agentsize);
 	graph *g = aMap->getAbstractGraph(0);
-	openList = new heap(30);
+	heap* openList = new heap(30);
+	AAStarUtil::NodeMap closedList;
 	openList->add(from);
 	path *p = NULL;
 	
@@ -59,6 +64,10 @@ path* AnnotatedAStar::getPath(graphAbstraction *aMap, node *from, node* to, int 
 	{
 		/* get the current node on the open list and check if it contains the goal */
 		node* current = ((node*)openList->remove()); 
+		int cx = current->getLabelL(kFirstData);
+		int cy = current->getLabelL(kFirstData+1);
+		int ct = current->getTerrainType();
+		int cc = current->getClearance(capability);
 		if(current == to)
 		{
 			p = extractBestPath(g, current->getNum());
@@ -73,6 +82,10 @@ path* AnnotatedAStar::getPath(graphAbstraction *aMap, node *from, node* to, int 
 			// TODO: fix HOG's graph stuff; nodes identified using position in array instead of uniqueid. graph should just store a hash_map
 			int neighbourid = e->getFrom()==current->getNum()?e->getTo():e->getFrom();
 			node* neighbour = g->getNode(neighbourid);
+			int nx = neighbour->getLabelL(kFirstData);
+			int ny = neighbour->getLabelL(kFirstData+1);
+			int nt = neighbour->getTerrainType();
+			int nc = neighbour->getClearance(capability);
 			if(!closedList[neighbour->getUniqueID()]) // skip nodes we've already closed
 			{
 				// if a node on the openlist is reachable via this new edge, relax the edge (see cormen et al)
@@ -96,6 +109,8 @@ path* AnnotatedAStar::getPath(graphAbstraction *aMap, node *from, node* to, int 
 			}
 			e = current->edgeIterNext(ei);
 		}
+
+		closedList[current->getUniqueID()] = true;
 		
 		/* check if there is anything left to search; fail if not */
 		if(openList->empty())

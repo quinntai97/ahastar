@@ -27,13 +27,12 @@
 #include "graphAbstraction.h"
 
 namespace AAStarUtil {      
-  typedef __gnu_cxx::hash_map<int,node*> NodeMap;
+  typedef __gnu_cxx::hash_map<int,bool> NodeMap;
 }
 
 class AbstractAnnotatedAStar : public aStarOld
 {
 	public:		
-		
 		virtual const char* getName() { return "AbstractAnnotatedAStar"; }
 		virtual path* getPath(graphAbstraction*, node*, node*, int, int) = 0;
 		path* getPath(node* from, node* to, int terrain, int size) { return getPath(this->getGraphAbstraction(), from, to, terrain, size); }
@@ -47,8 +46,8 @@ class AbstractAnnotatedAStar : public aStarOld
 	protected:
 		bool verbose;
 		virtual bool evaluate(node* n, node* target) = 0; // check if a node is traversable
-		AAStarUtil::NodeMap closedList;		
-		heap *openList;
+//		AAStarUtil::NodeMap closedList;		
+//		heap *openList;
 		
 	private:
 		int searchterrain, minclearance; 

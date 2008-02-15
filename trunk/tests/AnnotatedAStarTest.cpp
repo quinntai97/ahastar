@@ -211,8 +211,10 @@ void AnnotatedAStarTest::getPathReturnNullWhenNonAnnotatedMapAbstractionParamete
 	delete n;
 }
 
+
 void AnnotatedAStarTest::getPathReturnNullWhenMapAbstractionParameterNull()
 {
+
 	TestExperiment *te = expmgr->getExperiment(kPathableToyProblemLST);
 	pos = te->getStartNode();
 	n = te->getGoalNode();
@@ -221,12 +223,29 @@ void AnnotatedAStarTest::getPathReturnNullWhenMapAbstractionParameterNull()
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("getPath() failed to return false when called with NULL map abstraction parameter", NULL, (int)p); 
 }
 
-/*void AnnotatedAStarTest::getPathReturnNullWhenHardObstacleBlocksGoal()
+void AnnotatedAStarTest::getPathReturnNullWhenHardObstacleBlocksGoal()
 {
+	//looks like a bug in terrain annotation code; node @ 0,2 has kWater clearance of 9. evaluate passes & everything gets fcked.
 	TestExperiment *te = expmgr->getExperiment(kNotPathableHardObstacleBlocksGoal);
+	AnnotatedMapAbstraction ama(new Map(maplocation.c_str()), new AnnotatedAStarMock());
 	string errmsg("getPath() failed to return null when the only solution is blocked by a hard obstacle");
-	runGetPathTest(te, errmsg);
-}*/
+	node *start = ama.getNodeFromMap(te->startx,te->starty);
+	node* goal = ama.getNodeFromMap(te->goalx, te->goaly);
+	path* p = aastar->getPath(&ama, start, goal, te->caps,te->size);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE(errmsg.c_str(), NULL, (int)p);
+}
+
+void AnnotatedAStarTest::getPathReturnNullWhenSoftObstacleBlocksGoal()
+{
+	//looks like a bug in terrain annotation code; node @ 0,2 has kWater clearance of 9. evaluate passes & everything gets fcked.
+	TestExperiment *te = expmgr->getExperiment(kNotPathableSoftObstacleBlocksGoal);
+	AnnotatedMapAbstraction ama(new Map(maplocation.c_str()),  new AnnotatedAStarMock());
+	string errmsg("getPath() failed to return null when the only solution is blocked by a soft obstacle");
+	node *start = ama.getNodeFromMap(te->startx,te->starty);
+	node* goal = ama.getNodeFromMap(te->goalx, te->goaly);
+	path* p = aastar->getPath(&ama, start, goal, te->caps,te->size);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE(errmsg.c_str(), NULL, (int)p);
+}
 
 
 
@@ -258,6 +277,7 @@ void AnnotatedAStarTest::runEvaluateTest(TestExperiment* exp)
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("evaluate() failed to return true for legal move", exp->pathable, aastar->evaluate(pos, n)); 
 }
 
+
 void AnnotatedAStarTest::runGetPathTest(TestExperiment* exp, string &errmsg)
 {
 	
@@ -267,7 +287,7 @@ void AnnotatedAStarTest::runGetPathTest(TestExperiment* exp, string &errmsg)
 	
 	path *p = aastar->getPath(amamock, pos, n, exp->caps, exp->size);
 	//if(!exp->pathable)
-		CPPUNIT_ASSERT_EQUAL_MESSAGE(errmsg.c_str(), int(p), NULL);
+		CPPUNIT_ASSERT_EQUAL_MESSAGE(errmsg.c_str(), NULL, (int)p);
 	// else, check if the returned path is valid
 
 }

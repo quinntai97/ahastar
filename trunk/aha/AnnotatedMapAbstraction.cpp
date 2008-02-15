@@ -26,6 +26,7 @@
 
 #include "AnnotatedMapAbstraction.h"
 #include "AnnotatedAStar.h"
+#include "AHAConstants.h"
 //#ifdef OSMAC
 #include "GLUT/glut.h"
 #include <OpenGL/gl.h>
@@ -33,6 +34,7 @@
 #include <GL/glut.h>
 #include <GL/gl.h>
 #endif*/
+
 
 using namespace std;
 
@@ -44,10 +46,6 @@ AbstractAnnotatedMapAbstraction::AbstractAnnotatedMapAbstraction(Map* m, Abstrac
 
 AnnotatedMapAbstraction::AnnotatedMapAbstraction(Map* m, AbstractAnnotatedAStar* searchalg) : AbstractAnnotatedMapAbstraction(m, searchalg) 
 {
-	validterrains[0] = kGround; 
-	validterrains[1] = kTrees; 
-	validterrains[2] = (kGround|kTrees);
-
 	addMissingEdges();
 	annotateMap();
 	
@@ -66,48 +64,92 @@ void AnnotatedMapAbstraction::annotateMap()
 		for(int y=getMap()->getMapHeight()-1;y>=0; y--)
 		{
 			node* n = getNodeFromMap(x,y);
-			if(n) // some tiles may not have corresponding nodes (obstacle terrain type ('@'))
-			{
-				n->setTerrainType(getMap()->getTerrainType(x,y)); //NB: duplicates map data but much easier to access; separate tiles/nodes sucks
+			annotateNode(n);
+		}
+	}
+	
+/*	cout << "kGround: "<<std::endl;
+	for(int j=0; j< getMap()->getMapHeight(); j++) 
+	{
+		for(int i=0; i < getMap()->getMapWidth(); i++)
+		{
+			cout << getNodeFromMap(i,j)->getClearance(kGround);
+		}
+		cout << std::endl;
+	}
+	
+	cout << "kGround|kTrees: "<<std::endl;
+	for(int j=0; j< getMap()->getMapHeight(); j++) 
+	{
+		for(int i=0; i < getMap()->getMapWidth(); i++)
+		{
+			cout << getNodeFromMap(i,j)->getClearance(kGround|kTrees);
+		}
+		cout << std::endl;
+	}
 
-				node *adj1, *adj2, *adj3; // adjacent neighbours
-				adj1 = getNodeFromMap(x+1, y+1);
-				adj2 = getNodeFromMap(x+1,y);
-				adj3 = getNodeFromMap(x,y+1);
-				
-				if(adj1 && adj2 && adj3)
-				{	
-					for(int i=0; i<3; i++) // NB: hard-coded assumption about # of valid terrains
-					{
-						/* only want to calculate annotations for combinations that include the basic (single) terrain type node has*/
-						if((validterrains[i]&n->getTerrainType())==n->getTerrainType())
-						{
-							int min = adj1->getClearance(validterrains[i]);
-							min = adj2->getClearance(validterrains[i])<min?adj2->getClearance(validterrains[i]):min;
-							min = adj3->getClearance(validterrains[i])<min?adj3->getClearance(validterrains[i]):min;
-							n->setClearance(validterrains[i], min+1); // NB: +1 for minimum tile clearance
-						}
-						else
-							n->setClearance(validterrains[i], 0);
+	cout << "kTrees: "<<std::endl;
+	for(int j=0; j< getMap()->getMapHeight(); j++) 
+	{
+		for(int i=0; i < getMap()->getMapWidth(); i++)
+		{
+			cout << getNodeFromMap(i,j)->getClearance(kTrees);
+		}
+		cout << std::endl;
+	}
 
-					}
-				}
-				else // tile is on a border or perimeter boundary. clearance = 1
+
+
+
+	exit(-1);*/
+}
+
+void AnnotatedMapAbstraction::annotateNode(node* n)
+{
+	if(n) // some tiles may not have corresponding nodes (HOG does not create node objects for tiles with type ('@'))
+	{	
+		int x = n->getLabelL(kFirstData);
+		int y = n->getLabelL(kFirstData+1);
+		n->setTerrainType(getMap()->getTerrainType(x,y)); //NB: duplicates map data but much easier to access; separate tiles/nodes sucks
+		int nterr = n->getTerrainType();
+		if(nterr != 0) // only want to consider nodes with valid terrain types
+		{	
+			node *adj1, *adj2, *adj3; // adjacent neighbours
+			adj1 = getNodeFromMap(x+1, y+1);
+			adj2 = getNodeFromMap(x+1,y);
+			adj3 = getNodeFromMap(x,y+1);
+			
+			if(adj1 && adj2 && adj3)
+			{	
+				/* one annotation per capability */
+				for(int i=0; i<NUMCAPABILITIES; i++) // NB: hard-coded assumption about # of valid terrains
 				{
-					for(int i=0; i<3; i++) 
+					/* only want to calculate annotations for capabilities that include the node's terrain type */
+					if((capabilities[i]&n->getTerrainType())==n->getTerrainType())
 					{
-						if((validterrains[i]&n->getTerrainType())==n->getTerrainType())
-							n->setClearance(validterrains[i], 1);
-						else
-							n->setClearance(validterrains[i], 0);
+						int min = adj1->getClearance(capabilities[i]);
+						min = adj2->getClearance(capabilities[i])<min?adj2->getClearance(capabilities[i]):min;
+						min = adj3->getClearance(capabilities[i])<min?adj3->getClearance(capabilities[i]):min;
+						n->setClearance(capabilities[i], min+1); // NB: +1 for minimum tile clearance
 					}
+					else
+						n->setClearance(capabilities[i], 0);
 
 				}
 			}
-			
+			else // tile is on a border or perimeter boundary. clearance = 1
+			{
+				for(int i=0; i<NUMCAPABILITIES; i++) 
+				{
+					if((capabilities[i]&n->getTerrainType())==n->getTerrainType())
+						n->setClearance(capabilities[i], 1);
+					else
+						n->setClearance(capabilities[i], 0);
+				}
+
+			}
 		}
 	}
-
 }
 
 /* addMissingEdges
