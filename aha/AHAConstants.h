@@ -18,9 +18,14 @@
 #include "map.h"
 #include <vector>
 
+/* supported terrain types */
 const int NUMTERRAINS = 2;
-const int NUMAGENTSIZES = 2;
 const int validterrains[NUMTERRAINS] = {kGround, kTrees};
+
+/* supported agent sizes and capabilities */
+const int NUMAGENTSIZES = 2;
+const int NUMCAPABILITIES = 3;
+const int capabilities[NUMCAPABILITIES] = {kGround, kTrees, (kGround|kTrees)};
 const int agentsizes[NUMAGENTSIZES] = {1, 2};
 const int MINAGENTSIZE = 1;
 const int MAXAGENTSIZE = 2;

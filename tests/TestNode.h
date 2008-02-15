@@ -26,6 +26,7 @@ class TestNode : public CPPUNIT_NS::TestFixture
 {
   CPPUNIT_TEST_SUITE( TestNode );
   CPPUNIT_TEST( TerrainAnnotationsTest );
+  CPPUNIT_TEST( setClearanceFailsWhenNodeTerrainNotValid );
   CPPUNIT_TEST_SUITE_END();
 
 public:
@@ -35,6 +36,7 @@ public:
 
   /* test cases */
   void TerrainAnnotationsTest();
+  void setClearanceFailsWhenNodeTerrainNotValid();
 
 private:
 	/* test data */

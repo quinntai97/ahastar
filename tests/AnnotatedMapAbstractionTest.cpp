@@ -9,6 +9,7 @@
 
 #include "AnnotatedMapAbstractionTest.h"
 #include "TestConstants.h"
+#include "AHAConstants.h"
 #include "ExperimentManager.h"
 
 #include "AnnotatedAStarMock.h"
@@ -34,7 +35,9 @@ void AnnotatedMapAbstractionTest::setUp()
 		
 	string targetmap("/Users/dharabor/src/ahastar/maps/local/demo.map");
 	assert(maplocation == targetmap); //make sure we're loading data for the right map
-	}
+
+	nclearance=1;	
+}
 
 void AnnotatedMapAbstractionTest::tearDown()
 {
@@ -68,83 +71,6 @@ void AnnotatedMapAbstractionTest::PathableReturnsFalseWhenNoValidPathExistsForLa
 	runExperiment(kPathableToyProblemLST);
 }
 
-
-
-/*void AnnotatedMapAbstractionTest::PathableReturnsTrueWhenValidPathExistsForSmallMultiTerrainAgent()
-{
-	runExperiment(getExperiment(kPathableSMT));
-}
-
-void AnnotatedMapAbstractionTest::PathableReturnsTrueWhenValidPathExistsForLargeMultiTerrainAgent()
-{
-	runExperiment(getExperiment(kPathableLMT));
-}
-
-void AnnotatedMapAbstractionTest::PathableReturnsTrueWhenValidPathExistsForLargeSingleTerrainAgent()
-{
-	runExperiment(getExperiment(kPathableLST));
-}
-
-void AnnotatedMapAbstractionTest::PathableReturnsTrueWhenValidPathExistsForSmallSingleTerrainAgent()
-{	
-	runExperiment(getExperiment(kPathableSST));
-}
-
-void AnnotatedMapAbstractionTest::PathableReturnsFalseWhenNoValidPathExistsForSmallSingleTerrainAgent()
-{	
-	runExperiment(getExperiment(kNotPathableSST));
-}
-
-void AnnotatedMapAbstractionTest::PathableReturnsFalseWhenNoValidPathExistsForLargeSingleTerrainAgent()
-{	
-	runExperiment(getExperiment(kNotPathableLST));
-}
-
-void AnnotatedMapAbstractionTest::PathableReturnsFalseWhenStartIsNotTraversableForSmallSingleTerrainAgent()
-{	
-	runExperiment(getExperiment(kStartNotTraversableSST));
-}
-
-void AnnotatedMapAbstractionTest::PathableReturnsFalseWhenStartIsNotTraversableForLargeSingleTerrainAgent()
-{	
-	runExperiment(getExperiment(kStartNotTraversableLST));
-}
-
-void AnnotatedMapAbstractionTest::PathableReturnsFalseWhenGoalIsNotTraversableForSmallSingleTerrainAgent()
-{	
-	runExperiment(getExperiment(kGoalNotTraversableSST));
-}
-
-void AnnotatedMapAbstractionTest::PathableReturnsFalseWhenGoalIsNotTraversableForLargeSingleTerrainAgent()
-{	
-	runExperiment(getExperiment(kGoalNotTraversableLST));
-}
-
-void AnnotatedMapAbstractionTest::PathableReturnsFalseWhenStartIsNotValidMapLocationForSmallSingleTerrainAgent()
-{	
-	runExperiment(getExperiment(kInvalidStartLocationSST));
-}
-
-void AnnotatedMapAbstractionTest::PathableReturnsFalseWhenStartIsNotValidMapLocationForLargeSingleTerrainAgent()
-{	
-	runExperiment(getExperiment(kInvalidStartLocationLST));
-}
-
-void AnnotatedMapAbstractionTest::PathableReturnsFalseWhenGoalIsNotValidMapLocationForSmallSingleTerrainAgent()
-{	
-	runExperiment(getExperiment(kInvalidGoalLocationSST));
-}
-
-void AnnotatedMapAbstractionTest::PathableReturnsFalseWhenGoalIsNotValidMapLocationForLargeSingleTerrainAgent()
-{	
-	runExperiment(getExperiment(kInvalidGoalLocationLST));
-}
-
-void AnnotatedMapAbstractionTest::PathableReturnsTrueWhenStartAndGoalAreIdentical()
-{
-	runExperiment(getExperiment(kStartAndGoalIdenticalSST));
-}
-*/
 void AnnotatedMapAbstractionTest::ValidateAnnotationsTest() 
 {
 	stringstream ss;
@@ -158,6 +84,85 @@ void AnnotatedMapAbstractionTest::ValidateAnnotationsTest()
 		}
 	}
 }
+
+void AnnotatedMapAbstractionTest::nodeClearanceIsZeroForCapabilityThatDoesNotIncludeTheNodeTerrainType()
+{
+	int nx=1;
+	int ny=2;
+	node* target = ama->getNodeFromMap(nx,ny); // node with kGround terrain and kGround neighbours
+	setupNeighbourAnnotations(nx, ny);
+	ama->annotateNode(target); 
+
+	CPPUNIT_ASSERT_EQUAL(0, target->getClearance(kTrees)); // no annotations for kTrees capability
+}
+
+void AnnotatedMapAbstractionTest::nodeClearanceZeroWhenTerrainIsHardObstacle()
+{
+	int nx=1;
+	int ny=1;
+	node* target = ama->getNodeFromMap(nx,ny); // node with kWater terrain and kGround neighbours
+	setupNeighbourAnnotations(nx, ny);
+	ama->annotateNode(target); 
+
+	/* node is not traversable by anything */
+	CPPUNIT_ASSERT_EQUAL(0, target->getClearance(kGround));
+	CPPUNIT_ASSERT_EQUAL(0, target->getClearance(kTrees));
+	CPPUNIT_ASSERT_EQUAL(0, target->getClearance((kGround|kTrees)));
+}
+
+void AnnotatedMapAbstractionTest::nodeClearanceMinimumClearanceWhenTerrainIsValidButNoNeighbours()
+{
+	int nx=23;
+	int ny=9;
+	node* target = ama->getNodeFromMap(nx,ny); // node with kGround terrain but no neighbours
+	ama->annotateNode(target); 
+
+	/* test if the node is traversable by an agent with capability that includes kGround terrain */
+	CPPUNIT_ASSERT_EQUAL(nclearance, target->getClearance(kGround));
+	CPPUNIT_ASSERT_EQUAL(nclearance, target->getClearance((kGround|kTrees)));
+}
+
+void AnnotatedMapAbstractionTest::nodeClearanceMinimumClearanceWhenTerrainIsValidButAllNeighboursHardObstacles()
+{
+	int nx=23;
+	int ny=2;
+	node* target = ama->getNodeFromMap(nx,ny); // node with kGround terrain & all kWater neighbours
+	setupNeighbourAnnotations(nx, ny);
+	ama->annotateNode(target); 
+
+	/* test if the node is traversable by an agent with capability that includes kGround terrain */
+	CPPUNIT_ASSERT_EQUAL(nclearance, target->getClearance(kGround));
+	CPPUNIT_ASSERT_EQUAL(nclearance, target->getClearance((kGround|kTrees)));
+}
+
+void AnnotatedMapAbstractionTest::nodeClearanceEqualsMinimumOfAllNeighboursPlusOne()
+{ 
+	int nx=1;
+	int ny=2;
+	node* target = ama->getNodeFromMap(nx,ny); // node with kGround terrain & all kGround neighbours
+	setupNeighbourAnnotations(nx, ny);
+	ama->annotateNode(target); 
+
+	/* test if the node is traversable by an agent with capability that includes kGround terrain */
+	CPPUNIT_ASSERT_EQUAL(nclearance+1, target->getClearance(kGround));
+	CPPUNIT_ASSERT_EQUAL(nclearance+1, target->getClearance((kGround|kTrees)));
+}
+
+void AnnotatedMapAbstractionTest::setupNeighbourAnnotations(int x, int y)
+{
+	for(int i=0; i<NUMCAPABILITIES;i++)
+	{
+		ama->getNodeFromMap(x+1, y)->setTerrainType(ama->getMap()->getTerrainType(x+1,y));
+		ama->getNodeFromMap(x+1, y)->setClearance(capabilities[i], nclearance);
+
+		ama->getNodeFromMap(x, y+1)->setTerrainType(ama->getMap()->getTerrainType(x,y+1));
+		ama->getNodeFromMap(x, y+1)->setClearance(capabilities[i], nclearance);
+
+		ama->getNodeFromMap(x+1, y+1)->setTerrainType(ama->getMap()->getTerrainType(x+1,y+1));
+		ama->getNodeFromMap(x+1, y+1)->setClearance(capabilities[i], nclearance);
+	}
+}
+
 
 void AnnotatedMapAbstractionTest::checkSingleNodeAnnotations(node* n, int x, int y)
 {
@@ -185,22 +190,22 @@ void AnnotatedMapAbstractionTest::checkSingleNodeAnnotations(node* n, int x, int
 			nadj2 = ama->getNodeFromMap(x,y+1);
 			nadj3 = ama->getNodeFromMap(x+1,y+1);
 			
-			/* check if node is traversable (anything not in the conjunction @ validterrains[3] is considered nontraversable & has clearance=0 */
+			/* check if node is traversable (anything not in the conjunction @ capabilities[3] is considered nontraversable & has clearance=0 */
 			int nterrain = n->getTerrainType();
-			if(nterrain&validterrains[3] != nterrain)
+			if(nterrain&capabilities[3] != nterrain)
 				CPPUNIT_ASSERT(clVals[0] == 0);
 			else
-				for(int i=0;i<3;i++) 
+				for(int i=0;i<NUMCAPABILITIES;i++) 
 				{ 
 					if(nadj && nadj2 && nadj3) // clearance value is dependent on clearance values of 3 neighbours
 					{		
-							clVals[0] = n->getClearance(validterrains[i]);
-							clVals[1] = nadj->getClearance(validterrains[i]);
-							clVals[2] = nadj2->getClearance(validterrains[i]);
-							clVals[3] = nadj3->getClearance(validterrains[i]);
+							clVals[0] = n->getClearance(capabilities[i]);
+							clVals[1] = nadj->getClearance(capabilities[i]);
+							clVals[2] = nadj2->getClearance(capabilities[i]);
+							clVals[3] = nadj3->getClearance(capabilities[i]);
 
 							// clearace >0 for combinations of terrain that include the basic (single) terrain type of the node
-							if((validterrains[i]&n->getTerrainType())==n->getTerrainType()) 
+							if((capabilities[i]&n->getTerrainType())==n->getTerrainType()) 
 							{
 								/* get minimum clearance amongst neighbours */
 								int min=MAXINT;
@@ -220,7 +225,7 @@ void AnnotatedMapAbstractionTest::checkSingleNodeAnnotations(node* n, int x, int
 									
 					}
 					else // some neighbours don't exist; check for min clearance
-						CPPUNIT_ASSERT_EQUAL(/*getMessage(ss << "invalid clearance for tile @ "<<x<<","<<y<<". terrain "<<validterrains[i]),*/ n->getClearance(validterrains[i]), 1);
+						CPPUNIT_ASSERT_EQUAL(/*getMessage(ss << "invalid clearance for tile @ "<<x<<","<<y<<". terrain "<<capabilities[i]),*/ n->getClearance(capabilities[i]), 1);
 				}
 }
 

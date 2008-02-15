@@ -43,6 +43,10 @@ class AbstractAnnotatedMapAbstraction : public mapAbstraction
 class AnnotatedMapAbstraction : public AbstractAnnotatedMapAbstraction
 {
 	public:
+		#ifdef UNITTEST
+			friend class AnnotatedMapAbstractionTest; // need to make the test class a friend to enable private/protected method testing
+		#endif
+
 		AnnotatedMapAbstraction(Map *m, AbstractAnnotatedAStar* searchalg);		
 		virtual bool pathable(node* from, node* to, int terrain, int agentsize);
 		virtual void openGLDraw(); 
@@ -60,8 +64,8 @@ class AnnotatedMapAbstraction : public AbstractAnnotatedMapAbstraction
 
 	
 	private:
+		void annotateNode(node*);
 		void drawClearanceInfo();
-		int validterrains[3];
 		void addMissingEdges();
 		bool drawCV; 
 

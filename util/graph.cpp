@@ -28,6 +28,7 @@
 
 #include <cstdlib>
 #include "graph.h"
+#include "constants.h"
 
 #include <vector>
 
@@ -589,6 +590,11 @@ node::node(const char *n)
 */
 void node::setClearance(int terraintype, int value)
 {
+	if(this->terraintype == 0) // only nodes with valid terrain are traversable (and hence need clearance > 0)
+	{ 
+		if(debuginfo) cout << "node::setClearance: trying to set clearance > 0 for invalid terrain (t: "<<terraintype<<" @ "<<getLabelL(kFirstData)<<","<<getLabelL(kFirstData+1)<<")"<<endl;
+		return;
+	}
 	if(value < 0)
 	{
 		if(debuginfo) cout << "node::setClearance: Clearance value < 0 ("<<terraintype<<")"<<endl;

@@ -54,19 +54,27 @@ void AnnotatedMapAbstractionMock::setCurrentTestExperiment(TestExperiment* exp)
 	switch(exp->key)
 	{
 		case kPathableMoveNorthWestLST: 
+			this->getNodeFromMap(exp->startx,exp->starty-1)->setTerrainType(exp->sterrain);
 			this->getNodeFromMap(exp->startx,exp->starty-1)->setClearance(exp->sterrain, exp->size); // north neighbour
+			this->getNodeFromMap(exp->startx-1,exp->starty)->setTerrainType(exp->sterrain);
 			this->getNodeFromMap(exp->startx-1,exp->starty)->setClearance(exp->sterrain, exp->size); // west neighbour
 			
 		case kPathableMoveNorthEastLST: 
+			this->getNodeFromMap(exp->startx,exp->starty-1)->setTerrainType(exp->sterrain);
 			this->getNodeFromMap(exp->startx,exp->starty-1)->setClearance(exp->sterrain, exp->size); // north neighbour
+			this->getNodeFromMap(exp->startx+1,exp->starty)->setTerrainType(exp->sterrain);
 			this->getNodeFromMap(exp->startx+1,exp->starty)->setClearance(exp->sterrain, exp->size); // east neighbour
 			
 		case kPathableMoveSouthEastLST: 
+			this->getNodeFromMap(exp->startx,exp->starty+1)->setTerrainType(exp->sterrain);
 			this->getNodeFromMap(exp->startx,exp->starty+1)->setClearance(exp->sterrain, exp->size); // south neighbour
+			this->getNodeFromMap(exp->startx+1,exp->starty)->setTerrainType(exp->sterrain);
 			this->getNodeFromMap(exp->startx+1,exp->starty)->setClearance(exp->sterrain, exp->size); // east neighbour
 
 		case kPathableMoveSouthWestLST: 
+			this->getNodeFromMap(exp->startx,exp->starty+1)->setTerrainType(exp->sterrain);
 			this->getNodeFromMap(exp->startx,exp->starty+1)->setClearance(exp->sterrain, exp->size); // south neighbour
+			this->getNodeFromMap(exp->startx-1,exp->starty)->setTerrainType(exp->sterrain);
 			this->getNodeFromMap(exp->startx-1,exp->starty)->setClearance(exp->sterrain, exp->size); // west neighbour
 
 	}

@@ -68,3 +68,10 @@ void TestNode::TerrainAnnotationsTest()
 	return;
 }
 
+void TestNode::setClearanceFailsWhenNodeTerrainNotValid()
+{
+	n->setTerrainType(kWater);
+	n->setClearance(kGround, 1);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("managed to set clearance > 0 for node with invalid terrain (kWater)", 0, n->getClearance(kGround));
+}
+
