@@ -247,8 +247,35 @@ void AnnotatedAStarTest::getPathReturnNullWhenSoftObstacleBlocksGoal()
 	CPPUNIT_ASSERT_EQUAL_MESSAGE(errmsg.c_str(), NULL, (int)p);
 }
 
+void AnnotatedAStarTest::getPathWhenSolutionExistsForGroundCapabilityLST()
+{
+	TestExperiment *te = expmgr->getExperiment(kPathableToyProblemLST);
+	AnnotatedMapAbstraction ama(new Map(maplocation.c_str()), new AnnotatedAStar());
+	node *start = ama.getNodeFromMap(te->startx,te->starty);
+	node* goal = ama.getNodeFromMap(te->goalx, te->goaly);
+	path* p = aastar->getPath(&ama, start, goal, te->caps,te->size);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("returned a NULL solution for a pathable problem", true, p != NULL);
+	
+	
+	cout << "\n solution: ";
+	p->print();
+	cout << std::endl;
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("returned solution length does not match length in test experiment", te->distance, ama.distance(p));
+}
 
-
+/* initialise start to h(start, goal) because AA* does not keep separate g and h distances for each node, only fcost. so, when 
+relaxing edges the gcost is re-derived by substracting h cost from fcost. Because of this messy implementation in the parent class
+(aStarOld) we need to annotate the fcost of the start with h(start, goal) else a negative value arises when computing fcost of a start neighbour
+see aStarOld::relaxEdge() for a better idea of wtf is going on here */
+void AnnotatedAStarTest::getPathInitialisesFCostValueOfStartToHeuristicGoalDistance()
+{
+	TestExperiment *te = expmgr->getExperiment(kPathableToyProblemLST);
+	AnnotatedMapAbstraction ama(new Map(maplocation.c_str()), new AnnotatedAStar());
+	node *start = ama.getNodeFromMap(te->startx,te->starty);
+	node* goal = ama.getNodeFromMap(te->goalx, te->goaly);
+	path* p = aastar->getPath(&ama, start, goal, te->caps,te->size);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("fCost of start node != h(start, goal)", start->getLabelF(kTemporaryLabel), ama.h(start, goal));	
+}
 
 void AnnotatedAStarTest::annotateNode(node* n, int t1, int t1c, int t2, int t2c, int t3, int t3c)
 {

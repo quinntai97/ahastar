@@ -138,6 +138,32 @@
 <icon BUILTIN="button_ok"/>
 </node>
 </node>
+<node CREATED="1203223137441" ID="Freemind_Link_1546511417" MODIFIED="1203223267389" TEXT="Option #3: hand-crafted single-step style experiments (like eval function)">
+<node CREATED="1203223168141" ID="Freemind_Link_599692790" MODIFIED="1203223356007" TEXT="allows pure unit testing">
+<icon BUILTIN="button_ok"/>
+</node>
+<node CREATED="1203223175969" ID="Freemind_Link_1738215446" MODIFIED="1203223356004" TEXT="can check if interaction with the heap is OK">
+<icon BUILTIN="button_ok"/>
+</node>
+<node CREATED="1203223195121" ID="Freemind_Link_1174976074" MODIFIED="1203223356001" TEXT="can check if things get added to closed list OK">
+<icon BUILTIN="button_ok"/>
+</node>
+<node CREATED="1203223204238" ID="Freemind_Link_1453045374" MODIFIED="1203223355997" TEXT="can check if goal is found OK">
+<icon BUILTIN="button_ok"/>
+</node>
+<node CREATED="1203223216453" ID="Freemind_Link_1783631794" MODIFIED="1203223365187" TEXT="need to hand-craft yet more experiments">
+<icon BUILTIN="button_cancel"/>
+</node>
+<node CREATED="1203223285859" ID="Freemind_Link_1922921683" MODIFIED="1203223390375" TEXT="benefit unclear vs integration test approach">
+<icon BUILTIN="button_cancel"/>
+</node>
+<node CREATED="1203223324366" ID="Freemind_Link_615308797" MODIFIED="1203223365176" TEXT="takes more time; schedule tight">
+<icon BUILTIN="button_cancel"/>
+</node>
+<node CREATED="1203223400710" ID="Freemind_Link_1714906541" MODIFIED="1203223414284" TEXT="need integration tests anyway">
+<icon BUILTIN="button_cancel"/>
+</node>
+</node>
 </node>
 </node>
 </node>

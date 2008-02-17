@@ -127,7 +127,7 @@ void ExperimentManager::generateExperiments()
 {	
 	if(tests->size() == 0)
 	{
-		tests->insert(pair<int, TestExperiment*>((int)kPathableToyProblemLST,  new TestExperiment(kPathableToyProblemLST, 4,2,kGround,1,7,kGround,kGround,2,6.0+ROOT_TWO, maplocation, true)));
+		tests->insert(pair<int, TestExperiment*>((int)kPathableToyProblemLST,  new TestExperiment(kPathableToyProblemLST, 4,2,kGround,1,7,kGround,kGround,2,8, maplocation, true)));
 				
 		tests->insert(pair<int, TestExperiment*>((int)kPathableMoveNorthLST, new TestExperiment(kPathableMoveNorthLST, 4,8,kGround,4,7,kGround,kGround,2,1, maplocation, true)));
 		tests->insert(pair<int, TestExperiment*>((int)kPathableMoveSouthLST, new TestExperiment(kPathableMoveSouthLST, 4,8,kGround,4,9,kGround,4,2,1, maplocation, true)));
@@ -144,7 +144,7 @@ void ExperimentManager::generateExperiments()
 		tests->insert(pair<int, TestExperiment*>((int)kNotPathableGoalIsHardObstacleLST, new TestExperiment(kNotPathableGoalIsHardObstacleLST, 22,6,kGround,0,0,kWater,kGround,2,0, maplocation, false)));
 		tests->insert(pair<int, TestExperiment*>((int)kNotPathableMoveToHardObstacleLST, new TestExperiment(kNotPathableMoveToHardObstacleLST, 2,2,kGround,1,1,kWater,kGround,2,1, maplocation, false)));
 		tests->insert(pair<int, TestExperiment*>((int)kNotPathableMoveToSoftObstacleLST, new TestExperiment(kNotPathableMoveToSoftObstacleLST, 5,9,kGround,6,9,kTrees,kGround,2,1, maplocation, false)));
-		tests->insert(pair<int, TestExperiment*>((int)kNotPathableMoveToNonAdjacentLocationLST,  new TestExperiment(kNotPathableMoveToNonAdjacentLocationLST, 4,2,kGround,1,7,kGround,kGround,2,6.0+ROOT_TWO, maplocation, false)));
+		tests->insert(pair<int, TestExperiment*>((int)kNotPathableMoveToNonAdjacentLocationLST,  new TestExperiment(kNotPathableMoveToNonAdjacentLocationLST, 4,2,kGround,1,7,kGround,kGround,2,0, maplocation, false)));
 		tests->insert(pair<int, TestExperiment*>((int)kNotPathableStartClearanceTooSmallLST,  new TestExperiment(kNotPathableStartClearanceTooSmallLST, 1,8,kGround,5,8,kGround,kGround,2,4, maplocation, false)));
 		tests->insert(pair<int, TestExperiment*>((int)kNotPathableGoalClearanceTooSmallLST,  new TestExperiment(kNotPathableGoalClearanceTooSmallLST, 5,8,kGround,1,8,kGround,kGround,2,4, maplocation, false)));		
 		tests->insert(pair<int, TestExperiment*>((int)kNotPathableStartAndGoalIdenticalLST,  new TestExperiment(kNotPathableStartAndGoalIdenticalLST, 5,8,kGround,5,8,kGround,kGround,2,4, maplocation, false)));		

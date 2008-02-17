@@ -49,6 +49,10 @@ path* AnnotatedAStar::getPath(graphAbstraction *aMap, node *from, node* to, int 
 	if(from->getClearance(capability) < agentsize || to->getClearance(capability) < agentsize) 
 		return NULL;		
 	
+	//TODO: need a test to check that we've set the fCost value of the start node.
+	// label start node cost 0 
+	from->setLabelF(kTemporaryLabel, 1*aMap->h(from, to));
+	from->markEdge(0);
 	
 	/* initialise the search params */
 	setGraphAbstraction(aMap);
@@ -64,10 +68,11 @@ path* AnnotatedAStar::getPath(graphAbstraction *aMap, node *from, node* to, int 
 	{
 		/* get the current node on the open list and check if it contains the goal */
 		node* current = ((node*)openList->remove()); 
-		int cx = current->getLabelL(kFirstData);
+/*		int cx = current->getLabelL(kFirstData);
 		int cy = current->getLabelL(kFirstData+1);
 		int ct = current->getTerrainType();
 		int cc = current->getClearance(capability);
+		int cid = current->getUniqueID();*/
 		if(current == to)
 		{
 			p = extractBestPath(g, current->getNum());
@@ -82,10 +87,11 @@ path* AnnotatedAStar::getPath(graphAbstraction *aMap, node *from, node* to, int 
 			// TODO: fix HOG's graph stuff; nodes identified using position in array instead of uniqueid. graph should just store a hash_map
 			int neighbourid = e->getFrom()==current->getNum()?e->getTo():e->getFrom();
 			node* neighbour = g->getNode(neighbourid);
-			int nx = neighbour->getLabelL(kFirstData);
+/*			int nx = neighbour->getLabelL(kFirstData);
 			int ny = neighbour->getLabelL(kFirstData+1);
 			int nt = neighbour->getTerrainType();
 			int nc = neighbour->getClearance(capability);
+			int nid = neighbour->getUniqueID();*/
 			if(!closedList[neighbour->getUniqueID()]) // skip nodes we've already closed
 			{
 				// if a node on the openlist is reachable via this new edge, relax the edge (see cormen et al)
