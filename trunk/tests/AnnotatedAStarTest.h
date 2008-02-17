@@ -57,7 +57,8 @@ class AnnotatedAStarTest : public CPPUNIT_NS::TestFixture
 	CPPUNIT_TEST( getPathReturnNullWhenMapAbstractionParameterNull );
 	CPPUNIT_TEST( getPathReturnNullWhenHardObstacleBlocksGoal );
 	CPPUNIT_TEST( getPathReturnNullWhenSoftObstacleBlocksGoal );
-//	CPPUNIT_TEST( getPathReturnNullWhenSoftObstacleBlocksGoal );
+	CPPUNIT_TEST( getPathWhenSolutionExistsForGroundCapabilityLST );
+	CPPUNIT_TEST( getPathInitialisesFCostValueOfStartToHeuristicGoalDistance );
 
 	CPPUNIT_TEST_SUITE_END();
 	
@@ -76,6 +77,8 @@ class AnnotatedAStarTest : public CPPUNIT_NS::TestFixture
 		void evaluateMoveToHardObstacle();
 		void evaluateMoveToSoftObstacle();
 		void evaluateMoveToNonAdjacentLocation();
+		
+		void getPathInitialisesFCostValueOfStartToHeuristicGoalDistance();
 		
 		/* check for valid start/goal params */
 		void getPathStartClearanceTooSmall();
@@ -98,7 +101,7 @@ class AnnotatedAStarTest : public CPPUNIT_NS::TestFixture
 		void getPathReturnNullWhenHardObstacleBlocksGoal();
 		void getPathReturnNullWhenSoftObstacleBlocksGoal();
 		
-//		void getPathWhenSolutionExistsForGroundCapabilityLST();
+		void getPathWhenSolutionExistsForGroundCapabilityLST();
 		
 	private:
 		void annotateNode(node* n, int t1, int t1c, int t2, int t2c, int t3, int t3c);
