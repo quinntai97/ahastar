@@ -255,12 +255,9 @@ void AnnotatedAStarTest::getPathWhenSolutionExistsForGroundCapabilityLST()
 	node* goal = ama.getNodeFromMap(te->goalx, te->goaly);
 	path* p = aastar->getPath(&ama, start, goal, te->caps,te->size);
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("returned a NULL solution for a pathable problem", true, p != NULL);
-	
-	
-	cout << "\n solution: ";
-	p->print();
-	cout << std::endl;
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("returned solution length does not match length in test experiment", te->distance, ama.distance(p));
+	
+	delete p;
 }
 
 /* initialise start to h(start, goal) because AA* does not keep separate g and h distances for each node, only fcost. so, when 
@@ -275,6 +272,33 @@ void AnnotatedAStarTest::getPathInitialisesFCostValueOfStartToHeuristicGoalDista
 	node* goal = ama.getNodeFromMap(te->goalx, te->goaly);
 	path* p = aastar->getPath(&ama, start, goal, te->caps,te->size);
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("fCost of start node != h(start, goal)", start->getLabelF(kTemporaryLabel), ama.h(start, goal));	
+	
+	delete p;
+}
+
+/* check that the path contains only connected nodes */
+void AnnotatedAStarTest::getPathEachNodeInReturnedPathHasAnEdgeToItsPredecessor()
+{
+	TestExperiment *te = expmgr->getExperiment(kPathableToyProblemLST);
+	AnnotatedMapAbstraction ama(new Map(maplocation.c_str()), new AnnotatedAStar());
+	node *start = ama.getNodeFromMap(te->startx,te->starty);
+	node* goal = ama.getNodeFromMap(te->goalx, te->goaly);
+	path* p = aastar->getPath(&ama, start, goal, te->caps,te->size);
+
+	path* p2 = p;
+	do {
+		node *curnode, *nextnode;
+		curnode = p->n;
+		nextnode = p->next->n;
+		edge* medge = nextnode->getMarkedEdge();		
+		CPPUNIT_ASSERT_EQUAL(true, medge->getFrom() == curnode->getNum() || medge->getTo() == curnode->getNum());
+		CPPUNIT_ASSERT_EQUAL(true, medge->getFrom() == nextnode->getNum() || medge->getTo() == nextnode->getNum());
+		
+		p = p->next;
+	} while(p->next);
+	
+	delete p2;
+	
 }
 
 void AnnotatedAStarTest::annotateNode(node* n, int t1, int t1c, int t2, int t2c, int t3, int t3c)
