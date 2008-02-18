@@ -84,7 +84,7 @@
 <node CREATED="1202807749272" ID="Freemind_Link_683472030" MODIFIED="1202807761665" TEXT="start node"/>
 <node CREATED="1202807754981" ID="Freemind_Link_1668848100" MODIFIED="1202807757471" TEXT="goal node"/>
 </node>
-<node CREATED="1202807778459" ID="Freemind_Link_1287785002" MODIFIED="1202807857536" TEXT="correct A* behaviour">
+<node CREATED="1202807778459" FOLDED="true" ID="Freemind_Link_1287785002" MODIFIED="1202807857536" TEXT="correct A* behaviour">
 <node CREATED="1202807846938" FOLDED="true" ID="Freemind_Link_775395841" MODIFIED="1202817575426" TEXT="tests involve longer searches and  lots of nodes">
 <node CREATED="1202807809202" ID="Freemind_Link_65030444" MODIFIED="1202807817530" TEXT="goal  blocked (hard obstacle)"/>
 <node CREATED="1202807818273" ID="Freemind_Link_1652122434" MODIFIED="1202807823248" TEXT="goal blocked (soft obstacle)"/>
@@ -165,6 +165,9 @@
 </node>
 </node>
 </node>
+</node>
+<node CREATED="1203324494309" ID="Freemind_Link_1123488489" MODIFIED="1203324498688" POSITION="right" TEXT="dev notes">
+<node CREATED="1203324500037" ID="Freemind_Link_666083893" MODIFIED="1203324551171" TEXT="need to move start/goal checks and timing crap &#xa;out of AnnotatedAStar and into AbstractAnnotatedAStar"/>
 </node>
 </node>
 </map>

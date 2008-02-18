@@ -9,6 +9,7 @@
 
 #include "AnnotatedAStar.h"
 #include "AnnotatedMapAbstraction.h"
+#include "Timer.h"
 
 using namespace std;
 
@@ -32,7 +33,7 @@ path* AnnotatedAStar::getPath(graphAbstraction *aMap, node *from, node* to, int 
 
 	if(agentsize <= 0)
 	{	
-		if(verbose) std::cout << "AnnotatedAStar: attempted to getPath for agentsize <= 0" << std::endl;
+		//if(verbose) std::cout << "AnnotatedAStar: attempted to getPath for agentsize <= 0" << std::endl;
 		return NULL;
 	}
 
@@ -64,15 +65,19 @@ path* AnnotatedAStar::getPath(graphAbstraction *aMap, node *from, node* to, int 
 	openList->add(from);
 	path *p = NULL;
 	
+	Timer t;
+	nodesExpanded=0;
+	nodesTouched=0;
+	peakmemory = 0;
+	searchtime =0;
+	
+	t.startTimer();
 	while(1) 
 	{
 		/* get the current node on the open list and check if it contains the goal */
+		peakmemory = openList->size()>peakmemory?openList->size():peakmemory;
 		node* current = ((node*)openList->remove()); 
-/*		int cx = current->getLabelL(kFirstData);
-		int cy = current->getLabelL(kFirstData+1);
-		int ct = current->getTerrainType();
-		int cc = current->getClearance(capability);
-		int cid = current->getUniqueID();*/
+		nodesExpanded++;
 		if(current == to)
 		{
 			p = extractBestPath(g, current->getNum());
@@ -87,18 +92,16 @@ path* AnnotatedAStar::getPath(graphAbstraction *aMap, node *from, node* to, int 
 			// TODO: fix HOG's graph stuff; nodes identified using position in array instead of uniqueid. graph should just store a hash_map
 			int neighbourid = e->getFrom()==current->getNum()?e->getTo():e->getFrom();
 			node* neighbour = g->getNode(neighbourid);
-/*			int nx = neighbour->getLabelL(kFirstData);
-			int ny = neighbour->getLabelL(kFirstData+1);
-			int nt = neighbour->getTerrainType();
-			int nc = neighbour->getClearance(capability);
-			int nid = neighbour->getUniqueID();*/
 			if(!closedList[neighbour->getUniqueID()]) // skip nodes we've already closed
 			{
 				// if a node on the openlist is reachable via this new edge, relax the edge (see cormen et al)
 				if(openList->isIn(neighbour)) 
 				{	
-					if(evaluate(current, neighbour))
+					if(evaluate(current, neighbour)) 
+					{
 						relaxEdge(openList, g, e, current->getNum(), neighbourid, to); 
+						nodesTouched++;
+					}
 				}
 				else
 				{
@@ -109,6 +112,7 @@ path* AnnotatedAStar::getPath(graphAbstraction *aMap, node *from, node* to, int 
 						neighbour->markEdge(0);  // reset any marked edges (we use marked edges to backtrack over optimal path when goal is found)
 						openList->add(neighbour);
 						relaxEdge(openList, g, e, current->getNum(), neighbourid, to); 
+						nodesTouched++;
 					}
 				}
 				
@@ -122,7 +126,7 @@ path* AnnotatedAStar::getPath(graphAbstraction *aMap, node *from, node* to, int 
 		if(openList->empty())
 			break;
 	}
-	
+	searchtime = t.endTimer();
 	delete openList; 
 	closedList.clear();
 	return p;	

@@ -41,11 +41,15 @@ class AbstractAnnotatedAStar : public aStarOld
 		void setMinClearance(int minclearance) { this->minclearance = minclearance; }
 		int getSearchTerrain() { return searchterrain; }
 		void setSearchTerrain(int searchterrain) { this->searchterrain = searchterrain; }
-
+		int getPeakMemory() { return peakmemory; }
+		int getSearchTime() { return searchtime; }
 		
 	protected:
 		bool verbose;
 		virtual bool evaluate(node* n, node* target) = 0; // check if a node is traversable
+		int peakmemory;
+		double searchtime;
+
 //		AAStarUtil::NodeMap closedList;		
 //		heap *openList;
 		
