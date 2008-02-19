@@ -30,10 +30,14 @@ namespace AAStarUtil {
   typedef __gnu_cxx::hash_map<int,bool> NodeMap;
 }
 
+
+// TODO: get rid of overridden getPath methods with capability & size params. these are set using accessor methods. if not, the search 
+// returns null anyway (0 default values for both).
 class AbstractAnnotatedAStar : public aStarOld
 {
 	public:		
 		virtual const char* getName() { return "AbstractAnnotatedAStar"; }
+		virtual path* getPath(graphAbstraction *aMap, node* from, node* to) { return getPath(aMap, from, to, searchterrain, minclearance); }
 		virtual path* getPath(graphAbstraction*, node*, node*, int, int) = 0;
 		path* getPath(node* from, node* to, int terrain, int size) { return getPath(this->getGraphAbstraction(), from, to, terrain, size); }
 		
