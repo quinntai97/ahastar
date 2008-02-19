@@ -36,6 +36,7 @@
 #include "radiusAbstraction.h"
 #include "mapFlatAbstraction.h"
 #include "AnnotatedMapAbstraction.h"
+#include "AnnotatedAStar.h"
 #include "clusterAbstraction.h"
 
 bool mouseTracking;
@@ -62,7 +63,7 @@ void createSimulation(unitSimulation * &unitSim)
 	else
 		map = new Map(gDefaultMap);
 
-	unitSim = new unitSimulation(new AnnotatedMapAbstraction(map));
+	unitSim = new unitSimulation(new AnnotatedMapAbstraction(map, new AnnotatedAStar()));
 /*	if (absType == 0)
 		unitSim = new unitSimulation(new mapCliqueAbstraction(map));
 	else if (absType == 1)
@@ -170,7 +171,10 @@ void myRandomUnitKeyHandler(unitSimulation *unitSim, tKeyboardModifier mod, char
 		default:
 			unit *targ;
 			unitSim->addUnit(targ = new unit(x2, y2));
-			unitSim->addUnit(u=new searchUnit(x1, y1, targ, new praStar())); break;
+			AnnotatedAStar *aastar = new AnnotatedAStar();
+			aastar->setMinClearance(2);
+			aastar->setSearchTerrain(kGround);
+			unitSim->addUnit(u=new searchUnit(x1, y1, targ, aastar)); break;
 	}
 	u->setSpeed(0.5);
 	unitSim->setmapAbstractionDisplay(1);
