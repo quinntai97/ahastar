@@ -12,6 +12,9 @@
 		625BF8AA0D13D7B40028A447 /* ScenarioManagerTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 625BF8A80D13D7B40028A447 /* ScenarioManagerTest.cpp */; };
 		625BF99E0D13E23C0028A447 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 62E911770CFD4B3000AA46AB /* OpenGL.framework */; };
 		625BF99F0D13E23C0028A447 /* GLUT.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 62E911730CFD4B1B00AA46AB /* GLUT.framework */; };
+		625D21350D6EAE2400211E90 /* AnnotatedClusterAbstraction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 625D21340D6EAE2400211E90 /* AnnotatedClusterAbstraction.cpp */; };
+		625D21360D6EAE2400211E90 /* AnnotatedClusterAbstraction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 625D21340D6EAE2400211E90 /* AnnotatedClusterAbstraction.cpp */; };
+		625FFE460D6D65E30089E6E8 /* AnnotatedClusterAbstractionTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 625FFE450D6D65E30089E6E8 /* AnnotatedClusterAbstractionTest.cpp */; };
 		62B1854B0D3200870061AE72 /* AHAScenarioManagerMock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 62B1854A0D3200870061AE72 /* AHAScenarioManagerMock.cpp */; };
 		62B185760D320C330061AE72 /* AnnotatedAStarMock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 62B185750D320C330061AE72 /* AnnotatedAStarMock.cpp */; };
 		62B186C60D33789A0061AE72 /* AnnotatedMapAbstractionMock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 62B186C50D33789A0061AE72 /* AnnotatedMapAbstractionMock.cpp */; };
@@ -165,6 +168,10 @@
 		625BF8A50D13D79E0028A447 /* ScenarioManager.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ScenarioManager.h; path = aha/ScenarioManager.h; sourceTree = "<group>"; };
 		625BF8A80D13D7B40028A447 /* ScenarioManagerTest.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = ScenarioManagerTest.cpp; path = tests/ScenarioManagerTest.cpp; sourceTree = "<group>"; };
 		625BF8A90D13D7B40028A447 /* ScenarioManagerTest.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ScenarioManagerTest.h; path = tests/ScenarioManagerTest.h; sourceTree = "<group>"; };
+		625D21330D6EAE2400211E90 /* AnnotatedClusterAbstraction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AnnotatedClusterAbstraction.h; path = aha/AnnotatedClusterAbstraction.h; sourceTree = "<group>"; };
+		625D21340D6EAE2400211E90 /* AnnotatedClusterAbstraction.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = AnnotatedClusterAbstraction.cpp; path = aha/AnnotatedClusterAbstraction.cpp; sourceTree = "<group>"; };
+		625FFE440D6D65E30089E6E8 /* AnnotatedClusterAbstractionTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AnnotatedClusterAbstractionTest.h; path = tests/AnnotatedClusterAbstractionTest.h; sourceTree = "<group>"; };
+		625FFE450D6D65E30089E6E8 /* AnnotatedClusterAbstractionTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = AnnotatedClusterAbstractionTest.cpp; path = tests/AnnotatedClusterAbstractionTest.cpp; sourceTree = "<group>"; };
 		62B185490D3200870061AE72 /* AHAScenarioManagerMock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AHAScenarioManagerMock.h; path = tests/AHAScenarioManagerMock.h; sourceTree = "<group>"; };
 		62B1854A0D3200870061AE72 /* AHAScenarioManagerMock.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = AHAScenarioManagerMock.cpp; path = tests/AHAScenarioManagerMock.cpp; sourceTree = "<group>"; };
 		62B185740D320C330061AE72 /* AnnotatedAStarMock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AnnotatedAStarMock.h; path = tests/AnnotatedAStarMock.h; sourceTree = "<group>"; };
@@ -599,6 +606,8 @@
 				6279042F0D40EED400D4BD09 /* util */,
 				62C9BF7E0D406DA70063A898 /* hog */,
 				62B18AE60D360DBA0061AE72 /* mock */,
+				625FFE440D6D65E30089E6E8 /* AnnotatedClusterAbstractionTest.h */,
+				625FFE450D6D65E30089E6E8 /* AnnotatedClusterAbstractionTest.cpp */,
 				625BF8A80D13D7B40028A447 /* ScenarioManagerTest.cpp */,
 				625BF8A90D13D7B40028A447 /* ScenarioManagerTest.h */,
 				62E9192C0D04306B00AA46AB /* AnnotatedMapAbstractionTest.h */,
@@ -615,6 +624,8 @@
 		62E91A7A0D068E5000AA46AB /* aha */ = {
 			isa = PBXGroup;
 			children = (
+				625D21340D6EAE2400211E90 /* AnnotatedClusterAbstraction.cpp */,
+				625D21330D6EAE2400211E90 /* AnnotatedClusterAbstraction.h */,
 				625BF8A40D13D79E0028A447 /* ScenarioManager.cpp */,
 				625BF8A50D13D79E0028A447 /* ScenarioManager.h */,
 				62E91A740D068E4300AA46AB /* AnnotatedMapAbstraction.h */,
@@ -859,6 +870,7 @@
 				62D0A9BC0D1262830022B351 /* AnnotatedAStar.cpp in Sources */,
 				625BF8A70D13D79E0028A447 /* ScenarioManager.cpp in Sources */,
 				62B2FE7D0D6AD3AE006A12F8 /* CapabilityUnit.cpp in Sources */,
+				625D21360D6EAE2400211E90 /* AnnotatedClusterAbstraction.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -882,6 +894,8 @@
 				62C9BF210D40606E0063A898 /* ExperimentManager.cpp in Sources */,
 				62B2FE700D6AD307006A12F8 /* CapabilityUnitTest.cpp in Sources */,
 				62B2FE7C0D6AD3AE006A12F8 /* CapabilityUnit.cpp in Sources */,
+				625FFE460D6D65E30089E6E8 /* AnnotatedClusterAbstractionTest.cpp in Sources */,
+				625D21350D6EAE2400211E90 /* AnnotatedClusterAbstraction.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
