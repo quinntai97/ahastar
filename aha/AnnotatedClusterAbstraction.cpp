@@ -25,9 +25,22 @@ Cluster* AnnotatedClusterAbstraction::buildCluster(int startx, int starty)
 	node* startloc = this->getNodeFromMap(startx,starty);
 	if(!startloc)
 		return NULL;
-		
-	Cluster *c = new Cluster(-1, -1, -1, -1, -1, -1, -1);
+	
+	/* make sure we don't try to create a cluster which originates on a hard obstacle (ie. non traversable tile) */
+	if(startloc->getClearance(startloc->getTerrainType()) == 0) 
+		return NULL;
+							
+	Cluster *c = new Cluster((int)clusters.size(), -1, -1, startx, starty, -1, -1);
 	clusters.push_back(c);
+	
+	addNodesToCluster(c);
 	
 	return c;
 }
+
+void AnnotatedClusterAbstraction::addNodesToCluster(Cluster* target)
+{
+	node* toAdd = getNodeFromMap(target->getHOrig(), target->getVOrig());
+	target->addNode(toAdd->getNum());
+}
+

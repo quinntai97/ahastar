@@ -25,9 +25,11 @@ class AnnotatedClusterAbstraction : public AnnotatedMapAbstraction
 	public: 
 		AnnotatedClusterAbstraction(Map* m, AbstractAnnotatedAStar* searchalg);
 		~AnnotatedClusterAbstraction();
+		int getNumClusters() { return clusters.size(); } 
 		
 	private: 
 		Cluster* buildCluster(int, int);
+		void addNodesToCluster(Cluster*);
 		std::vector<Cluster *> clusters;
 
 };
