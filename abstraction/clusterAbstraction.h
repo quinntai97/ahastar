@@ -67,16 +67,24 @@ public:
      m_width(width),m_height(height)
   {}
 
-  void addNode(int);
-  int getIthNodeNum(int i) const { return nodes[i];}
-  int getNumNodes() const { return nodes.size(); }
-  int getHOrig() const { return m_horizOrigin; }
-  int getVOrig() const { return m_vertOrigin; }
-  int getHeight() const { return m_height; }
-  int getWidth() const { return m_width; } 
-	void addParent(node* n) { parents.push_back(n); } 
+	virtual void addNode(int);
+	virtual void addParent(node* n) { parents.push_back(n); } 
+	int getIthNodeNum(int i) const { return nodes[i];}
+	int getNumNodes() const { return nodes.size(); }
+	int getHOrig() const { return m_horizOrigin; }
+	int getVOrig() const { return m_vertOrigin; }
+	int getHeight() const { return m_height; }
+	int getWidth() const { return m_width; } 
+	int getClusterId() { return m_id; }
 	std::vector<node*>&  getParents() { return parents; } 
 	std::vector<node*> parents; // each connected component gets its own parent
+	
+protected:
+	int setHeight(const int newheight) { m_height = newheight; }
+	int setWidth(const int newwidth) { m_width = newwidth; }
+	int setHOrig(const int newhorig) { m_horizOrigin = newhorig; }
+	int setVOrig(const int newvorig) { m_vertOrigin = newvorig; }
+	int setClusterId(const int newid) { m_id = newid; }
 
 private:
   int m_id;
