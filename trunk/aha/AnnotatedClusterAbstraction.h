@@ -11,10 +11,31 @@
 #define ANNOTATEDCLUSTERABSTRACTION_H
 
 #include "AnnotatedMapAbstraction.h"
+#include "AnnotatedAStar.h"
+#include "clusterAbstraction.h"
+#include <exception>
 
 class Map;
-class Cluster;
 
+class NodeTerrainDoesNotMatchClusterOriginException : public std::exception
+{
+	public: 
+		virtual const char* what() const throw();
+};
+
+class NodeClearanceGreaterThanClusterOriginException : public std::exception
+{
+	public: 
+		virtual const char* what() const throw();
+};
+
+class NodeIsHardObstacleException : public std::exception
+{
+	public: 
+		virtual const char* what() const throw();
+};
+
+class AnnotatedCluster;
 class AnnotatedClusterAbstraction : public AnnotatedMapAbstraction
 {
 	
@@ -28,10 +49,26 @@ class AnnotatedClusterAbstraction : public AnnotatedMapAbstraction
 		int getNumClusters() { return clusters.size(); } 
 		
 	private: 
-		Cluster* buildCluster(int, int);
-		void addNodesToCluster(Cluster*);
+		AnnotatedCluster* buildCluster(int, int);
 		std::vector<Cluster *> clusters;
 
+};
+
+class AnnotatedCluster : public Cluster
+{
+	public:
+		AnnotatedCluster(int, int, AnnotatedClusterAbstraction*) throw(NodeIsHardObstacleException, NodeTerrainDoesNotMatchClusterOriginException, NodeClearanceGreaterThanClusterOriginException);
+		~AnnotatedCluster() { }
+		void addNode(node *); 
+		void addParent(node *);
+		void getClusterTerrain(); 
+		void getMaxClearance(); 
+		
+	private:
+		void addNodesToCluster(AnnotatedClusterAbstraction*);
+		void calculateClusterHeight();
+		void calculateClusterWidth();
+		int clusterterrain, maxclearance;
 };
 
 #endif
