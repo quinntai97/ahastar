@@ -80,3 +80,32 @@ void AnnotatedMapAbstractionMock::setCurrentTestExperiment(TestExperiment* exp)
 	}
 
 }
+
+void AnnotatedMapAbstractionMock::loadClearanceInfo(const string& filename)
+{
+	if(filename.compare("/Users/dhahrabor/src/ahastar/tests/testmaps/annotatedcluster.map"))
+	{
+		int clearance[6][9] = 
+			{	
+				{303, 303, 303, 202, 101, 000, 000, 000, 000}, 
+				{202, 202, 202, 202, 101, 000, 202, 101, 000}, 
+				{101, 101, 101, 101, 101, 000, 202, 101, 000}, 
+				{000, 000, 000, 000, 000, 000, 202, 101, 000},
+				{202, 202, 202, 202, 202, 202, 202, 101, 000},
+				{101, 101, 101, 101, 101, 101, 101, 101, 000}, 
+			};
+					
+		for(int x=0; x<this->getMap()->getMapWidth(); x++)
+			for(int y=0; y<this->getMap()->getMapHeight(); y++)
+			{
+				node* current = this->getNodeFromMap(x,y);
+				current->setTerrainType(getMap()->getTerrainType(x,y));
+				int kGroundClearance = clearance[y][x]/100;
+				int kTreesClearance = (clearance[y][x]%100)/10;
+				int kTreesAndGroundClearance = clearance[y][x]%10;
+				current->setClearance(kGround, kGroundClearance);
+				current->setClearance(kTrees, kGroundClearance);
+				current->setClearance((kTrees|kGround), kGroundClearance);
+			}
+	}
+}

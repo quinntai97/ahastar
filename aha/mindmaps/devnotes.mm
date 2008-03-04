@@ -28,5 +28,20 @@
 </node>
 </node>
 <node CREATED="1203667316671" ID="Freemind_Link_1952351755" MODIFIED="1203667318273" POSITION="right" TEXT="ACA"/>
+<node CREATED="1204434840368" ID="Freemind_Link_12124424" MODIFIED="1204434848012" POSITION="left" TEXT="AnnotatedCluster">
+<node CREATED="1204434848425" ID="Freemind_Link_313056225" MODIFIED="1204434860123" TEXT="extending Cluster">
+<node CREATED="1204434860759" ID="Freemind_Link_996965508" MODIFIED="1204434881313" TEXT="addNode uses nodeid as sole param"/>
+<node CREATED="1204434883442" ID="Freemind_Link_702231528" MODIFIED="1204434905786" TEXT="AC needs to check node annotations before adding node to cluster"/>
+<node CREATED="1204434906793" ID="Freemind_Link_1249695869" MODIFIED="1204434918036" TEXT="Q: do we change base method??"/>
+<node CREATED="1204434922498" ID="Freemind_Link_299682658" MODIFIED="1204434946663" TEXT="Alternative: overload addNode (but original still available and now unsafe)"/>
+<node CREATED="1204434950178" ID="Freemind_Link_568516253" MODIFIED="1204434970564" TEXT="Alternative #2: store reference to mapAbstraction in each cluster">
+<node CREATED="1204434971131" ID="Freemind_Link_492633179" MODIFIED="1204434981029" TEXT="unclear where deletion responsibility lies"/>
+<node CREATED="1204434982167" ID="Freemind_Link_1953748901" MODIFIED="1204435008259" TEXT="bad OO? (storing unnecessary stuff)"/>
+</node>
+</node>
+<node CREATED="1204441185738" ID="Freemind_Link_1998488050" MODIFIED="1204441193716" TEXT="reassign nodes">
+<node CREATED="1204441194164" ID="Freemind_Link_1117710508" MODIFIED="1204441209116" TEXT="do we really need to maximise cluster size?"/>
+</node>
+</node>
 </node>
 </map>

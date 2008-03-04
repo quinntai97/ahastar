@@ -34,6 +34,7 @@ class AnnotatedMapAbstractionMock : public AbstractAnnotatedMapAbstraction
 		void openGLDraw() { }
 		
 		void setCurrentTestExperiment(ExpMgrUtil::TestExperiment* exp);
+		void loadClearanceInfo(const std::string&);
 		
 	private:
 		ExpMgrUtil::TestExperiment* curexp;

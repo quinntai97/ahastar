@@ -27,16 +27,20 @@ class TestNode : public CPPUNIT_NS::TestFixture
   CPPUNIT_TEST_SUITE( TestNode );
   CPPUNIT_TEST( TerrainAnnotationsTest );
   CPPUNIT_TEST( setClearanceFailsWhenNodeTerrainNotValid );
+  CPPUNIT_TEST( setParentClusterFailsWhenClusterIdLessThanZero );
+  CPPUNIT_TEST( setParentClusterStoresClusterIdWhenClusterIdAtLeastZero );
   CPPUNIT_TEST_SUITE_END();
 
 public:
-  /* fixture stuff */
-  void setUp();
-  void tearDown();
+	/* fixture stuff */
+	void setUp();
+	void tearDown();
 
-  /* test cases */
-  void TerrainAnnotationsTest();
-  void setClearanceFailsWhenNodeTerrainNotValid();
+	/* test cases */
+	void TerrainAnnotationsTest();
+	void setClearanceFailsWhenNodeTerrainNotValid();
+	void setParentClusterFailsWhenClusterIdLessThanZero();
+	void setParentClusterStoresClusterIdWhenClusterIdAtLeastZero();
 
 private:
 	/* test data */

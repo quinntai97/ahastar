@@ -22,9 +22,9 @@ class AnnotatedClusterAbstractionTest : public CPPUNIT_NS::TestFixture
 {
 
 	CPPUNIT_TEST_SUITE( AnnotatedClusterAbstractionTest );
-	CPPUNIT_TEST( buildClusterShouldReturnNullGivenAnInvalidMapCoordinate );
-	CPPUNIT_TEST( buildClusterShouldReturnAClusterAndIncrementNumberOfClustersGivenAValidMapCoordinate );
-	CPPUNIT_TEST( buildClusterShouldReturnNullGivenAValidMapCoordinateAndTerrainIsAHardObstacle );
+//	CPPUNIT_TEST( buildClusterShouldReturnNullGivenAnInvalidMapCoordinate );
+//	CPPUNIT_TEST( buildClusterShouldReturnAClusterAndIncrementNumberOfClustersGivenAValidMapCoordinate );
+//	CPPUNIT_TEST( buildClusterShouldReturnNullGivenAValidMapCoordinateAndTerrainIsAHardObstacle );
 	//CPPUNIT_TEST( addNodesToClusterAssignsAllNodesInAreaMarkedByDimensions );
 	CPPUNIT_TEST_SUITE_END();
 	
