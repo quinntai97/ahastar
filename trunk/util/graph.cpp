@@ -571,6 +571,7 @@ node::node(const char *n)
 	markedEdge = 0;
 	uniqueID = uniqueIDCounter++;
 
+	clusterid = -1; // no parent cluster set
 	terraintype=0; // no default terraintype assumed (untraversable node)
 	for(int i=0;i<3;i++) 	// init clvals. everything is zero unless otherwise specified.
 		clearance[i]=0;
@@ -663,6 +664,19 @@ void node::setTerrainType(int terrain)
 			if(debuginfo) cout << "node::setTerraintype: Invalid terrain type ("<<terraintype<<")"<<endl;
 			break;
 	}
+}
+
+int node::getParentCluster()
+{
+	return clusterid;
+}
+
+void node::setParentCluster(int clusterid)
+{
+	if(clusterid > 0)
+		this->clusterid = clusterid;
+		
+	return;
 }
 
 

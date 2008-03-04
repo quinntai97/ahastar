@@ -227,6 +227,8 @@ public:
   int getClearance(int terrain);
   void setTerrainType(int terrain);
   int getTerrainType();
+  void setParentCluster(int clusterid);
+  int getParentCluster(); 
   
 private:
   friend class graph;
@@ -244,6 +246,7 @@ private:
   
   int clearance[3];
   int terraintype;
+  int clusterid;
   
 };
 

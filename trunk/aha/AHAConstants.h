@@ -26,6 +26,7 @@ const int validterrains[NUMTERRAINS] = {kGround, kTrees};
 const int NUMAGENTSIZES = 2;
 const int NUMCAPABILITIES = 3;
 const int capabilities[NUMCAPABILITIES] = {kGround, kTrees, (kGround|kTrees)};
+const int supersetcapability = (kGround|kTrees);
 const int agentsizes[NUMAGENTSIZES] = {1, 2};
 const int MINAGENTSIZE = 1;
 const int MAXAGENTSIZE = 2;

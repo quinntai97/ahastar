@@ -75,3 +75,17 @@ void TestNode::setClearanceFailsWhenNodeTerrainNotValid()
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("managed to set clearance > 0 for node with invalid terrain (kWater)", 0, n->getClearance(kGround));
 }
 
+void TestNode::setParentClusterFailsWhenClusterIdLessThanZero()
+{
+	int cid = -2;
+	n->setParentCluster(cid);
+	CPPUNIT_ASSERT_EQUAL(-1, n->getParentCluster());
+}
+
+void TestNode::setParentClusterStoresClusterIdWhenClusterIdAtLeastZero()
+{
+	int cid = 2;
+	n->setParentCluster(cid);
+	CPPUNIT_ASSERT_EQUAL(cid, n->getParentCluster());	
+}
+
