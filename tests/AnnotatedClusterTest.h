@@ -21,27 +21,40 @@ class AnnotatedClusterTest : public CPPUNIT_NS::TestFixture
 	
 	CPPUNIT_TEST_SUITE( AnnotatedClusterTest );
 	CPPUNIT_TEST( addNodesToClusterShouldAssignAllNodesInAreaMarkedByHeightAndWidthDimensions );
-//	CPPUNIT_TEST( addNodeShouldThrowExceptionWhenParameterNodeIsHardObstacle );
 	CPPUNIT_TEST( addNodeShouldThrowExceptionWhenClusterIsFull );
 	CPPUNIT_TEST( addNodeShouldThrowExceptionWhenParameterNodeIsAssignedToAnotherCluster );
 	CPPUNIT_TEST( addNodeShouldIncrementByOneTotalNodesInCluster );
 	CPPUNIT_TEST( addNodeShouldSetTheParameterNodeParentClusterIdEqualToTheCurrentClusterId );
+	CPPUNIT_TEST( addNodeShouldThrowExceptionWhenNodeParameterIsNull );
+	CPPUNIT_TEST( addNodesToClusterShouldThrowExceptionWhenMapAbstractionParameterIsNull );
+	CPPUNIT_TEST( constructorShouldThrowExceptionWhenWidthDimensionParameterIsInvalid );
+	CPPUNIT_TEST( constructorShouldThrowExceptionWhenHeightDimensionParameterIsInvalid );
+	CPPUNIT_TEST( constructorShouldThrowExceptionWhenXOriginParameterIsInvalid );
+	CPPUNIT_TEST( constructorShouldThrowExceptionWhenYOriginParameterIsInvalid );
 	CPPUNIT_TEST_SUITE_END();
 	
 	public:
 		void setUp();
 		void tearDown();
 
+		/* AnnotatedCluster() */
+		void constructorShouldThrowExceptionWhenWidthDimensionParameterIsInvalid();
+		void constructorShouldThrowExceptionWhenHeightDimensionParameterIsInvalid();
+		void constructorShouldThrowExceptionWhenXOriginParameterIsInvalid();
+		void constructorShouldThrowExceptionWhenYOriginParameterIsInvalid();
+
 		/* addNode() */
 		void addNodeShouldIncrementByOneTotalNodesInCluster();
 		void addNodeShouldSetTheParameterNodeParentClusterIdEqualToTheCurrentClusterId();
 		void addNodeShouldReturnFalseWhenParameterNodeHasClearanceLargerThanOriginNode();
-		void addNodeShouldThrowExceptionWhenParameterNodeIsHardObstacle();
 		void addNodeShouldThrowExceptionWhenParameterNodeIsAssignedToAnotherCluster();
 		void addNodeShouldThrowExceptionWhenClusterIsFull();
+		void addNodeShouldThrowExceptionWhenNodeParameterIsNull();
 
 		/* addNodesToCluster() */
 		void addNodesToClusterShouldAssignAllNodesInAreaMarkedByHeightAndWidthDimensions();
+		void addNodesToClusterShouldThrowExceptionWhenMapAbstractionParameterIsNull();
+		
 		
 	private:
 		AnnotatedMapAbstractionMock* ama_mock;
