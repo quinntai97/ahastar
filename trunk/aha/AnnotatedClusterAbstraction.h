@@ -18,10 +18,41 @@
 class Map;
 class AnnotatedCluster;
 
-class ACAException : public std::exception
+
+
+class InvalidClusterOriginCoordinatesException : public std::exception
 {
 	public:
-		ACAException(node* problemNode, AnnotatedCluster* ac) { this->problemNode = problemNode; this->ac = ac;}
+		InvalidClusterOriginCoordinatesException(int xo, int yo) { xorigin=xo; yorigin=yo; }
+			
+		virtual const char* what() const throw();
+		
+	private: 
+		int xorigin, yorigin;
+};
+
+
+class InvalidClusterDimensionsException : public std::exception
+{
+	public:
+		InvalidClusterDimensionsException(int w, int h, int xo, int yo) { width=w; height=h; xorigin=xo; yorigin=yo; }
+			
+		virtual const char* what() const throw();
+		
+	private: 
+		int width, height, xorigin, yorigin;
+};
+
+class AnnotatedMapAbstractionIsNullException : public std::exception
+{
+	public:
+		virtual const char* what() const throw();
+};
+
+class AnnotatedClusterException : public std::exception
+{
+	public:
+		AnnotatedClusterException(node* problemNode, AnnotatedCluster* ac)  { this->problemNode = problemNode; this->ac = ac;}
 		virtual const char* what() const throw();
 		
 	protected:
@@ -34,36 +65,44 @@ class ACAException : public std::exception
 		AnnotatedCluster* ac;
 };
 
-class NodeIsHardObstacleException : public ACAException
+class NodeIsHardObstacleException : public AnnotatedClusterException
 {
 	public: 
-		NodeIsHardObstacleException(node* problemNode, AnnotatedCluster* ac) : ACAException(problemNode, ac) {  }
+		NodeIsHardObstacleException(node* problemNode, AnnotatedCluster* ac) : AnnotatedClusterException(problemNode, ac) {  }
 
 	protected:
 		virtual const char* getExceptionErrorMessage() const;
 
 };
 
-class NodeIsAlreadyAssignedToClusterException  : public ACAException
+class NodeIsAlreadyAssignedToClusterException  : public AnnotatedClusterException
 {
 	public: 
-		NodeIsAlreadyAssignedToClusterException(node* problemNode, AnnotatedCluster* ac) : ACAException(problemNode, ac) {  }
+		NodeIsAlreadyAssignedToClusterException(node* problemNode, AnnotatedCluster* ac) : AnnotatedClusterException(problemNode, ac) {  }
 		
 	protected:
 		virtual const char* getExceptionErrorMessage() const;
 };
 
-class ClusterFullException : public ACAException
+class ClusterFullException : public AnnotatedClusterException
 {
 	public:
-		ClusterFullException(node* problemNode, AnnotatedCluster* ac) : ACAException(problemNode, ac) {  }
+		ClusterFullException(node* problemNode, AnnotatedCluster* ac) : AnnotatedClusterException(problemNode, ac) {  }
 	
 	protected:
 		virtual const char* getExceptionErrorMessage() const;		
 };
 
+class NodeIsNullException : public AnnotatedClusterException
+{
+	public: 
+		NodeIsNullException(node* problemNode, AnnotatedCluster* ac) : AnnotatedClusterException(problemNode, ac) {  }
 
-class AnnotatedCluster;
+	protected:
+		virtual const char* getExceptionErrorMessage() const;
+};
+
+
 class AnnotatedClusterAbstraction : public AnnotatedMapAbstraction
 {
 	
@@ -85,17 +124,13 @@ class AnnotatedClusterAbstraction : public AnnotatedMapAbstraction
 class AnnotatedCluster : public Cluster
 {
 	public:
-		AnnotatedCluster(int, int, int, int, int);
+		AnnotatedCluster(int, int, int, int) throw(InvalidClusterDimensionsException, InvalidClusterOriginCoordinatesException);
 		~AnnotatedCluster() { }
-		virtual bool addNode(node *) throw(NodeIsHardObstacleException, NodeIsAlreadyAssignedToClusterException, ClusterFullException); 
+		virtual bool addNode(node *) throw(NodeIsAlreadyAssignedToClusterException, ClusterFullException, NodeIsNullException); 
 		virtual void addParent(node *);
-		void getClusterTerrain(); 
-		void getMaxClearance(); 
-		void addNodesToCluster(AbstractAnnotatedMapAbstraction*);
+		virtual void addNodesToCluster(AbstractAnnotatedMapAbstraction*);
 		
 	private:
-		int clusterterrain, maxclearance;
-		
 		static unsigned int uniqueClusterIdCnt;
 };
 
