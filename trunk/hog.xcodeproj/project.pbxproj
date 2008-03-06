@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		620E3DD40D7570A600A97ED1 /* AnnotatedClusterTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 620E3DD30D7570A600A97ED1 /* AnnotatedClusterTest.cpp */; };
 		620E3DD50D7570A600A97ED1 /* AnnotatedClusterTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 620E3DD30D7570A600A97ED1 /* AnnotatedClusterTest.cpp */; };
+		621C072C0D7F8432000C424F /* AnnotatedCluster.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 621C072B0D7F8432000C424F /* AnnotatedCluster.cpp */; };
+		621C072D0D7F8432000C424F /* AnnotatedCluster.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 621C072B0D7F8432000C424F /* AnnotatedCluster.cpp */; };
 		625BF8A60D13D79E0028A447 /* ScenarioManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 625BF8A40D13D79E0028A447 /* ScenarioManager.cpp */; };
 		625BF8A70D13D79E0028A447 /* ScenarioManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 625BF8A40D13D79E0028A447 /* ScenarioManager.cpp */; };
 		625BF8AA0D13D7B40028A447 /* ScenarioManagerTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 625BF8A80D13D7B40028A447 /* ScenarioManagerTest.cpp */; };
@@ -168,6 +170,8 @@
 		4A9504CAFFE6A41611CA0CBA /* CoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreServices.framework; path = /System/Library/Frameworks/CoreServices.framework; sourceTree = "<absolute>"; };
 		620E3DD20D7570A600A97ED1 /* AnnotatedClusterTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AnnotatedClusterTest.h; path = tests/AnnotatedClusterTest.h; sourceTree = "<group>"; };
 		620E3DD30D7570A600A97ED1 /* AnnotatedClusterTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = AnnotatedClusterTest.cpp; path = tests/AnnotatedClusterTest.cpp; sourceTree = "<group>"; };
+		621C072A0D7F8432000C424F /* AnnotatedCluster.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AnnotatedCluster.h; path = aha/AnnotatedCluster.h; sourceTree = "<group>"; };
+		621C072B0D7F8432000C424F /* AnnotatedCluster.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = AnnotatedCluster.cpp; path = aha/AnnotatedCluster.cpp; sourceTree = "<group>"; };
 		625BF8A40D13D79E0028A447 /* ScenarioManager.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = ScenarioManager.cpp; path = aha/ScenarioManager.cpp; sourceTree = "<group>"; };
 		625BF8A50D13D79E0028A447 /* ScenarioManager.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ScenarioManager.h; path = aha/ScenarioManager.h; sourceTree = "<group>"; };
 		625BF8A80D13D7B40028A447 /* ScenarioManagerTest.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = ScenarioManagerTest.cpp; path = tests/ScenarioManagerTest.cpp; sourceTree = "<group>"; };
@@ -641,6 +645,8 @@
 				62D8B96E0D17FC0400CDEE75 /* AHAConstants.h */,
 				62B2FE7A0D6AD3AE006A12F8 /* CapabilityUnit.h */,
 				62B2FE7B0D6AD3AE006A12F8 /* CapabilityUnit.cpp */,
+				621C072A0D7F8432000C424F /* AnnotatedCluster.h */,
+				621C072B0D7F8432000C424F /* AnnotatedCluster.cpp */,
 			);
 			name = aha;
 			sourceTree = "<group>";
@@ -878,6 +884,7 @@
 				62B2FE7D0D6AD3AE006A12F8 /* CapabilityUnit.cpp in Sources */,
 				625D21360D6EAE2400211E90 /* AnnotatedClusterAbstraction.cpp in Sources */,
 				620E3DD50D7570A600A97ED1 /* AnnotatedClusterTest.cpp in Sources */,
+				621C072C0D7F8432000C424F /* AnnotatedCluster.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -904,6 +911,7 @@
 				625FFE460D6D65E30089E6E8 /* AnnotatedClusterAbstractionTest.cpp in Sources */,
 				625D21350D6EAE2400211E90 /* AnnotatedClusterAbstraction.cpp in Sources */,
 				620E3DD40D7570A600A97ED1 /* AnnotatedClusterTest.cpp in Sources */,
+				621C072D0D7F8432000C424F /* AnnotatedCluster.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

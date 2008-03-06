@@ -22,25 +22,18 @@ class AnnotatedClusterAbstractionTest : public CPPUNIT_NS::TestFixture
 {
 
 	CPPUNIT_TEST_SUITE( AnnotatedClusterAbstractionTest );
-//	CPPUNIT_TEST( buildClusterShouldReturnNullGivenAnInvalidMapCoordinate );
-//	CPPUNIT_TEST( buildClusterShouldReturnAClusterAndIncrementNumberOfClustersGivenAValidMapCoordinate );
-//	CPPUNIT_TEST( buildClusterShouldReturnNullGivenAValidMapCoordinateAndTerrainIsAHardObstacle );
-	//CPPUNIT_TEST( addNodesToClusterAssignsAllNodesInAreaMarkedByDimensions );
+	CPPUNIT_TEST( constructorShouldSplitTheMapAreaIntoCorrectNumberOfClusters );
+	CPPUNIT_TEST( getClusterSizeShouldReturnSameValueAsConstructorParameter );
 	CPPUNIT_TEST_SUITE_END();
 	
 	public:
 		void setUp();
 		void tearDown();
-		
-		void buildClusterShouldReturnNullGivenAnInvalidMapCoordinate();
-		void buildClusterShouldReturnAClusterAndIncrementNumberOfClustersGivenAValidMapCoordinate();
-		void buildClusterShouldReturnNullGivenAValidMapCoordinateAndTerrainIsAHardObstacle();
-		void buildClusterShouldReturnClusterWithNodesAssignedGivenAValidMapCoordinate();
-		void addNodesToClusterAssignsAllNodesInAreaMarkedByDimensions();
+
+		void constructorShouldSplitTheMapAreaIntoCorrectNumberOfClusters();
+		void getClusterSizeShouldReturnSameValueAsConstructorParameter();
 		
 	private:
-		//void experimentInit(const std::string &maploc);
-		
 		AnnotatedClusterAbstraction *aca;
 		ExperimentManager* expmgr;
 		Map *testmap;
