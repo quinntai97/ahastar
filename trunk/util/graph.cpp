@@ -673,7 +673,7 @@ int node::getParentCluster()
 
 void node::setParentCluster(int clusterid)
 {
-	if(clusterid > 0)
+	if(clusterid >= 0)
 		this->clusterid = clusterid;
 		
 	return;

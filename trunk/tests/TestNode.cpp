@@ -82,10 +82,16 @@ void TestNode::setParentClusterFailsWhenClusterIdLessThanZero()
 	CPPUNIT_ASSERT_EQUAL(-1, n->getParentCluster());
 }
 
-void TestNode::setParentClusterStoresClusterIdWhenClusterIdAtLeastZero()
+void TestNode::setParentClusterStoresClusterIdWhenClusterIdMoreThanZero()
 {
 	int cid = 2;
 	n->setParentCluster(cid);
 	CPPUNIT_ASSERT_EQUAL(cid, n->getParentCluster());	
 }
 
+void TestNode::setParentClusterStoresClusterIdWhenClusterIdEqualsZero()
+{
+	int cid = 0;
+	n->setParentCluster(cid);
+	CPPUNIT_ASSERT_EQUAL(cid, n->getParentCluster());	
+}

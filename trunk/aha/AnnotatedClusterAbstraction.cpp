@@ -54,3 +54,32 @@ void AnnotatedClusterAbstraction::buildClusters()
 			clusters.push_back( new AnnotatedCluster (x, y, cwidth, cheight) );
 		}
 }
+
+void AnnotatedClusterAbstraction::buildAbstractGraph()
+{	
+	abstractions.push_back(new graph());
+}
+
+void AnnotatedClusterAbstraction::addEntranceToGraph(node* from, node* to) 
+	throw(EntranceNodeIsNullException, EntranceNodesAreIdenticalException, CannotBuildEntranceFromAbstractNodeException, 
+		CannotBuildEntranceToSelfException, EntranceNodeIsHardObstacleException)
+{
+	if(from == NULL || to == NULL)
+		throw EntranceNodeIsNullException();
+
+	if( from == to)
+		throw EntranceNodesAreIdenticalException();
+		
+	if(from->getClearance(from->getTerrainType()) == 0 || to->getClearance(to->getTerrainType()) == 0)
+		throw EntranceNodeIsHardObstacleException();
+	
+	if(from->getLabelL(kAbstractionLevel) != 0 || to->getLabelL(kAbstractionLevel) != 0)
+		throw CannotBuildEntranceFromAbstractNodeException();
+		
+	if(from->getParentCluster() == to->getParentCluster())
+		throw CannotBuildEntranceToSelfException();
+	
+	graph* g = this->getAbstractGraph(1);
+	g->addNode(from);
+	g->addNode(to);
+}

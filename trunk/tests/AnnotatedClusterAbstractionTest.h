@@ -17,6 +17,7 @@
 class ExperimentManager;
 class AnnotatedClusterAbstraction;
 class Map;
+class node;
 
 class AnnotatedClusterAbstractionTest : public CPPUNIT_NS::TestFixture
 {
@@ -24,6 +25,16 @@ class AnnotatedClusterAbstractionTest : public CPPUNIT_NS::TestFixture
 	CPPUNIT_TEST_SUITE( AnnotatedClusterAbstractionTest );
 	CPPUNIT_TEST( constructorShouldSplitTheMapAreaIntoCorrectNumberOfClusters );
 	CPPUNIT_TEST( getClusterSizeShouldReturnSameValueAsConstructorParameter );
+	CPPUNIT_TEST( buildAbstractGraphShouldCreateANewGraphObject );
+	CPPUNIT_TEST( addEntranceToGraphShouldAddTwoAbstractNodesToAbstractGraphGivenAPairOfNodesInTheNonAbstractGraph );
+	CPPUNIT_TEST( addEntranceToGraphShouldThrowExceptionIfFirstNodeParameterNodeIsNull );
+	CPPUNIT_TEST( addEntranceToGraphShouldThrowExceptionIfSecondNodeParameterNodeIsNull );
+	CPPUNIT_TEST( addEntranceToGraphShouldThrowExceptionIfParameterNodesPointToSameObject );
+	CPPUNIT_TEST( addEntranceToGraphShouldThrowExceptionIfFirstParameterNodeHasAnAbstractionLevelNotEqualToZero );
+	CPPUNIT_TEST( addEntranceToGraphShouldThrowExceptionIfSecondParameterNodeHasAnAbstractionLevelNotEqualToZero );
+	CPPUNIT_TEST( addEntranceToGraphShouldThrowExceptionIfParameterNodesShareTheSameCluster );
+	CPPUNIT_TEST( addEntranceToGraphShouldThrowExceptionIfFirstParameterNodeIsAHardObstacle );
+	CPPUNIT_TEST( addEntranceToGraphShouldThrowExceptionIfSecondParameterNodeIsAHardObstacle );
 	CPPUNIT_TEST_SUITE_END();
 	
 	public:
@@ -33,10 +44,29 @@ class AnnotatedClusterAbstractionTest : public CPPUNIT_NS::TestFixture
 		void constructorShouldSplitTheMapAreaIntoCorrectNumberOfClusters();
 		void getClusterSizeShouldReturnSameValueAsConstructorParameter();
 		
+		void buildAbstractGraphShouldCreateANewGraphObject();
+		void addEntranceToGraphShouldAddTwoAbstractNodesToAbstractGraphGivenAPairOfNodesInTheNonAbstractGraph();
+		void addEntranceToGraphShouldThrowExceptionIfFirstNodeParameterNodeIsNull();
+		void addEntranceToGraphShouldThrowExceptionIfSecondNodeParameterNodeIsNull();
+		void addEntranceToGraphShouldThrowExceptionIfParameterNodesPointToSameObject();
+		void addEntranceToGraphShouldThrowExceptionIfFirstParameterNodeHasAnAbstractionLevelNotEqualToZero();
+		void addEntranceToGraphShouldThrowExceptionIfSecondParameterNodeHasAnAbstractionLevelNotEqualToZero();
+		void addEntranceToGraphShouldThrowExceptionIfParameterNodesShareTheSameCluster();
+		void addEntranceToGraphShouldThrowExceptionIfFirstParameterNodeIsAHardObstacle();
+		void addEntranceToGraphShouldThrowExceptionIfSecondParameterNodeIsAHardObstacle();
+
+		/* yet to implement */
+		void addEntranceToGraphShouldCreateAbstractNodesWhichHaveTheSameAnnotationsAsParameterNodes();
+		void addEntranceToGraphShouldThrowExceptionIfParameterNodesHaveAnAbstractionLevelNotEqualToZero();
+
+		
 	private:
 		AnnotatedClusterAbstraction *aca;
 		ExperimentManager* expmgr;
 		Map *testmap;
+		node* n1;
+		node* n2;
+		node* n3hardobst;
 };
 
 #endif
