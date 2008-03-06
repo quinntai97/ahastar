@@ -9,7 +9,7 @@
 
 #include "AnnotatedClusterTest.h"
 #include "TestConstants.h"
-#include "AnnotatedClusterAbstraction.h"
+#include "AnnotatedCluster.h"
 #include "AnnotatedMapAbstractionMock.h"
 #include "AnnotatedAStarMock.h"
 

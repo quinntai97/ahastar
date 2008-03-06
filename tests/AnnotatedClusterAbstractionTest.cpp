@@ -12,6 +12,7 @@
 #include "Map.h"
 #include "AnnotatedClusterAbstraction.h"
 #include "clusterAbstraction.h"
+#include "AnnotatedCluster.h"
 #include "AnnotatedAStarMock.h"
 #include "TestConstants.h"
 
@@ -22,7 +23,7 @@ using namespace std;
 void AnnotatedClusterAbstractionTest::setUp()
 {
 	testmap = new Map(maplocation.c_str()); // TODO: need a separate, larger map to test this junk
-	aca = new AnnotatedClusterAbstraction(testmap, new AnnotatedAStarMock());
+	aca = new AnnotatedClusterAbstraction(testmap, new AnnotatedAStarMock(), TESTCLUSTERSIZE);
 	expmgr = new ExperimentManager();
 }
 
@@ -32,56 +33,27 @@ void AnnotatedClusterAbstractionTest::tearDown()
 	delete expmgr;
 }
 
-/*void AnnotatedClusterAbstractionTest::experimentInit(const string &maploc)
+void AnnotatedClusterAbstractionTest::constructorShouldSplitTheMapAreaIntoCorrectNumberOfClusters()
 {
-}*/
+	/* figure out how many clusters the test map should have */
+	int mapwidth = aca->getMap()->getMapWidth();
+	int mapheight = aca->getMap()->getMapHeight();
+	
+	int numHorizontalClusters = mapwidth / aca->getClusterSize();
+	if(mapwidth % aca->getClusterSize() > 0)
+		numHorizontalClusters++;
+		
+	int numVerticalClusters = mapheight / aca->getClusterSize();
+	if(mapheight % aca->getClusterSize() > 0)
+		numVerticalClusters++;
+		
+	int totalExpectedClusters = numHorizontalClusters*numVerticalClusters;
 
-void AnnotatedClusterAbstractionTest::buildClusterShouldReturnNullGivenAnInvalidMapCoordinate()
-{
-	int startx = -1;
-	int starty = -1;
-
-	Cluster *cluster = aca->buildCluster(startx, starty);
-	CPPUNIT_ASSERT_EQUAL(NULL, (int)cluster);
+	/* check for the correct # of clusters */
+	CPPUNIT_ASSERT_EQUAL(totalExpectedClusters, aca->getNumClusters());
 }
 
-void AnnotatedClusterAbstractionTest::buildClusterShouldReturnAClusterAndIncrementNumberOfClustersGivenAValidMapCoordinate()
+void AnnotatedClusterAbstractionTest::getClusterSizeShouldReturnSameValueAsConstructorParameter()
 {
-	int startx = 2;
-	int starty = 2;
-	
-	int numclusters = aca->getNumClusters();
-	Cluster *cluster = aca->buildCluster(startx, starty);
-	cluster = &(static_cast<Cluster&>(*cluster));
-	CPPUNIT_ASSERT_EQUAL(true, cluster != NULL);
-	CPPUNIT_ASSERT_EQUAL(numclusters+1, aca->getNumClusters());
-}
-
-void AnnotatedClusterAbstractionTest::buildClusterShouldReturnNullGivenAValidMapCoordinateAndTerrainIsAHardObstacle()
-{
-	int startx = 0;
-	int starty = 0;
-	
-	Cluster *cluster = aca->buildCluster(startx, starty);
-	CPPUNIT_ASSERT_EQUAL(true, cluster == NULL);
-}
-
-void AnnotatedClusterAbstractionTest::addNodesToClusterAssignsAllNodesInAreaMarkedByDimensions()
-{
-/*	int cid = 0
-	int startx = 2;
-	int starty = 1;
-	int cwidth = 3;
-	int cheight = 3;
-	AnnotatedCluster *cluster = new Cluster(cid, 0, 0, startx, starty, cwidth, cheight);
-	aca->addNodesToCluster(cluster);
-	
-	CPPUNIT_ASSERT_EQUAL(true, cluster->getNumNodes() == cwidth*cheight);
-	for(int x=startx; x<startx+cwidth; x++)
-		for(int y=starty; y<starty+cheight; y++)
-		{
-			node* curnode = aca->getNodeFromMap(x,y);
-			CPPUNIT_ASSERT_EQUAL(true, cluster->findNode(curnode->getNum());
-		}
-	*/
+	CPPUNIT_ASSERT_EQUAL(TESTCLUSTERSIZE, aca->getClusterSize());
 }
