@@ -26,7 +26,7 @@ class AnnotatedClusterAbstractionTest : public CPPUNIT_NS::TestFixture
 	CPPUNIT_TEST( constructorShouldSplitTheMapAreaIntoCorrectNumberOfClusters );
 	CPPUNIT_TEST( getClusterSizeShouldReturnSameValueAsConstructorParameter );
 	CPPUNIT_TEST( buildAbstractGraphShouldCreateANewGraphObject );
-	CPPUNIT_TEST( addEntranceToGraphShouldAddTwoAbstractNodesToAbstractGraphGivenAPairOfNodesInTheNonAbstractGraph );
+	CPPUNIT_TEST( addEntranceToGraphShouldAddTwoNewAbstractNodesToAbstractGraphGivenAPairOfNodesInTheNonAbstractGraph );
 	CPPUNIT_TEST( addEntranceToGraphShouldThrowExceptionIfFirstNodeParameterNodeIsNull );
 	CPPUNIT_TEST( addEntranceToGraphShouldThrowExceptionIfSecondNodeParameterNodeIsNull );
 	CPPUNIT_TEST( addEntranceToGraphShouldThrowExceptionIfParameterNodesPointToSameObject );
@@ -35,6 +35,7 @@ class AnnotatedClusterAbstractionTest : public CPPUNIT_NS::TestFixture
 	CPPUNIT_TEST( addEntranceToGraphShouldThrowExceptionIfParameterNodesShareTheSameCluster );
 	CPPUNIT_TEST( addEntranceToGraphShouldThrowExceptionIfFirstParameterNodeIsAHardObstacle );
 	CPPUNIT_TEST( addEntranceToGraphShouldThrowExceptionIfSecondParameterNodeIsAHardObstacle );
+	CPPUNIT_TEST( addEntranceToGraphShouldCreateAbstractNodesWhichHaveTheSameAnnotationsAsParameterNodes );
 	CPPUNIT_TEST_SUITE_END();
 	
 	public:
@@ -45,7 +46,8 @@ class AnnotatedClusterAbstractionTest : public CPPUNIT_NS::TestFixture
 		void getClusterSizeShouldReturnSameValueAsConstructorParameter();
 		
 		void buildAbstractGraphShouldCreateANewGraphObject();
-		void addEntranceToGraphShouldAddTwoAbstractNodesToAbstractGraphGivenAPairOfNodesInTheNonAbstractGraph();
+
+		/* addEntranceToGraph */
 		void addEntranceToGraphShouldThrowExceptionIfFirstNodeParameterNodeIsNull();
 		void addEntranceToGraphShouldThrowExceptionIfSecondNodeParameterNodeIsNull();
 		void addEntranceToGraphShouldThrowExceptionIfParameterNodesPointToSameObject();
@@ -55,9 +57,11 @@ class AnnotatedClusterAbstractionTest : public CPPUNIT_NS::TestFixture
 		void addEntranceToGraphShouldThrowExceptionIfFirstParameterNodeIsAHardObstacle();
 		void addEntranceToGraphShouldThrowExceptionIfSecondParameterNodeIsAHardObstacle();
 
-		/* yet to implement */
+		void addEntranceToGraphShouldAddTwoNewAbstractNodesToAbstractGraphGivenAPairOfNodesInTheNonAbstractGraph();
 		void addEntranceToGraphShouldCreateAbstractNodesWhichHaveTheSameAnnotationsAsParameterNodes();
-		void addEntranceToGraphShouldThrowExceptionIfParameterNodesHaveAnAbstractionLevelNotEqualToZero();
+
+
+		/* yet to implement */
 
 		
 	private:

@@ -686,6 +686,11 @@ graph_object *node::clone() const
 {
   node *n = new node(name);
   for (unsigned int x = 0; x < label.size(); x++) n->label.push_back(label[x]);
+  
+  n->setParentCluster(clusterid);
+  n->setTerrainType(terraintype);
+  for(int i=0; i<3;i++) n->clearance[i] = clearance[i];
+
   n->keyLabel = keyLabel;
   return n;
 }

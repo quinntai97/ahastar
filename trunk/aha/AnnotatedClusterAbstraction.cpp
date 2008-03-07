@@ -80,6 +80,11 @@ void AnnotatedClusterAbstraction::addEntranceToGraph(node* from, node* to)
 		throw CannotBuildEntranceToSelfException();
 	
 	graph* g = this->getAbstractGraph(1);
-	g->addNode(from);
-	g->addNode(to);
+	
+	node* absfrom = dynamic_cast<node*>(from->clone());
+	node* absto = dynamic_cast<node*>(to->clone());
+	absfrom->setLabelL(kAbstractionLevel, 1);
+	absto->setLabelL(kAbstractionLevel, 1);
+	g->addNode(absfrom);
+	g->addNode(absto);
 }
