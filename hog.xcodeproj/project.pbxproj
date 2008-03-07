@@ -1083,6 +1083,7 @@
 					OS_MAC,
 					UNITTEST,
 				);
+				GCC_UNROLL_LOOPS = YES;
 				HEADER_SEARCH_PATHS = (
 					simulation,
 					abstraction,

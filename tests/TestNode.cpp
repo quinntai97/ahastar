@@ -8,6 +8,7 @@
  */
 
 #include "TestNode.h"
+#include "constants.h"
 #include <cppunit/Message.h>
 #include <string>
 
@@ -94,4 +95,32 @@ void TestNode::setParentClusterStoresClusterIdWhenClusterIdEqualsZero()
 	int cid = 0;
 	n->setParentCluster(cid);
 	CPPUNIT_ASSERT_EQUAL(cid, n->getParentCluster());	
+}
+
+void TestNode::cloneShouldDeepCopyNodeAndAllAnnotations()
+{
+
+	/* create and annotate some nodes to use as test data */
+	node* tn1 = new node("");
+	
+	tn1->setLabelL(kAbstractionLevel, 0);
+	tn1->setParentCluster(0);
+	tn1->setLabelL(kFirstData, 4);
+	tn1->setLabelL(kFirstData+1, 1);	
+	tn1->setTerrainType(kGround);
+	tn1->setClearance(kGround, 1);
+	tn1->setClearance(kTrees, 1);
+	tn1->setClearance(kGround|kTrees, 2);
+
+	node* tn1clone = dynamic_cast<node*>(tn1->clone());
+	CPPUNIT_ASSERT_MESSAGE("clone returned original node! failed to copy!", tn1 != tn1clone);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("cloned node has different terrain type", tn1->getTerrainType(), tn1clone->getTerrainType());
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("cloned node has different parent cluster", tn1->getParentCluster(), tn1clone->getParentCluster());
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("cloned node has different clearance value for kTrees capability", tn1->getClearance(kTrees), tn1clone->getClearance(kTrees));
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("cloned node has different clearance value for kTrees capability", tn1->getClearance(kTrees), tn1clone->getClearance(kTrees));
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("cloned node has different clearance value for (kGround|kTrees) capability", tn1->getClearance((kGround|kTrees)), tn1clone->getClearance((kGround|kTrees)));
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("cloned node has incorrect kAbstractionLevel label", tn1->getLabelL(kAbstractionLevel), tn1clone->getLabelL(kAbstractionLevel));
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("cloned node has incorrect x-coordinate label", tn1->getLabelL(kFirstData), tn1clone->getLabelL(kFirstData));	
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("cloned node has incorrect y-coordinate label", tn1->getLabelL(kFirstData+1), tn1clone->getLabelL(kFirstData+1));
+
 }
