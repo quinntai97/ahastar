@@ -36,6 +36,7 @@ class AnnotatedClusterAbstractionTest : public CPPUNIT_NS::TestFixture
 	CPPUNIT_TEST( addEntranceToGraphShouldThrowExceptionIfFirstParameterNodeIsAHardObstacle );
 	CPPUNIT_TEST( addEntranceToGraphShouldThrowExceptionIfSecondParameterNodeIsAHardObstacle );
 	CPPUNIT_TEST( addEntranceToGraphShouldCreateAbstractNodesWhichHaveTheSameAnnotationsAsParameterNodes );
+	CPPUNIT_TEST( addEntranceToGraphShouldConnectAbstractNodesWithANewEdge );
 	CPPUNIT_TEST_SUITE_END();
 	
 	public:
@@ -59,10 +60,12 @@ class AnnotatedClusterAbstractionTest : public CPPUNIT_NS::TestFixture
 
 		void addEntranceToGraphShouldAddTwoNewAbstractNodesToAbstractGraphGivenAPairOfNodesInTheNonAbstractGraph();
 		void addEntranceToGraphShouldCreateAbstractNodesWhichHaveTheSameAnnotationsAsParameterNodes();
-
+		void addEntranceToGraphShouldConnectAbstractNodesWithANewEdge();
 
 		/* yet to implement */
-
+		void addEntranceToGraphShouldAnnotateNewEdgeWithMinimumCapabilityClearance();
+		void addEntranceToGraphShouldThrowExceptionIfParameterNodesAreNotAdjacent();
+		
 		
 	private:
 		AnnotatedClusterAbstraction *aca;

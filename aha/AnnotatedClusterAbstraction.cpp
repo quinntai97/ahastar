@@ -81,10 +81,22 @@ void AnnotatedClusterAbstraction::addEntranceToGraph(node* from, node* to)
 	
 	graph* g = this->getAbstractGraph(1);
 	
+	/* need to add nodes to abstract graph to represent the entrance */
 	node* absfrom = dynamic_cast<node*>(from->clone());
 	node* absto = dynamic_cast<node*>(to->clone());
 	absfrom->setLabelL(kAbstractionLevel, 1);
 	absto->setLabelL(kAbstractionLevel, 1);
 	g->addNode(absfrom);
 	g->addNode(absto);
+
+	
+	/* need to annotate the edge representing the entrance with appropriate capabilities and clearance values so agents can determine if 
+		the edge is traversable */
+	edge* interedge = new edge(absfrom->getNum(), absto->getNum(), 1.0);
+	int edgeCapability = (absfrom->getTerrainType()|absto->getTerrainType());
+	int edgeClearance = absfrom->getClearance(edgeCapability);
+	edgeClearance = edgeClearance < to->getClearance(edgeCapability)?edgeClearance:to->getClearance(edgeCapability);
+	interedge->setClearance(edgeCapability,edgeClearance);
+	g->addEdge(interedge);
+
 }
