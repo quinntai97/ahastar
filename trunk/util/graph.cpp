@@ -520,6 +520,18 @@ edge::edge(unsigned int f, unsigned int t, double w)
   setLabelF(kEdgeWeight, w);
 	//	if ((from == -1) || (to == -1))
 	//		cerr << "Error - " << from << "->" << to << endl;
+	
+	capability=0;
+	clearance=0;
+}
+
+graph_object* edge::clone() const
+{	
+	edge *eclone = new edge(from, to, getLabelF(kEdgeWeight)); 
+	eclone->capability = capability;
+	eclone->clearance = clearance;
+	
+	return eclone;
 }
 
 void edge::Print(ostream& out) const
@@ -556,6 +568,40 @@ void edge::setLabelL(unsigned int index, long val)
     label.push_back(v);
   }
 }
+
+void edge::setClearance(int capability, int clearance)
+{
+	if(clearance <= 0)
+		return;
+	
+	switch(capability)
+	{
+		case 0x4: // kGround
+			this->capability = capability;
+			this->clearance = clearance;
+		case 0x40: // kTrees
+			this->capability = capability;
+			this->clearance = clearance;
+		case 0x44: // kGround|kTrees
+			this->capability = capability;
+			this->clearance = clearance;
+	}
+}
+int edge::getClearance(int capability)
+{
+	switch(capability)
+	{
+		case 0x4: // kGround
+			return clearance;
+		case 0x40: // kTrees
+			return clearance;
+		case 0x44: // kGround|kTrees
+			return clearance;
+	}	
+	
+	return 0;
+}
+
 
 
 unsigned node::uniqueIDCounter = 0;

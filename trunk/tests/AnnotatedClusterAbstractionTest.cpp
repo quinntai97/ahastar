@@ -26,7 +26,7 @@ void AnnotatedClusterAbstractionTest::setUp()
 	aca = new AnnotatedClusterAbstraction(testmap, new AnnotatedAStarMock(), TESTCLUSTERSIZE);
 	expmgr = new ExperimentManager();
 	
-	n1 = aca->getNodeFromMap(2,1);
+	n1 = aca->getNodeFromMap(4,1);
 	n1->setParentCluster(0);
 	n2 = aca->getNodeFromMap(5,1);
 	n2->setParentCluster(1);
@@ -77,30 +77,16 @@ void AnnotatedClusterAbstractionTest::addEntranceToGraphShouldAddTwoNewAbstractN
 	int expectedNodesInAbstractGraph=2;
 
 	// nb: deletion responsibility is taken over by the graph object to which we add these nodes
-	node* tn1 = new node("");
-	node* tn2 = new node("");
-	tn1->setTerrainType(kGround);
-	tn1->setClearance(kGround, 1);
-	tn1->setLabelL(kAbstractionLevel, 0);
-	tn1->setParentCluster(0);
-
-	tn2->setTerrainType(kGround);
-	tn2->setClearance(kGround, 1);
-	tn2->setLabelL(kAbstractionLevel, 0);
-	tn2->setParentCluster(1);
-
-
-	
 	aca->buildAbstractGraph();
-	aca->addEntranceToGraph(tn1, tn2);
+	aca->addEntranceToGraph(n1, n2);
 	graph* g = aca->getAbstractGraph(1);
 	node_iterator ni = g->getNodeIter();
-	node* abstn1 = g->nodeIterNext(ni);
-	node* abstn2 = g->nodeIterNext(ni);
+	node* absn1 = g->nodeIterNext(ni);
+	node* absn2 = g->nodeIterNext(ni);
 		
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("abstract graph has incorrect node count",expectedNodesInAbstractGraph, aca->getAbstractGraph(1)->getNumNodes());
-	CPPUNIT_ASSERT_MESSAGE("added first low-level node to abstract graph instead of a copy!",tn1 != abstn1);
-	CPPUNIT_ASSERT_MESSAGE("added second low-level node to abstract graph instead of a copy!",tn2 != abstn2);
+	CPPUNIT_ASSERT_MESSAGE("added first low-level node to abstract graph instead of a copy!",n1 != absn1);
+	CPPUNIT_ASSERT_MESSAGE("added second low-level node to abstract graph instead of a copy!",n2 != absn2);
 
 	
 }
@@ -260,58 +246,57 @@ the abstract graph is opaque from the test's point-of-view. There's no way to te
 is that a deep-copy of the original node is required -- albeit with an incremented kAbstractionLevel parameter */
 void AnnotatedClusterAbstractionTest::addEntranceToGraphShouldCreateAbstractNodesWhichHaveTheSameAnnotationsAsParameterNodes()
 {
-
-	/* create and annotate some nodes to use as test data */
-	node* tn1 = new node("");
-	node* tn2 = new node("");
-	
-	tn1->setLabelL(kAbstractionLevel, 0);
-	tn1->setParentCluster(0);
-	tn1->setLabelL(kFirstData, 4);
-	tn1->setLabelL(kFirstData+1, 1);	
-	tn1->setTerrainType(kGround);
-	tn1->setClearance(kGround, 1);
-	tn1->setClearance(kTrees, 1);
-	tn1->setClearance(kGround|kTrees, 2);
-
-	tn2->setLabelL(kAbstractionLevel, 0);
-	tn2->setParentCluster(1);
-	tn2->setLabelL(kFirstData, 5);
-	tn2->setLabelL(kFirstData+1, 1);
-	tn2->setTerrainType(kGround);
-	tn2->setClearance(kGround, 1);
-	tn2->setClearance(kTrees, 1);
-	tn2->setClearance(kGround|kTrees, 2);
-
 	aca->buildAbstractGraph();
-	aca->addEntranceToGraph(tn1, tn2);	
+	aca->addEntranceToGraph(n1, n2);	
 	graph *g = aca->getAbstractGraph(1);
 	
 	
 	/* check if annotations are ok */
 	node_iterator ni = g->getNodeIter();
-	node* abstn1 = g->nodeIterNext(ni);
-	node* abstn2 = g->nodeIterNext(ni);
+	node* absn1 = g->nodeIterNext(ni);
+	node* absn2 = g->nodeIterNext(ni);
 	
-	CPPUNIT_ASSERT_EQUAL_MESSAGE("first abstract node has different terrain type", tn1->getTerrainType(), abstn1->getTerrainType());
-	CPPUNIT_ASSERT_EQUAL_MESSAGE("second abstract node has different terrain type", tn2->getTerrainType(), abstn2->getTerrainType());
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("first abstract node has different terrain type", n1->getTerrainType(), absn1->getTerrainType());
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("second abstract node has different terrain type", n2->getTerrainType(), absn2->getTerrainType());
 	
-	CPPUNIT_ASSERT_EQUAL_MESSAGE("first abstract node has different parent cluster", tn1->getParentCluster(), abstn1->getParentCluster());
-	CPPUNIT_ASSERT_EQUAL_MESSAGE("second abstract node has different parent cluster", tn2->getParentCluster(), abstn2->getParentCluster());
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("first abstract node has different parent cluster", n1->getParentCluster(), absn1->getParentCluster());
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("second abstract node has different parent cluster", n2->getParentCluster(), absn2->getParentCluster());
 	
-	CPPUNIT_ASSERT_EQUAL_MESSAGE("first abstract node has different clearance value for kTrees capability", tn1->getClearance(kTrees), abstn1->getClearance(kTrees));
-	CPPUNIT_ASSERT_EQUAL_MESSAGE("second abstract node has different clearance value for kTrees capability", tn2->getClearance(kTrees), abstn2->getClearance(kTrees));
-	CPPUNIT_ASSERT_EQUAL_MESSAGE("first abstract node has different clearance value for kTrees capability", tn1->getClearance(kTrees), abstn1->getClearance(kTrees));
-	CPPUNIT_ASSERT_EQUAL_MESSAGE("second abstract node has different clearance value for kTrees capability", tn2->getClearance(kTrees), abstn2->getClearance(kTrees));
-	CPPUNIT_ASSERT_EQUAL_MESSAGE("first abstract node has different clearance value for (kGround|kTrees) capability", tn1->getClearance((kGround|kTrees)), abstn1->getClearance((kGround|kTrees)));
-	CPPUNIT_ASSERT_EQUAL_MESSAGE("second abstract node has different clearance value for (kGround|kTrees) capability", tn2->getClearance((kGround|kTrees)), abstn2->getClearance((kGround|kTrees)));
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("first abstract node has different clearance value for kTrees capability", n1->getClearance(kTrees), absn1->getClearance(kTrees));
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("second abstract node has different clearance value for kTrees capability", n2->getClearance(kTrees), absn2->getClearance(kTrees));
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("first abstract node has different clearance value for kTrees capability", n1->getClearance(kTrees), absn1->getClearance(kTrees));
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("second abstract node has different clearance value for kTrees capability", n2->getClearance(kTrees), absn2->getClearance(kTrees));
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("first abstract node has different clearance value for (kGround|kTrees) capability", n1->getClearance((kGround|kTrees)), absn1->getClearance((kGround|kTrees)));
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("second abstract node has different clearance value for (kGround|kTrees) capability", n2->getClearance((kGround|kTrees)), absn2->getClearance((kGround|kTrees)));
 
-	CPPUNIT_ASSERT_EQUAL_MESSAGE("first abstract node has incorrect kAbstractionLevel label", tn1->getLabelL(kAbstractionLevel)+1, abstn1->getLabelL(kAbstractionLevel));
-	CPPUNIT_ASSERT_EQUAL_MESSAGE("second abstract node has incorrect kAbstractionLevel label", tn2->getLabelL(kAbstractionLevel)+1, abstn2->getLabelL(kAbstractionLevel));
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("first abstract node has incorrect kAbstractionLevel label", n1->getLabelL(kAbstractionLevel)+1, absn1->getLabelL(kAbstractionLevel));
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("second abstract node has incorrect kAbstractionLevel label", n2->getLabelL(kAbstractionLevel)+1, absn2->getLabelL(kAbstractionLevel));
 
-	CPPUNIT_ASSERT_EQUAL_MESSAGE("first abstract node has incorrect x-coordinate label", tn1->getLabelL(kFirstData), abstn1->getLabelL(kFirstData));
-	CPPUNIT_ASSERT_EQUAL_MESSAGE("second abstract node has incorrect x-coordinate label", tn2->getLabelL(kFirstData), abstn2->getLabelL(kFirstData));	
-	CPPUNIT_ASSERT_EQUAL_MESSAGE("first abstract node has incorrect y-coordinate label", tn1->getLabelL(kFirstData+1), abstn1->getLabelL(kFirstData+1));
-	CPPUNIT_ASSERT_EQUAL_MESSAGE("second abstract node has incorrect y-coordinate label", tn2->getLabelL(kFirstData+1), abstn2->getLabelL(kFirstData+1));
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("first abstract node has incorrect x-coordinate label", n1->getLabelL(kFirstData), absn1->getLabelL(kFirstData));
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("second abstract node has incorrect x-coordinate label", n2->getLabelL(kFirstData), absn2->getLabelL(kFirstData));	
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("first abstract node has incorrect y-coordinate label", n1->getLabelL(kFirstData+1), absn1->getLabelL(kFirstData+1));
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("second abstract node has incorrect y-coordinate label", n2->getLabelL(kFirstData+1), absn2->getLabelL(kFirstData+1));
+}
+
+void AnnotatedClusterAbstractionTest::addEntranceToGraphShouldConnectAbstractNodesWithANewEdge()
+{
+	aca->buildAbstractGraph();
+
+	int expectedEdgeCapability = (n1->getTerrainType()|n2->getTerrainType());
+	int expectedClearance = n1->getClearance(expectedEdgeCapability);
+	expectedClearance = expectedClearance < n2->getClearance(expectedEdgeCapability)?expectedClearance:n2->getClearance(expectedEdgeCapability);	
+
+	aca->addEntranceToGraph(n1, n2); // target
+	
+	/* check results */
+	graph *g = aca->getAbstractGraph(1);
+	node_iterator ni = g->getNodeIter();
+	node* absn1 = g->nodeIterNext(ni);
+	node* absn2 = g->nodeIterNext(ni);
+	edge* e = g->findEdge(absn1->getNum(),absn2->getNum());
+	
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("could not find inter-edge connecting abstract nodes", true, e != 0);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("edge capability incorrect", expectedEdgeCapability, e->getCapability());
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("edge clearance incorrect", expectedClearance, e->getClearance(expectedEdgeCapability));
 }
 

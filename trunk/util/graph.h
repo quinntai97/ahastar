@@ -124,7 +124,7 @@ enum {
 class edge : public graph_object {
  public:
 	edge(unsigned int, unsigned int, double);
-	graph_object *clone() const { return new edge(from, to, getLabelF(kEdgeWeight)); }
+	graph_object *clone() const; 
 
 	// set/get various labels for each node
 	void setLabelF(unsigned int index, double val);
@@ -147,6 +147,11 @@ class edge : public graph_object {
 	int getEdgeNum() const { return edgeNum; } 
 
 	void Print(std::ostream&) const;
+	
+	void setClearance(int, int);
+	int getClearance(int);
+	int getCapability() { return capability; }
+	
  private:
 	friend class graph;
 	bool mark;
@@ -156,6 +161,8 @@ class edge : public graph_object {
 	unsigned int edgeNum;//, label[MAXLABELS];
 
 	std::vector<labelValue> label;
+	int capability;
+	int clearance;
 };
 
 /**
