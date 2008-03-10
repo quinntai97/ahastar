@@ -35,6 +35,7 @@ class AnnotatedMapAbstractionMock : public AbstractAnnotatedMapAbstraction
 		
 		void setCurrentTestExperiment(ExpMgrUtil::TestExperiment* exp);
 		void loadClearanceInfo(const std::string&);
+		void createAbstractGraph() { abstractions.push_back(new graph()); }
 		
 	private:
 		ExpMgrUtil::TestExperiment* curexp;

@@ -70,12 +70,11 @@ class AnnotatedAStar : public AbstractAnnotatedAStar
 	
 		virtual path* getPath(graphAbstraction*, node*, node*, int, int);
 		virtual const char* getName() { return "AnnotatedAStar"; }
+		static tDirection getDirection(node* current, node* target); // TODO: move this to a common AStar base class
+
 
 	protected:
 		virtual bool evaluate(node* n, node* target);
-	
-	private:
-		tDirection getDirection(node* current, node* target); // TODO: move this to a common AStar base class
 };
 
 #endif

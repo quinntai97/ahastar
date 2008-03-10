@@ -95,9 +95,45 @@ class NodeIsNullException : public AnnotatedClusterException
 		virtual const char* getExceptionErrorMessage() const;
 };
 
+class EntranceNodeIsNullException : public std::exception
+{
+	virtual const char* what() const throw() { return "tried to create an entrance but one of the parameters is a null node"; }
+};
+
+class EntranceNodesAreIdenticalException : public std::exception
+{
+	virtual const char* what() const throw() { return "tried to create an entrance but the parameter nodes both point to same node object"; }
+};
+
+class CannotBuildEntranceFromAbstractNodeException : public std::exception
+{
+	virtual const char* what() const throw() { return "tried to build an entrance using a parameter node which is already part of an abstract graph"; }
+};
+
+class CannotBuildEntranceToSelfException : public std::exception
+{
+	virtual const char* what() const throw() { return "tried to build an entrance using two nodes from the same cluster"; }
+};
+
+class EntranceNodeIsHardObstacleException : public std::exception
+{
+	virtual const char* what() const throw() { return "tried to build an entrance using two nodes from the same cluster"; }
+};
+
+class EntranceNodesAreNotAdjacentException : public std::exception
+{
+	virtual const char* what() const throw() { return "tried to build an entrance using two non-adjacent"; }	
+};
+
+
 class AbstractAnnotatedMapAbstraction;
 class AnnotatedCluster : public Cluster
 {
+
+	#ifdef UNITTEST
+		friend class AnnotatedClusterTest;
+	#endif
+
 	public:
 		AnnotatedCluster(int, int, int, int) throw(InvalidClusterDimensionsException, InvalidClusterOriginCoordinatesException);
 		~AnnotatedCluster() { }
@@ -105,7 +141,12 @@ class AnnotatedCluster : public Cluster
 		virtual void addParent(node *);
 		virtual void addNodesToCluster(AbstractAnnotatedMapAbstraction*);
 		
+	
+		
 	private:
+		void addEntranceToGraph(graph*, node*, node*) 
+			throw(EntranceNodeIsNullException, EntranceNodesAreIdenticalException, CannotBuildEntranceFromAbstractNodeException, 
+				CannotBuildEntranceToSelfException, EntranceNodeIsHardObstacleException, EntranceNodesAreNotAdjacentException);
 		static unsigned int uniqueClusterIdCnt;
 };
 
