@@ -19,6 +19,7 @@
 #include "AnnotatedCluster.h"
 #include "clusterAbstraction.h"
 #include "AHAConstants.h"
+#include "AnnotatedAStar.h"
 #include <sstream>
 
 
@@ -58,45 +59,4 @@ void AnnotatedClusterAbstraction::buildClusters()
 void AnnotatedClusterAbstraction::buildAbstractGraph()
 {	
 	abstractions.push_back(new graph());
-}
-
-void AnnotatedClusterAbstraction::addEntranceToGraph(node* from, node* to) 
-	throw(EntranceNodeIsNullException, EntranceNodesAreIdenticalException, CannotBuildEntranceFromAbstractNodeException, 
-		CannotBuildEntranceToSelfException, EntranceNodeIsHardObstacleException)
-{
-	if(from == NULL || to == NULL)
-		throw EntranceNodeIsNullException();
-
-	if( from == to)
-		throw EntranceNodesAreIdenticalException();
-		
-	if(from->getClearance(from->getTerrainType()) == 0 || to->getClearance(to->getTerrainType()) == 0)
-		throw EntranceNodeIsHardObstacleException();
-	
-	if(from->getLabelL(kAbstractionLevel) != 0 || to->getLabelL(kAbstractionLevel) != 0)
-		throw CannotBuildEntranceFromAbstractNodeException();
-		
-	if(from->getParentCluster() == to->getParentCluster())
-		throw CannotBuildEntranceToSelfException();
-	
-	graph* g = this->getAbstractGraph(1);
-	
-	/* need to add nodes to abstract graph to represent the entrance */
-	node* absfrom = dynamic_cast<node*>(from->clone());
-	node* absto = dynamic_cast<node*>(to->clone());
-	absfrom->setLabelL(kAbstractionLevel, 1);
-	absto->setLabelL(kAbstractionLevel, 1);
-	g->addNode(absfrom);
-	g->addNode(absto);
-
-	
-	/* need to annotate the edge representing the entrance with appropriate capabilities and clearance values so agents can determine if 
-		the edge is traversable */
-	edge* interedge = new edge(absfrom->getNum(), absto->getNum(), 1.0);
-	int edgeCapability = (absfrom->getTerrainType()|absto->getTerrainType());
-	int edgeClearance = absfrom->getClearance(edgeCapability);
-	edgeClearance = edgeClearance < to->getClearance(edgeCapability)?edgeClearance:to->getClearance(edgeCapability);
-	interedge->setClearance(edgeCapability,edgeClearance);
-	g->addEdge(interedge);
-
 }
