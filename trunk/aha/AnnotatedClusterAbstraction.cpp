@@ -23,17 +23,25 @@
 #include <sstream>
 
 
-AnnotatedClusterAbstraction::AnnotatedClusterAbstraction(Map* m, AbstractAnnotatedAStar* searchalg, int clustersize) 
+AnnotatedClusterAbstraction::AnnotatedClusterAbstraction(Map* m, AbstractAnnotatedAStar* searchalg, int clustersize)
 	: AnnotatedMapAbstraction(m, searchalg)
 {
 	this->clustersize = clustersize;
-	buildClusters();
-	return;
+	abstractions.push_back(new graph());	
 }
 
-AnnotatedClusterAbstraction::~AnnotatedClusterAbstraction()
+void AnnotatedClusterAbstraction::addCluster(AnnotatedCluster* ac) 
+{ 
+	ac->setClusterId(clusters.size()); clusters.push_back(ac); 
+} 
+
+
+AnnotatedCluster* AnnotatedClusterAbstraction::getCluster(int cid)
 {
-	clusters.clear();
+	if(cid < 0 || cid >= clusters.size())
+		return 0;
+		
+	return clusters[cid];
 }
 
 void AnnotatedClusterAbstraction::buildClusters()
@@ -42,21 +50,17 @@ void AnnotatedClusterAbstraction::buildClusters()
 	int mapheight= this->getMap()->getMapHeight();
 
 	/* need to split the map into fixed-size cluster areas that will form the basis of our abstract graph building later */
-	for(int x=0; x<mapwidth; x+=clustersize)
-		for(int y=0; y<mapheight; y+= clustersize)
+	int csize = getClusterSize();
+	for(int x=0; x<mapwidth; x+=csize)
+		for(int y=0; y<mapheight; y+= csize)
 		{	
-			int cwidth=clustersize;
+			int cwidth=csize;
 			if(x+cwidth > mapwidth)
 				cwidth = mapwidth - x;
-			int cheight=clustersize;
+			int cheight=csize;
 			if(y+cheight > mapheight)
 				cheight = mapheight - y;
 				
-			clusters.push_back( new AnnotatedCluster (x, y, cwidth, cheight) );
+			addCluster( new AnnotatedCluster (x, y, cwidth, cheight) );
 		}
-}
-
-void AnnotatedClusterAbstraction::buildAbstractGraph()
-{	
-	abstractions.push_back(new graph());
 }

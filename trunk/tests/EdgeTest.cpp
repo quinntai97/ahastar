@@ -100,3 +100,14 @@ void EdgeTest::cloneShouldDeepCopyEdgeAnnotations()
 	
 	delete eclone;
 }
+
+void EdgeTest::getClearanceShouldReturnZeroGivenACapabilityThatIsASubsetOfTheStoredCapability()
+{
+	int initialCV = 1;
+	int initialCapability = kGround|kTrees;
+	e->setClearance(initialCapability, initialCV);
+	
+	int expectedResult = 0;
+
+	CPPUNIT_ASSERT_EQUAL(expectedResult, e->getClearance(kGround));
+}

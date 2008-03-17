@@ -222,8 +222,10 @@ tDirection AnnotatedAStar::getDirection(node* current, node* target)
 			case -1: // add easterly component
 				dir = kE;
 				break;
-			default: // not moving along x-axis
+			case 0:
 				break;
+			default: // not moving along x-axis
+				return kStay;
 		};
 		
 		switch(deltay)
@@ -234,8 +236,10 @@ tDirection AnnotatedAStar::getDirection(node* current, node* target)
 			case -1: // add southerly component
 				dir = dir|kS;
 				break;
-			default: // not moving along y-axis
+			case 0:
 				break;
+			default: // not moving along y-axis
+				return kStay;
 		}
 		
 		return (tDirection)dir;

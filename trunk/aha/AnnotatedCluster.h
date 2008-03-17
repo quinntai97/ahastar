@@ -14,7 +14,7 @@
 #include <exception>
 
 class AnnotatedCluster;
-class AnnotatedMapAbstractionIsNullException : public std::exception
+class AnnotatedClusterAbstractionIsNullException : public std::exception
 {
 	public:
 		virtual const char* what() const throw();
@@ -126,12 +126,13 @@ class EntranceNodesAreNotAdjacentException : public std::exception
 };
 
 
-class AbstractAnnotatedMapAbstraction;
+class AnnotatedClusterAbstraction;
 class AnnotatedCluster : public Cluster
 {
 
 	#ifdef UNITTEST
 		friend class AnnotatedClusterTest;
+		friend class exceptionThrownHelper;
 	#endif
 
 	public:
@@ -139,15 +140,22 @@ class AnnotatedCluster : public Cluster
 		~AnnotatedCluster() { }
 		virtual bool addNode(node *) throw(NodeIsAlreadyAssignedToClusterException, ClusterFullException, NodeIsNullException); 
 		virtual void addParent(node *);
-		virtual void addNodesToCluster(AbstractAnnotatedMapAbstraction*);
+		virtual void addNodesToCluster(AnnotatedClusterAbstraction*);
 		
 	
 		
-	private:
-		void addEntranceToGraph(graph*, node*, node*) 
+	protected:
+		virtual int getNumAbstractNodes() { return abstractnodes.size(); } 
+		virtual void addInterEdge(node*, node*, AnnotatedClusterAbstraction*) 
 			throw(EntranceNodeIsNullException, EntranceNodesAreIdenticalException, CannotBuildEntranceFromAbstractNodeException, 
 				CannotBuildEntranceToSelfException, EntranceNodeIsHardObstacleException, EntranceNodesAreNotAdjacentException);
+		virtual void buildVerticalEntrances(AnnotatedClusterAbstraction* aca) { }
+		
+	private:
+		void addEdgeToAbstractGraph(node*, node*, int, int, double, AnnotatedClusterAbstraction*);
+		std::vector<node*> abstractnodes;
 		static unsigned int uniqueClusterIdCnt;
+		
 };
 
 

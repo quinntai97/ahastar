@@ -79,7 +79,6 @@ public:
 	std::vector<node*>&  getParents() { return parents; } 
 	std::vector<node*> parents; // each connected component gets its own parent
 	
-protected:
 	int setHeight(const int newheight) { m_height = newheight; }
 	int setWidth(const int newwidth) { m_width = newwidth; }
 	int setHOrig(const int newhorig) { m_horizOrigin = newhorig; }

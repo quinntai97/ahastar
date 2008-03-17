@@ -33,7 +33,7 @@ void AnnotatedClusterAbstractionTest::tearDown()
 	delete expmgr;
 }
 
-void AnnotatedClusterAbstractionTest::constructorShouldSplitTheMapAreaIntoCorrectNumberOfClusters()
+void AnnotatedClusterAbstractionTest::buildClustersShouldSplitTheMapAreaIntoCorrectNumberOfClusters()
 {
 	/* figure out how many clusters the test map should have */
 	int mapwidth = aca->getMap()->getMapWidth();
@@ -50,6 +50,7 @@ void AnnotatedClusterAbstractionTest::constructorShouldSplitTheMapAreaIntoCorrec
 	int totalExpectedClusters = numHorizontalClusters*numVerticalClusters;
 
 	/* check for the correct # of clusters */
+	aca->buildClusters();
 	CPPUNIT_ASSERT_EQUAL(totalExpectedClusters, aca->getNumClusters());
 }
 
@@ -58,12 +59,32 @@ void AnnotatedClusterAbstractionTest::getClusterSizeShouldReturnSameValueAsConst
 	CPPUNIT_ASSERT_EQUAL(TESTCLUSTERSIZE, aca->getClusterSize());
 }
 
-void AnnotatedClusterAbstractionTest::buildAbstractGraphShouldCreateANewGraphObject()
+void AnnotatedClusterAbstractionTest::constructorShouldCreateANewGraphObject()
 {
-	int numGraphsBefore = aca->getNumberOfAbstractionLevels();
-	aca->buildAbstractGraph();
-	
-	CPPUNIT_ASSERT_EQUAL_MESSAGE("actual graph count does not match expected count", numGraphsBefore+1, aca->getNumberOfAbstractionLevels());
+	int numGraphsExpected = 2;	
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("actual graph count does not match expected count", numGraphsExpected, aca->getNumberOfAbstractionLevels());
 }
 
 
+void AnnotatedClusterAbstractionTest::getClusterShouldReturnZeroWhenIdParameterIsLessThanZero()
+{
+	int expectedValue = 0;
+	int clusterid=-1;
+	AnnotatedCluster* result = aca->getCluster(clusterid);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("Non-zero return value when clusterid < 0", expectedValue, (int)result);
+}
+
+void AnnotatedClusterAbstractionTest::getClusterShouldReturnZeroWhenIdParameterIsGreaterThanNumberOfClusters()
+{
+	int expectedValue = 0;
+	int clusterid=aca->getNumClusters()+1;
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("Non-zero return value when clusterid >= numclusters", expectedValue, (int)aca->getCluster(clusterid));
+}
+
+void AnnotatedClusterAbstractionTest::getClusterShouldReturnRequestedClusterGivenAValidClusterId()
+{
+	aca->buildClusters();
+	int clusterid=0;
+	AnnotatedCluster* ac = aca->getCluster(clusterid);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("returned wrong cluster", true, ac->getClusterId() == clusterid );
+}

@@ -23,23 +23,25 @@ class AnnotatedClusterAbstractionTest : public CPPUNIT_NS::TestFixture
 {
 
 	CPPUNIT_TEST_SUITE( AnnotatedClusterAbstractionTest );
-	CPPUNIT_TEST( constructorShouldSplitTheMapAreaIntoCorrectNumberOfClusters );
+	CPPUNIT_TEST( buildClustersShouldSplitTheMapAreaIntoCorrectNumberOfClusters );
 	CPPUNIT_TEST( getClusterSizeShouldReturnSameValueAsConstructorParameter );
-	CPPUNIT_TEST( buildAbstractGraphShouldCreateANewGraphObject );
+	CPPUNIT_TEST( constructorShouldCreateANewGraphObject );
+	CPPUNIT_TEST( getClusterShouldReturnZeroWhenIdParameterIsLessThanZero );
+	CPPUNIT_TEST( getClusterShouldReturnZeroWhenIdParameterIsGreaterThanNumberOfClusters );
+	CPPUNIT_TEST( getClusterShouldReturnRequestedClusterGivenAValidClusterId );
 	CPPUNIT_TEST_SUITE_END();
 	
 	public:
 		void setUp();
 		void tearDown();
 
-		void constructorShouldSplitTheMapAreaIntoCorrectNumberOfClusters();
+		void buildClustersShouldSplitTheMapAreaIntoCorrectNumberOfClusters();
 		void getClusterSizeShouldReturnSameValueAsConstructorParameter();
 		
-		void buildAbstractGraphShouldCreateANewGraphObject();
-
-		
-		
-		
+		void constructorShouldCreateANewGraphObject();
+		void getClusterShouldReturnZeroWhenIdParameterIsLessThanZero();
+		void getClusterShouldReturnZeroWhenIdParameterIsGreaterThanNumberOfClusters();
+		void getClusterShouldReturnRequestedClusterGivenAValidClusterId();
 		
 	private:
 		AnnotatedClusterAbstraction *aca;

@@ -13,10 +13,30 @@
 #include <cppunit/TestFixture.h>
 #include <cppunit/extensions/HelperMacros.h>
 
-class AnnotatedMapAbstractionMock;
-class AnnotatedCluster;
-class node;
-class graph;
+
+#include "AnnotatedCluster.h"
+#include "graph.h"
+#include "AnnotatedClusterAbstractionMock.h"
+
+class TestEntrance
+{
+	public:
+		TestEntrance(int fromx, int fromy, int tox, int toy, int capability, int clearance, int fromClusterId, int toClusterId);
+		int getFromX() { return fromx; }
+		int getToX() { return tox; }
+		int getFromY() { return fromy; }
+		int getToY() { return toy; }
+
+		int getCapability() { return capability; }
+		int getClearance(int capability);
+		int getFromClusterId() { return fromClusterId; }
+		int getToClusterId() { return toClusterId; }
+
+	
+	private:
+		int fromx, fromy, tox, toy, capability, clearance, fromClusterId, toClusterId;
+};
+
 
 class AnnotatedClusterTest : public CPPUNIT_NS::TestFixture
 {
@@ -33,25 +53,27 @@ class AnnotatedClusterTest : public CPPUNIT_NS::TestFixture
 	CPPUNIT_TEST( constructorShouldThrowExceptionWhenHeightDimensionParameterIsInvalid );
 	CPPUNIT_TEST( constructorShouldThrowExceptionWhenXOriginParameterIsInvalid );
 	CPPUNIT_TEST( constructorShouldThrowExceptionWhenYOriginParameterIsInvalid );
-	CPPUNIT_TEST( addEntranceToGraphShouldAddTwoNewAbstractNodesToAbstractGraphGivenAPairOfNodesInTheNonAbstractGraph );
-	CPPUNIT_TEST( addEntranceToGraphShouldThrowExceptionIfFirstNodeParameterNodeIsNull );
-	CPPUNIT_TEST( addEntranceToGraphShouldThrowExceptionIfSecondNodeParameterNodeIsNull );
-	CPPUNIT_TEST( addEntranceToGraphShouldThrowExceptionIfParameterNodesPointToSameObject );
-	CPPUNIT_TEST( addEntranceToGraphShouldThrowExceptionIfFirstParameterNodeHasAnAbstractionLevelNotEqualToZero );
-	CPPUNIT_TEST( addEntranceToGraphShouldThrowExceptionIfSecondParameterNodeHasAnAbstractionLevelNotEqualToZero );
-	CPPUNIT_TEST( addEntranceToGraphShouldThrowExceptionIfParameterNodesShareTheSameCluster );
-	CPPUNIT_TEST( addEntranceToGraphShouldThrowExceptionIfFirstParameterNodeIsAHardObstacle );
-	CPPUNIT_TEST( addEntranceToGraphShouldThrowExceptionIfSecondParameterNodeIsAHardObstacle );
-	CPPUNIT_TEST( addEntranceToGraphShouldThrowExceptionIfParameterNodesAreNotAdjacent );
-	CPPUNIT_TEST( addEntranceToGraphShouldCreateAbstractNodesWhichHaveTheSameAnnotationsAsParameterNodes );
-	CPPUNIT_TEST( addEntranceToGraphShouldConnectAbstractNodesWithANewEdge );
+	CPPUNIT_TEST( addInterEdgeShouldAddTwoNewAbstractNodesToAbstractGraphGivenAPairOfNodesInTheNonAbstractGraph );
+	CPPUNIT_TEST( addInterEdgeShouldThrowExceptionIfFirstNodeParameterNodeIsNull );
+	CPPUNIT_TEST( addInterEdgeShouldThrowExceptionIfSecondNodeParameterNodeIsNull );
+	CPPUNIT_TEST( addInterEdgeShouldThrowExceptionIfParameterNodesPointToSameObject );
+	CPPUNIT_TEST( addInterEdgeShouldThrowExceptionIfFirstParameterNodeHasAnAbstractionLevelNotEqualToZero );
+	CPPUNIT_TEST( addInterEdgeShouldThrowExceptionIfSecondParameterNodeHasAnAbstractionLevelNotEqualToZero );
+	CPPUNIT_TEST( addInterEdgeShouldThrowExceptionIfParameterNodesShareTheSameCluster );
+	CPPUNIT_TEST( addInterEdgeShouldThrowExceptionIfFirstParameterNodeIsAHardObstacle );
+	CPPUNIT_TEST( addInterEdgeShouldThrowExceptionIfSecondParameterNodeIsAHardObstacle );
+	CPPUNIT_TEST( addInterEdgeShouldThrowExceptionIfParameterNodesAreNotAdjacent );
+	CPPUNIT_TEST( addInterEdgeShouldCreateAbstractNodesWhichHaveTheSameAnnotationsAsParameterNodes ); 
+	CPPUNIT_TEST( addInterEdgeShouldConnectAbstractNodesWithANewAnnotatedEdge );
+	//CPPUNIT_TEST( buildVerticalEntrancesShouldIdentifyAsEntrancesPairsOfNodesWithMaximalClearanceThatConnectAdjacentClusters );
 
 	CPPUNIT_TEST_SUITE_END();
 	
 	public:
 		void setUp();
 		void tearDown();
-		void optionalSetUp();
+		void createEntranceNodes();
+		void setupAddEntranceTestHelper();
 
 		/* AnnotatedCluster() */
 		void constructorShouldThrowExceptionWhenWidthDimensionParameterIsInvalid();
@@ -71,40 +93,85 @@ class AnnotatedClusterTest : public CPPUNIT_NS::TestFixture
 		void addNodesToClusterShouldAssignAllNodesInAreaMarkedByHeightAndWidthDimensions();
 		void addNodesToClusterShouldThrowExceptionWhenMapAbstractionParameterIsNull();
 		
-		/* addEntranceToGraph acceptance tests */
-		void addEntranceToGraphShouldAddTwoNewAbstractNodesToAbstractGraphGivenAPairOfNodesInTheNonAbstractGraph();
-		void addEntranceToGraphShouldCreateAbstractNodesWhichHaveTheSameAnnotationsAsParameterNodes();
-		void addEntranceToGraphShouldConnectAbstractNodesWithANewEdge();
-		void addEntranceToGraphShouldThrowExceptionIfFirstNodeParameterNodeIsNull();
-		void addEntranceToGraphShouldThrowExceptionIfSecondNodeParameterNodeIsNull();
-		void addEntranceToGraphShouldThrowExceptionIfParameterNodesPointToSameObject();
-		void addEntranceToGraphShouldThrowExceptionIfFirstParameterNodeHasAnAbstractionLevelNotEqualToZero();
-		void addEntranceToGraphShouldThrowExceptionIfSecondParameterNodeHasAnAbstractionLevelNotEqualToZero();
-		void addEntranceToGraphShouldThrowExceptionIfParameterNodesShareTheSameCluster();
-		void addEntranceToGraphShouldThrowExceptionIfFirstParameterNodeIsAHardObstacle();
-		void addEntranceToGraphShouldThrowExceptionIfSecondParameterNodeIsAHardObstacle();
-		void addEntranceToGraphShouldThrowExceptionIfParameterNodesAreNotAdjacent();
+		/* addInterEdge() */
+		void addInterEdgeShouldAddTwoNewAbstractNodesToAbstractGraphGivenAPairOfNodesInTheNonAbstractGraph();
+		void addInterEdgeShouldCreateAbstractNodesWhichHaveTheSameAnnotationsAsParameterNodes();
+		void addInterEdgeShouldConnectAbstractNodesWithANewAnnotatedEdge();
+		void addInterEdgeShouldThrowExceptionIfFirstNodeParameterNodeIsNull();
+		void addInterEdgeShouldThrowExceptionIfSecondNodeParameterNodeIsNull();
+		void addInterEdgeShouldThrowExceptionIfParameterNodesPointToSameObject();
+		void addInterEdgeShouldThrowExceptionIfFirstParameterNodeHasAnAbstractionLevelNotEqualToZero();
+		void addInterEdgeShouldThrowExceptionIfSecondParameterNodeHasAnAbstractionLevelNotEqualToZero();
+		void addInterEdgeShouldThrowExceptionIfParameterNodesShareTheSameCluster();
+		void addInterEdgeShouldThrowExceptionIfFirstParameterNodeIsAHardObstacle();
+		void addInterEdgeShouldThrowExceptionIfSecondParameterNodeIsAHardObstacle();
+		void addInterEdgeShouldThrowExceptionIfParameterNodesAreNotAdjacent();
+		void addInterEdgeShouldThrowExceptionIfWeightParameterInvalid();
+		void addInterEdgeShouldThrowExceptionIfClearanceParameterInvalid();
+
+		/* buildVerticalEntrances() */
+		void buildVerticalEntrancesShouldIdentifyAsEntrancesPairsOfNodesWithMaximalClearanceThatConnectAdjacentClusters();
 
 		/* yet to implement */
-		void buildHorizontalEntrancesShouldIdentifyAsEntrancesPairsOfNodesWithMaximalClearanceThatConnectAdjacentClusters();
-		void buildHorizontalEntrancesShouldSkipAnyCandidateEntrancesWhereOneOfTheNodesIsAHardObstacle();
-		void buildHorizontalEntrancesShouldIdentifyOneEntranceForEachSectionOfCapabilityHomogenousNodesAlongTheClusterBorderIfSectionSizeLessThan5();
-		void buildHorizontalEntrancesShouldIdentifyTwoEntrancesForEachSectionOfCapabilityHomogenousNodesAlongTheClusterBorderIfSectionSizeAtLeast5();
+		void buildVerticalEntrancesShouldSkipAnyCandidateEntrancesWhereOneOfTheNodesIsAHardObstacle();
+		void buildVerticalEntrancesShouldIdentifyOneEntranceForEachSectionOfCapabilityHomogenousNodesAlongTheClusterBorderIfSectionSizeLessThan5();
+		void buildVerticalEntrancesShouldIdentifyTwoEntrancesForEachSectionOfCapabilityHomogenousNodesAlongTheClusterBorderIfSectionSizeAtLeast5();
+//		void addInterEdgeShouldAddEachEntranceEndpointToItsCluster
 
-		
 		
 	private:
-		AnnotatedMapAbstractionMock* ama_mock;
+		double interedge_weight;
+		int cwidth, cheight;
+		int entrance1_capability, entrance1_clearance;
+		int entrance2_capability, entrance2_clearance;
+
+		AnnotatedClusterAbstractionMock* aca_mock;
 		AnnotatedCluster* ac;
-		int cwidth; 
-		int cheight;
-		node* e1_n1;
-		node* e1_n2;
-		node* e2_n2hardobst;
-		node* e2_n1;
+		node *e1_n1, *e1_n2;
+		node *e2_n2hardobst, *e2_n1;
 		graph* absg;
+		
+		exceptionThrownHelper *testHelper;
+		
 
 
+};
+
+/* templated code for running tests that involve throwing exceptions */
+class exceptionThrownHelper
+{
+	public:
+		exceptionThrownHelper() {}
+		
+		template<class ExceptionType>
+		void checkaddInterEdgeThrowsCorrectException(node* n1, node* n2)
+		{
+			bool exceptionThrown = false;
+			int numnodes = absg->getNumNodes();
+				
+			try 
+			{
+				ac->addInterEdge(n1, n2, aca_mock);
+			}
+			catch(ExceptionType e)
+			{	
+				exceptionThrown = true;
+			}
+			
+			CPPUNIT_ASSERT_EQUAL_MESSAGE(failmessage.c_str(), true, exceptionThrown);
+			CPPUNIT_ASSERT_EQUAL_MESSAGE("incorrectly added nodes to abstract graph", numnodes, absg->getNumNodes());
+		};
+		
+		void setFailMessage(std::string& msg) { failmessage = msg; } 
+		void setAbstractGraph(graph *g) { this->absg = g; }
+		void setAnnotatedCluster(AnnotatedCluster* ac) { this->ac = ac; }
+		void setAnnotatedClusterAbstraction(AnnotatedClusterAbstractionMock* aca_mock) { this->aca_mock = aca_mock; }
+	
+	private:
+		std::string failmessage;
+		AnnotatedCluster* ac; 
+		AnnotatedClusterAbstractionMock* aca_mock;
+		graph* absg;
 };
 
 #endif
