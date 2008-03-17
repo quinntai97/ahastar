@@ -24,21 +24,21 @@ class AnnotatedClusterAbstraction : public AnnotatedMapAbstraction
 	#endif
 	
 	public: 
-		AnnotatedClusterAbstraction(Map* m, AbstractAnnotatedAStar* searchalg, int clustersize);
-		~AnnotatedClusterAbstraction();
-		int getNumClusters() { return clusters.size(); } 
-		int getClusterSize() { return clustersize; }
-		int getNumberOfAbstractionLevels() { return abstractions.size(); }
-		
-	private: 
-		void buildClusters();
-		void identifyHorizontalEntrances();
-		void identifyVeritcalEntrances();
-		void buildAbstractGraph();
-		
-		std::vector<AnnotatedCluster *> clusters;
-		int clustersize;
+		AnnotatedClusterAbstraction::AnnotatedClusterAbstraction(Map* m, AbstractAnnotatedAStar* searchalg, int clustersize);
+		~AnnotatedClusterAbstraction() { clusters.clear(); };
+		virtual void buildClusters();
+		virtual int getClusterSize() { return clustersize; } 
+		virtual int getNumClusters() { return clusters.size(); } 
+		virtual AnnotatedCluster* getCluster(int cid);
 
+	protected: 
+		virtual void addCluster(AnnotatedCluster* ac);
+		virtual int getNumberOfAbstractionLevels() { return abstractions.size(); }
+		
+	private:
+		int clustersize;
+		std::vector<AnnotatedCluster *> clusters;
+	
 };
 
 

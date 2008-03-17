@@ -7,11 +7,11 @@
  *
  */
 
-#include "AnnotatedMapAbstraction.h"
+#include "AnnotatedClusterAbstraction.h"
 #include "AnnotatedCluster.h"
 #include <sstream>
 
-const char* AnnotatedMapAbstractionIsNullException::what() const throw()
+const char* AnnotatedClusterAbstractionIsNullException::what() const throw()
 {
 	return std::string("Null map abstraction parameter found").c_str();
 }
@@ -112,11 +112,11 @@ void AnnotatedCluster::addParent(node* parentnode)
 }
 
 /* add all traversable nodes in the cluster area to the cluster */
-void AnnotatedCluster::addNodesToCluster(AbstractAnnotatedMapAbstraction* aMap)
+void AnnotatedCluster::addNodesToCluster(AnnotatedClusterAbstraction* aMap)
 {
 
 	if(aMap == NULL)
-		throw AnnotatedMapAbstractionIsNullException();
+		throw AnnotatedClusterAbstractionIsNullException();
 		
 	for(int x=this->getHOrig(); x<getHOrig()+getWidth(); x++)
 		for(int y=this->getVOrig(); y<getVOrig()+getHeight(); y++)
@@ -125,7 +125,7 @@ void AnnotatedCluster::addNodesToCluster(AbstractAnnotatedMapAbstraction* aMap)
 		}
 }
 
-void AnnotatedCluster::addEntranceToGraph(graph* g, node* from, node* to) 
+void AnnotatedCluster::addInterEdge(node* from, node* to, AnnotatedClusterAbstraction* aca) 
 	throw(EntranceNodeIsNullException, EntranceNodesAreIdenticalException, CannotBuildEntranceFromAbstractNodeException, 
 		CannotBuildEntranceToSelfException, EntranceNodeIsHardObstacleException, EntranceNodesAreNotAdjacentException)
 {
@@ -146,24 +146,35 @@ void AnnotatedCluster::addEntranceToGraph(graph* g, node* from, node* to)
 	
 	if(AnnotatedAStar::getDirection(from, to) == kStay)
 		throw EntranceNodesAreNotAdjacentException();
+		
+		
+	double weight = 1.0;
+	int capability = from->getTerrainType()|to->getTerrainType();
+	int clearance = from->getClearance(capability)>to->getClearance(capability)?to->getClearance(capability):from->getClearance(capability);		
 	
+	addEdgeToAbstractGraph(from, to, capability, clearance, weight, aca);
 	
+}
+
+void AnnotatedCluster::addEdgeToAbstractGraph(node* from, node* to, int capability, int clearance, double weight, AnnotatedClusterAbstraction* aca)
+{
 	/* need to add nodes to abstract graph to represent the entrance */
 	node* absfrom = dynamic_cast<node*>(from->clone());
 	node* absto = dynamic_cast<node*>(to->clone());
 	absfrom->setLabelL(kAbstractionLevel, 1);
 	absto->setLabelL(kAbstractionLevel, 1);
+	
+	graph* g = aca->getAbstractGraph(1);
 	g->addNode(absfrom);
 	g->addNode(absto);
-
 	
 	/* need to annotate the edge representing the entrance with appropriate capabilities and clearance values so agents can determine if 
 		the edge is traversable */
-	edge* interedge = new edge(absfrom->getNum(), absto->getNum(), 1.0);
-	int edgeCapability = (absfrom->getTerrainType()|absto->getTerrainType());
-	int edgeClearance = absfrom->getClearance(edgeCapability);
-	edgeClearance = edgeClearance < to->getClearance(edgeCapability)?edgeClearance:to->getClearance(edgeCapability);
-	interedge->setClearance(edgeCapability,edgeClearance);
+	edge* interedge = new edge(absfrom->getNum(), absto->getNum(), weight);
+	interedge->setClearance(capability,clearance);
 	g->addEdge(interedge);
-
+		
+	/* need to add the endpoints of the new entrance to their respective clusters */
+	AnnotatedCluster* fromCluster = aca->getCluster(absfrom->getParentCluster());
+	AnnotatedCluster* toCluster = aca->getCluster(absto->getParentCluster());
 }

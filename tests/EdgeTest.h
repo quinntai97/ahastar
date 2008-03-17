@@ -27,6 +27,7 @@ class EdgeTest : public CPPUNIT_NS::TestFixture
 	CPPUNIT_TEST( constructorShouldInitialiseClearanceAndCapabilityValuesToZero );
 	CPPUNIT_TEST( setClearanceShouldDoNothingWhenClearanceValueIsLessThanOrEqualToZero );
 	CPPUNIT_TEST( getClearanceShouldReturnZeroGivenACapabilityThatDoesNotMatchTheStoredCapability );
+	CPPUNIT_TEST( getClearanceShouldReturnZeroGivenACapabilityThatIsASubsetOfTheStoredCapability );
 	CPPUNIT_TEST( cloneShouldDeepCopyEdgeAnnotations );
 	CPPUNIT_TEST_SUITE_END();
 	
@@ -38,6 +39,8 @@ class EdgeTest : public CPPUNIT_NS::TestFixture
 		void constructorShouldInitialiseClearanceAndCapabilityValuesToZero();
 		void setClearanceShouldDoNothingWhenClearanceValueIsLessThanOrEqualToZero();
 		void getClearanceShouldReturnZeroGivenACapabilityThatDoesNotMatchTheStoredCapability();
+		void getClearanceShouldReturnZeroGivenACapabilityThatIsASubsetOfTheStoredCapability();
+		void getClearanceShouldReturnStoredClearanceGivenACapabilityThatIsASupersetOfTheStoredCapability(); // TODO: implement this test
 		void cloneShouldDeepCopyEdgeAnnotations();
 	
 	private:

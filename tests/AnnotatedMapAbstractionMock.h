@@ -21,7 +21,7 @@ class AnnotatedMapAbstractionMock : public AbstractAnnotatedMapAbstraction
 		AnnotatedMapAbstractionMock(Map* m, AbstractAnnotatedAStar* searchalg) : AbstractAnnotatedMapAbstraction(m, searchalg) {}
 		~AnnotatedMapAbstractionMock() {}
 				
-		virtual void annotateMap() {}
+		virtual void annotateMap();
 		virtual bool pathable(node*, node*, int, int);
 		bool pathable(node*, node*);
 		void verifyHierarchy() {}
@@ -34,11 +34,11 @@ class AnnotatedMapAbstractionMock : public AbstractAnnotatedMapAbstraction
 		void openGLDraw() { }
 		
 		void setCurrentTestExperiment(ExpMgrUtil::TestExperiment* exp);
-		void loadClearanceInfo(const std::string&);
-		void createAbstractGraph() { abstractions.push_back(new graph()); }
+		static void loadClearanceInfo(const std::string&, AnnotatedMapAbstraction*);
 		
 	private:
 		ExpMgrUtil::TestExperiment* curexp;
+		
 };
 
 #endif

@@ -32,7 +32,7 @@ class AbstractAnnotatedMapAbstraction : public mapAbstraction
 		
 		void setDebugInfo(bool debug) { this->debuginfo = debug; }
 		bool getDebugInfo() { return this->debuginfo; }
-		AbstractAnnotatedAStar* getSearchAlgorithm() { return searchalg; }
+		virtual AbstractAnnotatedAStar* getSearchAlgorithm() { return searchalg; }
 	
 	private:
 		bool debuginfo;
