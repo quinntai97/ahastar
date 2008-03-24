@@ -167,6 +167,7 @@ class AnnotatedCluster : public Cluster
 			throw(EntranceNodeIsNullException, EntranceNodesAreIdenticalException, CannotBuildEntranceFromAbstractNodeException, 
 				CannotBuildEntranceToSelfException, EntranceNodeIsHardObstacleException, EntranceNodesAreNotAdjacentException);
 		virtual void buildVerticalEntrances(int, AnnotatedClusterAbstraction*);
+		virtual void buildHorizontalEntrances(int, AnnotatedClusterAbstraction*);
 		
 	private:
 		void addEdgeToAbstractGraph(node*, node*, int, int, double, AnnotatedClusterAbstraction*);
