@@ -68,6 +68,10 @@ class AnnotatedClusterTest : public CPPUNIT_NS::TestFixture
 	CPPUNIT_TEST( buildVerticalEntrancesShouldCreateOneMaximallySizedEntrancePerContiguousAreaAlongTheVerticalBorderBetweenTwoClusters );
 	CPPUNIT_TEST( buildVerticalEntrancesShouldThrowExceptionGivenAnInvalidACAParameter );
 	CPPUNIT_TEST( buildVerticalEntrancesShouldNotAddAnyEntrancesGivenAnInvalidCapabilityParameter );
+	CPPUNIT_TEST( buildHorizontalEntrancesShouldCreateOneMaximallySizedEntrancePerContiguousAreaAlongTheHorizontalBorderBetweenTwoClusters );
+	CPPUNIT_TEST( buildHorizontalEntrancesShouldThrowExceptionGivenAnInvalidACAParameter );
+	CPPUNIT_TEST( buildHorizontalEntrancesShouldNotAddAnyEntrancesGivenAnInvalidCapabilityParameter );
+
 
 	CPPUNIT_TEST_SUITE_END();
 	
@@ -116,6 +120,12 @@ class AnnotatedClusterTest : public CPPUNIT_NS::TestFixture
 		void buildVerticalEntrancesShouldCreateOneMaximallySizedEntrancePerContiguousAreaAlongTheVerticalBorderBetweenTwoClusters();
 		void buildVerticalEntrancesShouldThrowExceptionGivenAnInvalidACAParameter();
 		void buildVerticalEntrancesShouldNotAddAnyEntrancesGivenAnInvalidCapabilityParameter();
+
+		/* buildHorizontalEntrances() */
+		void buildHorizontalEntrancesShouldCreateOneMaximallySizedEntrancePerContiguousAreaAlongTheHorizontalBorderBetweenTwoClusters();
+		void buildHorizontalEntrancesShouldThrowExceptionGivenAnInvalidACAParameter();
+		void buildHorizontalEntrancesShouldNotAddAnyEntrancesGivenAnInvalidCapabilityParameter();
+
 
 		/* yet to implement */
 
@@ -169,7 +179,7 @@ class exceptionThrownHelper
 		};
 		
 		template<class ExceptionType>
-		void checkBuildEntrancesThrowsCorrectException(int capability, AnnotatedClusterAbstraction* aca)
+		void checkBuildVerticalEntrancesThrowsCorrectException(int capability, AnnotatedClusterAbstraction* aca)
 		{
 			bool exceptionThrown = false;
 			try
@@ -183,6 +193,23 @@ class exceptionThrownHelper
 			
 			CPPUNIT_ASSERT_EQUAL_MESSAGE(failmessage.c_str(), true, exceptionThrown);
 		}
+
+		template<class ExceptionType>
+		void checkBuildHorizontalEntrancesThrowsCorrectException(int capability, AnnotatedClusterAbstraction* aca)
+		{
+			bool exceptionThrown = false;
+			try
+			{
+				ac->buildHorizontalEntrances(capability, aca);
+			}
+			catch(ExceptionType& e)
+			{
+					exceptionThrown = true;
+			}
+			
+			CPPUNIT_ASSERT_EQUAL_MESSAGE(failmessage.c_str(), true, exceptionThrown);
+		}
+
 		
 		void setFailMessage(std::string& msg) { failmessage = msg; } 
 		void setAbstractGraph(graph *g) { this->absg = g; }

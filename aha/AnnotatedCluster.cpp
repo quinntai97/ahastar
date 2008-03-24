@@ -211,12 +211,52 @@ void AnnotatedCluster::buildVerticalEntrances(int curCapability, AnnotatedCluste
 	node* candidateNode2 = 0;
 	int candidateClearance=0;
 		
-	/* scan for horizontal entrances along the eastern border */
+	/* scan for vertical entrances along the eastern border */
 	int x = this->getHOrig()+this->getWidth();
 	for(int y=getVOrig(); y<getVOrig()+getHeight(); y++)
 	{
 		node *c1 = aca->getNodeFromMap(x,y); // node in neighbouring cluster
 		node *c2 = aca->getNodeFromMap(x-1, y); // border node in 'this' cluster
+		int clearance = c1->getClearance(curCapability)>c2->getClearance(curCapability)?
+							c2->getClearance(curCapability):c1->getClearance(curCapability);
+
+		if(clearance > candidateClearance)
+		{
+			candidateNode1 = c1;
+			candidateNode2 = c2;
+			candidateClearance = clearance;
+		}
+		if(clearance == 0 && candidateClearance != 0) // hard obstacle encountered. build the largest entrance so far	
+		{
+				this->addInterEdge(candidateNode1,candidateNode2,aca);
+				candidateNode1 = candidateNode2 = 0;
+				candidateClearance = 0;
+		}
+	}
+	
+	if(candidateClearance != 0)
+		this->addInterEdge(candidateNode2,candidateNode1,aca);
+}
+
+void AnnotatedCluster::buildHorizontalEntrances(int curCapability, AnnotatedClusterAbstraction* aca)
+{
+
+	if(aca == NULL)
+		throw AnnotatedClusterAbstractionIsNullException();
+	
+	int mapheight = aca->getMap()->getMapHeight();
+	int mapwidth = aca->getMap()->getMapWidth();
+
+	node* candidateNode1 = 0; // multiple entrances may exist along a border so we track candidate w/ largest clearance so far
+	node* candidateNode2 = 0;
+	int candidateClearance=0;
+		
+	/* scan for horizontal entrances along the southern border */
+	int y = this->getVOrig()+this->getHeight();
+	for(int x=getHOrig(); x<getHOrig()+getWidth(); x++)
+	{
+		node *c1 = aca->getNodeFromMap(x,y); // node in neighbouring cluster
+		node *c2 = aca->getNodeFromMap(x, y-1); // border node in 'this' cluster
 		int clearance = c1->getClearance(curCapability)>c2->getClearance(curCapability)?
 							c2->getClearance(curCapability):c1->getClearance(curCapability);
 

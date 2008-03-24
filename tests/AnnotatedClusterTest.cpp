@@ -491,7 +491,7 @@ void AnnotatedClusterTest::buildVerticalEntrancesShouldThrowExceptionGivenAnInva
 	testHelper->setFailMessage(errmsg);
 
 	int capability = kWater;
-	testHelper->checkBuildEntrancesThrowsCorrectException<AnnotatedClusterAbstractionIsNullException>(capability, NULL);
+	testHelper->checkBuildVerticalEntrancesThrowsCorrectException<AnnotatedClusterAbstractionIsNullException>(capability, NULL);
 }
 
 void AnnotatedClusterTest::buildVerticalEntrancesShouldNotAddAnyEntrancesGivenAnInvalidCapabilityParameter()
@@ -510,5 +510,65 @@ void AnnotatedClusterTest::buildVerticalEntrancesShouldNotAddAnyEntrancesGivenAn
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("too many nodes in target cluster", numNodesInClusterBefore, (int)ac->getParents().size());
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("too many nodes in adjacent cluster", numNodesInClusterBefore, (int)adjacentCluster->getParents().size());
 
+}
+
+/* builds two entrances along a veritcal border between two clusters. border area contains two contiguous areas separated by a hard obstacle */
+void AnnotatedClusterTest::buildHorizontalEntrancesShouldCreateOneMaximallySizedEntrancePerContiguousAreaAlongTheHorizontalBorderBetweenTwoClusters()
+{
+	aca_mock->buildClusters();
+	TestEntrance te1(0,4,0,5,kGround,1,0,1);
+	TestEntrance te2(3,4,3,5,kGround,1,0,1);
+
+	ac->buildHorizontalEntrances(te1.getCapability(), aca_mock);
+
+	/* check that the entrances were created in the expected locations */
+	AnnotatedCluster *adjacentCluster = aca_mock->getCluster(aca_mock->getNodeFromMap(te2.getToX(), te2.getToY())->getParentCluster());
+	node* te1_endpoint1 = ac->getParents().at(0);
+	node* te1_endpoint2 = adjacentCluster->getParents().at(0);
+	node* te2_endpoint1 = ac->getParents().at(1);
+	node* te2_endpoint2 = adjacentCluster->getParents().at(1);
+		
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("xpos of te1_endpoint1 incorrect", te1.getFromX(), (int)te1_endpoint1->getLabelL(kFirstData));
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("ypos of te1_endpoint1 incorrect", te1.getFromY(), (int)te1_endpoint1->getLabelL(kFirstData+1));
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("xpos of te1_endpoint2 incorrect", te1.getToX(), (int)te1_endpoint2->getLabelL(kFirstData));
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("ypos of te1_endpoint2 incorrect", te1.getToY(), (int)te1_endpoint2->getLabelL(kFirstData+1));
+
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("xpos of te2_endpoint1 incorrect", te2.getFromX(), (int)te2_endpoint1->getLabelL(kFirstData));
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("ypos of te2_endpoint1 incorrect", te2.getFromY(), (int)te2_endpoint1->getLabelL(kFirstData+1));
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("xpos of te2_endpoint2 incorrect", te2.getToX(), (int)te2_endpoint2->getLabelL(kFirstData));
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("ypos of te2_endpoint2 incorrect", te2.getToY(), (int)te2_endpoint2->getLabelL(kFirstData+1));
+	
+	/* check that the entrances have expected capability clearance annotations */
+	edge* entrance = absg->findEdge(te1_endpoint2->getNum(), te1_endpoint1->getNum());
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("entrance1 clearance incorrect", entrance->getClearance(te1.getCapability()), te1.getClearance(te1.getCapability()));
+	entrance = absg->findEdge(te2_endpoint2->getNum(), te2_endpoint1->getNum());
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("entrance2 clearance incorrect", entrance->getClearance(te2.getCapability()), te2.getClearance(te2.getCapability()));
+}
+
+void AnnotatedClusterTest::buildHorizontalEntrancesShouldThrowExceptionGivenAnInvalidACAParameter()
+{
+	setupExceptionThrownTestHelper();
+	std::string errmsg("failed to throw exception when ACA parameter is null");
+	testHelper->setFailMessage(errmsg);
+
+	int capability = kWater;
+	testHelper->checkBuildHorizontalEntrancesThrowsCorrectException<AnnotatedClusterAbstractionIsNullException>(capability, NULL);
+}
+
+void AnnotatedClusterTest::buildHorizontalEntrancesShouldNotAddAnyEntrancesGivenAnInvalidCapabilityParameter()
+{
+	int numNodesInAbstractGraphBefore = absg->getNumNodes();
+	int numEdgesInAbstractGraphBefore = absg->getNumEdges();
+	int numNodesInClusterBefore = ac->getParents().size();
+	AnnotatedCluster* adjacentCluster = aca_mock->getCluster(1);
+	int numNodesInClusterAdjacentBefore = adjacentCluster->getParents().size();
+	
+	int capability = kWater;
+	ac->buildHorizontalEntrances(capability, aca_mock);
+
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("too many nodes in abstract graph", numNodesInAbstractGraphBefore, absg->getNumNodes());
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("too many edges in abstract graph", numEdgesInAbstractGraphBefore, absg->getNumEdges());
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("too many nodes in target cluster", numNodesInClusterBefore, (int)ac->getParents().size());
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("too many nodes in adjacent cluster", numNodesInClusterBefore, (int)adjacentCluster->getParents().size());
 }
 
