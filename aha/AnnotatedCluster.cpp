@@ -9,6 +9,7 @@
 
 #include "AnnotatedClusterAbstraction.h"
 #include "AnnotatedCluster.h"
+#include "AHAConstants.h"
 #include <sstream>
 
 const char* AnnotatedClusterAbstractionIsNullException::what() const throw()
@@ -71,6 +72,20 @@ const char* NodeIsNullException::getExceptionErrorMessage() const
 		return std::string("Found a null node parameter.").c_str();
 }
 
+CannotBuildEntranceToSelfException::CannotBuildEntranceToSelfException(node* n1, node* n2) : EntranceException(n1, n2)
+{
+	std::ostringstream oss;
+	oss << 	"tried to build an entrance using two nodes from the same cluster. Endpoint1 @ ";
+	oss << "("<<endpoint1->getLabelL(kFirstData) << ", "<< endpoint1->getLabelL(kFirstData+1)<< " ) ";
+	oss << " Endpoint2 @ "<< "("<<endpoint2->getLabelL(kFirstData) << ", "<< endpoint2->getLabelL(kFirstData+1)<< " ) ";
+	oss << std::endl;
+	
+	message = new std::string(oss.str().c_str());
+}
+
+const char* CannotBuildEntranceToSelfException::what() const throw() { return message->c_str(); }
+
+
 unsigned AnnotatedCluster::uniqueClusterIdCnt = 0;
 
 AnnotatedCluster::AnnotatedCluster(int startx, int starty, int width, int height) throw(InvalidClusterDimensionsException, InvalidClusterOriginCoordinatesException)
@@ -83,6 +98,7 @@ AnnotatedCluster::AnnotatedCluster(int startx, int starty, int width, int height
 	if(startx < 0 || starty < 0)
 		throw InvalidClusterOriginCoordinatesException(startx, starty);
 }
+
 
 /* annotated clusters cannot contain hard obstacles. 
    NB: deprecates addNode(int) in Cluster. Avoid using the version in the base class when adding annotated nodes as it isn't safe.
@@ -108,7 +124,7 @@ bool AnnotatedCluster::addNode(node* mynode) throw(NodeIsAlreadyAssignedToCluste
 
 void AnnotatedCluster::addParent(node* parentnode)
 {
-	return;
+	Cluster::addParent(parentnode);
 }
 
 /* add all traversable nodes in the cluster area to the cluster */
@@ -142,7 +158,7 @@ void AnnotatedCluster::addInterEdge(node* from, node* to, AnnotatedClusterAbstra
 		throw CannotBuildEntranceFromAbstractNodeException();
 		
 	if(from->getParentCluster() == to->getParentCluster())
-		throw CannotBuildEntranceToSelfException();
+		throw CannotBuildEntranceToSelfException(from, to);
 	
 	if(AnnotatedAStar::getDirection(from, to) == kStay)
 		throw EntranceNodesAreNotAdjacentException();
@@ -168,8 +184,7 @@ void AnnotatedCluster::addEdgeToAbstractGraph(node* from, node* to, int capabili
 	g->addNode(absfrom);
 	g->addNode(absto);
 	
-	/* need to annotate the edge representing the entrance with appropriate capabilities and clearance values so agents can determine if 
-		the edge is traversable */
+	/* annotate the edge representing the entrance with appropriate capabilities and clearance values */
 	edge* interedge = new edge(absfrom->getNum(), absto->getNum(), weight);
 	interedge->setClearance(capability,clearance);
 	g->addEdge(interedge);
@@ -177,4 +192,48 @@ void AnnotatedCluster::addEdgeToAbstractGraph(node* from, node* to, int capabili
 	/* need to add the endpoints of the new entrance to their respective clusters */
 	AnnotatedCluster* fromCluster = aca->getCluster(absfrom->getParentCluster());
 	AnnotatedCluster* toCluster = aca->getCluster(absto->getParentCluster());
+	
+	fromCluster->addParent(absfrom);
+	toCluster->addParent(absto);
+}
+
+// TODO: in a higher level function, need to call this for each capability type
+void AnnotatedCluster::buildVerticalEntrances(int curCapability, AnnotatedClusterAbstraction* aca)
+{
+
+	if(aca == NULL)
+		throw AnnotatedClusterAbstractionIsNullException();
+	
+	int mapheight = aca->getMap()->getMapHeight();
+	int mapwidth = aca->getMap()->getMapWidth();
+
+	node* candidateNode1 = 0; // multiple entrances may exist along a border so we track candidate w/ largest clearance so far
+	node* candidateNode2 = 0;
+	int candidateClearance=0;
+		
+	/* scan for horizontal entrances along the eastern border */
+	int x = this->getHOrig()+this->getWidth();
+	for(int y=getVOrig(); y<getVOrig()+getHeight(); y++)
+	{
+		node *c1 = aca->getNodeFromMap(x,y); // node in neighbouring cluster
+		node *c2 = aca->getNodeFromMap(x-1, y); // border node in 'this' cluster
+		int clearance = c1->getClearance(curCapability)>c2->getClearance(curCapability)?
+							c2->getClearance(curCapability):c1->getClearance(curCapability);
+
+		if(clearance > candidateClearance)
+		{
+			candidateNode1 = c1;
+			candidateNode2 = c2;
+			candidateClearance = clearance;
+		}
+		if(clearance == 0 && candidateClearance != 0) // hard obstacle encountered. build the largest entrance so far	
+		{
+				this->addInterEdge(candidateNode1,candidateNode2,aca);
+				candidateNode1 = candidateNode2 = 0;
+				candidateClearance = 0;
+		}
+	}
+	
+	if(candidateClearance != 0)
+		this->addInterEdge(candidateNode2,candidateNode1,aca);
 }

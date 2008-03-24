@@ -107,11 +107,11 @@ void AnnotatedMapAbstractionMock::loadClearanceInfo(const string& filename, Anno
 				node* current = aMap->getNodeFromMap(x,y);
 				current->setTerrainType(aMap->getMap()->getTerrainType(x,y));
 				int kGroundClearance = clearance[y][x]/100;
-				int kTreesClearance = (clearance[y][x]%100)/10;
 				int kTreesAndGroundClearance = clearance[y][x]%10;
+				int kTreesClearance = clearance[y][x]-kGroundClearance*100-kTreesAndGroundClearance;
 				current->setClearance(kGround, kGroundClearance);
-				current->setClearance(kTrees, kGroundClearance);
-				current->setClearance((kTrees|kGround), kGroundClearance);
+				current->setClearance(kTrees, kTreesClearance);
+				current->setClearance((kTrees|kGround), kTreesAndGroundClearance);
 			}
 	}
 }

@@ -14,6 +14,7 @@
 #include <exception>
 
 class AnnotatedCluster;
+class node;
 class AnnotatedClusterAbstractionIsNullException : public std::exception
 {
 	public:
@@ -107,13 +108,9 @@ class EntranceNodesAreIdenticalException : public std::exception
 
 class CannotBuildEntranceFromAbstractNodeException : public std::exception
 {
-	virtual const char* what() const throw() { return "tried to build an entrance using a parameter node which is already part of an abstract graph"; }
+		virtual const char* what() const throw() { return "tried to build an entrance using a parameter node which is already part of an abstract graph"; }
 };
 
-class CannotBuildEntranceToSelfException : public std::exception
-{
-	virtual const char* what() const throw() { return "tried to build an entrance using two nodes from the same cluster"; }
-};
 
 class EntranceNodeIsHardObstacleException : public std::exception
 {
@@ -122,9 +119,32 @@ class EntranceNodeIsHardObstacleException : public std::exception
 
 class EntranceNodesAreNotAdjacentException : public std::exception
 {
-	virtual const char* what() const throw() { return "tried to build an entrance using two non-adjacent"; }	
+	virtual const char* what() const throw() { return "tried to build an entrance using two non-adjacent nodes"; }	
 };
 
+class EntranceException : public std::exception
+{
+	public:
+		EntranceException(node* n1, node* n2) : endpoint1(n1), endpoint2(n2) { message=0; }
+		virtual ~EntranceException() throw() { if(message)  delete message; } 
+		virtual const char* what() const throw() = 0;
+
+	protected:
+		std::string* message;
+		node* endpoint1, *endpoint2;
+};
+
+class CannotBuildEntranceToSelfException : public EntranceException
+{
+	public:
+		CannotBuildEntranceToSelfException(node*, node*);
+		virtual const char* what() const throw();
+};
+
+class InvalidCapabilityParameterException : public std::exception
+{	
+	virtual const char* what() const throw() { return "no agent exists with specified capability"; }	
+};
 
 class AnnotatedClusterAbstraction;
 class AnnotatedCluster : public Cluster
@@ -142,18 +162,14 @@ class AnnotatedCluster : public Cluster
 		virtual void addParent(node *);
 		virtual void addNodesToCluster(AnnotatedClusterAbstraction*);
 		
-	
-		
 	protected:
-		virtual int getNumAbstractNodes() { return abstractnodes.size(); } 
 		virtual void addInterEdge(node*, node*, AnnotatedClusterAbstraction*) 
 			throw(EntranceNodeIsNullException, EntranceNodesAreIdenticalException, CannotBuildEntranceFromAbstractNodeException, 
 				CannotBuildEntranceToSelfException, EntranceNodeIsHardObstacleException, EntranceNodesAreNotAdjacentException);
-		virtual void buildVerticalEntrances(AnnotatedClusterAbstraction* aca) { }
+		virtual void buildVerticalEntrances(int, AnnotatedClusterAbstraction*);
 		
 	private:
 		void addEdgeToAbstractGraph(node*, node*, int, int, double, AnnotatedClusterAbstraction*);
-		std::vector<node*> abstractnodes;
 		static unsigned int uniqueClusterIdCnt;
 		
 };
