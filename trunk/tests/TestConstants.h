@@ -29,5 +29,18 @@ const int validterrains[NUMTERRAINS] = {kGround, kTrees, (kGround|kTrees)};
 const int agentsizes[NUMAGENTSIZES] = {1, 2};
 const int MAXAGENTSIZE=2;
 const int MINAGENTSIZE=1;
+
+namespace TestConstants
+{
+	bool isValidCapability(int capability) const
+	{
+		for(int i=0; i<NUMCAPABILITIES; i++)
+		{
+			if(capabilities[i] == capability)
+				return true;
+		}
+		return false;
+	}
+}
 */
 #endif

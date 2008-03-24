@@ -6,7 +6,7 @@
  *  Copyright 2008 __MyCompanyName__. All rights reserved.
  *
  */
-
+ 
 #include "AnnotatedClusterTest.h"
 #include "TestConstants.h"
 #include "AnnotatedCluster.h"
@@ -20,8 +20,8 @@ TestEntrance::TestEntrance(int fromx, int fromy, int tox, int toy, int capabilit
 {
 	this->fromx = fromx;
 	this->fromy = fromy; 
-	this->tox = fromx;
-	this->toy = fromy; 
+	this->tox = tox;
+	this->toy = toy; 
 
 	this->capability = capability;
 	this->clearance = clearance; 
@@ -44,12 +44,20 @@ void AnnotatedClusterTest::setUp()
 	cheight = cwidth;
 	interedge_weight=1.0;
 	int startx=0; int starty=0;
+
+	ac = new AnnotatedCluster(startx, starty, cwidth, cheight);
 	
 	testHelper=0; // to be safe
 	aca_mock = new AnnotatedClusterAbstractionMock(new Map(acmap.c_str()), new AnnotatedAStarMock(), cwidth);
+
+	/* setup the mock ACA object. NB/TODO: need to replace neighbours with mock AnnotatedCluster objects?  */
+	aca_mock->buildClustersMocker.expects(once());
+	aca_mock->getClusterMocker.stubs().with(eq(0)).will(new ReturnStub<AnnotatedCluster*>(ac));
+	aca_mock->getClusterMocker.stubs().with(eq(1)).will(new ReturnStub<AnnotatedCluster*>(new AnnotatedCluster(startx+cwidth, starty, cwidth, cheight)));
+	aca_mock->getClusterMocker.stubs().with(eq(2)).will(new ReturnStub<AnnotatedCluster*>(new AnnotatedCluster(startx, starty+cwidth, cwidth, cheight)));
+		
 	AnnotatedMapAbstractionMock::loadClearanceInfo(string(aca_mock->getMap()->getMapName()), aca_mock);
 	absg = aca_mock->getAbstractGraph(1);	
-	ac = new AnnotatedCluster(startx, starty, cwidth, cheight);
 
 }
 
@@ -69,7 +77,7 @@ void AnnotatedClusterTest::createEntranceNodes()
 	
 }
 
-void AnnotatedClusterTest::setupAddEntranceTestHelper()
+void AnnotatedClusterTest::setupExceptionThrownTestHelper()
 {
 	createEntranceNodes();
 	
@@ -77,7 +85,7 @@ void AnnotatedClusterTest::setupAddEntranceTestHelper()
 	testHelper->setAbstractGraph(absg);
 	testHelper->setAnnotatedCluster(ac);
 	testHelper->setAnnotatedClusterAbstraction(aca_mock);
-	testHelper->checkaddInterEdgeThrowsCorrectException<EntranceNodeIsHardObstacleException>(e2_n1,e2_n2hardobst);
+//	testHelper->checkaddInterEdgeThrowsCorrectException<EntranceNodeIsHardObstacleException>(e2_n1,e2_n2hardobst);
 }
 
 void AnnotatedClusterTest::tearDown()
@@ -276,6 +284,7 @@ void AnnotatedClusterTest::addInterEdgeShouldAddTwoNewAbstractNodesToAbstractGra
 {
 	createEntranceNodes();
 	int expectedNodesInAbstractGraph=2;
+	int expetedAbstractNodesInCluster=1;
 
 	// nb: deletion responsibility is taken over by the graph object to which we add these nodes
 	ac->addInterEdge(e1_n1,e1_n2, aca_mock);
@@ -290,7 +299,7 @@ void AnnotatedClusterTest::addInterEdgeShouldAddTwoNewAbstractNodesToAbstractGra
 
 void AnnotatedClusterTest::addInterEdgeShouldThrowExceptionIfFirstNodeParameterNodeIsNull()
 {
-	setupAddEntranceTestHelper();
+	setupExceptionThrownTestHelper();
 	std::string errmsg("failed to throw exception when 'from' node is null object ");
 	testHelper->setFailMessage(errmsg);
 	
@@ -299,7 +308,7 @@ void AnnotatedClusterTest::addInterEdgeShouldThrowExceptionIfFirstNodeParameterN
 
 void AnnotatedClusterTest::addInterEdgeShouldThrowExceptionIfSecondNodeParameterNodeIsNull()
 {
-	setupAddEntranceTestHelper();
+	setupExceptionThrownTestHelper();
 	std::string errmsg("failed to throw exception when 'to' node is null object ");
 	testHelper->setFailMessage(errmsg);
 	
@@ -308,7 +317,7 @@ void AnnotatedClusterTest::addInterEdgeShouldThrowExceptionIfSecondNodeParameter
 
 void AnnotatedClusterTest::addInterEdgeShouldThrowExceptionIfParameterNodesPointToSameObject()
 {
-	setupAddEntranceTestHelper();
+	setupExceptionThrownTestHelper();
 	std::string errmsg("failed to throw exception when 'to & 'from' nodes are the same object ");
 	testHelper->setFailMessage(errmsg);
 	
@@ -317,7 +326,7 @@ void AnnotatedClusterTest::addInterEdgeShouldThrowExceptionIfParameterNodesPoint
 
 void AnnotatedClusterTest::addInterEdgeShouldThrowExceptionIfFirstParameterNodeHasAnAbstractionLevelNotEqualToZero()
 {
-	setupAddEntranceTestHelper();
+	setupExceptionThrownTestHelper();
 	std::string errmsg("failed to throw exception when 'from' node has abstraction level != 0 ");
 	testHelper->setFailMessage(errmsg);
 	
@@ -328,7 +337,7 @@ void AnnotatedClusterTest::addInterEdgeShouldThrowExceptionIfFirstParameterNodeH
 
 void AnnotatedClusterTest::addInterEdgeShouldThrowExceptionIfSecondParameterNodeHasAnAbstractionLevelNotEqualToZero()
 {
-	setupAddEntranceTestHelper();
+	setupExceptionThrownTestHelper();
 	std::string errmsg("failed to throw exception when 'to' node has abstraction level != 0 ");
 	testHelper->setFailMessage(errmsg);
 	
@@ -339,7 +348,7 @@ void AnnotatedClusterTest::addInterEdgeShouldThrowExceptionIfSecondParameterNode
 
 void AnnotatedClusterTest::addInterEdgeShouldThrowExceptionIfParameterNodesShareTheSameCluster()
 {
-	setupAddEntranceTestHelper();
+	setupExceptionThrownTestHelper();
 	std::string errmsg("failed to throw exception when 'from' & 'to' nodes share the same cluster (entrance connecting origin cluster to itself is invalid)");
 	testHelper->setFailMessage(errmsg);
 
@@ -351,7 +360,7 @@ void AnnotatedClusterTest::addInterEdgeShouldThrowExceptionIfParameterNodesShare
 
 void AnnotatedClusterTest::addInterEdgeShouldThrowExceptionIfFirstParameterNodeIsAHardObstacle()
 {
-	setupAddEntranceTestHelper();
+	setupExceptionThrownTestHelper();
 	std::string errmsg("failed to throw exception when 'from' node is a hard obstacle ");
 	testHelper->setFailMessage(errmsg);
 	
@@ -360,7 +369,7 @@ void AnnotatedClusterTest::addInterEdgeShouldThrowExceptionIfFirstParameterNodeI
 
 void AnnotatedClusterTest::addInterEdgeShouldThrowExceptionIfSecondParameterNodeIsAHardObstacle()
 {
-	setupAddEntranceTestHelper();
+	setupExceptionThrownTestHelper();
 	std::string errmsg("failed to throw exception when 'to' node is a hard obstacle ");
 	testHelper->setFailMessage(errmsg);
 	
@@ -369,7 +378,7 @@ void AnnotatedClusterTest::addInterEdgeShouldThrowExceptionIfSecondParameterNode
 
 void AnnotatedClusterTest::addInterEdgeShouldThrowExceptionIfParameterNodesAreNotAdjacent()
 {
-	setupAddEntranceTestHelper();
+	setupExceptionThrownTestHelper();
 	std::string errmsg("failed to throw exception when 'from' & 'to' nodes are not adjacent ");
 	testHelper->setFailMessage(errmsg);
 
@@ -422,30 +431,84 @@ void AnnotatedClusterTest::addInterEdgeShouldConnectAbstractNodesWithANewAnnotat
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("edge clearance incorrect", expectedClearance, e->getClearance(expectedEdgeCapability));
 }
 
-void AnnotatedClusterTest::buildVerticalEntrancesShouldIdentifyAsEntrancesPairsOfNodesWithMaximalClearanceThatConnectAdjacentClusters()
-{	
-	int numExpectedEntrances = 1;
+void AnnotatedClusterTest::addInterEdgeShouldAddEachEntranceEndpointToItsCluster()
+{
+	createEntranceNodes();
 
-	TestEntrance te = TestEntrance(4,1,5,1, kGround, 2, 0, 1);	
-	int numAbstractGraphNodesBefore = absg->getNumNodes();
+	int expectedNumAbstractNodes = 1;
+	ac->addInterEdge(e1_n1,e1_n2, aca_mock); 
+	AnnotatedCluster *adjacentCluster = aca_mock->getCluster(e1_n2->getParentCluster());
 
-	ac = new AnnotatedCluster(0,0,cwidth, cheight);
-	ac->buildVerticalEntrances(aca_mock);
-		
-	node_iterator ni = absg->getNodeIter();
-	node* endpoint1 = absg->nodeIterNext(ni);
-	node* endpoint2 = absg->nodeIterNext(ni);
-	
-	CPPUNIT_ASSERT_EQUAL_MESSAGE("xpos of first entrance node incorrect", te.getFromX(), (int)endpoint1->getLabelL(kFirstData));
-	CPPUNIT_ASSERT_EQUAL_MESSAGE("ypos of first entrance node incorrect", te.getFromY(), (int)endpoint1->getLabelL(kFirstData+1));
-	CPPUNIT_ASSERT_EQUAL_MESSAGE("xpos of second entrance node incorrect", te.getToX(), (int)endpoint1->getLabelL(kFirstData));
-	CPPUNIT_ASSERT_EQUAL_MESSAGE("ypos of second entrance node incorrect", te.getToY(), (int)endpoint1->getLabelL(kFirstData+1));
+	int numAbstractNodes = ac->getParents().size();
+	int numAbstractNodesInNeighbour = adjacentCluster->getParents().size();
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("abstract node count in cluster incorrect", expectedNumAbstractNodes, numAbstractNodes );
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("abstract node count in neighbouring cluster incorrect", expectedNumAbstractNodes, numAbstractNodesInNeighbour );
 
-	CPPUNIT_ASSERT_EQUAL_MESSAGE("clusterid of first entrance node incorrect", te.getFromClusterId(), endpoint1->getParentCluster());
-	CPPUNIT_ASSERT_EQUAL_MESSAGE("clusterid of second entrance node incorrect", te.getFromClusterId(), endpoint2->getParentCluster());
-	
-	AnnotatedCluster *adjacentCluster = aca_mock->getCluster(endpoint2->getParentCluster());
-	CPPUNIT_ASSERT_EQUAL_MESSAGE("first cluster has the wrong number of abstract nodes", numExpectedEntrances, ac->getNumAbstractNodes());
-	CPPUNIT_ASSERT_EQUAL_MESSAGE("first cluster has the wrong number of abstract nodes", numExpectedEntrances, adjacentCluster->getNumAbstractNodes());
-	CPPUNIT_ASSERT_EQUAL_MESSAGE("graph has the wrong number of abstract nodes", numExpectedEntrances, absg->getNumNodes());
+	/* make sure nodes added to cluster are also the same ones added to graph */
+	node* endpoint1 = ac->getParents().at(0);
+	node* endpoint2 = adjacentCluster->getParents().at(0);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("endpoint1 node in cluster but not in graph", endpoint1, absg->getNode(endpoint1->getNum()));
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("endpoint2 node in cluster but not in graph", endpoint2, absg->getNode(endpoint2->getNum()));
 }
+
+/* builds two entrances along a veritcal border between two clusters. border area contains two contiguous areas separated by a hard obstacle */
+void AnnotatedClusterTest::buildVerticalEntrancesShouldCreateOneMaximallySizedEntrancePerContiguousAreaAlongTheVerticalBorderBetweenTwoClusters()
+{
+	aca_mock->buildClusters();
+	TestEntrance te1(4,1,5,1,kGround,2,0,1);
+	TestEntrance te2(4,4,5,4,kGround,2,0,1);
+
+	ac->buildVerticalEntrances(te1.getCapability(), aca_mock);
+
+	/* check that the entrances were created in the expected locations */
+	AnnotatedCluster *adjacentCluster = aca_mock->getCluster(aca_mock->getNodeFromMap(te2.getToX(), te2.getToY())->getParentCluster());
+	node* te1_endpoint1 = ac->getParents().at(0);
+	node* te1_endpoint2 = adjacentCluster->getParents().at(0);
+	node* te2_endpoint1 = ac->getParents().at(1);
+	node* te2_endpoint2 = adjacentCluster->getParents().at(1);
+		
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("xpos of te1_endpoint1 incorrect", te1.getFromX(), (int)te1_endpoint1->getLabelL(kFirstData));
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("ypos of te1_endpoint1 incorrect", te1.getFromY(), (int)te1_endpoint1->getLabelL(kFirstData+1));
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("xpos of te1_endpoint2 incorrect", te1.getToX(), (int)te1_endpoint2->getLabelL(kFirstData));
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("ypos of te1_endpoint2 incorrect", te1.getToY(), (int)te1_endpoint2->getLabelL(kFirstData+1));
+
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("xpos of te2_endpoint1 incorrect", te2.getFromX(), (int)te2_endpoint1->getLabelL(kFirstData));
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("ypos of te2_endpoint1 incorrect", te2.getFromY(), (int)te2_endpoint1->getLabelL(kFirstData+1));
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("xpos of te2_endpoint2 incorrect", te2.getToX(), (int)te2_endpoint2->getLabelL(kFirstData));
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("ypos of te2_endpoint2 incorrect", te2.getToY(), (int)te2_endpoint2->getLabelL(kFirstData+1));
+	
+	/* check that the entrances have expected capability clearance annotations */
+	edge* entrance = absg->findEdge(te1_endpoint2->getNum(), te1_endpoint1->getNum());
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("entrance1 clearance incorrect", entrance->getClearance(te1.getCapability()), te1.getClearance(te1.getCapability()));
+	entrance = absg->findEdge(te2_endpoint2->getNum(), te2_endpoint1->getNum());
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("entrance2 clearance incorrect", entrance->getClearance(te2.getCapability()), te2.getClearance(te2.getCapability()));
+}
+
+void AnnotatedClusterTest::buildVerticalEntrancesShouldThrowExceptionGivenAnInvalidACAParameter()
+{
+	setupExceptionThrownTestHelper();
+	std::string errmsg("failed to throw exception when ACA parameter is null");
+	testHelper->setFailMessage(errmsg);
+
+	int capability = kWater;
+	testHelper->checkBuildEntrancesThrowsCorrectException<AnnotatedClusterAbstractionIsNullException>(capability, NULL);
+}
+
+void AnnotatedClusterTest::buildVerticalEntrancesShouldNotAddAnyEntrancesGivenAnInvalidCapabilityParameter()
+{
+	int numNodesInAbstractGraphBefore = absg->getNumNodes();
+	int numEdgesInAbstractGraphBefore = absg->getNumEdges();
+	int numNodesInClusterBefore = ac->getParents().size();
+	AnnotatedCluster* adjacentCluster = aca_mock->getCluster(1);
+	int numNodesInClusterAdjacentBefore = adjacentCluster->getParents().size();
+	
+	int capability = kWater;
+	ac->buildVerticalEntrances(capability, aca_mock);
+
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("too many nodes in abstract graph", numNodesInAbstractGraphBefore, absg->getNumNodes());
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("too many edges in abstract graph", numEdgesInAbstractGraphBefore, absg->getNumEdges());
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("too many nodes in target cluster", numNodesInClusterBefore, (int)ac->getParents().size());
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("too many nodes in adjacent cluster", numNodesInClusterBefore, (int)adjacentCluster->getParents().size());
+
+}
+

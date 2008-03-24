@@ -13,7 +13,6 @@
 #include <cppunit/TestFixture.h>
 #include <cppunit/extensions/HelperMacros.h>
 
-
 #include "AnnotatedCluster.h"
 #include "graph.h"
 #include "AnnotatedClusterAbstractionMock.h"
@@ -65,7 +64,10 @@ class AnnotatedClusterTest : public CPPUNIT_NS::TestFixture
 	CPPUNIT_TEST( addInterEdgeShouldThrowExceptionIfParameterNodesAreNotAdjacent );
 	CPPUNIT_TEST( addInterEdgeShouldCreateAbstractNodesWhichHaveTheSameAnnotationsAsParameterNodes ); 
 	CPPUNIT_TEST( addInterEdgeShouldConnectAbstractNodesWithANewAnnotatedEdge );
-	//CPPUNIT_TEST( buildVerticalEntrancesShouldIdentifyAsEntrancesPairsOfNodesWithMaximalClearanceThatConnectAdjacentClusters );
+	CPPUNIT_TEST( addInterEdgeShouldAddEachEntranceEndpointToItsCluster );
+	CPPUNIT_TEST( buildVerticalEntrancesShouldCreateOneMaximallySizedEntrancePerContiguousAreaAlongTheVerticalBorderBetweenTwoClusters );
+	CPPUNIT_TEST( buildVerticalEntrancesShouldThrowExceptionGivenAnInvalidACAParameter );
+	CPPUNIT_TEST( buildVerticalEntrancesShouldNotAddAnyEntrancesGivenAnInvalidCapabilityParameter );
 
 	CPPUNIT_TEST_SUITE_END();
 	
@@ -73,7 +75,7 @@ class AnnotatedClusterTest : public CPPUNIT_NS::TestFixture
 		void setUp();
 		void tearDown();
 		void createEntranceNodes();
-		void setupAddEntranceTestHelper();
+		void setupExceptionThrownTestHelper();
 
 		/* AnnotatedCluster() */
 		void constructorShouldThrowExceptionWhenWidthDimensionParameterIsInvalid();
@@ -95,6 +97,7 @@ class AnnotatedClusterTest : public CPPUNIT_NS::TestFixture
 		
 		/* addInterEdge() */
 		void addInterEdgeShouldAddTwoNewAbstractNodesToAbstractGraphGivenAPairOfNodesInTheNonAbstractGraph();
+		void addInterEdgeShouldAddEachEntranceEndpointToItsCluster();
 		void addInterEdgeShouldCreateAbstractNodesWhichHaveTheSameAnnotationsAsParameterNodes();
 		void addInterEdgeShouldConnectAbstractNodesWithANewAnnotatedEdge();
 		void addInterEdgeShouldThrowExceptionIfFirstNodeParameterNodeIsNull();
@@ -110,13 +113,16 @@ class AnnotatedClusterTest : public CPPUNIT_NS::TestFixture
 		void addInterEdgeShouldThrowExceptionIfClearanceParameterInvalid();
 
 		/* buildVerticalEntrances() */
-		void buildVerticalEntrancesShouldIdentifyAsEntrancesPairsOfNodesWithMaximalClearanceThatConnectAdjacentClusters();
+		void buildVerticalEntrancesShouldCreateOneMaximallySizedEntrancePerContiguousAreaAlongTheVerticalBorderBetweenTwoClusters();
+		void buildVerticalEntrancesShouldThrowExceptionGivenAnInvalidACAParameter();
+		void buildVerticalEntrancesShouldNotAddAnyEntrancesGivenAnInvalidCapabilityParameter();
 
 		/* yet to implement */
-		void buildVerticalEntrancesShouldSkipAnyCandidateEntrancesWhereOneOfTheNodesIsAHardObstacle();
+
+		
+		// future optimisation?
 		void buildVerticalEntrancesShouldIdentifyOneEntranceForEachSectionOfCapabilityHomogenousNodesAlongTheClusterBorderIfSectionSizeLessThan5();
 		void buildVerticalEntrancesShouldIdentifyTwoEntrancesForEachSectionOfCapabilityHomogenousNodesAlongTheClusterBorderIfSectionSizeAtLeast5();
-//		void addInterEdgeShouldAddEachEntranceEndpointToItsCluster
 
 		
 	private:
@@ -153,7 +159,7 @@ class exceptionThrownHelper
 			{
 				ac->addInterEdge(n1, n2, aca_mock);
 			}
-			catch(ExceptionType e)
+			catch(ExceptionType& e)
 			{	
 				exceptionThrown = true;
 			}
@@ -161,6 +167,22 @@ class exceptionThrownHelper
 			CPPUNIT_ASSERT_EQUAL_MESSAGE(failmessage.c_str(), true, exceptionThrown);
 			CPPUNIT_ASSERT_EQUAL_MESSAGE("incorrectly added nodes to abstract graph", numnodes, absg->getNumNodes());
 		};
+		
+		template<class ExceptionType>
+		void checkBuildEntrancesThrowsCorrectException(int capability, AnnotatedClusterAbstraction* aca)
+		{
+			bool exceptionThrown = false;
+			try
+			{
+				ac->buildVerticalEntrances(capability, aca);
+			}
+			catch(ExceptionType& e)
+			{
+					exceptionThrown = true;
+			}
+			
+			CPPUNIT_ASSERT_EQUAL_MESSAGE(failmessage.c_str(), true, exceptionThrown);
+		}
 		
 		void setFailMessage(std::string& msg) { failmessage = msg; } 
 		void setAbstractGraph(graph *g) { this->absg = g; }
