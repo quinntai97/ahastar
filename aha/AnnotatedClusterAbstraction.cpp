@@ -64,3 +64,16 @@ void AnnotatedClusterAbstraction::buildClusters()
 			addCluster( new AnnotatedCluster (x, y, cwidth, cheight) );
 		}
 }
+
+
+void AnnotatedClusterAbstraction::buildEntrances()
+{
+/*	for(int i=0; i<clusters.size(); i++)
+	{
+		AnnotatedCluster* ac = clusters[i];
+		for(int capability = 0; i<NUMCAPABILITIES; capability++)
+		{
+			ac->
+		}
+	}*/
+}

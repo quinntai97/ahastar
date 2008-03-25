@@ -68,12 +68,18 @@ void AnnotatedClusterTest::createEntranceNodes()
 	e1_n1->setParentCluster(0);
 	e1_n2 = aca_mock->getNodeFromMap(5,1);
 	e1_n2->setParentCluster(1);
+	e1_capability = e1_n1->getTerrainType()|e1_n2->getTerrainType();
+	e1_clearance = e1_n1->getClearance(e1_capability)>e1_n2->getClearance(e1_capability)?e1_n2->getClearance(e1_capability):e1_n1->getClearance(e1_capability);		
+
 
 	/* entrance 2 */
 	e2_n1 = aca_mock->getNodeFromMap(4,0);
 	e2_n1->setParentCluster(0);
 	e2_n2hardobst = aca_mock->getNodeFromMap(5,0);
 	e2_n2hardobst->setParentCluster(1);
+	e2_capability = e2_n1->getTerrainType()|e2_n2hardobst->getTerrainType();
+	e2_clearance = e2_n1->getClearance(e2_capability)>e2_n2hardobst->getClearance(e2_capability)?e2_n2hardobst->getClearance(e2_capability):e2_n1->getClearance(e2_capability);		
+
 	
 }
 
@@ -287,7 +293,7 @@ void AnnotatedClusterTest::addInterEdgeShouldAddTwoNewAbstractNodesToAbstractGra
 	int expetedAbstractNodesInCluster=1;
 
 	// nb: deletion responsibility is taken over by the graph object to which we add these nodes
-	ac->addInterEdge(e1_n1,e1_n2, aca_mock);
+	ac->addInterEdge(e1_n1,e1_n2, e1_capability, e1_clearance, aca_mock);
 	node_iterator ni = absg->getNodeIter();
 	node* absn1 = absg->nodeIterNext(ni);
 	node* absn2 = absg->nodeIterNext(ni);
@@ -303,7 +309,7 @@ void AnnotatedClusterTest::addInterEdgeShouldThrowExceptionIfFirstNodeParameterN
 	std::string errmsg("failed to throw exception when 'from' node is null object ");
 	testHelper->setFailMessage(errmsg);
 	
-	testHelper->checkaddInterEdgeThrowsCorrectException<EntranceNodeIsNullException>(NULL, e1_n1);
+	testHelper->checkaddInterEdgeThrowsCorrectException<EntranceNodeIsNullException>(NULL, e1_n1, e1_capability, e1_clearance);
 }
 
 void AnnotatedClusterTest::addInterEdgeShouldThrowExceptionIfSecondNodeParameterNodeIsNull()
@@ -312,7 +318,7 @@ void AnnotatedClusterTest::addInterEdgeShouldThrowExceptionIfSecondNodeParameter
 	std::string errmsg("failed to throw exception when 'to' node is null object ");
 	testHelper->setFailMessage(errmsg);
 	
-	testHelper->checkaddInterEdgeThrowsCorrectException<EntranceNodeIsNullException>(e1_n1, NULL);
+	testHelper->checkaddInterEdgeThrowsCorrectException<EntranceNodeIsNullException>(e1_n1, NULL, e1_capability, e1_clearance);
 }
 
 void AnnotatedClusterTest::addInterEdgeShouldThrowExceptionIfParameterNodesPointToSameObject()
@@ -321,7 +327,7 @@ void AnnotatedClusterTest::addInterEdgeShouldThrowExceptionIfParameterNodesPoint
 	std::string errmsg("failed to throw exception when 'to & 'from' nodes are the same object ");
 	testHelper->setFailMessage(errmsg);
 	
-	testHelper->checkaddInterEdgeThrowsCorrectException<EntranceNodesAreIdenticalException>(e1_n1, e1_n1);
+	testHelper->checkaddInterEdgeThrowsCorrectException<EntranceNodesAreIdenticalException>(e1_n1, e1_n1, e1_capability, e1_clearance);
 }
 
 void AnnotatedClusterTest::addInterEdgeShouldThrowExceptionIfFirstParameterNodeHasAnAbstractionLevelNotEqualToZero()
@@ -332,7 +338,7 @@ void AnnotatedClusterTest::addInterEdgeShouldThrowExceptionIfFirstParameterNodeH
 	
 	e1_n1->setLabelL(kAbstractionLevel, 1);
 
-	testHelper->checkaddInterEdgeThrowsCorrectException<CannotBuildEntranceFromAbstractNodeException>(e1_n1, e1_n2);
+	testHelper->checkaddInterEdgeThrowsCorrectException<CannotBuildEntranceFromAbstractNodeException>(e1_n1, e1_n2, e1_capability, e1_clearance);
 }
 
 void AnnotatedClusterTest::addInterEdgeShouldThrowExceptionIfSecondParameterNodeHasAnAbstractionLevelNotEqualToZero()
@@ -343,7 +349,7 @@ void AnnotatedClusterTest::addInterEdgeShouldThrowExceptionIfSecondParameterNode
 	
 	e1_n2->setLabelL(kAbstractionLevel, 1);
 
-	testHelper->checkaddInterEdgeThrowsCorrectException<CannotBuildEntranceFromAbstractNodeException>(e1_n1, e1_n2);
+	testHelper->checkaddInterEdgeThrowsCorrectException<CannotBuildEntranceFromAbstractNodeException>(e1_n1, e1_n2, e1_capability, e1_clearance);
 }
 
 void AnnotatedClusterTest::addInterEdgeShouldThrowExceptionIfParameterNodesShareTheSameCluster()
@@ -355,7 +361,7 @@ void AnnotatedClusterTest::addInterEdgeShouldThrowExceptionIfParameterNodesShare
 	e1_n1->setParentCluster(0);
 	e1_n2->setParentCluster(0);
 	
-	testHelper->checkaddInterEdgeThrowsCorrectException<CannotBuildEntranceToSelfException>(e1_n1, e1_n2);
+	testHelper->checkaddInterEdgeThrowsCorrectException<CannotBuildEntranceToSelfException>(e1_n1, e1_n2, e1_capability, e1_clearance);
 }
 
 void AnnotatedClusterTest::addInterEdgeShouldThrowExceptionIfFirstParameterNodeIsAHardObstacle()
@@ -364,7 +370,7 @@ void AnnotatedClusterTest::addInterEdgeShouldThrowExceptionIfFirstParameterNodeI
 	std::string errmsg("failed to throw exception when 'from' node is a hard obstacle ");
 	testHelper->setFailMessage(errmsg);
 	
-	testHelper->checkaddInterEdgeThrowsCorrectException<EntranceNodeIsHardObstacleException>(e2_n2hardobst, e2_n1);
+	testHelper->checkaddInterEdgeThrowsCorrectException<EntranceNodeIsNotTraversable>(e2_n2hardobst, e2_n1, e2_capability, 1);
 }
 
 void AnnotatedClusterTest::addInterEdgeShouldThrowExceptionIfSecondParameterNodeIsAHardObstacle()
@@ -373,7 +379,7 @@ void AnnotatedClusterTest::addInterEdgeShouldThrowExceptionIfSecondParameterNode
 	std::string errmsg("failed to throw exception when 'to' node is a hard obstacle ");
 	testHelper->setFailMessage(errmsg);
 	
-	testHelper->checkaddInterEdgeThrowsCorrectException<EntranceNodeIsHardObstacleException>(e2_n1, e2_n2hardobst);
+	testHelper->checkaddInterEdgeThrowsCorrectException<EntranceNodeIsNotTraversable>(e2_n1, e2_n2hardobst, e2_capability, 1);
 }
 
 void AnnotatedClusterTest::addInterEdgeShouldThrowExceptionIfParameterNodesAreNotAdjacent()
@@ -384,8 +390,53 @@ void AnnotatedClusterTest::addInterEdgeShouldThrowExceptionIfParameterNodesAreNo
 
 	node* nonAdjacentNeighbour = aca_mock->getNodeFromMap(6,1);
 	
-	testHelper->checkaddInterEdgeThrowsCorrectException<EntranceNodesAreNotAdjacentException>(e2_n1, nonAdjacentNeighbour);
+	testHelper->checkaddInterEdgeThrowsCorrectException<EntranceNodesAreNotAdjacentException>(e2_n1, nonAdjacentNeighbour, kGround, 1);
 }
+
+void AnnotatedClusterTest::addInterEdgeShouldThrowExceptionIfCapabilityClearanceOfFirstParameterNodeIsNotEqualToOrGreaterThanClearanceParameter()
+{
+	setupExceptionThrownTestHelper();
+	std::string errmsg("failed to throw exception when 'from' node has capability clearance < clearance parameter ");
+	testHelper->setFailMessage(errmsg);
+	
+	e1_n1->setClearance(e1_capability, e1_clearance-1);
+	testHelper->checkaddInterEdgeThrowsCorrectException<EntranceNodeIsNotTraversable>(e1_n1, e1_n2, e1_capability, e1_clearance);
+}
+
+void AnnotatedClusterTest::addInterEdgeShouldThrowExceptionIfCapabilityClearanceOfSecondParameterNodeIsNotEqualToOrGreaterThanClearanceParameter()
+{
+	setupExceptionThrownTestHelper();
+	std::string errmsg("failed to throw exception when 'to' node has capability clearance < clearance parameter ");
+	testHelper->setFailMessage(errmsg);
+	
+	e1_n1->setClearance(e1_capability, e1_clearance-1);
+	testHelper->checkaddInterEdgeThrowsCorrectException<EntranceNodeIsNotTraversable>(e1_n2, e1_n1, e1_capability, e1_clearance);
+}
+
+void AnnotatedClusterTest::addInterEdgeShouldThrowExceptionIfClearanceParameterLessThanOrEqualToZero()
+{
+	setupExceptionThrownTestHelper();
+	std::string errmsg("failed to throw exception when clearance parameter zero ");
+	testHelper->setFailMessage(errmsg);
+	
+	testHelper->checkaddInterEdgeThrowsCorrectException<InvalidClearanceParameterException>(e1_n1, e1_n2, e1_capability, 0);
+
+	errmsg.assign("failed to throw exception when clearance parameter < 0 ");
+	testHelper->setFailMessage(errmsg);
+	testHelper->checkaddInterEdgeThrowsCorrectException<InvalidClearanceParameterException>(e1_n1, e1_n2, e1_capability, -1);
+
+}
+
+void AnnotatedClusterTest::addInterEdgeShouldThrowExceptionIfCapabilityParameterIsInvalid()
+{
+	createEntranceNodes();
+	setupExceptionThrownTestHelper();
+	std::string errmsg("failed to throw exception when capability parameter is not a valid capability ");
+	testHelper->setFailMessage(errmsg);
+
+	testHelper->checkaddInterEdgeThrowsCorrectException<EntranceNodeIsNotTraversable>(e1_n1, e1_n2, kWater, e1_clearance);
+}
+
 
 
 /* this is a similar test to the one for node::clone. We repeat the same checks here because the implementation of node insertion into
@@ -394,7 +445,7 @@ is that a deep-copy of the original node is required -- albeit with an increment
 void AnnotatedClusterTest::addInterEdgeShouldCreateAbstractNodesWhichHaveTheSameAnnotationsAsParameterNodes()
 {
 	createEntranceNodes();
-	ac->addInterEdge(e1_n1,e1_n2, aca_mock);	
+	ac->addInterEdge(e1_n1,e1_n2, e1_capability, e1_clearance, aca_mock);	
 	
 	/* check if annotations are ok */
 	node_iterator ni = absg->getNodeIter();
@@ -418,7 +469,7 @@ void AnnotatedClusterTest::addInterEdgeShouldConnectAbstractNodesWithANewAnnotat
 	int expectedClearance =e1_n1->getClearance(expectedEdgeCapability);
 	expectedClearance = expectedClearance <e1_n2->getClearance(expectedEdgeCapability)?expectedClearance:e1_n2->getClearance(expectedEdgeCapability);	
 
-	ac->addInterEdge(e1_n1,e1_n2, aca_mock); // target
+	ac->addInterEdge(e1_n1,e1_n2,e1_capability, e1_clearance, aca_mock); // target
 	
 	/* check results */
 	node_iterator ni = absg->getNodeIter();
@@ -436,7 +487,7 @@ void AnnotatedClusterTest::addInterEdgeShouldAddEachEntranceEndpointToItsCluster
 	createEntranceNodes();
 
 	int expectedNumAbstractNodes = 1;
-	ac->addInterEdge(e1_n1,e1_n2, aca_mock); 
+	ac->addInterEdge(e1_n1,e1_n2,e1_capability, e1_clearance, aca_mock); 
 	AnnotatedCluster *adjacentCluster = aca_mock->getCluster(e1_n2->getParentCluster());
 
 	int numAbstractNodes = ac->getParents().size();

@@ -146,6 +146,18 @@ class InvalidCapabilityParameterException : public std::exception
 	virtual const char* what() const throw() { return "no agent exists with specified capability"; }	
 };
 
+class InvalidClearanceParameterException : public std::exception
+{	
+	virtual const char* what() const throw() { return "clearance parameter <=0 or otherwise inconsistent with entrance endpoints"; }	
+};
+
+
+class EntranceNodeIsNotTraversable : public std::exception
+{	
+	virtual const char* what() const throw() { "entrance's capability clearance parameter does not match endpoint node clearance"; }	
+};
+
+
 class AnnotatedClusterAbstraction;
 class AnnotatedCluster : public Cluster
 {
@@ -161,11 +173,13 @@ class AnnotatedCluster : public Cluster
 		virtual bool addNode(node *) throw(NodeIsAlreadyAssignedToClusterException, ClusterFullException, NodeIsNullException); 
 		virtual void addParent(node *);
 		virtual void addNodesToCluster(AnnotatedClusterAbstraction*);
+//		virtual void buildEntrances(AnnotatedClusterAbstraction*);
 		
 	protected:
-		virtual void addInterEdge(node*, node*, AnnotatedClusterAbstraction*) 
+		virtual void addInterEdge(node*, node*, int, int, AnnotatedClusterAbstraction*) 
 			throw(EntranceNodeIsNullException, EntranceNodesAreIdenticalException, CannotBuildEntranceFromAbstractNodeException, 
-				CannotBuildEntranceToSelfException, EntranceNodeIsHardObstacleException, EntranceNodesAreNotAdjacentException);
+				CannotBuildEntranceToSelfException, InvalidClearanceParameterException	, EntranceNodesAreNotAdjacentException, 
+				EntranceNodeIsNotTraversable);
 		virtual void buildVerticalEntrances(int, AnnotatedClusterAbstraction*);
 		virtual void buildHorizontalEntrances(int, AnnotatedClusterAbstraction*);
 		

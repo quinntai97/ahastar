@@ -53,6 +53,9 @@ class AnnotatedClusterTest : public CPPUNIT_NS::TestFixture
 	CPPUNIT_TEST( constructorShouldThrowExceptionWhenXOriginParameterIsInvalid );
 	CPPUNIT_TEST( constructorShouldThrowExceptionWhenYOriginParameterIsInvalid );
 	CPPUNIT_TEST( addInterEdgeShouldAddTwoNewAbstractNodesToAbstractGraphGivenAPairOfNodesInTheNonAbstractGraph );
+	CPPUNIT_TEST( addInterEdgeShouldCreateAbstractNodesWhichHaveTheSameAnnotationsAsParameterNodes ); 
+	CPPUNIT_TEST( addInterEdgeShouldConnectAbstractNodesWithANewAnnotatedEdge );
+	CPPUNIT_TEST( addInterEdgeShouldAddEachEntranceEndpointToItsCluster );
 	CPPUNIT_TEST( addInterEdgeShouldThrowExceptionIfFirstNodeParameterNodeIsNull );
 	CPPUNIT_TEST( addInterEdgeShouldThrowExceptionIfSecondNodeParameterNodeIsNull );
 	CPPUNIT_TEST( addInterEdgeShouldThrowExceptionIfParameterNodesPointToSameObject );
@@ -62,9 +65,10 @@ class AnnotatedClusterTest : public CPPUNIT_NS::TestFixture
 	CPPUNIT_TEST( addInterEdgeShouldThrowExceptionIfFirstParameterNodeIsAHardObstacle );
 	CPPUNIT_TEST( addInterEdgeShouldThrowExceptionIfSecondParameterNodeIsAHardObstacle );
 	CPPUNIT_TEST( addInterEdgeShouldThrowExceptionIfParameterNodesAreNotAdjacent );
-	CPPUNIT_TEST( addInterEdgeShouldCreateAbstractNodesWhichHaveTheSameAnnotationsAsParameterNodes ); 
-	CPPUNIT_TEST( addInterEdgeShouldConnectAbstractNodesWithANewAnnotatedEdge );
-	CPPUNIT_TEST( addInterEdgeShouldAddEachEntranceEndpointToItsCluster );
+	CPPUNIT_TEST( addInterEdgeShouldThrowExceptionIfCapabilityClearanceOfFirstParameterNodeIsNotEqualToOrGreaterThanClearanceParameter );
+	CPPUNIT_TEST( addInterEdgeShouldThrowExceptionIfCapabilityClearanceOfSecondParameterNodeIsNotEqualToOrGreaterThanClearanceParameter );
+	CPPUNIT_TEST( addInterEdgeShouldThrowExceptionIfClearanceParameterLessThanOrEqualToZero );
+	CPPUNIT_TEST( addInterEdgeShouldThrowExceptionIfCapabilityParameterIsInvalid );
 	CPPUNIT_TEST( buildVerticalEntrancesShouldCreateOneMaximallySizedEntrancePerContiguousAreaAlongTheVerticalBorderBetweenTwoClusters );
 	CPPUNIT_TEST( buildVerticalEntrancesShouldThrowExceptionGivenAnInvalidACAParameter );
 	CPPUNIT_TEST( buildVerticalEntrancesShouldNotAddAnyEntrancesGivenAnInvalidCapabilityParameter );
@@ -114,7 +118,12 @@ class AnnotatedClusterTest : public CPPUNIT_NS::TestFixture
 		void addInterEdgeShouldThrowExceptionIfSecondParameterNodeIsAHardObstacle();
 		void addInterEdgeShouldThrowExceptionIfParameterNodesAreNotAdjacent();
 		void addInterEdgeShouldThrowExceptionIfWeightParameterInvalid();
-		void addInterEdgeShouldThrowExceptionIfClearanceParameterInvalid();
+		void addInterEdgeShouldThrowExceptionIfCapabilityParameterIsInvalid();
+		void addInterEdgeShouldThrowExceptionIfCapabilityClearanceOfFirstParameterNodeIsNotEqualToOrGreaterThanClearanceParameter();
+		void addInterEdgeShouldThrowExceptionIfCapabilityClearanceOfSecondParameterNodeIsNotEqualToOrGreaterThanClearanceParameter();
+		void addInterEdgeShouldThrowExceptionIfClearanceParameterLessThanOrEqualToZero();
+
+
 
 		/* buildVerticalEntrances() */
 		void buildVerticalEntrancesShouldCreateOneMaximallySizedEntrancePerContiguousAreaAlongTheVerticalBorderBetweenTwoClusters();
@@ -138,8 +147,8 @@ class AnnotatedClusterTest : public CPPUNIT_NS::TestFixture
 	private:
 		double interedge_weight;
 		int cwidth, cheight;
-		int entrance1_capability, entrance1_clearance;
-		int entrance2_capability, entrance2_clearance;
+		int e1_capability, e1_clearance;
+		int e2_capability, e2_clearance;
 
 		AnnotatedClusterAbstractionMock* aca_mock;
 		AnnotatedCluster* ac;
@@ -160,14 +169,14 @@ class exceptionThrownHelper
 		exceptionThrownHelper() {}
 		
 		template<class ExceptionType>
-		void checkaddInterEdgeThrowsCorrectException(node* n1, node* n2)
+		void checkaddInterEdgeThrowsCorrectException(node* n1, node* n2, int capability, int clearance)
 		{
 			bool exceptionThrown = false;
 			int numnodes = absg->getNumNodes();
 				
 			try 
 			{
-				ac->addInterEdge(n1, n2, aca_mock);
+				ac->addInterEdge(n1, n2, capability, clearance, aca_mock);
 			}
 			catch(ExceptionType& e)
 			{	
