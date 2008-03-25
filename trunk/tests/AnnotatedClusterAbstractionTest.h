@@ -29,6 +29,7 @@ class AnnotatedClusterAbstractionTest : public CPPUNIT_NS::TestFixture
 	CPPUNIT_TEST( getClusterShouldReturnZeroWhenIdParameterIsLessThanZero );
 	CPPUNIT_TEST( getClusterShouldReturnZeroWhenIdParameterIsGreaterThanNumberOfClusters );
 	CPPUNIT_TEST( getClusterShouldReturnRequestedClusterGivenAValidClusterId );
+//	CPPUNIT_TEST( buildEntrancesShouldCreateCorrectNumberOfTransitionsBetweenClustersAndAddTransitionsToAbstractGraph );
 	CPPUNIT_TEST_SUITE_END();
 	
 	public:
@@ -36,6 +37,7 @@ class AnnotatedClusterAbstractionTest : public CPPUNIT_NS::TestFixture
 		void tearDown();
 
 		void buildClustersShouldSplitTheMapAreaIntoCorrectNumberOfClusters();
+		void buildEntrancesShouldCreateCorrectNumberOfTransitionsBetweenClustersAndAddTransitionsToAbstractGraph();
 		void getClusterSizeShouldReturnSameValueAsConstructorParameter();
 		
 		void constructorShouldCreateANewGraphObject();

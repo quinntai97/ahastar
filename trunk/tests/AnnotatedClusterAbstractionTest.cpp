@@ -88,3 +88,17 @@ void AnnotatedClusterAbstractionTest::getClusterShouldReturnRequestedClusterGive
 	AnnotatedCluster* ac = aca->getCluster(clusterid);
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("returned wrong cluster", true, ac->getClusterId() == clusterid );
 }
+
+void AnnotatedClusterAbstractionTest::buildEntrancesShouldCreateCorrectNumberOfTransitionsBetweenClustersAndAddTransitionsToAbstractGraph()
+{
+	aca->buildClusters();
+	int numExpectedAbstractNodes = 4;
+	int numExpectedAbstractEdges = 8;
+	
+	aca->buildEntrances();
+	
+	int actualAbstractNodes = aca->getAbstractGraph(1)->getNumNodes();
+	int actualAbstractEdges = aca->getAbstractGraph(1)->getNumEdges();
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("buildEntrances resulted in incorrect number of abstract nodes", numExpectedAbstractNodes, actualAbstractNodes);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("buildEntrances resulted in incorrect number of abstract edges", numExpectedAbstractNodes, actualAbstractEdges);
+}
