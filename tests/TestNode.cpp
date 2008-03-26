@@ -122,5 +122,8 @@ void TestNode::cloneShouldDeepCopyNodeAndAllAnnotations()
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("cloned node has incorrect kAbstractionLevel label", tn1->getLabelL(kAbstractionLevel), tn1clone->getLabelL(kAbstractionLevel));
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("cloned node has incorrect x-coordinate label", tn1->getLabelL(kFirstData), tn1clone->getLabelL(kFirstData));	
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("cloned node has incorrect y-coordinate label", tn1->getLabelL(kFirstData+1), tn1clone->getLabelL(kFirstData+1));
+	
+	delete tn1;
+	delete tn1clone;
 
 }

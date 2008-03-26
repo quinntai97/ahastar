@@ -195,6 +195,33 @@ edge *graph::findEdge(unsigned int from, unsigned int to)
   return 0;
 }
 
+edge* graph::findAnnotatedEdge(node* from, node* to, int capability, int clearance)
+{
+        if(!(from && to))
+                return 0;
+
+        edge_iterator ei = from->getEdgeIter();
+        edge * e = from->edgeIterNext(ei);
+        while(e)
+        {
+                        unsigned int which;
+                        if ((which = e->getFrom()) == from->getNum()) which = e->getTo();
+
+                        /* found an existing edge between these two nodes */
+                        if(which == to->getNum())
+                        {
+                                /* is the edge traversable with the given capability parameter? */
+								int eclearance = e->getClearance(capability);
+								if(eclearance >= clearance)
+									return e;
+						}
+
+                        e = from->edgeIterNext(ei);
+        }
+
+        return 0;
+}
+
 bool graph::relax(edge *e, int weightIndex)
 {
   int from = e->getFrom();
@@ -717,8 +744,6 @@ void node::setParentCluster(int clusterid)
 		
 	return;
 }
-
-
 
 
 graph_object *node::clone() const

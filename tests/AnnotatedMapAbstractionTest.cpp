@@ -227,6 +227,10 @@ void AnnotatedMapAbstractionTest::checkSingleNodeAnnotations(node* n, int x, int
 					else // some neighbours don't exist; check for min clearance
 						CPPUNIT_ASSERT_EQUAL(/*getMessage(ss << "invalid clearance for tile @ "<<x<<","<<y<<". terrain "<<capabilities[i]),*/ n->getClearance(capabilities[i]), 1);
 				}
+
+		/* test that we've initialised parent labels */
+		CPPUNIT_ASSERT_EQUAL_MESSAGE("parent label default value not default", (int)n->getLabelL(kParent), -1);
+
 }
 
 

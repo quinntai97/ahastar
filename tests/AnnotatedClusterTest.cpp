@@ -80,6 +80,20 @@ void AnnotatedClusterTest::createEntranceNodes()
 	e2_capability = e2_n1->getTerrainType()|e2_n2hardobst->getTerrainType();
 	e2_clearance = e2_n1->getClearance(e2_capability)>e2_n2hardobst->getClearance(e2_capability)?e2_n2hardobst->getClearance(e2_capability):e2_n1->getClearance(e2_capability);		
 
+	e3_n1 = aca_mock->getNodeFromMap(0,4);
+	e3_n1->setParentCluster(0);
+	e3_n2 = aca_mock->getNodeFromMap(0,5);
+	e3_n2->setParentCluster(2);	
+	e3_capability = kGround;
+	e3_clearance = e3_n1->getClearance(e3_capability)>e3_n2->getClearance(e3_capability)?e3_n2->getClearance(e3_capability):e3_n1->getClearance(e3_capability);		
+
+
+	e4_n1 = aca_mock->getNodeFromMap(0,4);
+	e4_n1->setParentCluster(0);
+	e4_n2 = aca_mock->getNodeFromMap(0,5);
+	e4_n2->setParentCluster(2);	
+	e4_capability = (kGround|kTrees);
+	e4_clearance = e4_n1->getClearance(e4_capability)>e4_n2->getClearance(e4_capability)?e4_n2->getClearance(e4_capability):e4_n1->getClearance(e4_capability);		
 	
 }
 
@@ -461,6 +475,36 @@ void AnnotatedClusterTest::addInterEdgeShouldCreateAbstractNodesWhichHaveTheSame
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("second abstract node has incorrect y-coordinate label",e1_n2->getLabelL(kFirstData+1), absn2->getLabelL(kFirstData+1));
 }
 
+
+void AnnotatedClusterTest::addInterEdgeShouldReuseExistingNodeEndpointsIfADifferentEntranceExistsAtSameLocation()
+{
+
+	createEntranceNodes();
+	int numExpectedAbstractNodesInGraph = 2;
+	int numExpectedAbstractNodeInCluster = 1;
+	
+	ac->addInterEdge(e3_n1,e3_n2, e3_capability, e3_clearance, aca_mock);	
+	ac->addInterEdge(e4_n1,e4_n2, e4_capability, e4_clearance, aca_mock);	
+	AnnotatedCluster* adjacentCluster = aca_mock->getCluster(2);
+
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("incorrect abstract node count in abstract graph", numExpectedAbstractNodesInGraph, absg->getNumNodes());
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("incorrect abstract node count in target cluster ", numExpectedAbstractNodeInCluster, (int)ac->getParents().size());
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("incorrect abstract node count in adjacent cluster ", numExpectedAbstractNodeInCluster, (int)adjacentCluster->getParents().size());
+
+}
+
+void AnnotatedClusterTest::addInterEdgeShouldReuseExistingEdgeIfCapabilityParameterIsASupersetOfExistingEdgeCapability()
+{
+	createEntranceNodes();
+	int numExpectedAbstractEdgesInGraph = 1;
+	
+	ac->addInterEdge(e3_n1,e3_n2, e3_capability, e3_clearance, aca_mock);	
+	ac->addInterEdge(e4_n1,e4_n2, e4_capability, e4_clearance, aca_mock);	
+
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("incorrect edge count in abstract graph (failed to reuse existing edges)", numExpectedAbstractEdgesInGraph, absg->getNumEdges());
+
+}
+
 void AnnotatedClusterTest::addInterEdgeShouldConnectAbstractNodesWithANewAnnotatedEdge()
 {
 	createEntranceNodes();
@@ -568,7 +612,7 @@ void AnnotatedClusterTest::buildHorizontalEntrancesShouldCreateOneMaximallySized
 {
 	aca_mock->buildClusters();
 	TestEntrance te1(0,4,0,5,kGround,1,0,1);
-	TestEntrance te2(3,4,3,5,kGround,1,0,1);
+	TestEntrance te2(4,4,4,5,kGround,1,0,1);
 
 	ac->buildHorizontalEntrances(te1.getCapability(), aca_mock);
 
@@ -591,9 +635,9 @@ void AnnotatedClusterTest::buildHorizontalEntrancesShouldCreateOneMaximallySized
 	
 	/* check that the entrances have expected capability clearance annotations */
 	edge* entrance = absg->findEdge(te1_endpoint2->getNum(), te1_endpoint1->getNum());
-	CPPUNIT_ASSERT_EQUAL_MESSAGE("entrance1 clearance incorrect", entrance->getClearance(te1.getCapability()), te1.getClearance(te1.getCapability()));
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("entrance1 clearance incorrect", te1.getClearance(te1.getCapability()), entrance->getClearance(te1.getCapability()));
 	entrance = absg->findEdge(te2_endpoint2->getNum(), te2_endpoint1->getNum());
-	CPPUNIT_ASSERT_EQUAL_MESSAGE("entrance2 clearance incorrect", entrance->getClearance(te2.getCapability()), te2.getClearance(te2.getCapability()));
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("entrance2 clearance incorrect", te1.getClearance(te1.getCapability()), entrance->getClearance(te2.getCapability()));
 }
 
 void AnnotatedClusterTest::buildHorizontalEntrancesShouldThrowExceptionGivenAnInvalidACAParameter()
@@ -623,3 +667,18 @@ void AnnotatedClusterTest::buildHorizontalEntrancesShouldNotAddAnyEntrancesGiven
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("too many nodes in adjacent cluster", numNodesInClusterBefore, (int)adjacentCluster->getParents().size());
 }
 
+/* NB: some endpoints shared and some edges re-used hence the expected node and edge count */
+void AnnotatedClusterTest::builEntrancesShouldCreateCorrectNumberOfVerticalAndHorizontalTransitionsToOtherClusters()
+{
+	int expectedNumAbstractNodes = 9;
+	int expectedNumAbstractEdges = 5;
+	int expectedNumAbstractNodesInCluster = 4;
+
+	aca_mock->buildClusters();
+	ac->buildEntrances(aca_mock);
+	
+
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("incorrect edge count in abstract graph", expectedNumAbstractEdges, absg->getNumEdges());	
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("incorrect node count in abstract graph", expectedNumAbstractNodes, absg->getNumNodes());
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("incorrect node count in target cluster", expectedNumAbstractNodesInCluster, (int)ac->getParents().size());
+}

@@ -137,7 +137,7 @@ class EntranceException : public std::exception
 class CannotBuildEntranceToSelfException : public EntranceException
 {
 	public:
-		CannotBuildEntranceToSelfException(node*, node*);
+		CannotBuildEntranceToSelfException(node*, node*, int, int);
 		virtual const char* what() const throw();
 };
 
@@ -173,7 +173,7 @@ class AnnotatedCluster : public Cluster
 		virtual bool addNode(node *) throw(NodeIsAlreadyAssignedToClusterException, ClusterFullException, NodeIsNullException); 
 		virtual void addParent(node *);
 		virtual void addNodesToCluster(AnnotatedClusterAbstraction*);
-//		virtual void buildEntrances(AnnotatedClusterAbstraction*);
+		virtual void buildEntrances(AnnotatedClusterAbstraction*);
 		
 	protected:
 		virtual void addInterEdge(node*, node*, int, int, AnnotatedClusterAbstraction*) 
@@ -185,6 +185,7 @@ class AnnotatedCluster : public Cluster
 		
 	private:
 		void addEdgeToAbstractGraph(node*, node*, int, int, double, AnnotatedClusterAbstraction*);
+		edge* findExistingEdge(node*, node*);
 		static unsigned int uniqueClusterIdCnt;
 		
 };

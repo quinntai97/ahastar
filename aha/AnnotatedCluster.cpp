@@ -72,12 +72,13 @@ const char* NodeIsNullException::getExceptionErrorMessage() const
 		return std::string("Found a null node parameter.").c_str();
 }
 
-CannotBuildEntranceToSelfException::CannotBuildEntranceToSelfException(node* n1, node* n2) : EntranceException(n1, n2)
+CannotBuildEntranceToSelfException::CannotBuildEntranceToSelfException(node* n1, node* n2, int caps, int clearance) : EntranceException(n1, n2)
 {
 	std::ostringstream oss;
 	oss << 	"tried to build an entrance using two nodes from the same cluster. Endpoint1 @ ";
 	oss << "("<<endpoint1->getLabelL(kFirstData) << ", "<< endpoint1->getLabelL(kFirstData+1)<< " ) ";
 	oss << " Endpoint2 @ "<< "("<<endpoint2->getLabelL(kFirstData) << ", "<< endpoint2->getLabelL(kFirstData+1)<< " ) ";
+	oss << " capability: "<<caps<<" clearance: "<<clearance;
 	oss << std::endl;
 	
 	message = new std::string(oss.str().c_str());
@@ -161,7 +162,7 @@ void AnnotatedCluster::addInterEdge(node* from, node* to, int capability, int cl
 		throw CannotBuildEntranceFromAbstractNodeException();
 		
 	if(from->getParentCluster() == to->getParentCluster())
-		throw CannotBuildEntranceToSelfException(from, to);
+		throw CannotBuildEntranceToSelfException(from, to, capability, clearance);
 	
 	if(AnnotatedAStar::getDirection(from, to) == kStay)
 		throw EntranceNodesAreNotAdjacentException();
@@ -177,28 +178,47 @@ void AnnotatedCluster::addInterEdge(node* from, node* to, int capability, int cl
 
 void AnnotatedCluster::addEdgeToAbstractGraph(node* from, node* to, int capability, int clearance, double weight, AnnotatedClusterAbstraction* aca)
 {
-	/* need to add nodes to abstract graph to represent the entrance */
-	node* absfrom = dynamic_cast<node*>(from->clone());
-	node* absto = dynamic_cast<node*>(to->clone());
-	absfrom->setLabelL(kAbstractionLevel, 1);
-	absto->setLabelL(kAbstractionLevel, 1);
-	
+	/* need to add nodes to abstract graph to represent the entrance; some entrances may share endpoints so we minimise graph size by reusing nodes */
 	graph* g = aca->getAbstractGraph(1);
-	g->addNode(absfrom);
-	g->addNode(absto);
 	
+	node *absfrom, *absto;
+	if(from->getLabelL(kParent) == -1)
+	{
+		absfrom = dynamic_cast<node*>(from->clone());
+		absfrom->setLabelL(kAbstractionLevel, 1);
+		g->addNode(absfrom);
+		AnnotatedCluster* fromCluster = aca->getCluster(absfrom->getParentCluster());		
+		fromCluster->addParent(absfrom);
+
+		from->setLabelL(kParent, absfrom->getNum());
+	}
+	else
+		absfrom = g->getNode(from->getLabelL(kParent));
+	
+	if(to->getLabelL(kParent) == -1)
+	{
+		absto = dynamic_cast<node*>(to->clone());
+		absto->setLabelL(kAbstractionLevel, 1);
+		g->addNode(absto);
+		AnnotatedCluster* toCluster = aca->getCluster(absto->getParentCluster());
+		toCluster->addParent(absto);
+
+		to->setLabelL(kParent, absto->getNum());
+	}
+	else
+		absto = g->getNode(to->getLabelL(kParent));
+				
 	/* annotate the edge representing the entrance with appropriate capabilities and clearance values */
-	edge* interedge = new edge(absfrom->getNum(), absto->getNum(), weight);
-	interedge->setClearance(capability,clearance);
-	g->addEdge(interedge);
-		
-	/* need to add the endpoints of the new entrance to their respective clusters */
-	AnnotatedCluster* fromCluster = aca->getCluster(absfrom->getParentCluster());
-	AnnotatedCluster* toCluster = aca->getCluster(absto->getParentCluster());
-	
-	fromCluster->addParent(absfrom);
-	toCluster->addParent(absto);
+	edge* interedge = g->findAnnotatedEdge(absfrom,absto, capability, clearance); // can we re-use any edge that fits caps/clearance criteria?
+	if(interedge == 0)
+	{
+		//std::cout << "\nadding new edge to abs graph: "<<from->getLabelL(kFirstData)<<","<<from->getLabelL(kFirstData+1)<<" and " << to->getLabelL(kFirstData)<<","<<to->getLabelL(kFirstData+1) << " caps: "<<capability<<" clearance: "<<clearance;
+		interedge = new edge(absfrom->getNum(), absto->getNum(), weight);
+		interedge->setClearance(capability,clearance);
+		g->addEdge(interedge);
+	}
 }
+
 
 // TODO: in a higher level function, need to call this for each capability type
 void AnnotatedCluster::buildVerticalEntrances(int curCapability, AnnotatedClusterAbstraction* aca)
@@ -279,4 +299,16 @@ void AnnotatedCluster::buildHorizontalEntrances(int curCapability, AnnotatedClus
 	
 	if(candidateClearance != 0)
 		this->addInterEdge(candidateNode2,candidateNode1, curCapability, candidateClearance, aca);
+}
+
+void AnnotatedCluster::buildEntrances(AnnotatedClusterAbstraction* aca)
+{
+//	if(aca == NULL)
+//		throw AnnotatedClusterAbstractionIsNullException();
+
+	for(int i=0; i<NUMCAPABILITIES; i++)
+	{
+		buildVerticalEntrances(capabilities[i], aca);
+		buildHorizontalEntrances(capabilities[i], aca);
+	}
 }

@@ -53,6 +53,8 @@ class AnnotatedClusterTest : public CPPUNIT_NS::TestFixture
 	CPPUNIT_TEST( constructorShouldThrowExceptionWhenXOriginParameterIsInvalid );
 	CPPUNIT_TEST( constructorShouldThrowExceptionWhenYOriginParameterIsInvalid );
 	CPPUNIT_TEST( addInterEdgeShouldAddTwoNewAbstractNodesToAbstractGraphGivenAPairOfNodesInTheNonAbstractGraph );
+	CPPUNIT_TEST( addInterEdgeShouldReuseExistingNodeEndpointsIfADifferentEntranceExistsAtSameLocation );
+	CPPUNIT_TEST( addInterEdgeShouldReuseExistingEdgeIfCapabilityParameterIsASupersetOfExistingEdgeCapability );
 	CPPUNIT_TEST( addInterEdgeShouldCreateAbstractNodesWhichHaveTheSameAnnotationsAsParameterNodes ); 
 	CPPUNIT_TEST( addInterEdgeShouldConnectAbstractNodesWithANewAnnotatedEdge );
 	CPPUNIT_TEST( addInterEdgeShouldAddEachEntranceEndpointToItsCluster );
@@ -75,6 +77,7 @@ class AnnotatedClusterTest : public CPPUNIT_NS::TestFixture
 	CPPUNIT_TEST( buildHorizontalEntrancesShouldCreateOneMaximallySizedEntrancePerContiguousAreaAlongTheHorizontalBorderBetweenTwoClusters );
 	CPPUNIT_TEST( buildHorizontalEntrancesShouldThrowExceptionGivenAnInvalidACAParameter );
 	CPPUNIT_TEST( buildHorizontalEntrancesShouldNotAddAnyEntrancesGivenAnInvalidCapabilityParameter );
+	CPPUNIT_TEST( builEntrancesShouldCreateCorrectNumberOfVerticalAndHorizontalTransitionsToOtherClusters );
 
 
 	CPPUNIT_TEST_SUITE_END();
@@ -108,6 +111,8 @@ class AnnotatedClusterTest : public CPPUNIT_NS::TestFixture
 		void addInterEdgeShouldAddEachEntranceEndpointToItsCluster();
 		void addInterEdgeShouldCreateAbstractNodesWhichHaveTheSameAnnotationsAsParameterNodes();
 		void addInterEdgeShouldConnectAbstractNodesWithANewAnnotatedEdge();
+		void addInterEdgeShouldReuseExistingNodeEndpointsIfADifferentEntranceExistsAtSameLocation();
+		void addInterEdgeShouldReuseExistingEdgeIfCapabilityParameterIsASupersetOfExistingEdgeCapability();
 		void addInterEdgeShouldThrowExceptionIfFirstNodeParameterNodeIsNull();
 		void addInterEdgeShouldThrowExceptionIfSecondNodeParameterNodeIsNull();
 		void addInterEdgeShouldThrowExceptionIfParameterNodesPointToSameObject();
@@ -134,7 +139,10 @@ class AnnotatedClusterTest : public CPPUNIT_NS::TestFixture
 		void buildHorizontalEntrancesShouldCreateOneMaximallySizedEntrancePerContiguousAreaAlongTheHorizontalBorderBetweenTwoClusters();
 		void buildHorizontalEntrancesShouldThrowExceptionGivenAnInvalidACAParameter();
 		void buildHorizontalEntrancesShouldNotAddAnyEntrancesGivenAnInvalidCapabilityParameter();
-
+		
+		void builEntrancesShouldCreateCorrectNumberOfVerticalAndHorizontalTransitionsToOtherClusters();
+		
+		//void buildEntrancesShouldThrowExceptionGivenAnInvalidACAParameter();
 
 		/* yet to implement */
 
@@ -149,11 +157,15 @@ class AnnotatedClusterTest : public CPPUNIT_NS::TestFixture
 		int cwidth, cheight;
 		int e1_capability, e1_clearance;
 		int e2_capability, e2_clearance;
+		int e3_capability, e3_clearance;
+		int e4_capability, e4_clearance;
 
 		AnnotatedClusterAbstractionMock* aca_mock;
 		AnnotatedCluster* ac;
 		node *e1_n1, *e1_n2;
 		node *e2_n2hardobst, *e2_n1;
+		node *e3_n1, *e3_n2;
+		node *e4_n1, *e4_n2;
 		graph* absg;
 		
 		exceptionThrownHelper *testHelper;
