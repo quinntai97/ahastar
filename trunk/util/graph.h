@@ -105,7 +105,11 @@ public:
   
   bool verifyGraph() const;
   void Print(std::ostream&) const;
-	void printStats();
+  void printStats();
+  
+  /* AHA* extensions */
+  edge* findAnnotatedEdge(node* from, node* to, int capability, int clearance);
+	
 private:
   std::vector<node *> _nodes;
   //unsigned int node_index;
@@ -229,13 +233,15 @@ public:
   void setWidth(double val) { width = val; }
 
   void Print(std::ostream&) const;
-  
+
+  /* AHA* extensions */
   void setClearance(int terraintype, int value);
   int getClearance(int terrain);
   void setTerrainType(int terrain);
   int getTerrainType();
   void setParentCluster(int clusterid);
   int getParentCluster(); 
+
   
 private:
   friend class graph;

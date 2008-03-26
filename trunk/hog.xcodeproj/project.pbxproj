@@ -29,6 +29,7 @@
 		62B2FE700D6AD307006A12F8 /* CapabilityUnitTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 62B2FE6F0D6AD307006A12F8 /* CapabilityUnitTest.cpp */; };
 		62B2FE7C0D6AD3AE006A12F8 /* CapabilityUnit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 62B2FE7B0D6AD3AE006A12F8 /* CapabilityUnit.cpp */; };
 		62B2FE7D0D6AD3AE006A12F8 /* CapabilityUnit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 62B2FE7B0D6AD3AE006A12F8 /* CapabilityUnit.cpp */; };
+		62BBA5990D9A793100C5B4E2 /* TestGraph.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 62BBA5980D9A793100C5B4E2 /* TestGraph.cpp */; };
 		62C9BF210D40606E0063A898 /* ExperimentManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 62C9BF200D40606E0063A898 /* ExperimentManager.cpp */; };
 		62D0A9BB0D1262830022B351 /* AnnotatedAStar.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 62D0A9BA0D1262830022B351 /* AnnotatedAStar.cpp */; };
 		62D0A9BC0D1262830022B351 /* AnnotatedAStar.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 62D0A9BA0D1262830022B351 /* AnnotatedAStar.cpp */; };
@@ -198,6 +199,8 @@
 		62B2FE6F0D6AD307006A12F8 /* CapabilityUnitTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CapabilityUnitTest.cpp; path = tests/CapabilityUnitTest.cpp; sourceTree = "<group>"; };
 		62B2FE7A0D6AD3AE006A12F8 /* CapabilityUnit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CapabilityUnit.h; path = aha/CapabilityUnit.h; sourceTree = "<group>"; };
 		62B2FE7B0D6AD3AE006A12F8 /* CapabilityUnit.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CapabilityUnit.cpp; path = aha/CapabilityUnit.cpp; sourceTree = "<group>"; };
+		62BBA5970D9A793100C5B4E2 /* TestGraph.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TestGraph.h; path = tests/TestGraph.h; sourceTree = "<group>"; };
+		62BBA5980D9A793100C5B4E2 /* TestGraph.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestGraph.cpp; path = tests/TestGraph.cpp; sourceTree = "<group>"; };
 		62C9BF1F0D40606E0063A898 /* ExperimentManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ExperimentManager.h; path = tests/ExperimentManager.h; sourceTree = "<group>"; };
 		62C9BF200D40606E0063A898 /* ExperimentManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ExperimentManager.cpp; path = tests/ExperimentManager.cpp; sourceTree = "<group>"; };
 		62D0A9B90D1262830022B351 /* AnnotatedAStar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AnnotatedAStar.h; path = aha/AnnotatedAStar.h; sourceTree = "<group>"; };
@@ -448,6 +451,8 @@
 				62E915990CFD5AF900AA46AB /* TestNode.cpp */,
 				62E91A580D05553100AA46AB /* EdgeTest.h */,
 				62E91A590D05553100AA46AB /* EdgeTest.cpp */,
+				62BBA5970D9A793100C5B4E2 /* TestGraph.h */,
+				62BBA5980D9A793100C5B4E2 /* TestGraph.cpp */,
 			);
 			name = hog;
 			sourceTree = "<group>";
@@ -924,6 +929,7 @@
 				620E3DD40D7570A600A97ED1 /* AnnotatedClusterTest.cpp in Sources */,
 				621C072D0D7F8432000C424F /* AnnotatedCluster.cpp in Sources */,
 				629095410D8929A300A34F48 /* AnnotatedClusterAbstractionMock.cpp in Sources */,
+				62BBA5990D9A793100C5B4E2 /* TestGraph.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

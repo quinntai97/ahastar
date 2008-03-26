@@ -65,43 +65,9 @@ void AnnotatedMapAbstraction::annotateMap()
 		{
 			node* n = getNodeFromMap(x,y);
 			annotateNode(n);
+			n->setLabelL(kParent, -1);
 		}
 	}
-	
-/*	cout << "kGround: "<<std::endl;
-	for(int j=0; j< getMap()->getMapHeight(); j++) 
-	{
-		for(int i=0; i < getMap()->getMapWidth(); i++)
-		{
-			cout << getNodeFromMap(i,j)->getClearance(kGround);
-		}
-		cout << std::endl;
-	}
-	
-	cout << "kGround|kTrees: "<<std::endl;
-	for(int j=0; j< getMap()->getMapHeight(); j++) 
-	{
-		for(int i=0; i < getMap()->getMapWidth(); i++)
-		{
-			cout << getNodeFromMap(i,j)->getClearance(kGround|kTrees);
-		}
-		cout << std::endl;
-	}
-
-	cout << "kTrees: "<<std::endl;
-	for(int j=0; j< getMap()->getMapHeight(); j++) 
-	{
-		for(int i=0; i < getMap()->getMapWidth(); i++)
-		{
-			cout << getNodeFromMap(i,j)->getClearance(kTrees);
-		}
-		cout << std::endl;
-	}
-
-
-
-
-	exit(-1);*/
 }
 
 void AnnotatedMapAbstraction::annotateNode(node* n)
