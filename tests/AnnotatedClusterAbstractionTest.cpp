@@ -54,6 +54,23 @@ void AnnotatedClusterAbstractionTest::buildClustersShouldSplitTheMapAreaIntoCorr
 	CPPUNIT_ASSERT_EQUAL(totalExpectedClusters, aca->getNumClusters());
 }
 
+void AnnotatedClusterAbstractionTest::buildClustersShouldCalculateCorrectClusterSize()
+{
+	delete aca; // map too big for this test; use a trivial one instead
+	Map* tinymap = new Map(acmap.c_str());
+	aca = new AnnotatedClusterAbstraction(tinymap, new AnnotatedAStarMock(), TESTCLUSTERSIZE);
+
+	int clusterWidths[4] = {5,4,5,4};
+	int clusterHeights[4] = {5,5,1,1};
+
+	for(int i=0; i<aca->getNumClusters(); i++)
+	{
+		AnnotatedCluster* ac = aca->getCluster(i);
+		CPPUNIT_ASSERT_EQUAL_MESSAGE("buildEntrances resulted in incorrect cluster height", clusterHeights[i], ac->getHeight());
+		CPPUNIT_ASSERT_EQUAL_MESSAGE("buildEntrances resulted in incorrect cluster width", clusterWidths[i], ac->getWidth());
+	}
+}
+
 void AnnotatedClusterAbstractionTest::getClusterSizeShouldReturnSameValueAsConstructorParameter()
 {
 	CPPUNIT_ASSERT_EQUAL(TESTCLUSTERSIZE, aca->getClusterSize());
@@ -89,16 +106,25 @@ void AnnotatedClusterAbstractionTest::getClusterShouldReturnRequestedClusterGive
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("returned wrong cluster", true, ac->getClusterId() == clusterid );
 }
 
+/* integration test */
 void AnnotatedClusterAbstractionTest::buildEntrancesShouldCreateCorrectNumberOfTransitionsBetweenClustersAndAddTransitionsToAbstractGraph()
 {
+	delete aca; // map too big for this test; use a trivial one instead
+	Map* tinymap = new Map(acmap.c_str());
+	aca = new AnnotatedClusterAbstraction(tinymap, new AnnotatedAStarMock(), TESTCLUSTERSIZE);
+	
 	aca->buildClusters();
-	int numExpectedAbstractNodes = 4;
-	int numExpectedAbstractEdges = 8;
 	
+	int numExpectedClusters = 4;
+	int numExpectedAbstractEdges = 7;
+	int numExpectedAbstractNodes = 10;
+	
+	cout << "\nok, go";
 	aca->buildEntrances();
-	
-	int actualAbstractNodes = aca->getAbstractGraph(1)->getNumNodes();
-	int actualAbstractEdges = aca->getAbstractGraph(1)->getNumEdges();
-	CPPUNIT_ASSERT_EQUAL_MESSAGE("buildEntrances resulted in incorrect number of abstract nodes", numExpectedAbstractNodes, actualAbstractNodes);
-	CPPUNIT_ASSERT_EQUAL_MESSAGE("buildEntrances resulted in incorrect number of abstract edges", numExpectedAbstractNodes, actualAbstractEdges);
+	cout << "\nok, done";
+
+	graph* absg = aca->getAbstractGraph(1);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("buildEntrances resulted in incorrect number of clusters created", numExpectedClusters, aca->getNumClusters());
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("buildEntrances resulted in incorrect number of abstract nodes", numExpectedAbstractNodes, absg->getNumNodes());
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("buildEntrances resulted in incorrect number of abstract edges", numExpectedAbstractEdges, absg->getNumEdges());
 }

@@ -24,26 +24,30 @@ class AnnotatedClusterAbstractionTest : public CPPUNIT_NS::TestFixture
 
 	CPPUNIT_TEST_SUITE( AnnotatedClusterAbstractionTest );
 	CPPUNIT_TEST( buildClustersShouldSplitTheMapAreaIntoCorrectNumberOfClusters );
+	CPPUNIT_TEST( buildClustersShouldCalculateCorrectClusterSize );
 	CPPUNIT_TEST( getClusterSizeShouldReturnSameValueAsConstructorParameter );
 	CPPUNIT_TEST( constructorShouldCreateANewGraphObject );
 	CPPUNIT_TEST( getClusterShouldReturnZeroWhenIdParameterIsLessThanZero );
 	CPPUNIT_TEST( getClusterShouldReturnZeroWhenIdParameterIsGreaterThanNumberOfClusters );
 	CPPUNIT_TEST( getClusterShouldReturnRequestedClusterGivenAValidClusterId );
-//	CPPUNIT_TEST( buildEntrancesShouldCreateCorrectNumberOfTransitionsBetweenClustersAndAddTransitionsToAbstractGraph );
+	CPPUNIT_TEST( buildEntrancesShouldCreateCorrectNumberOfTransitionsBetweenClustersAndAddTransitionsToAbstractGraph );
 	CPPUNIT_TEST_SUITE_END();
 	
 	public:
 		void setUp();
 		void tearDown();
 
-		void buildClustersShouldSplitTheMapAreaIntoCorrectNumberOfClusters();
-		void buildEntrancesShouldCreateCorrectNumberOfTransitionsBetweenClustersAndAddTransitionsToAbstractGraph();
-		void getClusterSizeShouldReturnSameValueAsConstructorParameter();
-		
+		void getClusterSizeShouldReturnSameValueAsConstructorParameter();		
 		void constructorShouldCreateANewGraphObject();
 		void getClusterShouldReturnZeroWhenIdParameterIsLessThanZero();
 		void getClusterShouldReturnZeroWhenIdParameterIsGreaterThanNumberOfClusters();
 		void getClusterShouldReturnRequestedClusterGivenAValidClusterId();
+
+		/* integration tests (use AnnotatedCluster production code) */
+		void buildClustersShouldSplitTheMapAreaIntoCorrectNumberOfClusters();
+		void buildClustersShouldCalculateCorrectClusterSize();
+		void buildEntrancesShouldCreateCorrectNumberOfTransitionsBetweenClustersAndAddTransitionsToAbstractGraph();
+
 		
 	private:
 		AnnotatedClusterAbstraction *aca;

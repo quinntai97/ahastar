@@ -236,6 +236,9 @@ void AnnotatedCluster::buildVerticalEntrances(int curCapability, AnnotatedCluste
 		
 	/* scan for vertical entrances along the eastern border */
 	int x = this->getHOrig()+this->getWidth();
+	if(x == mapwidth)
+		return; // no eastern neighbour; nothing to build
+	
 	for(int y=getVOrig(); y<getVOrig()+getHeight(); y++)
 	{
 		node *c1 = aca->getNodeFromMap(x,y); // node in neighbouring cluster
@@ -275,7 +278,11 @@ void AnnotatedCluster::buildHorizontalEntrances(int curCapability, AnnotatedClus
 	int candidateClearance=0;
 		
 	/* scan for horizontal entrances along the southern border */
-	int y = this->getVOrig()+this->getHeight();
+	int	y = this->getVOrig()+this->getHeight();
+	
+	if(y == mapheight)
+		return; // no southern neighbour; nothing to build
+
 	for(int x=getHOrig(); x<getHOrig()+getWidth(); x++)
 	{
 		node *c1 = aca->getNodeFromMap(x,y); // node in neighbouring cluster

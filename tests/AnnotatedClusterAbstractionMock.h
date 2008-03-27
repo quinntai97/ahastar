@@ -45,9 +45,9 @@ class AnnotatedClusterAbstractionMock :  public AnnotatedClusterAbstraction, pub
 		}
 				
 		virtual void buildClusters(); 
-		virtual AnnotatedCluster* getCluster(int id) { 	return getClusterMocker.forward(id); }
+		virtual AnnotatedCluster* getCluster(int cid) 
+		{  return getClusterMocker.forward(cid); }
 
-				
 		MOCKPP_NS::ChainableMockMethod<void> buildClustersMocker;
 		MOCKPP_NS::ChainableMockMethod<AnnotatedCluster*, int> getClusterMocker;
 		
