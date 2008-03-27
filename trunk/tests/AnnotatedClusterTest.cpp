@@ -53,8 +53,8 @@ void AnnotatedClusterTest::setUp()
 	/* setup the mock ACA object. NB/TODO: need to replace neighbours with mock AnnotatedCluster objects?  */
 	aca_mock->buildClustersMocker.expects(once());
 	aca_mock->getClusterMocker.stubs().with(eq(0)).will(new ReturnStub<AnnotatedCluster*>(ac));
-	aca_mock->getClusterMocker.stubs().with(eq(1)).will(new ReturnStub<AnnotatedCluster*>(new AnnotatedCluster(startx+cwidth, starty, cwidth, cheight)));
-	aca_mock->getClusterMocker.stubs().with(eq(2)).will(new ReturnStub<AnnotatedCluster*>(new AnnotatedCluster(startx, starty+cwidth, cwidth, cheight)));
+	aca_mock->getClusterMocker.stubs().with(eq(1)).will(new ReturnStub<AnnotatedCluster*>(new AnnotatedCluster(startx, starty+cwidth, cwidth, 1)));
+	aca_mock->getClusterMocker.stubs().with(eq(2)).will(new ReturnStub<AnnotatedCluster*>(new AnnotatedCluster(startx+cwidth, starty, 4, cheight)));
 		
 	AnnotatedMapAbstractionMock::loadClearanceInfo(string(aca_mock->getMap()->getMapName()), aca_mock);
 	absg = aca_mock->getAbstractGraph(1);	
@@ -638,6 +638,44 @@ void AnnotatedClusterTest::buildHorizontalEntrancesShouldCreateOneMaximallySized
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("entrance1 clearance incorrect", te1.getClearance(te1.getCapability()), entrance->getClearance(te1.getCapability()));
 	entrance = absg->findEdge(te2_endpoint2->getNum(), te2_endpoint1->getNum());
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("entrance2 clearance incorrect", te1.getClearance(te1.getCapability()), entrance->getClearance(te2.getCapability()));
+}
+
+void AnnotatedClusterTest::buildHorizontalEntrancesShouldSkipClustersWhichHaveNoNeighboursAlongSouthernBorder()
+{
+	int clusterxorigin = 0;
+	int clusteryorigin = 5;
+	int capability = kGround; 
+	int clearance = 1;
+	int expectedNumClusterNodes = 0;
+	int expectedNumAbstractGraphNodes = 0;
+	int expectedNumAbstractGraphEdges = 0;
+	aca_mock->buildClusters();
+	AnnotatedCluster *ac = aca_mock->getCluster(aca_mock->getNodeFromMap(clusterxorigin, clusteryorigin)->getParentCluster());
+	
+	ac->buildHorizontalEntrances(capability, aca_mock);
+	
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("incorrectly added nodes to cluster without eastern neighbour",expectedNumClusterNodes, (int)ac->getParents().size());
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("incorrectly added nodes to abstract graph when none required",expectedNumAbstractGraphNodes, absg->getNumNodes());  
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("incorrectly added edges to abstract graph when none required",expectedNumAbstractGraphEdges, absg->getNumEdges());	
+}
+
+void AnnotatedClusterTest::buildVerticalEntrancesShouldSkipClustersWhichHaveNoNeighboursAlongEasternBorder()
+{
+	int clusterxorigin = 5;
+	int clusteryorigin = 0;
+	int capability = kGround; 
+	int clearance = 1;
+	int expectedNumClusterNodes = 0;
+	int expectedNumAbstractGraphNodes = 0;
+	int expectedNumAbstractGraphEdges = 0;
+	aca_mock->buildClusters();
+	AnnotatedCluster *ac = aca_mock->getCluster(aca_mock->getNodeFromMap(clusterxorigin, clusteryorigin)->getParentCluster());
+		
+	ac->buildVerticalEntrances(capability, aca_mock);
+	
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("incorrectly added nodes to cluster without southern neighbour",expectedNumClusterNodes, (int)ac->getParents().size());
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("incorrectly added nodes to abstract graph when none required",expectedNumAbstractGraphNodes, absg->getNumNodes());  
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("incorrectly added edges to abstract graph when none required",expectedNumAbstractGraphEdges, absg->getNumEdges());	
 }
 
 void AnnotatedClusterTest::buildHorizontalEntrancesShouldThrowExceptionGivenAnInvalidACAParameter()

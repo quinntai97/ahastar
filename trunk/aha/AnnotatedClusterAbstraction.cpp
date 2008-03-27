@@ -61,19 +61,18 @@ void AnnotatedClusterAbstraction::buildClusters()
 			if(y+cheight > mapheight)
 				cheight = mapheight - y;
 				
-			addCluster( new AnnotatedCluster (x, y, cwidth, cheight) );
+			AnnotatedCluster *ac = new AnnotatedCluster (x, y, cwidth, cheight);
+			addCluster( ac ); // nb: also assigns a new id to cluster
+			ac->addNodesToCluster(this);
 		}
 }
 
 
 void AnnotatedClusterAbstraction::buildEntrances()
 {
-/*	for(int i=0; i<clusters.size(); i++)
+	for(int i=0; i<clusters.size(); i++)
 	{
 		AnnotatedCluster* ac = clusters[i];
-		for(int capability = 0; i<NUMCAPABILITIES; capability++)
-		{
-			ac->
-		}
-	}*/
+		ac->buildEntrances(this);
+	}
 }
