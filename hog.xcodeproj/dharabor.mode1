@@ -204,10 +204,10 @@
 						<key>_historyCapacity</key>
 						<integer>0</integer>
 						<key>bookmark</key>
-						<string>62A5F1DC0D9FB9A8007A8073</string>
+						<string>62ADFAF60D9FD414005B8EC7</string>
 						<key>history</key>
 						<array>
-							<string>62A5F1CE0D9FB9A6007A8073</string>
+							<string>62ADFAE60D9FD3F0005B8EC7</string>
 						</array>
 					</dict>
 					<key>SplitCount</key>
@@ -244,10 +244,10 @@
 						<key>_historyCapacity</key>
 						<integer>0</integer>
 						<key>bookmark</key>
-						<string>62A5F1DD0D9FB9A8007A8073</string>
+						<string>62ADFAF70D9FD414005B8EC7</string>
 						<key>history</key>
 						<array>
-							<string>62A5F1930D9FB854007A8073</string>
+							<string>62ADFAE80D9FD3F0005B8EC7</string>
 						</array>
 					</dict>
 					<key>SplitCount</key>
@@ -284,10 +284,10 @@
 						<key>_historyCapacity</key>
 						<integer>0</integer>
 						<key>bookmark</key>
-						<string>62A5F1DE0D9FB9A8007A8073</string>
+						<string>62ADFAF80D9FD414005B8EC7</string>
 						<key>history</key>
 						<array>
-							<string>62A5F1D50D9FB9A6007A8073</string>
+							<string>62A5F1DE0D9FB9A8007A8073</string>
 						</array>
 					</dict>
 					<key>SplitCount</key>
@@ -324,10 +324,10 @@
 						<key>_historyCapacity</key>
 						<integer>0</integer>
 						<key>bookmark</key>
-						<string>62A5F1DF0D9FB9A8007A8073</string>
+						<string>62ADFAF90D9FD414005B8EC7</string>
 						<key>history</key>
 						<array>
-							<string>62A5F1D90D9FB9A6007A8073</string>
+							<string>62A5F1DF0D9FB9A8007A8073</string>
 						</array>
 					</dict>
 					<key>SplitCount</key>
@@ -437,13 +437,13 @@
 							<key>PBXSmartGroupTreeModuleOutlineStateSelectionKey</key>
 							<array>
 								<array>
-									<integer>2</integer>
-									<integer>1</integer>
+									<integer>46</integer>
+									<integer>17</integer>
 									<integer>0</integer>
 								</array>
 							</array>
 							<key>PBXSmartGroupTreeModuleOutlineStateVisibleRectKey</key>
-							<string>{{0, 11}, {297, 516}}</string>
+							<string>{{0, 433}, {297, 516}}</string>
 						</dict>
 						<key>PBXTopSmartGroupGIDs</key>
 						<array/>
@@ -490,7 +490,7 @@
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>62A5F1DB0D9FB9A8007A8073</string>
+										<string>62ADFAF50D9FD414005B8EC7</string>
 										<key>history</key>
 										<array>
 											<string>621652FB0D4D9E0500536A5B</string>
@@ -550,7 +550,7 @@
 											<string>62A5F14B0D9FB413007A8073</string>
 											<string>62A5F1C90D9FB9A6007A8073</string>
 											<string>62A5F1CA0D9FB9A6007A8073</string>
-											<string>62A5EEA90D9FB073007A8073</string>
+											<string>62ADFAE20D9FD3F0005B8EC7</string>
 										</array>
 										<key>prevStack</key>
 										<array>
@@ -606,30 +606,12 @@
 											<string>62F02BFD0D964B960002175F</string>
 											<string>62BBA65C0D9A8E3A00C5B4E2</string>
 											<string>62BBA6610D9A8E3A00C5B4E2</string>
-											<string>62A5EEB00D9FB073007A8073</string>
 											<string>62A5EEB10D9FB073007A8073</string>
 											<string>62A5EEB20D9FB073007A8073</string>
-											<string>62A5EEB30D9FB073007A8073</string>
-											<string>62A5EEB40D9FB073007A8073</string>
 											<string>62A5EEB50D9FB073007A8073</string>
 											<string>62A5EEB60D9FB073007A8073</string>
-											<string>62A5EEB70D9FB073007A8073</string>
-											<string>62A5EEB80D9FB073007A8073</string>
-											<string>62A5EEB90D9FB073007A8073</string>
-											<string>62A5EEBA0D9FB073007A8073</string>
-											<string>62A5EEBB0D9FB073007A8073</string>
-											<string>62A5EEBC0D9FB073007A8073</string>
 											<string>62A5EEBD0D9FB073007A8073</string>
 											<string>62A5EEBE0D9FB073007A8073</string>
-											<string>62A5EEBF0D9FB073007A8073</string>
-											<string>62A5EEC00D9FB073007A8073</string>
-											<string>62A5EEC10D9FB073007A8073</string>
-											<string>62A5F14C0D9FB413007A8073</string>
-											<string>62A5F14D0D9FB413007A8073</string>
-											<string>62A5F14E0D9FB413007A8073</string>
-											<string>62A5F14F0D9FB413007A8073</string>
-											<string>62A5F1CB0D9FB9A6007A8073</string>
-											<string>62A5F1CC0D9FB9A6007A8073</string>
 										</array>
 									</dict>
 									<key>SplitCount</key>
@@ -687,9 +669,9 @@
 			</array>
 			<key>TableOfContents</key>
 			<array>
-				<string>62A5ED180D9D20A9007A8073</string>
+				<string>62ADFAE40D9FD3F0005B8EC7</string>
 				<string>1CE0B1FE06471DED0097A5F4</string>
-				<string>62A5ED190D9D20A9007A8073</string>
+				<string>62ADFAE50D9FD3F0005B8EC7</string>
 				<string>1CE0B20306471E060097A5F4</string>
 				<string>1CE0B20506471E060097A5F4</string>
 			</array>
@@ -823,16 +805,11 @@
 	<integer>5</integer>
 	<key>WindowOrderList</key>
 	<array>
-		<string>1C530D57069F1CE1000CFCEE</string>
-		<string>62A5EED60D9FB073007A8073</string>
-		<string>62A5EED70D9FB073007A8073</string>
-		<string>62E917290D03F39A00AA46AB</string>
 		<string>1C0AD2B3069F1EA900FABCE6</string>
-		<string>1CD10A99069EF8BA00B06720</string>
-		<string>62A5ED220D9D20A9007A8073</string>
+		<string>62E9117E0CFD4B5300AA46AB</string>
+		<string>1C530D57069F1CE1000CFCEE</string>
 		<string>62A5F1D70D9FB9A6007A8073</string>
 		<string>62A5F1D30D9FB9A6007A8073</string>
-		<string>62E9117E0CFD4B5300AA46AB</string>
 		<string>62A5F1D00D9FB9A6007A8073</string>
 		<string>/Users/dharabor/src/ahastar/hog.xcodeproj</string>
 		<string>62A5F1510D9FB413007A8073</string>
@@ -854,14 +831,12 @@
 					<key>Dock</key>
 					<array>
 						<dict>
-							<key>BecomeActive</key>
-							<true/>
 							<key>ContentConfiguration</key>
 							<dict>
 								<key>PBXProjectModuleGUID</key>
 								<string>1CD0528F0623707200166675</string>
 								<key>PBXProjectModuleLabel</key>
-								<string>AnnotatedClusterAbstractionTest.cpp</string>
+								<string></string>
 								<key>StatusBarVisibility</key>
 								<true/>
 							</dict>
@@ -917,7 +892,7 @@
 			<key>TableOfContents</key>
 			<array>
 				<string>62E9117E0CFD4B5300AA46AB</string>
-				<string>62A5ED4A0D9F9009007A8073</string>
+				<string>62ADFADF0D9FD3EF005B8EC7</string>
 				<string>1CD0528F0623707200166675</string>
 				<string>XCMainBuildResultsModuleGUID</string>
 			</array>
@@ -928,7 +903,7 @@
 			<key>WindowToolGUID</key>
 			<string>62E9117E0CFD4B5300AA46AB</string>
 			<key>WindowToolIsVisible</key>
-			<true/>
+			<false/>
 		</dict>
 		<dict>
 			<key>FirstTimeWindowDisplayed</key>
@@ -1062,7 +1037,7 @@
 										<key>PBXProjectModuleGUID</key>
 										<string>1CDD528C0622207200134675</string>
 										<key>PBXProjectModuleLabel</key>
-										<string>AnnotatedClusterTest.cpp</string>
+										<string></string>
 										<key>StatusBarVisibility</key>
 										<true/>
 									</dict>
@@ -1083,8 +1058,6 @@
 							<string>212pt</string>
 						</dict>
 						<dict>
-							<key>BecomeActive</key>
-							<true/>
 							<key>ContentConfiguration</key>
 							<dict>
 								<key>PBXProjectModuleGUID</key>
@@ -1120,8 +1093,8 @@
 			<key>TableOfContents</key>
 			<array>
 				<string>1C530D57069F1CE1000CFCEE</string>
-				<string>62A5F1160D9FB19B007A8073</string>
-				<string>62A5F1170D9FB19B007A8073</string>
+				<string>62ADFAD40D9FD312005B8EC7</string>
+				<string>62ADFAD50D9FD312005B8EC7</string>
 				<string>1CDD528C0622207200134675</string>
 				<string>1CD0528E0623707200166675</string>
 			</array>
@@ -1279,9 +1252,9 @@
 			<key>TableOfContents</key>
 			<array>
 				<string>1C0AD2B3069F1EA900FABCE6</string>
-				<string>62A5ED500D9F9021007A8073</string>
+				<string>62ADFAE00D9FD3EF005B8EC7</string>
 				<string>1CD0528B0623707200166675</string>
-				<string>62A5ED510D9F9021007A8073</string>
+				<string>62ADFAE10D9FD3EF005B8EC7</string>
 			</array>
 			<key>ToolbarConfiguration</key>
 			<string>xcode.toolbar.config.run</string>

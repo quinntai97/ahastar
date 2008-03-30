@@ -162,12 +162,12 @@ void AnnotatedClusterAbstractionTest::buildEntrancesShouldAskEachClusterToCreate
 
 void AnnotatedClusterAbstractionTest::setupMockClusterExpectationsForBuildClusterTests(AnnotatedClusterMock* acm)
 {
-	acm->addNodesToClusterMocker.expects(once());
+	acm->addNodesToClusterMocker.expects(once()).id(MOCKPP_PCHAR("addNodesMocker"));
 }
 
 void AnnotatedClusterAbstractionTest::setupMockClusterExpectationsForBuildEntranceTests(AnnotatedClusterMock* acm)
 {
 	setupMockClusterExpectationsForBuildClusterTests(acm);
-	acm->buildEntrancesMocker.expects(once());	
+	acm->buildEntrancesMocker.expects(once()).after(MOCKPP_PCHAR("addNodesMocker"));	
 }
 
