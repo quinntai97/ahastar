@@ -12,19 +12,26 @@
 #include "Map.h"
 #include "AnnotatedClusterAbstraction.h"
 #include "clusterAbstraction.h"
-#include "AnnotatedCluster.h"
 #include "AnnotatedAStarMock.h"
+
+#include "AnnotatedClusterFactory.h"
+#include "AnnotatedClusterMockFactory.h"
+#include "AnnotatedClusterMock.h"
 #include "TestConstants.h"
+#include <mockpp/chaining/ChainingMockObjectSupport.h>
+
 
 CPPUNIT_TEST_SUITE_REGISTRATION( AnnotatedClusterAbstractionTest );
 
 using namespace std;
+USING_NAMESPACE_MOCKPP
 
 void AnnotatedClusterAbstractionTest::setUp()
 {
 	testmap = new Map(maplocation.c_str()); // TODO: need a separate, larger map to test this junk
 	aca = new AnnotatedClusterAbstraction(testmap, new AnnotatedAStarMock(), TESTCLUSTERSIZE);
 	expmgr = new ExperimentManager();
+	acmock_factory = new AnnotatedClusterMockFactory(this);
 }
 
 void AnnotatedClusterAbstractionTest::tearDown()
@@ -35,6 +42,7 @@ void AnnotatedClusterAbstractionTest::tearDown()
 
 void AnnotatedClusterAbstractionTest::buildClustersShouldSplitTheMapAreaIntoCorrectNumberOfClusters()
 {
+	acmock_factory->setTest(1);
 	/* figure out how many clusters the test map should have */
 	int mapwidth = aca->getMap()->getMapWidth();
 	int mapheight = aca->getMap()->getMapHeight();
@@ -50,12 +58,14 @@ void AnnotatedClusterAbstractionTest::buildClustersShouldSplitTheMapAreaIntoCorr
 	int totalExpectedClusters = numHorizontalClusters*numVerticalClusters;
 
 	/* check for the correct # of clusters */
-	aca->buildClusters();
+	aca->buildClusters(acmock_factory);
 	CPPUNIT_ASSERT_EQUAL(totalExpectedClusters, aca->getNumClusters());
 }
 
 void AnnotatedClusterAbstractionTest::buildClustersShouldCalculateCorrectClusterSize()
 {
+	acmock_factory->setTest(1);
+
 	delete aca; // map too big for this test; use a trivial one instead
 	Map* tinymap = new Map(acmap.c_str());
 	aca = new AnnotatedClusterAbstraction(tinymap, new AnnotatedAStarMock(), TESTCLUSTERSIZE);
@@ -100,7 +110,9 @@ void AnnotatedClusterAbstractionTest::getClusterShouldReturnZeroWhenIdParameterI
 
 void AnnotatedClusterAbstractionTest::getClusterShouldReturnRequestedClusterGivenAValidClusterId()
 {
-	aca->buildClusters();
+	acmock_factory->setTest(1);
+
+	aca->buildClusters(acmock_factory);
 	int clusterid=0;
 	AnnotatedCluster* ac = aca->getCluster(clusterid);
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("returned wrong cluster", true, ac->getClusterId() == clusterid );
@@ -113,7 +125,9 @@ void AnnotatedClusterAbstractionTest::buildEntrancesShouldCreateCorrectNumberOfT
 	Map* tinymap = new Map(acmap.c_str());
 	aca = new AnnotatedClusterAbstraction(tinymap, new AnnotatedAStarMock(), TESTCLUSTERSIZE);
 	
-	aca->buildClusters();
+	AnnotatedClusterFactory* ac_factory = new AnnotatedClusterFactory();
+	aca->buildClusters(ac_factory);
+	delete ac_factory;
 	
 	int numExpectedClusters = 4;
 	int numExpectedAbstractEdges = 7;
@@ -128,3 +142,32 @@ void AnnotatedClusterAbstractionTest::buildEntrancesShouldCreateCorrectNumberOfT
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("buildEntrances resulted in incorrect number of abstract nodes", numExpectedAbstractNodes, absg->getNumNodes());
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("buildEntrances resulted in incorrect number of abstract edges", numExpectedAbstractEdges, absg->getNumEdges());
 }
+
+void AnnotatedClusterAbstractionTest::buildEntrancesShouldAskEachClusterToCreateItsOwnEntrances()
+{
+	acmock_factory->setTest(2);
+
+	int numExpectedClusters = 4;
+	aca->buildClusters(acmock_factory);
+	
+	/* run test */
+	aca->buildEntrances();
+	
+	for(int i=0;i<4;i++)
+	{
+		AnnotatedClusterMock* acm = dynamic_cast<AnnotatedClusterMock*>(aca->getCluster(i));
+		acm->verify();
+	}
+}
+
+void AnnotatedClusterAbstractionTest::setupMockClusterExpectationsForBuildClusterTests(AnnotatedClusterMock* acm)
+{
+	acm->addNodesToClusterMocker.expects(once());
+}
+
+void AnnotatedClusterAbstractionTest::setupMockClusterExpectationsForBuildEntranceTests(AnnotatedClusterMock* acm)
+{
+	setupMockClusterExpectationsForBuildClusterTests(acm);
+	acm->buildEntrancesMocker.expects(once());	
+}
+

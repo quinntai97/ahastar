@@ -22,6 +22,10 @@
 		625FFE460D6D65E30089E6E8 /* AnnotatedClusterAbstractionTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 625FFE450D6D65E30089E6E8 /* AnnotatedClusterAbstractionTest.cpp */; };
 		629095410D8929A300A34F48 /* AnnotatedClusterAbstractionMock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 629095400D8929A300A34F48 /* AnnotatedClusterAbstractionMock.cpp */; };
 		629095420D8929A300A34F48 /* AnnotatedClusterAbstractionMock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 629095400D8929A300A34F48 /* AnnotatedClusterAbstractionMock.cpp */; };
+		62A5ED290D9D2505007A8073 /* AnnotatedClusterFactory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 62A5ED280D9D2505007A8073 /* AnnotatedClusterFactory.cpp */; };
+		62A5ED2A0D9D2505007A8073 /* AnnotatedClusterFactory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 62A5ED280D9D2505007A8073 /* AnnotatedClusterFactory.cpp */; };
+		62A5ED5A0D9F9089007A8073 /* AnnotatedClusterMock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 62A5ED590D9F9089007A8073 /* AnnotatedClusterMock.cpp */; };
+		62A5EDD30D9F9793007A8073 /* AnnotatedClusterMockFactory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 62A5EDD20D9F9793007A8073 /* AnnotatedClusterMockFactory.cpp */; };
 		62B1854B0D3200870061AE72 /* AHAScenarioManagerMock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 62B1854A0D3200870061AE72 /* AHAScenarioManagerMock.cpp */; };
 		62B185760D320C330061AE72 /* AnnotatedAStarMock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 62B185750D320C330061AE72 /* AnnotatedAStarMock.cpp */; };
 		62B186C60D33789A0061AE72 /* AnnotatedMapAbstractionMock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 62B186C50D33789A0061AE72 /* AnnotatedMapAbstractionMock.cpp */; };
@@ -187,6 +191,12 @@
 		625FFE450D6D65E30089E6E8 /* AnnotatedClusterAbstractionTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = AnnotatedClusterAbstractionTest.cpp; path = tests/AnnotatedClusterAbstractionTest.cpp; sourceTree = "<group>"; };
 		6290953F0D8929A300A34F48 /* AnnotatedClusterAbstractionMock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AnnotatedClusterAbstractionMock.h; path = tests/AnnotatedClusterAbstractionMock.h; sourceTree = "<group>"; };
 		629095400D8929A300A34F48 /* AnnotatedClusterAbstractionMock.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = AnnotatedClusterAbstractionMock.cpp; path = tests/AnnotatedClusterAbstractionMock.cpp; sourceTree = "<group>"; };
+		62A5ED270D9D2505007A8073 /* AnnotatedClusterFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AnnotatedClusterFactory.h; path = aha/AnnotatedClusterFactory.h; sourceTree = "<group>"; };
+		62A5ED280D9D2505007A8073 /* AnnotatedClusterFactory.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = AnnotatedClusterFactory.cpp; path = aha/AnnotatedClusterFactory.cpp; sourceTree = "<group>"; };
+		62A5ED580D9F9089007A8073 /* AnnotatedClusterMock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AnnotatedClusterMock.h; path = tests/AnnotatedClusterMock.h; sourceTree = "<group>"; };
+		62A5ED590D9F9089007A8073 /* AnnotatedClusterMock.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = AnnotatedClusterMock.cpp; path = tests/AnnotatedClusterMock.cpp; sourceTree = "<group>"; };
+		62A5EDD10D9F9793007A8073 /* AnnotatedClusterMockFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AnnotatedClusterMockFactory.h; path = tests/AnnotatedClusterMockFactory.h; sourceTree = "<group>"; };
+		62A5EDD20D9F9793007A8073 /* AnnotatedClusterMockFactory.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = AnnotatedClusterMockFactory.cpp; path = tests/AnnotatedClusterMockFactory.cpp; sourceTree = "<group>"; };
 		62B185490D3200870061AE72 /* AHAScenarioManagerMock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AHAScenarioManagerMock.h; path = tests/AHAScenarioManagerMock.h; sourceTree = "<group>"; };
 		62B1854A0D3200870061AE72 /* AHAScenarioManagerMock.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = AHAScenarioManagerMock.cpp; path = tests/AHAScenarioManagerMock.cpp; sourceTree = "<group>"; };
 		62B185740D320C330061AE72 /* AnnotatedAStarMock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AnnotatedAStarMock.h; path = tests/AnnotatedAStarMock.h; sourceTree = "<group>"; };
@@ -425,6 +435,8 @@
 				62C9BF200D40606E0063A898 /* ExperimentManager.cpp */,
 				62B18C610D3741600061AE72 /* TestConstants.h */,
 				62B18C620D3741600061AE72 /* TestConstants.cpp */,
+				62A5EDD10D9F9793007A8073 /* AnnotatedClusterMockFactory.h */,
+				62A5EDD20D9F9793007A8073 /* AnnotatedClusterMockFactory.cpp */,
 			);
 			name = util;
 			sourceTree = "<group>";
@@ -440,6 +452,8 @@
 				62B186C50D33789A0061AE72 /* AnnotatedMapAbstractionMock.cpp */,
 				6290953F0D8929A300A34F48 /* AnnotatedClusterAbstractionMock.h */,
 				629095400D8929A300A34F48 /* AnnotatedClusterAbstractionMock.cpp */,
+				62A5ED580D9F9089007A8073 /* AnnotatedClusterMock.h */,
+				62A5ED590D9F9089007A8073 /* AnnotatedClusterMock.cpp */,
 			);
 			name = mock;
 			sourceTree = "<group>";
@@ -662,6 +676,8 @@
 				62B2FE7B0D6AD3AE006A12F8 /* CapabilityUnit.cpp */,
 				621C072A0D7F8432000C424F /* AnnotatedCluster.h */,
 				621C072B0D7F8432000C424F /* AnnotatedCluster.cpp */,
+				62A5ED270D9D2505007A8073 /* AnnotatedClusterFactory.h */,
+				62A5ED280D9D2505007A8073 /* AnnotatedClusterFactory.cpp */,
 			);
 			name = aha;
 			sourceTree = "<group>";
@@ -901,6 +917,7 @@
 				620E3DD50D7570A600A97ED1 /* AnnotatedClusterTest.cpp in Sources */,
 				621C072C0D7F8432000C424F /* AnnotatedCluster.cpp in Sources */,
 				629095420D8929A300A34F48 /* AnnotatedClusterAbstractionMock.cpp in Sources */,
+				62A5ED2A0D9D2505007A8073 /* AnnotatedClusterFactory.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -930,6 +947,9 @@
 				621C072D0D7F8432000C424F /* AnnotatedCluster.cpp in Sources */,
 				629095410D8929A300A34F48 /* AnnotatedClusterAbstractionMock.cpp in Sources */,
 				62BBA5990D9A793100C5B4E2 /* TestGraph.cpp in Sources */,
+				62A5ED290D9D2505007A8073 /* AnnotatedClusterFactory.cpp in Sources */,
+				62A5ED5A0D9F9089007A8073 /* AnnotatedClusterMock.cpp in Sources */,
+				62A5EDD30D9F9793007A8073 /* AnnotatedClusterMockFactory.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

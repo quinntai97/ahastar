@@ -12,9 +12,11 @@
 
 #include "AnnotatedMapAbstraction.h"
 #include "AnnotatedAStar.h"
+#include "AnnotatedClusterFactory.h"
 
 class Map;
 class AnnotatedCluster;
+class AnotatedClusterFactory;
 
 class AnnotatedClusterAbstraction : public AnnotatedMapAbstraction
 {
@@ -26,7 +28,7 @@ class AnnotatedClusterAbstraction : public AnnotatedMapAbstraction
 	public: 
 		AnnotatedClusterAbstraction::AnnotatedClusterAbstraction(Map* m, AbstractAnnotatedAStar* searchalg, int clustersize);
 		~AnnotatedClusterAbstraction() { clusters.clear(); };
-		virtual void buildClusters();
+		virtual void buildClusters(IAnnotatedClusterFactory*);
 		virtual void buildEntrances();
 		virtual int getClusterSize() { return clustersize; } 
 		virtual int getNumClusters() { return clusters.size(); } 

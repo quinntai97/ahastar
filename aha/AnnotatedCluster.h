@@ -170,12 +170,12 @@ class AnnotatedCluster : public Cluster
 	public:
 		AnnotatedCluster(int, int, int, int) throw(InvalidClusterDimensionsException, InvalidClusterOriginCoordinatesException);
 		~AnnotatedCluster() { }
-		virtual bool addNode(node *) throw(NodeIsAlreadyAssignedToClusterException, ClusterFullException, NodeIsNullException); 
-		virtual void addParent(node *);
 		virtual void addNodesToCluster(AnnotatedClusterAbstraction*);
 		virtual void buildEntrances(AnnotatedClusterAbstraction*);
 		
 	protected:
+		virtual bool addNode(node *) throw(NodeIsAlreadyAssignedToClusterException, ClusterFullException, NodeIsNullException); 
+		virtual void addParent(node *);
 		virtual void addInterEdge(node*, node*, int, int, AnnotatedClusterAbstraction*) 
 			throw(EntranceNodeIsNullException, EntranceNodesAreIdenticalException, CannotBuildEntranceFromAbstractNodeException, 
 				CannotBuildEntranceToSelfException, InvalidClearanceParameterException	, EntranceNodesAreNotAdjacentException, 
