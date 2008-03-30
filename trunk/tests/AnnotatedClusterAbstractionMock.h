@@ -37,7 +37,7 @@ class AnnotatedClusterAbstractionMock :  public AnnotatedClusterAbstraction, pub
 	public:
 		AnnotatedClusterAbstractionMock(Map* m, AbstractAnnotatedAStar* aastar, int clustersize)
 			: MOCKPP_NS::ChainableMockObject(MOCKPP_PCHAR("ACAMock"), 0)
-			, buildClustersMocker("buildCluster", this)
+			, buildClustersMocker("buildClusters", this)
 			, getClusterMocker("getCluster", this)
 			, AnnotatedClusterAbstraction(m, aastar, clustersize) 
 		{	

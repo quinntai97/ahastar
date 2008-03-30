@@ -44,7 +44,7 @@ AnnotatedCluster* AnnotatedClusterAbstraction::getCluster(int cid)
 	return clusters[cid];
 }
 
-void AnnotatedClusterAbstraction::buildClusters()
+void AnnotatedClusterAbstraction::buildClusters(IAnnotatedClusterFactory* acfactory)
 {	
 	int mapwidth = this->getMap()->getMapWidth();
 	int mapheight= this->getMap()->getMapHeight();
@@ -61,7 +61,7 @@ void AnnotatedClusterAbstraction::buildClusters()
 			if(y+cheight > mapheight)
 				cheight = mapheight - y;
 				
-			AnnotatedCluster *ac = new AnnotatedCluster (x, y, cwidth, cheight);
+			AnnotatedCluster *ac = /*new AnnotatedCluster(x,y,cwidth,cheight);//*/acfactory->createCluster(x,y,cwidth,cheight);
 			addCluster( ac ); // nb: also assigns a new id to cluster
 			ac->addNodesToCluster(this);
 		}

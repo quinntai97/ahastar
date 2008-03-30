@@ -16,8 +16,10 @@
 
 class ExperimentManager;
 class AnnotatedClusterAbstraction;
+class AnnotatedClusterMockFactory;
 class Map;
 class node;
+class AnnotatedClusterMock;
 
 class AnnotatedClusterAbstractionTest : public CPPUNIT_NS::TestFixture
 {
@@ -31,26 +33,33 @@ class AnnotatedClusterAbstractionTest : public CPPUNIT_NS::TestFixture
 	CPPUNIT_TEST( getClusterShouldReturnZeroWhenIdParameterIsGreaterThanNumberOfClusters );
 	CPPUNIT_TEST( getClusterShouldReturnRequestedClusterGivenAValidClusterId );
 	CPPUNIT_TEST( buildEntrancesShouldCreateCorrectNumberOfTransitionsBetweenClustersAndAddTransitionsToAbstractGraph );
+	CPPUNIT_TEST( buildEntrancesShouldAskEachClusterToCreateItsOwnEntrances );
 	CPPUNIT_TEST_SUITE_END();
 	
 	public:
 		void setUp();
 		void tearDown();
-
+		void setupMockClusterExpectationsForBuildClusterTests(AnnotatedClusterMock*);
+		void setupMockClusterExpectationsForBuildEntranceTests(AnnotatedClusterMock*);
+		
 		void getClusterSizeShouldReturnSameValueAsConstructorParameter();		
 		void constructorShouldCreateANewGraphObject();
 		void getClusterShouldReturnZeroWhenIdParameterIsLessThanZero();
 		void getClusterShouldReturnZeroWhenIdParameterIsGreaterThanNumberOfClusters();
 		void getClusterShouldReturnRequestedClusterGivenAValidClusterId();
-
-		/* integration tests (use AnnotatedCluster production code) */
 		void buildClustersShouldSplitTheMapAreaIntoCorrectNumberOfClusters();
 		void buildClustersShouldCalculateCorrectClusterSize();
+		void buildEntrancesShouldAskEachClusterToCreateItsOwnEntrances();
+
+		/* integration tests (uses AnnotatedCluster production code) */
 		void buildEntrancesShouldCreateCorrectNumberOfTransitionsBetweenClustersAndAddTransitionsToAbstractGraph();
+		
+		
 
 		
 	private:
 		AnnotatedClusterAbstraction *aca;
+		AnnotatedClusterMockFactory* acmock_factory;
 		ExperimentManager* expmgr;
 		Map *testmap;
 };
