@@ -584,9 +584,10 @@ void AnnotatedClusterTest::buildVerticalEntrancesShouldThrowExceptionGivenAnInva
 	setupExceptionThrownTestHelper();
 	std::string errmsg("failed to throw exception when ACA parameter is null");
 	testHelper->setFailMessage(errmsg);
+	testHelper->setAnnotatedClusterAbstraction(NULL);
 
 	int capability = kWater;
-	testHelper->checkBuildVerticalEntrancesThrowsCorrectException<AnnotatedClusterAbstractionIsNullException>(capability, NULL);
+	testHelper->checkBuildVerticalEntrancesThrowsCorrectException<AnnotatedClusterAbstractionIsNullException>(capability);
 }
 
 void AnnotatedClusterTest::buildVerticalEntrancesShouldNotAddAnyEntrancesGivenAnInvalidCapabilityParameter()
@@ -683,9 +684,10 @@ void AnnotatedClusterTest::buildHorizontalEntrancesShouldThrowExceptionGivenAnIn
 	setupExceptionThrownTestHelper();
 	std::string errmsg("failed to throw exception when ACA parameter is null");
 	testHelper->setFailMessage(errmsg);
+	testHelper->setAnnotatedClusterAbstraction(NULL);
 
 	int capability = kWater;
-	testHelper->checkBuildHorizontalEntrancesThrowsCorrectException<AnnotatedClusterAbstractionIsNullException>(capability, NULL);
+	testHelper->checkBuildHorizontalEntrancesThrowsCorrectException<AnnotatedClusterAbstractionIsNullException>(capability);
 }
 
 void AnnotatedClusterTest::buildHorizontalEntrancesShouldNotAddAnyEntrancesGivenAnInvalidCapabilityParameter()
@@ -719,4 +721,14 @@ void AnnotatedClusterTest::builEntrancesShouldCreateCorrectNumberOfVerticalAndHo
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("incorrect edge count in abstract graph", expectedNumAbstractEdges, absg->getNumEdges());	
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("incorrect node count in abstract graph", expectedNumAbstractNodes, absg->getNumNodes());
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("incorrect node count in target cluster", expectedNumAbstractNodesInCluster, (int)ac->getParents().size());
+}
+
+void AnnotatedClusterTest::buildEntrancesShouldThrowExceptionGivenAnInvalidACAParameter()
+{
+	setupExceptionThrownTestHelper();
+	std::string errmsg("failed to throw exception when ACA parameter NULL ");
+	testHelper->setFailMessage(errmsg);
+	testHelper->setAnnotatedClusterAbstraction(NULL);
+	
+	testHelper->checkBuildEntrancesThrowsCorrectException<AnnotatedClusterAbstractionIsNullException>();
 }

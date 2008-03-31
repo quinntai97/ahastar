@@ -9,7 +9,7 @@
 
 #include "AnnotatedClusterMock.h"
 
-void AnnotatedClusterMock::buildEntrances(AnnotatedClusterAbstraction* aca)
+void AnnotatedClusterMock::buildEntrances(AnnotatedClusterAbstraction* aca) throw(AnnotatedClusterAbstractionIsNullException)
 {
 	this->buildEntrancesMocker.forward(aca);
 }
