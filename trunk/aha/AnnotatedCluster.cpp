@@ -72,13 +72,12 @@ const char* NodeIsNullException::getExceptionErrorMessage() const
 		return std::string("Found a null node parameter.").c_str();
 }
 
-CannotBuildEntranceToSelfException::CannotBuildEntranceToSelfException(node* n1, node* n2, int caps, int clearance) : EntranceException(n1, n2)
+CannotBuildEntranceToSelfException::CannotBuildEntranceToSelfException(node* n1, node* n2) : EntranceException(n1, n2)
 {
 	std::ostringstream oss;
 	oss << 	"tried to build an entrance using two nodes from the same cluster. Endpoint1 @ ";
 	oss << "("<<endpoint1->getLabelL(kFirstData) << ", "<< endpoint1->getLabelL(kFirstData+1)<< " ) ";
 	oss << " Endpoint2 @ "<< "("<<endpoint2->getLabelL(kFirstData) << ", "<< endpoint2->getLabelL(kFirstData+1)<< " ) ";
-	oss << " capability: "<<caps<<" clearance: "<<clearance;
 	oss << std::endl;
 	
 	message = new std::string(oss.str().c_str());
@@ -143,80 +142,36 @@ void AnnotatedCluster::addNodesToCluster(AnnotatedClusterAbstraction* aMap)
 }
 
 void AnnotatedCluster::addInterEdge(node* from, node* to, int capability, int clearance, AnnotatedClusterAbstraction* aca) 
-	throw(EntranceNodeIsNullException, EntranceNodesAreIdenticalException, CannotBuildEntranceFromAbstractNodeException, 
-		CannotBuildEntranceToSelfException, EntranceNodesAreNotAdjacentException, EntranceNodeIsNotTraversable, InvalidClearanceParameterException)
-{
-	if(from == NULL || to == NULL)
-		throw EntranceNodeIsNullException();
+	throw(CannotBuildEntranceFromAbstractNodeException, CannotBuildEntranceToSelfException, EntranceNodesAreNotAdjacentException, 
+		InvalidClearanceParameterException, EntranceNodeIsNotTraversable)
+{					
+	double weight = 1.0;
+	validateProposedTransition(from, to, capability,clearance, weight);
+						
+	addEdgeToAbstractGraph(from, to, capability, clearance, weight, aca);	
+}
 
-	if( from == to)
-		throw EntranceNodesAreIdenticalException();
-	
+void AnnotatedCluster::validateProposedTransition(node* from, node* to, int capability, int clearance, double weight) 
+{	
 	if(clearance <= 0)
 		throw InvalidClearanceParameterException();
 		
 	if(from->getClearance(capability) < clearance || to->getClearance(capability) < clearance)
 		throw EntranceNodeIsNotTraversable();
-					
-	if(from->getLabelL(kAbstractionLevel) != 0 || to->getLabelL(kAbstractionLevel) != 0)
-		throw CannotBuildEntranceFromAbstractNodeException();
-		
-	if(from->getParentCluster() == to->getParentCluster())
-		throw CannotBuildEntranceToSelfException(from, to, capability, clearance);
-	
-	if(AnnotatedAStar::getDirection(from, to) == kStay)
-		throw EntranceNodesAreNotAdjacentException();
-		
-		
-	double weight = 1.0;
-//	int capability = from->getTerrainType()|to->getTerrainType();
-//	int clearance = from->getClearance(capability)>to->getClearance(capability)?to->getClearance(capability):from->getClearance(capability);		
-	
-	addEdgeToAbstractGraph(from, to, capability, clearance, weight, aca);
-	
 }
 
 void AnnotatedCluster::addEdgeToAbstractGraph(node* from, node* to, int capability, int clearance, double weight, AnnotatedClusterAbstraction* aca)
 {
-	/* need to add nodes to abstract graph to represent the entrance; some entrances may share endpoints so we minimise graph size by reusing nodes */
-	graph* g = aca->getAbstractGraph(1);
-	
-	node *absfrom, *absto;
-	if(from->getLabelL(kParent) == -1)
-	{
-		absfrom = dynamic_cast<node*>(from->clone());
-		absfrom->setLabelL(kAbstractionLevel, 1);
-		g->addNode(absfrom);
-		AnnotatedCluster* fromCluster = aca->getCluster(absfrom->getParentCluster());		
-		fromCluster->addParent(absfrom);
-
-		from->setLabelL(kParent, absfrom->getNum());
-	}
-	else
-		absfrom = g->getNode(from->getLabelL(kParent));
-	
-	if(to->getLabelL(kParent) == -1)
-	{
-		absto = dynamic_cast<node*>(to->clone());
-		absto->setLabelL(kAbstractionLevel, 1);
-		g->addNode(absto);
-		AnnotatedCluster* toCluster = aca->getCluster(absto->getParentCluster());
-		toCluster->addParent(absto);
-
-		to->setLabelL(kParent, absto->getNum());
-	}
-	else
-		absto = g->getNode(to->getLabelL(kParent));
 				
 	/* annotate the edge representing the entrance with appropriate capabilities and clearance values */
-	edge* interedge = g->findAnnotatedEdge(absfrom,absto, capability, clearance); // can we re-use any edge that fits caps/clearance criteria?
-	if(interedge == 0)
-	{
+//	edge* interedge = g->findAnnotatedEdge(absfrom,absto, capability, clearance); // can we re-use any edge that fits caps/clearance criteria?
+//	if(interedge == 0)
+//	{
 		//std::cout << "\nadding new edge to abs graph: "<<from->getLabelL(kFirstData)<<","<<from->getLabelL(kFirstData+1)<<" and " << to->getLabelL(kFirstData)<<","<<to->getLabelL(kFirstData+1) << " caps: "<<capability<<" clearance: "<<clearance;
-		interedge = new edge(absfrom->getNum(), absto->getNum(), weight);
-		interedge->setClearance(capability,clearance);
-		g->addEdge(interedge);
-	}
+//		interedge = new edge(absfrom->getNum(), absto->getNum(), weight);
+//		interedge->setClearance(capability,clearance);
+//		g->addEdge(interedge);
+//	}
 }
 
 
@@ -308,14 +263,79 @@ void AnnotatedCluster::buildHorizontalEntrances(int curCapability, AnnotatedClus
 		this->addInterEdge(candidateNode2,candidateNode1, curCapability, candidateClearance, aca);
 }
 
-void AnnotatedCluster::buildEntrances(AnnotatedClusterAbstraction* aca)
+void AnnotatedCluster::buildEntrances(AnnotatedClusterAbstraction* aca) throw(AnnotatedClusterAbstractionIsNullException)
 {
-//	if(aca == NULL)
-//		throw AnnotatedClusterAbstractionIsNullException();
+	if(aca == NULL)
+		throw AnnotatedClusterAbstractionIsNullException();
 
 	for(int i=0; i<NUMCAPABILITIES; i++)
 	{
 		buildVerticalEntrances(capabilities[i], aca);
 		buildHorizontalEntrances(capabilities[i], aca);
 	}
+}
+
+void AnnotatedCluster::addIntraEdge(node* from, node* to, int capability, int clearance, double dist, AnnotatedClusterAbstraction* aca) 
+	throw(InvalidClearanceParameterException, EntranceNodeIsNotTraversable)
+{
+	
+	//validateProposedTransition(from, to, capability, clearance);
+
+}
+
+void AnnotatedCluster::validateMapAbstraction(AnnotatedClusterAbstraction* aca) throw(ValidateMapAbstractionException)
+{
+	if(aca == NULL)
+		throw ValidateMapAbstractionException();
+}
+
+void AnnotatedCluster::validateTransitionEndpoints(node* from, node* to) throw(ValidateTransitionEndpointsException)
+{
+	if(from == NULL || to == NULL)
+		throw ValidateTransitionEndpointsException("transition endpoint cannot be null");
+	
+	if(from->getLabelL(kFirstData) == to->getLabelL(kFirstData) && from->getLabelL(kFirstData+1) == to->getLabelL(kFirstData+1))
+		throw ValidateTransitionEndpointsException("transition endpoints cannot have identical (x,y) coordinates");
+}
+
+void AnnotatedCluster::addEndpointsToAbstractGraph(node* from, node* to, AnnotatedClusterAbstraction* aca) 
+	throw(EntranceNodesAreNotAdjacentException, CannotBuildEntranceToSelfException, CannotBuildEntranceFromAbstractNodeException)
+{
+	if(AnnotatedAStar::getDirection(from, to) == kStay)
+		throw EntranceNodesAreNotAdjacentException();
+	if(from->getParentCluster() == to->getParentCluster())
+		throw CannotBuildEntranceToSelfException(from, to);
+	if(from->getLabelL(kAbstractionLevel) != 0 || to->getLabelL(kAbstractionLevel) != 0)
+		throw CannotBuildEntranceFromAbstractNodeException();
+
+	graph* g = aca->getAbstractGraph(1);
+	node *absfrom, *absto;
+	
+	/* need to add nodes to abstract graph to represent the entrance; some entrances may share endpoints so we minimise graph size by reusing nodes */
+	if(from->getLabelL(kParent) == -1)
+	{
+		absfrom = dynamic_cast<node*>(from->clone());
+		absfrom->setLabelL(kAbstractionLevel, 1);
+		g->addNode(absfrom);
+		AnnotatedCluster* fromCluster = aca->getCluster(absfrom->getParentCluster());		
+		fromCluster->addParent(absfrom);
+
+		from->setLabelL(kParent, absfrom->getNum());
+	}
+	else
+		absfrom = g->getNode(from->getLabelL(kParent));
+	
+	if(to->getLabelL(kParent) == -1)
+	{
+		absto = dynamic_cast<node*>(to->clone());
+		absto->setLabelL(kAbstractionLevel, 1);
+		g->addNode(absto);
+		AnnotatedCluster* toCluster = aca->getCluster(absto->getParentCluster());
+		toCluster->addParent(absto);
+
+		to->setLabelL(kParent, absto->getNum());
+	}
+	else
+		absto = g->getNode(to->getLabelL(kParent));
+	
 }
