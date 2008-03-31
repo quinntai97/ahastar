@@ -38,6 +38,8 @@
 		62D0A9BB0D1262830022B351 /* AnnotatedAStar.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 62D0A9BA0D1262830022B351 /* AnnotatedAStar.cpp */; };
 		62D0A9BC0D1262830022B351 /* AnnotatedAStar.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 62D0A9BA0D1262830022B351 /* AnnotatedAStar.cpp */; };
 		62D0A9C30D1262990022B351 /* AnnotatedAStarTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 62D0A9C20D1262990022B351 /* AnnotatedAStarTest.cpp */; };
+		62DF261A0DA0759D009C4FB9 /* AnnotatedClusterFactoryTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 62DF26190DA0759D009C4FB9 /* AnnotatedClusterFactoryTest.cpp */; };
+		62DF261B0DA0759D009C4FB9 /* AnnotatedClusterFactoryTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 62DF26190DA0759D009C4FB9 /* AnnotatedClusterFactoryTest.cpp */; };
 		62E914040CFD4D5100AA46AB /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 62E911770CFD4B3000AA46AB /* OpenGL.framework */; };
 		62E914050CFD4D5100AA46AB /* GLUT.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 62E911730CFD4B1B00AA46AB /* GLUT.framework */; };
 		62E914060CFD4D5100AA46AB /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 20286C33FDCF999611CA2CEA /* Carbon.framework */; };
@@ -218,6 +220,8 @@
 		62D0A9C10D1262990022B351 /* AnnotatedAStarTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AnnotatedAStarTest.h; path = tests/AnnotatedAStarTest.h; sourceTree = "<group>"; };
 		62D0A9C20D1262990022B351 /* AnnotatedAStarTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = AnnotatedAStarTest.cpp; path = tests/AnnotatedAStarTest.cpp; sourceTree = "<group>"; };
 		62D8B96E0D17FC0400CDEE75 /* AHAConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AHAConstants.h; path = aha/AHAConstants.h; sourceTree = "<group>"; };
+		62DF26180DA0759D009C4FB9 /* AnnotatedClusterFactoryTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AnnotatedClusterFactoryTest.h; path = tests/AnnotatedClusterFactoryTest.h; sourceTree = "<group>"; };
+		62DF26190DA0759D009C4FB9 /* AnnotatedClusterFactoryTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = AnnotatedClusterFactoryTest.cpp; path = tests/AnnotatedClusterFactoryTest.cpp; sourceTree = "<group>"; };
 		62E911730CFD4B1B00AA46AB /* GLUT.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLUT.framework; path = /System/Library/Frameworks/GLUT.framework; sourceTree = "<absolute>"; };
 		62E911770CFD4B3000AA46AB /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = /System/Library/Frameworks/OpenGL.framework; sourceTree = "<absolute>"; };
 		62E911920CFD4CE200AA46AB /* hog.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = hog.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -656,6 +660,8 @@
 				62D0A9C20D1262990022B351 /* AnnotatedAStarTest.cpp */,
 				62B2FE6E0D6AD307006A12F8 /* CapabilityUnitTest.h */,
 				62B2FE6F0D6AD307006A12F8 /* CapabilityUnitTest.cpp */,
+				62DF26180DA0759D009C4FB9 /* AnnotatedClusterFactoryTest.h */,
+				62DF26190DA0759D009C4FB9 /* AnnotatedClusterFactoryTest.cpp */,
 			);
 			name = tests;
 			sourceTree = "<group>";
@@ -918,6 +924,7 @@
 				621C072C0D7F8432000C424F /* AnnotatedCluster.cpp in Sources */,
 				629095420D8929A300A34F48 /* AnnotatedClusterAbstractionMock.cpp in Sources */,
 				62A5ED2A0D9D2505007A8073 /* AnnotatedClusterFactory.cpp in Sources */,
+				62DF261B0DA0759D009C4FB9 /* AnnotatedClusterFactoryTest.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -950,6 +957,7 @@
 				62A5ED290D9D2505007A8073 /* AnnotatedClusterFactory.cpp in Sources */,
 				62A5ED5A0D9F9089007A8073 /* AnnotatedClusterMock.cpp in Sources */,
 				62A5EDD30D9F9793007A8073 /* AnnotatedClusterMockFactory.cpp in Sources */,
+				62DF261A0DA0759D009C4FB9 /* AnnotatedClusterFactoryTest.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

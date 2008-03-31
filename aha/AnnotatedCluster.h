@@ -96,16 +96,6 @@ class NodeIsNullException : public AnnotatedClusterException
 		virtual const char* getExceptionErrorMessage() const;
 };
 
-class EntranceNodeIsNullException : public std::exception
-{
-	virtual const char* what() const throw() { return "tried to create an entrance but one of the parameters is a null node"; }
-};
-
-class EntranceNodesAreIdenticalException : public std::exception
-{
-	virtual const char* what() const throw() { return "tried to create an entrance but the parameter nodes both point to same node object"; }
-};
-
 class CannotBuildEntranceFromAbstractNodeException : public std::exception
 {
 		virtual const char* what() const throw() { return "tried to build an entrance using a parameter node which is already part of an abstract graph"; }
@@ -115,11 +105,6 @@ class CannotBuildEntranceFromAbstractNodeException : public std::exception
 class EntranceNodeIsHardObstacleException : public std::exception
 {
 	virtual const char* what() const throw() { return "tried to build an entrance using two nodes from the same cluster"; }
-};
-
-class EntranceNodesAreNotAdjacentException : public std::exception
-{
-	virtual const char* what() const throw() { return "tried to build an entrance using two non-adjacent nodes"; }	
 };
 
 class EntranceException : public std::exception
@@ -137,7 +122,7 @@ class EntranceException : public std::exception
 class CannotBuildEntranceToSelfException : public EntranceException
 {
 	public:
-		CannotBuildEntranceToSelfException(node*, node*, int, int);
+		CannotBuildEntranceToSelfException(node*, node*);
 		virtual const char* what() const throw();
 };
 
@@ -158,6 +143,30 @@ class EntranceNodeIsNotTraversable : public std::exception
 };
 
 
+////////////////
+
+class ValidateMapAbstractionException : public std::exception
+{
+	virtual const char* what() const throw() { "Map abstraction parameter cannot be null"; }
+};
+
+class ValidateTransitionEndpointsException : public std::exception
+{
+	public:
+		ValidateTransitionEndpointsException(const char* error) : errmsg(error) { };
+		virtual const char* what() const throw() { return errmsg; }	
+
+	private:
+		const char* errmsg;
+};
+
+class EntranceNodesAreNotAdjacentException : public std::exception
+{
+		virtual const char* what() const throw() { return "tried to build an entrance using two non-adjacent nodes"; }	
+};
+
+
+
 class AnnotatedClusterAbstraction;
 class AnnotatedCluster : public Cluster
 {
@@ -171,20 +180,32 @@ class AnnotatedCluster : public Cluster
 		AnnotatedCluster(int, int, int, int) throw(InvalidClusterDimensionsException, InvalidClusterOriginCoordinatesException);
 		~AnnotatedCluster() { }
 		virtual void addNodesToCluster(AnnotatedClusterAbstraction*);
-		virtual void buildEntrances(AnnotatedClusterAbstraction*);
+		virtual void buildEntrances(AnnotatedClusterAbstraction*) throw (AnnotatedClusterAbstractionIsNullException);
 		
 	protected:
 		virtual bool addNode(node *) throw(NodeIsAlreadyAssignedToClusterException, ClusterFullException, NodeIsNullException); 
 		virtual void addParent(node *);
+		
 		virtual void addInterEdge(node*, node*, int, int, AnnotatedClusterAbstraction*) 
-			throw(EntranceNodeIsNullException, EntranceNodesAreIdenticalException, CannotBuildEntranceFromAbstractNodeException, 
-				CannotBuildEntranceToSelfException, InvalidClearanceParameterException	, EntranceNodesAreNotAdjacentException, 
-				EntranceNodeIsNotTraversable);
+			throw(CannotBuildEntranceFromAbstractNodeException, CannotBuildEntranceToSelfException, EntranceNodesAreNotAdjacentException, 
+					InvalidClearanceParameterException, EntranceNodeIsNotTraversable);
+		
+		virtual void addIntraEdge(node*, node*, int, int, double, AnnotatedClusterAbstraction*)
+			throw(InvalidClearanceParameterException, EntranceNodeIsNotTraversable);
+			
 		virtual void buildVerticalEntrances(int, AnnotatedClusterAbstraction*);
 		virtual void buildHorizontalEntrances(int, AnnotatedClusterAbstraction*);
 		
 	private:
 		void addEdgeToAbstractGraph(node*, node*, int, int, double, AnnotatedClusterAbstraction*);
+		void connectEndpointToOtherEntrances(node*);
+		void validateProposedTransition(node*, node*, int, int, double);
+		
+		void validateMapAbstraction(AnnotatedClusterAbstraction*) throw(ValidateMapAbstractionException);
+		void validateTransitionEndpoints(node*, node*) throw(ValidateTransitionEndpointsException);
+		void addEndpointsToAbstractGraph(node*, node*, AnnotatedClusterAbstraction*) 
+			throw(EntranceNodesAreNotAdjacentException, CannotBuildEntranceToSelfException, CannotBuildEntranceFromAbstractNodeException);
+
 		edge* findExistingEdge(node*, node*);
 		static unsigned int uniqueClusterIdCnt;
 		
