@@ -2,6 +2,8 @@
  *  AnnotatedClusterAbstractionTest.h
  *  hog
  *
+ *	TODO: Not all buildClusterXXXX tests are properly mocked. Fix this.
+ *
  *  Created by Daniel Harabor on 21/02/08.
  *  Copyright 2008 __MyCompanyName__. All rights reserved.
  *
