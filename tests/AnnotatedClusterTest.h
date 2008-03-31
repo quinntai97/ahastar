@@ -80,6 +80,7 @@ class AnnotatedClusterTest : public CPPUNIT_NS::TestFixture
 	CPPUNIT_TEST( buildHorizontalEntrancesShouldNotAddAnyEntrancesGivenAnInvalidCapabilityParameter );
 	CPPUNIT_TEST( buildHorizontalEntrancesShouldSkipClustersWhichHaveNoNeighboursAlongSouthernBorder );
 	CPPUNIT_TEST( builEntrancesShouldCreateCorrectNumberOfVerticalAndHorizontalTransitionsToOtherClusters );
+	CPPUNIT_TEST( buildEntrancesShouldThrowExceptionGivenAnInvalidACAParameter );
 
 
 	CPPUNIT_TEST_SUITE_END();
@@ -130,8 +131,6 @@ class AnnotatedClusterTest : public CPPUNIT_NS::TestFixture
 		void addInterEdgeShouldThrowExceptionIfCapabilityClearanceOfSecondParameterNodeIsNotEqualToOrGreaterThanClearanceParameter();
 		void addInterEdgeShouldThrowExceptionIfClearanceParameterLessThanOrEqualToZero();
 
-
-
 		/* buildVerticalEntrances() */
 		void buildVerticalEntrancesShouldCreateOneMaximallySizedEntrancePerContiguousAreaAlongTheVerticalBorderBetweenTwoClusters();
 		void buildVerticalEntrancesShouldThrowExceptionGivenAnInvalidACAParameter();
@@ -145,16 +144,13 @@ class AnnotatedClusterTest : public CPPUNIT_NS::TestFixture
 		void buildHorizontalEntrancesShouldSkipClustersWhichHaveNoNeighboursAlongSouthernBorder();
 		
 		void builEntrancesShouldCreateCorrectNumberOfVerticalAndHorizontalTransitionsToOtherClusters();
-		
-		//void buildEntrancesShouldThrowExceptionGivenAnInvalidACAParameter();
-
-		/* yet to implement */
+		void buildEntrancesShouldThrowExceptionGivenAnInvalidACAParameter();
 
 		
-		// future optimisation?
+		/* future optimisation?
 		void buildVerticalEntrancesShouldIdentifyOneEntranceForEachSectionOfCapabilityHomogenousNodesAlongTheClusterBorderIfSectionSizeLessThan5();
 		void buildVerticalEntrancesShouldIdentifyTwoEntrancesForEachSectionOfCapabilityHomogenousNodesAlongTheClusterBorderIfSectionSizeAtLeast5();
-
+		*/
 		
 	private:
 		double interedge_weight;
@@ -192,7 +188,7 @@ class exceptionThrownHelper
 				
 			try 
 			{
-				ac->addInterEdge(n1, n2, capability, clearance, aca_mock);
+				ac->addInterEdge(n1, n2, capability, clearance, aca);
 			}
 			catch(ExceptionType& e)
 			{	
@@ -204,7 +200,7 @@ class exceptionThrownHelper
 		};
 		
 		template<class ExceptionType>
-		void checkBuildVerticalEntrancesThrowsCorrectException(int capability, AnnotatedClusterAbstraction* aca)
+		void checkBuildVerticalEntrancesThrowsCorrectException(int capability)
 		{
 			bool exceptionThrown = false;
 			try
@@ -220,7 +216,7 @@ class exceptionThrownHelper
 		}
 
 		template<class ExceptionType>
-		void checkBuildHorizontalEntrancesThrowsCorrectException(int capability, AnnotatedClusterAbstraction* aca)
+		void checkBuildHorizontalEntrancesThrowsCorrectException(int capability)
 		{
 			bool exceptionThrown = false;
 			try
@@ -234,17 +230,33 @@ class exceptionThrownHelper
 			
 			CPPUNIT_ASSERT_EQUAL_MESSAGE(failmessage.c_str(), true, exceptionThrown);
 		}
+		
+		template<class ExceptionType>
+		void checkBuildEntrancesThrowsCorrectException()
+		{
+			bool exceptionThrown = false;
+			try
+			{
+				ac->buildEntrances(aca);
+			}
+			catch(ExceptionType& e)
+			{
+					exceptionThrown = true;
+			}
+			
+			CPPUNIT_ASSERT_EQUAL_MESSAGE(failmessage.c_str(), true, exceptionThrown);	
+		}
 
 		
 		void setFailMessage(std::string& msg) { failmessage = msg; } 
 		void setAbstractGraph(graph *g) { this->absg = g; }
 		void setAnnotatedCluster(AnnotatedCluster* ac) { this->ac = ac; }
-		void setAnnotatedClusterAbstraction(AnnotatedClusterAbstractionMock* aca_mock) { this->aca_mock = aca_mock; }
+		void setAnnotatedClusterAbstraction(AnnotatedClusterAbstraction* aca) { this->aca = aca; }
 	
 	private:
 		std::string failmessage;
 		AnnotatedCluster* ac; 
-		AnnotatedClusterAbstractionMock* aca_mock;
+		AnnotatedClusterAbstraction* aca;
 		graph* absg;
 };
 
