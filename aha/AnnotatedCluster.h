@@ -187,27 +187,19 @@ class AnnotatedCluster : public Cluster
 		virtual bool addNode(node *) throw(NodeIsAlreadyAssignedToClusterException, ClusterFullException, NodeIsNullException); 
 		virtual void addParent(node *);
 		
-		virtual void addInterEdge(node*, node*, int, int, AnnotatedClusterAbstraction*) 
-			throw(CannotBuildEntranceFromAbstractNodeException, CannotBuildEntranceToSelfException, EntranceNodesAreNotAdjacentException, 
-					InvalidClearanceParameterException, EntranceNodeIsNotTraversable);
-		
-		virtual void addIntraEdge(node*, node*, int, int, double, AnnotatedClusterAbstraction*)
+		virtual void addEntrance(node*, node*, int, int, AnnotatedClusterAbstraction*)
 			throw(InvalidClearanceParameterException, EntranceNodeIsNotTraversable);
-			
+					
 		virtual void buildVerticalEntrances(int, AnnotatedClusterAbstraction*);
 		virtual void buildHorizontalEntrances(int, AnnotatedClusterAbstraction*);
 		
-	private:
-		void connectEndpointToOtherEntrances(node*);
-		void validateProposedTransition(node*, node*, int, int, double);
-		
+	private:		
 		void validateMapAbstraction(AnnotatedClusterAbstraction*) throw(ValidateMapAbstractionException);
 		void validateTransitionEndpoints(node*, node*) throw(ValidateTransitionEndpointsException);
 		void addEndpointsToAbstractGraph(node*, node*, AnnotatedClusterAbstraction*) 
 			throw(EntranceNodesAreNotAdjacentException, CannotBuildEntranceToSelfException, CannotBuildEntranceFromAbstractNodeException);
 		void addTransitionToAbstractGraph(node* from, node* to, int capability, int clearance, double weight, AnnotatedClusterAbstraction* aca) throw (InvalidTransitionWeightException);
 
-		edge* findExistingEdge(node*, node*);
 		static unsigned int uniqueClusterIdCnt;
 		
 };
