@@ -195,7 +195,7 @@ edge *graph::findEdge(unsigned int from, unsigned int to)
   return 0;
 }
 
-edge* graph::findAnnotatedEdge(node* from, node* to, int capability, int clearance)
+edge* graph::findAnnotatedEdge(node* from, node* to, int capability, int clearance, double weight)
 {
         if(!(from && to))
                 return 0;
@@ -212,8 +212,11 @@ edge* graph::findAnnotatedEdge(node* from, node* to, int capability, int clearan
                         {
                                 /* is the edge traversable with the given capability parameter? */
 								int eclearance = e->getClearance(capability);
-								if(eclearance >= clearance)
-									return e;
+								if(e->getWeight() <= weight)
+									if(eclearance >= clearance)
+										return e;
+									else
+										std::cout << "\nWARNING! findAnnotatedEdge being queried about a more optimal path between endpoints\n";
 						}
 
                         e = from->edgeIterNext(ei);

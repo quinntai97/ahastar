@@ -21,18 +21,47 @@ using namespace CppUnit;
 class TestGraph : public CPPUNIT_NS::TestFixture
 {
   CPPUNIT_TEST_SUITE( TestGraph );
-  CPPUNIT_TEST( findAnnotatedEdgeShouldReturnAnExistingEdgeGivenACapabilityParameterWhichSupersetsTheCapabilityOfAnExistingEdge );
+  CPPUNIT_TEST( findAnnotatedEdgeShouldReturnAnExistingEdgeIfOneExistsWhichIsIdenticalToWhatParametersAskFor );
+  CPPUNIT_TEST( findAnnotatedEdgeShouldReturnAnExistingEdgeIfOneExistsWhichIsShorterButOtherwiseIdenticalToWhatParametersAskFor );
+  CPPUNIT_TEST( findAnnotatedEdgeShouldReturnAnExistingEdgeIfOneExistsWhichIsWiderAndShorterThanWhatParametersAskFor );
+  CPPUNIT_TEST( findAnnotatedEdgeShouldReturnAnExistingEdgeIfOneExistsWhichIsWiderButOtherwiseIdenticalToWhatParametersAskFor );
+  CPPUNIT_TEST( findAnnotatedEdgeShouldReturnZeroWhenNoEdgeExistsBetweenParameterEndpoints );
+  CPPUNIT_TEST( findAnnotatedEdgeShouldReturnZeroWhenExistingEdgeIsLongerButOtherwiseIdenticalToWhatParametersAskFor );
+  CPPUNIT_TEST( findAnnotatedEdgeShouldReturnZeroWhenExistingEdgeIsShorterAndMoreNarrowThanWhatParametersAskFor );
+  CPPUNIT_TEST( findAnnotatedEdgeShouldReturnZeroWhenExistingEdgeIsOfTheSameLengthButMoreNarrowThanWhatParametersAskFor );
+  CPPUNIT_TEST( findAnnotatedEdgeShouldReturnZeroWhenExistingEdgeIsLongerAndMoreNarrowThanWhatParametersAskedFor );
+  CPPUNIT_TEST( findAnnotatedEdgeShouldReturnZeroWhenExistingEdgeIsLongerAndWiderThanWhatParametersAskedFor );
+  CPPUNIT_TEST( findAnnotatedEdgeShouldReturnZeroWhenEndpointParametersAreNull );
   CPPUNIT_TEST_SUITE_END();
 
 public:
 	void setUp();
 	void tearDown();
+	void addEdgeToGraph(int, int, double);
+	
+	// positive cases
+	void findAnnotatedEdgeShouldReturnAnExistingEdgeIfOneExistsWhichIsShorterButOtherwiseIdenticalToWhatParametersAskFor();
+	void findAnnotatedEdgeShouldReturnAnExistingEdgeIfOneExistsWhichIsIdenticalToWhatParametersAskFor();
+	void findAnnotatedEdgeShouldReturnAnExistingEdgeIfOneExistsWhichIsWiderAndShorterThanWhatParametersAskFor();
+	void findAnnotatedEdgeShouldReturnAnExistingEdgeIfOneExistsWhichIsWiderButOtherwiseIdenticalToWhatParametersAskFor();
+	
+	// negative cases
+	void findAnnotatedEdgeShouldReturnZeroWhenNoEdgeExistsBetweenParameterEndpoints();
+	void findAnnotatedEdgeShouldReturnZeroWhenEndpointParametersAreNull();
+	void findAnnotatedEdgeShouldReturnZeroWhenExistingEdgeIsLongerButOtherwiseIdenticalToWhatParametersAskFor();
+	void findAnnotatedEdgeShouldReturnZeroWhenExistingEdgeIsShorterAndMoreNarrowThanWhatParametersAskFor();
+	void findAnnotatedEdgeShouldReturnZeroWhenExistingEdgeIsOfTheSameLengthButMoreNarrowThanWhatParametersAskFor();
+	void findAnnotatedEdgeShouldReturnZeroWhenExistingEdgeIsLongerAndMoreNarrowThanWhatParametersAskedFor(); 
+	void findAnnotatedEdgeShouldReturnZeroWhenExistingEdgeIsLongerAndWiderThanWhatParametersAskedFor();
 
-	void findAnnotatedEdgeShouldReturnAnExistingEdgeGivenACapabilityParameterWhichSupersetsTheCapabilityOfAnExistingEdge();
-
+	
+	// throw exception
+	//void findAnnotatedEdgeShouldReturnZeroWhenExistingEdgeIsLongerButOtherwiseIdenticalToWhatWasAsked
+			
 private:
 	graph *g;
-
+	node *from, *to;
+	edge *e;
 };
 
 #endif

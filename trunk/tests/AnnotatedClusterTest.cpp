@@ -350,39 +350,6 @@ void AnnotatedClusterTest::addInterEdgeShouldThrowExceptionIfCapabilityParameter
 	testHelper->checkaddInterEdgeThrowsCorrectException<EntranceNodeIsNotTraversable>(e1_n1, e1_n2, kWater, e1_clearance);
 }
 
-void AnnotatedClusterTest::addInterEdgeShouldReuseExistingEdgeIfCapabilityParameterIsASupersetOfExistingEdgeCapability()
-{
-	createEntranceNodes();
-	int numExpectedAbstractEdgesInGraph = 1;
-	
-	ac->addInterEdge(e3_n1,e3_n2, e3_capability, e3_clearance, aca_mock);	
-	ac->addInterEdge(e4_n1,e4_n2, e4_capability, e4_clearance, aca_mock);	
-
-	CPPUNIT_ASSERT_EQUAL_MESSAGE("incorrect edge count in abstract graph (failed to reuse existing edges)", numExpectedAbstractEdgesInGraph, absg->getNumEdges());
-
-}
-
-void AnnotatedClusterTest::addInterEdgeShouldConnectAbstractNodesWithANewAnnotatedEdge()
-{
-	createEntranceNodes();
-
-	int expectedEdgeCapability = (e1_n1->getTerrainType()|e1_n2->getTerrainType());
-	int expectedClearance =e1_n1->getClearance(expectedEdgeCapability);
-	expectedClearance = expectedClearance <e1_n2->getClearance(expectedEdgeCapability)?expectedClearance:e1_n2->getClearance(expectedEdgeCapability);	
-
-	ac->addInterEdge(e1_n1,e1_n2,e1_capability, e1_clearance, aca_mock); // target
-	
-	/* check results */
-	node_iterator ni = absg->getNodeIter();
-	node* absn1 = absg->nodeIterNext(ni);
-	node* absn2 = absg->nodeIterNext(ni);
-	edge* e = absg->findEdge(absn1->getNum(),absn2->getNum());
-	
-	CPPUNIT_ASSERT_EQUAL_MESSAGE("could not find inter-edge connecting abstract nodes", true, e != 0);
-	CPPUNIT_ASSERT_EQUAL_MESSAGE("edge capability incorrect", expectedEdgeCapability, e->getCapability());
-	CPPUNIT_ASSERT_EQUAL_MESSAGE("edge clearance incorrect", expectedClearance, e->getClearance(expectedEdgeCapability));
-}
-
 /* builds two entrances along a veritcal border between two clusters. border area contains two contiguous areas separated by a hard obstacle */
 void AnnotatedClusterTest::buildVerticalEntrancesShouldCreateOneMaximallySizedEntrancePerContiguousAreaAlongTheVerticalBorderBetweenTwoClusters()
 {
@@ -708,3 +675,50 @@ void AnnotatedClusterTest::addEndpointsToAbstractGraphShouldThrowExceptionIfPara
 	testHelper->checkaddEndpointsToAbstractGraphThrowsCorrectException<CannotBuildEntranceFromAbstractNodeException>(e1_n1, e1_n2);
 }
 
+void AnnotatedClusterTest::addTransitionToAbstractGraphShouldThrowExceptionWhenWeightIsNotGreaterThanZero()
+{
+	std::string errmsg("failed to throw exception when proposed transition has weight <= 0 ");
+	setupExceptionThrownTestHelper(absg, ac, aca_mock, errmsg);
+
+	node* abs_n1 = new node("");
+	node* abs_n2 = new node("");
+	absg->addNode(abs_n1);
+	absg->addNode(abs_n2);
+	
+	testHelper->checkaddTransitionToAbstractGraphThrowsCorrectException<InvalidTransitionWeightException>(abs_n1, abs_n2, e1_capability, e1_clearance, 0);
+}
+
+void AnnotatedClusterTest::addTransitionToAbstractGraphShouldConnectAbstractNodesWithANewAnnotatedEdge()
+{
+	int capability = kGround;
+	int clearance = 2;
+	node* abs_n1 = new node("");
+	node* abs_n2 = new node("");
+	absg->addNode(abs_n1);
+	absg->addNode(abs_n2);
+	
+	ac->addTransitionToAbstractGraph(abs_n1, abs_n2, capability, clearance, 1.0, aca_mock); 
+	edge* e = absg->findAnnotatedEdge(abs_n1,abs_n2, capability, clearance, 1.0);
+	
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("could not find inter-edge connecting abstract nodes", true, e != 0);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("edge capability incorrect", capability, e->getCapability());
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("edge clearance incorrect", clearance, e->getClearance(capability));
+}
+
+void AnnotatedClusterTest::addTransitionToAbstractGraphShouldReuseExistingEdgeIfOneExists()
+{
+	createEntranceNodes();
+	int numExpectedAbstractEdgesInGraph = 1;
+	node* abs_e3n1 = new node("");
+	node* abs_e3n2 = new node("");
+	absg->addNode(abs_e3n1);
+	absg->addNode(abs_e3n2);
+	int capability1 = kGround;
+	int capability2 = (kGround|kTrees);
+	int clearance = 2.0;
+	
+	ac->addTransitionToAbstractGraph(abs_e3n1,abs_e3n2, capability1, clearance, 1.0, aca_mock);	
+	ac->addTransitionToAbstractGraph(abs_e3n1,abs_e3n2, capability1, clearance, 1.0, aca_mock); // edge capability is superset of previous edge added
+
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("incorrect edge count in abstract graph (failed to reuse existing edges)", numExpectedAbstractEdgesInGraph, absg->getNumEdges());
+}

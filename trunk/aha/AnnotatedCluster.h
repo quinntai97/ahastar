@@ -142,9 +142,6 @@ class EntranceNodeIsNotTraversable : public std::exception
 	virtual const char* what() const throw() { "entrance's capability clearance parameter does not match endpoint node clearance"; }	
 };
 
-
-////////////////
-
 class ValidateMapAbstractionException : public std::exception
 {
 	virtual const char* what() const throw() { "Map abstraction parameter cannot be null"; }
@@ -165,6 +162,10 @@ class EntranceNodesAreNotAdjacentException : public std::exception
 		virtual const char* what() const throw() { return "tried to build an entrance using two non-adjacent nodes"; }	
 };
 
+class InvalidTransitionWeightException : public std::exception
+{
+		virtual const char* what() const throw() { return "tried to build an entrance with weight <= 0"; }	
+};
 
 
 class AnnotatedClusterAbstraction;
@@ -197,7 +198,6 @@ class AnnotatedCluster : public Cluster
 		virtual void buildHorizontalEntrances(int, AnnotatedClusterAbstraction*);
 		
 	private:
-		void addEdgeToAbstractGraph(node*, node*, int, int, double, AnnotatedClusterAbstraction*);
 		void connectEndpointToOtherEntrances(node*);
 		void validateProposedTransition(node*, node*, int, int, double);
 		
@@ -205,6 +205,7 @@ class AnnotatedCluster : public Cluster
 		void validateTransitionEndpoints(node*, node*) throw(ValidateTransitionEndpointsException);
 		void addEndpointsToAbstractGraph(node*, node*, AnnotatedClusterAbstraction*) 
 			throw(EntranceNodesAreNotAdjacentException, CannotBuildEntranceToSelfException, CannotBuildEntranceFromAbstractNodeException);
+		void addTransitionToAbstractGraph(node* from, node* to, int capability, int clearance, double weight, AnnotatedClusterAbstraction* aca) throw (InvalidTransitionWeightException);
 
 		edge* findExistingEdge(node*, node*);
 		static unsigned int uniqueClusterIdCnt;
