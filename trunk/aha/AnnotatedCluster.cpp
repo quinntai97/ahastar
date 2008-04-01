@@ -141,23 +141,22 @@ void AnnotatedCluster::addNodesToCluster(AnnotatedClusterAbstraction* aMap)
 		}
 }
 
-void AnnotatedCluster::addInterEdge(node* from, node* to, int capability, int clearance, AnnotatedClusterAbstraction* aca) 
-	throw(CannotBuildEntranceFromAbstractNodeException, CannotBuildEntranceToSelfException, EntranceNodesAreNotAdjacentException, 
-		InvalidClearanceParameterException, EntranceNodeIsNotTraversable)
+void AnnotatedCluster::addEntrance(node* from, node* to, int capability, int clearance, AnnotatedClusterAbstraction* aca) 
+	throw(InvalidClearanceParameterException, EntranceNodeIsNotTraversable)
 {					
-	double weight = 1.0;
-	validateProposedTransition(from, to, capability,clearance, weight);
-						
-	//addEdgeToAbstractGraph(from, to, capability, clearance, weight, aca);	
-}
-
-void AnnotatedCluster::validateProposedTransition(node* from, node* to, int capability, int clearance, double weight) 
-{	
 	if(clearance <= 0)
 		throw InvalidClearanceParameterException();
 		
 	if(from->getClearance(capability) < clearance || to->getClearance(capability) < clearance)
 		throw EntranceNodeIsNotTraversable();
+
+	addEndpointsToAbstractGraph(from, to, aca);
+
+	double weight = 1.0;
+	graph* absg = aca->getAbstractGraph(1);
+	node* absfrom = absg->getNode(from->getLabelL(kParent));
+	node* absto = absg->getNode(to->getLabelL(kParent));
+	addTransitionToAbstractGraph(absfrom, absto, capability, clearance, weight, aca);
 }
 
 // TODO: in a higher level function, need to call this for each capability type
@@ -194,14 +193,14 @@ void AnnotatedCluster::buildVerticalEntrances(int curCapability, AnnotatedCluste
 		}
 		if(clearance == 0 && candidateClearance != 0) // hard obstacle encountered. build the largest entrance so far	
 		{
-				this->addInterEdge(candidateNode2,candidateNode1, curCapability, candidateClearance, aca);
+				this->addEntrance(candidateNode2,candidateNode1, curCapability, candidateClearance, aca);
 				candidateNode1 = candidateNode2 = 0;
 				candidateClearance = 0;
 		}
 	}
 	
 	if(candidateClearance != 0)
-		this->addInterEdge(candidateNode2,candidateNode1, curCapability, candidateClearance, aca);
+		this->addEntrance(candidateNode2,candidateNode1, curCapability, candidateClearance, aca);
 }
 
 void AnnotatedCluster::buildHorizontalEntrances(int curCapability, AnnotatedClusterAbstraction* aca)
@@ -238,14 +237,14 @@ void AnnotatedCluster::buildHorizontalEntrances(int curCapability, AnnotatedClus
 		}
 		if(clearance == 0 && candidateClearance != 0) // hard obstacle encountered. build the largest entrance so far	
 		{
-				this->addInterEdge(candidateNode2,candidateNode1, curCapability, candidateClearance, aca);
+				this->addEntrance(candidateNode2,candidateNode1, curCapability, candidateClearance, aca);
 				candidateNode1 = candidateNode2 = 0;
 				candidateClearance = 0;
 		}
 	}
 	
 	if(candidateClearance != 0)
-		this->addInterEdge(candidateNode2,candidateNode1, curCapability, candidateClearance, aca);
+		this->addEntrance(candidateNode2,candidateNode1, curCapability, candidateClearance, aca);
 }
 
 void AnnotatedCluster::buildEntrances(AnnotatedClusterAbstraction* aca) throw(AnnotatedClusterAbstractionIsNullException)
@@ -258,14 +257,6 @@ void AnnotatedCluster::buildEntrances(AnnotatedClusterAbstraction* aca) throw(An
 		buildVerticalEntrances(capabilities[i], aca);
 		buildHorizontalEntrances(capabilities[i], aca);
 	}
-}
-
-void AnnotatedCluster::addIntraEdge(node* from, node* to, int capability, int clearance, double dist, AnnotatedClusterAbstraction* aca) 
-	throw(InvalidClearanceParameterException, EntranceNodeIsNotTraversable)
-{
-	
-	//validateProposedTransition(from, to, capability, clearance);
-
 }
 
 void AnnotatedCluster::validateMapAbstraction(AnnotatedClusterAbstraction* aca) throw(ValidateMapAbstractionException)

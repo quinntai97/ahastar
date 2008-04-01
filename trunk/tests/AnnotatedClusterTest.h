@@ -52,32 +52,21 @@ class AnnotatedClusterTest : public CPPUNIT_NS::TestFixture
 	CPPUNIT_TEST( addNodeShouldSetTheParameterNodeParentClusterIdEqualToTheCurrentClusterId );
 	CPPUNIT_TEST( addNodeShouldThrowExceptionWhenNodeParameterIsNull );
 	CPPUNIT_TEST( addNodesToClusterShouldThrowExceptionWhenMapAbstractionParameterIsNull );
+	
 	CPPUNIT_TEST( constructorShouldThrowExceptionWhenWidthDimensionParameterIsInvalid );
 	CPPUNIT_TEST( constructorShouldThrowExceptionWhenHeightDimensionParameterIsInvalid );
 	CPPUNIT_TEST( constructorShouldThrowExceptionWhenXOriginParameterIsInvalid );
 	CPPUNIT_TEST( constructorShouldThrowExceptionWhenYOriginParameterIsInvalid );
-/*	
-	CPPUNIT_TEST( addInterEdgeShouldThrowExceptionIfFirstParameterNodeIsAHardObstacle );
-	CPPUNIT_TEST( addInterEdgeShouldThrowExceptionIfSecondParameterNodeIsAHardObstacle );
-	CPPUNIT_TEST( addInterEdgeShouldThrowExceptionIfCapabilityClearanceOfFirstParameterNodeIsNotEqualToOrGreaterThanClearanceParameter );
-	CPPUNIT_TEST( addInterEdgeShouldThrowExceptionIfCapabilityClearanceOfSecondParameterNodeIsNotEqualToOrGreaterThanClearanceParameter );
-	CPPUNIT_TEST( addInterEdgeShouldThrowExceptionIfClearanceParameterLessThanOrEqualToZero );
-	CPPUNIT_TEST( addInterEdgeShouldThrowExceptionIfCapabilityParameterIsInvalid );
 	
-	CPPUNIT_TEST( buildVerticalEntrancesShouldCreateOneMaximallySizedEntrancePerContiguousAreaAlongTheVerticalBorderBetweenTwoClusters );
-	CPPUNIT_TEST( buildVerticalEntrancesShouldThrowExceptionGivenAnInvalidACAParameter );
-	CPPUNIT_TEST( buildVerticalEntrancesShouldNotAddAnyEntrancesGivenAnInvalidCapabilityParameter );
-	CPPUNIT_TEST( buildVerticalEntrancesShouldSkipClustersWhichHaveNoNeighboursAlongEasternBorder );
-	CPPUNIT_TEST( buildHorizontalEntrancesShouldCreateOneMaximallySizedEntrancePerContiguousAreaAlongTheHorizontalBorderBetweenTwoClusters );
-	CPPUNIT_TEST( buildHorizontalEntrancesShouldThrowExceptionGivenAnInvalidACAParameter );
-	CPPUNIT_TEST( buildHorizontalEntrancesShouldNotAddAnyEntrancesGivenAnInvalidCapabilityParameter );
-	CPPUNIT_TEST( buildHorizontalEntrancesShouldSkipClustersWhichHaveNoNeighboursAlongSouthernBorder );
-	CPPUNIT_TEST( builEntrancesShouldCreateCorrectNumberOfVerticalAndHorizontalTransitionsToOtherClusters );
-	CPPUNIT_TEST( buildEntrancesShouldThrowExceptionGivenAnInvalidACAParameter );
-*/
+	CPPUNIT_TEST( addEntranceShouldThrowExceptionIfFirstParameterNodeIsAHardObstacle );
+	CPPUNIT_TEST( addEntranceShouldThrowExceptionIfSecondParameterNodeIsAHardObstacle );
+	CPPUNIT_TEST( addEntranceShouldThrowExceptionIfCapabilityClearanceOfFirstParameterNodeIsNotEqualToOrGreaterThanClearanceParameter );
+	CPPUNIT_TEST( addEntranceShouldThrowExceptionIfCapabilityClearanceOfSecondParameterNodeIsNotEqualToOrGreaterThanClearanceParameter );
+	CPPUNIT_TEST( addEntranceShouldThrowExceptionIfClearanceParameterLessThanOrEqualToZero );
+	CPPUNIT_TEST( addEntranceShouldThrowExceptionIfCapabilityParameterIsInvalid );
+	CPPUNIT_TEST( addEntranceShouldSetEdgeWeightToExactlyOne );
+	
 	CPPUNIT_TEST( validateMapAbstractionThrowsExceptionGivenNullParameter );
-	CPPUNIT_TEST( validateTransitionEndpointsShouldThrowExceptionWhenParameterNodesHaveIdenticalCoordinates );
-	CPPUNIT_TEST( validateTransitionEndpointsShouldThrowExceptionWhenParameterNodesAreNull );
 	
 	CPPUNIT_TEST( addEndpointsToAbstractGraphShouldAddTwoNewAbstractNodesToAbstractGraphGivenAPairOfNodesInTheNonAbstractGraph );
 	CPPUNIT_TEST( addEndpointsToAbstractGraphShouldSetAbstractNodesAsParentsOfNonAbstractNodes );
@@ -88,10 +77,25 @@ class AnnotatedClusterTest : public CPPUNIT_NS::TestFixture
 	CPPUNIT_TEST( addEndpointsToAbstractGraphShouldThrowExceptionIfParameterNodesShareTheSameCluster );
 	CPPUNIT_TEST( addEndpointsToAbstractGraphShouldThrowExceptionIfParameterNodeHaveAnAbstractionLevelNotEqualToZero );
 	
+	CPPUNIT_TEST( buildVerticalEntrancesShouldCreateOneMaximallySizedEntrancePerContiguousAreaAlongTheVerticalBorderBetweenTwoClusters );
+	CPPUNIT_TEST( buildVerticalEntrancesShouldThrowExceptionGivenAnInvalidACAParameter );
+	CPPUNIT_TEST( buildVerticalEntrancesShouldNotAddAnyEntrancesGivenAnInvalidCapabilityParameter );
+	CPPUNIT_TEST( buildVerticalEntrancesShouldSkipClustersWhichHaveNoNeighboursAlongEasternBorder );
+	
+	CPPUNIT_TEST( buildHorizontalEntrancesShouldCreateOneMaximallySizedEntrancePerContiguousAreaAlongTheHorizontalBorderBetweenTwoClusters );
+	CPPUNIT_TEST( buildHorizontalEntrancesShouldThrowExceptionGivenAnInvalidACAParameter );
+	CPPUNIT_TEST( buildHorizontalEntrancesShouldNotAddAnyEntrancesGivenAnInvalidCapabilityParameter );
+	CPPUNIT_TEST( buildHorizontalEntrancesShouldSkipClustersWhichHaveNoNeighboursAlongSouthernBorder );
+	
+	CPPUNIT_TEST( builEntrancesShouldCreateCorrectNumberOfVerticalAndHorizontalTransitionsToOtherClusters );
+	CPPUNIT_TEST( buildEntrancesShouldThrowExceptionGivenAnInvalidACAParameter );
+		
+	CPPUNIT_TEST( validateTransitionEndpointsShouldThrowExceptionWhenParameterNodesHaveIdenticalCoordinates );
+	CPPUNIT_TEST( validateTransitionEndpointsShouldThrowExceptionWhenParameterNodesAreNull );
+
 	CPPUNIT_TEST( addTransitionToAbstractGraphShouldThrowExceptionWhenWeightIsNotGreaterThanZero );
 	CPPUNIT_TEST( addTransitionToAbstractGraphShouldConnectAbstractNodesWithANewAnnotatedEdge ); 
 	CPPUNIT_TEST( addTransitionToAbstractGraphShouldReuseExistingEdgeIfOneExists );
-
 	
 	CPPUNIT_TEST_SUITE_END();
 	
@@ -119,7 +123,6 @@ class AnnotatedClusterTest : public CPPUNIT_NS::TestFixture
 		void addNodesToClusterShouldAssignAllNodesInAreaMarkedByHeightAndWidthDimensions();
 		void addNodesToClusterShouldThrowExceptionWhenMapAbstractionParameterIsNull();
 		
-		
 		void validateMapAbstractionThrowsExceptionGivenNullParameter();
 		void validateTransitionEndpointsShouldThrowExceptionWhenParameterNodesHaveIdenticalCoordinates();
 		void validateTransitionEndpointsShouldThrowExceptionWhenParameterNodesAreNull();
@@ -138,14 +141,15 @@ class AnnotatedClusterTest : public CPPUNIT_NS::TestFixture
 		void addTransitionToAbstractGraphShouldThrowExceptionWhenWeightIsNotGreaterThanZero();
 		void addTransitionToAbstractGraphShouldConnectAbstractNodesWithANewAnnotatedEdge();
 		void addTransitionToAbstractGraphShouldReuseExistingEdgeIfOneExists();
-		
-		/* addInterEdge() */
-		void addInterEdgeShouldThrowExceptionIfFirstParameterNodeIsAHardObstacle(); // should be checking during build phase. not needed?
-		void addInterEdgeShouldThrowExceptionIfSecondParameterNodeIsAHardObstacle();
-		void addInterEdgeShouldThrowExceptionIfCapabilityParameterIsInvalid(); // build phase check?
-		void addInterEdgeShouldThrowExceptionIfCapabilityClearanceOfFirstParameterNodeIsNotEqualToOrGreaterThanClearanceParameter();
-		void addInterEdgeShouldThrowExceptionIfCapabilityClearanceOfSecondParameterNodeIsNotEqualToOrGreaterThanClearanceParameter();
-		void addInterEdgeShouldThrowExceptionIfClearanceParameterLessThanOrEqualToZero();
+				
+		/* addEntrance() */
+		void addEntranceShouldSetEdgeWeightToExactlyOne();
+		void addEntranceShouldThrowExceptionIfFirstParameterNodeIsAHardObstacle(); // should be checking during build phase. not needed?
+		void addEntranceShouldThrowExceptionIfSecondParameterNodeIsAHardObstacle();
+		void addEntranceShouldThrowExceptionIfCapabilityParameterIsInvalid(); // build phase check?
+		void addEntranceShouldThrowExceptionIfCapabilityClearanceOfFirstParameterNodeIsNotEqualToOrGreaterThanClearanceParameter();
+		void addEntranceShouldThrowExceptionIfCapabilityClearanceOfSecondParameterNodeIsNotEqualToOrGreaterThanClearanceParameter();
+		void addEntranceShouldThrowExceptionIfClearanceParameterLessThanOrEqualToZero();
 
 		/* buildVerticalEntrances() */
 		void buildVerticalEntrancesShouldCreateOneMaximallySizedEntrancePerContiguousAreaAlongTheVerticalBorderBetweenTwoClusters();
@@ -238,14 +242,14 @@ class exceptionThrownHelper
 		};
 
 		template<class ExceptionType>
-		void checkaddInterEdgeThrowsCorrectException(node* n1, node* n2, int capability, int clearance)
+		void checkaddEntranceThrowsCorrectException(node* n1, node* n2, int capability, int clearance)
 		{
 			bool exceptionThrown = false;
 			int numnodes = absg->getNumNodes();
 				
 			try 
 			{
-				ac->addIntraEdge(n1, n2, capability, clearance, 0, aca);
+				ac->addEntrance(n1, n2, capability, clearance, aca);
 			}
 			catch(ExceptionType& e)
 			{	

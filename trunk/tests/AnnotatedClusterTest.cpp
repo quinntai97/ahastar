@@ -299,55 +299,65 @@ void AnnotatedClusterTest::constructorShouldThrowExceptionWhenYOriginParameterIs
 
 }
 
-void AnnotatedClusterTest::addInterEdgeShouldThrowExceptionIfFirstParameterNodeIsAHardObstacle()
+/* integration test; depends on other methods. TODO: add in a mock to isolate code */
+void AnnotatedClusterTest::addEntranceShouldSetEdgeWeightToExactlyOne()
+{
+	createEntranceNodes();
+	ac->addEntrance(e1_n1, e1_n2, e1_capability, e1_clearance, aca_mock);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("too many edges in abstract graph", 1, absg->getNumEdges());
+	edge* e = absg->getRandomEdge();
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("entrance weight incorrect", 1, (int)e->getWeight());
+}
+
+void AnnotatedClusterTest::addEntranceShouldThrowExceptionIfFirstParameterNodeIsAHardObstacle()
 {
 	std::string errmsg("failed to throw exception when 'from' node is a hard obstacle ");
 	setupExceptionThrownTestHelper(absg, ac, (AnnotatedClusterAbstraction*)aca_mock, errmsg);	
-	testHelper->checkaddInterEdgeThrowsCorrectException<EntranceNodeIsNotTraversable>(e2_n2hardobst, e2_n1, e2_capability, 1);
+	testHelper->checkaddEntranceThrowsCorrectException<EntranceNodeIsNotTraversable>(e2_n2hardobst, e2_n1, e2_capability, 1);
 }
 
-void AnnotatedClusterTest::addInterEdgeShouldThrowExceptionIfSecondParameterNodeIsAHardObstacle()
+void AnnotatedClusterTest::addEntranceShouldThrowExceptionIfSecondParameterNodeIsAHardObstacle()
 {
 	std::string errmsg("failed to throw exception when 'to' node is a hard obstacle ");
 	setupExceptionThrownTestHelper(absg, ac, (AnnotatedClusterAbstraction*)aca_mock, errmsg);		
-	testHelper->checkaddInterEdgeThrowsCorrectException<EntranceNodeIsNotTraversable>(e2_n1, e2_n2hardobst, e2_capability, 1);
+	testHelper->checkaddEntranceThrowsCorrectException<EntranceNodeIsNotTraversable>(e2_n1, e2_n2hardobst, e2_capability, 1);
 }
 
-void AnnotatedClusterTest::addInterEdgeShouldThrowExceptionIfCapabilityClearanceOfFirstParameterNodeIsNotEqualToOrGreaterThanClearanceParameter()
+void AnnotatedClusterTest::addEntranceShouldThrowExceptionIfCapabilityClearanceOfFirstParameterNodeIsNotEqualToOrGreaterThanClearanceParameter()
 {
 	std::string errmsg("failed to throw exception when 'from' node has capability clearance < clearance parameter ");
 	setupExceptionThrownTestHelper(absg, ac, (AnnotatedClusterAbstraction*)aca_mock, errmsg);		
 		
 	e1_n1->setClearance(e1_capability, e1_clearance-1);
-	testHelper->checkaddInterEdgeThrowsCorrectException<EntranceNodeIsNotTraversable>(e1_n1, e1_n2, e1_capability, e1_clearance);
+	testHelper->checkaddEntranceThrowsCorrectException<EntranceNodeIsNotTraversable>(e1_n1, e1_n2, e1_capability, e1_clearance);
 }
 
-void AnnotatedClusterTest::addInterEdgeShouldThrowExceptionIfCapabilityClearanceOfSecondParameterNodeIsNotEqualToOrGreaterThanClearanceParameter()
+void AnnotatedClusterTest::addEntranceShouldThrowExceptionIfCapabilityClearanceOfSecondParameterNodeIsNotEqualToOrGreaterThanClearanceParameter()
 {
 	std::string errmsg("failed to throw exception when 'to' node has capability clearance < clearance parameter ");
 	setupExceptionThrownTestHelper(absg, ac, (AnnotatedClusterAbstraction*)aca_mock, errmsg);		
 		
 	e1_n1->setClearance(e1_capability, e1_clearance-1);
-	testHelper->checkaddInterEdgeThrowsCorrectException<EntranceNodeIsNotTraversable>(e1_n2, e1_n1, e1_capability, e1_clearance);
+	testHelper->checkaddEntranceThrowsCorrectException<EntranceNodeIsNotTraversable>(e1_n2, e1_n1, e1_capability, e1_clearance);
 }
 
-void AnnotatedClusterTest::addInterEdgeShouldThrowExceptionIfClearanceParameterLessThanOrEqualToZero()
+void AnnotatedClusterTest::addEntranceShouldThrowExceptionIfClearanceParameterLessThanOrEqualToZero()
 {
 	std::string errmsg("failed to throw exception when clearance parameter zero ");
 	setupExceptionThrownTestHelper(absg, ac, (AnnotatedClusterAbstraction*)aca_mock, errmsg);			
-	testHelper->checkaddInterEdgeThrowsCorrectException<InvalidClearanceParameterException>(e1_n1, e1_n2, e1_capability, 0);
+	testHelper->checkaddEntranceThrowsCorrectException<InvalidClearanceParameterException>(e1_n1, e1_n2, e1_capability, 0);
 
 	errmsg.assign("failed to throw exception when clearance parameter < 0 ");
 	testHelper->setFailMessage(errmsg);
-	testHelper->checkaddInterEdgeThrowsCorrectException<InvalidClearanceParameterException>(e1_n1, e1_n2, e1_capability, -1);
+	testHelper->checkaddEntranceThrowsCorrectException<InvalidClearanceParameterException>(e1_n1, e1_n2, e1_capability, -1);
 }
 
-void AnnotatedClusterTest::addInterEdgeShouldThrowExceptionIfCapabilityParameterIsInvalid()
+void AnnotatedClusterTest::addEntranceShouldThrowExceptionIfCapabilityParameterIsInvalid()
 {
 	createEntranceNodes();
 	std::string errmsg("failed to throw exception when capability parameter is not a valid capability ");
 	setupExceptionThrownTestHelper(absg, ac, (AnnotatedClusterAbstraction*)aca_mock, errmsg);			
-	testHelper->checkaddInterEdgeThrowsCorrectException<EntranceNodeIsNotTraversable>(e1_n1, e1_n2, kWater, e1_clearance);
+	testHelper->checkaddEntranceThrowsCorrectException<EntranceNodeIsNotTraversable>(e1_n1, e1_n2, kWater, e1_clearance);
 }
 
 /* builds two entrances along a veritcal border between two clusters. border area contains two contiguous areas separated by a hard obstacle */
