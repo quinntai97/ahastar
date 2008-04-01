@@ -108,7 +108,7 @@ public:
   void printStats();
   
   /* AHA* extensions */
-  edge* findAnnotatedEdge(node* from, node* to, int capability, int clearance);
+  edge* findAnnotatedEdge(node* from, node* to, int capability, int clearance, double dist);
 	
 private:
   std::vector<node *> _nodes;

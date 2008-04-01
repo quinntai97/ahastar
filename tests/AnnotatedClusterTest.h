@@ -57,8 +57,6 @@ class AnnotatedClusterTest : public CPPUNIT_NS::TestFixture
 	CPPUNIT_TEST( constructorShouldThrowExceptionWhenXOriginParameterIsInvalid );
 	CPPUNIT_TEST( constructorShouldThrowExceptionWhenYOriginParameterIsInvalid );
 /*	
-	CPPUNIT_TEST( addInterEdgeShouldReuseExistingEdgeIfCapabilityParameterIsASupersetOfExistingEdgeCapability );
-	CPPUNIT_TEST( addInterEdgeShouldConnectAbstractNodesWithANewAnnotatedEdge ); 
 	CPPUNIT_TEST( addInterEdgeShouldThrowExceptionIfFirstParameterNodeIsAHardObstacle );
 	CPPUNIT_TEST( addInterEdgeShouldThrowExceptionIfSecondParameterNodeIsAHardObstacle );
 	CPPUNIT_TEST( addInterEdgeShouldThrowExceptionIfCapabilityClearanceOfFirstParameterNodeIsNotEqualToOrGreaterThanClearanceParameter );
@@ -89,7 +87,12 @@ class AnnotatedClusterTest : public CPPUNIT_NS::TestFixture
 	CPPUNIT_TEST( addEndpointsToAbstractGraphShouldThrowExceptionIfParameterNodesAreNotAdjacent );
 	CPPUNIT_TEST( addEndpointsToAbstractGraphShouldThrowExceptionIfParameterNodesShareTheSameCluster );
 	CPPUNIT_TEST( addEndpointsToAbstractGraphShouldThrowExceptionIfParameterNodeHaveAnAbstractionLevelNotEqualToZero );
+	
+	CPPUNIT_TEST( addTransitionToAbstractGraphShouldThrowExceptionWhenWeightIsNotGreaterThanZero );
+	CPPUNIT_TEST( addTransitionToAbstractGraphShouldConnectAbstractNodesWithANewAnnotatedEdge ); 
+	CPPUNIT_TEST( addTransitionToAbstractGraphShouldReuseExistingEdgeIfOneExists );
 
+	
 	CPPUNIT_TEST_SUITE_END();
 	
 	public:
@@ -121,6 +124,7 @@ class AnnotatedClusterTest : public CPPUNIT_NS::TestFixture
 		void validateTransitionEndpointsShouldThrowExceptionWhenParameterNodesHaveIdenticalCoordinates();
 		void validateTransitionEndpointsShouldThrowExceptionWhenParameterNodesAreNull();
 		
+		/* addEndpointsToAbstractGraph */
 		void addEndpointsToAbstractGraphShouldSetAbstractNodesAsParentsOfNonAbstractNodes();
 		void addEndpointsToAbstractGraphShouldAddTwoNewAbstractNodesToAbstractGraphGivenAPairOfNodesInTheNonAbstractGraph();
 		void addEndpointsToAbstractGraphShouldReuseExistingNodeEndpointsIfADifferentEntranceExistsAtSameLocation();
@@ -130,10 +134,12 @@ class AnnotatedClusterTest : public CPPUNIT_NS::TestFixture
 		void addEndpointsToAbstractGraphShouldThrowExceptionIfParameterNodesShareTheSameCluster();
 		void addEndpointsToAbstractGraphShouldThrowExceptionIfParameterNodeHaveAnAbstractionLevelNotEqualToZero();
 		
+		/* addTransitionToAbstractGraph */
+		void addTransitionToAbstractGraphShouldThrowExceptionWhenWeightIsNotGreaterThanZero();
+		void addTransitionToAbstractGraphShouldConnectAbstractNodesWithANewAnnotatedEdge();
+		void addTransitionToAbstractGraphShouldReuseExistingEdgeIfOneExists();
 		
 		/* addInterEdge() */
-		void addInterEdgeShouldConnectAbstractNodesWithANewAnnotatedEdge();
-		void addInterEdgeShouldReuseExistingEdgeIfCapabilityParameterIsASupersetOfExistingEdgeCapability();
 		void addInterEdgeShouldThrowExceptionIfFirstParameterNodeIsAHardObstacle(); // should be checking during build phase. not needed?
 		void addInterEdgeShouldThrowExceptionIfSecondParameterNodeIsAHardObstacle();
 		void addInterEdgeShouldThrowExceptionIfCapabilityParameterIsInvalid(); // build phase check?
@@ -190,6 +196,27 @@ class exceptionThrownHelper
 {
 	public:
 		exceptionThrownHelper() {}
+		
+		
+		template<class ExceptionType>
+		void checkaddTransitionToAbstractGraphThrowsCorrectException(node* n1, node* n2, int capability, int clearance, double weight)
+		{
+			bool exceptionThrown = false;
+			int numnodes = absg->getNumNodes();
+				
+			try 
+			{
+				ac->addTransitionToAbstractGraph(n1, n2, capability, clearance, weight, aca);
+			}
+			catch(ExceptionType& e)
+			{	
+				exceptionThrown = true;
+			}
+			
+			CPPUNIT_ASSERT_EQUAL_MESSAGE(failmessage.c_str(), true, exceptionThrown);
+			CPPUNIT_ASSERT_EQUAL_MESSAGE("incorrectly added nodes to abstract graph", numnodes, absg->getNumNodes());
+		};
+
 		
 		template<class ExceptionType>
 		void checkaddEndpointsToAbstractGraphThrowsCorrectException(node* n1, node* n2)

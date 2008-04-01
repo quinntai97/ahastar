@@ -148,7 +148,7 @@ void AnnotatedCluster::addInterEdge(node* from, node* to, int capability, int cl
 	double weight = 1.0;
 	validateProposedTransition(from, to, capability,clearance, weight);
 						
-	addEdgeToAbstractGraph(from, to, capability, clearance, weight, aca);	
+	//addEdgeToAbstractGraph(from, to, capability, clearance, weight, aca);	
 }
 
 void AnnotatedCluster::validateProposedTransition(node* from, node* to, int capability, int clearance, double weight) 
@@ -159,21 +159,6 @@ void AnnotatedCluster::validateProposedTransition(node* from, node* to, int capa
 	if(from->getClearance(capability) < clearance || to->getClearance(capability) < clearance)
 		throw EntranceNodeIsNotTraversable();
 }
-
-void AnnotatedCluster::addEdgeToAbstractGraph(node* from, node* to, int capability, int clearance, double weight, AnnotatedClusterAbstraction* aca)
-{
-				
-	/* annotate the edge representing the entrance with appropriate capabilities and clearance values */
-//	edge* interedge = g->findAnnotatedEdge(absfrom,absto, capability, clearance); // can we re-use any edge that fits caps/clearance criteria?
-//	if(interedge == 0)
-//	{
-		//std::cout << "\nadding new edge to abs graph: "<<from->getLabelL(kFirstData)<<","<<from->getLabelL(kFirstData+1)<<" and " << to->getLabelL(kFirstData)<<","<<to->getLabelL(kFirstData+1) << " caps: "<<capability<<" clearance: "<<clearance;
-//		interedge = new edge(absfrom->getNum(), absto->getNum(), weight);
-//		interedge->setClearance(capability,clearance);
-//		g->addEdge(interedge);
-//	}
-}
-
 
 // TODO: in a higher level function, need to call this for each capability type
 void AnnotatedCluster::buildVerticalEntrances(int curCapability, AnnotatedClusterAbstraction* aca)
@@ -337,5 +322,23 @@ void AnnotatedCluster::addEndpointsToAbstractGraph(node* from, node* to, Annotat
 	}
 	else
 		absto = g->getNode(to->getLabelL(kParent));
-	
+}
+
+void AnnotatedCluster::addTransitionToAbstractGraph(node* from, node* to, int capability, int clearance, double weight, AnnotatedClusterAbstraction* aca) 
+	throw(InvalidTransitionWeightException)
+{
+	if(weight <=0 )
+		throw InvalidTransitionWeightException();
+
+	graph* g = aca->getAbstractGraph(1);
+
+	/* annotate the edge representing the entrance with appropriate capabilities and clearance values */
+	edge* interedge = g->findAnnotatedEdge(from,to, capability, clearance, weight); // can we re-use any edge that fits caps/clearance criteria?
+	if(interedge == 0)
+	{
+		//std::cout << "\nadding new edge to abs graph: "<<from->getLabelL(kFirstData)<<","<<from->getLabelL(kFirstData+1)<<" and " << to->getLabelL(kFirstData)<<","<<to->getLabelL(kFirstData+1) << " caps: "<<capability<<" clearance: "<<clearance;
+		interedge = new edge(from->getNum(), to->getNum(), weight);
+		interedge->setClearance(capability,clearance);
+		g->addEdge(interedge);
+	}
 }
