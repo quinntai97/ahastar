@@ -95,8 +95,8 @@ void AnnotatedMapAbstractionMock::loadClearanceInfo(const string& filename, Anno
 			{	
 				{303, 303, 303, 202, 101, 000, 000, 000, 000}, 
 				{202, 202, 202, 202, 202, 202, 202, 101, 000}, 
-				{101, 101, 101, 101, 101, 101, 202, 101, 000}, 
-				{000, 000, 000, 000, 000, 000, 202, 101, 000},
+				{102, 101, 101, 101, 101, 101, 202, 101, 000}, 
+				{102, 011, 000, 000, 000, 000, 202, 101, 000},
 				{102, 101, 000, 102, 202, 202, 202, 101, 000},
 				{101, 011, 101, 011, 101, 101, 101, 101, 000}, 
 			};
@@ -108,7 +108,7 @@ void AnnotatedMapAbstractionMock::loadClearanceInfo(const string& filename, Anno
 				current->setTerrainType(aMap->getMap()->getTerrainType(x,y));
 				int kGroundClearance = clearance[y][x]/100;
 				int kTreesAndGroundClearance = clearance[y][x]%10;
-				int kTreesClearance = clearance[y][x]-kGroundClearance*100-kTreesAndGroundClearance;
+				int kTreesClearance = (clearance[y][x]-kGroundClearance*100-kTreesAndGroundClearance)/10;
 				current->setClearance(kGround, kGroundClearance);
 				current->setClearance(kTrees, kTreesClearance);
 				current->setClearance((kTrees|kGround), kTreesAndGroundClearance);

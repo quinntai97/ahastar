@@ -14,6 +14,9 @@
 #include "ExperimentManager.h"
 #include "TestConstants.h"
 #include "mapFlatAbstraction.h"
+#include "AnnotatedClusterAbstractionMock.h"
+#include "TestConstants.h"
+
 
 CPPUNIT_TEST_SUITE_REGISTRATION( AnnotatedAStarTest );
 
@@ -341,4 +344,43 @@ void AnnotatedAStarTest::runGetPathTest(TestExperiment* exp, string &errmsg)
 		CPPUNIT_ASSERT_EQUAL_MESSAGE(errmsg.c_str(), NULL, (int)p);
 	// else, check if the returned path is valid
 
+}
+
+void AnnotatedAStarTest::getPathFailsToReturnASoltuionWhenNoneExistsWithinTheCorridorBounds()
+{
+	TestExperiment *te = expmgr->getExperiment(kNotPathableWhenCorridorIsRestrictedToParentCluster);
+	
+	delete amamock;
+	amamock = new AnnotatedMapAbstractionMock(new Map(acmap.c_str()), new AnnotatedAStarMock());
+	aastar->limitSearchToClusterCorridor(true);
+	AnnotatedClusterAbstractionMock::loadClusterAnnotations(acmap, amamock);
+
+	node *start = amamock->getNodeFromMap(te->startx,te->starty);
+	node* goal = amamock->getNodeFromMap(te->goalx, te->goaly);
+	path* p = aastar->getPath(amamock, start, goal, te->caps,te->size);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("found a path that shouldn't exist inside corridor", true, p == NULL);	
+	
+	delete p;
+}
+
+void AnnotatedAStarTest::getPathReturnsTheShortestPathWithinCorridorBounds()
+{
+	TestExperiment *te = expmgr->getExperiment(kPathableWithinCorridor);
+	
+	delete amamock;
+	amamock = new AnnotatedMapAbstractionMock(new Map(acmap.c_str()), new AnnotatedAStarMock());
+	aastar->limitSearchToClusterCorridor(true);
+	AnnotatedClusterAbstractionMock::loadClusterAnnotations(acmap, amamock);
+
+	node *start = amamock->getNodeFromMap(te->startx,te->starty);
+	node* goal = amamock->getNodeFromMap(te->goalx, te->goaly);
+	path* p = aastar->getPath(amamock, start, goal, te->caps,te->size);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("failed to find a path inside corridor", true, p != NULL);	
+	
+	double pdist = (int)(amamock->distance(p)*10+0.5)/10; // stupid c++ rounding
+	double realdist = (int)(te->distance*10+0.5)/10;
+	
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("corridor path has wrong length", realdist, pdist );
+	
+	delete p;	
 }

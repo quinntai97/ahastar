@@ -40,7 +40,7 @@ path* AnnotatedAStar::getPath(graphAbstraction *aMap, node *from, node* to, int 
 	if(!from || !to)
 		return NULL;
 
-	if(from == to)
+	if(from->getUniqueID() == to->getUniqueID())
 		return NULL;
 		
 	if(from->getLabelL(kFirstData) == to->getLabelL(kFirstData) && from->getLabelL(kFirstData+1) == to->getLabelL(kFirstData+1))
@@ -71,12 +71,23 @@ path* AnnotatedAStar::getPath(graphAbstraction *aMap, node *from, node* to, int 
 	peakmemory = 0;
 	searchtime =0;
 	
+	if(useCorridor)
+		this->setCorridorClusters(from->getParentCluster(),to->getParentCluster());
+		
+/*	int fromx = from->getLabelL(kFirstData);
+	int fromy = from->getLabelL(kFirstData+1);
+	int tox = to->getLabelL(kFirstData);
+	int toy = to->getLabelL(kFirstData+1);
+*/
+	
 	t.startTimer();
 	while(1) 
 	{
 		/* get the current node on the open list and check if it contains the goal */
 		peakmemory = openList->size()>peakmemory?openList->size():peakmemory;
 		node* current = ((node*)openList->remove()); 
+		int cx = current->getLabelL(kFirstData);
+		int cy = current->getLabelL(kFirstData+1);
 		nodesExpanded++;
 		if(current == to)
 		{
@@ -92,6 +103,9 @@ path* AnnotatedAStar::getPath(graphAbstraction *aMap, node *from, node* to, int 
 			// TODO: fix HOG's graph stuff; nodes identified using position in array instead of uniqueid. graph should just store a hash_map
 			int neighbourid = e->getFrom()==current->getNum()?e->getTo():e->getFrom();
 			node* neighbour = g->getNode(neighbourid);
+			int nx = neighbour->getLabelL(kFirstData);
+			int ny = neighbour->getLabelL(kFirstData+1);
+
 			if(!closedList[neighbour->getUniqueID()]) // skip nodes we've already closed
 			{
 				// if a node on the openlist is reachable via this new edge, relax the edge (see cormen et al)
@@ -166,6 +180,9 @@ bool AnnotatedAStar::evaluate(node* current, node* target)
 	if(target->getClearance(this->getSearchTerrain()) < this->getMinClearance())
 		return false;
 
+	if(useCorridor && !isInCorridor(target))
+		return false;
+
 	/* check if we're moving in a cardinal direction */
 	tDirection dir = getDirection(current, target);
 	if(dir == kStay)
@@ -173,7 +190,7 @@ bool AnnotatedAStar::evaluate(node* current, node* target)
 		
 	if(dir == kN || dir == kS || dir == kE || dir == kW)
 		return true;
-	
+		
 	/* check diagonal move is equivalent to 2-step cardinal move */
 	int curx = current->getLabelL(kFirstData);
 	int cury = current->getLabelL(kFirstData+1);

@@ -76,3 +76,21 @@ void AnnotatedClusterAbstraction::buildEntrances()
 		ac->buildEntrances(this);
 	}
 }
+
+double AnnotatedClusterAbstraction::distance(path* p)
+{
+	double dist=0;
+	
+	if(!p)
+		return dist;
+	
+	path* next = p->next;
+	while(next)
+	{
+		dist+= this->h(p->n, next->n);
+		p = next;
+		next = p->next;
+	}
+	
+	return dist;
+}

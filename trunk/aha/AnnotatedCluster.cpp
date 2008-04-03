@@ -122,8 +122,31 @@ bool AnnotatedCluster::addNode(node* mynode) throw(NodeIsAlreadyAssignedToCluste
 	return true;
 }
 
-void AnnotatedCluster::addParent(node* parentnode)
+void AnnotatedCluster::addParent(node* parentnode, AnnotatedClusterAbstraction* aca)
 {
+	if(parentnode->getParentCluster() != -1)
+	{
+		if(parentnode->getParentCluster() != this->getClusterId())
+			throw NodeIsAlreadyAssignedToClusterException(parentnode, this);
+		else
+		{
+			std::cout << "\nWARNING: skipping parent node @ ("<<parentnode->getLabelL(kFirstData)<<","<<parentnode->getLabelL(kFirstData+1)<<"); already belongs to cluster "<<getClusterId()<<std::endl;
+			return;
+		}
+	}
+	else
+		parentnode->setParentCluster(this->getClusterId());
+		
+	for(int i=0; i<getParents().size(); i++)
+	{
+		node* endpoint = getParents()[i];
+		for(int capindex=NUMCAPABILITIES-1; capindex >=0 ; capindex--)
+		{
+			int capability = capabilities[capindex];
+			this->connectEntranceEndpoints(parentnode,endpoint,capability,aca);
+		}
+	}
+	
 	Cluster::addParent(parentnode);
 }
 
@@ -293,8 +316,8 @@ void AnnotatedCluster::addEndpointsToAbstractGraph(node* from, node* to, Annotat
 		absfrom = dynamic_cast<node*>(from->clone());
 		absfrom->setLabelL(kAbstractionLevel, 1);
 		g->addNode(absfrom);
-		AnnotatedCluster* fromCluster = aca->getCluster(absfrom->getParentCluster());		
-		fromCluster->addParent(absfrom);
+		AnnotatedCluster* fromCluster = aca->getCluster(from->getParentCluster());		
+		fromCluster->addParent(absfrom, aca);
 
 		from->setLabelL(kParent, absfrom->getNum());
 	}
@@ -306,8 +329,8 @@ void AnnotatedCluster::addEndpointsToAbstractGraph(node* from, node* to, Annotat
 		absto = dynamic_cast<node*>(to->clone());
 		absto->setLabelL(kAbstractionLevel, 1);
 		g->addNode(absto);
-		AnnotatedCluster* toCluster = aca->getCluster(absto->getParentCluster());
-		toCluster->addParent(absto);
+		AnnotatedCluster* toCluster = aca->getCluster(to->getParentCluster());
+		toCluster->addParent(absto, aca);
 
 		to->setLabelL(kParent, absto->getNum());
 	}
@@ -331,5 +354,55 @@ void AnnotatedCluster::addTransitionToAbstractGraph(node* from, node* to, int ca
 		interedge = new edge(from->getNum(), to->getNum(), weight);
 		interedge->setClearance(capability,clearance);
 		g->addEdge(interedge);
+	}
+}
+/* some notes:
+	When we add an abstract node it must be connected to all the other entrance endpoints in the cluster. 
+	In the worst case [numCapabilities*numAgentSizes] number of edges need to be created. Creating an edge requires running AnnotatedA*. 
+	This is expensive, especially for short paths. So, we try to minimise this by checking if we already found an optimal length path
+	between the two endpoints which is traversable using the given capability.
+*/
+void AnnotatedCluster::connectEntranceEndpoints(node* n1, node* n2, int capability, AnnotatedClusterAbstraction* aca)
+{
+	AbstractAnnotatedAStar* aastar = aca->getSearchAlgorithm();
+	graph* absg = aca->getAbstractGraph(1);
+
+	double maxdist = getWidth()*getHeight(); // use maximum possible distance between these two endpoints as an upperbound param when searching for existing edges that may exist between these two endpoints
+	for(int i = 0; i<NUMAGENTSIZES; i++)
+	{
+		int size = agentsizes[i]; // assumes agentsize is ordered 0..n -- smallest to largest
+		node* from = aca->getNodeFromMap(n1->getLabelL(kFirstData),n1->getLabelL(kFirstData+1)); // get low-level nodes
+		node* to = aca->getNodeFromMap(n2->getLabelL(kFirstData),n2->getLabelL(kFirstData+1)); 
+		path* solution = aastar->getPath(aca, from, to, capability, size); // connect endpoints using smallest agentsize first
+
+		if(solution != 0)
+		{
+			double dist = aca->distance(solution);
+			int clearance=MAXINT;
+			getPathClearance(solution, capability, clearance);
+			edge *e = absg->findAnnotatedEdge(n1,n2,capability,clearance,dist);
+			if(e == 0)
+			{
+				//std::cout << "connecting endpoints in cluster "<<getClusterId()<<". new edge, dist: "<<dist<<std::endl;
+				e = new edge(n1->getNum(), n2->getNum(), dist);
+				e->setClearance(capability,clearance);
+				absg->addEdge(e);
+			}
+			delete solution;
+		}
+	}
+}
+
+// Find out the smallest clearance value along some path
+//	TODO: can we somehow rationalise about capability in the same way?
+void AnnotatedCluster::getPathClearance(path *p, int& capability, int& clearance)
+{
+	while(p)
+	{
+		int tempclearance = p->n->getClearance(capability);
+		if(tempclearance < clearance)
+			clearance = tempclearance;
+		
+		p = p->next;
 	}
 }

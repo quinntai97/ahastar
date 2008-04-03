@@ -215,8 +215,8 @@ edge* graph::findAnnotatedEdge(node* from, node* to, int capability, int clearan
 								if(e->getWeight() <= weight)
 									if(eclearance >= clearance)
 										return e;
-									else
-										std::cout << "\nWARNING! findAnnotatedEdge being queried about a more optimal path between endpoints\n";
+//									else
+//										std::cout << "\nWARNING! findAnnotatedEdge being queried about a more optimal path between endpoints\n";
 						}
 
                         e = from->edgeIterNext(ei);
@@ -754,7 +754,7 @@ graph_object *node::clone() const
   node *n = new node(name);
   for (unsigned int x = 0; x < label.size(); x++) n->label.push_back(label[x]);
   
-  n->setParentCluster(clusterid);
+  n->setParentCluster(-1); // cloned node is not assigned to any cluster intially
   n->setTerrainType(terraintype);
   for(int i=0; i<3;i++) n->clearance[i] = clearance[i];
 

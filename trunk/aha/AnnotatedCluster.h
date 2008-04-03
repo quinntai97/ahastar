@@ -185,7 +185,7 @@ class AnnotatedCluster : public Cluster
 		
 	protected:
 		virtual bool addNode(node *) throw(NodeIsAlreadyAssignedToClusterException, ClusterFullException, NodeIsNullException); 
-		virtual void addParent(node *);
+		virtual void addParent(node *, AnnotatedClusterAbstraction*);
 		
 		virtual void addEntrance(node*, node*, int, int, AnnotatedClusterAbstraction*)
 			throw(InvalidClearanceParameterException, EntranceNodeIsNotTraversable);
@@ -193,12 +193,15 @@ class AnnotatedCluster : public Cluster
 		virtual void buildVerticalEntrances(int, AnnotatedClusterAbstraction*);
 		virtual void buildHorizontalEntrances(int, AnnotatedClusterAbstraction*);
 		
+		
 	private:		
 		void validateMapAbstraction(AnnotatedClusterAbstraction*) throw(ValidateMapAbstractionException);
 		void validateTransitionEndpoints(node*, node*) throw(ValidateTransitionEndpointsException);
 		void addEndpointsToAbstractGraph(node*, node*, AnnotatedClusterAbstraction*) 
 			throw(EntranceNodesAreNotAdjacentException, CannotBuildEntranceToSelfException, CannotBuildEntranceFromAbstractNodeException);
 		void addTransitionToAbstractGraph(node* from, node* to, int capability, int clearance, double weight, AnnotatedClusterAbstraction* aca) throw (InvalidTransitionWeightException);
+		void connectEntranceEndpoints(node* n1, node* n2, int capability, AnnotatedClusterAbstraction* aca);
+		void getPathClearance(path *p, int& capability, int& clearance);
 
 		static unsigned int uniqueClusterIdCnt;
 		

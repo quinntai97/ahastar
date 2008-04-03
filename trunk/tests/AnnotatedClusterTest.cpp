@@ -46,6 +46,7 @@ void AnnotatedClusterTest::setUp()
 	int startx=0; int starty=0;
 
 	ac = new AnnotatedCluster(startx, starty, cwidth, cheight);
+	ac->setClusterId(0);
 	
 	testHelper=0; // to be safe
 	aca_mock = new AnnotatedClusterAbstractionMock(new Map(acmap.c_str()), new AnnotatedAStarMock(), cwidth);
@@ -53,8 +54,18 @@ void AnnotatedClusterTest::setUp()
 	/* setup the mock ACA object. NB/TODO: need to replace neighbours with mock AnnotatedCluster objects?  */
 	aca_mock->buildClustersMocker.expects(once());
 	aca_mock->getClusterMocker.stubs().with(eq(0)).will(new ReturnStub<AnnotatedCluster*>(ac));
-	aca_mock->getClusterMocker.stubs().with(eq(1)).will(new ReturnStub<AnnotatedCluster*>(new AnnotatedCluster(startx, starty+cwidth, cwidth, 1)));
-	aca_mock->getClusterMocker.stubs().with(eq(2)).will(new ReturnStub<AnnotatedCluster*>(new AnnotatedCluster(startx+cwidth, starty, 4, cheight)));
+	AnnotatedCluster* adj1 = new AnnotatedCluster(startx, starty+cwidth, cwidth, 1);
+	adj1->setClusterId(2);
+	aca_mock->getClusterMocker.stubs().with(eq(2)).will(new ReturnStub<AnnotatedCluster*>(adj1));
+	
+	AnnotatedCluster* adj2 = new AnnotatedCluster(startx+cwidth, starty, 4, cheight);
+	adj2->setClusterId(1);
+	aca_mock->getClusterMocker.stubs().with(eq(1)).will(new ReturnStub<AnnotatedCluster*>(adj2));
+
+	AnnotatedCluster* adj3 = new AnnotatedCluster(startx+cwidth, starty+cwidth, 4, 1);
+	adj3->setClusterId(3);
+	aca_mock->getClusterMocker.stubs().with(eq(3)).will(new ReturnStub<AnnotatedCluster*>(adj3));
+
 		
 	AnnotatedMapAbstractionMock::loadClearanceInfo(string(aca_mock->getMap()->getMapName()), aca_mock);
 	absg = aca_mock->getAbstractGraph(1);	
@@ -67,7 +78,7 @@ void AnnotatedClusterTest::createEntranceNodes()
 	e1_n1 = aca_mock->getNodeFromMap(4,1);
 	e1_n1->setParentCluster(0);
 	e1_n2 = aca_mock->getNodeFromMap(5,1);
-	e1_n2->setParentCluster(1);
+	e1_n2->setParentCluster(2);
 	e1_capability = e1_n1->getTerrainType()|e1_n2->getTerrainType();
 	e1_clearance = e1_n1->getClearance(e1_capability)>e1_n2->getClearance(e1_capability)?e1_n2->getClearance(e1_capability):e1_n1->getClearance(e1_capability);		
 
@@ -83,7 +94,7 @@ void AnnotatedClusterTest::createEntranceNodes()
 	e3_n1 = aca_mock->getNodeFromMap(0,4);
 	e3_n1->setParentCluster(0);
 	e3_n2 = aca_mock->getNodeFromMap(0,5);
-	e3_n2->setParentCluster(2);	
+	e3_n2->setParentCluster(1);	
 	e3_capability = kGround;
 	e3_clearance = e3_n1->getClearance(e3_capability)>e3_n2->getClearance(e3_capability)?e3_n2->getClearance(e3_capability):e3_n1->getClearance(e3_capability);		
 
@@ -91,7 +102,7 @@ void AnnotatedClusterTest::createEntranceNodes()
 	e4_n1 = aca_mock->getNodeFromMap(0,4);
 	e4_n1->setParentCluster(0);
 	e4_n2 = aca_mock->getNodeFromMap(0,5);
-	e4_n2->setParentCluster(2);	
+	e4_n2->setParentCluster(1);	
 	e4_capability = (kGround|kTrees);
 	e4_clearance = e4_n1->getClearance(e4_capability)>e4_n2->getClearance(e4_capability)?e4_n2->getClearance(e4_capability):e4_n1->getClearance(e4_capability);		
 	
@@ -303,6 +314,8 @@ void AnnotatedClusterTest::constructorShouldThrowExceptionWhenYOriginParameterIs
 void AnnotatedClusterTest::addEntranceShouldSetEdgeWeightToExactlyOne()
 {
 	createEntranceNodes();
+	int cid = e1_n1->getParentCluster();
+	int cid2 = e1_n2->getParentCluster();
 	ac->addEntrance(e1_n1, e1_n2, e1_capability, e1_clearance, aca_mock);
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("too many edges in abstract graph", 1, absg->getNumEdges());
 	edge* e = absg->getRandomEdge();
@@ -462,9 +475,12 @@ void AnnotatedClusterTest::buildHorizontalEntrancesShouldSkipClustersWhichHaveNo
 	int expectedNumClusterNodes = 0;
 	int expectedNumAbstractGraphNodes = 0;
 	int expectedNumAbstractGraphEdges = 0;
-	aca_mock->buildClusters();
-	AnnotatedCluster *ac = aca_mock->getCluster(aca_mock->getNodeFromMap(clusterxorigin, clusteryorigin)->getParentCluster());
-	
+
+	/* cluster position not correct for this test; lets reposition it so it has no southern neighbour */
+	ac->setHOrig(clusterxorigin);
+	ac->setHOrig(clusteryorigin);
+	ac->setWidth(4);
+	ac->setHeight(1);
 	ac->buildHorizontalEntrances(capability, aca_mock);
 	
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("incorrectly added nodes to cluster without eastern neighbour",expectedNumClusterNodes, (int)ac->getParents().size());
@@ -475,15 +491,20 @@ void AnnotatedClusterTest::buildHorizontalEntrancesShouldSkipClustersWhichHaveNo
 void AnnotatedClusterTest::buildVerticalEntrancesShouldSkipClustersWhichHaveNoNeighboursAlongEasternBorder()
 {
 	int clusterxorigin = 5;
-	int clusteryorigin = 0;
+	int clusteryorigin = 5;
 	int capability = kGround; 
 	int clearance = 1;
 	int expectedNumClusterNodes = 0;
 	int expectedNumAbstractGraphNodes = 0;
 	int expectedNumAbstractGraphEdges = 0;
+
+	/* initial x/y/width/height not correct for this test; lets reposition the cluster so it has no neighbour along east border */
 	aca_mock->buildClusters();
-	AnnotatedCluster *ac = aca_mock->getCluster(aca_mock->getNodeFromMap(clusterxorigin, clusteryorigin)->getParentCluster());
-		
+	ac->setHOrig(clusterxorigin);
+	ac->setHOrig(clusteryorigin);
+	ac->setWidth(4);
+	ac->setHeight(1);
+	
 	ac->buildVerticalEntrances(capability, aca_mock);
 	
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("incorrectly added nodes to cluster without southern neighbour",expectedNumClusterNodes, (int)ac->getParents().size());
@@ -605,7 +626,7 @@ void AnnotatedClusterTest::addEndpointsToAbstractGraphShouldReuseExistingNodeEnd
 	
 	ac->addEndpointsToAbstractGraph(e3_n1,e3_n2,aca_mock); // add first
 	ac->addEndpointsToAbstractGraph(e4_n1,e4_n2,aca_mock);	// add second; overlaps
-	AnnotatedCluster* adjacentCluster = aca_mock->getCluster(2);
+	AnnotatedCluster* adjacentCluster = aca_mock->getCluster(1);
 
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("incorrect abstract node count in abstract graph", numExpectedAbstractNodesInGraph, absg->getNumNodes());
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("incorrect abstract node count in target cluster ", numExpectedAbstractNodeInCluster, (int)ac->getParents().size());
@@ -731,4 +752,89 @@ void AnnotatedClusterTest::addTransitionToAbstractGraphShouldReuseExistingEdgeIf
 	ac->addTransitionToAbstractGraph(abs_e3n1,abs_e3n2, capability1, clearance, 1.0, aca_mock); // edge capability is superset of previous edge added
 
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("incorrect edge count in abstract graph (failed to reuse existing edges)", numExpectedAbstractEdgesInGraph, absg->getNumEdges());
+}
+
+void AnnotatedClusterTest::addParentShouldThrowExceptionIfParameterNodeIsAlreadyAssignedToAnotherCluster()
+{
+	createEntranceNodes();
+	std::string errmsg("failed to throw exception when adding an abstract node already assigned to another cluster");
+	this->setupExceptionThrownTestHelper(NULL, ac, aca_mock, errmsg);
+	
+	e1_n1->setParentCluster(2);
+	testHelper->checkAddParentThrowsCorrectException<NodeIsAlreadyAssignedToClusterException>(e1_n1);
+}
+
+void AnnotatedClusterTest::addParentShouldAddParameterNodeToAbstaractNodesListInCluster()
+{
+	node* n = new node("");	
+	n->setParentCluster(-1);
+	
+	int nodesbefore = ac->getParents().size();
+	ac->addParent(n, aca_mock);
+	
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("failed to add parent node to cluster", nodesbefore+1, (int)ac->getParents().size());
+}
+
+void AnnotatedClusterTest::addParentShouldNotAddAnyNodesAlreadyMarkedAsBelongingToTargetCluster()
+{
+	node* n = new node("");	
+	n->setParentCluster(0);
+	
+	int nodesbefore = ac->getParents().size();
+	ac->addParent(n, aca_mock);
+	
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("failed to add parent node to cluster", nodesbefore, (int)ac->getParents().size());
+}
+
+/* NB: We define "eligibility" as any capability which supersets the capabilities of both endpoints */
+void AnnotatedClusterTest::connectEntranceEndpointsShouldCalculateTheShortestPathBetweenEachPairOfParentNodesForEachEligibleCapability()
+{
+	createEntranceNodes();
+	int capability1 = kGround;
+	int capability2 = (kGround|kTrees);	
+	
+	node* from = dynamic_cast<node*>(e1_n1->clone());
+	from->setParentCluster(e1_n1->getParentCluster());
+	
+	node* to = dynamic_cast<node*>(e3_n1->clone());
+	to->setParentCluster(e3_n1->getParentCluster());
+	
+	absg->addNode(from);
+	absg->addNode(to);
+		
+	// TODO: build a better AAStarMock
+	delete aca_mock->getSearchAlgorithm();
+	aca_mock->setSearchAlgorithm(new AnnotatedAStar());
+	
+	int numEdges = absg->getNumEdges();
+	ac->connectEntranceEndpoints(from, to, capability1, aca_mock);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("failed to find connection between target endpoints using kGround capability", numEdges+1, absg->getNumEdges());
+
+	numEdges = absg->getNumEdges();
+	ac->connectEntranceEndpoints(from, to, capability2, aca_mock);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("failed to find connections between target endpoints using kGround|kTrees capability", numEdges+2, absg->getNumEdges());
+}
+
+void AnnotatedClusterTest::addParentsShouldCreateEdgesToRepresentAllValidPathsBetweenNewNodeAndExistingClusterEndpoints()
+{
+	createEntranceNodes();
+	int capability1 = kGround;
+	int capability2 = (kGround|kTrees);	
+	
+	node* from = dynamic_cast<node*>(e1_n1->clone());
+	from->setParentCluster(e1_n1->getParentCluster());
+	absg->addNode(from);
+	ac->getParents().push_back(from);
+
+	delete aca_mock->getSearchAlgorithm();
+	aca_mock->setSearchAlgorithm(new AnnotatedAStar());
+
+	
+	node* to = dynamic_cast<node*>(e3_n1->clone());
+	absg->addNode(to);
+	int expectedEdges = 3;
+	
+	ac->addParent(to, aca_mock);
+	
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("failed to build required # of connections between cluster endpoints", expectedEdges, absg->getNumEdges());
 }

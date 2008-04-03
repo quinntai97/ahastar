@@ -230,7 +230,44 @@ void AnnotatedMapAbstractionTest::checkSingleNodeAnnotations(node* n, int x, int
 
 		/* test that we've initialised parent labels */
 		CPPUNIT_ASSERT_EQUAL_MESSAGE("parent label default value not default", (int)n->getLabelL(kParent), -1);
-
 }
 
+void AnnotatedMapAbstractionTest::checkNodeAnnotationsAgainstExpectations()
+{
+		delete ama;
+		Map* m = new Map(acmap.c_str());
+		ama = new AnnotatedMapAbstraction(m, new AnnotatedAStarMock());
+						
+		int clearance[6][9] = 
+		{	
+			{303, 303, 303, 202, 101, 000, 000, 000, 000}, 
+			{202, 202, 202, 202, 202, 202, 202, 101, 000}, 
+			{102, 101, 101, 101, 101, 101, 202, 101, 000}, 
+			{102, 11, 000, 000, 000, 000, 202, 101, 000},
+			{102, 101, 000, 102, 202, 202, 202, 101, 000},
+			{101, 11, 101, 11, 101, 101, 101, 101, 000}, 
+		};
+					
+		for(int x=0; x<ama->getMap()->getMapWidth(); x++)
+			for(int y=0; y<ama->getMap()->getMapHeight(); y++)
+			{
+				node* current = ama->getNodeFromMap(x,y);
+				int val = clearance[y][x];
+				int stuff = 011;	
+				int kGroundClearance = clearance[y][x]/100;
+				int kTreesAndGroundClearance = clearance[y][x]%10;
+				int kTreesClearance = (clearance[y][x]-kGroundClearance*100-kTreesAndGroundClearance)/10;
+				
+				if(kGroundClearance != current->getClearance(kGround))
+					cout << "\nannotation match failed at nodepos: "<<current->getLabelL(kFirstData)<<","<<current->getLabelL(kFirstData+1);
+				if(kTreesAndGroundClearance != current->getClearance((kGround|kTrees)))
+					cout << "\nkG|kT annotation match failed at nodepos: "<<current->getLabelL(kFirstData)<<","<<current->getLabelL(kFirstData+1);
+				if(kTreesClearance != current->getClearance(kTrees))
+					cout << "\nannotation match failed at nodepos: "<<current->getLabelL(kFirstData)<<","<<current->getLabelL(kFirstData+1);
+
+				CPPUNIT_ASSERT_EQUAL_MESSAGE("kGround annotations do not match expectations ", kGroundClearance, current->getClearance(kGround));
+				CPPUNIT_ASSERT_EQUAL_MESSAGE("kGround|kTrees annotations do not match expectations ", kTreesAndGroundClearance, current->getClearance((kGround|kTrees)));
+				CPPUNIT_ASSERT_EQUAL_MESSAGE("kTrees annotations do not match expectations ", kTreesClearance, current->getClearance(kTrees));
+			}
+}
 

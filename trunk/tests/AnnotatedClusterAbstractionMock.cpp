@@ -22,6 +22,12 @@ void AnnotatedClusterAbstractionMock::buildClusters()
 	this->buildClustersMocker.forward();
 	std::string filename(this->getMap()->getMapName());
 	
+	loadClusterAnnotations(filename, this);
+	
+}
+
+void AnnotatedClusterAbstractionMock::loadClusterAnnotations(const std::string& filename, AbstractAnnotatedMapAbstraction* aca)
+{
 	if(filename.compare("annotatedcluster.map"))
 	{
 		int clusterids[6][9] = 
@@ -34,10 +40,10 @@ void AnnotatedClusterAbstractionMock::buildClusters()
 				{1,1,1,1,1,3,3,3,3}
 			};
 					
-		for(int x=0; x<this->getMap()->getMapWidth(); x++)
-			for(int y=0; y<this->getMap()->getMapHeight(); y++)
+		for(int x=0; x<aca->getMap()->getMapWidth(); x++)
+			for(int y=0; y<aca->getMap()->getMapHeight(); y++)
 			{
-				node* current = this->getNodeFromMap(x,y);
+				node* current = aca->getNodeFromMap(x,y);
 				current->setParentCluster(clusterids[y][x]);
 			}
 	}

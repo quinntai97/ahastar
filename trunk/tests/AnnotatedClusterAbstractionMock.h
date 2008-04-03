@@ -47,6 +47,8 @@ class AnnotatedClusterAbstractionMock :  public AnnotatedClusterAbstraction, pub
 		virtual void buildClusters(); 
 		virtual AnnotatedCluster* getCluster(int cid) 
 		{  return getClusterMocker.forward(cid); }
+		
+		static void loadClusterAnnotations(const std::string& filename, AbstractAnnotatedMapAbstraction* aca);
 
 		MOCKPP_NS::ChainableMockMethod<void> buildClustersMocker;
 		MOCKPP_NS::ChainableMockMethod<AnnotatedCluster*, int> getClusterMocker;

@@ -18,7 +18,7 @@
 class AnnotatedMapAbstractionMock : public AbstractAnnotatedMapAbstraction
 {
 	public:
-		AnnotatedMapAbstractionMock(Map* m, AbstractAnnotatedAStar* searchalg) : AbstractAnnotatedMapAbstraction(m, searchalg) {}
+		AnnotatedMapAbstractionMock(Map* m, AbstractAnnotatedAStar* searchalg) : AbstractAnnotatedMapAbstraction(m, searchalg) { annotateMap(); }
 		~AnnotatedMapAbstractionMock() {}
 				
 		virtual void annotateMap();

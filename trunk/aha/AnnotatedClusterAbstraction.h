@@ -33,6 +33,7 @@ class AnnotatedClusterAbstraction : public AnnotatedMapAbstraction
 		virtual int getClusterSize() { return clustersize; } 
 		virtual int getNumClusters() { return clusters.size(); } 
 		virtual AnnotatedCluster* getCluster(int cid);
+		virtual double distance(path* p); 
 
 	protected: 
 		virtual void addCluster(AnnotatedCluster* ac);

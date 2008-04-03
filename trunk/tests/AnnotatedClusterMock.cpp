@@ -18,3 +18,8 @@ void AnnotatedClusterMock::addNodesToCluster(AnnotatedClusterAbstraction* aca)
 {
 	this->addNodesToClusterMocker.forward(aca);	
 }
+
+void AnnotatedClusterMock::addParent(node* n, AnnotatedClusterAbstraction* aca)
+{
+	Cluster::addParent(n);
+}

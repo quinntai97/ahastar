@@ -42,11 +42,11 @@ AbstractAnnotatedMapAbstraction::AbstractAnnotatedMapAbstraction(Map* m, Abstrac
 {
 	abstractions.push_back(getMapGraph(m));	
 	this->searchalg = alg;
+	addMissingEdges();
 }
 
 AnnotatedMapAbstraction::AnnotatedMapAbstraction(Map* m, AbstractAnnotatedAStar* searchalg) : AbstractAnnotatedMapAbstraction(m, searchalg) 
 {
-	addMissingEdges();
 	annotateMap();
 	
 	drawCV=false; // disable drawing of clearance values
@@ -126,7 +126,7 @@ void AnnotatedMapAbstraction::annotateNode(node* n)
         So, this method adds the missing edges between neighboring nodes and leaves it up to the agent to figure out what nodes are traversable vs not 
         according to its unique characteristics/abilities        
 */
-void AnnotatedMapAbstraction::addMissingEdges()
+void AbstractAnnotatedMapAbstraction::addMissingEdges()
 {
 	int mheight = this->getMap()->getMapHeight();
 	int mwidth = this->getMap()->getMapWidth();
@@ -139,21 +139,37 @@ void AnnotatedMapAbstraction::addMissingEdges()
 			if(n)
 			{	
 				int nid = n->getNum();
-				node *neighbours[3];
+				node *neighbours[4];
 				neighbours[0] = getNodeFromMap(x-1,y);
 				neighbours[1] = getNodeFromMap(x,y-1);
 				neighbours[2] = getNodeFromMap(x-1,y-1);
+				neighbours[3] = getNodeFromMap(x+1, y-1);
 				
-				for(int i=0;i<3;i++)
+				if(neighbours[0] && !(g->findEdge(nid,neighbours[0]->getNum())))
 				{
-					if(neighbours[i] && !(g->findEdge(nid,neighbours[i]->getNum())))
-					{
-						edge *e = new edge(nid, neighbours[i]->getNum(), 1.0);
-						g->addEdge(e);
-					}
+					edge *e = new edge(nid, neighbours[0]->getNum(), 1.0);
+					g->addEdge(e);
+				}
+				if(neighbours[1] && !(g->findEdge(nid,neighbours[1]->getNum())))
+				{
+					edge *e = new edge(nid, neighbours[1]->getNum(), 1.0);
+					g->addEdge(e);
+				}
+				if(neighbours[2] && !(g->findEdge(nid,neighbours[2]->getNum())))
+				{
+					edge *e = new edge(nid, neighbours[2]->getNum(), ROOT_TWO);
+					g->addEdge(e);
+				}
+
+				if(neighbours[3] && !(g->findEdge(nid,neighbours[3]->getNum())))
+				{
+					edge *e = new edge(nid, neighbours[3]->getNum(), ROOT_TWO);
+					g->addEdge(e);
 				}
 			}
 		}
+		
+	//cout << "numedges: "<<g->getNumEdges();
 }
 
 /*	Determines if a valid solution exists between two locations given some size and terrain constraints 
