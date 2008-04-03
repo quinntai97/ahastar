@@ -793,6 +793,8 @@ void AnnotatedClusterTest::connectEntranceEndpointsShouldCalculateTheShortestPat
 	int capability1 = kGround;
 	int capability2 = (kGround|kTrees);	
 	
+	aca_mock->buildClusters();
+
 	node* from = dynamic_cast<node*>(e1_n1->clone());
 	from->setParentCluster(e1_n1->getParentCluster());
 	
@@ -828,7 +830,7 @@ void AnnotatedClusterTest::addParentsShouldCreateEdgesToRepresentAllValidPathsBe
 
 	delete aca_mock->getSearchAlgorithm();
 	aca_mock->setSearchAlgorithm(new AnnotatedAStar());
-
+	aca_mock->buildClusters();
 	
 	node* to = dynamic_cast<node*>(e3_n1->clone());
 	absg->addNode(to);
