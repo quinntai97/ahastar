@@ -28,6 +28,7 @@ class AnnotatedMapAbstractionTest: public CPPUNIT_NS::TestFixture
 	CPPUNIT_TEST( nodeClearanceEqualsMinimumOfAllNeighboursPlusOne );
 	CPPUNIT_TEST( PathableReturnsTrueWhenValidPathExistsForLargeSingleTerrainAgent );
 	CPPUNIT_TEST( PathableReturnsFalseWhenNoValidPathExistsForLargeSingleTerrainAgent );
+	CPPUNIT_TEST( checkNodeAnnotationsAgainstExpectations );
 	
 	CPPUNIT_TEST_SUITE_END();
 
@@ -42,6 +43,7 @@ class AnnotatedMapAbstractionTest: public CPPUNIT_NS::TestFixture
 		void nodeClearanceIsZeroForCapabilityThatDoesNotIncludeTheNodeTerrainType();
 		
 		void ValidateAnnotationsTest();	
+		void checkNodeAnnotationsAgainstExpectations();
 
 		void PathableReturnsTrueWhenValidPathExistsForLargeSingleTerrainAgent();
 		void PathableReturnsFalseWhenNoValidPathExistsForLargeSingleTerrainAgent();

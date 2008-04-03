@@ -58,7 +58,10 @@ namespace ExpMgrUtil
 		kNotPathableInvalidCapability, 
 		kNotPathableAgentSizeLessThanMin,
 		
-		kNoExperiment
+		kNoExperiment,
+
+		kNotPathableWhenCorridorIsRestrictedToParentCluster,
+		kPathableWithinCorridor
 
 	};
 

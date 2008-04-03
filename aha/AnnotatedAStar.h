@@ -35,7 +35,8 @@ namespace AAStarUtil {
 // returns null anyway (0 default values for both).
 class AbstractAnnotatedAStar : public aStarOld
 {
-	public:		
+	public:	
+		AbstractAnnotatedAStar() : useCorridor(false) { }
 		virtual const char* getName() { return "AbstractAnnotatedAStar"; }
 		virtual path* getPath(graphAbstraction *aMap, node* from, node* to) { return getPath(aMap, from, to, searchterrain, minclearance); }
 		virtual path* getPath(graphAbstraction*, node*, node*, int, int) = 0;
@@ -47,18 +48,21 @@ class AbstractAnnotatedAStar : public aStarOld
 		void setSearchTerrain(int searchterrain) { this->searchterrain = searchterrain; }
 		int getPeakMemory() { return peakmemory; }
 		int getSearchTime() { return searchtime; }
+		void limitSearchToClusterCorridor(bool value) { useCorridor=value; }
+		void setCorridorClusters(int cid1, int cid2) { cluster1 = cid1; cluster2 = cid2; }
 		
 	protected:
+		bool isInCorridor(node* n) { if(n->getParentCluster() != cluster1 && n->getParentCluster() != cluster2) return false; return true; }
 		bool verbose;
 		virtual bool evaluate(node* n, node* target) = 0; // check if a node is traversable
 		int peakmemory;
 		double searchtime;
-
-//		AAStarUtil::NodeMap closedList;		
-//		heap *openList;
+		bool useCorridor;
 		
 	private:
 		int searchterrain, minclearance; 
+		int cluster1, cluster2;
+
 };
 
 class AnnotatedAStar : public AbstractAnnotatedAStar

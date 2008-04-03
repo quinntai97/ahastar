@@ -54,7 +54,7 @@ public:
 	/** heuristic cost between any two nodes */
   virtual double h(node *a, node *b) = 0;
 	/** length in distance of a path */
-	double distance(path *p);
+	virtual double distance(path *p);
 	/** return nth level parent of which or null if it doesn't exist */
 	node *getNthParent(node *which, int n);
 

@@ -45,13 +45,19 @@ class AnnotatedClusterTest : public CPPUNIT_NS::TestFixture
 {
 	
 	CPPUNIT_TEST_SUITE( AnnotatedClusterTest );
-	CPPUNIT_TEST( addNodesToClusterShouldAssignAllNodesInAreaMarkedByHeightAndWidthDimensions );
+	
 	CPPUNIT_TEST( addNodeShouldThrowExceptionWhenClusterIsFull );
 	CPPUNIT_TEST( addNodeShouldThrowExceptionWhenParameterNodeIsAssignedToAnotherCluster );
 	CPPUNIT_TEST( addNodeShouldIncrementByOneTotalNodesInCluster );
 	CPPUNIT_TEST( addNodeShouldSetTheParameterNodeParentClusterIdEqualToTheCurrentClusterId );
 	CPPUNIT_TEST( addNodeShouldThrowExceptionWhenNodeParameterIsNull );
+	
+	CPPUNIT_TEST( addNodesToClusterShouldAssignAllNodesInAreaMarkedByHeightAndWidthDimensions );
 	CPPUNIT_TEST( addNodesToClusterShouldThrowExceptionWhenMapAbstractionParameterIsNull );
+	
+	CPPUNIT_TEST( addParentShouldThrowExceptionIfParameterNodeIsAlreadyAssignedToAnotherCluster );
+	CPPUNIT_TEST( addParentShouldAddParameterNodeToAbstaractNodesListInCluster );
+	CPPUNIT_TEST( addParentShouldNotAddAnyNodesAlreadyMarkedAsBelongingToTargetCluster );
 	
 	CPPUNIT_TEST( constructorShouldThrowExceptionWhenWidthDimensionParameterIsInvalid );
 	CPPUNIT_TEST( constructorShouldThrowExceptionWhenHeightDimensionParameterIsInvalid );
@@ -97,6 +103,9 @@ class AnnotatedClusterTest : public CPPUNIT_NS::TestFixture
 	CPPUNIT_TEST( addTransitionToAbstractGraphShouldConnectAbstractNodesWithANewAnnotatedEdge ); 
 	CPPUNIT_TEST( addTransitionToAbstractGraphShouldReuseExistingEdgeIfOneExists );
 	
+	CPPUNIT_TEST( connectEntranceEndpointsShouldCalculateTheShortestPathBetweenEachPairOfParentNodesForEachEligibleCapability );
+	CPPUNIT_TEST( addParentsShouldCreateEdgesToRepresentAllValidPathsBetweenNewNodeAndExistingClusterEndpoints );
+	
 	CPPUNIT_TEST_SUITE_END();
 	
 	public:
@@ -118,6 +127,12 @@ class AnnotatedClusterTest : public CPPUNIT_NS::TestFixture
 		void addNodeShouldThrowExceptionWhenParameterNodeIsAssignedToAnotherCluster();
 		void addNodeShouldThrowExceptionWhenClusterIsFull();
 		void addNodeShouldThrowExceptionWhenNodeParameterIsNull();
+		
+		/* addParent */
+		void addParentShouldThrowExceptionIfParameterNodeIsAlreadyAssignedToAnotherCluster();
+		void addParentShouldAddParameterNodeToAbstaractNodesListInCluster();
+		void addParentShouldNotAddAnyNodesAlreadyMarkedAsBelongingToTargetCluster();
+		void addParentsShouldCreateEdgesToRepresentAllValidPathsBetweenNewNodeAndExistingClusterEndpoints();
 
 		/* addNodesToCluster() */
 		void addNodesToClusterShouldAssignAllNodesInAreaMarkedByHeightAndWidthDimensions();
@@ -167,12 +182,9 @@ class AnnotatedClusterTest : public CPPUNIT_NS::TestFixture
 		void buildEntrancesShouldThrowExceptionGivenAnInvalidACAParameter();
 		void builEntrancesShouldCreateCorrectNumberOfVerticalAndHorizontalTransitionsToOtherClusters();
 		
-		/* addIntraEdge */
-
-	// 	void addIntraEdgeShouldThrowExceptionIfClearanceParameterLessThanOrEqualToZero();
-	//	void addIntraEdgeShouldAddToAbstractGraphANewEdgeRepresentingTheShortestPathBetweenTwoEntranceEndpointsForSomeCapability();
-	//	void addIntraEdgeShouldThrowExceptionIfWeightParameterInvalid();
-			
+		/* connectEntranceEndpoints */
+		void connectEntranceEndpointsShouldCalculateTheShortestPathBetweenEachPairOfParentNodesForEachEligibleCapability();
+		
 	private:
 		double interedge_weight;
 		int cwidth, cheight;
@@ -343,7 +355,22 @@ class exceptionThrownHelper
 			CPPUNIT_ASSERT_EQUAL_MESSAGE(failmessage.c_str(), true, exceptionThrown);
 		};
 
-
+		template<class ExceptionType>
+		void checkAddParentThrowsCorrectException(node* target)
+		{
+			bool exceptionThrown = false;
+				
+			try 
+			{
+				ac->addParent(target, aca);
+			}
+			catch(ExceptionType& e)
+			{	
+				exceptionThrown = true;
+			}
+			
+			CPPUNIT_ASSERT_EQUAL_MESSAGE(failmessage.c_str(), true, exceptionThrown);
+		};
 		
 		void setFailMessage(std::string& msg) { failmessage = msg; } 
 		void setAbstractGraph(graph *g) { this->absg = g; }

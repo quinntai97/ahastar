@@ -33,8 +33,10 @@ class AbstractAnnotatedMapAbstraction : public mapAbstraction
 		void setDebugInfo(bool debug) { this->debuginfo = debug; }
 		bool getDebugInfo() { return this->debuginfo; }
 		virtual AbstractAnnotatedAStar* getSearchAlgorithm() { return searchalg; }
+		virtual void setSearchAlgorithm(AbstractAnnotatedAStar* alg) { this->searchalg = alg; }
 	
 	private:
+		void addMissingEdges();
 		bool debuginfo;
 		AbstractAnnotatedAStar* searchalg;
 
@@ -66,7 +68,6 @@ class AnnotatedMapAbstraction : public AbstractAnnotatedMapAbstraction
 	private:
 		void annotateNode(node*);
 		void drawClearanceInfo();
-		void addMissingEdges();
 		bool drawCV; 
 
 };

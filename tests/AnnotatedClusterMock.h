@@ -41,6 +41,7 @@ class AnnotatedClusterMock : public AnnotatedCluster, public MOCKPP_NS::Chainabl
 		
 		virtual void buildEntrances(AnnotatedClusterAbstraction*) throw(AnnotatedClusterAbstractionIsNullException);
 		virtual void addNodesToCluster(AnnotatedClusterAbstraction*);
+		virtual void addParent(node*, AnnotatedClusterAbstraction*);
 		
 		MOCKPP_NS::ChainableMockMethod<void, AnnotatedClusterAbstraction*> buildEntrancesMocker;
 		MOCKPP_NS::ChainableMockMethod<void, AnnotatedClusterAbstraction*> addNodesToClusterMocker;

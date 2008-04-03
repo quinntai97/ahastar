@@ -97,7 +97,7 @@ void TestNode::setParentClusterStoresClusterIdWhenClusterIdEqualsZero()
 	CPPUNIT_ASSERT_EQUAL(cid, n->getParentCluster());	
 }
 
-void TestNode::cloneShouldDeepCopyNodeAndAllAnnotations()
+void TestNode::cloneShouldDeepCopyNodeAndAllAnnotationsExceptParentClusterId()
 {
 
 	/* create and annotate some nodes to use as test data */
@@ -115,7 +115,7 @@ void TestNode::cloneShouldDeepCopyNodeAndAllAnnotations()
 	node* tn1clone = dynamic_cast<node*>(tn1->clone());
 	CPPUNIT_ASSERT_MESSAGE("clone returned original node! failed to copy!", tn1 != tn1clone);
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("cloned node has different terrain type", tn1->getTerrainType(), tn1clone->getTerrainType());
-	CPPUNIT_ASSERT_EQUAL_MESSAGE("cloned node has different parent cluster", tn1->getParentCluster(), tn1clone->getParentCluster());
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("cloned node is incorrectly assigned to a cluster", -1, tn1clone->getParentCluster());
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("cloned node has different clearance value for kTrees capability", tn1->getClearance(kTrees), tn1clone->getClearance(kTrees));
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("cloned node has different clearance value for kTrees capability", tn1->getClearance(kTrees), tn1clone->getClearance(kTrees));
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("cloned node has different clearance value for (kGround|kTrees) capability", tn1->getClearance((kGround|kTrees)), tn1clone->getClearance((kGround|kTrees)));

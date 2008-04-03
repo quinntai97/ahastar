@@ -60,6 +60,8 @@ class AnnotatedAStarTest : public CPPUNIT_NS::TestFixture
 	CPPUNIT_TEST( getPathWhenSolutionExistsForGroundCapabilityLST );
 	CPPUNIT_TEST( getPathInitialisesFCostValueOfStartToHeuristicGoalDistance );
 	CPPUNIT_TEST( getPathEachNodeInReturnedPathHasAnEdgeToItsPredecessor );
+	CPPUNIT_TEST( getPathFailsToReturnASoltuionWhenNoneExistsWithinTheCorridorBounds );
+	CPPUNIT_TEST( getPathReturnsTheShortestPathWithinCorridorBounds );
 
 	CPPUNIT_TEST_SUITE_END();
 	
@@ -103,6 +105,9 @@ class AnnotatedAStarTest : public CPPUNIT_NS::TestFixture
 		void getPathWhenSolutionExistsForGroundCapabilityLST();
 		void getPathInitialisesFCostValueOfStartToHeuristicGoalDistance();
 		void getPathEachNodeInReturnedPathHasAnEdgeToItsPredecessor();
+		
+		void getPathFailsToReturnASoltuionWhenNoneExistsWithinTheCorridorBounds();
+		void getPathReturnsTheShortestPathWithinCorridorBounds();
 		
 	private:
 		void annotateNode(node* n, int t1, int t1c, int t2, int t2c, int t3, int t3c);
