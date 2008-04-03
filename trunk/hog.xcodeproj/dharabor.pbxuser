@@ -13,9 +13,10 @@
 			621DED8B0D65780500FCAC0F /* AnnotatedMapAbstractionTest.cpp:217 */,
 			62A71DE30DA488B700F8AC71 /* AnnotatedMapAbstractionTest.cpp:264 */,
 			62A71DFC0DA48B0800F8AC71 /* AnnotatedMapAbstractionTest.cpp:266 */,
-			62A71E9F0DA4938C00F8AC71 /* AnnotatedClusterTest.cpp:837 */,
-			62A7208B0DA4ED6400F8AC71 /* AnnotatedAStarTest.cpp:360 */,
-			62A720910DA4EDEF00F8AC71 /* AnnotatedAStar.cpp:91 */,
+			62A71E9F0DA4938C00F8AC71 /* AnnotatedClusterTest.cpp:839 */,
+			62A720C60DA4F43B00F8AC71 /* AnnotatedClusterAbstractionTest.cpp:140 */,
+			62A720C90DA4F4C500F8AC71 /* AnnotatedCluster.cpp:219 */,
+			62A720CB0DA4F4C700F8AC71 /* AnnotatedCluster.cpp:226 */,
 		);
 		breakpointsGroup = 62B1888B0D34F4280061AE72 /* XCBreakpointsBucket */;
 		codeSenseManager = 62E910C50CFD49B200AA46AB /* Code sense */;
@@ -646,6 +647,35 @@
 			62A720A10DA4EEE600F8AC71 /* PBXTextBookmark */ = 62A720A10DA4EEE600F8AC71 /* PBXTextBookmark */;
 			62A720A20DA4EEE600F8AC71 /* PBXTextBookmark */ = 62A720A20DA4EEE600F8AC71 /* PBXTextBookmark */;
 			62A720A30DA4EEE600F8AC71 /* PBXTextBookmark */ = 62A720A30DA4EEE600F8AC71 /* PBXTextBookmark */;
+			62A720A80DA4EFB600F8AC71 /* PBXTextBookmark */ = 62A720A80DA4EFB600F8AC71 /* PBXTextBookmark */;
+			62A720A90DA4EFB600F8AC71 /* PBXTextBookmark */ = 62A720A90DA4EFB600F8AC71 /* PBXTextBookmark */;
+			62A720AE0DA4F13500F8AC71 /* PBXTextBookmark */ = 62A720AE0DA4F13500F8AC71 /* PBXTextBookmark */;
+			62A720AF0DA4F13B00F8AC71 /* PBXTextBookmark */ = 62A720AF0DA4F13B00F8AC71 /* PBXTextBookmark */;
+			62A720B00DA4F13B00F8AC71 /* PBXTextBookmark */ = 62A720B00DA4F13B00F8AC71 /* PBXTextBookmark */;
+			62A720B10DA4F13B00F8AC71 /* PBXTextBookmark */ = 62A720B10DA4F13B00F8AC71 /* PBXTextBookmark */;
+			62A720C30DA4F35000F8AC71 /* PBXTextBookmark */ = 62A720C30DA4F35000F8AC71 /* PBXTextBookmark */;
+			62A720D00DA4F82100F8AC71 /* PBXTextBookmark */ = 62A720D00DA4F82100F8AC71 /* PBXTextBookmark */;
+			62A720DC0DA4FB6200F8AC71 /* PBXTextBookmark */ = 62A720DC0DA4FB6200F8AC71 /* PBXTextBookmark */;
+			62A720DF0DA509F000F8AC71 /* PBXTextBookmark */ = 62A720DF0DA509F000F8AC71 /* PBXTextBookmark */;
+			62A720E00DA509F400F8AC71 /* PBXBookmark */ = 62A720E00DA509F400F8AC71 /* PBXBookmark */;
+			62A720E70DA50A8C00F8AC71 /* PBXTextBookmark */ = 62A720E70DA50A8C00F8AC71 /* PBXTextBookmark */;
+			62A720ED0DA50C7600F8AC71 /* PBXTextBookmark */ = 62A720ED0DA50C7600F8AC71 /* PBXTextBookmark */;
+			62A720F40DA50CA300F8AC71 /* PBXTextBookmark */ = 62A720F40DA50CA300F8AC71 /* PBXTextBookmark */;
+			62A720F50DA50CA300F8AC71 /* PBXTextBookmark */ = 62A720F50DA50CA300F8AC71 /* PBXTextBookmark */;
+			62A720F60DA50CA300F8AC71 /* PBXTextBookmark */ = 62A720F60DA50CA300F8AC71 /* PBXTextBookmark */;
+			62A720F70DA50CA300F8AC71 /* PBXTextBookmark */ = 62A720F70DA50CA300F8AC71 /* PBXTextBookmark */;
+			62A720F80DA50CA300F8AC71 /* PBXTextBookmark */ = 62A720F80DA50CA300F8AC71 /* PBXTextBookmark */;
+			62A720F90DA50CA300F8AC71 /* PBXTextBookmark */ = 62A720F90DA50CA300F8AC71 /* PBXTextBookmark */;
+			62A720FC0DA50CA300F8AC71 /* PBXTextBookmark */ = 62A720FC0DA50CA300F8AC71 /* PBXTextBookmark */;
+			62A720FF0DA50CA300F8AC71 /* PBXTextBookmark */ = 62A720FF0DA50CA300F8AC71 /* PBXTextBookmark */;
+			62A721000DA50CA300F8AC71 /* PBXTextBookmark */ = 62A721000DA50CA300F8AC71 /* PBXTextBookmark */;
+			62A721070DA50D6900F8AC71 /* PBXTextBookmark */ = 62A721070DA50D6900F8AC71 /* PBXTextBookmark */;
+			62A7210F0DA50DCB00F8AC71 /* PBXTextBookmark */ = 62A7210F0DA50DCB00F8AC71 /* PBXTextBookmark */;
+			62A721140DA50DD300F8AC71 /* PBXBookmark */ = 62A721140DA50DD300F8AC71 /* PBXBookmark */;
+			62A721180DA50DEB00F8AC71 /* PBXTextBookmark */ = 62A721180DA50DEB00F8AC71 /* PBXTextBookmark */;
+			62A721190DA50DEC00F8AC71 /* PBXTextBookmark */ = 62A721190DA50DEC00F8AC71 /* PBXTextBookmark */;
+			62A7211C0DA50DEC00F8AC71 /* PBXTextBookmark */ = 62A7211C0DA50DEC00F8AC71 /* PBXTextBookmark */;
+			62A7211D0DA50DEC00F8AC71 /* PBXTextBookmark */ = 62A7211D0DA50DEC00F8AC71 /* PBXTextBookmark */;
 			62B2FE400D6AD18E006A12F8 = 62B2FE400D6AD18E006A12F8 /* PBXTextBookmark */;
 			62B2FED30D6B061D006A12F8 = 62B2FED30D6B061D006A12F8 /* PBXTextBookmark */;
 			62B2FED40D6B061D006A12F8 = 62B2FED40D6B061D006A12F8 /* PBXTextBookmark */;
@@ -708,17 +738,17 @@
 	};
 	620E3DD20D7570A600A97ED1 /* AnnotatedClusterTest.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {901, 5418}}";
-			sepNavSelRange = "{14878, 32}";
-			sepNavVisRect = "{{0, 491}, {901, 608}}";
+			sepNavIntBoundsRect = "{{0, 0}, {866, 5418}}";
+			sepNavSelRange = "{5753, 0}";
+			sepNavVisRect = "{{0, 1393}, {576, 127}}";
 			sepNavWindowFrame = "{{13, 7}, {946, 737}}";
 		};
 	};
 	620E3DD30D7570A600A97ED1 /* AnnotatedClusterTest.cpp */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1100, 11760}}";
-			sepNavSelRange = "{36287, 0}";
-			sepNavVisRect = "{{0, 11575}, {817, 185}}";
+			sepNavIntBoundsRect = "{{0, 0}, {1100, 11788}}";
+			sepNavSelRange = "{4218, 0}";
+			sepNavVisRect = "{{0, 1637}, {817, 185}}";
 			sepNavWindowFrame = "{{16, 7}, {992, 737}}";
 		};
 	};
@@ -866,15 +896,15 @@
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {1130, 2954}}";
 			sepNavSelRange = "{5544, 0}";
-			sepNavVisRect = "{{0, 2373}, {937, 581}}";
+			sepNavVisRect = "{{0, 2361}, {937, 581}}";
 			sepNavWindowFrame = "{{15, 33}, {982, 710}}";
 		};
 	};
 	621C072B0D7F8432000C424F /* AnnotatedCluster.cpp */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1502, 5726}}";
-			sepNavSelRange = "{4927, 0}";
-			sepNavVisRect = "{{0, 1903}, {817, 185}}";
+			sepNavIntBoundsRect = "{{0, 0}, {1502, 5782}}";
+			sepNavSelRange = "{14707, 0}";
+			sepNavVisRect = "{{0, 5189}, {930, 584}}";
 			sepNavWindowFrame = "{{27, 27}, {975, 713}}";
 		};
 	};
@@ -950,7 +980,7 @@
 		hitCount = 1;
 		lineNumber = 217;
 		location = testsimulation;
-		modificationTime = 228912592.113167;
+		modificationTime = 228920624.36311;
 		state = 1;
 	};
 	621DED910D65785000FCAC0F /* PBXTextBookmark */ = {
@@ -1195,9 +1225,9 @@
 	};
 	625D21340D6EAE2400211E90 /* AnnotatedClusterAbstraction.cpp */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {872, 1092}}";
-			sepNavSelRange = "{1596, 0}";
-			sepNavVisRect = "{{0, 791}, {780, 196}}";
+			sepNavIntBoundsRect = "{{0, 0}, {872, 1344}}";
+			sepNavSelRange = "{2357, 0}";
+			sepNavVisRect = "{{0, 923}, {817, 185}}";
 			sepNavWindowFrame = "{{15, 7}, {946, 737}}";
 		};
 	};
@@ -1272,8 +1302,8 @@
 	625FFE450D6D65E30089E6E8 /* AnnotatedClusterAbstractionTest.cpp */ = {
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {890, 2422}}";
-			sepNavSelRange = "{2221, 0}";
-			sepNavVisRect = "{{0, 1855}, {780, 196}}";
+			sepNavSelRange = "{4876, 0}";
+			sepNavVisRect = "{{0, 1973}, {817, 185}}";
 			sepNavWindowFrame = "{{16, 4}, {946, 737}}";
 		};
 	};
@@ -1349,9 +1379,9 @@
 	};
 	6290953F0D8929A300A34F48 /* AnnotatedClusterAbstractionMock.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {947, 812}}";
-			sepNavSelRange = "{1350, 0}";
-			sepNavVisRect = "{{0, 204}, {947, 608}}";
+			sepNavIntBoundsRect = "{{0, 0}, {704, 812}}";
+			sepNavSelRange = "{693, 0}";
+			sepNavVisRect = "{{0, 377}, {576, 127}}";
 			sepNavWindowFrame = "{{15, 4}, {992, 737}}";
 		};
 	};
@@ -1606,7 +1636,7 @@
 		fRef = 625FFE450D6D65E30089E6E8 /* AnnotatedClusterAbstractionTest.cpp */;
 		name = "AnnotatedClusterAbstractionTest.cpp: buildEntrancesShouldCreateCorrectNumberOfTransitionsBetweenClustersAndAddTransitionsToAbstractGraph";
 		rLen = 0;
-		rLoc = 5572;
+		rLoc = 5623;
 		rType = 0;
 		vrLen = 374;
 		vrLoc = 3676;
@@ -1862,7 +1892,7 @@
 		fRef = 621C072B0D7F8432000C424F /* AnnotatedCluster.cpp */;
 		name = "getPathLengthAndClearance(path *p, int capability, int clearance, double dist)";
 		rLen = 58;
-		rLoc = 14836;
+		rLoc = 15008;
 		rType = 0;
 		vrLen = 1431;
 		vrLoc = 12987;
@@ -1872,7 +1902,7 @@
 		fRef = 621C072B0D7F8432000C424F /* AnnotatedCluster.cpp */;
 		name = "AnnotatedCluster.cpp: 367";
 		rLen = 0;
-		rLoc = 13865;
+		rLoc = 13910;
 		rType = 0;
 		vrLen = 1771;
 		vrLoc = 12645;
@@ -1912,7 +1942,7 @@
 		comments = "error: no matching function for call to 'AnnotatedCluster::connectEntranceEndpoints(node*&, node*&, int&)'";
 		fRef = 620E3DD30D7570A600A97ED1 /* AnnotatedClusterTest.cpp */;
 		rLen = 1;
-		rLoc = 809;
+		rLoc = 811;
 		rType = 1;
 	};
 	62A71A670DA3979200F8AC71 /* PBXTextBookmark */ = {
@@ -1930,7 +1960,7 @@
 		fRef = 620E3DD30D7570A600A97ED1 /* AnnotatedClusterTest.cpp */;
 		name = "AnnotatedClusterTest.cpp: 801";
 		rLen = 0;
-		rLoc = 35321;
+		rLoc = 35350;
 		rType = 0;
 		vrLen = 528;
 		vrLoc = 34868;
@@ -1940,7 +1970,7 @@
 		fRef = 621C072B0D7F8432000C424F /* AnnotatedCluster.cpp */;
 		name = "AnnotatedCluster.cpp: 367";
 		rLen = 0;
-		rLoc = 13865;
+		rLoc = 13910;
 		rType = 0;
 		vrLen = 1771;
 		vrLoc = 12645;
@@ -1960,7 +1990,7 @@
 		fRef = 620E3DD30D7570A600A97ED1 /* AnnotatedClusterTest.cpp */;
 		name = "AnnotatedClusterTest.cpp: 807";
 		rLen = 0;
-		rLoc = 35716;
+		rLoc = 35745;
 		rType = 0;
 		vrLen = 923;
 		vrLoc = 34586;
@@ -1970,7 +2000,7 @@
 		comments = "error: invalid conversion from 'node*' to 'unsigned int'";
 		fRef = 621C072B0D7F8432000C424F /* AnnotatedCluster.cpp */;
 		rLen = 0;
-		rLoc = 373;
+		rLoc = 374;
 		rType = 1;
 	};
 	62A71A7D0DA399F300F8AC71 /* PBXTextBookmark */ = {
@@ -1978,7 +2008,7 @@
 		fRef = 620E3DD30D7570A600A97ED1 /* AnnotatedClusterTest.cpp */;
 		name = "AnnotatedClusterTest.cpp: 807";
 		rLen = 0;
-		rLoc = 35716;
+		rLoc = 35745;
 		rType = 0;
 		vrLen = 923;
 		vrLoc = 34586;
@@ -1988,7 +2018,7 @@
 		fRef = 621C072B0D7F8432000C424F /* AnnotatedCluster.cpp */;
 		name = "AnnotatedCluster.cpp: 374";
 		rLen = 0;
-		rLoc = 13865;
+		rLoc = 13910;
 		rType = 0;
 		vrLen = 856;
 		vrLoc = 13213;
@@ -1998,7 +2028,7 @@
 		fRef = 621C072B0D7F8432000C424F /* AnnotatedCluster.cpp */;
 		name = "AnnotatedCluster.cpp: 374";
 		rLen = 0;
-		rLoc = 13865;
+		rLoc = 13910;
 		rType = 0;
 		vrLen = 856;
 		vrLoc = 13213;
@@ -2018,7 +2048,7 @@
 		fRef = 620E3DD30D7570A600A97ED1 /* AnnotatedClusterTest.cpp */;
 		name = "AnnotatedClusterTest.cpp: 805";
 		rLen = 0;
-		rLoc = 35284;
+		rLoc = 35313;
 		rType = 0;
 		vrLen = 455;
 		vrLoc = 34868;
@@ -2028,7 +2058,7 @@
 		fRef = 620E3DD30D7570A600A97ED1 /* AnnotatedClusterTest.cpp */;
 		name = "AnnotatedClusterTest.cpp: 802";
 		rLen = 0;
-		rLoc = 35321;
+		rLoc = 35350;
 		rType = 0;
 		vrLen = 612;
 		vrLoc = 34868;
@@ -2048,7 +2078,7 @@
 		fRef = 620E3DD30D7570A600A97ED1 /* AnnotatedClusterTest.cpp */;
 		name = "AnnotatedClusterTest.cpp: 805";
 		rLen = 0;
-		rLoc = 35284;
+		rLoc = 35313;
 		rType = 0;
 		vrLen = 455;
 		vrLoc = 34868;
@@ -2068,7 +2098,7 @@
 		fRef = 620E3DD30D7570A600A97ED1 /* AnnotatedClusterTest.cpp */;
 		name = "AnnotatedClusterTest.cpp: 797";
 		rLen = 0;
-		rLoc = 34918;
+		rLoc = 34947;
 		rType = 0;
 		vrLen = 1691;
 		vrLoc = 33818;
@@ -2078,7 +2108,7 @@
 		fRef = 620E3DD30D7570A600A97ED1 /* AnnotatedClusterTest.cpp */;
 		name = "AnnotatedClusterTest.cpp: 803";
 		rLen = 0;
-		rLoc = 35171;
+		rLoc = 35200;
 		rType = 0;
 		vrLen = 1702;
 		vrLoc = 33936;
@@ -2088,7 +2118,7 @@
 		fRef = 621C072B0D7F8432000C424F /* AnnotatedCluster.cpp */;
 		name = "AnnotatedCluster.cpp: 367";
 		rLen = 0;
-		rLoc = 13865;
+		rLoc = 13910;
 		rType = 0;
 		vrLen = 1781;
 		vrLoc = 12645;
@@ -2098,7 +2128,7 @@
 		fRef = 621C072B0D7F8432000C424F /* AnnotatedCluster.cpp */;
 		name = "AnnotatedCluster.cpp: 374";
 		rLen = 0;
-		rLoc = 13865;
+		rLoc = 13910;
 		rType = 0;
 		vrLen = 856;
 		vrLoc = 13213;
@@ -2108,7 +2138,7 @@
 		fRef = 621C072B0D7F8432000C424F /* AnnotatedCluster.cpp */;
 		name = "AnnotatedCluster.cpp: 374";
 		rLen = 0;
-		rLoc = 13865;
+		rLoc = 13910;
 		rType = 0;
 		vrLen = 856;
 		vrLoc = 13213;
@@ -2118,7 +2148,7 @@
 		fRef = 621C072B0D7F8432000C424F /* AnnotatedCluster.cpp */;
 		name = "AnnotatedCluster.cpp: 374";
 		rLen = 0;
-		rLoc = 13865;
+		rLoc = 13910;
 		rType = 0;
 		vrLen = 861;
 		vrLoc = 13213;
@@ -2168,7 +2198,7 @@
 		fRef = 621C072B0D7F8432000C424F /* AnnotatedCluster.cpp */;
 		name = "AnnotatedCluster.cpp: 367";
 		rLen = 0;
-		rLoc = 13865;
+		rLoc = 13910;
 		rType = 0;
 		vrLen = 1786;
 		vrLoc = 12645;
@@ -2178,7 +2208,7 @@
 		fRef = 621C072B0D7F8432000C424F /* AnnotatedCluster.cpp */;
 		name = "AnnotatedCluster.cpp: 374";
 		rLen = 0;
-		rLoc = 13865;
+		rLoc = 13910;
 		rType = 0;
 		vrLen = 861;
 		vrLoc = 13213;
@@ -2188,7 +2218,7 @@
 		fRef = 621C072B0D7F8432000C424F /* AnnotatedCluster.cpp */;
 		name = "AnnotatedCluster.cpp: 376";
 		rLen = 0;
-		rLoc = 13865;
+		rLoc = 13910;
 		rType = 0;
 		vrLen = 1064;
 		vrLoc = 13213;
@@ -2198,7 +2228,7 @@
 		fRef = 621C072B0D7F8432000C424F /* AnnotatedCluster.cpp */;
 		name = "AnnotatedCluster.cpp: 376";
 		rLen = 0;
-		rLoc = 13865;
+		rLoc = 13910;
 		rType = 0;
 		vrLen = 1064;
 		vrLoc = 13213;
@@ -2208,7 +2238,7 @@
 		fRef = 621C072B0D7F8432000C424F /* AnnotatedCluster.cpp */;
 		name = "AnnotatedCluster.cpp: 376";
 		rLen = 0;
-		rLoc = 13865;
+		rLoc = 13910;
 		rType = 0;
 		vrLen = 1064;
 		vrLoc = 13213;
@@ -2218,7 +2248,7 @@
 		fRef = 621C072B0D7F8432000C424F /* AnnotatedCluster.cpp */;
 		name = "AnnotatedCluster.cpp: 376";
 		rLen = 0;
-		rLoc = 13865;
+		rLoc = 13910;
 		rType = 0;
 		vrLen = 1064;
 		vrLoc = 13213;
@@ -2232,7 +2262,7 @@
 		fRef = 621C072B0D7F8432000C424F /* AnnotatedCluster.cpp */;
 		name = "AnnotatedCluster.cpp: 376";
 		rLen = 0;
-		rLoc = 13865;
+		rLoc = 13910;
 		rType = 0;
 		vrLen = 1064;
 		vrLoc = 13213;
@@ -2242,7 +2272,7 @@
 		fRef = 621C072B0D7F8432000C424F /* AnnotatedCluster.cpp */;
 		name = "AnnotatedCluster.cpp: 376";
 		rLen = 0;
-		rLoc = 13865;
+		rLoc = 13910;
 		rType = 0;
 		vrLen = 1064;
 		vrLoc = 13213;
@@ -2252,7 +2282,7 @@
 		fRef = 621C072B0D7F8432000C424F /* AnnotatedCluster.cpp */;
 		name = "AnnotatedCluster.cpp: 376";
 		rLen = 0;
-		rLoc = 13865;
+		rLoc = 13910;
 		rType = 0;
 		vrLen = 1064;
 		vrLoc = 13213;
@@ -2262,7 +2292,7 @@
 		fRef = 621C072B0D7F8432000C424F /* AnnotatedCluster.cpp */;
 		name = "AnnotatedCluster.cpp: 390";
 		rLen = 0;
-		rLoc = 13865;
+		rLoc = 13910;
 		rType = 0;
 		vrLen = 1092;
 		vrLoc = 13213;
@@ -2332,7 +2362,7 @@
 		fRef = 621C072B0D7F8432000C424F /* AnnotatedCluster.cpp */;
 		name = "AnnotatedCluster.cpp: 381";
 		rLen = 0;
-		rLoc = 13865;
+		rLoc = 13910;
 		rType = 0;
 		vrLen = 2131;
 		vrLoc = 12524;
@@ -2342,7 +2372,7 @@
 		fRef = 621C072B0D7F8432000C424F /* AnnotatedCluster.cpp */;
 		name = "AnnotatedCluster.cpp: 390";
 		rLen = 0;
-		rLoc = 13865;
+		rLoc = 13910;
 		rType = 0;
 		vrLen = 1124;
 		vrLoc = 13213;
@@ -2352,7 +2382,7 @@
 		fRef = 621C072B0D7F8432000C424F /* AnnotatedCluster.cpp */;
 		name = "AnnotatedCluster.cpp: 390";
 		rLen = 0;
-		rLoc = 13865;
+		rLoc = 13910;
 		rType = 0;
 		vrLen = 1124;
 		vrLoc = 13213;
@@ -2362,7 +2392,7 @@
 		fRef = 621C072B0D7F8432000C424F /* AnnotatedCluster.cpp */;
 		name = "AnnotatedCluster.cpp: 390";
 		rLen = 0;
-		rLoc = 13865;
+		rLoc = 13910;
 		rType = 0;
 		vrLen = 1127;
 		vrLoc = 13213;
@@ -2372,7 +2402,7 @@
 		fRef = 621C072B0D7F8432000C424F /* AnnotatedCluster.cpp */;
 		name = "AnnotatedCluster.cpp: 390";
 		rLen = 0;
-		rLoc = 13865;
+		rLoc = 13910;
 		rType = 0;
 		vrLen = 1127;
 		vrLoc = 13213;
@@ -2382,7 +2412,7 @@
 		fRef = 621C072B0D7F8432000C424F /* AnnotatedCluster.cpp */;
 		name = "AnnotatedCluster.cpp: 377";
 		rLen = 0;
-		rLoc = 13865;
+		rLoc = 13910;
 		rType = 0;
 		vrLen = 1061;
 		vrLoc = 13213;
@@ -2392,7 +2422,7 @@
 		fRef = 621C072B0D7F8432000C424F /* AnnotatedCluster.cpp */;
 		name = "AnnotatedCluster.cpp: 377";
 		rLen = 0;
-		rLoc = 13865;
+		rLoc = 13910;
 		rType = 0;
 		vrLen = 1061;
 		vrLoc = 13213;
@@ -2402,7 +2432,7 @@
 		fRef = 621C072B0D7F8432000C424F /* AnnotatedCluster.cpp */;
 		name = "AnnotatedCluster.cpp: 377";
 		rLen = 0;
-		rLoc = 13865;
+		rLoc = 13910;
 		rType = 0;
 		vrLen = 1061;
 		vrLoc = 13213;
@@ -2412,7 +2442,7 @@
 		fRef = 621C072B0D7F8432000C424F /* AnnotatedCluster.cpp */;
 		name = "AnnotatedCluster.cpp: 377";
 		rLen = 0;
-		rLoc = 13865;
+		rLoc = 13910;
 		rType = 0;
 		vrLen = 1061;
 		vrLoc = 13213;
@@ -2452,7 +2482,7 @@
 		fRef = 621C072B0D7F8432000C424F /* AnnotatedCluster.cpp */;
 		name = "AnnotatedCluster.cpp: 371";
 		rLen = 0;
-		rLoc = 13865;
+		rLoc = 13910;
 		rType = 0;
 		vrLen = 1979;
 		vrLoc = 12524;
@@ -2466,7 +2496,7 @@
 		fRef = 621C072B0D7F8432000C424F /* AnnotatedCluster.cpp */;
 		name = "AnnotatedCluster.cpp: 378";
 		rLen = 0;
-		rLoc = 13865;
+		rLoc = 13910;
 		rType = 0;
 		vrLen = 1128;
 		vrLoc = 13213;
@@ -2476,7 +2506,7 @@
 		fRef = 621C072B0D7F8432000C424F /* AnnotatedCluster.cpp */;
 		name = "AnnotatedCluster.cpp: 378";
 		rLen = 0;
-		rLoc = 13865;
+		rLoc = 13910;
 		rType = 0;
 		vrLen = 1128;
 		vrLoc = 13213;
@@ -2506,7 +2536,7 @@
 		fRef = 621C072B0D7F8432000C424F /* AnnotatedCluster.cpp */;
 		name = "AnnotatedCluster.cpp: 372";
 		rLen = 0;
-		rLoc = 13865;
+		rLoc = 13910;
 		rType = 0;
 		vrLen = 2041;
 		vrLoc = 12524;
@@ -2516,7 +2546,7 @@
 		fRef = 621C072B0D7F8432000C424F /* AnnotatedCluster.cpp */;
 		name = "AnnotatedCluster.cpp: 378";
 		rLen = 0;
-		rLoc = 13865;
+		rLoc = 13910;
 		rType = 0;
 		vrLen = 1128;
 		vrLoc = 13213;
@@ -2546,7 +2576,7 @@
 		fRef = 621C072B0D7F8432000C424F /* AnnotatedCluster.cpp */;
 		name = "AnnotatedCluster.cpp: 372";
 		rLen = 0;
-		rLoc = 13865;
+		rLoc = 13910;
 		rType = 0;
 		vrLen = 2041;
 		vrLoc = 12524;
@@ -2556,7 +2586,7 @@
 		fRef = 621C072B0D7F8432000C424F /* AnnotatedCluster.cpp */;
 		name = "AnnotatedCluster.cpp: 378";
 		rLen = 0;
-		rLoc = 13865;
+		rLoc = 13910;
 		rType = 0;
 		vrLen = 1128;
 		vrLoc = 13213;
@@ -2566,7 +2596,7 @@
 		fRef = 621C072B0D7F8432000C424F /* AnnotatedCluster.cpp */;
 		name = "AnnotatedCluster.cpp: 378";
 		rLen = 0;
-		rLoc = 13865;
+		rLoc = 13910;
 		rType = 0;
 		vrLen = 1128;
 		vrLoc = 13213;
@@ -2576,7 +2606,7 @@
 		fRef = 621C072B0D7F8432000C424F /* AnnotatedCluster.cpp */;
 		name = "AnnotatedCluster.cpp: 378";
 		rLen = 0;
-		rLoc = 13865;
+		rLoc = 13910;
 		rType = 0;
 		vrLen = 1128;
 		vrLoc = 13213;
@@ -2586,7 +2616,7 @@
 		fRef = 621C072B0D7F8432000C424F /* AnnotatedCluster.cpp */;
 		name = "AnnotatedCluster.cpp: 378";
 		rLen = 0;
-		rLoc = 13865;
+		rLoc = 13910;
 		rType = 0;
 		vrLen = 1128;
 		vrLoc = 13213;
@@ -2636,7 +2666,7 @@
 		fRef = 620E3DD30D7570A600A97ED1 /* AnnotatedClusterTest.cpp */;
 		name = "AnnotatedClusterTest.cpp: 803";
 		rLen = 0;
-		rLoc = 35046;
+		rLoc = 35075;
 		rType = 0;
 		vrLen = 1702;
 		vrLoc = 34145;
@@ -2646,7 +2676,7 @@
 		fRef = 620E3DD30D7570A600A97ED1 /* AnnotatedClusterTest.cpp */;
 		name = "AnnotatedClusterTest.cpp: 806";
 		rLen = 0;
-		rLoc = 35046;
+		rLoc = 35075;
 		rType = 0;
 		vrLen = 1941;
 		vrLoc = 34148;
@@ -2656,7 +2686,7 @@
 		fRef = 621C072B0D7F8432000C424F /* AnnotatedCluster.cpp */;
 		name = "AnnotatedCluster.cpp: 378";
 		rLen = 0;
-		rLoc = 13865;
+		rLoc = 13910;
 		rType = 0;
 		vrLen = 1128;
 		vrLoc = 13213;
@@ -2666,7 +2696,7 @@
 		fRef = 621C072B0D7F8432000C424F /* AnnotatedCluster.cpp */;
 		name = "AnnotatedCluster.cpp: 378";
 		rLen = 0;
-		rLoc = 13865;
+		rLoc = 13910;
 		rType = 0;
 		vrLen = 1128;
 		vrLoc = 13213;
@@ -2676,7 +2706,7 @@
 		fRef = 621C072B0D7F8432000C424F /* AnnotatedCluster.cpp */;
 		name = "AnnotatedCluster.cpp: 378";
 		rLen = 0;
-		rLoc = 13865;
+		rLoc = 13910;
 		rType = 0;
 		vrLen = 1128;
 		vrLoc = 13213;
@@ -2686,7 +2716,7 @@
 		fRef = 621C072B0D7F8432000C424F /* AnnotatedCluster.cpp */;
 		name = "AnnotatedCluster.cpp: 378";
 		rLen = 0;
-		rLoc = 13865;
+		rLoc = 13910;
 		rType = 0;
 		vrLen = 1128;
 		vrLoc = 13213;
@@ -2696,7 +2726,7 @@
 		fRef = 621C072B0D7F8432000C424F /* AnnotatedCluster.cpp */;
 		name = "AnnotatedCluster.cpp: 378";
 		rLen = 0;
-		rLoc = 13865;
+		rLoc = 13910;
 		rType = 0;
 		vrLen = 1128;
 		vrLoc = 13213;
@@ -2706,7 +2736,7 @@
 		fRef = 621C072B0D7F8432000C424F /* AnnotatedCluster.cpp */;
 		name = "AnnotatedCluster.cpp: 378";
 		rLen = 0;
-		rLoc = 13865;
+		rLoc = 13910;
 		rType = 0;
 		vrLen = 1128;
 		vrLoc = 13213;
@@ -2716,7 +2746,7 @@
 		fRef = 621C072B0D7F8432000C424F /* AnnotatedCluster.cpp */;
 		name = "AnnotatedCluster.cpp: 378";
 		rLen = 0;
-		rLoc = 13865;
+		rLoc = 13910;
 		rType = 0;
 		vrLen = 1128;
 		vrLoc = 13213;
@@ -2726,7 +2756,7 @@
 		fRef = 621C072B0D7F8432000C424F /* AnnotatedCluster.cpp */;
 		name = "AnnotatedCluster.cpp: 378";
 		rLen = 0;
-		rLoc = 13865;
+		rLoc = 13910;
 		rType = 0;
 		vrLen = 1128;
 		vrLoc = 13213;
@@ -2736,7 +2766,7 @@
 		fRef = 621C072B0D7F8432000C424F /* AnnotatedCluster.cpp */;
 		name = "AnnotatedCluster.cpp: 378";
 		rLen = 0;
-		rLoc = 13865;
+		rLoc = 13910;
 		rType = 0;
 		vrLen = 1128;
 		vrLoc = 13213;
@@ -2746,7 +2776,7 @@
 		fRef = 621C072B0D7F8432000C424F /* AnnotatedCluster.cpp */;
 		name = "AnnotatedCluster.cpp: 378";
 		rLen = 0;
-		rLoc = 13865;
+		rLoc = 13910;
 		rType = 0;
 		vrLen = 1128;
 		vrLoc = 13213;
@@ -2756,7 +2786,7 @@
 		fRef = 621C072B0D7F8432000C424F /* AnnotatedCluster.cpp */;
 		name = "AnnotatedCluster.cpp: 378";
 		rLen = 0;
-		rLoc = 13865;
+		rLoc = 13910;
 		rType = 0;
 		vrLen = 1121;
 		vrLoc = 13213;
@@ -2766,7 +2796,7 @@
 		fRef = 621C072B0D7F8432000C424F /* AnnotatedCluster.cpp */;
 		name = "AnnotatedCluster.cpp: 377";
 		rLen = 0;
-		rLoc = 13865;
+		rLoc = 13910;
 		rType = 0;
 		vrLen = 1104;
 		vrLoc = 13213;
@@ -2776,7 +2806,7 @@
 		fRef = 621C072B0D7F8432000C424F /* AnnotatedCluster.cpp */;
 		name = "AnnotatedCluster.cpp: 377";
 		rLen = 0;
-		rLoc = 13865;
+		rLoc = 13910;
 		rType = 0;
 		vrLen = 1104;
 		vrLoc = 13213;
@@ -2786,7 +2816,7 @@
 		fRef = 621C072B0D7F8432000C424F /* AnnotatedCluster.cpp */;
 		name = "AnnotatedCluster.cpp: 377";
 		rLen = 0;
-		rLoc = 13865;
+		rLoc = 13910;
 		rType = 0;
 		vrLen = 1104;
 		vrLoc = 13213;
@@ -2796,7 +2826,7 @@
 		fRef = 621C072B0D7F8432000C424F /* AnnotatedCluster.cpp */;
 		name = "AnnotatedCluster.cpp: 377";
 		rLen = 0;
-		rLoc = 13865;
+		rLoc = 13910;
 		rType = 0;
 		vrLen = 1104;
 		vrLoc = 13213;
@@ -2806,7 +2836,7 @@
 		fRef = 621C072B0D7F8432000C424F /* AnnotatedCluster.cpp */;
 		name = "AnnotatedCluster.cpp: 377";
 		rLen = 0;
-		rLoc = 13865;
+		rLoc = 13910;
 		rType = 0;
 		vrLen = 1104;
 		vrLoc = 13213;
@@ -2816,7 +2846,7 @@
 		fRef = 621C072B0D7F8432000C424F /* AnnotatedCluster.cpp */;
 		name = "AnnotatedCluster.cpp: 377";
 		rLen = 0;
-		rLoc = 13865;
+		rLoc = 13910;
 		rType = 0;
 		vrLen = 1104;
 		vrLoc = 13213;
@@ -2830,7 +2860,7 @@
 		fRef = 621C072B0D7F8432000C424F /* AnnotatedCluster.cpp */;
 		name = "AnnotatedCluster.cpp: 377";
 		rLen = 0;
-		rLoc = 13865;
+		rLoc = 13910;
 		rType = 0;
 		vrLen = 1104;
 		vrLoc = 13213;
@@ -2840,7 +2870,7 @@
 		fRef = 621C072B0D7F8432000C424F /* AnnotatedCluster.cpp */;
 		name = "AnnotatedCluster.cpp: 377";
 		rLen = 0;
-		rLoc = 13865;
+		rLoc = 13910;
 		rType = 0;
 		vrLen = 1104;
 		vrLoc = 13213;
@@ -2987,7 +3017,7 @@
 		fRef = 620E3DD30D7570A600A97ED1 /* AnnotatedClusterTest.cpp */;
 		name = "AnnotatedClusterTest.cpp: 813";
 		rLen = 0;
-		rLoc = 35500;
+		rLoc = 35529;
 		rType = 0;
 		vrLen = 1677;
 		vrLoc = 34008;
@@ -2997,7 +3027,7 @@
 		fRef = 621C072B0D7F8432000C424F /* AnnotatedCluster.cpp */;
 		name = "AnnotatedCluster.cpp: 385";
 		rLen = 0;
-		rLoc = 13865;
+		rLoc = 13910;
 		rType = 0;
 		vrLen = 1156;
 		vrLoc = 13213;
@@ -3007,7 +3037,7 @@
 		fRef = 621C072B0D7F8432000C424F /* AnnotatedCluster.cpp */;
 		name = "AnnotatedCluster.cpp: 385";
 		rLen = 0;
-		rLoc = 13865;
+		rLoc = 13910;
 		rType = 0;
 		vrLen = 1154;
 		vrLoc = 13213;
@@ -3017,7 +3047,7 @@
 		fRef = 621C072B0D7F8432000C424F /* AnnotatedCluster.cpp */;
 		name = "AnnotatedCluster.cpp: 385";
 		rLen = 0;
-		rLoc = 13865;
+		rLoc = 13910;
 		rType = 0;
 		vrLen = 1154;
 		vrLoc = 13213;
@@ -3027,7 +3057,7 @@
 		fRef = 621C072B0D7F8432000C424F /* AnnotatedCluster.cpp */;
 		name = "AnnotatedCluster.cpp: 385";
 		rLen = 0;
-		rLoc = 13865;
+		rLoc = 13910;
 		rType = 0;
 		vrLen = 1154;
 		vrLoc = 13213;
@@ -3037,7 +3067,7 @@
 		fRef = 621C072B0D7F8432000C424F /* AnnotatedCluster.cpp */;
 		name = "AnnotatedCluster.cpp: 385";
 		rLen = 0;
-		rLoc = 13865;
+		rLoc = 13910;
 		rType = 0;
 		vrLen = 1154;
 		vrLoc = 13213;
@@ -3051,7 +3081,7 @@
 		fRef = 621C072B0D7F8432000C424F /* AnnotatedCluster.cpp */;
 		name = "AnnotatedCluster.cpp: 385";
 		rLen = 0;
-		rLoc = 13865;
+		rLoc = 13910;
 		rType = 0;
 		vrLen = 1168;
 		vrLoc = 13213;
@@ -3061,7 +3091,7 @@
 		fRef = 621C072B0D7F8432000C424F /* AnnotatedCluster.cpp */;
 		name = "AnnotatedCluster.cpp: 385";
 		rLen = 0;
-		rLoc = 13865;
+		rLoc = 13910;
 		rType = 0;
 		vrLen = 1115;
 		vrLoc = 13213;
@@ -3071,7 +3101,7 @@
 		fRef = 621C072B0D7F8432000C424F /* AnnotatedCluster.cpp */;
 		name = "AnnotatedCluster.cpp: 385";
 		rLen = 0;
-		rLoc = 13865;
+		rLoc = 13910;
 		rType = 0;
 		vrLen = 1115;
 		vrLoc = 13213;
@@ -3081,7 +3111,7 @@
 		fRef = 621C072B0D7F8432000C424F /* AnnotatedCluster.cpp */;
 		name = "AnnotatedCluster.cpp: 385";
 		rLen = 0;
-		rLoc = 13865;
+		rLoc = 13910;
 		rType = 0;
 		vrLen = 1115;
 		vrLoc = 13213;
@@ -3091,7 +3121,7 @@
 		fRef = 621C072B0D7F8432000C424F /* AnnotatedCluster.cpp */;
 		name = "AnnotatedCluster.cpp: 385";
 		rLen = 0;
-		rLoc = 13865;
+		rLoc = 13910;
 		rType = 0;
 		vrLen = 1115;
 		vrLoc = 13213;
@@ -3101,7 +3131,7 @@
 		fRef = 621C072B0D7F8432000C424F /* AnnotatedCluster.cpp */;
 		name = "AnnotatedCluster.cpp: 385";
 		rLen = 0;
-		rLoc = 13865;
+		rLoc = 13910;
 		rType = 0;
 		vrLen = 1115;
 		vrLoc = 13213;
@@ -3111,7 +3141,7 @@
 		fRef = 621C072B0D7F8432000C424F /* AnnotatedCluster.cpp */;
 		name = "AnnotatedCluster.cpp: 385";
 		rLen = 0;
-		rLoc = 13865;
+		rLoc = 13910;
 		rType = 0;
 		vrLen = 1115;
 		vrLoc = 13213;
@@ -3121,7 +3151,7 @@
 		fRef = 621C072B0D7F8432000C424F /* AnnotatedCluster.cpp */;
 		name = "AnnotatedCluster.cpp: 385";
 		rLen = 0;
-		rLoc = 13865;
+		rLoc = 13910;
 		rType = 0;
 		vrLen = 1115;
 		vrLoc = 13213;
@@ -3131,7 +3161,7 @@
 		fRef = 621C072B0D7F8432000C424F /* AnnotatedCluster.cpp */;
 		name = "AnnotatedCluster.cpp: 385";
 		rLen = 0;
-		rLoc = 13865;
+		rLoc = 13910;
 		rType = 0;
 		vrLen = 1115;
 		vrLoc = 13213;
@@ -3171,7 +3201,7 @@
 		fRef = 620E3DD30D7570A600A97ED1 /* AnnotatedClusterTest.cpp */;
 		name = "AnnotatedClusterTest.cpp: 810";
 		rLen = 0;
-		rLoc = 35284;
+		rLoc = 35313;
 		rType = 0;
 		vrLen = 419;
 		vrLoc = 35023;
@@ -3221,7 +3251,7 @@
 		fRef = 620E3DD30D7570A600A97ED1 /* AnnotatedClusterTest.cpp */;
 		name = "AnnotatedClusterTest.cpp: 812";
 		rLen = 0;
-		rLoc = 35284;
+		rLoc = 35313;
 		rType = 0;
 		vrLen = 363;
 		vrLoc = 35023;
@@ -3251,7 +3281,7 @@
 		fRef = 620E3DD30D7570A600A97ED1 /* AnnotatedClusterTest.cpp */;
 		name = "AnnotatedClusterTest.cpp: 813";
 		rLen = 0;
-		rLoc = 35500;
+		rLoc = 35529;
 		rType = 0;
 		vrLen = 1677;
 		vrLoc = 34008;
@@ -3261,7 +3291,7 @@
 		fRef = 620E3DD30D7570A600A97ED1 /* AnnotatedClusterTest.cpp */;
 		name = "AnnotatedClusterTest.cpp: 805";
 		rLen = 0;
-		rLoc = 35090;
+		rLoc = 35119;
 		rType = 0;
 		vrLen = 1807;
 		vrLoc = 34029;
@@ -3291,7 +3321,7 @@
 		fRef = 621C072B0D7F8432000C424F /* AnnotatedCluster.cpp */;
 		name = "AnnotatedCluster.cpp: 380";
 		rLen = 0;
-		rLoc = 13865;
+		rLoc = 13910;
 		rType = 0;
 		vrLen = 1638;
 		vrLoc = 13212;
@@ -3331,7 +3361,7 @@
 		fRef = 621C072B0D7F8432000C424F /* AnnotatedCluster.cpp */;
 		name = "AnnotatedCluster.cpp: 385";
 		rLen = 0;
-		rLoc = 13865;
+		rLoc = 13910;
 		rType = 0;
 		vrLen = 1115;
 		vrLoc = 13213;
@@ -3341,7 +3371,7 @@
 		fRef = 621C072B0D7F8432000C424F /* AnnotatedCluster.cpp */;
 		name = "AnnotatedCluster.cpp: 385";
 		rLen = 0;
-		rLoc = 13865;
+		rLoc = 13910;
 		rType = 0;
 		vrLen = 1115;
 		vrLoc = 13213;
@@ -3351,7 +3381,7 @@
 		fRef = 621C072B0D7F8432000C424F /* AnnotatedCluster.cpp */;
 		name = "AnnotatedCluster.cpp: 385";
 		rLen = 0;
-		rLoc = 13865;
+		rLoc = 13910;
 		rType = 0;
 		vrLen = 1115;
 		vrLoc = 13213;
@@ -3361,7 +3391,7 @@
 		fRef = 621C072B0D7F8432000C424F /* AnnotatedCluster.cpp */;
 		name = "AnnotatedCluster.cpp: 385";
 		rLen = 0;
-		rLoc = 13865;
+		rLoc = 13910;
 		rType = 0;
 		vrLen = 1115;
 		vrLoc = 13213;
@@ -3371,7 +3401,7 @@
 		fRef = 621C072B0D7F8432000C424F /* AnnotatedCluster.cpp */;
 		name = "AnnotatedCluster.cpp: 385";
 		rLen = 0;
-		rLoc = 13865;
+		rLoc = 13910;
 		rType = 0;
 		vrLen = 1115;
 		vrLoc = 13213;
@@ -3381,7 +3411,7 @@
 		fRef = 621C072B0D7F8432000C424F /* AnnotatedCluster.cpp */;
 		name = "AnnotatedCluster.cpp: 385";
 		rLen = 0;
-		rLoc = 13865;
+		rLoc = 13910;
 		rType = 0;
 		vrLen = 1115;
 		vrLoc = 13213;
@@ -3391,7 +3421,7 @@
 		fRef = 621C072B0D7F8432000C424F /* AnnotatedCluster.cpp */;
 		name = "AnnotatedCluster.cpp: 385";
 		rLen = 0;
-		rLoc = 13865;
+		rLoc = 13910;
 		rType = 0;
 		vrLen = 1115;
 		vrLoc = 13213;
@@ -3401,7 +3431,7 @@
 		fRef = 621C072B0D7F8432000C424F /* AnnotatedCluster.cpp */;
 		name = "AnnotatedCluster.cpp: 385";
 		rLen = 0;
-		rLoc = 13865;
+		rLoc = 13910;
 		rType = 0;
 		vrLen = 1115;
 		vrLoc = 13213;
@@ -3411,7 +3441,7 @@
 		fRef = 621C072B0D7F8432000C424F /* AnnotatedCluster.cpp */;
 		name = "AnnotatedCluster.cpp: 385";
 		rLen = 0;
-		rLoc = 13865;
+		rLoc = 13910;
 		rType = 0;
 		vrLen = 1115;
 		vrLoc = 13213;
@@ -3421,7 +3451,7 @@
 		fRef = 621C072B0D7F8432000C424F /* AnnotatedCluster.cpp */;
 		name = "AnnotatedCluster.cpp: 385";
 		rLen = 0;
-		rLoc = 13865;
+		rLoc = 13910;
 		rType = 0;
 		vrLen = 1115;
 		vrLoc = 13213;
@@ -3431,7 +3461,7 @@
 		fRef = 621C072B0D7F8432000C424F /* AnnotatedCluster.cpp */;
 		name = "AnnotatedCluster.cpp: 385";
 		rLen = 0;
-		rLoc = 13865;
+		rLoc = 13910;
 		rType = 0;
 		vrLen = 1115;
 		vrLoc = 13213;
@@ -3449,7 +3479,7 @@
 		fRef = 621C072B0D7F8432000C424F /* AnnotatedCluster.cpp */;
 		name = "AnnotatedCluster.cpp: 385";
 		rLen = 0;
-		rLoc = 13865;
+		rLoc = 13910;
 		rType = 0;
 		vrLen = 1115;
 		vrLoc = 13213;
@@ -3479,7 +3509,7 @@
 		fRef = 620E3DD30D7570A600A97ED1 /* AnnotatedClusterTest.cpp */;
 		name = "AnnotatedClusterTest.cpp: 812";
 		rLen = 0;
-		rLoc = 35284;
+		rLoc = 35313;
 		rType = 0;
 		vrLen = 363;
 		vrLoc = 35023;
@@ -3519,7 +3549,7 @@
 		fRef = 620E3DD30D7570A600A97ED1 /* AnnotatedClusterTest.cpp */;
 		name = "AnnotatedClusterTest.cpp: 812";
 		rLen = 0;
-		rLoc = 35284;
+		rLoc = 35313;
 		rType = 0;
 		vrLen = 363;
 		vrLoc = 35023;
@@ -3559,7 +3589,7 @@
 		fRef = 621C072B0D7F8432000C424F /* AnnotatedCluster.cpp */;
 		name = "AnnotatedCluster.cpp: 380";
 		rLen = 0;
-		rLoc = 13865;
+		rLoc = 13910;
 		rType = 0;
 		vrLen = 1638;
 		vrLoc = 13212;
@@ -3569,7 +3599,7 @@
 		fRef = 621C072B0D7F8432000C424F /* AnnotatedCluster.cpp */;
 		name = "AnnotatedCluster.cpp: 376";
 		rLen = 0;
-		rLoc = 14430;
+		rLoc = 14475;
 		rType = 0;
 		vrLen = 1560;
 		vrLoc = 13171;
@@ -3579,7 +3609,7 @@
 		fRef = 620E3DD30D7570A600A97ED1 /* AnnotatedClusterTest.cpp */;
 		name = "AnnotatedClusterTest.cpp: 805";
 		rLen = 0;
-		rLoc = 35090;
+		rLoc = 35119;
 		rType = 0;
 		vrLen = 1807;
 		vrLoc = 34029;
@@ -3589,7 +3619,7 @@
 		fRef = 620E3DD30D7570A600A97ED1 /* AnnotatedClusterTest.cpp */;
 		name = "AnnotatedClusterTest.cpp: 804";
 		rLen = 0;
-		rLoc = 35090;
+		rLoc = 35119;
 		rType = 0;
 		vrLen = 1685;
 		vrLoc = 34008;
@@ -3746,7 +3776,7 @@
 		fRef = 621C072B0D7F8432000C424F /* AnnotatedCluster.cpp */;
 		name = "AnnotatedCluster.cpp: 376";
 		rLen = 0;
-		rLoc = 14430;
+		rLoc = 14475;
 		rType = 0;
 		vrLen = 1560;
 		vrLoc = 13171;
@@ -3756,7 +3786,7 @@
 		fRef = 620E3DD30D7570A600A97ED1 /* AnnotatedClusterTest.cpp */;
 		name = "AnnotatedClusterTest.cpp: 804";
 		rLen = 0;
-		rLoc = 35090;
+		rLoc = 35119;
 		rType = 0;
 		vrLen = 1685;
 		vrLoc = 34008;
@@ -3974,7 +4004,7 @@
 		hitCount = 1;
 		lineNumber = 264;
 		location = testsimulation;
-		modificationTime = 228912592.1132;
+		modificationTime = 228920624.363136;
 		state = 1;
 	};
 	62A71DEE0DA48A3900F8AC71 /* PBXTextBookmark */ = {
@@ -4079,7 +4109,7 @@
 		hitCount = 1;
 		lineNumber = 266;
 		location = testsimulation;
-		modificationTime = 228912592.113276;
+		modificationTime = 228920624.363186;
 		state = 1;
 	};
 	62A71E000DA48B9400F8AC71 /* PBXTextBookmark */ = {
@@ -4384,7 +4414,7 @@
 		fRef = 620E3DD30D7570A600A97ED1 /* AnnotatedClusterTest.cpp */;
 		name = "ac->addParent(to, aca_mock);";
 		rLen = 30;
-		rLoc = 36287;
+		rLoc = 36343;
 		rType = 0;
 		vrLen = 677;
 		vrLoc = 35712;
@@ -4432,7 +4462,7 @@
 		fRef = 620E3DD30D7570A600A97ED1 /* AnnotatedClusterTest.cpp */;
 		name = "AnnotatedClusterTest.cpp: 833";
 		rLen = 0;
-		rLoc = 36314;
+		rLoc = 36370;
 		rType = 0;
 		vrLen = 677;
 		vrLoc = 35712;
@@ -4452,7 +4482,7 @@
 		fRef = 620E3DD30D7570A600A97ED1 /* AnnotatedClusterTest.cpp */;
 		name = "ac->addParent(to, aca_mock);";
 		rLen = 30;
-		rLoc = 36287;
+		rLoc = 36343;
 		rType = 0;
 		vrLen = 677;
 		vrLoc = 35712;
@@ -4487,7 +4517,7 @@
 		vrLen = 555;
 		vrLoc = 43;
 	};
-	62A71E9F0DA4938C00F8AC71 /* AnnotatedClusterTest.cpp:837 */ = {
+	62A71E9F0DA4938C00F8AC71 /* AnnotatedClusterTest.cpp:839 */ = {
 		isa = PBXFileBreakpoint;
 		actions = (
 		);
@@ -4497,9 +4527,9 @@
 		fileReference = 620E3DD30D7570A600A97ED1 /* AnnotatedClusterTest.cpp */;
 		functionName = "AnnotatedClusterTest::addParentsShouldCreateEdgesToRepresentAllValidPathsBetweenNewNodeAndExistingClusterEndpoints()";
 		hitCount = 1;
-		lineNumber = 837;
+		lineNumber = 839;
 		location = testsimulation;
-		modificationTime = 228912592.113293;
+		modificationTime = 228920624.363201;
 		state = 1;
 	};
 	62A71EA30DA493B100F8AC71 /* PBXTextBookmark */ = {
@@ -6188,36 +6218,6 @@
 		vrLen = 479;
 		vrLoc = 1914;
 	};
-	62A7208B0DA4ED6400F8AC71 /* AnnotatedAStarTest.cpp:360 */ = {
-		isa = PBXFileBreakpoint;
-		actions = (
-		);
-		breakpointStyle = 0;
-		continueAfterActions = 0;
-		delayBeforeContinue = 0;
-		fileReference = 62D0A9C20D1262990022B351 /* AnnotatedAStarTest.cpp */;
-		functionName = "AnnotatedAStarTest::getPathFailsToReturnASoltuionWhenNoneExistsWithinTheCorridorBounds()";
-		hitCount = 1;
-		lineNumber = 360;
-		location = testsimulation;
-		modificationTime = 228912603.999296;
-		state = 1;
-	};
-	62A720910DA4EDEF00F8AC71 /* AnnotatedAStar.cpp:91 */ = {
-		isa = PBXFileBreakpoint;
-		actions = (
-		);
-		breakpointStyle = 0;
-		continueAfterActions = 0;
-		delayBeforeContinue = 0;
-		fileReference = 62D0A9BA0D1262830022B351 /* AnnotatedAStar.cpp */;
-		functionName = "AnnotatedAStar::getPath()";
-		hitCount = 1;
-		lineNumber = 91;
-		location = testsimulation;
-		modificationTime = 228912625.903776;
-		state = 1;
-	};
 	62A720950DA4EEC300F8AC71 /* PBXTextBookmark */ = {
 		isa = PBXTextBookmark;
 		fRef = 62D0A9BA0D1262830022B351 /* AnnotatedAStar.cpp */;
@@ -6328,6 +6328,329 @@
 		vrLen = 1828;
 		vrLoc = 1210;
 	};
+	62A720A80DA4EFB600F8AC71 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62B186C40D33789A0061AE72 /* AnnotatedMapAbstractionMock.h */;
+		name = "AnnotatedMapAbstractionMock.h: AnnotatedMapAbstractionMock";
+		rLen = 0;
+		rLoc = 501;
+		rType = 0;
+		vrLen = 378;
+		vrLoc = 331;
+	};
+	62A720A90DA4EFB600F8AC71 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62D0A9B90D1262830022B351 /* AnnotatedAStar.h */;
+		name = "int cluster1, cluster2;";
+		rLen = 26;
+		rLoc = 2493;
+		rType = 0;
+		vrLen = 1828;
+		vrLoc = 1210;
+	};
+	62A720AE0DA4F13500F8AC71 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62D0A9BA0D1262830022B351 /* AnnotatedAStar.cpp */;
+		name = "AnnotatedAStar.cpp: 76";
+		rLen = 0;
+		rLoc = 2110;
+		rType = 0;
+		vrLen = 479;
+		vrLoc = 1914;
+	};
+	62A720AF0DA4F13B00F8AC71 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62B186C40D33789A0061AE72 /* AnnotatedMapAbstractionMock.h */;
+		name = "AnnotatedMapAbstractionMock.h: AnnotatedMapAbstractionMock";
+		rLen = 0;
+		rLoc = 501;
+		rType = 0;
+		vrLen = 378;
+		vrLoc = 331;
+	};
+	62A720B00DA4F13B00F8AC71 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62B186C40D33789A0061AE72 /* AnnotatedMapAbstractionMock.h */;
+		name = "AnnotatedMapAbstractionMock.h: AnnotatedMapAbstractionMock";
+		rLen = 0;
+		rLoc = 501;
+		rType = 0;
+		vrLen = 378;
+		vrLoc = 331;
+	};
+	62A720B10DA4F13B00F8AC71 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 6290953F0D8929A300A34F48 /* AnnotatedClusterAbstractionMock.h */;
+		name = "AnnotatedClusterAbstractionMock.h: 34";
+		rLen = 0;
+		rLoc = 693;
+		rType = 0;
+		vrLen = 341;
+		vrLoc = 470;
+	};
+	62A720C30DA4F35000F8AC71 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62D0A9BA0D1262830022B351 /* AnnotatedAStar.cpp */;
+		name = "AnnotatedAStar.cpp: 76";
+		rLen = 0;
+		rLoc = 2110;
+		rType = 0;
+		vrLen = 479;
+		vrLoc = 1914;
+	};
+	62A720C60DA4F43B00F8AC71 /* AnnotatedClusterAbstractionTest.cpp:140 */ = {
+		isa = PBXFileBreakpoint;
+		actions = (
+		);
+		breakpointStyle = 0;
+		continueAfterActions = 0;
+		delayBeforeContinue = 0;
+		fileReference = 625FFE450D6D65E30089E6E8 /* AnnotatedClusterAbstractionTest.cpp */;
+		functionName = "AnnotatedClusterAbstractionTest::buildEntrancesShouldCreateCorrectNumberOfTransitionsBetweenClustersAndAddTransitionsToAbstractGraph()";
+		hitCount = 1;
+		lineNumber = 140;
+		location = testsimulation;
+		modificationTime = 228920624.36321;
+		state = 1;
+	};
+	62A720C90DA4F4C500F8AC71 /* AnnotatedCluster.cpp:219 */ = {
+		isa = PBXFileBreakpoint;
+		actions = (
+		);
+		breakpointStyle = 0;
+		continueAfterActions = 0;
+		delayBeforeContinue = 0;
+		fileReference = 621C072B0D7F8432000C424F /* AnnotatedCluster.cpp */;
+		functionName = "AnnotatedCluster::buildVerticalEntrances()";
+		hitCount = 1;
+		lineNumber = 219;
+		location = testsimulation;
+		modificationTime = 228920624.36322;
+		state = 1;
+	};
+	62A720CB0DA4F4C700F8AC71 /* AnnotatedCluster.cpp:226 */ = {
+		isa = PBXFileBreakpoint;
+		actions = (
+		);
+		breakpointStyle = 0;
+		continueAfterActions = 0;
+		delayBeforeContinue = 0;
+		fileReference = 621C072B0D7F8432000C424F /* AnnotatedCluster.cpp */;
+		functionName = "AnnotatedCluster::buildVerticalEntrances()";
+		hitCount = 1;
+		lineNumber = 226;
+		location = testsimulation;
+		modificationTime = 228920624.363229;
+		state = 1;
+	};
+	62A720D00DA4F82100F8AC71 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62D0A9BA0D1262830022B351 /* AnnotatedAStar.cpp */;
+		name = "AnnotatedAStar.cpp: 76";
+		rLen = 0;
+		rLoc = 2110;
+		rType = 0;
+		vrLen = 479;
+		vrLoc = 1914;
+	};
+	62A720DC0DA4FB6200F8AC71 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62D0A9BA0D1262830022B351 /* AnnotatedAStar.cpp */;
+		name = "AnnotatedAStar.cpp: 76";
+		rLen = 0;
+		rLoc = 2110;
+		rType = 0;
+		vrLen = 479;
+		vrLoc = 1914;
+	};
+	62A720DF0DA509F000F8AC71 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62D0A9BA0D1262830022B351 /* AnnotatedAStar.cpp */;
+		name = "AnnotatedAStar.cpp: 76";
+		rLen = 0;
+		rLoc = 2110;
+		rType = 0;
+		vrLen = 479;
+		vrLoc = 1914;
+	};
+	62A720E00DA509F400F8AC71 /* PBXBookmark */ = {
+		isa = PBXBookmark;
+		fRef = 620E3DD30D7570A600A97ED1 /* AnnotatedClusterTest.cpp */;
+	};
+	62A720E70DA50A8C00F8AC71 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62D0A9BA0D1262830022B351 /* AnnotatedAStar.cpp */;
+		name = "AnnotatedAStar.cpp: 76";
+		rLen = 0;
+		rLoc = 2110;
+		rType = 0;
+		vrLen = 479;
+		vrLoc = 1914;
+	};
+	62A720ED0DA50C7600F8AC71 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62D0A9BA0D1262830022B351 /* AnnotatedAStar.cpp */;
+		name = "AnnotatedAStar.cpp: 76";
+		rLen = 0;
+		rLoc = 2110;
+		rType = 0;
+		vrLen = 479;
+		vrLoc = 1914;
+	};
+	62A720F40DA50CA300F8AC71 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 6290953F0D8929A300A34F48 /* AnnotatedClusterAbstractionMock.h */;
+		name = "AnnotatedClusterAbstractionMock.h: 34";
+		rLen = 0;
+		rLoc = 693;
+		rType = 0;
+		vrLen = 341;
+		vrLoc = 470;
+	};
+	62A720F50DA50CA300F8AC71 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 620E3DD30D7570A600A97ED1 /* AnnotatedClusterTest.cpp */;
+		name = "AnnotatedClusterTest.cpp: 810";
+		rLen = 0;
+		rLoc = 35313;
+		rType = 0;
+		vrLen = 420;
+		vrLoc = 35047;
+	};
+	62A720F60DA50CA300F8AC71 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 620E3DD20D7570A600A97ED1 /* AnnotatedClusterTest.h */;
+		name = "AnnotatedClusterTest.h: connectEntranceEndpointsShouldCalculateTheShortestPathBetweenEachPairOfParentNodesForEachEligibleCapability";
+		rLen = 0;
+		rLoc = 5753;
+		rType = 0;
+		vrLen = 633;
+		vrLoc = 5264;
+	};
+	62A720F70DA50CA300F8AC71 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 6290953F0D8929A300A34F48 /* AnnotatedClusterAbstractionMock.h */;
+		name = "AnnotatedClusterAbstractionMock.h: 34";
+		rLen = 0;
+		rLoc = 693;
+		rType = 0;
+		vrLen = 341;
+		vrLoc = 470;
+	};
+	62A720F80DA50CA300F8AC71 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 620E3DD30D7570A600A97ED1 /* AnnotatedClusterTest.cpp */;
+		name = "AnnotatedClusterTest.cpp: 810";
+		rLen = 0;
+		rLoc = 35313;
+		rType = 0;
+		vrLen = 420;
+		vrLoc = 35047;
+	};
+	62A720F90DA50CA300F8AC71 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 620E3DD20D7570A600A97ED1 /* AnnotatedClusterTest.h */;
+		name = "AnnotatedClusterTest.h: connectEntranceEndpointsShouldCalculateTheShortestPathBetweenEachPairOfParentNodesForEachEligibleCapability";
+		rLen = 0;
+		rLoc = 5753;
+		rType = 0;
+		vrLen = 633;
+		vrLoc = 5264;
+	};
+	62A720FC0DA50CA300F8AC71 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 620E3DD30D7570A600A97ED1 /* AnnotatedClusterTest.cpp */;
+		name = "AnnotatedClusterTest.cpp: 833";
+		rLen = 0;
+		rLoc = 36245;
+		rType = 0;
+		vrLen = 1593;
+		vrLoc = 34921;
+	};
+	62A720FF0DA50CA300F8AC71 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 621C072A0D7F8432000C424F /* AnnotatedCluster.h */;
+		name = "AnnotatedCluster.h: addParent";
+		rLen = 0;
+		rLoc = 5544;
+		rType = 0;
+		vrLen = 1862;
+		vrLoc = 4830;
+	};
+	62A721000DA50CA300F8AC71 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 621C072A0D7F8432000C424F /* AnnotatedCluster.h */;
+		name = "AnnotatedCluster.h: addParent";
+		rLen = 0;
+		rLoc = 5544;
+		rType = 0;
+		vrLen = 1862;
+		vrLoc = 4830;
+	};
+	62A721070DA50D6900F8AC71 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62D0A9BA0D1262830022B351 /* AnnotatedAStar.cpp */;
+		name = "AnnotatedAStar.cpp: 76";
+		rLen = 0;
+		rLoc = 2110;
+		rType = 0;
+		vrLen = 479;
+		vrLoc = 1914;
+	};
+	62A7210F0DA50DCB00F8AC71 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62D0A9BA0D1262830022B351 /* AnnotatedAStar.cpp */;
+		name = "AnnotatedAStar.cpp: 76";
+		rLen = 0;
+		rLoc = 2110;
+		rType = 0;
+		vrLen = 479;
+		vrLoc = 1914;
+	};
+	62A721140DA50DD300F8AC71 /* PBXBookmark */ = {
+		isa = PBXBookmark;
+		fRef = 621C072B0D7F8432000C424F /* AnnotatedCluster.cpp */;
+	};
+	62A721180DA50DEB00F8AC71 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62D0A9BA0D1262830022B351 /* AnnotatedAStar.cpp */;
+		name = "AnnotatedAStar.cpp: 76";
+		rLen = 0;
+		rLoc = 2110;
+		rType = 0;
+		vrLen = 479;
+		vrLoc = 1914;
+	};
+	62A721190DA50DEC00F8AC71 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 620E3DD20D7570A600A97ED1 /* AnnotatedClusterTest.h */;
+		name = "AnnotatedClusterTest.h: connectEntranceEndpointsShouldCalculateTheShortestPathBetweenEachPairOfParentNodesForEachEligibleCapability";
+		rLen = 0;
+		rLoc = 5753;
+		rType = 0;
+		vrLen = 633;
+		vrLoc = 5264;
+	};
+	62A7211C0DA50DEC00F8AC71 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 621C072B0D7F8432000C424F /* AnnotatedCluster.cpp */;
+		name = "AnnotatedCluster.cpp: 392";
+		rLen = 0;
+		rLoc = 14707;
+		rType = 0;
+		vrLen = 1645;
+		vrLoc = 13576;
+	};
+	62A7211D0DA50DEC00F8AC71 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 621C072A0D7F8432000C424F /* AnnotatedCluster.h */;
+		name = "AnnotatedCluster.h: addParent";
+		rLen = 0;
+		rLoc = 5544;
+		rType = 0;
+		vrLen = 1862;
+		vrLoc = 4830;
+	};
 	62B185490D3200870061AE72 /* AHAScenarioManagerMock.h */ = {
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {890, 350}}";
@@ -6354,17 +6677,17 @@
 	};
 	62B185750D320C330061AE72 /* AnnotatedAStarMock.cpp */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {894, 840}}";
-			sepNavSelRange = "{1134, 0}";
-			sepNavVisRect = "{{0, 137}, {894, 567}}";
+			sepNavIntBoundsRect = "{{0, 0}, {824, 840}}";
+			sepNavSelRange = "{618, 0}";
+			sepNavVisRect = "{{0, 391}, {817, 185}}";
 			sepNavWindowFrame = "{{38, 24}, {939, 696}}";
 		};
 	};
 	62B186C40D33789A0061AE72 /* AnnotatedMapAbstractionMock.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {894, 616}}";
-			sepNavSelRange = "{556, 0}";
-			sepNavVisRect = "{{0, 0}, {894, 567}}";
+			sepNavIntBoundsRect = "{{0, 0}, {890, 616}}";
+			sepNavSelRange = "{501, 0}";
+			sepNavVisRect = "{{0, 224}, {576, 127}}";
 			sepNavWindowFrame = "{{38, 24}, {939, 696}}";
 		};
 	};
@@ -6384,9 +6707,10 @@
 			621DED8B0D65780500FCAC0F /* AnnotatedMapAbstractionTest.cpp:217 */,
 			62A71DE30DA488B700F8AC71 /* AnnotatedMapAbstractionTest.cpp:264 */,
 			62A71DFC0DA48B0800F8AC71 /* AnnotatedMapAbstractionTest.cpp:266 */,
-			62A71E9F0DA4938C00F8AC71 /* AnnotatedClusterTest.cpp:837 */,
-			62A7208B0DA4ED6400F8AC71 /* AnnotatedAStarTest.cpp:360 */,
-			62A720910DA4EDEF00F8AC71 /* AnnotatedAStar.cpp:91 */,
+			62A71E9F0DA4938C00F8AC71 /* AnnotatedClusterTest.cpp:839 */,
+			62A720C60DA4F43B00F8AC71 /* AnnotatedClusterAbstractionTest.cpp:140 */,
+			62A720C90DA4F4C500F8AC71 /* AnnotatedCluster.cpp:219 */,
+			62A720CB0DA4F4C700F8AC71 /* AnnotatedCluster.cpp:226 */,
 		);
 	};
 	62B18BD50D3654860061AE72 /* TestHelper.cpp:27 */ = {
@@ -6401,8 +6725,8 @@
 		hitCount = 1;
 		lineNumber = 27;
 		location = hog;
-		modificationTime = 228912814.224072;
-		state = 1;
+		modificationTime = 228920624.95086;
+		state = 0;
 	};
 	62B18C610D3741600061AE72 /* TestConstants.h */ = {
 		uiCtxt = {
@@ -6731,9 +7055,9 @@
 	};
 	62D0A9BA0D1262830022B351 /* AnnotatedAStar.cpp */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {901, 3682}}";
-			sepNavSelRange = "{6226, 0}";
-			sepNavVisRect = "{{0, 802}, {901, 608}}";
+			sepNavIntBoundsRect = "{{0, 0}, {896, 3682}}";
+			sepNavSelRange = "{6023, 0}";
+			sepNavVisRect = "{{0, 1175}, {817, 185}}";
 			sepNavWindowFrame = "{{15, 4}, {946, 737}}";
 		};
 	};
@@ -6747,9 +7071,9 @@
 	};
 	62D0A9C20D1262990022B351 /* AnnotatedAStarTest.cpp */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {894, 5404}}";
-			sepNavSelRange = "{13340, 0}";
-			sepNavVisRect = "{{0, 4799}, {894, 567}}";
+			sepNavIntBoundsRect = "{{0, 0}, {884, 5404}}";
+			sepNavSelRange = "{12487, 0}";
+			sepNavVisRect = "{{0, 4941}, {817, 185}}";
 			sepNavWindowFrame = "{{18, 47}, {939, 696}}";
 		};
 	};
@@ -6789,7 +7113,7 @@
 		fRef = 625FFE440D6D65E30089E6E8 /* AnnotatedClusterAbstractionTest.h */;
 		name = "AnnotatedClusterAbstractionTest.h: addTestsToSuite";
 		rLen = 0;
-		rLoc = 1392;
+		rLoc = 1390;
 		rType = 0;
 		vrLen = 437;
 		vrLoc = 519;
@@ -6930,9 +7254,9 @@
 	};
 	62E914630CFD4FBB00AA46AB /* clusterAbstraction.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {626, 2912}}";
-			sepNavSelRange = "{5223, 2}";
-			sepNavVisRect = "{{0, 1147}, {576, 127}}";
+			sepNavIntBoundsRect = "{{0, 0}, {817, 2912}}";
+			sepNavSelRange = "{1993, 0}";
+			sepNavVisRect = "{{0, 895}, {817, 185}}";
 			sepNavWindowFrame = "{{38, 24}, {939, 696}}";
 		};
 	};

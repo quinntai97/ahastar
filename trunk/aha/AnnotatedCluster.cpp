@@ -365,6 +365,7 @@ void AnnotatedCluster::addTransitionToAbstractGraph(node* from, node* to, int ca
 void AnnotatedCluster::connectEntranceEndpoints(node* n1, node* n2, int capability, AnnotatedClusterAbstraction* aca)
 {
 	AbstractAnnotatedAStar* aastar = aca->getSearchAlgorithm();
+	aastar->limitSearchToClusterCorridor(true);
 	graph* absg = aca->getAbstractGraph(1);
 
 	double maxdist = getWidth()*getHeight(); // use maximum possible distance between these two endpoints as an upperbound param when searching for existing edges that may exist between these two endpoints
@@ -387,10 +388,13 @@ void AnnotatedCluster::connectEntranceEndpoints(node* n1, node* n2, int capabili
 				e = new edge(n1->getNum(), n2->getNum(), dist);
 				e->setClearance(capability,clearance);
 				absg->addEdge(e);
+				
+				//std::cout << "\n adding way cool edege for cluster "<<getClusterId();
 			}
 			delete solution;
 		}
 	}
+	aastar->limitSearchToClusterCorridor(false);
 }
 
 // Find out the smallest clearance value along some path

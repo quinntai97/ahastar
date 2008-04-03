@@ -134,14 +134,14 @@ void AnnotatedClusterAbstractionTest::buildEntrancesShouldCreateCorrectNumberOfT
 {
 	delete aca; // map too big for this test; use a trivial one instead
 	Map* tinymap = new Map(acmap.c_str());
-	aca = new AnnotatedClusterAbstraction(tinymap, new AnnotatedAStarMock(), TESTCLUSTERSIZE);
+	aca = new AnnotatedClusterAbstraction(tinymap, new AnnotatedAStar(), TESTCLUSTERSIZE);
 	
 	AnnotatedClusterFactory* ac_factory = new AnnotatedClusterFactory();
 	aca->buildClusters(ac_factory);
 	delete ac_factory;
 	
 	int numExpectedClusters = 4;
-	int numExpectedAbstractEdges = 7;
+	int numExpectedAbstractEdges = 17; // includes intercluster and intracluster transitions
 	int numExpectedAbstractNodes = 10;
 	
 	cout << "\nok, go";
