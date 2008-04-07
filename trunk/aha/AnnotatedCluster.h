@@ -90,6 +90,7 @@ class ClusterFullException : public AnnotatedClusterException
 class NodeIsNullException : public AnnotatedClusterException
 {
 	public: 
+		NodeIsNullException() : AnnotatedClusterException(NULL, NULL) { }
 		NodeIsNullException(node* problemNode, AnnotatedCluster* ac) : AnnotatedClusterException(problemNode, ac) {  }
 
 	protected:
@@ -180,13 +181,12 @@ class AnnotatedCluster : public Cluster
 	public:
 		AnnotatedCluster(int, int, int, int) throw(InvalidClusterDimensionsException, InvalidClusterOriginCoordinatesException);
 		~AnnotatedCluster() { }
+		virtual void addParent(node *, AnnotatedClusterAbstraction*);
 		virtual void addNodesToCluster(AnnotatedClusterAbstraction*);
 		virtual void buildEntrances(AnnotatedClusterAbstraction*) throw (AnnotatedClusterAbstractionIsNullException);
 		
 	protected:
 		virtual bool addNode(node *) throw(NodeIsAlreadyAssignedToClusterException, ClusterFullException, NodeIsNullException); 
-		virtual void addParent(node *, AnnotatedClusterAbstraction*);
-		
 		virtual void addEntrance(node*, node*, int, int, AnnotatedClusterAbstraction*)
 			throw(InvalidClearanceParameterException, EntranceNodeIsNotTraversable);
 					

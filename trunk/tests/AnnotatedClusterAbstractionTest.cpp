@@ -144,9 +144,7 @@ void AnnotatedClusterAbstractionTest::buildEntrancesShouldCreateCorrectNumberOfT
 	int numExpectedAbstractEdges = 17; // includes intercluster and intracluster transitions
 	int numExpectedAbstractNodes = 10;
 	
-	cout << "\nok, go";
 	aca->buildEntrances();
-	cout << "\nok, done";
 
 	graph* absg = aca->getAbstractGraph(1);
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("buildEntrances resulted in incorrect number of clusters created", numExpectedClusters, aca->getNumClusters());
@@ -169,4 +167,247 @@ void AnnotatedClusterAbstractionTest::buildEntrancesShouldAskEachClusterToCreate
 		AnnotatedClusterMock* acm = dynamic_cast<AnnotatedClusterMock*>(aca->getCluster(i));
 		acm->verify();
 	}
+}
+
+/* integration test; TODO: add proper support for mock clusters here */
+void AnnotatedClusterAbstractionTest::insertStartAndGoalNodesIntoAbstractGraphShouldAddTwoNewNodesIntoTheAbstractGraphAndParentClusters()
+{
+	node* start = aca->getNodeFromMap(0,0);	
+	node* goal = aca->getNodeFromMap(5,3);
+	graph* absg = aca->getAbstractGraph(1);
+	int numAbstractNodes = absg->getNumNodes();
+	
+	AnnotatedClusterFactory* acfactory = new AnnotatedClusterFactory();
+	aca->buildClusters(acfactory);
+	aca->insertStartAndGoalNodesIntoAbstractGraph(start, goal);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("failed to store id of newly inserted node", true, aca->startid != -1);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("failed to store id of newly inserted node", true, aca->goalid != -1);
+	
+
+	node* absstart = absg->getNode(aca->startid);
+	node* absgoal = absg->getNode(aca->goalid);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("failed to add start node to abstract graph", true, start->getLabelL(kFirstData) == absstart->getLabelL(kFirstData) && start->getLabelL(kFirstData+1) == absstart->getLabelL(kFirstData+1));
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("failed to add goal node to abstract graph", true, goal->getLabelL(kFirstData) == absgoal->getLabelL(kFirstData) && goal->getLabelL(kFirstData+1) == absgoal->getLabelL(kFirstData+1));
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("wrong number of nodes added to abstract graph", numAbstractNodes+2, absg->getNumNodes());
+	
+	delete acfactory;
+}
+
+/* integration test; TODO: add mock clusters here */
+void AnnotatedClusterAbstractionTest::insertStartAndGoalNodesIntoAbstractGraphShouldNotCreateNewAbstractNodesIfASuitableNodeAlreadyExistsInTheAbstractGraph()
+{		
+	AnnotatedClusterFactory* acfactory = new AnnotatedClusterFactory();
+	aca->buildClusters(acfactory);
+	aca->buildEntrances();
+
+	node* start = aca->getNodeFromMap(4,1); // created in abstract graph while building entrances
+	node* goal = aca->getNodeFromMap(5,3);
+	graph* absg = aca->getAbstractGraph(1);	
+	int numAbstractNodes = absg->getNumNodes();
+	int numExpectedAbstractNodes = numAbstractNodes+1;
+	
+	aca->insertStartAndGoalNodesIntoAbstractGraph(start, goal);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("failed to store id of newly inserted node", true, aca->startid == -1); // no new node created
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("failed to store id of newly inserted node", true, aca->goalid != -1); // new goal node created
+	
+	node* absstart = absg->getNode(start->getLabelL(kParent));
+	node* absgoal = absg->getNode(aca->goalid);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("failed to add goal node to abstract graph", true, goal->getLabelL(kFirstData) == absgoal->getLabelL(kFirstData) && goal->getLabelL(kFirstData+1) == absgoal->getLabelL(kFirstData+1));
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("wrong number of nodes added to abstract graph", numExpectedAbstractNodes, absg->getNumNodes());
+	
+	delete acfactory;
+}
+
+/* integration test; TODO: substitute production code with mock AA* and ACMock */
+void AnnotatedClusterAbstractionTest::insertStartAndGoalNodesIntoAbstractGraphShouldConnectAnyNewNodesToAllOtherAbstractNodesInTheParentCluster()
+{
+	delete aca;
+	Map* m  = new Map(acmap.c_str());
+	aca = new AnnotatedClusterAbstraction(m,new AnnotatedAStar(), TESTCLUSTERSIZE); 
+	
+	AnnotatedClusterFactory* acfactory = new AnnotatedClusterFactory();
+	aca->buildClusters(acfactory);
+	aca->buildEntrances();
+
+	node* start = aca->getNodeFromMap(2,1); 
+	node* goal = aca->getNodeFromMap(5,3);
+	graph* absg = aca->getAbstractGraph(1);	
+	int numAbstractEdges = absg->getNumEdges();
+	int numExpectedAbstractEdges = numAbstractEdges+5;
+	
+	aca->insertStartAndGoalNodesIntoAbstractGraph(start, goal);	
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("wrong number of nodes added to abstract graph", numExpectedAbstractEdges, absg->getNumEdges());
+	
+	delete acfactory;
+}
+
+void AnnotatedClusterAbstractionTest::insertStartAndGoalIntoAbstractGraphShouldThrowExceptionIfStartOrGoalNodeHasAbstractionLevelGreaterThanZero()
+{
+	node* n1 = new node("");
+	node* n2 = new node("");
+		
+	bool exceptionThrown = false;
+	try 
+	{
+		aca->insertStartAndGoalNodesIntoAbstractGraph(n1,n2);
+	}
+	catch(NodeHasNonZeroAbstractionLevelException& e)
+	{
+		exceptionThrown = true;
+	}
+	
+	CPPUNIT_ASSERT_MESSAGE("failed to throw exception when start node has label kAbstractionLevel > 0", exceptionThrown == true);
+	
+	exceptionThrown = false;
+	try 
+	{
+		aca->insertStartAndGoalNodesIntoAbstractGraph(n2,n1);
+	}
+	catch(NodeHasNonZeroAbstractionLevelException& e)
+	{
+		exceptionThrown = true;
+	}
+	
+	CPPUNIT_ASSERT_MESSAGE("failed to throw exception when goal node has label kAbstractionLevel > 0", exceptionThrown == true);
+	
+	delete n1;
+	delete n2;
+}
+
+void AnnotatedClusterAbstractionTest::insertStartAndGoalIntoAbstractGraphShouldThrowExceptionIfStartOrGoalNodeIsNull()
+{
+	node* n1 = new node("");
+	bool exceptionThrown = false;
+	try 
+	{
+		aca->insertStartAndGoalNodesIntoAbstractGraph(NULL,n1);
+	}
+	catch(NodeIsNullException& e)
+	{
+		exceptionThrown = true;
+	}
+	
+	CPPUNIT_ASSERT_MESSAGE("failed to throw exception when start node is null", exceptionThrown == true);
+	
+	exceptionThrown = false;
+	try 
+	{
+		aca->insertStartAndGoalNodesIntoAbstractGraph(n1,NULL);
+	}
+	catch(NodeIsNullException& e)
+	{
+		exceptionThrown = true;
+	}
+	
+	CPPUNIT_ASSERT_MESSAGE("failed to throw exception when goal node is null", exceptionThrown == true);
+	
+	delete n1;
+}
+
+/* integration test; TODO: substitute in mock objects */
+void AnnotatedClusterAbstractionTest::removeStartAndGoalNodesFromAbstractGraphShouldDeleteAllNodesAndEdgesAddedByInsertionMethodFromAbstractGraph()
+{
+	delete aca;
+	Map* m  = new Map(acmap.c_str());
+	aca = new AnnotatedClusterAbstraction(m,new AnnotatedAStar(), TESTCLUSTERSIZE); 
+
+	AnnotatedClusterFactory* acfactory = new AnnotatedClusterFactory();
+	node* start = aca->getNodeFromMap(2,1); 
+	node* goal = aca->getNodeFromMap(5,3);
+	graph* absg = aca->getAbstractGraph(1);	
+
+	aca->buildClusters(acfactory);
+	aca->buildEntrances();
+
+	int numExpectedAbstractNodes = absg->getNumNodes();
+	int numExpectedAbstractEdges = absg->getNumEdges();
+	aca->insertStartAndGoalNodesIntoAbstractGraph(start, goal);
+	
+	aca->removeStartAndGoalNodesFromAbstractGraph(); 
+	
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("abstract node count is wrong", numExpectedAbstractNodes, absg->getNumNodes());
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("abstract edge count is wrong", numExpectedAbstractEdges, absg->getNumEdges());
+	
+	delete acfactory;
+}
+
+void AnnotatedClusterAbstractionTest::removeStartAndGoalNodesFromAbstractGraphShouldResetStartIDAndGoalIDToDefaultValues()
+{
+	delete aca;
+	Map* m  = new Map(acmap.c_str());
+	aca = new AnnotatedClusterAbstraction(m,new AnnotatedAStar(), TESTCLUSTERSIZE); 
+
+	AnnotatedClusterFactory* acfactory = new AnnotatedClusterFactory();
+	node* start = aca->getNodeFromMap(2,1); 
+	node* goal = aca->getNodeFromMap(5,3);
+
+	aca->buildClusters(acfactory);
+	aca->buildEntrances();
+	aca->insertStartAndGoalNodesIntoAbstractGraph(start, goal);
+	
+	aca->removeStartAndGoalNodesFromAbstractGraph(); 
+	
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("failed to reset startid to default value -1", -1, aca->startid);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("faild to reset goalid to default value -1", -1, aca->goalid);
+	
+	delete acfactory;
+}
+
+void AnnotatedClusterAbstractionTest::removeStartAndGoalNodesFromAbstractGraphShouldNotDeleteAnyNodesOriginallyInTheAbstractGraph()
+{
+	delete aca;
+	Map* m  = new Map(acmap.c_str());
+	aca = new AnnotatedClusterAbstraction(m,new AnnotatedAStar(), TESTCLUSTERSIZE); 
+
+	AnnotatedClusterFactory* acfactory = new AnnotatedClusterFactory();
+	node* start = aca->getNodeFromMap(4,1); 
+	node* goal = aca->getNodeFromMap(5,3);
+	graph* absg = aca->getAbstractGraph(1);	
+
+	aca->buildClusters(acfactory);
+	aca->buildEntrances();
+
+	int numExpectedAbstractNodes = absg->getNumNodes();
+	int numExpectedAbstractEdges = absg->getNumEdges();
+	aca->insertStartAndGoalNodesIntoAbstractGraph(start, goal);
+	aca->removeStartAndGoalNodesFromAbstractGraph(); 	
+	
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("abstract node count is wrong when deleting start node only", numExpectedAbstractNodes, absg->getNumNodes());
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("abstract edge count is wrong when deleting start node only", numExpectedAbstractEdges, absg->getNumEdges());
+	
+	aca->insertStartAndGoalNodesIntoAbstractGraph(goal, start);	
+	aca->removeStartAndGoalNodesFromAbstractGraph(); 	
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("abstract node count is wrong when deleting goal node only", numExpectedAbstractNodes, absg->getNumNodes());
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("abstract edge count is wrong when deleting goal node only", numExpectedAbstractEdges, absg->getNumEdges());
+	
+	delete acfactory;
+}
+
+void AnnotatedClusterAbstractionTest::removeStartAndGoalNodesFromAbstractGraphShouldDeleteAllNodesAndEdgesAddedByInsertionMethodFromParentClusters()
+{
+	delete aca;
+	Map* m  = new Map(acmap.c_str());
+	aca = new AnnotatedClusterAbstraction(m,new AnnotatedAStar(), TESTCLUSTERSIZE); 
+
+	AnnotatedClusterFactory* acfactory = new AnnotatedClusterFactory();
+	node* start = aca->getNodeFromMap(2,1); 
+	node* goal = aca->getNodeFromMap(5,3);
+	graph* absg = aca->getAbstractGraph(1);	
+
+	aca->buildClusters(acfactory);
+	aca->buildEntrances();
+
+	int numExpectedStartClusterNodes = aca->getCluster(start->getParentCluster())->getParents().size();
+	int numExpectedGoalClusterNodes = aca->getCluster(goal->getParentCluster())->getParents().size();
+
+	aca->insertStartAndGoalNodesIntoAbstractGraph(start, goal);
+	aca->removeStartAndGoalNodesFromAbstractGraph(); 
+
+	int numActualStartClusterNodes = aca->getCluster(start->getParentCluster())->getParents().size();
+	int numActualGoalClusterNodes = aca->getCluster(goal->getParentCluster())->getParents().size();
+	
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("node count in start cluster is wrong", numExpectedStartClusterNodes, numActualStartClusterNodes);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("node count in goal cluster is wrong", numExpectedGoalClusterNodes, numActualGoalClusterNodes);
+	
+	delete acfactory;
 }

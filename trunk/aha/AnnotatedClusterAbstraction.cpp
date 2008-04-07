@@ -28,6 +28,7 @@ AnnotatedClusterAbstraction::AnnotatedClusterAbstraction(Map* m, AbstractAnnotat
 {
 	this->clustersize = clustersize;
 	abstractions.push_back(new graph());	
+	startid = goalid = -1;
 }
 
 void AnnotatedClusterAbstraction::addCluster(AnnotatedCluster* ac) 
@@ -93,4 +94,68 @@ double AnnotatedClusterAbstraction::distance(path* p)
 	}
 	
 	return dist;
+}
+
+// TODO: remove code duplication from this method
+void AnnotatedClusterAbstraction::insertStartAndGoalNodesIntoAbstractGraph(node* start, node* goal) 
+	throw(NodeIsNullException, NodeHasNonZeroAbstractionLevelException)
+{
+	if(start == NULL || goal == NULL)
+		throw NodeIsNullException();
+
+	if(start->getLabelL(kAbstractionLevel) != 0 || goal->getLabelL(kAbstractionLevel) != 0)
+		throw NodeHasNonZeroAbstractionLevelException();
+
+	node *absstart, *absgoal;
+	if(start->getLabelL(kParent) == -1) // not an entrance endpoint (and hence not in abstract graph)	
+	{	
+		absstart = dynamic_cast<node*>(start->clone());
+		abstractions[1]->addNode(absstart);
+		startid = absstart->getNum();
+		AnnotatedCluster* startCluster = clusters[start->getParentCluster()];
+		startCluster->addParent(absstart, this);
+	}
+	if(goal->getLabelL(kParent) == -1)
+	{
+		absgoal = dynamic_cast<node*>(goal->clone());
+		abstractions[1]->addNode(absgoal);
+		goalid = absgoal->getNum();
+		AnnotatedCluster* goalCluster = clusters[goal->getParentCluster()];
+		goalCluster->addParent(absgoal, this);
+	}
+}
+
+/* Remove any nodes we added into the abstract graph to facilitate some search query. 
+	NB:	startid/goalid are actually index positions of the node in the array stored by the graph class.
+		When we remove start, our goalid is no longer an index to the goal node (HOG updates values when removing nodes) so we need to get it 
+		again before we remove the goal
+*/		
+void AnnotatedClusterAbstraction::removeStartAndGoalNodesFromAbstractGraph()
+{
+	graph* g = abstractions[1];
+	node* start = NULL;
+	node* goal = NULL;
+
+	if(startid != -1)
+		start = g->getNode(startid);
+	if(goalid != -1)
+		goal = g->getNode(goalid);
+		
+	if(start)
+	{
+		AnnotatedCluster* startCluster = clusters[start->getParentCluster()];
+		startCluster->getParents().pop_back(); // always last one added
+		g->removeNode(startid); 
+		startid = -1;
+		delete start;
+	}
+
+	if(goal)
+	{
+		AnnotatedCluster* goalCluster = clusters[goal->getParentCluster()];
+		goalCluster->getParents().pop_back();
+		g->removeNode(goal->getNum()); 
+		goalid = -1;
+		delete goal;
+	}
 }

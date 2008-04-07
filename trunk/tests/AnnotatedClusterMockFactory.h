@@ -17,7 +17,7 @@ class AnnotatedCluster;
 class AnnotatedClusterMockFactory : public IAnnotatedClusterFactory
 {
 	public:
-		AnnotatedClusterMockFactory(AnnotatedClusterAbstractionTest* testharness) : myharness(testharness) { }
+		AnnotatedClusterMockFactory(AnnotatedClusterAbstractionTest* testharness) : myharness(testharness) { currentTest = 0; }
 		virtual AnnotatedCluster* createCluster(int, int, int, int);
 		void setTest(int current) { currentTest = current; }
 		

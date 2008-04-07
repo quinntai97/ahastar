@@ -36,6 +36,15 @@ class AnnotatedClusterAbstractionTest : public CPPUNIT_NS::TestFixture
 	CPPUNIT_TEST( getClusterShouldReturnRequestedClusterGivenAValidClusterId );
 	CPPUNIT_TEST( buildEntrancesShouldCreateCorrectNumberOfTransitionsBetweenClustersAndAddTransitionsToAbstractGraph );
 	CPPUNIT_TEST( buildEntrancesShouldAskEachClusterToCreateItsOwnEntrances );
+	CPPUNIT_TEST( insertStartAndGoalNodesIntoAbstractGraphShouldAddTwoNewNodesIntoTheAbstractGraphAndParentClusters );
+	CPPUNIT_TEST( insertStartAndGoalNodesIntoAbstractGraphShouldNotCreateNewAbstractNodesIfASuitableNodeAlreadyExistsInTheAbstractGraph );
+	CPPUNIT_TEST( insertStartAndGoalIntoAbstractGraphShouldThrowExceptionIfStartOrGoalNodeHasAbstractionLevelGreaterThanZero );
+	CPPUNIT_TEST( insertStartAndGoalIntoAbstractGraphShouldThrowExceptionIfStartOrGoalNodeIsNull );
+	CPPUNIT_TEST( insertStartAndGoalNodesIntoAbstractGraphShouldConnectAnyNewNodesToAllOtherAbstractNodesInTheParentCluster );
+	CPPUNIT_TEST( removeStartAndGoalNodesFromAbstractGraphShouldDeleteAllNodesAndEdgesAddedByInsertionMethodFromAbstractGraph );
+	CPPUNIT_TEST( removeStartAndGoalNodesFromAbstractGraphShouldResetStartIDAndGoalIDToDefaultValues );
+	CPPUNIT_TEST( removeStartAndGoalNodesFromAbstractGraphShouldNotDeleteAnyNodesOriginallyInTheAbstractGraph );
+	CPPUNIT_TEST( removeStartAndGoalNodesFromAbstractGraphShouldDeleteAllNodesAndEdgesAddedByInsertionMethodFromParentClusters );
 	CPPUNIT_TEST_SUITE_END();
 	
 	public:
@@ -53,11 +62,20 @@ class AnnotatedClusterAbstractionTest : public CPPUNIT_NS::TestFixture
 		void buildClustersShouldCalculateCorrectClusterSize();
 		void buildEntrancesShouldAskEachClusterToCreateItsOwnEntrances();
 
-		/* integration tests (uses AnnotatedCluster production code) */
+		//////// INTEGRATION TESTS BELOW HERE (uses production code from other classes) ////////////
 		void buildEntrancesShouldCreateCorrectNumberOfTransitionsBetweenClustersAndAddTransitionsToAbstractGraph();
-		
-		
 
+		//void insertNodeIntoAbstractGraphShouldCloneALowLevelNodeAndAddItToTheLocalClusterAndAbstractGraph();
+		void insertStartAndGoalNodesIntoAbstractGraphShouldAddTwoNewNodesIntoTheAbstractGraphAndParentClusters();
+		void insertStartAndGoalNodesIntoAbstractGraphShouldConnectAnyNewNodesToAllOtherAbstractNodesInTheParentCluster();
+		void insertStartAndGoalNodesIntoAbstractGraphShouldNotCreateNewAbstractNodesIfASuitableNodeAlreadyExistsInTheAbstractGraph();
+		void insertStartAndGoalIntoAbstractGraphShouldThrowExceptionIfStartOrGoalNodeHasAbstractionLevelGreaterThanZero();
+		void insertStartAndGoalIntoAbstractGraphShouldThrowExceptionIfStartOrGoalNodeIsNull();
+		
+		void removeStartAndGoalNodesFromAbstractGraphShouldDeleteAllNodesAndEdgesAddedByInsertionMethodFromAbstractGraph();
+		void removeStartAndGoalNodesFromAbstractGraphShouldNotDeleteAnyNodesOriginallyInTheAbstractGraph();
+		void removeStartAndGoalNodesFromAbstractGraphShouldResetStartIDAndGoalIDToDefaultValues();
+		void removeStartAndGoalNodesFromAbstractGraphShouldDeleteAllNodesAndEdgesAddedByInsertionMethodFromParentClusters();
 		
 	private:
 		AnnotatedClusterAbstraction *aca;
