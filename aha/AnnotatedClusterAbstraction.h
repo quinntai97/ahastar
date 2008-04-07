@@ -13,10 +13,17 @@
 #include "AnnotatedMapAbstraction.h"
 #include "AnnotatedAStar.h"
 #include "AnnotatedClusterFactory.h"
+#include "AnnotatedCluster.h"
 
 class Map;
-class AnnotatedCluster;
+//class AnnotatedCluster;
 class AnotatedClusterFactory;
+//class NodeIsNullException;
+
+class NodeHasNonZeroAbstractionLevelException : public std::exception
+{
+	const char* what() const throw() { return "found a node with kAbstractionlLevel label > 0 when it should be == 0"; }
+};
 
 class AnnotatedClusterAbstraction : public AnnotatedMapAbstraction
 {
@@ -28,8 +35,12 @@ class AnnotatedClusterAbstraction : public AnnotatedMapAbstraction
 	public: 
 		AnnotatedClusterAbstraction::AnnotatedClusterAbstraction(Map* m, AbstractAnnotatedAStar* searchalg, int clustersize);
 		~AnnotatedClusterAbstraction() { clusters.clear(); };
+
 		virtual void buildClusters(IAnnotatedClusterFactory*);
 		virtual void buildEntrances();
+		virtual void insertStartAndGoalNodesIntoAbstractGraph(node*, node*) throw(NodeIsNullException, NodeHasNonZeroAbstractionLevelException);
+		virtual void removeStartAndGoalNodesFromAbstractGraph();
+
 		virtual int getClusterSize() { return clustersize; } 
 		virtual int getNumClusters() { return clusters.size(); } 
 		virtual AnnotatedCluster* getCluster(int cid);
@@ -38,8 +49,10 @@ class AnnotatedClusterAbstraction : public AnnotatedMapAbstraction
 	protected: 
 		virtual void addCluster(AnnotatedCluster* ac);
 		virtual int getNumberOfAbstractionLevels() { return abstractions.size(); }
+
 		
 	private:
+		int startid, goalid;
 		int clustersize;
 		std::vector<AnnotatedCluster *> clusters;
 	
