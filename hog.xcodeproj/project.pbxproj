@@ -353,7 +353,7 @@
 		62E9154F0CFD511100AA46AB /* trackball.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = trackball.h; sourceTree = "<group>"; };
 		62E915780CFD536200AA46AB /* sample.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = sample.cpp; path = ../apps/sample/sample.cpp; sourceTree = "<group>"; };
 		62E915790CFD536200AA46AB /* sample.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = sample.h; path = ../apps/sample/sample.h; sourceTree = "<group>"; };
-		62E9158D0CFD5A1300AA46AB /* testsimulation */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = "compiled.mach-o.executable"; path = testsimulation; sourceTree = BUILT_PRODUCTS_DIR; };
+		62E9158D0CFD5A1300AA46AB /* testsimulation */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = testsimulation; sourceTree = BUILT_PRODUCTS_DIR; };
 		62E915940CFD5A7800AA46AB /* libcppunit.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcppunit.a; path = /opt/local/lib/libcppunit.a; sourceTree = "<absolute>"; };
 		62E915980CFD5AF900AA46AB /* TestNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TestNode.h; path = tests/TestNode.h; sourceTree = "<group>"; };
 		62E915990CFD5AF900AA46AB /* TestNode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestNode.cpp; path = tests/TestNode.cpp; sourceTree = "<group>"; };

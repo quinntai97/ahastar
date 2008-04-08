@@ -78,17 +78,21 @@ void AnnotatedClusterAbstraction::buildEntrances()
 	}
 }
 
+/* NB: relies on path having marked edges. Annotated*AStar and aStarOld all do this; other algorithms may not */
 double AnnotatedClusterAbstraction::distance(path* p)
 {
 	double dist=0;
 	
 	if(!p)
 		return dist;
+		
+	graph *g = abstractions[p->n->getLabelL(kAbstractionLevel)];
 	
 	path* next = p->next;
 	while(next)
 	{
-		dist+= this->h(p->n, next->n);
+		edge *e = next->n->getMarkedEdge();
+		dist+= e->getWeight();
 		p = next;
 		next = p->next;
 	}
@@ -110,16 +114,20 @@ void AnnotatedClusterAbstraction::insertStartAndGoalNodesIntoAbstractGraph(node*
 	if(start->getLabelL(kParent) == -1) // not an entrance endpoint (and hence not in abstract graph)	
 	{	
 		absstart = dynamic_cast<node*>(start->clone());
+		absstart->setLabelL(kAbstractionLevel, start->getLabelL(kAbstractionLevel)+1);
 		abstractions[1]->addNode(absstart);
 		startid = absstart->getNum();
+		start->setLabelL(kParent, startid); // reflect new parent
 		AnnotatedCluster* startCluster = clusters[start->getParentCluster()];
 		startCluster->addParent(absstart, this);
 	}
 	if(goal->getLabelL(kParent) == -1)
 	{
 		absgoal = dynamic_cast<node*>(goal->clone());
+		absgoal->setLabelL(kAbstractionLevel, goal->getLabelL(kAbstractionLevel)+1);
 		abstractions[1]->addNode(absgoal);
 		goalid = absgoal->getNum();
+		goal->setLabelL(kParent, goalid);
 		AnnotatedCluster* goalCluster = clusters[goal->getParentCluster()];
 		goalCluster->addParent(absgoal, this);
 	}
@@ -147,6 +155,8 @@ void AnnotatedClusterAbstraction::removeStartAndGoalNodesFromAbstractGraph()
 		startCluster->getParents().pop_back(); // always last one added
 		g->removeNode(startid); 
 		startid = -1;
+		node* originalStart = getNodeFromMap(start->getLabelL(kFirstData), start->getLabelL(kFirstData+1));
+		originalStart->setLabelL(kParent, startid);
 		delete start;
 	}
 
@@ -156,6 +166,8 @@ void AnnotatedClusterAbstraction::removeStartAndGoalNodesFromAbstractGraph()
 		goalCluster->getParents().pop_back();
 		g->removeNode(goal->getNum()); 
 		goalid = -1;
+		node* originalGoal = getNodeFromMap(goal->getLabelL(kFirstData), goal->getLabelL(kFirstData+1));
+		originalGoal->setLabelL(kParent, startid);
 		delete goal;
 	}
 }

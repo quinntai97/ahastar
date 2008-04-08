@@ -31,6 +31,7 @@ class TestNode : public CPPUNIT_NS::TestFixture
   CPPUNIT_TEST( setParentClusterStoresClusterIdWhenClusterIdMoreThanZero );
   CPPUNIT_TEST( setParentClusterStoresClusterIdWhenClusterIdEqualsZero );
   CPPUNIT_TEST( cloneShouldDeepCopyNodeAndAllAnnotationsExceptParentClusterId );
+  CPPUNIT_TEST( cloneShouldNotDeepCopyEdges );
   CPPUNIT_TEST_SUITE_END();
 
 public:
@@ -45,6 +46,7 @@ public:
 	void setParentClusterStoresClusterIdWhenClusterIdMoreThanZero();
 	void setParentClusterStoresClusterIdWhenClusterIdEqualsZero();
 	void cloneShouldDeepCopyNodeAndAllAnnotationsExceptParentClusterId();
+	void cloneShouldNotDeepCopyEdges();
 
 private:
 	/* test data */
