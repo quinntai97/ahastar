@@ -24,19 +24,32 @@ class edge;
 class AnnotatedHierarchicalAStarTest : public CPPUNIT_NS::TestFixture
 {
 	CPPUNIT_TEST_SUITE( AnnotatedHierarchicalAStarTest );
-
+	CPPUNIT_TEST( evaluateShouldReturnFalseIfEitherNodeParameterIsNull );
+	CPPUNIT_TEST( evaluateShouldReturnFalseIfEdgeBeingTraversedIsNull );
+	CPPUNIT_TEST( evaluateShouldReturnFalseIfEdgeDoesNotConnectParameterNodes );
+	CPPUNIT_TEST( evaluteShouldReturnTrueIfTheEdgeConnectingTwoParameterNodesIsTraversable );
+	CPPUNIT_TEST( evaluateShouldReturnFalseIfTheEdgeIsNotTraversable );
+	CPPUNIT_TEST( getPathShouldFindTheShortestPathBetweenTwoAbstractNodesGivenACapabilityAndAClearanceAndAnAnnotatedClusterAbstractionParameter );
 	CPPUNIT_TEST_SUITE_END();
 	
 	public:
 		void setUp();
 		void tearDown();
 		
+		void evaluateShouldReturnFalseIfEitherNodeParameterIsNull();
+		void evaluateShouldReturnFalseIfEdgeBeingTraversedIsNull();
+		void evaluateShouldReturnFalseIfEdgeDoesNotConnectParameterNodes();
+		void evaluteShouldReturnTrueIfTheEdgeConnectingTwoParameterNodesIsTraversable();
+		void evaluateShouldReturnFalseIfTheEdgeIsNotTraversable();
 		
+		//// INTEGRATION TEST ////
+		void getPathShouldFindTheShortestPathBetweenTwoAbstractNodesGivenACapabilityAndAClearanceAndAnAnnotatedClusterAbstractionParameter();
 		
 	private:
 		AnnotatedClusterAbstractionMock* acamock;
-		AnnotatedHierarchicalAStar* aastar;
-		node  *pos, *n;	
+		AnnotatedHierarchicalAStar* ahastar;
+		node  *p, *n;	
+		edge *e;
 };
 
 #endif

@@ -411,3 +411,102 @@ void AnnotatedClusterAbstractionTest::removeStartAndGoalNodesFromAbstractGraphSh
 	
 	delete acfactory;
 }
+
+void AnnotatedClusterAbstractionTest::insertStartAndGoalIntoAbstractGraphShouldSet_kParent_LabelOfOriginalNodeEqualToIdIfANewNodeIsAddedToAbstractGraph()
+{
+	node* start = aca->getNodeFromMap(0,0);	
+	node* goal = aca->getNodeFromMap(5,3);
+	graph* absg = aca->getAbstractGraph(1);
+	int numAbstractNodes = absg->getNumNodes();
+	
+	AnnotatedClusterFactory* acfactory = new AnnotatedClusterFactory();
+	aca->buildClusters(acfactory);
+	aca->insertStartAndGoalNodesIntoAbstractGraph(start, goal);
+	
+	node* absstart = absg->getNode(aca->startid);
+	node* absgoal = absg->getNode(aca->goalid);
+	
+	int startExpectedValue = absstart->getNum();
+	int startActualValue = start->getLabelL(kParent);
+	int goalExpectedValue = absgoal->getNum();
+	int goalActualValue = goal->getLabelL(kParent);
+	
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("failed to set kParent label of original start node to id of new abstract node", startExpectedValue, startActualValue);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("failed to set kParent label of original goal node to id of new abstract node", goalExpectedValue, goalActualValue);
+	
+	delete acfactory;	
+}
+
+void AnnotatedClusterAbstractionTest::removeStartAndGoalNodesFromAbstractGraphShouldResetToDefault_kParent_LabelOfOriginalNodesForWhichANewNodeWasInsertedIntoAbstractGraph()
+{
+	delete aca;
+	Map* m  = new Map(acmap.c_str());
+	aca = new AnnotatedClusterAbstraction(m,new AnnotatedAStar(), TESTCLUSTERSIZE); 
+
+	AnnotatedClusterFactory* acfactory = new AnnotatedClusterFactory();
+	node* start = aca->getNodeFromMap(2,1); 
+	node* goal = aca->getNodeFromMap(5,3);
+	graph* absg = aca->getAbstractGraph(1);	
+
+	aca->buildClusters(acfactory);
+	aca->buildEntrances();
+	aca->insertStartAndGoalNodesIntoAbstractGraph(start, goal);	
+	aca->removeStartAndGoalNodesFromAbstractGraph(); 
+	
+	int expectedValue = -1;
+	int actualStartValue = start->getLabelL(kParent);
+	int actualGoalValue = goal->getLabelL(kParent);
+	
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("kParent label of original start node not reset to -1", expectedValue, actualStartValue);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("kParent label of original goal node not reset to -1", expectedValue, actualGoalValue);
+		
+	delete acfactory;
+}
+
+/* similar test to the one we do on adding endpoints in the cluster method
+	TODO: investigate if we can create a reusable method for both
+*/
+void AnnotatedClusterAbstractionTest::insertStartAndGoalIntoAbstractGraphShouldSet_kAbstractionLevel_LabelOfNewNodesToPointToTheCorrectAbstractGraph()
+{
+	node* start = aca->getNodeFromMap(0,0);	
+	node* goal = aca->getNodeFromMap(5,3);
+	graph* absg = aca->getAbstractGraph(1);
+	int numAbstractNodes = absg->getNumNodes();
+	
+	AnnotatedClusterFactory* acfactory = new AnnotatedClusterFactory();
+	aca->buildClusters(acfactory);
+	aca->insertStartAndGoalNodesIntoAbstractGraph(start, goal);
+	
+	node* absstart = absg->getNode(aca->startid);
+	node* absgoal = absg->getNode(aca->goalid);
+	
+	int startExpectedValue = start->getLabelL(kAbstractionLevel)+1;
+	int startActualValue = absstart->getLabelL(kAbstractionLevel);
+	int goalExpectedValue = goal->getLabelL(kAbstractionLevel)+1;
+	int goalActualValue = absgoal->getLabelL(kAbstractionLevel);
+	
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("failed to increment kAbstractionLevel label of new abstract start node", startExpectedValue, startActualValue);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("failed to increment kAbstractionLevel label of new abstract goal node", goalExpectedValue, goalActualValue);
+	
+	delete acfactory;	
+}
+
+/* TODO: isolate distance method. relies on way too much production code working just to test a trivial function */
+void AnnotatedClusterAbstractionTest::distanceShouldCalculateTheWeightOfTheShortestPathBetweenTwoNodes()
+{
+	AnnotatedMapAbstraction* ama = new AnnotatedMapAbstraction(new Map(acmap.c_str()), new AnnotatedAStarMock());
+	AnnotatedAStar aastar;
+	
+	node* start = ama->getNodeFromMap(2,1);
+	node* goal = ama->getNodeFromMap(4,5);
+	
+	path* p = aastar.getPath(ama, start, goal, kGround, 1);
+	
+	double expectedDist = (int(ama->distance(p)*100+0.5))/100.0;
+	double actualDist = (int(aca->distance(p)*100+0.5))/100.0;
+	
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("distance fails to produce correct result", expectedDist, actualDist);
+	
+	delete ama;
+}
+

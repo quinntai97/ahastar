@@ -69,9 +69,10 @@ class AnnotatedAStar : public AbstractAnnotatedAStar
 {
 	public:
 		#ifdef UNITTEST
-			friend class AnnotatedAStarTest; // need to make the test class a friend to enable private/protected method testing
+			friend class AnnotatedAStarTest; // TODO: replace these stupid friends with an inheritance-based solution
+			friend class AnnotatedHierarchicalAStarTest;
 		#endif
-	
+		AnnotatedAStar() { e = NULL; }
 		virtual path* getPath(graphAbstraction*, node*, node*, int, int);
 		virtual const char* getName() { return "AnnotatedAStar"; }
 		static tDirection getDirection(node* current, node* target); // TODO: move this to a common AStar base class
@@ -79,6 +80,9 @@ class AnnotatedAStar : public AbstractAnnotatedAStar
 
 	protected:
 		virtual bool evaluate(node* n, node* target);
+		edge* traversing() { return e; }
+	private:
+		edge* e;
 };
 
 #endif

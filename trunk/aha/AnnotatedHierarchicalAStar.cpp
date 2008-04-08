@@ -9,7 +9,28 @@
 
 #include "AnnotatedHierarchicalAStar.h"
 
-bool AnnotatedHierarchicalAStar::evaluate(node* n, node* target)
+bool AnnotatedHierarchicalAStar::evaluate(node* n, node* target) 
 {
+	if(!n || !target) 
+		return false;
+
+	/* only evaluate nodes connected by the edge currently being traversed */
+	edge* e = this->traversing();
+	if(!e)
+		return false;
 	
+	int to = e->getTo();
+	int from = e->getFrom();
+	if(n->getNum() != to && n->getNum() != from)
+		return false;
+	if(target->getNum() != to && target->getNum() != from)
+		return false;
+		
+	int capability = this->getSearchTerrain();
+	int clearance = this->getMinClearance();
+	
+	if(e->getClearance(capability) >= clearance)
+		return true;
+	
+	return false;
 }

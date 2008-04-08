@@ -127,3 +127,20 @@ void TestNode::cloneShouldDeepCopyNodeAndAllAnnotationsExceptParentClusterId()
 	delete tn1clone;
 
 }
+
+void TestNode::cloneShouldNotDeepCopyEdges()
+{
+	node* n1 = new node("n1");
+	node* n2 = new node("n2");
+	graph* g = new graph();
+	g->addNode(n1);
+	g->addNode(n2);
+	edge* e = new edge(n1->getNum(), n2->getNum(), 1);
+	g->addEdge(e);
+		
+	node* clone = dynamic_cast<node*>(n1->clone());
+	
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("clone copied some edges when it shouldn't have", 0, clone->getNumEdges());
+	
+	delete g;
+}

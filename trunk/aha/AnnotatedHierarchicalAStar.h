@@ -14,6 +14,10 @@
 
 class AnnotatedHierarchicalAStar : public AnnotatedAStar
 {
+	#ifdef UNITTEST
+		friend class AnnotatedHierarchicalAStarTest;
+	#endif
+	
 	public:	
 		virtual const char* getName() { return "AnnotatedHierarchicalAStar"; }
 		

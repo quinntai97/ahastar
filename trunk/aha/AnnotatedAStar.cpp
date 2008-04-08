@@ -59,7 +59,7 @@ path* AnnotatedAStar::getPath(graphAbstraction *aMap, node *from, node* to, int 
 	setGraphAbstraction(aMap);
 	this->setSearchTerrain(capability);
 	this->setMinClearance(agentsize);
-	graph *g = aMap->getAbstractGraph(0);
+	graph *g = aMap->getAbstractGraph(from->getLabelL(kAbstractionLevel));
 	heap* openList = new heap(30);
 	AAStarUtil::NodeMap closedList;
 	openList->add(from);
@@ -97,7 +97,7 @@ path* AnnotatedAStar::getPath(graphAbstraction *aMap, node *from, node* to, int 
 		
 		/* evaluate each neighbour of the newly opened node */
 		edge_iterator ei = current->getEdgeIter();
-		edge *e = current->edgeIterNext(ei);
+		e = current->edgeIterNext(ei);
 		while(e)
 		{
 			// TODO: fix HOG's graph stuff; nodes identified using position in array instead of uniqueid. graph should just store a hash_map
@@ -105,6 +105,7 @@ path* AnnotatedAStar::getPath(graphAbstraction *aMap, node *from, node* to, int 
 			node* neighbour = g->getNode(neighbourid);
 			int nx = neighbour->getLabelL(kFirstData);
 			int ny = neighbour->getLabelL(kFirstData+1);
+			double weight = e->getWeight();
 
 			if(!closedList[neighbour->getUniqueID()]) // skip nodes we've already closed
 			{
