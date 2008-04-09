@@ -141,12 +141,25 @@ void AnnotatedClusterAbstractionTest::buildEntrancesShouldCreateCorrectNumberOfT
 	delete ac_factory;
 	
 	int numExpectedClusters = 4;
-	int numExpectedAbstractEdges = 17; // includes intercluster and intracluster transitions
+	int numExpectedAbstractEdges = 16; // includes intercluster and intracluster transitions
 	int numExpectedAbstractNodes = 10;
 	
 	aca->buildEntrances();
 
 	graph* absg = aca->getAbstractGraph(1);
+	
+/*	debugging
+	edge_iterator ei = absg->getEdgeIter();
+	edge* e = absg->edgeIterNext(ei);
+	while(e)
+	{
+		node* f = absg->getNode(e->getFrom());
+		node* t = absg->getNode(e->getTo());
+		cout << "\n edge connects "<<f->getLabelL(kFirstData)<<","<<f->getLabelL(kFirstData+1)<< " and "<<t->getLabelL(kFirstData)<<","<<t->getLabelL(kFirstData+1);
+		cout <<"(weight: "<<e->getWeight()<<" caps: "<<e->getCapability() << " clearance: "<<e->getClearance(e->getCapability())<<")";
+		e = absg->edgeIterNext(ei);
+	}
+*/	
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("buildEntrances resulted in incorrect number of clusters created", numExpectedClusters, aca->getNumClusters());
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("buildEntrances resulted in incorrect number of abstract nodes", numExpectedAbstractNodes, absg->getNumNodes());
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("buildEntrances resulted in incorrect number of abstract edges", numExpectedAbstractEdges, absg->getNumEdges());
@@ -233,10 +246,10 @@ void AnnotatedClusterAbstractionTest::insertStartAndGoalNodesIntoAbstractGraphSh
 	node* goal = aca->getNodeFromMap(5,3);
 	graph* absg = aca->getAbstractGraph(1);	
 	int numAbstractEdges = absg->getNumEdges();
-	int numExpectedAbstractEdges = numAbstractEdges+5;
+	int numExpectedAbstractEdges = numAbstractEdges+4;
 	
 	aca->insertStartAndGoalNodesIntoAbstractGraph(start, goal);	
-	CPPUNIT_ASSERT_EQUAL_MESSAGE("wrong number of nodes added to abstract graph", numExpectedAbstractEdges, absg->getNumEdges());
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("wrong number of edges added to abstract graph", numExpectedAbstractEdges, absg->getNumEdges());
 	
 	delete acfactory;
 }
@@ -526,15 +539,17 @@ void AnnotatedClusterAbstractionTest::insertStartAndGoalIntoAbstractGraphShouldR
 	aca->buildEntrances();
 	aca->insertStartAndGoalNodesIntoAbstractGraph(start, goal);
 			
+/*	debugging
+	cout << "\n nodes expanded: "<<aca->getNodesExpanded();
+	cout << "\n nodes touched: "<<aca->getNodesTouched();
+	cout << "\n peak memory: "<<aca->getPeakMemory();
+	cout << "\n searchTime: "<<aca->getSearchTime();
+*/
+
 	CPPUNIT_ASSERT_MESSAGE("did not record anything for nodesExpanded", aca->getNodesExpanded() > 0);
 	CPPUNIT_ASSERT_MESSAGE("did not record anything for nodesTouched", aca->getNodesTouched() > 0);
 	CPPUNIT_ASSERT_MESSAGE("did not record anything for peakMemory", aca->getPeakMemory() > 0);
 	CPPUNIT_ASSERT_MESSAGE("did not record anything for searchTime", aca->getSearchTime() > 0);
 	
-	cout << "\n nodes expanded: "<<aca->getNodesExpanded();
-	cout << "\n nodes touched: "<<aca->getNodesTouched();
-	cout << "\n peak memory: "<<aca->getPeakMemory();
-	cout << "\n searchTime: "<<aca->getSearchTime();
-
 	delete acfactory;	
 }

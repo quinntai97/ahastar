@@ -140,7 +140,7 @@ void AnnotatedCluster::addParent(node* parentnode, AnnotatedClusterAbstraction* 
 	for(int i=0; i<getParents().size(); i++)
 	{
 		node* endpoint = getParents()[i];
-		for(int capindex=NUMCAPABILITIES-1; capindex >=0 ; capindex--)
+		for(int capindex=0; capindex < NUMCAPABILITIES ; capindex++)
 		{
 			int capability = capabilities[capindex];
 			this->connectEntranceEndpoints(parentnode,endpoint,capability,aca);
