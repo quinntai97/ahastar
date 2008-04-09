@@ -47,7 +47,7 @@ class AbstractAnnotatedAStar : public aStarOld
 		int getSearchTerrain() { return searchterrain; }
 		void setSearchTerrain(int searchterrain) { this->searchterrain = searchterrain; }
 		int getPeakMemory() { return peakmemory; }
-		int getSearchTime() { return searchtime; }
+		double getSearchTime() { return searchtime; }
 		void limitSearchToClusterCorridor(bool value) { useCorridor=value; }
 		void setCorridorClusters(int cid1, int cid2) { cluster1 = cid1; cluster2 = cid2; }
 		

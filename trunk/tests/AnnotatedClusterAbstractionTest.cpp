@@ -510,3 +510,31 @@ void AnnotatedClusterAbstractionTest::distanceShouldCalculateTheWeightOfTheShort
 	delete ama;
 }
 
+void AnnotatedClusterAbstractionTest::insertStartAndGoalIntoAbstractGraphShouldRecordStatisticsToMeasureInsertionEffort()
+{
+	delete aca;
+	Map* m  = new Map(acmap.c_str());
+	aca = new AnnotatedClusterAbstraction(m,new AnnotatedAStar(), TESTCLUSTERSIZE); 
+
+	node* start = aca->getNodeFromMap(0,0);	
+	node* goal = aca->getNodeFromMap(5,3);
+	graph* absg = aca->getAbstractGraph(1);
+	int numAbstractNodes = absg->getNumNodes();
+	
+	AnnotatedClusterFactory* acfactory = new AnnotatedClusterFactory();
+	aca->buildClusters(acfactory);
+	aca->buildEntrances();
+	aca->insertStartAndGoalNodesIntoAbstractGraph(start, goal);
+			
+	CPPUNIT_ASSERT_MESSAGE("did not record anything for nodesExpanded", aca->getNodesExpanded() > 0);
+	CPPUNIT_ASSERT_MESSAGE("did not record anything for nodesTouched", aca->getNodesTouched() > 0);
+	CPPUNIT_ASSERT_MESSAGE("did not record anything for peakMemory", aca->getPeakMemory() > 0);
+	CPPUNIT_ASSERT_MESSAGE("did not record anything for searchTime", aca->getSearchTime() > 0);
+	
+	cout << "\n nodes expanded: "<<aca->getNodesExpanded();
+	cout << "\n nodes touched: "<<aca->getNodesTouched();
+	cout << "\n peak memory: "<<aca->getPeakMemory();
+	cout << "\n searchTime: "<<aca->getSearchTime();
+
+	delete acfactory;	
+}

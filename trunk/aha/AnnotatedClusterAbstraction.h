@@ -45,6 +45,15 @@ class AnnotatedClusterAbstraction : public AnnotatedMapAbstraction
 		virtual int getNumClusters() { return clusters.size(); } 
 		virtual AnnotatedCluster* getCluster(int cid);
 		virtual double distance(path* p); 
+		
+		int getNodesExpanded() { return nodesExpanded; }
+		void setNodesExpanded(int num) {  nodesExpanded = num; }
+		int getNodesTouched() { return nodesTouched; }
+		void setNodesTouched(int num) {  nodesTouched = num; }
+		int getPeakMemory() { return peakMemory; }
+		void setPeakMemory(int num) {  peakMemory = num; }
+		double getSearchTime() { return searchTime; }
+		void setSearchTime(double newtime) { searchTime = newtime; }
 
 	protected: 
 		virtual void addCluster(AnnotatedCluster* ac);
@@ -52,6 +61,11 @@ class AnnotatedClusterAbstraction : public AnnotatedMapAbstraction
 
 		
 	private:
+		int nodesExpanded; 
+		int nodesTouched; 
+		double searchTime;
+		int peakMemory; 
+		
 		int startid, goalid;
 		int clustersize;
 		std::vector<AnnotatedCluster *> clusters;
