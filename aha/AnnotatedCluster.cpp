@@ -393,6 +393,12 @@ void AnnotatedCluster::connectEntranceEndpoints(node* n1, node* n2, int capabili
 			}
 			delete solution;
 		}
+		
+		/* record some metrics about the operation */
+		aca->setNodesExpanded(aca->getNodesExpanded() + aastar->getNodesExpanded());
+		aca->setNodesTouched(aca->getNodesTouched() + aastar->getNodesTouched());
+		aca->setPeakMemory(aastar->getPeakMemory()>aca->getPeakMemory()?aastar->getPeakMemory():aca->getPeakMemory());
+		aca->setSearchTime(aca->getSearchTime() + aastar->getSearchTime());
 	}
 	aastar->limitSearchToClusterCorridor(false);
 }

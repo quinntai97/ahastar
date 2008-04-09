@@ -29,6 +29,9 @@ AnnotatedClusterAbstraction::AnnotatedClusterAbstraction(Map* m, AbstractAnnotat
 	this->clustersize = clustersize;
 	abstractions.push_back(new graph());	
 	startid = goalid = -1;
+	
+	nodesExpanded = nodesTouched = peakMemory = 0;
+	searchTime = 0;
 }
 
 void AnnotatedClusterAbstraction::addCluster(AnnotatedCluster* ac) 
@@ -109,6 +112,9 @@ void AnnotatedClusterAbstraction::insertStartAndGoalNodesIntoAbstractGraph(node*
 
 	if(start->getLabelL(kAbstractionLevel) != 0 || goal->getLabelL(kAbstractionLevel) != 0)
 		throw NodeHasNonZeroAbstractionLevelException();
+
+	nodesExpanded = nodesTouched = peakMemory = 0;
+	searchTime = 0;
 
 	node *absstart, *absgoal;
 	if(start->getLabelL(kParent) == -1) // not an entrance endpoint (and hence not in abstract graph)	
