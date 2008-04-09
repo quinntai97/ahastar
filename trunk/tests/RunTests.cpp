@@ -28,7 +28,7 @@ int main (int argc, char* argv[])
 
     // register listener for per-test progress output
     CPPUNIT_NS :: BriefTestProgressListener progress;
-    testresult.addListener (&progress);
+//    testresult.addListener (&progress);
 
     // insert test-suite at test-runner by registry
     CPPUNIT_NS :: TestRunner testrunner;
