@@ -102,9 +102,11 @@ class AnnotatedClusterTest : public CPPUNIT_NS::TestFixture
 	CPPUNIT_TEST( addTransitionToAbstractGraphShouldThrowExceptionWhenWeightIsNotGreaterThanZero );
 	CPPUNIT_TEST( addTransitionToAbstractGraphShouldConnectAbstractNodesWithANewAnnotatedEdge ); 
 	CPPUNIT_TEST( addTransitionToAbstractGraphShouldReuseExistingEdgeIfOneExists );
+	CPPUNIT_TEST( addTransitionToAbstractGraphShouldAddANewPathToTheAnnotatedClusterAbstractionCacheForEachNewlyCreatedEdge );
 	
 	CPPUNIT_TEST( connectEntranceEndpointsShouldCalculateTheShortestPathBetweenEachPairOfParentNodesForEachEligibleCapability );
 	CPPUNIT_TEST( addParentsShouldCreateEdgesToRepresentAllValidPathsBetweenNewNodeAndExistingClusterEndpoints );
+	CPPUNIT_TEST( connectEntranceEndpointsShouldAddAPathToTheAnnotatedClusterAbstractionCacheEachTimeTwoEndpointsAreConnected );
 	
 	CPPUNIT_TEST_SUITE_END();
 	
@@ -156,6 +158,7 @@ class AnnotatedClusterTest : public CPPUNIT_NS::TestFixture
 		void addTransitionToAbstractGraphShouldThrowExceptionWhenWeightIsNotGreaterThanZero();
 		void addTransitionToAbstractGraphShouldConnectAbstractNodesWithANewAnnotatedEdge();
 		void addTransitionToAbstractGraphShouldReuseExistingEdgeIfOneExists();
+		void addTransitionToAbstractGraphShouldAddANewPathToTheAnnotatedClusterAbstractionCacheForEachNewlyCreatedEdge();
 				
 		/* addEntrance() */
 		void addEntranceShouldSetEdgeWeightToExactlyOne();
@@ -184,6 +187,7 @@ class AnnotatedClusterTest : public CPPUNIT_NS::TestFixture
 		
 		/* connectEntranceEndpoints */
 		void connectEntranceEndpointsShouldCalculateTheShortestPathBetweenEachPairOfParentNodesForEachEligibleCapability();
+		void connectEntranceEndpointsShouldAddAPathToTheAnnotatedClusterAbstractionCacheEachTimeTwoEndpointsAreConnected();
 		
 	private:
 		double interedge_weight;

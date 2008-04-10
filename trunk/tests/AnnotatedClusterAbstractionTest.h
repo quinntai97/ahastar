@@ -36,6 +36,7 @@ class AnnotatedClusterAbstractionTest : public CPPUNIT_NS::TestFixture
 	CPPUNIT_TEST( getClusterShouldReturnRequestedClusterGivenAValidClusterId );
 	CPPUNIT_TEST( buildEntrancesShouldCreateCorrectNumberOfTransitionsBetweenClustersAndAddTransitionsToAbstractGraph );
 	CPPUNIT_TEST( buildEntrancesShouldAskEachClusterToCreateItsOwnEntrances );
+	CPPUNIT_TEST( buildEntrancesShouldResultInOneCachedPathForEachAbstractEdge );
 	CPPUNIT_TEST( insertStartAndGoalNodesIntoAbstractGraphShouldAddTwoNewNodesIntoTheAbstractGraphAndParentClusters );
 	CPPUNIT_TEST( insertStartAndGoalNodesIntoAbstractGraphShouldNotCreateNewAbstractNodesIfASuitableNodeAlreadyExistsInTheAbstractGraph );
 	CPPUNIT_TEST( insertStartAndGoalIntoAbstractGraphShouldThrowExceptionIfStartOrGoalNodeHasAbstractionLevelGreaterThanZero );
@@ -44,12 +45,16 @@ class AnnotatedClusterAbstractionTest : public CPPUNIT_NS::TestFixture
 	CPPUNIT_TEST( insertStartAndGoalIntoAbstractGraphShouldSet_kParent_LabelOfOriginalNodeEqualToIdIfANewNodeIsAddedToAbstractGraph );
 	CPPUNIT_TEST( insertStartAndGoalIntoAbstractGraphShouldSet_kAbstractionLevel_LabelOfNewNodesToPointToTheCorrectAbstractGraph );
 	CPPUNIT_TEST( insertStartAndGoalIntoAbstractGraphShouldRecordStatisticsToMeasureInsertionEffort );
+	CPPUNIT_TEST( insertStartAndGoalIntoAbstractGraphShouldAddToCacheAPathForEachNewlyCreatedEdge );
 	CPPUNIT_TEST( removeStartAndGoalNodesFromAbstractGraphShouldDeleteAllNodesAndEdgesAddedByInsertionMethodFromAbstractGraph );
 	CPPUNIT_TEST( removeStartAndGoalNodesFromAbstractGraphShouldResetStartIDAndGoalIDToDefaultValues );
 	CPPUNIT_TEST( removeStartAndGoalNodesFromAbstractGraphShouldNotDeleteAnyNodesOriginallyInTheAbstractGraph );
 	CPPUNIT_TEST( removeStartAndGoalNodesFromAbstractGraphShouldDeleteAllNodesAndEdgesAddedByInsertionMethodFromParentClusters );
 	CPPUNIT_TEST( removeStartAndGoalNodesFromAbstractGraphShouldResetToDefault_kParent_LabelOfOriginalNodesForWhichANewNodeWasInsertedIntoAbstractGraph );
+	CPPUNIT_TEST( removeStartAndGoalNodesFromAbstractGraphShouldDeleteAllPathsAddedByInsertionMethod );
 	CPPUNIT_TEST( distanceShouldCalculateTheWeightOfTheShortestPathBetweenTwoNodes );
+	CPPUNIT_TEST( addPathToCacheShouldStoreAPathGivenAnEdge );
+	CPPUNIT_TEST( addPathToCacheShouldDoNothingIfEdgeOrPathParametersAreNull );
 	CPPUNIT_TEST_SUITE_END();
 	
 	public:
@@ -66,6 +71,7 @@ class AnnotatedClusterAbstractionTest : public CPPUNIT_NS::TestFixture
 		void buildClustersShouldSplitTheMapAreaIntoCorrectNumberOfClusters();
 		void buildClustersShouldCalculateCorrectClusterSize();
 		void buildEntrancesShouldAskEachClusterToCreateItsOwnEntrances();
+		void buildEntrancesShouldResultInOneCachedPathForEachAbstractEdge();
 
 		//////// INTEGRATION TESTS BELOW HERE (uses production code from other classes) ////////////
 		void buildEntrancesShouldCreateCorrectNumberOfTransitionsBetweenClustersAndAddTransitionsToAbstractGraph();
@@ -79,14 +85,19 @@ class AnnotatedClusterAbstractionTest : public CPPUNIT_NS::TestFixture
 		void insertStartAndGoalIntoAbstractGraphShouldSet_kParent_LabelOfOriginalNodeEqualToIdIfANewNodeIsAddedToAbstractGraph();
 		void insertStartAndGoalIntoAbstractGraphShouldSet_kAbstractionLevel_LabelOfNewNodesToPointToTheCorrectAbstractGraph();
 		void insertStartAndGoalIntoAbstractGraphShouldRecordStatisticsToMeasureInsertionEffort();
+		void insertStartAndGoalIntoAbstractGraphShouldAddToCacheAPathForEachNewlyCreatedEdge();
 		
 		void removeStartAndGoalNodesFromAbstractGraphShouldDeleteAllNodesAndEdgesAddedByInsertionMethodFromAbstractGraph();
 		void removeStartAndGoalNodesFromAbstractGraphShouldNotDeleteAnyNodesOriginallyInTheAbstractGraph();
 		void removeStartAndGoalNodesFromAbstractGraphShouldResetStartIDAndGoalIDToDefaultValues();
 		void removeStartAndGoalNodesFromAbstractGraphShouldDeleteAllNodesAndEdgesAddedByInsertionMethodFromParentClusters();
 		void removeStartAndGoalNodesFromAbstractGraphShouldResetToDefault_kParent_LabelOfOriginalNodesForWhichANewNodeWasInsertedIntoAbstractGraph();
+		void removeStartAndGoalNodesFromAbstractGraphShouldDeleteAllPathsAddedByInsertionMethod();
 		
 		void distanceShouldCalculateTheWeightOfTheShortestPathBetweenTwoNodes();
+		
+		void addPathToCacheShouldStoreAPathGivenAnEdge();
+		void addPathToCacheShouldDoNothingIfEdgeOrPathParametersAreNull();
 		
 	private:
 		AnnotatedClusterAbstraction *aca;
