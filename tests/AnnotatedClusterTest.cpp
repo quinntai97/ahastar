@@ -736,6 +736,21 @@ void AnnotatedClusterTest::addTransitionToAbstractGraphShouldConnectAbstractNode
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("edge clearance incorrect", clearance, e->getClearance(capability));
 }
 
+void AnnotatedClusterTest::addTransitionToAbstractGraphShouldAddANewPathToTheAnnotatedClusterAbstractionCacheForEachNewlyCreatedEdge()
+{
+	int capability = kGround;
+	int clearance = 2;
+	node* abs_n1 = new node("");
+	node* abs_n2 = new node("");
+	absg->addNode(abs_n1);
+	absg->addNode(abs_n2);
+	
+	int numExpectedPathsInCache = 1;
+	ac->addTransitionToAbstractGraph(abs_n1, abs_n2, capability, clearance, 1.0, aca_mock); 
+
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("failed to add a new path to the cache", numExpectedPathsInCache, aca_mock->addPathsToCacheCounter);
+}
+
 void AnnotatedClusterTest::addTransitionToAbstractGraphShouldReuseExistingEdgeIfOneExists()
 {
 	createEntranceNodes();
@@ -749,7 +764,7 @@ void AnnotatedClusterTest::addTransitionToAbstractGraphShouldReuseExistingEdgeIf
 	int clearance = 2.0;
 	
 	ac->addTransitionToAbstractGraph(abs_e3n1,abs_e3n2, capability1, clearance, 1.0, aca_mock);	
-	ac->addTransitionToAbstractGraph(abs_e3n1,abs_e3n2, capability1, clearance, 1.0, aca_mock); // edge capability is superset of previous edge added
+	ac->addTransitionToAbstractGraph(abs_e3n1,abs_e3n2, capability2, clearance, 1.0, aca_mock); // edge capability is superset of previous edge added
 
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("incorrect edge count in abstract graph (failed to reuse existing edges)", numExpectedAbstractEdgesInGraph, absg->getNumEdges());
 }
@@ -815,6 +830,36 @@ void AnnotatedClusterTest::connectEntranceEndpointsShouldCalculateTheShortestPat
 	numEdges = absg->getNumEdges();
 	ac->connectEntranceEndpoints(from, to, capability2, aca_mock);
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("failed to find connections between target endpoints using kGround|kTrees capability", numEdges+2, absg->getNumEdges());
+}
+
+void AnnotatedClusterTest::connectEntranceEndpointsShouldAddAPathToTheAnnotatedClusterAbstractionCacheEachTimeTwoEndpointsAreConnected()
+{
+	createEntranceNodes();
+	int capability1 = kGround;
+	int capability2 = (kGround|kTrees);	
+	
+	aca_mock->buildClusters();
+
+	node* from = dynamic_cast<node*>(e1_n1->clone());
+	from->setParentCluster(e1_n1->getParentCluster());
+	
+	node* to = dynamic_cast<node*>(e3_n1->clone());
+	to->setParentCluster(e3_n1->getParentCluster());
+	
+	absg->addNode(from);
+	absg->addNode(to);
+		
+	// TODO: build a better AAStarMock
+	delete aca_mock->getSearchAlgorithm();
+	aca_mock->setSearchAlgorithm(new AnnotatedAStar());
+	
+	int numEdges = absg->getNumEdges();
+	ac->connectEntranceEndpoints(from, to, capability1, aca_mock);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("failed to find connection between target endpoints using kGround capability", numEdges+1, (int)aca_mock->addPathsToCacheCounter);
+
+	numEdges = absg->getNumEdges();
+	ac->connectEntranceEndpoints(from, to, capability2, aca_mock);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("failed to find connections between target endpoints using kGround|kTrees capability", numEdges+2, (int)aca_mock->addPathsToCacheCounter);
 }
 
 void AnnotatedClusterTest::addParentsShouldCreateEdgesToRepresentAllValidPathsBetweenNewNodeAndExistingClusterEndpoints()

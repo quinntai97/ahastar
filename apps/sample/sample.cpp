@@ -36,6 +36,8 @@
 #include "radiusAbstraction.h"
 #include "mapFlatAbstraction.h"
 #include "AnnotatedMapAbstraction.h"
+#include "AnnotatedClusterAbstraction.h"
+#include "AnnotatedClusterFactory.h"
 #include "AnnotatedAStar.h"
 #include "clusterAbstraction.h"
 
@@ -57,13 +59,18 @@ void processStats(statCollection *)
  */
 void createSimulation(unitSimulation * &unitSim)
 {
-	Map *map;
+	Map* map = new Map("/Users/dharabor/src/ahastar/tests/testmaps/annotatedcluster.map");
+	int CLUSTERSIZE=5;
+/*	Map *map;
 	if (gDefaultMap[0] == 0)
 		map = new Map(60, 60);
 	else
 		map = new Map(gDefaultMap);
-
-	unitSim = new unitSimulation(new AnnotatedMapAbstraction(map, new AnnotatedAStar()));
+*/
+	AnnotatedClusterAbstraction* aca = new AnnotatedClusterAbstraction(map, new AnnotatedAStar(), CLUSTERSIZE);
+	aca->buildClusters(new AnnotatedClusterFactory());
+	aca->buildEntrances();
+	unitSim = new unitSimulation(aca);
 /*	if (absType == 0)
 		unitSim = new unitSimulation(new mapCliqueAbstraction(map));
 	else if (absType == 1)

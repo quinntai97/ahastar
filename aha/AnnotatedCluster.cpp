@@ -354,6 +354,8 @@ void AnnotatedCluster::addTransitionToAbstractGraph(node* from, node* to, int ca
 		interedge = new edge(from->getNum(), to->getNum(), weight);
 		interedge->setClearance(capability,clearance);
 		g->addEdge(interedge);
+		path *p = new path(from, new path(to, NULL));
+		aca->addPathToCache(interedge,p);
 	}
 }
 /* some notes:
@@ -388,10 +390,11 @@ void AnnotatedCluster::connectEntranceEndpoints(node* n1, node* n2, int capabili
 				e = new edge(n1->getNum(), n2->getNum(), dist);
 				e->setClearance(capability,clearance);
 				absg->addEdge(e);
+				aca->addPathToCache(e, solution);
 				
 				//std::cout << "\n adding way cool edege for cluster "<<getClusterId();
 			}
-			delete solution;
+			//delete solution;
 		}
 		
 		/* record some metrics about the operation */

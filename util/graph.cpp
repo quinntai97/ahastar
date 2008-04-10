@@ -34,6 +34,8 @@
 
 using namespace std;
 
+unsigned graph_object::uniqueIDCounter = 0;
+
 void graph_object::Print(ostream& /*out*/) const
 {
 	//	out << val;
@@ -627,8 +629,6 @@ int edge::getClearance(int agentcapability)
 
 
 
-unsigned node::uniqueIDCounter = 0;
-
 node::node(const char *n)
 :label(), _edgesOutgoing(), _edgesIncoming(), _allEdges()
 {
@@ -638,7 +638,6 @@ node::node(const char *n)
 	//		label[x] = MAXINT;
 	keyLabel = 0;
 	markedEdge = 0;
-	uniqueID = uniqueIDCounter++;
 
 	clusterid = -1; // no parent cluster set
 	terraintype=0; // no default terraintype assumed (untraversable node)

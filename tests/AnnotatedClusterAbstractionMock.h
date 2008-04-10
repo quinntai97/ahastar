@@ -41,17 +41,22 @@ class AnnotatedClusterAbstractionMock :  public AnnotatedClusterAbstraction, pub
 			, getClusterMocker("getCluster", this)
 			, AnnotatedClusterAbstraction(m, aastar, clustersize) 
 		{	
-			abstractions.push_back(new graph());
+			abstractions.push_back(new graph()); addPathsToCacheCounter=0;
 		}
 				
 		virtual void buildClusters(); 
 		virtual AnnotatedCluster* getCluster(int cid) 
 		{  return getClusterMocker.forward(cid); }
 		
+		virtual void addPathToCache(edge* e, path* p) { addPathsToCacheCounter++; delete p; }
+		
 		static void loadClusterAnnotations(const std::string& filename, AbstractAnnotatedMapAbstraction* aca);
+		
 
 		MOCKPP_NS::ChainableMockMethod<void> buildClustersMocker;
 		MOCKPP_NS::ChainableMockMethod<AnnotatedCluster*, int> getClusterMocker;
+		int addPathsToCacheCounter;
+
 		
 };
 

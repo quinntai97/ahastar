@@ -46,8 +46,9 @@ typedef union { double fval; long lval; } labelValue;
  */
 class graph_object {
 public:
-  graph_object():key(0) { debuginfo = false; }
+  graph_object():key(0) { debuginfo = false; 	uniqueID = uniqueIDCounter++; }
   virtual ~graph_object() {}
+  int getUniqueID() const { return uniqueID; }
   virtual double getKey() { return 0; }
   virtual void Print(std::ostream&) const;
   virtual graph_object *clone() const = 0;
@@ -59,6 +60,9 @@ public:
 protected:
 	  bool debuginfo;
 private:
+  int uniqueID;
+  static unsigned int uniqueIDCounter;
+
   //	double val;
 };
 
@@ -163,7 +167,6 @@ class edge : public graph_object {
 //	double weight;
 //	double width;
 	unsigned int edgeNum;//, label[MAXLABELS];
-
 	std::vector<labelValue> label;
 	int capability;
 	int clearance;
@@ -180,7 +183,6 @@ public:
 
   const char *getName() const { return name; }
   unsigned int getNum() const { return nodeNum; }
-  int getUniqueID() const { return uniqueID; }
   void addEdge(edge *);
   void removeEdge(edge *);
 
@@ -254,8 +256,6 @@ private:
   char name[30];
   int keyLabel;
   double width;
-  int uniqueID;
-  static unsigned int uniqueIDCounter;
   
   int clearance[3];
   int terraintype;

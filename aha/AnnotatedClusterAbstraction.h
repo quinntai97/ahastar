@@ -14,11 +14,17 @@
 #include "AnnotatedAStar.h"
 #include "AnnotatedClusterFactory.h"
 #include "AnnotatedCluster.h"
+#include <ext/hash_map>
 
 class Map;
 //class AnnotatedCluster;
 class AnotatedClusterFactory;
 //class NodeIsNullException;
+
+namespace ACAUtil
+{
+	typedef __gnu_cxx::hash_map<int, path*> pathTable;
+}
 
 class NodeHasNonZeroAbstractionLevelException : public std::exception
 {
@@ -34,7 +40,7 @@ class AnnotatedClusterAbstraction : public AnnotatedMapAbstraction
 	
 	public: 
 		AnnotatedClusterAbstraction::AnnotatedClusterAbstraction(Map* m, AbstractAnnotatedAStar* searchalg, int clustersize);
-		~AnnotatedClusterAbstraction() { clusters.clear(); };
+		~AnnotatedClusterAbstraction() { clusters.clear(); pathCache.clear(); };
 
 		virtual void buildClusters(IAnnotatedClusterFactory*);
 		virtual void buildEntrances();
@@ -55,11 +61,15 @@ class AnnotatedClusterAbstraction : public AnnotatedMapAbstraction
 		double getSearchTime() { return searchTime; }
 		void setSearchTime(double newtime) { searchTime = newtime; }
 
+		virtual void addPathToCache(edge* e, path* p);
+		int getPathCacheSize() { return pathCache.size(); };
+		
+		virtual void openGLDraw(); 
+		
 	protected: 
 		virtual void addCluster(AnnotatedCluster* ac);
 		virtual int getNumberOfAbstractionLevels() { return abstractions.size(); }
 
-		
 	private:
 		int nodesExpanded; 
 		int nodesTouched; 
@@ -69,6 +79,8 @@ class AnnotatedClusterAbstraction : public AnnotatedMapAbstraction
 		int startid, goalid;
 		int clustersize;
 		std::vector<AnnotatedCluster *> clusters;
+		ACAUtil::pathTable pathCache;
+		
 	
 };
 

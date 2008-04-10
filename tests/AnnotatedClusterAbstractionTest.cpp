@@ -165,6 +165,22 @@ void AnnotatedClusterAbstractionTest::buildEntrancesShouldCreateCorrectNumberOfT
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("buildEntrances resulted in incorrect number of abstract edges", numExpectedAbstractEdges, absg->getNumEdges());
 }
 
+void AnnotatedClusterAbstractionTest::buildEntrancesShouldResultInOneCachedPathForEachAbstractEdge()
+{
+	delete aca; // map too big for this test; use a trivial one instead
+	Map* tinymap = new Map(acmap.c_str());
+	aca = new AnnotatedClusterAbstraction(tinymap, new AnnotatedAStar(), TESTCLUSTERSIZE);
+	
+	AnnotatedClusterFactory* ac_factory = new AnnotatedClusterFactory();
+	aca->buildClusters(ac_factory);
+	delete ac_factory;
+	
+	int numExpectedCachedPaths = 16; 
+	
+	aca->buildEntrances();
+	
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("buildEntrances resulted in incorrect number of paths in cache", numExpectedCachedPaths, (int)aca->pathCache.size());
+}
 void AnnotatedClusterAbstractionTest::buildEntrancesShouldAskEachClusterToCreateItsOwnEntrances()
 {
 	acmock_factory->setTest(2);
@@ -550,6 +566,89 @@ void AnnotatedClusterAbstractionTest::insertStartAndGoalIntoAbstractGraphShouldR
 	CPPUNIT_ASSERT_MESSAGE("did not record anything for nodesTouched", aca->getNodesTouched() > 0);
 	CPPUNIT_ASSERT_MESSAGE("did not record anything for peakMemory", aca->getPeakMemory() > 0);
 	CPPUNIT_ASSERT_MESSAGE("did not record anything for searchTime", aca->getSearchTime() > 0);
+	
+	delete acfactory;	
+}
+
+void AnnotatedClusterAbstractionTest::addPathToCacheShouldStoreAPathGivenAnEdge()
+{
+	graph* g = new graph();
+	node* n1 = new node("");
+	node* n2 = new node("");
+	g->addNode(n1);
+	g->addNode(n2);
+	path* p = new path(n1, new path(n2, NULL));
+		
+	edge* e = new edge(p->n->getNum(), p->next->n->getNum(), 1.0);
+	g->addEdge(e);
+	
+	aca->addPathToCache(e, p);
+	
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("cache path count incorrect", 1, (int)aca->pathCache.size());
+	CPPUNIT_ASSERT_MESSAGE("wrong path retrieved", p == aca->pathCache[e->getUniqueID()]);
+	delete p;
+	delete g;
+}
+
+void AnnotatedClusterAbstractionTest::addPathToCacheShouldDoNothingIfEdgeOrPathParametersAreNull()
+{
+	path* p = new path(NULL, NULL);
+	edge* e = new edge(0, 1, 1);
+	
+	aca->addPathToCache(NULL, p);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("cached path added when edge param is null", 0, (int)aca->pathCache.size());
+	
+	aca->addPathToCache(e, NULL);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("cached path added when edge param is null", 0, (int)aca->pathCache.size());
+	
+	delete p;
+	delete e;
+}
+
+void AnnotatedClusterAbstractionTest::insertStartAndGoalIntoAbstractGraphShouldAddToCacheAPathForEachNewlyCreatedEdge()
+{
+	delete aca;
+	Map* m  = new Map(acmap.c_str());
+	aca = new AnnotatedClusterAbstraction(m,new AnnotatedAStar(), TESTCLUSTERSIZE); 
+
+	node* start = aca->getNodeFromMap(2,1); 
+	node* goal = aca->getNodeFromMap(5,3);
+	graph* absg = aca->getAbstractGraph(1);
+	
+	int numAbstractNodes = absg->getNumNodes();	
+	AnnotatedClusterFactory* acfactory = new AnnotatedClusterFactory();
+	aca->buildClusters(acfactory);
+	aca->buildEntrances();
+
+	int numExpectedPathsInCache = absg->getNumEdges()+4;
+	aca->insertStartAndGoalNodesIntoAbstractGraph(start, goal);
+		
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("wrong number of paths added to cache", numExpectedPathsInCache, (int)aca->pathCache.size());
+	
+	delete acfactory;	
+
+}
+
+void AnnotatedClusterAbstractionTest::removeStartAndGoalNodesFromAbstractGraphShouldDeleteAllPathsAddedByInsertionMethod()
+{
+	delete aca;
+	Map* m  = new Map(acmap.c_str());
+	aca = new AnnotatedClusterAbstraction(m,new AnnotatedAStar(), TESTCLUSTERSIZE); 
+
+	AnnotatedClusterFactory* acfactory = new AnnotatedClusterFactory();
+	node* start = aca->getNodeFromMap(2,1); 
+	node* goal = aca->getNodeFromMap(5,3);
+	graph* absg = aca->getAbstractGraph(1);	
+
+	aca->buildClusters(acfactory);
+	aca->buildEntrances();
+
+	int numPathsInCacheBefore = aca->getPathCacheSize();
+	aca->insertStartAndGoalNodesIntoAbstractGraph(start, goal);
+	aca->removeStartAndGoalNodesFromAbstractGraph(); 
+	int numPathsInCacheAfter = aca->getPathCacheSize();
+
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("path cache size is wrong", numPathsInCacheBefore, numPathsInCacheAfter);
 	
 	delete acfactory;	
 }
