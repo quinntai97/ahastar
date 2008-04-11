@@ -62,6 +62,7 @@ class AnnotatedClusterAbstraction : public AnnotatedMapAbstraction
 		void setSearchTime(double newtime) { searchTime = newtime; }
 
 		virtual void addPathToCache(edge* e, path* p);
+		virtual path* getPathFromCache(edge*); 
 		int getPathCacheSize() { return pathCache.size(); };
 		
 		virtual void openGLDraw(); 

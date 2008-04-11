@@ -59,7 +59,7 @@ void processStats(statCollection *)
  */
 void createSimulation(unitSimulation * &unitSim)
 {
-	Map* map = new Map("/Users/dharabor/src/ahastar/tests/testmaps/annotatedcluster.map");
+	Map* map = new Map("/Users/dharabor/src/ahastar/maps/local/demo.map");///annotatedcluster.map");
 	int CLUSTERSIZE=5;
 /*	Map *map;
 	if (gDefaultMap[0] == 0)
@@ -71,6 +71,23 @@ void createSimulation(unitSimulation * &unitSim)
 	aca->buildClusters(new AnnotatedClusterFactory());
 	aca->buildEntrances();
 	unitSim = new unitSimulation(aca);
+	
+	graph* absg = aca->getAbstractGraph(1);
+	std::cout << "\n absnodes: "<<absg->getNumNodes()<<" absedges: "<<absg->getNumEdges();
+	//	debugging
+/*	edge_iterator ei = absg->getEdgeIter();
+	edge* e = absg->edgeIterNext(ei);
+	while(e)
+	{
+		node* f = absg->getNode(e->getFrom());
+		node* t = absg->getNode(e->getTo());
+		std::cout << "\n edge connects "<<f->getLabelL(kFirstData)<<","<<f->getLabelL(kFirstData+1)<< " and "<<t->getLabelL(kFirstData)<<","<<t->getLabelL(kFirstData+1);
+		std::cout <<"(weight: "<<e->getWeight()<<" caps: "<<e->getCapability() << " clearance: "<<e->getClearance(e->getCapability())<<")";
+		e = absg->edgeIterNext(ei);
+	}
+*/	
+
+	
 /*	if (absType == 0)
 		unitSim = new unitSimulation(new mapCliqueAbstraction(map));
 	else if (absType == 1)

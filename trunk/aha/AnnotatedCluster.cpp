@@ -354,7 +354,8 @@ void AnnotatedCluster::addTransitionToAbstractGraph(node* from, node* to, int ca
 		interedge = new edge(from->getNum(), to->getNum(), weight);
 		interedge->setClearance(capability,clearance);
 		g->addEdge(interedge);
-		path *p = new path(from, new path(to, NULL));
+		path* p2 = new path(aca->getNodeFromMap(to->getLabelL(kFirstData), to->getLabelL(kFirstData+1)), NULL);
+		path *p = new path(aca->getNodeFromMap(from->getLabelL(kFirstData), from->getLabelL(kFirstData+1)), p2);
 		aca->addPathToCache(interedge,p);
 	}
 }

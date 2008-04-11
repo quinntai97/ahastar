@@ -55,7 +55,11 @@ class AnnotatedClusterAbstractionTest : public CPPUNIT_NS::TestFixture
 	CPPUNIT_TEST( distanceShouldCalculateTheWeightOfTheShortestPathBetweenTwoNodes );
 	CPPUNIT_TEST( addPathToCacheShouldStoreAPathGivenAnEdge );
 	CPPUNIT_TEST( addPathToCacheShouldDoNothingIfEdgeOrPathParametersAreNull );
+	CPPUNIT_TEST( getPathFromCacheShouldReturnAPathGivenAValidEdge );
+	CPPUNIT_TEST( getPathFromCacheShouldReturnZeroGivenAnInvalidEdge );
+	CPPUNIT_TEST( getPathFromCacheShouldReturnZeroGivenAnEdgeThatHasNoCorrespondingPathInCache );
 	CPPUNIT_TEST_SUITE_END();
+	
 	
 	public:
 		void setUp();
@@ -98,6 +102,11 @@ class AnnotatedClusterAbstractionTest : public CPPUNIT_NS::TestFixture
 		
 		void addPathToCacheShouldStoreAPathGivenAnEdge();
 		void addPathToCacheShouldDoNothingIfEdgeOrPathParametersAreNull();
+		
+		void getPathFromCacheShouldReturnAPathGivenAValidEdge();
+		void getPathFromCacheShouldReturnZeroGivenAnInvalidEdge();
+		void getPathFromCacheShouldReturnZeroGivenAnEdgeThatHasNoCorrespondingPathInCache();
+
 		
 	private:
 		AnnotatedClusterAbstraction *aca;

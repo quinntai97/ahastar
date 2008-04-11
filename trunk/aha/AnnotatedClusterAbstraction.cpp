@@ -230,46 +230,42 @@ void AnnotatedClusterAbstraction::addPathToCache(edge* e, path* p)
 	pathCache[e->getUniqueID()] = p;
 }
 
+path* AnnotatedClusterAbstraction::getPathFromCache(edge* e)
+{
+	if(e == NULL)
+		return 0;
+
+	return pathCache[e->getUniqueID()];
+}
+
 void AnnotatedClusterAbstraction::openGLDraw()
 {
-	GLdouble x, y, z, r, xx, yy, zz, rr;
 	Map* map = this->getMap();
-	
 	graph* g1 = abstractions[1];
-	char cl1id[2], cl2id[2];
-	node_iterator nodeIter;
-	nodeIter = g1->getNodeIter();
-	node* n = g1->nodeIterNext(nodeIter);
 		
-	/* draw lines to represent entrance info. Thick lines for inter-edges, thin lines for intra-edges */
+	/* draw transitions */
 	edge_iterator edgeIter; 
 	edgeIter = g1->getEdgeIter();
 	edge* e = g1->edgeIterNext(edgeIter);
 	while(e)
 	{
 		node *n1, *n2; 		
-		float x1, x2, y1, y2;
+		double x1, x2, y1, y2;
 
 		path* thepath = pathCache[e->getUniqueID()];
 		if(thepath)
 		{
-			node* efrom = abstractions[1]->getNode(e->getFrom());
+			node* efrom = abstractions[1]->getNode(e->getFrom()); 
 			node* eto = abstractions[1]->getNode(e->getTo());
 			
-			int halflen = thepath->length()*0.5;
-			int cnt=0;
 			glLineWidth(1.0f);
-
-			/* draw intra-edges */
 			while(thepath->next)
 			{
 				n1 = thepath->n;
 				n2 = thepath->next->n;
 
-				x1 = n1->getLabelF(kXCoordinate);
-				x2 = n2->getLabelF(kXCoordinate);
-				y1 = n1->getLabelF(kYCoordinate);
-				y2 = n2->getLabelF(kYCoordinate);
+				x1 = n1->getLabelF(kXCoordinate); x2 = n2->getLabelF(kXCoordinate);
+				y1 = n1->getLabelF(kYCoordinate); y2 = n2->getLabelF(kYCoordinate);
 				
 				glColor3f (0.7F, 0.5F, 0.5F);
 				glBegin(GL_LINES);
@@ -277,58 +273,35 @@ void AnnotatedClusterAbstraction::openGLDraw()
 				glVertex3f(x2, y2, -0.010);
 				glEnd();
 				
-				if(cnt == halflen)
-				{
-					int clearance = /*e->getWidth()<*/e->getClearance(kTrees|kGround)/*?e->getWidth():e->getLabelL(kEdgeCapacity)*/;
-					glColor3f (0.51F, 1.0F, 0.0F);
-					glRasterPos3f(x1, y1+0.01, -0.012);
-					glutBitmapCharacter (GLUT_BITMAP_HELVETICA_12, cl1id[0]);	
-				}
-
-				cnt++;
 				thepath = thepath->next;
 			}
 		}
-		
-		if(e->getMarked())
-		{
-			glLineWidth(3.0f);
-
-			n1 = g1->getNode(e->getFrom());
-			n2 = g1->getNode(e->getTo());
-			x1 = n1->getLabelF(kXCoordinate);
-			x2 = n2->getLabelF(kXCoordinate);
-			y1 = n1->getLabelF(kYCoordinate);
-			y2 = n2->getLabelF(kYCoordinate);
-			
-			glColor3f (0.6F, 0.4F, 0.4F);
-			glBegin(GL_QUADS);
-			glVertex3f(x1-0.01, y1-0.01, -0.010);
-			glVertex3f(x1+0.01, y1-0.01, -0.010);
-			glVertex3f(x1+0.01, y1+0.01, -0.010);
-			glVertex3f(x1-0.01, y1+0.01, -0.010);		
-			glEnd();
-
-			glBegin(GL_QUADS);
-			glVertex3f(x2-0.01, y2-0.01, -0.010);
-			glVertex3f(x2+0.01, y2-0.01, -0.010);
-			glVertex3f(x2+0.01, y2+0.01, -0.010);
-			glVertex3f(x2-0.01, y2+0.01, -0.010);		
-			glEnd();
-			
-			glColor3f (0.7F, 0.5F, 0.5F);
-			glBegin(GL_LINES);
-			glVertex3f(x1, y1, -0.010);
-			glVertex3f(x2, y2, -0.010);
-			glEnd();
-			
-			int clearance = e->getClearance(kTrees|kGround);
-			glColor3f (0.51F, 1.0F, 0.0F);
-			glRasterPos3f(x1+((x2-x1)*0.5)-0.01, y1+((y2-y1)*0.5)+0.01, -0.012);
-			glutBitmapCharacter (GLUT_BITMAP_HELVETICA_12, clearance);	
-		}
-
 		e = g1->edgeIterNext(edgeIter);							
 	}
+
+	node_iterator nodeIter;
+	nodeIter = g1->getNodeIter();
+	node* absn = g1->nodeIterNext(nodeIter);
+	while(absn)
+	{
+		glLineWidth(3.0f);
+		
+		node* n = getNodeFromMap(absn->getLabelL(kFirstData), absn->getLabelL(kFirstData+1));
+		GLdouble x1 = n->getLabelF(kXCoordinate);
+		GLdouble y1 = n->getLabelF(kYCoordinate);
+		
+//		std::cout <<"\n node @ "<<x1<<","<<y1;
+		
+		glColor3f (0.6F, 0.4F, 0.4F);
+		glBegin(GL_QUADS);
+		glVertex3f(x1-0.01, y1-0.01, -0.010);
+		glVertex3f(x1+0.01, y1-0.01, -0.010);
+		glVertex3f(x1+0.01, y1+0.01, -0.010);
+		glVertex3f(x1-0.01, y1+0.01, -0.010);		
+		glEnd();
+		
+		absn = g1->nodeIterNext(nodeIter);	
+	}
+
 	glLineWidth(1.0f);
 }

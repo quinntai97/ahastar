@@ -739,16 +739,30 @@ void AnnotatedClusterTest::addTransitionToAbstractGraphShouldConnectAbstractNode
 void AnnotatedClusterTest::addTransitionToAbstractGraphShouldAddANewPathToTheAnnotatedClusterAbstractionCacheForEachNewlyCreatedEdge()
 {
 	int capability = kGround;
-	int clearance = 2;
-	node* abs_n1 = new node("");
-	node* abs_n2 = new node("");
-	absg->addNode(abs_n1);
-	absg->addNode(abs_n2);
+	int clearance = 2;	
 	
+	node* n1 = dynamic_cast<node*>(aca_mock->getNodeFromMap(4,1)->clone());
+	n1->setLabelL(kAbstractionLevel,1);
+	n1->setParentCluster(0);
+	node* n2 = dynamic_cast<node*>(aca_mock->getNodeFromMap(5,1)->clone());
+	n2->setLabelL(kAbstractionLevel,1);
+	n2->setParentCluster(2);
+	
+	absg->addNode(n1);
+	absg->addNode(n2);
+			
 	int numExpectedPathsInCache = 1;
-	ac->addTransitionToAbstractGraph(abs_n1, abs_n2, capability, clearance, 1.0, aca_mock); 
-
+	ac->addTransitionToAbstractGraph(n1, n2, capability, clearance, 1.0, aca_mock); 
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("failed to add a new path to the cache", numExpectedPathsInCache, aca_mock->addPathsToCacheCounter);
+
+	edge* e = absg->findAnnotatedEdge(n1,n2, capability, clearance, 1.0);	
+	path* p = aca_mock->getPathFromCache(e);
+	node* expectedNode1 = aca_mock->getNodeFromMap(n1->getLabelL(kFirstData), n1->getLabelL(kFirstData+1));
+	CPPUNIT_ASSERT_MESSAGE("cached path has wrong expected node, 1", expectedNode1 == p->n);
+
+	p = p->next;
+	node* expectedNode2 = aca_mock->getNodeFromMap(n2->getLabelL(kFirstData), n2->getLabelL(kFirstData+1));
+	CPPUNIT_ASSERT_MESSAGE("cached path has wrong expected node, 2", expectedNode2 == p->n);
 }
 
 void AnnotatedClusterTest::addTransitionToAbstractGraphShouldReuseExistingEdgeIfOneExists()
