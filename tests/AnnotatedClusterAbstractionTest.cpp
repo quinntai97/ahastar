@@ -652,3 +652,54 @@ void AnnotatedClusterAbstractionTest::removeStartAndGoalNodesFromAbstractGraphSh
 	
 	delete acfactory;	
 }
+
+void AnnotatedClusterAbstractionTest::getPathFromCacheShouldReturnAPathGivenAValidEdge()
+{
+	node* n = new node("");
+	path* p = new path(n, NULL);
+	edge* e = new edge(0,1,1);
+	
+	aca->addPathToCache(e,p);
+	path* ret = aca->getPathFromCache(e);
+	
+	CPPUNIT_ASSERT_MESSAGE("failed to return an appropriate path from cache", p == ret);
+	
+	delete p;
+	delete n;
+	delete e;
+}
+
+void AnnotatedClusterAbstractionTest::getPathFromCacheShouldReturnZeroGivenAnInvalidEdge()
+{
+	node* n = new node("");
+	path* p = new path(n, NULL);
+	edge* e = new edge(0,1,1);
+	
+	aca->addPathToCache(e,p);
+	path* ret = aca->getPathFromCache(NULL);
+	
+	CPPUNIT_ASSERT_MESSAGE("failed to return an NULL value given an invalid edge", NULL == ret);
+
+	delete p;
+	delete n;
+	delete e;
+}
+
+void AnnotatedClusterAbstractionTest::getPathFromCacheShouldReturnZeroGivenAnEdgeThatHasNoCorrespondingPathInCache()
+{
+	node* n = new node("");
+	path* p = new path(n, NULL);
+	edge* e = new edge(0,1,1);
+	edge* e2 = new edge(1,1,1);
+	
+	aca->addPathToCache(e,p);
+	
+	path* ret = aca->getPathFromCache(e2);
+	
+	CPPUNIT_ASSERT_MESSAGE("failed to return an NULL value given an invalid edge", NULL == ret);
+
+	delete p;
+	delete n;
+	delete e;
+	delete e2;
+}
