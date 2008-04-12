@@ -526,17 +526,21 @@ void AnnotatedClusterAbstractionTest::distanceShouldCalculateTheWeightOfTheShort
 	AnnotatedMapAbstraction* ama = new AnnotatedMapAbstraction(new Map(acmap.c_str()), new AnnotatedAStarMock());
 	AnnotatedAStar aastar;
 	
+	delete aca;
+	Map* m  = new Map(acmap.c_str());
+	aca = new AnnotatedClusterAbstraction(m,new AnnotatedAStar(), TESTCLUSTERSIZE); 	
+	
 	node* start = ama->getNodeFromMap(2,1);
 	node* goal = ama->getNodeFromMap(4,5);
 	
 	path* p = aastar.getPath(ama, start, goal, kGround, 1);
-	
 	double expectedDist = (int(ama->distance(p)*100+0.5))/100.0;
 	double actualDist = (int(aca->distance(p)*100+0.5))/100.0;
 	
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("distance fails to produce correct result", expectedDist, actualDist);
 	
 	delete ama;
+	delete p;
 }
 
 void AnnotatedClusterAbstractionTest::insertStartAndGoalIntoAbstractGraphShouldRecordStatisticsToMeasureInsertionEffort()
@@ -553,6 +557,9 @@ void AnnotatedClusterAbstractionTest::insertStartAndGoalIntoAbstractGraphShouldR
 	AnnotatedClusterFactory* acfactory = new AnnotatedClusterFactory();
 	aca->buildClusters(acfactory);
 	aca->buildEntrances();
+	
+	//aca->pathCache;
+	
 	aca->insertStartAndGoalNodesIntoAbstractGraph(start, goal);
 			
 /*	debugging
@@ -687,6 +694,11 @@ void AnnotatedClusterAbstractionTest::getPathFromCacheShouldReturnZeroGivenAnInv
 
 void AnnotatedClusterAbstractionTest::getPathFromCacheShouldReturnZeroGivenAnEdgeThatHasNoCorrespondingPathInCache()
 {
+	delete aca;
+	Map* m  = new Map(acmap.c_str());
+	aca = new AnnotatedClusterAbstraction(m,new AnnotatedAStar(), TESTCLUSTERSIZE); 
+
+
 	node* n = new node("");
 	path* p = new path(n, NULL);
 	edge* e = new edge(0,1,1);

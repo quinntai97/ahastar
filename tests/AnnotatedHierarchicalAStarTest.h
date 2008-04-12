@@ -29,7 +29,9 @@ class AnnotatedHierarchicalAStarTest : public CPPUNIT_NS::TestFixture
 	CPPUNIT_TEST( evaluateShouldReturnFalseIfEdgeDoesNotConnectParameterNodes );
 	CPPUNIT_TEST( evaluteShouldReturnTrueIfTheEdgeConnectingTwoParameterNodesIsTraversable );
 	CPPUNIT_TEST( evaluateShouldReturnFalseIfTheEdgeIsNotTraversable );
-	CPPUNIT_TEST( getPathShouldFindTheShortestPathBetweenTwoAbstractNodesGivenACapabilityAndAClearanceAndAnAnnotatedClusterAbstractionParameter );
+	CPPUNIT_TEST( getAbstractPathShouldFindTheShortestPathBetweenTwoAbstractNodesGivenACapabilityAndAClearanceAndAnAnnotatedClusterAbstractionParameter );
+	CPPUNIT_TEST( getPathShouldReturnTheShortestPathBetweenTwoLowLevelNodesGivenACapabilityAndClearanceAndAnnotatedClusterAbstractionParameter );
+
 	CPPUNIT_TEST_SUITE_END();
 	
 	public:
@@ -43,7 +45,10 @@ class AnnotatedHierarchicalAStarTest : public CPPUNIT_NS::TestFixture
 		void evaluateShouldReturnFalseIfTheEdgeIsNotTraversable();
 		
 		//// INTEGRATION TEST ////
-		void getPathShouldFindTheShortestPathBetweenTwoAbstractNodesGivenACapabilityAndAClearanceAndAnAnnotatedClusterAbstractionParameter();
+		void getAbstractPathShouldFindTheShortestPathBetweenTwoAbstractNodesGivenACapabilityAndAClearanceAndAnAnnotatedClusterAbstractionParameter();
+		void getPathShouldReturnTheShortestPathBetweenTwoLowLevelNodesGivenACapabilityAndClearanceAndAnnotatedClusterAbstractionParameter();
+		
+		
 		
 	private:
 		AnnotatedClusterAbstractionMock* acamock;
