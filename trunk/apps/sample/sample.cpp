@@ -184,6 +184,12 @@ void myDisplayHandler(unitSimulation *unitSim, tKeyboardModifier mod, char key)
 
 void myRandomUnitKeyHandler(unitSimulation *unitSim, tKeyboardModifier mod, char)
 {
+	unitSim->clearAllUnits();
+
+	Map* map = new Map("/Users/dharabor/src/ahastar/maps/local/demo.map");///annotatedcluster.map");
+	AnnotatedMapAbstraction* ama = new AnnotatedMapAbstraction(map, new AnnotatedAStar());
+	delete ama;
+
 	int x1, y1, x2, y2;
 	unit *u;
 	unitSim->getRandomLocation(x1, y1);
@@ -205,7 +211,7 @@ void myRandomUnitKeyHandler(unitSimulation *unitSim, tKeyboardModifier mod, char
 }
 
 void myPathfindingKeyHandler(unitSimulation *unitSim, tKeyboardModifier mod, char)
-{
+{	
 	for (int x = 0; x < ((mod==kShiftDown)?(50):(1)); x++)
 	{
 		if (unitSim->getUnitGroup(1) == 0)

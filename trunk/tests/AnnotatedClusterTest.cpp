@@ -866,14 +866,25 @@ void AnnotatedClusterTest::connectEntranceEndpointsShouldAddAPathToTheAnnotatedC
 	// TODO: build a better AAStarMock
 	delete aca_mock->getSearchAlgorithm();
 	aca_mock->setSearchAlgorithm(new AnnotatedAStar());
+
+/*	path* cachedpath = aca_mock->lastAdded;
+	int expectedLength = 7;
 	
+	int actualLength = cachedpath->length();
+	int actualDist = aca_mock->distance(cachedpath);	
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("cached path (kGround capability) is not the correct length", expectedLength, actualLength);
+*/	
+
 	int numEdges = absg->getNumEdges();
 	ac->connectEntranceEndpoints(from, to, capability1, aca_mock);
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("failed to find connection between target endpoints using kGround capability", numEdges+1, (int)aca_mock->addPathsToCacheCounter);
 
+
 	numEdges = absg->getNumEdges();
 	ac->connectEntranceEndpoints(from, to, capability2, aca_mock);
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("failed to find connections between target endpoints using kGround|kTrees capability", numEdges+2, (int)aca_mock->addPathsToCacheCounter);
+	
+	
 }
 
 void AnnotatedClusterTest::addParentsShouldCreateEdgesToRepresentAllValidPathsBetweenNewNodeAndExistingClusterEndpoints()

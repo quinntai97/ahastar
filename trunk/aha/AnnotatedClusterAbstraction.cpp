@@ -91,9 +91,10 @@ void AnnotatedClusterAbstraction::buildEntrances()
 	}
 }
 
-/* NB: relies on path having marked edges. Annotated*AStar and aStarOld all do this; other algorithms may not */
 double AnnotatedClusterAbstraction::distance(path* p)
 {
+
+	//return graphAbstraction::distance(p);
 	double dist=0;
 	
 	if(!p)
@@ -104,14 +105,14 @@ double AnnotatedClusterAbstraction::distance(path* p)
 	path* next = p->next;
 	while(next)
 	{
-		edge *e = next->n->getMarkedEdge();
-		dist+= e->getWeight();
+		dist+= h(p->n, next->n);
 		p = next;
 		next = p->next;
 	}
 	
 	return dist;
 }
+
 
 // TODO: remove code duplication from this method
 void AnnotatedClusterAbstraction::insertStartAndGoalNodesIntoAbstractGraph(node* start, node* goal) 

@@ -105,7 +105,7 @@ double graphAbstraction::distance(path *p)
 {
 	if ((p == 0) || (p->next == 0) || (p->n == 0) || (p->next->n == 0))
 		return 0.0;
-	return h(p->n, p->next->n)+distance(p->next);
+	return  h(p->n, p->next->n) + distance(p->next);
 }
 
 void graphAbstraction::measureAbstractionValues(int level, double &n, double &n_dev, double &c, double &c_dev)
