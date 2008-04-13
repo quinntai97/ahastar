@@ -99,6 +99,13 @@ void Cluster::addNode(int n)
 	nodes.push_back(n);
 }
 
+
+Cluster::~Cluster()
+{
+	parents.erase(parents.begin(), parents.end());
+	nodes.erase(nodes.begin(), nodes.end());
+}
+
 /**
 * create a cluster abstraction for the given map. Clusters are square, 
  * with height = width = clustersize. 
@@ -126,7 +133,18 @@ clusterAbstraction::~clusterAbstraction()
 		//	ei = g->getEdgeIter();
 		e = g->edgeIterNext(ei);
 	}
-	paths.clear();
+	temp.clear();
+	
+	for(clusterUtil::PathLookupTable::iterator it = paths.begin(); it != paths.end(); it++)
+		delete (*it).second;
+	paths.erase(paths.begin(), paths.end());
+	
+	for(int i = 0; i<newPaths.size(); i++)
+		delete newPaths.at(i);
+	newPaths.erase(newPaths.begin(), newPaths.end());
+	
+	clusters.erase(clusters.begin(), clusters.end());
+	entrances.erase(entrances.begin(), entrances.end());
 }
 
 /**

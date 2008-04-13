@@ -44,6 +44,18 @@ AnnotatedClusterAbstraction::AnnotatedClusterAbstraction(Map* m, AbstractAnnotat
 	searchTime = 0;
 }
 
+AnnotatedClusterAbstraction::~AnnotatedClusterAbstraction()
+{
+	for(int i =0; i< clusters.size(); i++)
+		delete clusters.at(i);
+	clusters.erase(clusters.begin(), clusters.end());
+
+//	delete (*pathCache.begin()).second;
+	for(ACAUtil::pathTable::iterator it = pathCache.begin(); it != pathCache.end(); it++)
+		delete (*it).second;
+	pathCache.erase(pathCache.begin(), pathCache.end());
+}
+
 void AnnotatedClusterAbstraction::addCluster(AnnotatedCluster* ac) 
 { 
 	ac->setClusterId(clusters.size()); clusters.push_back(ac); 
@@ -172,50 +184,50 @@ void AnnotatedClusterAbstraction::removeStartAndGoalNodesFromAbstractGraph()
 	if(goalid != -1)
 		goal = g->getNode(goalid);
 		
-//	std::cout << "\n erasing..";
+	//	std::cout << "\n erasing start..";
 	if(start)
-	{
-		AnnotatedCluster* startCluster = clusters[start->getParentCluster()];
-		startCluster->getParents().pop_back(); // always last one added
-		
+	{		
 		edge_iterator ei = start->getEdgeIter();
 		edge* e = start->edgeIterNext(ei);
 		while(e)
 		{
-			pathCache.erase(e->getUniqueID());
-//			std::cout << pathCache.size()<<",";
 			g->removeEdge(e);
+			delete pathCache[e->getUniqueID()];
+			pathCache.erase(e->getUniqueID());
 			delete e;
 			ei = start->getEdgeIter();
 			e = start->edgeIterNext(ei);
 		}
 		
 		g->removeNode(startid); 
+		AnnotatedCluster* startCluster = clusters[start->getParentCluster()];
+		startCluster->getParents().pop_back(); // always last one added
+		
 		startid = -1;
 		node* originalStart = getNodeFromMap(start->getLabelL(kFirstData), start->getLabelL(kFirstData+1));
 		originalStart->setLabelL(kParent, startid);
 		delete start;
 	}
 
-//	std::cout << " goal...";
+	//	std::cout << " erasing goal...";
 	if(goal)
-	{
-		AnnotatedCluster* goalCluster = clusters[goal->getParentCluster()];
-		goalCluster->getParents().pop_back();
-		
+	{		
 		edge_iterator ei = goal->getEdgeIter();
 		edge* e = goal->edgeIterNext(ei);
 		while(e)
 		{
-			pathCache.erase(e->getUniqueID());
-//			std::cout << pathCache.size()<<",";
 			g->removeEdge(e);
+			delete pathCache[e->getUniqueID()];
+			pathCache.erase(e->getUniqueID());
 			delete e;
 			ei = goal->getEdgeIter();
 			e = goal->edgeIterNext(ei);
 		}
 		
 		g->removeNode(goal->getNum()); 
+		AnnotatedCluster* goalCluster = clusters[goal->getParentCluster()];
+		goalCluster->getParents().pop_back();
+
 		goalid = -1;
 		node* originalGoal = getNodeFromMap(goal->getLabelL(kFirstData), goal->getLabelL(kFirstData+1));
 		originalGoal->setLabelL(kParent, startid);

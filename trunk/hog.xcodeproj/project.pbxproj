@@ -1166,7 +1166,10 @@
 			buildSettings = {
 				ARCHS = ppc;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				GCC_PREPROCESSOR_DEFINITIONS = OS_MAC;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					OS_MAC,
+					UNITTEST,
+				);
 				HEADER_SEARCH_PATHS = (
 					simulation,
 					abstraction,

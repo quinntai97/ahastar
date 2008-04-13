@@ -148,8 +148,8 @@ void AnnotatedClusterAbstractionTest::buildEntrancesShouldCreateCorrectNumberOfT
 
 	graph* absg = aca->getAbstractGraph(1);
 	
-/*	debugging
-	edge_iterator ei = absg->getEdgeIter();
+	//debugging
+/*	edge_iterator ei = absg->getEdgeIter();
 	edge* e = absg->edgeIterNext(ei);
 	while(e)
 	{
@@ -262,7 +262,7 @@ void AnnotatedClusterAbstractionTest::insertStartAndGoalNodesIntoAbstractGraphSh
 	node* goal = aca->getNodeFromMap(5,3);
 	graph* absg = aca->getAbstractGraph(1);	
 	int numAbstractEdges = absg->getNumEdges();
-	int numExpectedAbstractEdges = numAbstractEdges+4;
+	int numExpectedAbstractEdges = numAbstractEdges+5; // 3 new edges in start cluster and 2 new edges in goal cluster
 	
 	aca->insertStartAndGoalNodesIntoAbstractGraph(start, goal);	
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("wrong number of edges added to abstract graph", numExpectedAbstractEdges, absg->getNumEdges());
@@ -353,7 +353,6 @@ void AnnotatedClusterAbstractionTest::removeStartAndGoalNodesFromAbstractGraphSh
 	aca->insertStartAndGoalNodesIntoAbstractGraph(start, goal);
 	
 	aca->removeStartAndGoalNodesFromAbstractGraph(); 
-	
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("abstract node count is wrong", numExpectedAbstractNodes, absg->getNumNodes());
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("abstract edge count is wrong", numExpectedAbstractEdges, absg->getNumEdges());
 	
@@ -593,7 +592,6 @@ void AnnotatedClusterAbstractionTest::addPathToCacheShouldStoreAPathGivenAnEdge(
 	
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("cache path count incorrect", 1, (int)aca->pathCache.size());
 	CPPUNIT_ASSERT_MESSAGE("wrong path retrieved", p == aca->pathCache[e->getUniqueID()]);
-	delete p;
 	delete g;
 }
 
@@ -627,7 +625,7 @@ void AnnotatedClusterAbstractionTest::insertStartAndGoalIntoAbstractGraphShouldA
 	aca->buildClusters(acfactory);
 	aca->buildEntrances();
 
-	int numExpectedPathsInCache = absg->getNumEdges()+4;
+	int numExpectedPathsInCache = absg->getNumEdges()+5; // 3 new cached paths in start cluster and 2 more in goal cluster
 	aca->insertStartAndGoalNodesIntoAbstractGraph(start, goal);
 		
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("wrong number of paths added to cache", numExpectedPathsInCache, (int)aca->pathCache.size());
@@ -671,7 +669,6 @@ void AnnotatedClusterAbstractionTest::getPathFromCacheShouldReturnAPathGivenAVal
 	
 	CPPUNIT_ASSERT_MESSAGE("failed to return an appropriate path from cache", p == ret);
 	
-	delete p;
 	delete n;
 	delete e;
 }
@@ -687,7 +684,6 @@ void AnnotatedClusterAbstractionTest::getPathFromCacheShouldReturnZeroGivenAnInv
 	
 	CPPUNIT_ASSERT_MESSAGE("failed to return an NULL value given an invalid edge", NULL == ret);
 
-	delete p;
 	delete n;
 	delete e;
 }
@@ -710,7 +706,6 @@ void AnnotatedClusterAbstractionTest::getPathFromCacheShouldReturnZeroGivenAnEdg
 	
 	CPPUNIT_ASSERT_MESSAGE("failed to return an NULL value given an invalid edge", NULL == ret);
 
-	delete p;
 	delete n;
 	delete e;
 	delete e2;

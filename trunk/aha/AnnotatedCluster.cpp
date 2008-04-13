@@ -99,7 +99,6 @@ AnnotatedCluster::AnnotatedCluster(int startx, int starty, int width, int height
 		throw InvalidClusterOriginCoordinatesException(startx, starty);
 }
 
-
 /* annotated clusters cannot contain hard obstacles. 
    NB: deprecates addNode(int) in Cluster. Avoid using the version in the base class when adding annotated nodes as it isn't safe.
 */
@@ -377,25 +376,21 @@ void AnnotatedCluster::connectEntranceEndpoints(node* n1, node* n2, int capabili
 		int size = agentsizes[i]; // assumes agentsize is ordered 0..n -- smallest to largest
 		node* from = aca->getNodeFromMap(n1->getLabelL(kFirstData),n1->getLabelL(kFirstData+1)); // get low-level nodes
 		node* to = aca->getNodeFromMap(n2->getLabelL(kFirstData),n2->getLabelL(kFirstData+1)); 
-		path* solution = aastar->getPath(aca, from, to, capability, size); // connect endpoints using smallest agentsize first
-
+			
+		path* solution = aastar->getPath(aca, from, to, capability, size);
 		if(solution != 0)
 		{
 			double dist = aca->distance(solution);
-			int clearance=MAXINT;
-			getPathClearance(solution, capability, clearance);
-			edge *e = absg->findAnnotatedEdge(n1,n2,capability,clearance,dist);
-			if(e == 0)
-			{
-				//std::cout << "connecting endpoints in cluster "<<getClusterId()<<". new edge, dist: "<<dist<<std::endl;
-				e = new edge(n1->getNum(), n2->getNum(), dist);
-				e->setClearance(capability,clearance);
-				absg->addEdge(e);
-				aca->addPathToCache(e, solution);
-				
-				//std::cout << "\n adding way cool edege for cluster "<<getClusterId();
-			}
-			//delete solution;
+			edge *e = absg->findAnnotatedEdge(n1,n2,capability,size,dist); // any edge shorter than maxdist is optimal (from previous A*)
+			if(e != 0)
+				return; // found an existing suitable edge. nothing to see here. move along
+
+			//std::cout << "connecting endpoints in cluster "<<getClusterId()<<". new edge, dist: "<<dist<<std::endl;
+			e = new edge(n1->getNum(), n2->getNum(), dist);
+			e->setClearance(capability,size);
+			absg->addEdge(e);
+			aca->addPathToCache(e, solution);				
+			//std::cout << "\n adding way cool edege for cluster "<<getClusterId();
 		}
 		
 		/* record some metrics about the operation */
@@ -407,7 +402,8 @@ void AnnotatedCluster::connectEntranceEndpoints(node* n1, node* n2, int capabili
 	aastar->limitSearchToClusterCorridor(false);
 }
 
-// Find out the smallest clearance value along some path
+// BROKEN BROKEN BROKEN -- DO NOT USE -- 
+//Find out the smallest clearance value along some path
 //	TODO: can we somehow rationalise about capability in the same way?
 void AnnotatedCluster::getPathClearance(path *p, int& capability, int& clearance)
 {

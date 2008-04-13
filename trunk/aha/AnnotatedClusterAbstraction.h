@@ -40,7 +40,7 @@ class AnnotatedClusterAbstraction : public AnnotatedMapAbstraction
 	
 	public: 
 		AnnotatedClusterAbstraction::AnnotatedClusterAbstraction(Map* m, AbstractAnnotatedAStar* searchalg, int clustersize);
-		~AnnotatedClusterAbstraction() { clusters.clear(); pathCache.clear(); };
+		virtual ~AnnotatedClusterAbstraction();
 
 		virtual void buildClusters(IAnnotatedClusterFactory*);
 		virtual void buildEntrances();
