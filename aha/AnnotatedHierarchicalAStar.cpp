@@ -63,7 +63,7 @@ path* AnnotatedHierarchicalAStar::getPath(graphAbstraction* aMap, node* from, no
 	}
 */
 	edge* e = absg->findAnnotatedEdge(abspath->n,abspath->next->n,capability,clearance,MAXINT);
-	path* thepath=aca->getPathFromCache(e);
+	path* thepath=aca->getPathFromCache(e)->clone();
 	path* tail;
 	path* tmp = abspath->next;
 	while(tmp->next)
@@ -75,7 +75,7 @@ path* AnnotatedHierarchicalAStar::getPath(graphAbstraction* aMap, node* from, no
 			std::cout << "\n AHA::getPath -- something went horribly wrong; I couldn't find any cached paths";
 			exit(-1);
 		}
-		path* cachedpath = aca->getPathFromCache(e);
+		path* cachedpath = aca->getPathFromCache(e)->clone();
 		
 /*		// debugging
 		node* n1 = absg->getNode(e->getFrom());
@@ -95,13 +95,17 @@ path* AnnotatedHierarchicalAStar::getPath(graphAbstraction* aMap, node* from, no
 		if(tail->n->getNum() == cachedpath->n->getNum()) // avoid overlap where the cached path segments overlap (one ends where another begins)
 			tail->next = cachedpath->next;
 		else 
-			tail->next = cachedpath;
+		{
+			std::cout << "\n AHA::getPath -- something went horribly wrong; cached path segments don't overlap";
+			exit(-1);
+			//tail->next = cachedpath;
+		}
 	
 		tmp = tmp->next;
 	}
 	
 	aca->removeStartAndGoalNodesFromAbstractGraph();
 	delete abspath;
-	
+
 	return thepath;
 }

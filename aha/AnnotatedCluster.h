@@ -180,7 +180,6 @@ class AnnotatedCluster : public Cluster
 
 	public:
 		AnnotatedCluster(int, int, int, int) throw(InvalidClusterDimensionsException, InvalidClusterOriginCoordinatesException);
-		~AnnotatedCluster() { }
 		virtual void addParent(node *, AnnotatedClusterAbstraction*);
 		virtual void addNodesToCluster(AnnotatedClusterAbstraction*);
 		virtual void buildEntrances(AnnotatedClusterAbstraction*) throw (AnnotatedClusterAbstractionIsNullException);

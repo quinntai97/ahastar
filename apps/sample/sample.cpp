@@ -68,9 +68,12 @@ void createSimulation(unitSimulation * &unitSim)
 		map = new Map(gDefaultMap);
 */
 	AnnotatedClusterAbstraction* aca = new AnnotatedClusterAbstraction(map, new AnnotatedAStar(), CLUSTERSIZE);
-	aca->buildClusters(new AnnotatedClusterFactory());
+	AnnotatedClusterFactory* acf = new AnnotatedClusterFactory();
+	aca->buildClusters(acf);
+	delete acf;
 	aca->buildEntrances();
 	unitSim = new unitSimulation(aca);
+
 	
 	graph* absg = aca->getAbstractGraph(1);
 	std::cout << "\n absnodes: "<<absg->getNumNodes()<<" absedges: "<<absg->getNumEdges();
@@ -187,8 +190,15 @@ void myRandomUnitKeyHandler(unitSimulation *unitSim, tKeyboardModifier mod, char
 	unitSim->clearAllUnits();
 
 	Map* map = new Map("/Users/dharabor/src/ahastar/maps/local/demo.map");///annotatedcluster.map");
-	AnnotatedMapAbstraction* ama = new AnnotatedMapAbstraction(map, new AnnotatedAStar());
-	delete ama;
+	AnnotatedClusterAbstraction* aca = new AnnotatedClusterAbstraction(map, new AnnotatedAStar(), 5);
+	AnnotatedClusterFactory* acf = new AnnotatedClusterFactory();
+	aca->buildClusters(acf);
+	aca->buildEntrances();
+	delete aca;
+	delete acf;
+	
+//	AnnotatedMapAbstraction* ama = new AnnotatedMapAbstraction(map, new AnnotatedAStar());
+//	delete ama;
 
 	int x1, y1, x2, y2;
 	unit *u;

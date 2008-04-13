@@ -67,6 +67,7 @@ public:
      m_width(width),m_height(height)
   {}
 
+	virtual ~Cluster();
 	virtual void addNode(int);
 	virtual void addParent(node* n) { parents.push_back(n); } 
 	int getIthNodeNum(int i) const { return nodes[i];}
@@ -77,7 +78,7 @@ public:
 	int getWidth() const { return m_width; } 
 	int getClusterId() { return m_id; }
 	std::vector<node*>&  getParents() { return parents; } 
-	std::vector<node*> parents; // each connected component gets its own parent
+    std::vector<node*> parents; // each connected component gets its own parent
 	
 	int setHeight(const int newheight) { m_height = newheight; }
 	int setWidth(const int newwidth) { m_width = newwidth; }
@@ -94,6 +95,7 @@ private:
   int m_width; // width of this cluster
   int m_height; // high of this cluster
   std::vector<int> nodes; // node numbers in abstract graph of the entrances
+
 
   
 };
@@ -190,9 +192,10 @@ private:
 
   std::vector<Cluster> clusters;
   std::vector<Entrance> entrances;
+  std::vector<path*> newPaths;
   clusterUtil::PathLookupTable paths;
   clusterUtil::PathLookupTable temp;
-		std::vector<path*> newPaths;
+
   int nodeExists(const Cluster& c,double x,double y, graph* g);
   void setUpParents(graph* g);
 
