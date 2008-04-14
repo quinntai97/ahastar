@@ -189,6 +189,7 @@ void myRandomUnitKeyHandler(unitSimulation *unitSim, tKeyboardModifier mod, char
 {
 	unitSim->clearAllUnits();
 
+	/*
 	Map* map = new Map("/Users/dharabor/src/ahastar/maps/local/demo.map");///annotatedcluster.map");
 	AnnotatedClusterAbstraction* aca = new AnnotatedClusterAbstraction(map, new AnnotatedAStar(), 5);
 	AnnotatedClusterFactory* acf = new AnnotatedClusterFactory();
@@ -196,7 +197,7 @@ void myRandomUnitKeyHandler(unitSimulation *unitSim, tKeyboardModifier mod, char
 	aca->buildEntrances();
 	delete aca;
 	delete acf;
-	
+	*/
 //	AnnotatedMapAbstraction* ama = new AnnotatedMapAbstraction(map, new AnnotatedAStar());
 //	delete ama;
 
@@ -210,14 +211,15 @@ void myRandomUnitKeyHandler(unitSimulation *unitSim, tKeyboardModifier mod, char
 		case kShiftDown: unitSim->addUnit(u=new randomUnit(x1, y1)); break;
 		default:
 			unit *targ;
-			unitSim->addUnit(targ = new unit(x2, y2));
+			unitSim->addUnit(targ = new unit(10, 5));
 			AnnotatedAStar *aastar = new AnnotatedAStar();
 			aastar->setMinClearance(2);
 			aastar->setSearchTerrain(kGround);
-			unitSim->addUnit(u=new searchUnit(x1, y1, targ, aastar)); break;
+			unitSim->addUnit(u=new searchUnit(3, 7, targ, aastar)); 
+			break;
 	}
 	u->setSpeed(0.5);
-	unitSim->setmapAbstractionDisplay(1);
+	//unitSim->setmapAbstractionDisplay(1);
 }
 
 void myPathfindingKeyHandler(unitSimulation *unitSim, tKeyboardModifier mod, char)

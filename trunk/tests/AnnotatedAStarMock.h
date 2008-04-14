@@ -16,8 +16,8 @@
 class AnnotatedAStarMock : public AbstractAnnotatedAStar
 {
 	public:
-		AnnotatedAStarMock() { curexp = NULL; }
-		virtual path* getPath(graphAbstraction*, node*, node*, int, int);
+		AnnotatedAStarMock(int capability=0, int clearance=0) : AbstractAnnotatedAStar(capability, clearance) { curexp = NULL; }
+		virtual path* getPath(graphAbstraction*, node*, node*);
 		virtual const char* getName() { return "AnnotatedAStarMock"; }
 		virtual bool evaluate(node* n, node* target); 
 		void setCurrentTestExperiment(ExpMgrUtil::TestExperiment* exp) { curexp = exp; }

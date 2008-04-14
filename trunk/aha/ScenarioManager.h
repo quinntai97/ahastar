@@ -68,7 +68,7 @@ class AbstractScenarioManager
 		Experiment* getNthExperiment(int which) { if(which < experiments.size()) return experiments[which]; return 0; }
 		void addExperiment(Experiment* newexp) { experiments.push_back(newexp); }
 		int getNumExperiments() { return experiments.size(); }
-		virtual void generateExperiments(searchAlgorithm*, mapAbstraction*, int numscenarios, int validterrain, int agentsize) = 0;
+		virtual void generateExperiments(AbstractAnnotatedAStar*, mapAbstraction*, int numscenarios, int validterrain, int agentsize) = 0;
 		virtual void loadScenarioFile(const char* filelocation) = 0;
 		virtual void writeScenarioFile(const char* filelocation) = 0;
 		void clearExperiments() { experiments.clear(); }
@@ -81,7 +81,7 @@ class AHAScenarioManager: public AbstractScenarioManager
 {
 	public: 
 		AHAScenarioManager() {};
-		virtual void generateExperiments(searchAlgorithm*, mapAbstraction*, int numscenarios, int validterrain, int agentsize);
+		virtual void generateExperiments(AbstractAnnotatedAStar*, mapAbstraction*, int numscenarios, int validterrain, int agentsize);
 		virtual void loadScenarioFile(const char* filelocation);
 		virtual void writeScenarioFile(const char* filelocation);
 };

@@ -36,16 +36,14 @@ namespace AAStarUtil {
 class AbstractAnnotatedAStar : public aStarOld
 {
 	public:	
-		AbstractAnnotatedAStar() : useCorridor(false) { }
+		AbstractAnnotatedAStar(int _capability, int _clearance) : useCorridor(false), capability(_capability), clearance(_clearance) { capability=0; clearance=0; }
 		virtual const char* getName() { return "AbstractAnnotatedAStar"; }
-		virtual path* getPath(graphAbstraction *aMap, node* from, node* to) { return getPath(aMap, from, to, searchterrain, minclearance); }
-		virtual path* getPath(graphAbstraction*, node*, node*, int, int) = 0;
-		path* getPath(node* from, node* to, int terrain, int size) { return getPath(this->getGraphAbstraction(), from, to, terrain, size); }
+		virtual path* getPath(graphAbstraction*, node*, node*) = 0;
 		
-		int getMinClearance() { return minclearance;}
-		void setMinClearance(int minclearance) { this->minclearance = minclearance; }
-		int getSearchTerrain() { return searchterrain; }
-		void setSearchTerrain(int searchterrain) { this->searchterrain = searchterrain; }
+		int getClearance() { return clearance;}
+		void setClearance(int clearance) { this->clearance = clearance; }
+		int getCapability() { return capability; }
+		void setCapability(int capability) { this->capability = capability; }
 		int getPeakMemory() { return peakmemory; }
 		double getSearchTime() { return searchtime; }
 		void limitSearchToClusterCorridor(bool value) { useCorridor=value; }
@@ -60,7 +58,7 @@ class AbstractAnnotatedAStar : public aStarOld
 		bool useCorridor;
 		
 	private:
-		int searchterrain, minclearance; 
+		int capability, clearance; 
 		int cluster1, cluster2;
 
 };
@@ -72,8 +70,8 @@ class AnnotatedAStar : public AbstractAnnotatedAStar
 			friend class AnnotatedAStarTest; // TODO: replace these stupid friends with an inheritance-based solution
 			friend class AnnotatedHierarchicalAStarTest;
 		#endif
-		AnnotatedAStar() { e = NULL; }
-		virtual path* getPath(graphAbstraction*, node*, node*, int, int);
+		AnnotatedAStar(int _capability=0, int _clearance=0) : AbstractAnnotatedAStar(_capability, _clearance) { e = NULL; }
+		virtual path* getPath(graphAbstraction*, node*, node*);
 		virtual const char* getName() { return "AnnotatedAStar"; }
 		static tDirection getDirection(node* current, node* target); // TODO: move this to a common AStar base class
 

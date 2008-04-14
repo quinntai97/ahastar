@@ -65,8 +65,8 @@ void AnnotatedHierarchicalAStarTest::evaluateShouldReturnFalseIfEdgeDoesNotConne
 
 void AnnotatedHierarchicalAStarTest::evaluteShouldReturnTrueIfTheEdgeConnectingTwoParameterNodesIsTraversable()
 {
-	ahastar->setSearchTerrain(kGround);
-	ahastar->setMinClearance(2);
+	ahastar->setCapability(kGround);
+	ahastar->setClearance(2);
 	e->setClearance(kGround,2);
 	
 	ahastar->e = e;
@@ -78,8 +78,8 @@ void AnnotatedHierarchicalAStarTest::evaluteShouldReturnTrueIfTheEdgeConnectingT
 
 void AnnotatedHierarchicalAStarTest::evaluateShouldReturnFalseIfTheEdgeIsNotTraversable()
 {
-	ahastar->setSearchTerrain(kGround);
-	ahastar->setMinClearance(2);
+	ahastar->setCapability(kGround);
+	ahastar->setClearance(2);
 	e->setClearance(kTrees,2);
 	
 	ahastar->e = e;
@@ -105,15 +105,15 @@ void AnnotatedHierarchicalAStarTest::getAbstractPathShouldFindTheShortestPathBet
 	int capability = kGround;
 	int size = 1;
 	
-	ahastar->setGraphAbstraction(aca);
-	ahastar->setMinClearance(size);
-	ahastar->setSearchTerrain(capability);
-	
 	graph* absmap = aca->getAbstractGraph(1);
 	node* absstart = absmap->getNode(start->getLabelL(kParent));
 	node* absgoal = absmap->getNode(goal->getLabelL(kParent));
-	
-	path* p = ahastar->getAbstractPath(aca, absstart,absgoal,capability,size);
+
+	ahastar->setGraphAbstraction(aca);
+	ahastar->setClearance(size);
+	ahastar->setCapability(capability);
+		
+	path* p = ahastar->getAbstractPath(aca, absstart,absgoal);
 	CPPUNIT_ASSERT_MESSAGE("failed to find a valid path when one exists", p != 0);
 
 	double expectedDist = 9.41;
@@ -156,12 +156,12 @@ void AnnotatedHierarchicalAStarTest::getPathShouldReturnTheShortestPathBetweenTw
 	
 	int capability = kGround;
 	int size = 1;
-	
-	ahastar->setGraphAbstraction(aca);
-	ahastar->setMinClearance(size);
-	ahastar->setSearchTerrain(capability);
 
-	path* p = ahastar->getPath(aca, start,goal,capability,size);	
+	ahastar->setGraphAbstraction(aca);
+	ahastar->setClearance(size);
+	ahastar->setCapability(capability);
+
+	path* p = ahastar->getPath(aca, start,goal);	
 	
 	int expectedLength = 10;	
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("path length wrong", expectedLength, (int)p->length());	

@@ -29,10 +29,11 @@ AbstractScenarioManager::~AbstractScenarioManager()
 	NB: AnnotatedA* used to determine if a path exists. With a better map abstraction, a solution using pathable() would be somewhat better;
 		TODO: perhaps pathable could return the length of the path instead of just true/false?? Double processing atm
 */			 
-void AHAScenarioManager::generateExperiments(searchAlgorithm* searchalg, mapAbstraction* absMap, int numscenarios, int capability, int maxsize)
+void AHAScenarioManager::generateExperiments(AbstractAnnotatedAStar* searchalg, mapAbstraction* absMap, int numscenarios, int capability, int maxsize)
 {
 
-	assert(dynamic_cast<AbstractAnnotatedAStar*>(searchalg));
+	assert(searchalg != 0 && absMap != 0);
+	
 	graph *g = absMap->getAbstractGraph(0);
 	const char* _map = absMap->getMap()->getMapName();
 	
@@ -60,7 +61,11 @@ void AHAScenarioManager::generateExperiments(searchAlgorithm* searchalg, mapAbst
 				r1 = g->getRandomNode();
 				r2 = g->getRandomNode();
 				if((r1->getTerrainType()&terrain) == r1->getTerrainType() && (r2->getTerrainType()&terrain) == r2->getTerrainType())
-					p = ((AbstractAnnotatedAStar*)searchalg)->getPath(absMap, r1, r2, terrain, size);
+				{
+					searchalg->setCapability(terrain);
+					searchalg->setClearance(size);
+					p = searchalg->getPath(absMap, r1, r2);
+				}
 			}
 			tries++;
 

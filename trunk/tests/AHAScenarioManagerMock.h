@@ -17,7 +17,7 @@ class AHAScenarioManagerMock : AbstractScenarioManager
 {
 	
 	public:
-		void generateExperiments(searchAlgorithm *, mapAbstraction*, int numscenarios, int validterrain, int agentsize) =0;
+		void generateExperiments(AbstractAnnotatedAStar *, mapAbstraction*, int numscenarios, int validterrain, int agentsize) =0;
 		void loadScenarioFile(const char* filelocation) =0;
 		void writeScenarioFile(const char* filelocation) =0;
 };

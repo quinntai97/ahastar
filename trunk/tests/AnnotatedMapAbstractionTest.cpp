@@ -52,7 +52,11 @@ void AnnotatedMapAbstractionTest::tearDown()
 void AnnotatedMapAbstractionTest::runExperiment(ExperimentKey expkey)
 {	
 	TestExperiment* exp = expmgr->getExperiment(expkey);
-	((AnnotatedAStarMock*)ama->getSearchAlgorithm())->setCurrentTestExperiment(exp);
+	AnnotatedAStarMock* aastarmock = ((AnnotatedAStarMock*)ama->getSearchAlgorithm());
+
+	aastarmock->setCapability(exp->caps);
+	aastarmock->setClearance(exp->size);
+	aastarmock->setCurrentTestExperiment(exp);
 
 	node* start = ama->getNodeFromMap(exp->startx, exp->starty);
 	node* goal = ama->getNodeFromMap(exp->goalx, exp->goaly);

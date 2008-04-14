@@ -405,7 +405,9 @@ void AnnotatedCluster::findShortestPathBetweenTwoEndpoints(node* n1, node* n2, i
 		node* from = aca->getNodeFromMap(n1->getLabelL(kFirstData),n1->getLabelL(kFirstData+1)); // get low-level nodes
 		node* to = aca->getNodeFromMap(n2->getLabelL(kFirstData),n2->getLabelL(kFirstData+1)); 
 
-		path* solution = aastar->getPath(aca, from, to, capability, size);
+		aastar->setCapability(capability);
+		aastar->setClearance(size);
+		path* solution = aastar->getPath(aca, from, to);
 		if(solution != 0)
 		{
 			double dist = aca->distance(solution);

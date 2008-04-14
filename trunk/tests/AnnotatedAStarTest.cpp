@@ -24,11 +24,11 @@ using namespace ExpMgrUtil;
 
 void AnnotatedAStarTest::setUp()
 {
+	int capability = kGround;
+	int clearance=2;
 	amamock = new AnnotatedMapAbstractionMock(new Map(maplocation.c_str()), new AnnotatedAStarMock());
 	aastar = new AnnotatedAStar();
 	aastar->setGraphAbstraction(amamock);
-	aastar->setMinClearance(2);
-	aastar->setSearchTerrain(4);
 
 	pos = n = NULL;
 	expmgr = new ExperimentManager();
@@ -130,10 +130,14 @@ void AnnotatedAStarTest::getPathGoalClearanceTooSmall()
 void AnnotatedAStarTest::getPathReturnNullWhenStartOrGoalNull()
 {	
 	n = getNode(0,0,4);
-	path* p = aastar->getPath(amamock, pos, n, 4, 2); 
+	int capability = kGround;
+	int clearance = 2;
+	aastar->setCapability(kGround);
+	aastar->setClearance(clearance);
+	path* p = aastar->getPath(amamock, pos, n); 
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("getPath() failed to return null when start node is null", int(p), NULL);
 
-	p = aastar->getPath(amamock, n, pos, 4, 2); 
+	p = aastar->getPath(amamock, n, pos); 
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("getPath() failed to return null when goal node is null", int(p), NULL);
 	
 	delete n;
@@ -181,7 +185,9 @@ void AnnotatedAStarTest::getPathReturnNullWhenStartAndGoalNodesIdentical()
 	TestExperiment *te = expmgr->getExperiment(kNotPathableStartAndGoalIdenticalLST);
 	string errmsg("getPath() failed to return null when start and goal nodes are identical");
 	pos = te->getStartNode();
-	path *p = aastar->getPath(amamock, pos, pos, te->caps, te->size);
+	aastar->setCapability(te->caps);
+	aastar->setClearance(te->size);
+	path *p = aastar->getPath(amamock, pos, pos);
 	CPPUNIT_ASSERT_EQUAL_MESSAGE(errmsg.c_str(), int(p), NULL);
 }
 
@@ -207,7 +213,9 @@ void AnnotatedAStarTest::getPathReturnNullWhenNonAnnotatedMapAbstractionParamete
 	n = getNode(22,1, kGround);
 	n->setClearance(kGround, 2);
 	
-	path* p = aastar->getPath(mfa, pos, n, kGround, 2);
+	aastar->setCapability(kGround);
+	aastar->setClearance(2);
+	path* p = aastar->getPath(mfa, pos, n);
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("getPath() failed to return false when called with non-annotated map parameter", NULL, (int)p); 
 	
 	delete pos;
@@ -221,7 +229,9 @@ void AnnotatedAStarTest::getPathReturnNullWhenMapAbstractionParameterNull()
 	TestExperiment *te = expmgr->getExperiment(kPathableToyProblemLST);
 	pos = te->getStartNode();
 	n = te->getGoalNode();
-	path* p = aastar->getPath(NULL, pos, n, te->caps, te->size);
+	aastar->setCapability(te->caps);
+	aastar->setClearance(te->size);
+	path* p = aastar->getPath(NULL, pos, n);
 	
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("getPath() failed to return false when called with NULL map abstraction parameter", NULL, (int)p); 
 }
@@ -234,7 +244,10 @@ void AnnotatedAStarTest::getPathReturnNullWhenHardObstacleBlocksGoal()
 	string errmsg("getPath() failed to return null when the only solution is blocked by a hard obstacle");
 	node *start = ama.getNodeFromMap(te->startx,te->starty);
 	node* goal = ama.getNodeFromMap(te->goalx, te->goaly);
-	path* p = aastar->getPath(&ama, start, goal, te->caps,te->size);
+
+	aastar->setCapability(te->caps);
+	aastar->setClearance(te->size);
+	path* p = aastar->getPath(&ama, start, goal);
 	CPPUNIT_ASSERT_EQUAL_MESSAGE(errmsg.c_str(), NULL, (int)p);
 }
 
@@ -246,7 +259,10 @@ void AnnotatedAStarTest::getPathReturnNullWhenSoftObstacleBlocksGoal()
 	string errmsg("getPath() failed to return null when the only solution is blocked by a soft obstacle");
 	node *start = ama.getNodeFromMap(te->startx,te->starty);
 	node* goal = ama.getNodeFromMap(te->goalx, te->goaly);
-	path* p = aastar->getPath(&ama, start, goal, te->caps,te->size);
+
+	aastar->setCapability(te->caps);
+	aastar->setClearance(te->size);
+	path* p = aastar->getPath(&ama, start, goal);
 	CPPUNIT_ASSERT_EQUAL_MESSAGE(errmsg.c_str(), NULL, (int)p);
 }
 
@@ -256,7 +272,10 @@ void AnnotatedAStarTest::getPathWhenSolutionExistsForGroundCapabilityLST()
 	AnnotatedMapAbstraction ama(new Map(maplocation.c_str()), new AnnotatedAStar());
 	node *start = ama.getNodeFromMap(te->startx,te->starty);
 	node* goal = ama.getNodeFromMap(te->goalx, te->goaly);
-	path* p = aastar->getPath(&ama, start, goal, te->caps,te->size);
+	
+	aastar->setCapability(te->caps);
+	aastar->setClearance(te->size);
+	path* p = aastar->getPath(&ama, start, goal);
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("returned a NULL solution for a pathable problem", true, p != NULL);
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("returned solution length does not match length in test experiment", te->distance, ama.distance(p));
 	
@@ -273,7 +292,13 @@ void AnnotatedAStarTest::getPathInitialisesFCostValueOfStartToHeuristicGoalDista
 	AnnotatedMapAbstraction ama(new Map(maplocation.c_str()), new AnnotatedAStar());
 	node *start = ama.getNodeFromMap(te->startx,te->starty);
 	node* goal = ama.getNodeFromMap(te->goalx, te->goaly);
-	path* p = aastar->getPath(&ama, start, goal, te->caps,te->size);
+
+	aastar->setCapability(te->caps);
+	aastar->setClearance(te->size);
+	
+	aastar->setCapability(te->caps);
+	aastar->setClearance(te->size);
+	path* p = aastar->getPath(&ama, start, goal);
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("fCost of start node != h(start, goal)", start->getLabelF(kTemporaryLabel), ama.h(start, goal));	
 	
 	delete p;
@@ -286,7 +311,10 @@ void AnnotatedAStarTest::getPathEachNodeInReturnedPathHasAnEdgeToItsPredecessor(
 	AnnotatedMapAbstraction ama(new Map(maplocation.c_str()), new AnnotatedAStar());
 	node *start = ama.getNodeFromMap(te->startx,te->starty);
 	node* goal = ama.getNodeFromMap(te->goalx, te->goaly);
-	path* p = aastar->getPath(&ama, start, goal, te->caps,te->size);
+	
+	aastar->setCapability(te->caps);
+	aastar->setClearance(te->size);
+	path* p = aastar->getPath(&ama, start, goal);
 
 	path* p2 = p;
 	do {
@@ -327,7 +355,9 @@ void AnnotatedAStarTest::runEvaluateTest(TestExperiment* exp)
 	amamock->setCurrentTestExperiment(exp);
 	pos = exp->getStartNode();
 	n = exp->getGoalNode();
-		
+	
+	aastar->setCapability(exp->caps);
+	aastar->setClearance(exp->size);
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("evaluate() failed to return true for legal move", exp->pathable, aastar->evaluate(pos, n)); 
 }
 
@@ -339,7 +369,9 @@ void AnnotatedAStarTest::runGetPathTest(TestExperiment* exp, string &errmsg)
 	pos = exp->getStartNode();
 	n = exp->getGoalNode();
 	
-	path *p = aastar->getPath(amamock, pos, n, exp->caps, exp->size);
+	aastar->setCapability(exp->caps);
+	aastar->setClearance(exp->size);
+	path *p = aastar->getPath(amamock, pos, n);
 	//if(!exp->pathable)
 		CPPUNIT_ASSERT_EQUAL_MESSAGE(errmsg.c_str(), NULL, (int)p);
 	// else, check if the returned path is valid
@@ -357,7 +389,10 @@ void AnnotatedAStarTest::getPathFailsToReturnASoltuionWhenNoneExistsWithinTheCor
 
 	node *start = amamock->getNodeFromMap(te->startx,te->starty);
 	node* goal = amamock->getNodeFromMap(te->goalx, te->goaly);
-	path* p = aastar->getPath(amamock, start, goal, te->caps,te->size);
+	
+	aastar->setCapability(te->caps);
+	aastar->setClearance(te->size);
+	path* p = aastar->getPath(amamock, start, goal);
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("found a path that shouldn't exist inside corridor", true, p == NULL);	
 	
 	delete p;
@@ -374,7 +409,10 @@ void AnnotatedAStarTest::getPathReturnsTheShortestPathWithinCorridorBounds()
 
 	node *start = amamock->getNodeFromMap(te->startx,te->starty);
 	node* goal = amamock->getNodeFromMap(te->goalx, te->goaly);
-	path* p = aastar->getPath(amamock, start, goal, te->caps,te->size);
+	
+	aastar->setCapability(te->caps);
+	aastar->setClearance(te->size);
+	path* p = aastar->getPath(amamock, start, goal);
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("failed to find a path inside corridor", true, p != NULL);	
 	
 	double pdist = (int)(amamock->distance(p)*10+0.5)/10; // stupid c++ rounding
