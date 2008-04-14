@@ -16,14 +16,14 @@ using namespace ExpMgrUtil;
 
 /* we rig the result by checking for the key associated with the most recently requested ExpMgrUtil::TestExperiment. If the 
 	input matches that experiment, we return the rigged result. Otherwise, always false. */
-path* AnnotatedAStarMock::getPath(graphAbstraction* aMap, node* start, node* goal, int terrain, int agentsize)
+path* AnnotatedAStarMock::getPath(graphAbstraction* aMap, node* start, node* goal)
 {
 	if(curexp)
 	{
 		if(!curexp || curexp->pathable == false)
 			return NULL;
 
-		if((start->getTerrainType()&terrain) == start->getTerrainType() && (goal->getTerrainType()&terrain) == goal->getTerrainType())
+		if((start->getTerrainType()&getCapability()) == start->getTerrainType() && (goal->getTerrainType()&getCapability()) == goal->getTerrainType())
 		{
 			path* p;
 			p = new path(goal);

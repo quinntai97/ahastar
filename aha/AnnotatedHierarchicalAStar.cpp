@@ -27,8 +27,8 @@ bool AnnotatedHierarchicalAStar::evaluate(node* n, node* target)
 	if(target->getNum() != to && target->getNum() != from)
 		return false;
 		
-	int capability = this->getSearchTerrain();
-	int clearance = this->getMinClearance();
+	int capability = this->getCapability();
+	int clearance = this->getClearance();
 	
 	if(e->getClearance(capability) >= clearance)
 		return true;
@@ -36,18 +36,18 @@ bool AnnotatedHierarchicalAStar::evaluate(node* n, node* target)
 	return false;
 }
 
-path* AnnotatedHierarchicalAStar::getPath(graphAbstraction* aMap, node* from, node* to, int capability, int clearance)
+path* AnnotatedHierarchicalAStar::getPath(graphAbstraction* aMap, node* from, node* to)
 {
-	assert(dynamic_cast<AnnotatedClusterAbstraction*>(aMap)); // need a test; should throw exception instead
-
 	AnnotatedClusterAbstraction* aca = dynamic_cast<AnnotatedClusterAbstraction*>(aMap);
+	assert(aca != 0); 
+	
 	aca->insertStartAndGoalNodesIntoAbstractGraph(from, to);
 
 	graph *absg = aca->getAbstractGraph(1);
 	node* absstart = absg->getNode(from->getLabelL(kParent));
 	node* absgoal = absg->getNode(to->getLabelL(kParent));
 	
-	path* abspath = getAbstractPath(aMap, absstart, absgoal, capability, clearance);
+	path* abspath = getAbstractPath(aMap, absstart, absgoal);
 	
 	if(!abspath)
 		return NULL;
@@ -62,6 +62,8 @@ path* AnnotatedHierarchicalAStar::getPath(graphAbstraction* aMap, node* from, no
 		tmp = tmp->next;
 	}
 */
+	int capability = this->getCapability();
+	int clearance = this->getClearance();
 	edge* e = absg->findAnnotatedEdge(abspath->n,abspath->next->n,capability,clearance,MAXINT);
 	path* thepath=aca->getPathFromCache(e)->clone();
 	path* tail;

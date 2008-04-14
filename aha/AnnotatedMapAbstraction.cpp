@@ -180,9 +180,14 @@ void AbstractAnnotatedMapAbstraction::addMissingEdges()
 	
 	Class is a building-block for AnnotatedClusterAbstraction (which handles the above much better)
 */
-bool AnnotatedMapAbstraction::pathable(node* from, node* to, int terrain, int agentsize)
+bool AnnotatedMapAbstraction::pathable(node* from, node* to, int capability, int agentsize)
 {	
-	path *p = getSearchAlgorithm()->getPath(this, from, to, terrain, agentsize);
+	AbstractAnnotatedAStar* aastar = dynamic_cast<AbstractAnnotatedAStar*>(getSearchAlgorithm());
+	assert(aastar != 0);
+	
+	aastar->setClearance(agentsize);
+	aastar->setCapability(capability);
+	path *p = getSearchAlgorithm()->getPath(this, from, to);
 	
 	if(p) 
 	{

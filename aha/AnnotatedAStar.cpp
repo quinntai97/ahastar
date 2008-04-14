@@ -26,17 +26,21 @@ using namespace std;
 	5. if openlist is null return failure
 	6. else, goto 1
 */
-path* AnnotatedAStar::getPath(graphAbstraction *aMap, node *from, node* to, int capability, int agentsize)
+path* AnnotatedAStar::getPath(graphAbstraction *aMap, node *from, node* to)
 {
 	if(aMap == NULL || !dynamic_cast<AbstractAnnotatedMapAbstraction*>(aMap))
 		return NULL;
+		
+	setGraphAbstraction(aMap);
+	int clearance = this->getClearance();
+	int capability = this->getCapability();
 
-	if(agentsize <= 0)
+	if(clearance <= 0)
 	{	
 		//if(verbose) std::cout << "AnnotatedAStar: attempted to getPath for agentsize <= 0" << std::endl;
 		return NULL;
 	}
-
+	
 	if(!from || !to)
 		return NULL;
 
@@ -47,7 +51,7 @@ path* AnnotatedAStar::getPath(graphAbstraction *aMap, node *from, node* to, int 
 		return NULL;
 
 	/* both locations need to be reachable by agent */
-	if(from->getClearance(capability) < agentsize || to->getClearance(capability) < agentsize) 
+	if(from->getClearance(capability) < clearance || to->getClearance(capability) < clearance) 
 		return NULL;		
 	
 	//TODO: need a test to check that we've set the fCost value of the start node.
@@ -56,9 +60,6 @@ path* AnnotatedAStar::getPath(graphAbstraction *aMap, node *from, node* to, int 
 	from->markEdge(0);
 	
 	/* initialise the search params */
-	setGraphAbstraction(aMap);
-	this->setSearchTerrain(capability);
-	this->setMinClearance(agentsize);
 	graph *g = aMap->getAbstractGraph(from->getLabelL(kAbstractionLevel));
 	heap* openList = new heap(30);
 	AAStarUtil::NodeMap closedList;
@@ -175,10 +176,10 @@ bool AnnotatedAStar::evaluate(node* current, node* target)
 
 	int tx, ty, tcl, tterr;
 	tterr = target->getTerrainType();
-	tcl = target->getClearance(this->getSearchTerrain());
+	tcl = target->getClearance(this->getCapability());
 	tx = target->getLabelL(kFirstData);
 	ty = target->getLabelL(kFirstData+1);
-	if(target->getClearance(this->getSearchTerrain()) < this->getMinClearance())
+	if(target->getClearance(this->getCapability()) < this->getClearance())
 		return false;
 
 	if(useCorridor && !isInCorridor(target))
