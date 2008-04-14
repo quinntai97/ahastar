@@ -9,6 +9,7 @@
  
 #include "AnnotatedClusterTest.h"
 #include "TestConstants.h"
+#include "AHAConstants.h"
 #include "AnnotatedCluster.h"
 #include "AnnotatedClusterAbstractionMock.h"
 #include "AnnotatedAStarMock.h"
@@ -816,7 +817,7 @@ void AnnotatedClusterTest::addParentShouldNotAddAnyNodesAlreadyMarkedAsBelonging
 }
 
 /* NB: We define "eligibility" as any capability which supersets the capabilities of both endpoints */
-void AnnotatedClusterTest::connectEntranceEndpointsShouldCalculateTheShortestPathBetweenEachPairOfParentNodesForEachEligibleCapability()
+void AnnotatedClusterTest::connectEntranceEndpointsShouldCalculateTheShortestPathBetweenEachPairOfParentNodesForEachEligibleCapabilityGivenAHighQualityAbstraction()
 {
 	createEntranceNodes();
 	int capability1 = kGround;
@@ -824,28 +825,113 @@ void AnnotatedClusterTest::connectEntranceEndpointsShouldCalculateTheShortestPat
 	
 	aca_mock->buildClusters();
 
-	node* from = dynamic_cast<node*>(e1_n1->clone());
-	from->setParentCluster(e1_n1->getParentCluster());
+	node* existingendpoint = dynamic_cast<node*>(e1_n1->clone());
+	existingendpoint->setParentCluster(e1_n1->getParentCluster());
+	ac->getParents().push_back(existingendpoint);
 	
-	node* to = dynamic_cast<node*>(e3_n1->clone());
-	to->setParentCluster(e3_n1->getParentCluster());
+	node* newendpoint = dynamic_cast<node*>(e3_n1->clone());
+	newendpoint->setParentCluster(e3_n1->getParentCluster());
 	
-	absg->addNode(from);
-	absg->addNode(to);
+	absg->addNode(existingendpoint);
+	absg->addNode(newendpoint);
 		
 	// TODO: build a better AAStarMock
 	delete aca_mock->getSearchAlgorithm();
 	aca_mock->setSearchAlgorithm(new AnnotatedAStar());
 	
 	int numEdges = absg->getNumEdges();
-	ac->connectEntranceEndpoints(from, to, capability1, aca_mock);
-	CPPUNIT_ASSERT_EQUAL_MESSAGE("failed to find connection between target endpoints using kGround capability", numEdges+1, absg->getNumEdges());
-
-	numEdges = absg->getNumEdges();
-	ac->connectEntranceEndpoints(from, to, capability2, aca_mock);
-	CPPUNIT_ASSERT_EQUAL_MESSAGE("failed to find connections between target endpoints using kGround|kTrees capability", numEdges+2, absg->getNumEdges());
+	ac->connectEntranceEndpoints(newendpoint, aca_mock);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("failed to find all connections between new and existing endpoints ", numEdges+3, absg->getNumEdges());
 }
 
+/* depending on the quality parameter indicated by the AnnotatedClusterAbstraction, we may wish to build the richest possible abstraction
+or a smaller abstraction which contains less intra-cluster paths. In the latter case, before we try to connect two cluster nodes using
+a complex multi-terrain capability, we first search for an already existing traversable edge between the two nodes that has a suitable clearance 
+
+This is similar to prefering large highways (long & windy, big clearance, single capability) to small roads and tracks. The latter may be shorter
+but the highway is more convenient. In our case, conveniece means an abstraction with a lower memory footprint 
+
+In this test, for clearance 1, we should reuse a path with kGround capability instead of  building a new, shorter kGround|Trees path.
+*/
+void AnnotatedClusterTest::connectEntranceEndpointsShouldCalculateTheSmallestSetOfShortestPathsBetweenEachPairOfParentNodesGivenALowOrMediumQualityAbstraction()
+{
+	createEntranceNodes();
+	int capability1 = kGround;
+	int capability2 = (kGround|kTrees);	
+	
+	aca_mock->setGraphQualityParameter(ACAUtil::kMediumQualityAbstraction);
+	aca_mock->buildClusters();
+
+	node* existingendpoint = dynamic_cast<node*>(e1_n1->clone());
+	existingendpoint->setParentCluster(e1_n1->getParentCluster());
+	ac->getParents().push_back(existingendpoint);
+	
+	node* newendpoint = dynamic_cast<node*>(e3_n1->clone());
+	newendpoint->setParentCluster(e3_n1->getParentCluster());
+		
+	absg->addNode(existingendpoint);
+	absg->addNode(newendpoint);
+		
+	// TODO: build a better AAStarMock
+	delete aca_mock->getSearchAlgorithm();
+	aca_mock->setSearchAlgorithm(new AnnotatedAStar());
+	
+	int numEdges = absg->getNumEdges();
+	ac->connectEntranceEndpoints(newendpoint, aca_mock);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("failed to find all connections between new and existing endpoints for medium quality abstraction", numEdges+2, absg->getNumEdges());
+}
+
+void AnnotatedClusterTest::connectEntranceEndpointsShouldCalculateFirstTheSetOfShortestPathsWithLargestClearanceGivenALowQualityAbstraction()
+{
+	createEntranceNodes();
+	int capability1 = kGround;
+	int capability2 = (kGround|kTrees);	
+	
+	aca_mock->setGraphQualityParameter(ACAUtil::kMediumQualityAbstraction);
+	aca_mock->buildClusters();
+
+	node* existingendpoint = dynamic_cast<node*>(e1_n1->clone());
+	existingendpoint->setParentCluster(e1_n1->getParentCluster());
+	ac->getParents().push_back(existingendpoint);
+	
+	node* newendpoint = dynamic_cast<node*>(e3_n1->clone());
+	newendpoint->setParentCluster(e3_n1->getParentCluster());
+		
+	absg->addNode(existingendpoint);
+	absg->addNode(newendpoint);
+		
+	// TODO: build a better AAStarMock
+	delete aca_mock->getSearchAlgorithm();
+	aca_mock->setSearchAlgorithm(new AnnotatedAStar());
+	
+	int numEdges = absg->getNumEdges();
+	ac->connectEntranceEndpoints(newendpoint, aca_mock);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("failed to find all connections between new and existing endpoints in AC0 for low quality abstraction", numEdges+2, absg->getNumEdges());	
+	
+	AnnotatedCluster* ac2 = new AnnotatedCluster(ac->getHOrig()+TESTCLUSTERSIZE, ac->getVOrig(), cwidth, cheight);
+	ac->setClusterId(2);
+
+	aca_mock->setGraphQualityParameter(ACAUtil::kLowQualityAbstraction);
+	
+	existingendpoint = dynamic_cast<node*>(aca_mock->getNodeFromMap(5,1)->clone());
+	existingendpoint->setLabelL(kAbstractionLevel, 1);
+	existingendpoint->setParentCluster(aca_mock->getNodeFromMap(5,1)->getParentCluster());
+	ac2->getParents().push_back(existingendpoint);
+	
+	newendpoint = dynamic_cast<node*>(aca_mock->getNodeFromMap(5,4)->clone());
+	newendpoint->setLabelL(kAbstractionLevel, 1);
+	newendpoint->setParentCluster(aca_mock->getNodeFromMap(5,4)->getParentCluster());
+	
+	absg->addNode(existingendpoint);
+	absg->addNode(newendpoint);
+	
+	numEdges = absg->getNumEdges();
+	ac2->connectEntranceEndpoints(newendpoint, aca_mock);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("failed to find all connections between new and existing endpoints in AC2 for low quality abstraction", numEdges+1, absg->getNumEdges());	
+	
+	delete ac2;
+}
+	
 void AnnotatedClusterTest::connectEntranceEndpointsShouldAddAPathToTheAnnotatedClusterAbstractionCacheEachTimeTwoEndpointsAreConnected()
 {
 	createEntranceNodes();
@@ -854,14 +940,15 @@ void AnnotatedClusterTest::connectEntranceEndpointsShouldAddAPathToTheAnnotatedC
 	
 	aca_mock->buildClusters();
 
-	node* from = dynamic_cast<node*>(e1_n1->clone());
-	from->setParentCluster(e1_n1->getParentCluster());
+	node* existingendpoint = dynamic_cast<node*>(e1_n1->clone());
+	existingendpoint->setParentCluster(e1_n1->getParentCluster());
+	ac->getParents().push_back(existingendpoint);
 	
-	node* to = dynamic_cast<node*>(e3_n1->clone());
-	to->setParentCluster(e3_n1->getParentCluster());
+	node* newendpoint = dynamic_cast<node*>(e3_n1->clone());
+	newendpoint->setParentCluster(e3_n1->getParentCluster());
 	
-	absg->addNode(from);
-	absg->addNode(to);
+	absg->addNode(existingendpoint);
+	absg->addNode(newendpoint);
 		
 	// TODO: build a better AAStarMock
 	delete aca_mock->getSearchAlgorithm();
@@ -876,13 +963,8 @@ void AnnotatedClusterTest::connectEntranceEndpointsShouldAddAPathToTheAnnotatedC
 */	
 
 	int numEdges = absg->getNumEdges();
-	ac->connectEntranceEndpoints(from, to, capability1, aca_mock);
-	CPPUNIT_ASSERT_EQUAL_MESSAGE("failed to find connection between target endpoints using kGround capability", numEdges+1, (int)aca_mock->addPathsToCacheCounter);
-
-
-	numEdges = absg->getNumEdges();
-	ac->connectEntranceEndpoints(from, to, capability2, aca_mock);
-	CPPUNIT_ASSERT_EQUAL_MESSAGE("failed to find connections between target endpoints using kGround|kTrees capability", numEdges+2, (int)aca_mock->addPathsToCacheCounter);
+	ac->connectEntranceEndpoints(newendpoint, aca_mock);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("failed to add to cache correct number of paths for current cluster", numEdges+3, (int)aca_mock->addPathsToCacheCounter);
 	
 	
 }

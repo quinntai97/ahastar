@@ -24,6 +24,13 @@ class AnotatedClusterFactory;
 namespace ACAUtil
 {
 	typedef __gnu_cxx::hash_map<int, path*> pathTable;
+	
+	enum GraphQualityParameter
+	{
+		kHighQualityAbstraction, // abstract graph includes all optimal paths for every capability between endpoints in each cluster
+		kMediumQualityAbstraction, // try to re-use optimal paths found using single-terrain-capability for multi-terrain-capable agents
+		kLowQualityAbstraction // build large single capability corridors first and re-use as many as possible 
+	};
 }
 
 class NodeHasNonZeroAbstractionLevelException : public std::exception
@@ -39,7 +46,7 @@ class AnnotatedClusterAbstraction : public AnnotatedMapAbstraction
 	#endif
 	
 	public: 
-		AnnotatedClusterAbstraction::AnnotatedClusterAbstraction(Map* m, AbstractAnnotatedAStar* searchalg, int clustersize);
+		AnnotatedClusterAbstraction::AnnotatedClusterAbstraction(Map* m, AbstractAnnotatedAStar* searchalg, int clustersize, ACAUtil::GraphQualityParameter qual=ACAUtil::kHighQualityAbstraction);
 		virtual ~AnnotatedClusterAbstraction();
 
 		virtual void buildClusters(IAnnotatedClusterFactory*);
@@ -64,6 +71,8 @@ class AnnotatedClusterAbstraction : public AnnotatedMapAbstraction
 		virtual void addPathToCache(edge* e, path* p);
 		virtual path* getPathFromCache(edge*); 
 		int getPathCacheSize() { return pathCache.size(); };
+		ACAUtil::GraphQualityParameter getQualityParam() { return quality; }
+		void setGraphQualityParameter(ACAUtil::GraphQualityParameter newqual) { quality = newqual; }
 		
 		virtual void openGLDraw(); 
 		
@@ -81,8 +90,7 @@ class AnnotatedClusterAbstraction : public AnnotatedMapAbstraction
 		int clustersize;
 		std::vector<AnnotatedCluster *> clusters;
 		ACAUtil::pathTable pathCache;
-		
-	
+		ACAUtil::GraphQualityParameter quality;
 };
 
 

@@ -136,16 +136,7 @@ void AnnotatedCluster::addParent(node* parentnode, AnnotatedClusterAbstraction* 
 	else
 		parentnode->setParentCluster(this->getClusterId());
 		
-	for(int i=0; i<getParents().size(); i++)
-	{
-		node* endpoint = getParents()[i];
-		for(int capindex=0; capindex < NUMCAPABILITIES ; capindex++)
-		{
-			int capability = capabilities[capindex];
-			this->connectEntranceEndpoints(parentnode,endpoint,capability,aca);
-		}
-	}
-	
+	this->connectEntranceEndpoints(parentnode,aca);	
 	Cluster::addParent(parentnode);
 }
 
@@ -359,31 +350,72 @@ void AnnotatedCluster::addTransitionToAbstractGraph(node* from, node* to, int ca
 	}
 }
 /* some notes:
-	When we add an abstract node it must be connected to all the other entrance endpoints in the cluster. 
+	When we add a new abstract node (or endpoint) it must be connected to all the other entrance endpoints in the cluster. 
 	In the worst case [numCapabilities*numAgentSizes] number of edges need to be created. Creating an edge requires running AnnotatedA*. 
 	This is expensive, especially for short paths. So, we try to minimise this by checking if we already found an optimal length path
 	between the two endpoints which is traversable using the given capability.
 */
-void AnnotatedCluster::connectEntranceEndpoints(node* n1, node* n2, int capability, AnnotatedClusterAbstraction* aca)
+void AnnotatedCluster::connectEntranceEndpoints(node* newendpoint, AnnotatedClusterAbstraction* aca)
 {
-	AbstractAnnotatedAStar* aastar = aca->getSearchAlgorithm();
-	aastar->limitSearchToClusterCorridor(true);
-	graph* absg = aca->getAbstractGraph(1);
-
-	double maxdist = getWidth()*getHeight(); // use maximum possible distance between these two endpoints as an upperbound param when searching for existing edges that may exist between these two endpoints
-	for(int i = 0; i<NUMAGENTSIZES; i++)
+	for(int i=0; i<getParents().size(); i++)
 	{
-		int size = agentsizes[i]; // assumes agentsize is ordered 0..n -- smallest to largest
+		node* existingendpoint = getParents()[i];
+		for(int capindex=0; capindex < NUMCAPABILITIES ; capindex++)
+		{
+			int capability = capabilities[capindex];
+		
+			if(aca->getQualityParam() == ACAUtil::kLowQualityAbstraction)
+				for(int i = NUMAGENTSIZES-1; i>=0; i--) // build largest single-capability first and re-use as many as possible later in building abstraction
+				{
+					int size = agentsizes[i]; // assumes agentsize is ordered 0..n -- smallest to largest
+					connectEntranceEndpointsForAGivenCapabilityAndSize(newendpoint, existingendpoint, capability, size, aca);
+				}
+			else
+				for(int i = 0; i<NUMAGENTSIZES; i++)
+				{
+					int size = agentsizes[i]; // assumes agentsize is ordered 0..n -- smallest to largest
+					connectEntranceEndpointsForAGivenCapabilityAndSize(newendpoint, existingendpoint, capability, size, aca);
+				}			
+		}			
+	}
+}
+
+void AnnotatedCluster::connectEntranceEndpointsForAGivenCapabilityAndSize(node* newendpoint, node* existingendpoint, int capability, int size, AnnotatedClusterAbstraction* aca)
+{
+	graph* absg = aca->getAbstractGraph(1);
+	double maxdist = getWidth()*getHeight(); // use maximum possible distance between these two endpoints as an upperbound param when searching for existing edges that may exist between these two endpoints
+	edge* e=0;
+	
+	if(aca->getQualityParam() != ACAUtil::kHighQualityAbstraction)
+	{
+		e = absg->findAnnotatedEdge(newendpoint,existingendpoint,capability,size,maxdist); // try to re-use an existing path
+		if(e == 0)
+			findShortestPathBetweenTwoEndpoints(newendpoint, existingendpoint, capability, size, aca);
+	}
+	else
+		findShortestPathBetweenTwoEndpoints(newendpoint, existingendpoint, capability, size, aca); // find them all
+}
+
+void AnnotatedCluster::findShortestPathBetweenTwoEndpoints(node* n1, node* n2, int capability, int size, AnnotatedClusterAbstraction* aca)
+{
+		graph* absg = aca->getAbstractGraph(1);
+		AbstractAnnotatedAStar* aastar = aca->getSearchAlgorithm();
+		aastar->limitSearchToClusterCorridor(true);
+
 		node* from = aca->getNodeFromMap(n1->getLabelL(kFirstData),n1->getLabelL(kFirstData+1)); // get low-level nodes
 		node* to = aca->getNodeFromMap(n2->getLabelL(kFirstData),n2->getLabelL(kFirstData+1)); 
-			
+
 		path* solution = aastar->getPath(aca, from, to, capability, size);
 		if(solution != 0)
 		{
 			double dist = aca->distance(solution);
-			edge *e = absg->findAnnotatedEdge(n1,n2,capability,size,dist); // any edge shorter than maxdist is optimal (from previous A*)
-			if(e != 0)
-				return; // found an existing suitable edge. nothing to see here. move along
+			edge* e = 0;
+			if(aca->getQualityParam() == ACAUtil::kHighQualityAbstraction) // don't add paths twice (optimal paths between two nodes may be identical for two capabilities/sizes)
+			{
+				e = absg->findAnnotatedEdge(n1,n2,capability,size,dist); 			
+				if(e != 0)
+					return; 
+			}
 
 			//std::cout << "connecting endpoints in cluster "<<getClusterId()<<". new edge, dist: "<<dist<<std::endl;
 			e = new edge(n1->getNum(), n2->getNum(), dist);
@@ -398,10 +430,9 @@ void AnnotatedCluster::connectEntranceEndpoints(node* n1, node* n2, int capabili
 		aca->setNodesTouched(aca->getNodesTouched() + aastar->getNodesTouched());
 		aca->setPeakMemory(aastar->getPeakMemory()>aca->getPeakMemory()?aastar->getPeakMemory():aca->getPeakMemory());
 		aca->setSearchTime(aca->getSearchTime() + aastar->getSearchTime());
-	}
-	aastar->limitSearchToClusterCorridor(false);
+		
+		aastar->limitSearchToClusterCorridor(false);
 }
-
 // BROKEN BROKEN BROKEN -- DO NOT USE -- 
 //Find out the smallest clearance value along some path
 //	TODO: can we somehow rationalise about capability in the same way?
