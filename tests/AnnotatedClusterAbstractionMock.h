@@ -35,11 +35,11 @@ USING_NAMESPACE_MOCKPP
 class AnnotatedClusterAbstractionMock :  public AnnotatedClusterAbstraction, public MOCKPP_NS::ChainableMockObject
 {
 	public:
-		AnnotatedClusterAbstractionMock(Map* m, AbstractAnnotatedAStar* aastar, int clustersize)
+		AnnotatedClusterAbstractionMock(Map* m, AbstractAnnotatedAStar* aastar, int clustersize, ACAUtil::GraphQualityParameter qual=ACAUtil::kHighQualityAbstraction)
 			: MOCKPP_NS::ChainableMockObject(MOCKPP_PCHAR("ACAMock"), 0)
 			, buildClustersMocker("buildClusters", this)
 			, getClusterMocker("getCluster", this)
-			, AnnotatedClusterAbstraction(m, aastar, clustersize) 
+			, AnnotatedClusterAbstraction(m, aastar, clustersize, qual) 
 		{	
 			abstractions.push_back(new graph()); addPathsToCacheCounter=0; lastAdded=0;
 		}

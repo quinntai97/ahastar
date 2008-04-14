@@ -33,8 +33,8 @@
 #include <sstream>
 
 
-AnnotatedClusterAbstraction::AnnotatedClusterAbstraction(Map* m, AbstractAnnotatedAStar* searchalg, int clustersize)
-	: AnnotatedMapAbstraction(m, searchalg)
+AnnotatedClusterAbstraction::AnnotatedClusterAbstraction(Map* m, AbstractAnnotatedAStar* searchalg, int clustersize, ACAUtil::GraphQualityParameter qual)
+	: AnnotatedMapAbstraction(m, searchalg), quality(qual)
 {
 	this->clustersize = clustersize;
 	abstractions.push_back(new graph());	

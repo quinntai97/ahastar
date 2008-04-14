@@ -141,7 +141,7 @@ void AnnotatedClusterAbstractionTest::buildEntrancesShouldCreateCorrectNumberOfT
 	delete ac_factory;
 	
 	int numExpectedClusters = 4;
-	int numExpectedAbstractEdges = 16; // includes intercluster and intracluster transitions
+	int numExpectedAbstractEdges = 17; // includes intercluster and intracluster transitions
 	int numExpectedAbstractNodes = 10;
 	
 	aca->buildEntrances();
@@ -165,6 +165,88 @@ void AnnotatedClusterAbstractionTest::buildEntrancesShouldCreateCorrectNumberOfT
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("buildEntrances resulted in incorrect number of abstract edges", numExpectedAbstractEdges, absg->getNumEdges());
 }
 
+void AnnotatedClusterAbstractionTest::buildEntrancesShouldCreateCorrectNumberOfTransitionsBetweenClustersAndAddTransitionsToAbstractGraphGivenAMediumQualityAbstraction()
+{
+	delete aca; // map too big for this test; use a trivial one instead
+	Map* tinymap = new Map(acmap.c_str());
+	aca = new AnnotatedClusterAbstraction(tinymap, new AnnotatedAStar(), TESTCLUSTERSIZE, ACAUtil::kMediumQualityAbstraction);
+	
+	AnnotatedClusterFactory* ac_factory = new AnnotatedClusterFactory();
+	aca->buildClusters(ac_factory);
+	delete ac_factory;
+	
+	int numExpectedClusters = 4;
+	int numExpectedAbstractEdges = 16; // not much to gain on this map by reducing quality parameter from High to Medium; save creating one edge in AC0
+	int numExpectedAbstractNodes = 10;
+	
+	aca->buildEntrances();
+
+	graph* absg = aca->getAbstractGraph(1);
+	
+/*	//debugging
+	std::cout << "\nmedium quality abstraction";
+	edge_iterator ei = absg->getEdgeIter();
+	edge* e = absg->edgeIterNext(ei);
+	while(e)
+	{
+		node* f = absg->getNode(e->getFrom());
+		node* t = absg->getNode(e->getTo());
+		cout << "\n edge connects "<<f->getLabelL(kFirstData)<<","<<f->getLabelL(kFirstData+1)<< " and "<<t->getLabelL(kFirstData)<<","<<t->getLabelL(kFirstData+1);
+		cout <<"(weight: "<<e->getWeight()<<" caps: "<<e->getCapability() << " clearance: "<<e->getClearance(e->getCapability())<<")";
+		e = absg->edgeIterNext(ei);
+	}
+*/	
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("buildEntrances resulted in incorrect number of clusters created", numExpectedClusters, aca->getNumClusters());
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("buildEntrances resulted in incorrect number of abstract nodes", numExpectedAbstractNodes, absg->getNumNodes());
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("buildEntrances resulted in incorrect number of abstract edges", numExpectedAbstractEdges, absg->getNumEdges());
+}
+
+void AnnotatedClusterAbstractionTest::buildEntrancesShouldCreateCorrectNumberOfTransitionsBetweenClustersAndAddTransitionsToAbstractGraphGivenALowQualityAbstraction()
+{
+	delete aca; // map too big for this test; use a trivial one instead
+	Map* tinymap = new Map(acmap.c_str());
+	aca = new AnnotatedClusterAbstraction(tinymap, new AnnotatedAStar(), TESTCLUSTERSIZE, ACAUtil::kLowQualityAbstraction);
+	
+	AnnotatedClusterFactory* ac_factory = new AnnotatedClusterFactory();
+	aca->buildClusters(ac_factory);
+	delete ac_factory;
+	
+	int numExpectedClusters = 4;
+	int numExpectedAbstractEdges = 15; 
+	int numExpectedAbstractNodes = 10;
+	
+	aca->buildEntrances();
+
+	graph* absg = aca->getAbstractGraph(1);
+	
+/*	//debugging
+	std::cout << "\nlow quality abstraction";
+	edge_iterator ei = absg->getEdgeIter();
+	edge* e = absg->edgeIterNext(ei);
+	while(e)
+	{
+		node* f = absg->getNode(e->getFrom());
+		node* t = absg->getNode(e->getTo());
+		cout << "\n edge connects "<<f->getLabelL(kFirstData)<<","<<f->getLabelL(kFirstData+1)<< " and "<<t->getLabelL(kFirstData)<<","<<t->getLabelL(kFirstData+1);
+		cout <<"(weight: "<<e->getWeight()<<" caps: "<<e->getCapability() << " clearance: "<<e->getClearance(e->getCapability())<<")";
+		e = absg->edgeIterNext(ei);
+	}
+*/	
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("buildEntrances resulted in incorrect number of clusters created", numExpectedClusters, aca->getNumClusters());
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("buildEntrances resulted in incorrect number of abstract nodes", numExpectedAbstractNodes, absg->getNumNodes());
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("buildEntrances resulted in incorrect number of abstract edges", numExpectedAbstractEdges, absg->getNumEdges());
+	
+	edge *myedge = absg->findAnnotatedEdge(absg->getNode(aca->getNodeFromMap(5,1)->getLabelL(kParent)), 
+									absg->getNode(aca->getNodeFromMap(5,4)->getLabelL(kParent)), kGround, 1, 4.5); // created when using high or medium quality abstraction. if this is missing, the low abstraction is OK
+									
+	CPPUNIT_ASSERT_MESSAGE("found an edge in AC2 that shouldn't exist", myedge == 0);
+	
+	myedge = absg->findAnnotatedEdge(absg->getNode(aca->getNodeFromMap(5,1)->getLabelL(kParent)), 
+									absg->getNode(aca->getNodeFromMap(5,4)->getLabelL(kParent)), kGround, 2, 7); // should exist
+
+	CPPUNIT_ASSERT_MESSAGE("failed to find an edge in AC2 that should exist", myedge != 0);
+}
+
 void AnnotatedClusterAbstractionTest::buildEntrancesShouldResultInOneCachedPathForEachAbstractEdge()
 {
 	delete aca; // map too big for this test; use a trivial one instead
@@ -175,7 +257,7 @@ void AnnotatedClusterAbstractionTest::buildEntrancesShouldResultInOneCachedPathF
 	aca->buildClusters(ac_factory);
 	delete ac_factory;
 	
-	int numExpectedCachedPaths = 16; 
+	int numExpectedCachedPaths = 17; 
 	
 	aca->buildEntrances();
 	

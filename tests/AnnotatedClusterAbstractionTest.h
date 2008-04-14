@@ -35,6 +35,8 @@ class AnnotatedClusterAbstractionTest : public CPPUNIT_NS::TestFixture
 	CPPUNIT_TEST( getClusterShouldReturnZeroWhenIdParameterIsGreaterThanNumberOfClusters );
 	CPPUNIT_TEST( getClusterShouldReturnRequestedClusterGivenAValidClusterId );
 	CPPUNIT_TEST( buildEntrancesShouldCreateCorrectNumberOfTransitionsBetweenClustersAndAddTransitionsToAbstractGraph );
+	CPPUNIT_TEST( buildEntrancesShouldCreateCorrectNumberOfTransitionsBetweenClustersAndAddTransitionsToAbstractGraphGivenAMediumQualityAbstraction );
+	CPPUNIT_TEST( buildEntrancesShouldCreateCorrectNumberOfTransitionsBetweenClustersAndAddTransitionsToAbstractGraphGivenALowQualityAbstraction );
 	CPPUNIT_TEST( buildEntrancesShouldAskEachClusterToCreateItsOwnEntrances );
 	CPPUNIT_TEST( buildEntrancesShouldResultInOneCachedPathForEachAbstractEdge );
 	CPPUNIT_TEST( insertStartAndGoalNodesIntoAbstractGraphShouldAddTwoNewNodesIntoTheAbstractGraphAndParentClusters );
@@ -74,11 +76,14 @@ class AnnotatedClusterAbstractionTest : public CPPUNIT_NS::TestFixture
 		void getClusterShouldReturnRequestedClusterGivenAValidClusterId();
 		void buildClustersShouldSplitTheMapAreaIntoCorrectNumberOfClusters();
 		void buildClustersShouldCalculateCorrectClusterSize();
+		
 		void buildEntrancesShouldAskEachClusterToCreateItsOwnEntrances();
 		void buildEntrancesShouldResultInOneCachedPathForEachAbstractEdge();
 
 		//////// INTEGRATION TESTS BELOW HERE (uses production code from other classes) ////////////
 		void buildEntrancesShouldCreateCorrectNumberOfTransitionsBetweenClustersAndAddTransitionsToAbstractGraph();
+		void buildEntrancesShouldCreateCorrectNumberOfTransitionsBetweenClustersAndAddTransitionsToAbstractGraphGivenAMediumQualityAbstraction();
+		void buildEntrancesShouldCreateCorrectNumberOfTransitionsBetweenClustersAndAddTransitionsToAbstractGraphGivenALowQualityAbstraction();
 
 		//void insertNodeIntoAbstractGraphShouldCloneALowLevelNodeAndAddItToTheLocalClusterAndAbstractGraph();
 		void insertStartAndGoalNodesIntoAbstractGraphShouldAddTwoNewNodesIntoTheAbstractGraphAndParentClusters();
