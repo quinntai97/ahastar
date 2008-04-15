@@ -467,6 +467,55 @@ void AnnotatedClusterTest::buildHorizontalEntrancesShouldCreateOneMaximallySized
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("entrance2 clearance incorrect", te1.getClearance(te1.getCapability()), entrance->getClearance(te2.getCapability()));
 }
 
+/* todo: fix with mock ACA otherwise this test will be hard to maintain */
+void AnnotatedClusterTest::buildHorizontalEntrancesShouldCreateTwoTransitionsAtEachEndOfTheEntranceAreaIfAllNodesAlongEachClusterBorderHaveIdenticalClearance()
+{
+	Map* m = new Map("/Users/dharabor/src/ahastar/tests/testmaps/clustertest.map");
+	AnnotatedClusterAbstraction* aca = new AnnotatedClusterAbstraction(m, new AnnotatedAStar(), cwidth);
+	AnnotatedClusterFactory acf;
+	aca->buildClusters(&acf);
+
+	int capability = kGround;
+	int expectedTransitionClearance=1;
+	AnnotatedCluster* target = aca->getCluster(2);
+	target->buildHorizontalEntrances(kGround, aca);
+	
+	int xposTransition1Cluster1 = 0; int yposTransition1Cluster1 = 4;
+	int xposTransition1Cluster2 = 0; int yposTransition1Cluster2 = 5;
+	int xposTransition2Cluster1 = 4; int yposTransition2Cluster1 = 4;
+	int xposTransition2Cluster2 = 4; int yposTransition2Cluster2 = 5;
+	
+	graph* _absg = aca->getAbstractGraph(1);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("failed to find expected number of abs nodes for horizontal entrances", 4, _absg->getNumNodes());
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("failed to find expected number of abs edges horizontal entrances", 4, _absg->getNumEdges());
+	
+	/* check that the entrances were created in the expected locations */
+	AnnotatedCluster *adjacentCluster = aca->getCluster(3);
+	node* te1_endpoint1 = ac->getParents().at(0);
+	node* te1_endpoint2 = adjacentCluster->getParents().at(0);
+	node* te2_endpoint1 = ac->getParents().at(1);
+	node* te2_endpoint2 = adjacentCluster->getParents().at(1);
+		
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("xpos of te1_endpoint1 incorrect", xposTransition1Cluster1, (int)te1_endpoint1->getLabelL(kFirstData));
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("ypos of te1_endpoint1 incorrect", yposTransition1Cluster1, (int)te1_endpoint1->getLabelL(kFirstData+1));
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("xpos of te1_endpoint2 incorrect", xposTransition1Cluster2, (int)te1_endpoint2->getLabelL(kFirstData));
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("ypos of te1_endpoint2 incorrect", yposTransition1Cluster2, (int)te1_endpoint2->getLabelL(kFirstData+1));
+
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("xpos of te1_endpoint1 incorrect", xposTransition2Cluster1, (int)te1_endpoint1->getLabelL(kFirstData));
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("ypos of te1_endpoint1 incorrect", yposTransition2Cluster1, (int)te1_endpoint1->getLabelL(kFirstData+1));
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("xpos of te1_endpoint2 incorrect", xposTransition2Cluster2, (int)te1_endpoint2->getLabelL(kFirstData));
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("ypos of te1_endpoint2 incorrect", yposTransition2Cluster2, (int)te1_endpoint2->getLabelL(kFirstData+1));
+	
+	/* check that the entrances have expected capability clearance annotations */
+	edge* entrance = _absg->findEdge(te1_endpoint2->getNum(), te1_endpoint1->getNum());
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("entrance1 clearance incorrect", expectedTransitionClearance, entrance->getClearance(capability));
+
+	entrance = absg->findEdge(te2_endpoint2->getNum(), te2_endpoint1->getNum());
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("entrance2 clearance incorrect", expectedTransitionClearance, entrance->getClearance(capability));	
+	
+	delete aca;
+}
+
 void AnnotatedClusterTest::buildHorizontalEntrancesShouldSkipClustersWhichHaveNoNeighboursAlongSouthernBorder()
 {
 	int clusterxorigin = 0;

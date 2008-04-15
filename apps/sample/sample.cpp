@@ -60,6 +60,7 @@ void processStats(statCollection *)
  */
 void createSimulation(unitSimulation * &unitSim)
 {
+//	Map* map = new Map("/Users/dharabor/src/ahastar/tests/testmaps/clustertest.map");
 //	Map* map = new Map("/Users/dharabor/src/ahastar/maps/local/demo.map");
 	Map* map = new Map("/Users/dharabor/src/ahastar/maps/local/adaptive-depth-10.map");
 	int CLUSTERSIZE=10;
@@ -69,17 +70,22 @@ void createSimulation(unitSimulation * &unitSim)
 	else
 		map = new Map(gDefaultMap);
 */
+//	mapAbstraction* absmap;
+	
+//	absmap = new AnnotatedMapAbstraction(map, new AnnotatedAStar());
+//	((AnnotatedMapAbstraction*)absmap)->annotateMap();
+
 	AnnotatedClusterAbstraction* aca = new AnnotatedClusterAbstraction(map, new AnnotatedAStar(), CLUSTERSIZE);
 	AnnotatedClusterFactory* acf = new AnnotatedClusterFactory();
 	aca->buildClusters(acf);
 	delete acf;
 	aca->buildEntrances();
 	aca->setDrawClusters(true);
-	unitSim = new unitSimulation(aca);
-
-	
 	graph* absg = aca->getAbstractGraph(1);
 	std::cout << "\n absnodes: "<<absg->getNumNodes()<<" absedges: "<<absg->getNumEdges();
+
+	unitSim = new unitSimulation(aca);	
+
 	//	debugging
 /*	edge_iterator ei = absg->getEdgeIter();
 	edge* e = absg->edgeIterNext(ei);
