@@ -300,7 +300,11 @@ void Map::loadOctile(FILE *f, int high, int wide)
 		{
 			char what;
 			fscanf(f, "%c", &what);
-			switch (toupper(what))
+			char upperWhat = toupper(what);
+			if(upperWhat == '@')
+				upperWhat = 'W';
+				
+			switch (upperWhat)
 			{
 				case '@':
 				case 'O':

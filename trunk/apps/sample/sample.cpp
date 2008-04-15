@@ -39,6 +39,7 @@
 #include "AnnotatedClusterAbstraction.h"
 #include "AnnotatedClusterFactory.h"
 #include "AnnotatedAStar.h"
+#include "AnnotatedHierarchicalAStar.h"
 #include "clusterAbstraction.h"
 
 bool mouseTracking;
@@ -59,8 +60,9 @@ void processStats(statCollection *)
  */
 void createSimulation(unitSimulation * &unitSim)
 {
-	Map* map = new Map("/Users/dharabor/src/ahastar/maps/local/demo.map");///annotatedcluster.map");
-	int CLUSTERSIZE=5;
+//	Map* map = new Map("/Users/dharabor/src/ahastar/maps/local/demo.map");
+	Map* map = new Map("/Users/dharabor/src/ahastar/maps/local/adaptive-depth-10.map");
+	int CLUSTERSIZE=10;
 /*	Map *map;
 	if (gDefaultMap[0] == 0)
 		map = new Map(60, 60);
@@ -72,6 +74,7 @@ void createSimulation(unitSimulation * &unitSim)
 	aca->buildClusters(acf);
 	delete acf;
 	aca->buildEntrances();
+	aca->setDrawClusters(true);
 	unitSim = new unitSimulation(aca);
 
 	
@@ -202,23 +205,41 @@ void myRandomUnitKeyHandler(unitSimulation *unitSim, tKeyboardModifier mod, char
 //	delete ama;
 
 	int x1, y1, x2, y2;
-	unit *u;
+	unit *u, *targ;
+	AbstractAnnotatedAStar* aastar;
+	
+	std::cout << "\n absnodes: "<<unitSim->getMapAbstraction()->getAbstractGraph(1)->getNumNodes()<< " edges: "<<unitSim->getMapAbstraction()->getAbstractGraph(1)->getNumEdges();
+	std::cout << " cachesize: "<<((AnnotatedClusterAbstraction*)unitSim->getMapAbstraction())->getPathCacheSize();
+
+	int clearance=2;
+	int capability=kGround;
+
 	unitSim->getRandomLocation(x1, y1);
 	unitSim->getRandomLocation(x2, y2);
+	
+//	x2 = 1; y2 = 5;
+//	x1=16; y1=8;
+	std::cout << "\n deploying unit to "<<x2<<","<<y2<<" with target at "<<x1<<","<<y1;
+	
+	unitSim->addUnit(targ = new unit(x1, y1));
+
 	switch (mod)
 	{
-		case kControlDown: unitSim->addUnit(u=new rhrUnit(x1, y1)); break;
-		case kShiftDown: unitSim->addUnit(u=new randomUnit(x1, y1)); break;
+		case kShiftDown: 
+			aastar = new AnnotatedHierarchicalAStar();
+			aastar->setClearance(clearance);
+			aastar->setCapability(capability);
+			unitSim->addUnit(u=new searchUnit(x2, y2, targ, aastar)); 
+			break;
 		default:
-			unit *targ;
-			unitSim->addUnit(targ = new unit(10, 5));
-			AnnotatedAStar *aastar = new AnnotatedAStar();
-			aastar->setMinClearance(2);
-			aastar->setSearchTerrain(kGround);
-			unitSim->addUnit(u=new searchUnit(3, 7, targ, aastar)); 
+			aastar = new AnnotatedAStar();
+			aastar->setClearance(clearance);
+			aastar->setCapability(capability);
+			unitSim->addUnit(u=new searchUnit(x2, y2, targ, aastar)); 
 			break;
 	}
-	u->setSpeed(0.5);
+	u->setSpeed(0.25);
+//	u->setSpeed(0.000001);
 	//unitSim->setmapAbstractionDisplay(1);
 }
 

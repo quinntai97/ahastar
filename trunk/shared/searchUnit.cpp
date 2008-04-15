@@ -297,6 +297,7 @@ void searchUnit::openGLDraw(mapProvider *mp, simulationInfo *si)
 	int posx = x, posy = y;
 	map->getOpenGLCoord(posx, posy, xx, yy, zz, rad);
 	glColor3f(r, g, b);
+	glLineWidth(3.0f);
 	glBegin(GL_LINE_STRIP);
 	glVertex3f(xx, yy, zz-rad/2);
 	for (int t = moves.size()-1; t >= 0; t--)
@@ -309,7 +310,7 @@ void searchUnit::openGLDraw(mapProvider *mp, simulationInfo *si)
 		glVertex3f(xx, yy, zz-rad/2);
 	}
 	glEnd();
-	
+	glLineWidth(1.0f);
 	// draw object
   map->getOpenGLCoord(x, y, xx, yy, zz, rad);
 	if (onTarget)

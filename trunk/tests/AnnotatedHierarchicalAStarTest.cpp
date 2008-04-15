@@ -201,4 +201,143 @@ void AnnotatedHierarchicalAStarTest::getPathShouldReturnTheShortestPathBetweenTw
 	delete aca;
 }
 
+void AnnotatedHierarchicalAStarTest::getPathShouldRemoveAllInsertedNodesAndEdgesFromTheAbstractPathAndPathCacheIfTheSearchFailsToFindASolution()
+{
+	Map *m = new Map(acmap.c_str());
+	AnnotatedClusterAbstraction* aca = new AnnotatedClusterAbstraction(m, new AnnotatedAStar(), TESTCLUSTERSIZE);
+	AnnotatedClusterFactory* acfactory = new AnnotatedClusterFactory();
+	aca->buildClusters(acfactory);
+	aca->buildEntrances();
+
+	graph* absmap = aca->getAbstractGraph(1);
+	node *start = aca->getNodeFromMap(2,4);
+	node* goal = aca->getNodeFromMap(4,5);
+	
+	int capability = kGround;
+	int size = 1;
+	
+	ahastar->setGraphAbstraction(aca);
+	ahastar->setClearance(size);
+	ahastar->setCapability(capability);
+	
+	int numExpectedNodes = absmap->getNumNodes();
+	int numExpectedEdges = absmap->getNumEdges();
+	int numExpectedPathCacheSize = aca->getPathCacheSize();
+	
+	path* p = ahastar->getPath(aca, start,goal);
+
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("Node count in abstract graph is incorrect following call to getPath", numExpectedNodes, (int)absmap->getNumNodes());
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("Edge count in abstract graph is incorrect following call to getPath", numExpectedEdges, (int)absmap->getNumEdges());
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("Path cache size in ACA is incorrect following call to getPath", numExpectedPathCacheSize, (int)aca->getPathCacheSize());
+	
+	delete p;
+	delete acfactory;
+	delete aca;
+}
+
+void AnnotatedHierarchicalAStarTest::getPathShouldRemoveAllInsertedNodesAndEdgesFromTheAbstractPathAndPathCacheIfTheSearchFindsASolution()
+{
+	Map *m = new Map(acmap.c_str());
+	AnnotatedClusterAbstraction* aca = new AnnotatedClusterAbstraction(m, new AnnotatedAStar(), TESTCLUSTERSIZE);
+	AnnotatedClusterFactory* acfactory = new AnnotatedClusterFactory();
+	aca->buildClusters(acfactory);
+	aca->buildEntrances();
+
+	graph* absmap = aca->getAbstractGraph(1);
+	node *start = aca->getNodeFromMap(2,1);
+	node* goal = aca->getNodeFromMap(4,5);
+	
+	int capability = kGround;
+	int size = 1;
+	
+	ahastar->setGraphAbstraction(aca);
+	ahastar->setClearance(size);
+	ahastar->setCapability(capability);
+	
+	int numExpectedNodes = absmap->getNumNodes();
+	int numExpectedEdges = absmap->getNumEdges();
+	int numExpectedPathCacheSize = aca->getPathCacheSize();
+	
+	path* p = ahastar->getPath(aca, start, goal);
+
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("Node count in abstract graph is incorrect following call to getPath", numExpectedNodes, (int)absmap->getNumNodes());
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("Edge count in abstract graph is incorrect following call to getPath", numExpectedEdges, (int)absmap->getNumEdges());
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("Path cache size in ACA is incorrect following call to getPath", numExpectedPathCacheSize, (int)aca->getPathCacheSize());
+	
+	delete p;
+	delete acfactory;
+	delete aca;
+}
+
+void AnnotatedHierarchicalAStarTest::getPathShouldFindASolutionEvenWhenCacheReturnsAPathInReverseOrderToRequirements()
+{
+	Map *m = new Map(maplocation.c_str());
+	AnnotatedClusterAbstraction* aca = new AnnotatedClusterAbstraction(m, new AnnotatedAStar(), TESTCLUSTERSIZE);
+	AnnotatedClusterFactory* acfactory = new AnnotatedClusterFactory();
+	aca->buildClusters(acfactory);
+	aca->buildEntrances();
+
+	graph* absmap = aca->getAbstractGraph(1);
+	node *start = aca->getNodeFromMap(1,5);
+	node* goal = aca->getNodeFromMap(16,8);
+	
+	int capability = kGround;
+	int size = 1;
+	
+	ahastar->setGraphAbstraction(aca);
+	ahastar->setClearance(size);
+	ahastar->setCapability(capability);
+	
+	int numExpectedNodes = absmap->getNumNodes();
+	int numExpectedEdges = absmap->getNumEdges();
+	int numExpectedPathCacheSize = aca->getPathCacheSize();
+	
+	path* p = ahastar->getPath(aca, start, goal);
+
+	CPPUNIT_ASSERT_MESSAGE("failed to find path which exists (but refinement requires reversing some cache segments)", p != NULL);
+	
+	
+	delete p;
+	delete acfactory;
+	delete aca;
+}
+
+void AnnotatedHierarchicalAStarTest::getPathShouldAddInsertionEffortToPerformanceMetrics()
+{
+	AnnotatedAStar aastar;
+	Map *m = new Map(maplocation.c_str());
+	AnnotatedClusterAbstraction* aca = new AnnotatedClusterAbstraction(m, new AnnotatedAStar(), TESTCLUSTERSIZE);
+	AnnotatedClusterFactory* acfactory = new AnnotatedClusterFactory();
+	aca->buildClusters(acfactory);
+	aca->buildEntrances();
+
+	graph* absmap = aca->getAbstractGraph(1);
+	node *start = aca->getNodeFromMap(1,5);
+	node* goal = aca->getNodeFromMap(16,8);
+	
+	int capability = kGround;
+	int size = 1;
+	
+	ahastar->setGraphAbstraction(aca);
+	ahastar->setClearance(size);
+	ahastar->setCapability(capability);
+	
+	int numExpectedNodes = absmap->getNumNodes();
+	int numExpectedEdges = absmap->getNumEdges();
+	int numExpectedPathCacheSize = aca->getPathCacheSize();
+	
+	path* p = ahastar->getPath(aca, start, goal);
+	path* p2 = aastar.getPath(aca, start, goal);
+
+	CPPUNIT_ASSERT_MESSAGE("failed to increment nodesExpanded to account for insertion of start/goal", aastar.getNodesExpanded() < ahastar->getNodesExpanded());
+	CPPUNIT_ASSERT_MESSAGE("failed to increment nodesTouched to account for insertion of start/goal", aastar.getNodesTouched() < ahastar->getNodesTouched());
+	CPPUNIT_ASSERT_MESSAGE("failed to update peakMemory to account for insertion of start/goal", aastar.getPeakMemory() > ahastar->getPeakMemory());
+	CPPUNIT_ASSERT_MESSAGE("failed to update searchTime to account for insertion of start/goal", aastar.getSearchTime() != ahastar->getSearchTime());
+
+	
+	delete p;
+	delete acfactory;
+	delete aca;
+	
+}
 

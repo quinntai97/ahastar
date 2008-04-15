@@ -421,8 +421,8 @@ void AnnotatedClusterAbstractionTest::removeStartAndGoalNodesFromAbstractGraphSh
 	delete aca;
 	Map* m  = new Map(acmap.c_str());
 	aca = new AnnotatedClusterAbstraction(m,new AnnotatedAStar(), TESTCLUSTERSIZE); 
-
 	AnnotatedClusterFactory* acfactory = new AnnotatedClusterFactory();
+
 	node* start = aca->getNodeFromMap(2,1); 
 	node* goal = aca->getNodeFromMap(5,3);
 	graph* absg = aca->getAbstractGraph(1);	
@@ -764,10 +764,10 @@ void AnnotatedClusterAbstractionTest::getPathFromCacheShouldReturnZeroGivenAnInv
 	edge* e = new edge(0,1,1);
 	
 	aca->addPathToCache(e,p);
-	path* ret = aca->getPathFromCache(NULL);
+	path* ret = aca->getPathFromCache(e);
 	
-	CPPUNIT_ASSERT_MESSAGE("failed to return an NULL value given an invalid edge", NULL == ret);
-
+	CPPUNIT_ASSERT_MESSAGE("failed to return an appropriate path from cache", p == ret);
+	
 	delete n;
 	delete e;
 }

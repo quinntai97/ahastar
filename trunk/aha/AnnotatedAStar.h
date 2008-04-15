@@ -38,7 +38,7 @@ class AbstractAnnotatedAStar : public aStarOld
 	public:	
 		AbstractAnnotatedAStar(int _capability, int _clearance) : useCorridor(false), capability(_capability), clearance(_clearance) { capability=0; clearance=0; }
 		virtual const char* getName() { return "AbstractAnnotatedAStar"; }
-		virtual path* getPath(graphAbstraction*, node*, node*) = 0;
+		virtual path *getPath(graphAbstraction *aMap, node *from, node *to, reservationProvider *rp = 0) = 0;
 		
 		int getClearance() { return clearance;}
 		void setClearance(int clearance) { this->clearance = clearance; }
@@ -71,7 +71,7 @@ class AnnotatedAStar : public AbstractAnnotatedAStar
 			friend class AnnotatedHierarchicalAStarTest;
 		#endif
 		AnnotatedAStar(int _capability=0, int _clearance=0) : AbstractAnnotatedAStar(_capability, _clearance) { e = NULL; }
-		virtual path* getPath(graphAbstraction*, node*, node*);
+		virtual path *getPath(graphAbstraction *aMap, node *from, node *to, reservationProvider *rp = 0);
 		virtual const char* getName() { return "AnnotatedAStar"; }
 		static tDirection getDirection(node* current, node* target); // TODO: move this to a common AStar base class
 

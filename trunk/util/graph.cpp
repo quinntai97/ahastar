@@ -748,6 +748,8 @@ void node::setParentCluster(int clusterid)
 }
 
 
+
+// clones all labels, all annotations, nodeNum, weight etc. DOES NOT clone edges or parentclusterid
 graph_object *node::clone() const
 {
   node *n = new node(name);
@@ -758,6 +760,9 @@ graph_object *node::clone() const
   for(int i=0; i<3;i++) n->clearance[i] = clearance[i];
 
   n->keyLabel = keyLabel;
+  n->nodeNum = nodeNum;
+  n->width = width;
+  
   return n;
 }
 
