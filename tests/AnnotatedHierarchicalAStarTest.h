@@ -31,7 +31,10 @@ class AnnotatedHierarchicalAStarTest : public CPPUNIT_NS::TestFixture
 	CPPUNIT_TEST( evaluateShouldReturnFalseIfTheEdgeIsNotTraversable );
 	CPPUNIT_TEST( getAbstractPathShouldFindTheShortestPathBetweenTwoAbstractNodesGivenACapabilityAndAClearanceAndAnAnnotatedClusterAbstractionParameter );
 	CPPUNIT_TEST( getPathShouldReturnTheShortestPathBetweenTwoLowLevelNodesGivenACapabilityAndClearanceAndAnnotatedClusterAbstractionParameter );
-
+	CPPUNIT_TEST( getPathShouldRemoveAllInsertedNodesAndEdgesFromTheAbstractPathAndPathCacheIfTheSearchFailsToFindASolution );
+	CPPUNIT_TEST( getPathShouldRemoveAllInsertedNodesAndEdgesFromTheAbstractPathAndPathCacheIfTheSearchFindsASolution );
+	CPPUNIT_TEST( getPathShouldFindASolutionEvenWhenCacheReturnsAPathInReverseOrderToRequirements );
+	CPPUNIT_TEST( getPathShouldAddInsertionEffortToPerformanceMetrics );
 	CPPUNIT_TEST_SUITE_END();
 	
 	public:
@@ -47,7 +50,10 @@ class AnnotatedHierarchicalAStarTest : public CPPUNIT_NS::TestFixture
 		//// INTEGRATION TEST ////
 		void getAbstractPathShouldFindTheShortestPathBetweenTwoAbstractNodesGivenACapabilityAndAClearanceAndAnAnnotatedClusterAbstractionParameter();
 		void getPathShouldReturnTheShortestPathBetweenTwoLowLevelNodesGivenACapabilityAndClearanceAndAnnotatedClusterAbstractionParameter();
-		
+		void getPathShouldRemoveAllInsertedNodesAndEdgesFromTheAbstractPathAndPathCacheIfTheSearchFailsToFindASolution();
+		void getPathShouldRemoveAllInsertedNodesAndEdgesFromTheAbstractPathAndPathCacheIfTheSearchFindsASolution();	
+		void getPathShouldFindASolutionEvenWhenCacheReturnsAPathInReverseOrderToRequirements();	
+		void getPathShouldAddInsertionEffortToPerformanceMetrics();
 		
 		
 	private:

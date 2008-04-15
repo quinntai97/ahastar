@@ -20,7 +20,7 @@ class AnnotatedHierarchicalAStar : public AnnotatedAStar
 	
 	public:	
 		virtual const char* getName() { return "AnnotatedHierarchicalAStar"; }
-		virtual path* getPath(graphAbstraction* aMap, node* from, node* to);
+		virtual path* getPath(graphAbstraction* aMap, node* from, node* to, reservationProvider *rp=0);
 		
 	protected:
 		virtual path* getAbstractPath(graphAbstraction* aMap, node* from, node* to) 

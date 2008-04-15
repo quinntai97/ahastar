@@ -26,7 +26,7 @@ using namespace std;
 	5. if openlist is null return failure
 	6. else, goto 1
 */
-path* AnnotatedAStar::getPath(graphAbstraction *aMap, node *from, node* to)
+path* AnnotatedAStar::getPath(graphAbstraction *aMap, node *from, node* to, reservationProvider *rp)
 {
 	if(aMap == NULL || !dynamic_cast<AbstractAnnotatedMapAbstraction*>(aMap))
 		return NULL;

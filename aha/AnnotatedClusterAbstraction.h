@@ -75,6 +75,8 @@ class AnnotatedClusterAbstraction : public AnnotatedMapAbstraction
 		void setGraphQualityParameter(ACAUtil::GraphQualityParameter newqual) { quality = newqual; }
 		
 		virtual void openGLDraw(); 
+		void setDrawClusters(bool draw) { drawClusters = draw; }
+		bool getDrawClusters() { return drawClusters; }
 		
 	protected: 
 		virtual void addCluster(AnnotatedCluster* ac);
@@ -91,6 +93,7 @@ class AnnotatedClusterAbstraction : public AnnotatedMapAbstraction
 		std::vector<AnnotatedCluster *> clusters;
 		ACAUtil::pathTable pathCache;
 		ACAUtil::GraphQualityParameter quality;
+		bool drawClusters;
 };
 
 

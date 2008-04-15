@@ -16,7 +16,7 @@ using namespace ExpMgrUtil;
 
 /* we rig the result by checking for the key associated with the most recently requested ExpMgrUtil::TestExperiment. If the 
 	input matches that experiment, we return the rigged result. Otherwise, always false. */
-path* AnnotatedAStarMock::getPath(graphAbstraction* aMap, node* start, node* goal)
+path* AnnotatedAStarMock::getPath(graphAbstraction* aMap, node* start, node* goal, reservationProvider *rp)
 {
 	if(curexp)
 	{

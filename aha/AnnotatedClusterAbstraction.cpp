@@ -42,6 +42,7 @@ AnnotatedClusterAbstraction::AnnotatedClusterAbstraction(Map* m, AbstractAnnotat
 	
 	nodesExpanded = nodesTouched = peakMemory = 0;
 	searchTime = 0;
+	drawClusters = false;
 }
 
 AnnotatedClusterAbstraction::~AnnotatedClusterAbstraction()
@@ -235,6 +236,7 @@ void AnnotatedClusterAbstraction::removeStartAndGoalNodesFromAbstractGraph()
 	}
 }
 
+/* paths are cached in the direction of the edge (from, to) */
 void AnnotatedClusterAbstraction::addPathToCache(edge* e, path* p)
 {
 	if(e == NULL || p == NULL)
@@ -243,12 +245,14 @@ void AnnotatedClusterAbstraction::addPathToCache(edge* e, path* p)
 	pathCache[e->getUniqueID()] = p;
 }
 
+/* Cache for known paths. Stores one path for each abstract edge. */
 path* AnnotatedClusterAbstraction::getPathFromCache(edge* e)
 {
 	if(e == NULL)
 		return 0;
 
-	return pathCache[e->getUniqueID()];
+	path* p = pathCache[e->getUniqueID()];
+	return p;	
 }
 
 void AnnotatedClusterAbstraction::openGLDraw()
@@ -256,6 +260,8 @@ void AnnotatedClusterAbstraction::openGLDraw()
 	Map* map = this->getMap();
 	graph* g1 = abstractions[1];
 		
+	GLdouble xx, yy, zz,rr;
+	
 	/* draw transitions */
 	edge_iterator edgeIter; 
 	edgeIter = g1->getEdgeIter();
@@ -277,13 +283,15 @@ void AnnotatedClusterAbstraction::openGLDraw()
 				n1 = thepath->n;
 				n2 = thepath->next->n;
 
-				x1 = n1->getLabelF(kXCoordinate); x2 = n2->getLabelF(kXCoordinate);
-				y1 = n1->getLabelF(kYCoordinate); y2 = n2->getLabelF(kYCoordinate);
-				
 				glColor3f (0.7F, 0.5F, 0.5F);
+				
 				glBegin(GL_LINES);
-				glVertex3f(x1, y1, -0.010);
-				glVertex3f(x2, y2, -0.010);
+				
+				map->getOpenGLCoord(n1->getLabelL(kFirstData), n1->getLabelL(kFirstData+1), xx, yy, zz, rr);
+				glVertex3f(xx, yy, zz-rr*0.5);
+				map->getOpenGLCoord(n2->getLabelL(kFirstData), n2->getLabelL(kFirstData+1), xx, yy, zz, rr);
+				glVertex3f(xx, yy, zz-rr*0.5);
+				
 				glEnd();
 				
 				thepath = thepath->next;
@@ -299,21 +307,44 @@ void AnnotatedClusterAbstraction::openGLDraw()
 	{
 		glLineWidth(3.0f);
 		
-		node* n = getNodeFromMap(absn->getLabelL(kFirstData), absn->getLabelL(kFirstData+1));
-		GLdouble x1 = n->getLabelF(kXCoordinate);
-		GLdouble y1 = n->getLabelF(kYCoordinate);
-		
-//		std::cout <<"\n node @ "<<x1<<","<<y1;
+		map->getOpenGLCoord(absn->getLabelL(kFirstData), absn->getLabelL(kFirstData+1), xx, yy, zz, rr);
 		
 		glColor3f (0.6F, 0.4F, 0.4F);
 		glBegin(GL_QUADS);
-		glVertex3f(x1-0.01, y1-0.01, -0.010);
-		glVertex3f(x1+0.01, y1-0.01, -0.010);
-		glVertex3f(x1+0.01, y1+0.01, -0.010);
-		glVertex3f(x1-0.01, y1+0.01, -0.010);		
+		glVertex3f(xx-0.01, yy-0.01, zz-rr*0.5);
+		glVertex3f(xx+0.01, yy-0.01, zz-rr*0.5);
+		glVertex3f(xx+0.01, yy+0.01, zz-rr*0.5);
+		glVertex3f(xx-0.01, yy+0.01, zz-rr*0.5);		
 		glEnd();
 		
 		absn = g1->nodeIterNext(nodeIter);	
+	}
+
+	if(drawClusters)
+	{
+		glLineWidth(2.0f);
+		for(int cindex = 0; cindex<clusters.size(); cindex++)
+		{
+			glColor3f (0.6F, 0.9F, 0.4F);
+			AnnotatedCluster* ac = clusters[cindex];
+			glBegin(GL_LINE_STRIP);
+			map->getOpenGLCoord(ac->getHOrig(), ac->getVOrig(), xx, yy, zz, rr);
+			glVertex3f(xx, yy, zz-rr*0.5);
+
+			map->getOpenGLCoord(ac->getHOrig()+ac->getWidth()-1, ac->getVOrig(), xx, yy, zz, rr);
+			glVertex3f(xx, yy, zz-rr*0.5);
+
+			map->getOpenGLCoord(ac->getHOrig()+ac->getWidth()-1, ac->getVOrig()+ac->getHeight()-1, xx, yy, zz, rr);
+			glVertex3f(xx, yy, zz-rr*0.5);
+
+			map->getOpenGLCoord(ac->getHOrig(), ac->getVOrig()+ac->getHeight()-1, xx, yy, zz, rr);
+			glVertex3f(xx, yy, zz-rr*0.5);
+
+			map->getOpenGLCoord(ac->getHOrig(), ac->getVOrig(), xx, yy, zz, rr);
+			glVertex3f(xx, yy, zz-rr*0.5);
+
+			glEnd();
+		}
 	}
 
 	glLineWidth(1.0f);
