@@ -47,13 +47,100 @@
 bool mouseTracking;
 int px1, py1, px2, py2;
 int absType = 3;
+AHAScenarioManager scenariomgr;
+AHAExperiment* nextExperiment;
+int expnum=0;
 
 /**
  * This function is called each time a unitSimulation is deallocated to
  * allow any necessary stat processing beforehand
  */
-void processStats(statCollection *)
+
+void processStats(statCollection *stat)
 {
+/*	std::stringstream ss;
+	ss << "/Users/dharabor/src/hog/experiments/results";
+	FILE *f = fopen(ss.str().c_str(), "a+");
+	statValue val;
+	std::vector<const char *> *owners = stat->getOwners();
+	std::cout << "e\tid\ts\tc\tne\tnt\thne\thnt\tmem\thmem\ts&ct\ttst\thst\tsl\thsl\thdm\tdm"<<std::endl;
+	for(int i=0;i<owners->size();i++)
+	{
+		const char* unitname = owners->at(i);
+		stat->lookupStat("experimentId", unitname, val);
+		int expId = val.lval;
+		
+		//cout <<val.lval<<",\t";
+		//std::cout << unitname << ",\t";
+		stat->lookupStat("agentSize", unitname, val);
+		int agentSize=val.lval;
+		//cout <<val.lval<<",\t";
+		stat->lookupStat("agentCapabilities", unitname, val);
+		int agentCaps = val.lval;
+		
+		//cout <<val.lval<<",\t";
+		stat->lookupStat("totalNodesExpanded", unitname, val);
+		int tne = val.lval;
+		//cout <<val.lval<<",\t";
+		stat->lookupStat("totalNodesTouched", unitname, val);
+		int tnt = val.lval;
+		
+		//cout <<val.lval<<",\t";
+		stat->lookupStat("hNodesExpanded", unitname, val);
+		int hne = val.lval;
+		//cout <<val.lval<<",\t";
+		stat->lookupStat("hNodesTouched", unitname, val);
+		int hnt = val.lval;
+		
+		//cout <<val.lval<<",\t";
+		stat->lookupStat("peakMemoryUsage", unitname, val);
+		int pmu = val.lval;
+		
+		//cout <<val.lval<<",\t";
+		stat->lookupStat("hMemoryUsage", unitname, val);
+		int hmu = val.lval;
+		
+		//cout <<val.lval<<",\t";
+		stat->lookupStat("setupAndCleanupTime", unitname, val);
+		double stc = val.fval;
+		
+		//cout <<setprecision(3) << val.fval<<",\t";
+		stat->lookupStat("totalSearchTime", unitname, val);
+		double tst = val.fval;
+		
+		//cout <<setprecision(3) << val.fval<<",\t";
+		stat->lookupStat("hSearchTime", unitname, val);
+		double hst = val.fval;
+		
+		//cout <<setprecision(3) << val.fval<<",\t";
+		stat->lookupStat("solutionLength", unitname, val);
+		int sl = val.lval;
+		
+		//cout << val.lval<<",\t";
+		stat->lookupStat("hSolutionLength", unitname, val);
+		int hsl = val.lval;
+		
+		//cout << val.lval<<",\t";
+		stat->lookupStat("hDistance", unitname, val);
+		double hdist = val.fval;
+		
+		//cout <<setprecision(3) << val.fval<<"\t";
+		stat->lookupStat("distanceMoved", unitname, val);
+		double dm = val.fval;
+				
+		//cout <<setprecision(3) << val.fval<<std::endl;
+		fprintf(f, "%s,\t %i,\t %i,\t %i,\t %i,\t %i,\t %i,\t %i,\t %i,\t %i,\t %.2f,\t %.2f,\t %.2f,\t %i,\t %i,\t %.2f,\t %.2f,\t %s \n", 
+					unitname, expId, agentSize, agentCaps, tne, tnt, hne, hnt, pmu, hmu, stc, tst, hst, sl, hsl, hdist, dm, mapname.c_str());
+		
+
+	}
+
+	//fprintf(f,"\n");
+	fflush(f);
+	fclose(f);
+	//stat->printStatsTable();
+	
+	*/
 }
 
 /**
@@ -64,7 +151,8 @@ void createSimulation(unitSimulation * &unitSim)
 {
 //	Map* map = new Map("/Users/dharabor/src/ahastar/tests/testmaps/clustertest.map");
 //	Map* map = new Map("/Users/dharabor/src/ahastar/maps/local/pacman.map");
-	Map* map = new Map("/Users/dharabor/src/ahastar/maps/local/adaptive-depth-10.map");
+//	Map* map = new Map("/Users/dharabor/src/ahastar/maps/local/adaptive-depth-10.map");
+	Map* map = new Map(gDefaultMap);
 	int CLUSTERSIZE=10;
 
 	AnnotatedClusterAbstraction* aca = new AnnotatedClusterAbstraction(map, new AnnotatedAStar(), CLUSTERSIZE);
@@ -74,10 +162,13 @@ void createSimulation(unitSimulation * &unitSim)
 	aca->buildEntrances();
 	aca->setDrawClusters(true);
 	graph* absg = aca->getAbstractGraph(1);
-	std::cout << "\n absnodes: "<<absg->getNumNodes()<<" absedges: "<<absg->getNumEdges();
+	std::cout << "\n map: "<<gDefaultMap<< "absnodes: "<<absg->getNumNodes()<<" absedges: "<<absg->getNumEdges();
 
 	unitSim = new unitSimulation(aca);	
 	unitSim->setCanCrossDiagonally(true);
+	
+	unitSim->setNextExperimentPtr(&runNextExperiment);
+	runNextExperiment(unitSim);
 }
 
 /**
@@ -125,7 +216,7 @@ void initializeHandlers()
 
 	installCommandLineHandler(myCLHandler, "-map", "-map filename", "Selects the default map to be loaded.");
 	installCommandLineHandler(myScenarioGeneratorCLHandler, "-genscenarios", "-genscenarios [.map filename] [number of scenarios] [clearance]", "Generates a scenario; a set of path problems on a given map");
-	//installCommandLineHandler(myExecuteScenarioCLHandler, "-scenario", "-scenario filename", "Execute all experiments in a given .scenario file");
+	installCommandLineHandler(myExecuteScenarioCLHandler, "-scenario", "-scenario filename", "Execute all experiments in a given .scenario file");
 	
 	installMouseClickHandler(myClickHandler);
 }
@@ -167,8 +258,10 @@ int myExecuteScenarioCLHandler(char *argument[], int maxNumArgs)
 		return 0;
 		
 	std::string infile(argument[1]);
-	AHAScenarioManager scenariomgr;
-	scenariomgr.loadScenarioFile(infile.c_str());
+	scenariomgr.loadScenarioFile(infile.c_str());	
+	strncpy(gDefaultMap, scenariomgr.getNthExperiment(0)->getMapName(), 1024);
+	
+	std::cout << "\n executing scenario file at " << gDefaultMap<<". hold on to your hats, this could get hairy!";
 	return 2;
 }
 
@@ -317,3 +410,57 @@ bool myClickHandler(unitSimulation *unitSim, int, int, point3d loc, tButtonType 
 	return false;
 }
 
+void runNextExperiment(unitSimulation *unitSim)
+{
+	if(expnum == scenariomgr.getNumExperiments()) 
+	{
+		processStats(unitSim->getStats());
+		delete unitSim;
+		exit(0);
+	}
+
+	AHAExperiment* nextExperiment = dynamic_cast<AHAExperiment*>(scenariomgr.getNthExperiment(expnum));
+	
+	int numunits = unitSim->getNumUnits();
+	if(numunits > 0)
+	{
+		assert(numunits == 1);
+		searchUnit* curUnit = dynamic_cast<searchUnit*>(unitSim->getUnit(0));
+		assert(curUnit);
+		
+		searchUnit* nextUnit;
+		unit* nextTarget = new unit(nextExperiment->getGoalX(), nextExperiment->getGoalY());
+		if(dynamic_cast<AnnotatedAStar*>(curUnit->getAlgorithm()))
+		{
+			AnnotatedHierarchicalAStar* ahastar = new AnnotatedHierarchicalAStar();
+			ahastar->setCapability(nextExperiment->getCapability());
+			ahastar->setClearance(nextExperiment->getAgentsize());			
+			nextUnit = new searchUnit(nextExperiment->getStartX(), nextExperiment->getStartY(), nextTarget, ahastar); 
+			expnum++;
+		}
+		else
+		{
+			AnnotatedAStar* aastar = new AnnotatedAStar();
+			aastar->setCapability(nextExperiment->getCapability());
+			aastar->setClearance(nextExperiment->getAgentsize());			
+			nextUnit = new searchUnit(nextExperiment->getStartX(), nextExperiment->getStartY(), nextTarget, aastar); 
+		}
+		
+		unitSim->clearAllUnits();
+		unitSim->addUnit(nextTarget);
+		unitSim->addUnit(nextUnit);
+	}
+	else
+	{
+			AnnotatedAStar* aastar = new AnnotatedAStar();
+			aastar->setCapability(nextExperiment->getCapability());
+			aastar->setClearance(nextExperiment->getAgentsize());			
+
+			unit* nextTarget = new unit(nextExperiment->getGoalX(), nextExperiment->getGoalY());
+			searchUnit* nextUnit = new searchUnit(nextExperiment->getStartX(), nextExperiment->getStartY(), nextTarget, aastar); 
+
+			unitSim->addUnit(nextTarget);
+			unitSim->addUnit(nextUnit);
+	}
+	
+}

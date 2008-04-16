@@ -69,6 +69,7 @@ class AHAExperiment : public Experiment
 	public:
 		AHAExperiment(int xs, int ys, int xg, int yg, int capability, int agentsize, float dist, string mapname) :
 			Experiment(xs, ys, xg, yg, 0, dist, mapname), capability(capability), agentsize(agentsize) { }
+		virtual ~AHAExperiment() { }
 		
 		int getCapability() { return capability; }
 		void setCapability(int newcapability) { capability = newcapability; }

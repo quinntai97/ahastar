@@ -66,6 +66,7 @@ unitSimulation::unitSimulation(mapAbstraction *_aMap, bool keepStats)
 	disallowDiagonalCrossingMoves = true;
 	lockstepTime = false;
 	keepHistory = keepStats;
+	nextExperiment=0;
 }
 
 /** delete a unit simulation.
@@ -726,6 +727,12 @@ void unitSimulation::stepUnitTime(unitInfo *theUnit)
 		}
 		u->logStats(&stats);
 		u->getUnitGroup()->logStats(&stats);
+		if(nextExperiment)
+		{
+			//if(((searchUnit*)u)->getGoalUnreachable() || ((searchUnit*)u)->getOnTarget())
+				//clearMap = true;
+			nextExperiment(this);
+		}
 		return;
 	}
 	
