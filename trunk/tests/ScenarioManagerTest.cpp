@@ -200,3 +200,25 @@ void ScenarioManagerTest::generateSingleExperimentReturnsNullIfNoPairOfStartAndG
 	
 	delete ama;
 }
+
+void ScenarioManagerTest::loadScenarioShouldCreateExperimentObjectsGivenAFileThatDescribesExperimentAttributes()
+{
+	std::string scenariofilelocation("/Users/dharabor/src/ahastar/tests/testscenarios/demo.map.scenario");
+	std::string demomaplocation("/Users/dharabor/src/ahastar/maps/local/demo.map");
+	AHAExperiment exp(14, 6, 17, 7, (kGround|kTrees), 2, 4, maplocation.c_str());
+	
+	sg->loadScenarioFile(scenariofilelocation.c_str());
+
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("loaded incorrect number of experiments from file", 1, sg->getNumExperiments());
+
+	AHAExperiment *fileExp = ((AHAExperiment*)sg->getNthExperiment(0));
+	CPPUNIT_ASSERT_MESSAGE("loaded experiment is null?!", fileExp != NULL);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("startx coordinates do not match", exp.getStartX(), fileExp->getStartX());
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("starty coordinates do not match", exp.getStartY() , fileExp->getStartY());
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("goalx coordinates do not match", exp.getGoalX(), fileExp->getGoalX());
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("goaly coordinates do not match", exp.getGoalY(), fileExp->getGoalY());
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("capabilities do not match", exp.getCapability(), fileExp->getCapability());
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("agentsize values do not match", exp.getAgentsize(), fileExp->getAgentsize());
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("path distance values do not match", exp.getDistance(), fileExp->getDistance());
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("mapname values do not match", 0, strcmp(exp.getMapName(), fileExp->getMapName()));
+}
