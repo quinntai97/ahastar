@@ -55,7 +55,8 @@ pRecContext getCurrentContext()
 int main(int argc, char** argv)
 {
   // Init traj global
-  startTrajRecap = false;
+	
+	startTrajRecap = false;
 
 	srandom(time(0));
 	

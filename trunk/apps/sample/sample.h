@@ -29,4 +29,5 @@ void myDisplayHandler(unitSimulation *, tKeyboardModifier, char key);
 void myPathfindingKeyHandler(unitSimulation *, tKeyboardModifier, char key);
 void myRandomUnitKeyHandler(unitSimulation *, tKeyboardModifier, char key);
 int myCLHandler(char *argument[], int maxNumArgs);
+int myScenarioGeneratorCLHandler(char *argument[], int maxNumArgs);
 bool myClickHandler(unitSimulation *, int x, int y, point3d loc, tButtonType, tMouseEventType);

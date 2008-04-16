@@ -46,10 +46,15 @@ void ScenarioManagerTest::tearDown()
 
 void ScenarioManagerTest::NoExperimentsGeneratedWhenMapIsNotTraversable()
 {
-	aastar_mock->setCurrentTestExperiment(expmgr->getExperiment(kNotPathableStartIsHardObstacleLST));
-	sg->generateExperiments(aastar_mock, ama_mock, 50,68,2);
+	string targetmap("/Users/dharabor/src/ahastar/maps/local/pacman.map"); // no paths for kGround when size > 1
+	Map* m = new Map(targetmap.c_str());
+	AnnotatedAStar* aastar = new AnnotatedAStar();
+	AnnotatedMapAbstraction* ama = new AnnotatedMapAbstraction(m, aastar);
+	ama->annotateMap();
+
+	sg->generateExperiments(ama, 50, 2);
 	
-	CPPUNIT_ASSERT_EQUAL_MESSAGE("experiments generated when no pathable problems exist", 0, sg->getNumExperiments());
+	delete ama;
 }
 
 void ScenarioManagerTest::ScenarioFileIsNotCreatedWhenNoExperimentsExist()
@@ -64,7 +69,7 @@ void ScenarioManagerTest::ScenarioFileIsNotCreatedWhenNoExperimentsExist()
 
 void ScenarioManagerTest::ScenarioFileWrittenToDiskAndWellFormatted()
 {
-	int xs, ys, xg, yg, i=0, terrain, agentsize;
+	int xs, ys, xg, yg, i=0, capability, agentsize;
 	double dist, ver;
 	string map;
 
@@ -85,7 +90,7 @@ void ScenarioManagerTest::ScenarioFileWrittenToDiskAndWellFormatted()
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("'test.scenario' not version 2.0 file", 2.0, ver);
 	
 	/* Read in experiments from scenario file */
-	while(testfile>>map>>xs>>ys>>xg>>yg>>terrain>>agentsize>>dist) // NB: could break if values are not int/float; how to handle it?
+	while(testfile>>map>>xs>>ys>>xg>>yg>>capability>>agentsize>>dist) // NB: could break if values are not int/float; how to handle it?
 	{
 		
 		/* criteria: each line of the scenario file is consistent with the values inside an experiment object */
@@ -97,7 +102,7 @@ void ScenarioManagerTest::ScenarioFileWrittenToDiskAndWellFormatted()
 		CPPUNIT_ASSERT_EQUAL_MESSAGE("goaly coordinates inconsistent between object and scenario file", exp->getGoalY(), yg);
 		CPPUNIT_ASSERT_EQUAL_MESSAGE("map name inconsistent between object and scenario file", 0, strcmp(exp->getMapName(), map.c_str()));
 		CPPUNIT_ASSERT_EQUAL_MESSAGE("agent size is inconsistent between object and scenario file", exp->getAgentsize(), agentsize);
-		CPPUNIT_ASSERT_EQUAL_MESSAGE("terrain is inconsistent between object and scenario file", exp->getTerrain(), terrain);
+		CPPUNIT_ASSERT_EQUAL_MESSAGE("capability is inconsistent between object and scenario file", exp->getCapability(), capability);
 		
 		i++;
 	}
@@ -112,22 +117,86 @@ void ScenarioManagerTest::ScenarioFileWrittenToDiskAndWellFormatted()
 
 }
 
-void ScenarioManagerTest::GeneratedExperimentsAreValid()
-{
-	aastar_mock->setCurrentTestExperiment(expmgr->getExperiment(kPathableToyProblemLST));
-	sg->generateExperiments(aastar_mock, ama_mock, numscenarios, capability, agentsize);
+void ScenarioManagerTest::generateExperimentsProducesCorrectNumberOfExperiments()
+{	
+	string emptymap("/Users/dharabor/src/ahastar/tests/testmaps/emptymap.map");
+	Map* m = new Map(emptymap.c_str()); // want to make sure we can always find an experiment 
+	AnnotatedAStar* aastar = new AnnotatedAStar();
+	AnnotatedMapAbstraction* ama = new AnnotatedMapAbstraction(m, aastar);
+	ama->annotateMap();
 
+	sg->generateExperiments(ama, numscenarios, agentsize);
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("incorrect number of experiments generated", numscenarios, sg->getNumExperiments());
 	
-	for(int i=0; i<sg->getNumExperiments(); i++)
+	delete ama;
+}
+
+void ScenarioManagerTest::generateExperimentsProducesExperimentsWithDifferentCapabilityTypes()
+{
+	string targetmap("/Users/dharabor/src/ahastar/maps/local/demo.map");
+	Map* m = new Map(targetmap.c_str());
+	AnnotatedAStar* aastar = new AnnotatedAStar();
+	AnnotatedMapAbstraction* ama = new AnnotatedMapAbstraction(m, aastar);
+	ama->annotateMap();
+
+	int GroundExperiments=0;
+	int MultiCapableExperiments=0; // not many trees on this map so we skip that test
+
+	int numExperiments=10;
+	sg->generateExperiments(ama,numExperiments,1);
+	for(int i=0; i<numExperiments; i++)
 	{
-		AHAExperiment* cur = ((AHAExperiment*)sg->getNthExperiment(i));
-		
-		CPPUNIT_ASSERT_EQUAL_MESSAGE("experiment mapname not the same", 0, strcmp(maplocation.c_str(), cur->getMapName()));
-		CPPUNIT_ASSERT_EQUAL_MESSAGE("found a non-valid terrain", cur->getTerrain(), (capability&cur->getTerrain()));
-		CPPUNIT_ASSERT_MESSAGE("agent size non-valid",  cur->getAgentsize() >= 1 && cur->getAgentsize() <= agentsize);
-		CPPUNIT_ASSERT_EQUAL_MESSAGE("start == goal", true, !(cur->getStartX() == cur->getGoalX() && cur->getStartY() == cur->getGoalY()));
-		CPPUNIT_ASSERT_MESSAGE("path distance <= 0", cur->getDistance() > 0);
+
+		AHAExperiment* exp =  ((AHAExperiment*)sg->getNthExperiment(i));
+		int expcapability = exp->getCapability(); 
+		if(expcapability == kGround)
+			GroundExperiments++;
+		if(expcapability == (kTrees|kGround))
+			MultiCapableExperiments++;
+	
 	}
 	
+	CPPUNIT_ASSERT_MESSAGE("hmm.. no kGround experiments generated. wtf?", GroundExperiments > 0);
+	CPPUNIT_ASSERT_MESSAGE("hmm.. no MultiCapable experiments generated. wtf?", MultiCapableExperiments > 0);
+
+	delete ama;
+}
+
+// TODO: Replace AMA/AA* with mocks. proper mocks.
+void ScenarioManagerTest::generateSingleExperimentReturnsAValidExperimentForTheGivenParameters()
+{
+	string emptymap("/Users/dharabor/src/ahastar/tests/testmaps/emptymap.map");
+	Map* m = new Map(emptymap.c_str()); // want to make sure we can always find an experiment 
+	AnnotatedAStar* aastar = new AnnotatedAStar();
+	AnnotatedMapAbstraction* ama = new AnnotatedMapAbstraction(m, aastar);
+	ama->annotateMap();
+	
+	int minsize = 1;
+	
+	AHAExperiment* exp = sg->generateSingleExperiment(ama, capability, agentsize);
+	CPPUNIT_ASSERT_MESSAGE("incorrectly returned NULL instead of a valid experiment", exp != NULL);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("experiment mapname not the same", 0, strcmp(emptymap.c_str(), exp->getMapName()));
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("found an invalid capability for experiment", capability,  exp->getCapability());
+	CPPUNIT_ASSERT_MESSAGE("agent size non-valid",  exp->getAgentsize() >= agentsize);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("start == goal", true, !(exp->getStartX() == exp->getGoalX() && exp->getStartY() == exp->getGoalY()));
+	CPPUNIT_ASSERT_MESSAGE("path distance <= 0", exp->getDistance() > 0);
+	
+	delete ama;
+}
+
+void ScenarioManagerTest::generateSingleExperimentReturnsNullIfNoPairOfStartAndGoalNodesCouldBeLocatedForTheGivenParameters()
+{
+	string targetmap("/Users/dharabor/src/ahastar/maps/local/pacman.map"); // no paths for kGround when size > 1
+	Map* m = new Map(targetmap.c_str());
+	AnnotatedAStar* aastar = new AnnotatedAStar();
+	AnnotatedMapAbstraction* ama = new AnnotatedMapAbstraction(m, aastar);
+	ama->annotateMap();
+		
+	for(int i=0; i<1000; i++)
+	{
+		AHAExperiment* exp = sg->generateSingleExperiment(ama, capability, agentsize);
+		CPPUNIT_ASSERT_MESSAGE("incorrectly returned an experiment when none should be possible with the given params", exp == NULL);
+	}
+	
+	delete ama;
 }
