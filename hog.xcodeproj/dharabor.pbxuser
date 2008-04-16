@@ -13,11 +13,12 @@
 			62A71DE30DA488B700F8AC71 /* AnnotatedMapAbstractionTest.cpp:268 */,
 			62A71DFC0DA48B0800F8AC71 /* AnnotatedMapAbstractionTest.cpp:270 */,
 			62DC99020DB0F08300023BEC /* clusterAbstraction.h:195 */,
-			6232E9A90DB4EC250046EF37 /* sample.cpp:69 */,
+			6232E9A90DB4EC250046EF37 /* sample.cpp:70 */,
 			6232EA320DB4F6370046EF37 /* AnnotatedClusterTest.cpp:481 */,
 			6232EA390DB4F6840046EF37 /* AnnotatedClusterTest.cpp:473 */,
-			62993A6E0DB5962100B2E02C /* common.cpp:190 */,
 			62993D9E0DB5C66F00B2E02C /* ScenarioManagerTest.cpp:174 */,
+			62993EDF0DB6302700B2E02C /* unitSimulation.h:40 */,
+			6299400C0DB6592F00B2E02C /* unitSimulation.cpp:730 */,
 		);
 		breakpointsGroup = 62B1888B0D34F4280061AE72 /* XCBreakpointsBucket */;
 		codeSenseManager = 62E910C50CFD49B200AA46AB /* Code sense */;
@@ -86,6 +87,18 @@
 					PBXFileDataSource_Errors_ColumnID,
 					PBXFileDataSource_Warnings_ColumnID,
 					PBXFileDataSource_Target_ColumnID,
+				);
+			};
+			PBXConfiguration.PBXFileTableDataSource3.PBXFindDataSource = {
+				PBXFileTableDataSourceColumnSortingDirectionKey = "-1";
+				PBXFileTableDataSourceColumnSortingKey = PBXFindDataSource_LocationID;
+				PBXFileTableDataSourceColumnWidthsKey = (
+					200,
+					120,
+				);
+				PBXFileTableDataSourceColumnsKey = (
+					PBXFindDataSource_MessageID,
+					PBXFindDataSource_LocationID,
 				);
 			};
 			PBXConfiguration.PBXTargetDataSource.PBXTargetDataSource = {
@@ -1730,6 +1743,119 @@
 			62993EBB0DB61DB500B2E02C /* PBXTextBookmark */ = 62993EBB0DB61DB500B2E02C /* PBXTextBookmark */;
 			62993EC00DB6272800B2E02C /* PBXTextBookmark */ = 62993EC00DB6272800B2E02C /* PBXTextBookmark */;
 			62993EC10DB6272800B2E02C /* PBXTextBookmark */ = 62993EC10DB6272800B2E02C /* PBXTextBookmark */;
+			62993EC40DB6278D00B2E02C /* PBXTextBookmark */ = 62993EC40DB6278D00B2E02C /* PBXTextBookmark */;
+			62993EC50DB6278D00B2E02C /* PBXTextBookmark */ = 62993EC50DB6278D00B2E02C /* PBXTextBookmark */;
+			62993EC80DB6279200B2E02C /* PBXBookmark */ = 62993EC80DB6279200B2E02C /* PBXBookmark */;
+			62993EC90DB6279700B2E02C /* PBXTextBookmark */ = 62993EC90DB6279700B2E02C /* PBXTextBookmark */;
+			62993ECC0DB6279700B2E02C /* PBXTextBookmark */ = 62993ECC0DB6279700B2E02C /* PBXTextBookmark */;
+			62993ED10DB62F8500B2E02C /* PBXTextBookmark */ = 62993ED10DB62F8500B2E02C /* PBXTextBookmark */;
+			62993ED20DB62F8500B2E02C /* PBXTextBookmark */ = 62993ED20DB62F8500B2E02C /* PBXTextBookmark */;
+			62993ED30DB62F8500B2E02C /* PBXTextBookmark */ = 62993ED30DB62F8500B2E02C /* PBXTextBookmark */;
+			62993ED40DB62F8500B2E02C /* PBXTextBookmark */ = 62993ED40DB62F8500B2E02C /* PBXTextBookmark */;
+			62993ED50DB62F8500B2E02C /* PBXTextBookmark */ = 62993ED50DB62F8500B2E02C /* PBXTextBookmark */;
+			62993ED80DB62FB000B2E02C /* PBXTextBookmark */ = 62993ED80DB62FB000B2E02C /* PBXTextBookmark */;
+			62993ED90DB62FB000B2E02C /* PBXTextBookmark */ = 62993ED90DB62FB000B2E02C /* PBXTextBookmark */;
+			62993F350DB6481F00B2E02C /* PBXBookmark */ = 62993F350DB6481F00B2E02C /* PBXBookmark */;
+			62993F3B0DB6484000B2E02C /* PBXTextBookmark */ = 62993F3B0DB6484000B2E02C /* PBXTextBookmark */;
+			62993F3C0DB6484000B2E02C /* PBXTextBookmark */ = 62993F3C0DB6484000B2E02C /* PBXTextBookmark */;
+			62993F3D0DB6484000B2E02C /* PBXTextBookmark */ = 62993F3D0DB6484000B2E02C /* PBXTextBookmark */;
+			62993F3E0DB6484000B2E02C /* PBXTextBookmark */ = 62993F3E0DB6484000B2E02C /* PBXTextBookmark */;
+			62993F3F0DB6484000B2E02C /* PBXTextBookmark */ = 62993F3F0DB6484000B2E02C /* PBXTextBookmark */;
+			62993F400DB6484000B2E02C /* PBXTextBookmark */ = 62993F400DB6484000B2E02C /* PBXTextBookmark */;
+			62993F410DB6484000B2E02C /* PBXTextBookmark */ = 62993F410DB6484000B2E02C /* PBXTextBookmark */;
+			62993F420DB6484000B2E02C /* PBXTextBookmark */ = 62993F420DB6484000B2E02C /* PBXTextBookmark */;
+			62993F430DB6484000B2E02C /* PBXTextBookmark */ = 62993F430DB6484000B2E02C /* PBXTextBookmark */;
+			62993F440DB6484000B2E02C /* PBXTextBookmark */ = 62993F440DB6484000B2E02C /* PBXTextBookmark */;
+			62993F450DB6484000B2E02C /* PBXTextBookmark */ = 62993F450DB6484000B2E02C /* PBXTextBookmark */;
+			62993F460DB6484000B2E02C /* PBXTextBookmark */ = 62993F460DB6484000B2E02C /* PBXTextBookmark */;
+			62993F520DB6497000B2E02C /* PBXTextBookmark */ = 62993F520DB6497000B2E02C /* PBXTextBookmark */;
+			62993F530DB6497000B2E02C /* PBXTextBookmark */ = 62993F530DB6497000B2E02C /* PBXTextBookmark */;
+			62993F540DB6497000B2E02C /* PBXTextBookmark */ = 62993F540DB6497000B2E02C /* PBXTextBookmark */;
+			62993F550DB6497000B2E02C /* PBXTextBookmark */ = 62993F550DB6497000B2E02C /* PBXTextBookmark */;
+			62993F560DB6497000B2E02C /* PBXBookmark */ = 62993F560DB6497000B2E02C /* PBXBookmark */;
+			62993F570DB6497000B2E02C /* PBXTextBookmark */ = 62993F570DB6497000B2E02C /* PBXTextBookmark */;
+			62993F580DB6497000B2E02C /* PBXTextBookmark */ = 62993F580DB6497000B2E02C /* PBXTextBookmark */;
+			62993F590DB6497000B2E02C /* PBXTextBookmark */ = 62993F590DB6497000B2E02C /* PBXTextBookmark */;
+			62993F5A0DB6497000B2E02C /* PBXTextBookmark */ = 62993F5A0DB6497000B2E02C /* PBXTextBookmark */;
+			62993F5B0DB6497000B2E02C /* PBXTextBookmark */ = 62993F5B0DB6497000B2E02C /* PBXTextBookmark */;
+			62993F5E0DB6497000B2E02C /* PBXTextBookmark */ = 62993F5E0DB6497000B2E02C /* PBXTextBookmark */;
+			62993F5F0DB6497000B2E02C /* PBXTextBookmark */ = 62993F5F0DB6497000B2E02C /* PBXTextBookmark */;
+			62993F620DB6497000B2E02C /* PBXTextBookmark */ = 62993F620DB6497000B2E02C /* PBXTextBookmark */;
+			62993F630DB6497000B2E02C /* PBXTextBookmark */ = 62993F630DB6497000B2E02C /* PBXTextBookmark */;
+			62993F660DB6497000B2E02C /* PBXTextBookmark */ = 62993F660DB6497000B2E02C /* PBXTextBookmark */;
+			62993F670DB64C5600B2E02C /* PBXTextBookmark */ = 62993F670DB64C5600B2E02C /* PBXTextBookmark */;
+			62993F680DB64C5600B2E02C /* PBXTextBookmark */ = 62993F680DB64C5600B2E02C /* PBXTextBookmark */;
+			62993F690DB64C5600B2E02C /* PBXTextBookmark */ = 62993F690DB64C5600B2E02C /* PBXTextBookmark */;
+			62993F6A0DB64C5600B2E02C /* PBXTextBookmark */ = 62993F6A0DB64C5600B2E02C /* PBXTextBookmark */;
+			62993F6B0DB64C5600B2E02C /* PBXTextBookmark */ = 62993F6B0DB64C5600B2E02C /* PBXTextBookmark */;
+			62993F6C0DB64C5600B2E02C /* PBXTextBookmark */ = 62993F6C0DB64C5600B2E02C /* PBXTextBookmark */;
+			62993F7C0DB64F2300B2E02C /* PBXTextBookmark */ = 62993F7C0DB64F2300B2E02C /* PBXTextBookmark */;
+			62993F7D0DB64F2300B2E02C /* PBXTextBookmark */ = 62993F7D0DB64F2300B2E02C /* PBXTextBookmark */;
+			62993F7E0DB64F2300B2E02C /* PBXTextBookmark */ = 62993F7E0DB64F2300B2E02C /* PBXTextBookmark */;
+			62993F7F0DB64F2300B2E02C /* PBXTextBookmark */ = 62993F7F0DB64F2300B2E02C /* PBXTextBookmark */;
+			62993F800DB64F2300B2E02C /* PBXTextBookmark */ = 62993F800DB64F2300B2E02C /* PBXTextBookmark */;
+			62993F810DB64F2C00B2E02C /* PBXBookmark */ = 62993F810DB64F2C00B2E02C /* PBXBookmark */;
+			62993F820DB64F4200B2E02C /* PBXTextBookmark */ = 62993F820DB64F4200B2E02C /* PBXTextBookmark */;
+			62993F830DB64F4200B2E02C /* PBXTextBookmark */ = 62993F830DB64F4200B2E02C /* PBXTextBookmark */;
+			62993F840DB64F4200B2E02C /* PBXTextBookmark */ = 62993F840DB64F4200B2E02C /* PBXTextBookmark */;
+			62993F850DB64F4200B2E02C /* PBXTextBookmark */ = 62993F850DB64F4200B2E02C /* PBXTextBookmark */;
+			62993F880DB64F4200B2E02C /* PBXTextBookmark */ = 62993F880DB64F4200B2E02C /* PBXTextBookmark */;
+			62993F890DB64F4200B2E02C /* PBXTextBookmark */ = 62993F890DB64F4200B2E02C /* PBXTextBookmark */;
+			62993F8A0DB64F7700B2E02C /* PBXTextBookmark */ = 62993F8A0DB64F7700B2E02C /* PBXTextBookmark */;
+			62993F8B0DB64F7700B2E02C /* PBXTextBookmark */ = 62993F8B0DB64F7700B2E02C /* PBXTextBookmark */;
+			62993F8C0DB64F7700B2E02C /* PBXTextBookmark */ = 62993F8C0DB64F7700B2E02C /* PBXTextBookmark */;
+			62993F9C0DB6550D00B2E02C /* PBXTextBookmark */ = 62993F9C0DB6550D00B2E02C /* PBXTextBookmark */;
+			62993F9D0DB6550D00B2E02C /* PBXTextBookmark */ = 62993F9D0DB6550D00B2E02C /* PBXTextBookmark */;
+			62993FAC0DB655BB00B2E02C /* PBXTextBookmark */ = 62993FAC0DB655BB00B2E02C /* PBXTextBookmark */;
+			62993FAD0DB655BB00B2E02C /* PBXTextBookmark */ = 62993FAD0DB655BB00B2E02C /* PBXTextBookmark */;
+			62993FAF0DB655BB00B2E02C /* PBXTextBookmark */ = 62993FAF0DB655BB00B2E02C /* PBXTextBookmark */;
+			62993FB00DB655BB00B2E02C /* PBXTextBookmark */ = 62993FB00DB655BB00B2E02C /* PBXTextBookmark */;
+			62993FB10DB655BB00B2E02C /* PBXTextBookmark */ = 62993FB10DB655BB00B2E02C /* PBXTextBookmark */;
+			62993FB20DB655BB00B2E02C /* PBXTextBookmark */ = 62993FB20DB655BB00B2E02C /* PBXTextBookmark */;
+			62993FB40DB655BB00B2E02C /* PBXTextBookmark */ = 62993FB40DB655BB00B2E02C /* PBXTextBookmark */;
+			62993FB50DB655BB00B2E02C /* PBXTextBookmark */ = 62993FB50DB655BB00B2E02C /* PBXTextBookmark */;
+			62993FC50DB656AB00B2E02C /* PBXTextBookmark */ = 62993FC50DB656AB00B2E02C /* PBXTextBookmark */;
+			62993FC60DB656AB00B2E02C /* PBXTextBookmark */ = 62993FC60DB656AB00B2E02C /* PBXTextBookmark */;
+			62993FC70DB656AB00B2E02C /* PBXTextBookmark */ = 62993FC70DB656AB00B2E02C /* PBXTextBookmark */;
+			62993FC80DB656AD00B2E02C /* PBXTextBookmark */ = 62993FC80DB656AD00B2E02C /* PBXTextBookmark */;
+			62993FC90DB656AD00B2E02C /* PBXTextBookmark */ = 62993FC90DB656AD00B2E02C /* PBXTextBookmark */;
+			62993FCC0DB656AF00B2E02C /* PBXTextBookmark */ = 62993FCC0DB656AF00B2E02C /* PBXTextBookmark */;
+			62993FCD0DB656AF00B2E02C /* PBXTextBookmark */ = 62993FCD0DB656AF00B2E02C /* PBXTextBookmark */;
+			62993FD30DB656E100B2E02C /* PBXTextBookmark */ = 62993FD30DB656E100B2E02C /* PBXTextBookmark */;
+			62993FD40DB656E100B2E02C /* PBXTextBookmark */ = 62993FD40DB656E100B2E02C /* PBXTextBookmark */;
+			62993FE00DB6577A00B2E02C /* PBXTextBookmark */ = 62993FE00DB6577A00B2E02C /* PBXTextBookmark */;
+			62993FE10DB6577A00B2E02C /* PBXTextBookmark */ = 62993FE10DB6577A00B2E02C /* PBXTextBookmark */;
+			62993FE40DB6577E00B2E02C /* PBXTextBookmark */ = 62993FE40DB6577E00B2E02C /* PBXTextBookmark */;
+			62993FE50DB6577E00B2E02C /* PBXTextBookmark */ = 62993FE50DB6577E00B2E02C /* PBXTextBookmark */;
+			62993FEA0DB657DD00B2E02C /* PBXTextBookmark */ = 62993FEA0DB657DD00B2E02C /* PBXTextBookmark */;
+			62993FEB0DB657DD00B2E02C /* PBXTextBookmark */ = 62993FEB0DB657DD00B2E02C /* PBXTextBookmark */;
+			62993FEE0DB6582A00B2E02C /* PBXTextBookmark */ = 62993FEE0DB6582A00B2E02C /* PBXTextBookmark */;
+			62993FEF0DB6582A00B2E02C /* PBXTextBookmark */ = 62993FEF0DB6582A00B2E02C /* PBXTextBookmark */;
+			62993FF90DB658F200B2E02C /* PBXTextBookmark */ = 62993FF90DB658F200B2E02C /* PBXTextBookmark */;
+			62993FFA0DB658F200B2E02C /* PBXTextBookmark */ = 62993FFA0DB658F200B2E02C /* PBXTextBookmark */;
+			62993FFB0DB658F200B2E02C /* PBXTextBookmark */ = 62993FFB0DB658F200B2E02C /* PBXTextBookmark */;
+			62993FFC0DB658F200B2E02C /* PBXTextBookmark */ = 62993FFC0DB658F200B2E02C /* PBXTextBookmark */;
+			62993FFD0DB658F200B2E02C /* PBXTextBookmark */ = 62993FFD0DB658F200B2E02C /* PBXTextBookmark */;
+			62993FFE0DB658F200B2E02C /* PBXTextBookmark */ = 62993FFE0DB658F200B2E02C /* PBXTextBookmark */;
+			62993FFF0DB658F200B2E02C /* PBXTextBookmark */ = 62993FFF0DB658F200B2E02C /* PBXTextBookmark */;
+			629940000DB658F200B2E02C /* PBXTextBookmark */ = 629940000DB658F200B2E02C /* PBXTextBookmark */;
+			629940020DB6590000B2E02C /* PBXTextBookmark */ = 629940020DB6590000B2E02C /* PBXTextBookmark */;
+			629940030DB6590000B2E02C /* PBXTextBookmark */ = 629940030DB6590000B2E02C /* PBXTextBookmark */;
+			629940060DB6590B00B2E02C /* PBXTextBookmark */ = 629940060DB6590B00B2E02C /* PBXTextBookmark */;
+			629940070DB6590B00B2E02C /* PBXTextBookmark */ = 629940070DB6590B00B2E02C /* PBXTextBookmark */;
+			629940080DB6590E00B2E02C /* PBXTextBookmark */ = 629940080DB6590E00B2E02C /* PBXTextBookmark */;
+			629940090DB6590E00B2E02C /* PBXTextBookmark */ = 629940090DB6590E00B2E02C /* PBXTextBookmark */;
+			6299400A0DB6592100B2E02C /* PBXBookmark */ = 6299400A0DB6592100B2E02C /* PBXBookmark */;
+			6299400E0DB6595400B2E02C /* PBXTextBookmark */ = 6299400E0DB6595400B2E02C /* PBXTextBookmark */;
+			6299400F0DB6595400B2E02C /* PBXTextBookmark */ = 6299400F0DB6595400B2E02C /* PBXTextBookmark */;
+			629940100DB6595400B2E02C /* PBXTextBookmark */ = 629940100DB6595400B2E02C /* PBXTextBookmark */;
+			629940110DB6595400B2E02C /* PBXTextBookmark */ = 629940110DB6595400B2E02C /* PBXTextBookmark */;
+			629940140DB6595400B2E02C /* PBXTextBookmark */ = 629940140DB6595400B2E02C /* PBXTextBookmark */;
+			629940150DB6595400B2E02C /* PBXTextBookmark */ = 629940150DB6595400B2E02C /* PBXTextBookmark */;
+			629940180DB65A3900B2E02C /* PBXTextBookmark */ = 629940180DB65A3900B2E02C /* PBXTextBookmark */;
+			629940190DB65A3900B2E02C /* PBXTextBookmark */ = 629940190DB65A3900B2E02C /* PBXTextBookmark */;
+			6299401C0DB65A4300B2E02C /* PBXTextBookmark */ = 6299401C0DB65A4300B2E02C /* PBXTextBookmark */;
+			6299401D0DB65A4300B2E02C /* PBXTextBookmark */ = 6299401D0DB65A4300B2E02C /* PBXTextBookmark */;
 			62A5EEA40D9FB073007A8073 = 62A5EEA40D9FB073007A8073 /* PBXTextBookmark */;
 			62A5EEA80D9FB073007A8073 = 62A5EEA80D9FB073007A8073 /* PBXTextBookmark */;
 			62A5EEB10D9FB073007A8073 = 62A5EEB10D9FB073007A8073 /* PBXTextBookmark */;
@@ -2132,8 +2258,7 @@
 		functionName = "AnnotatedMapAbstractionTest::checkSingleNodeAnnotations()";
 		hitCount = 1;
 		lineNumber = 221;
-		location = testsimulation;
-		modificationTime = 230017140.482554;
+		modificationTime = 230054456.282687;
 		state = 1;
 	};
 	621DED910D65785000FCAC0F /* PBXTextBookmark */ = {
@@ -2684,7 +2809,7 @@
 		fRef = 625BF8A50D13D79E0028A447 /* ScenarioManager.h */;
 		name = "ScenarioManager.h: generateExperiments";
 		rLen = 0;
-		rLoc = 3356;
+		rLoc = 3387;
 		rType = 0;
 		vrLen = 1590;
 		vrLoc = 1949;
@@ -2694,7 +2819,7 @@
 		fRef = 625BF8A50D13D79E0028A447 /* ScenarioManager.h */;
 		name = "ScenarioManager.h: generateExperiments";
 		rLen = 0;
-		rLoc = 3897;
+		rLoc = 3928;
 		rType = 0;
 		vrLen = 1539;
 		vrLoc = 2014;
@@ -2761,7 +2886,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 210";
 		rLen = 0;
-		rLoc = 8677;
+		rLoc = 8851;
 		rType = 0;
 		vrLen = 1280;
 		vrLoc = 6745;
@@ -2831,7 +2956,7 @@
 		fRef = 625BF8A50D13D79E0028A447 /* ScenarioManager.h */;
 		name = "ScenarioManager.h: generateExperiments";
 		rLen = 0;
-		rLoc = 3897;
+		rLoc = 3928;
 		rType = 0;
 		vrLen = 1539;
 		vrLoc = 2014;
@@ -2871,7 +2996,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 210";
 		rLen = 0;
-		rLoc = 8677;
+		rLoc = 8851;
 		rType = 0;
 		vrLen = 1280;
 		vrLoc = 6745;
@@ -2931,7 +3056,7 @@
 		fRef = 625BF8A50D13D79E0028A447 /* ScenarioManager.h */;
 		name = "ScenarioManager.h: generateExperiments";
 		rLen = 0;
-		rLoc = 3897;
+		rLoc = 3928;
 		rType = 0;
 		vrLen = 1539;
 		vrLoc = 2014;
@@ -2971,7 +3096,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 210";
 		rLen = 0;
-		rLoc = 8677;
+		rLoc = 8851;
 		rType = 0;
 		vrLen = 1274;
 		vrLoc = 6745;
@@ -3021,7 +3146,7 @@
 		comments = "error: 'class AnnotatedAStar' has no member named 'setMinClearance'";
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		rLen = 1;
-		rLoc = 246;
+		rLoc = 254;
 		rType = 1;
 	};
 	6232E1AC0DB390160046EF37 /* PBXTextBookmark */ = {
@@ -3039,7 +3164,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 217";
 		rLen = 0;
-		rLoc = 9008;
+		rLoc = 9182;
 		rType = 0;
 		vrLen = 628;
 		vrLoc = 7372;
@@ -3073,7 +3198,7 @@
 		fRef = 625BF8A50D13D79E0028A447 /* ScenarioManager.h */;
 		name = "ScenarioManager.h: generateExperiments";
 		rLen = 0;
-		rLoc = 3897;
+		rLoc = 3928;
 		rType = 0;
 		vrLen = 1539;
 		vrLoc = 2014;
@@ -3113,7 +3238,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 210";
 		rLen = 0;
-		rLoc = 8677;
+		rLoc = 8851;
 		rType = 0;
 		vrLen = 1274;
 		vrLoc = 6745;
@@ -3153,7 +3278,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 217";
 		rLen = 0;
-		rLoc = 9008;
+		rLoc = 9182;
 		rType = 0;
 		vrLen = 628;
 		vrLoc = 7372;
@@ -3244,7 +3369,7 @@
 		fRef = 625BF8A50D13D79E0028A447 /* ScenarioManager.h */;
 		name = "ScenarioManager.h: generateExperiments";
 		rLen = 0;
-		rLoc = 3897;
+		rLoc = 3928;
 		rType = 0;
 		vrLen = 1539;
 		vrLoc = 2014;
@@ -3264,7 +3389,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 210";
 		rLen = 0;
-		rLoc = 8677;
+		rLoc = 8851;
 		rType = 0;
 		vrLen = 1274;
 		vrLoc = 6745;
@@ -3304,7 +3429,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 217";
 		rLen = 0;
-		rLoc = 9008;
+		rLoc = 9182;
 		rType = 0;
 		vrLen = 628;
 		vrLoc = 7372;
@@ -3322,7 +3447,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 217";
 		rLen = 0;
-		rLoc = 9008;
+		rLoc = 9182;
 		rType = 0;
 		vrLen = 628;
 		vrLoc = 7372;
@@ -3372,7 +3497,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 210";
 		rLen = 0;
-		rLoc = 8677;
+		rLoc = 8851;
 		rType = 0;
 		vrLen = 1274;
 		vrLoc = 6745;
@@ -3382,7 +3507,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 219";
 		rLen = 0;
-		rLoc = 8677;
+		rLoc = 8851;
 		rType = 0;
 		vrLen = 1465;
 		vrLoc = 1821;
@@ -3432,7 +3557,7 @@
 		fRef = 625BF8A50D13D79E0028A447 /* ScenarioManager.h */;
 		name = "ScenarioManager.h: generateExperiments";
 		rLen = 0;
-		rLoc = 3897;
+		rLoc = 3928;
 		rType = 0;
 		vrLen = 1539;
 		vrLoc = 2014;
@@ -3502,7 +3627,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 209";
 		rLen = 0;
-		rLoc = 8389;
+		rLoc = 8563;
 		rType = 0;
 		vrLen = 1004;
 		vrLoc = 7386;
@@ -3552,7 +3677,7 @@
 		fRef = 625BF8A50D13D79E0028A447 /* ScenarioManager.h */;
 		name = "ScenarioManager.h: generateExperiments";
 		rLen = 0;
-		rLoc = 3897;
+		rLoc = 3928;
 		rType = 0;
 		vrLen = 1539;
 		vrLoc = 2014;
@@ -3686,7 +3811,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 209";
 		rLen = 0;
-		rLoc = 8389;
+		rLoc = 8563;
 		rType = 0;
 		vrLen = 1004;
 		vrLoc = 7386;
@@ -3736,7 +3861,7 @@
 		fRef = 625BF8A50D13D79E0028A447 /* ScenarioManager.h */;
 		name = "ScenarioManager.h: generateExperiments";
 		rLen = 0;
-		rLoc = 3897;
+		rLoc = 3928;
 		rType = 0;
 		vrLen = 1539;
 		vrLoc = 2014;
@@ -3816,7 +3941,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 73";
 		rLen = 0;
-		rLoc = 2389;
+		rLoc = 2416;
 		rType = 0;
 		vrLen = 403;
 		vrLoc = 2097;
@@ -3836,7 +3961,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 73";
 		rLen = 0;
-		rLoc = 2389;
+		rLoc = 2416;
 		rType = 0;
 		vrLen = 403;
 		vrLoc = 2097;
@@ -3856,7 +3981,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 210";
 		rLen = 0;
-		rLoc = 8359;
+		rLoc = 8533;
 		rType = 0;
 		vrLen = 1334;
 		vrLoc = 7042;
@@ -3906,7 +4031,7 @@
 		fRef = 625BF8A50D13D79E0028A447 /* ScenarioManager.h */;
 		name = "ScenarioManager.h: generateExperiments";
 		rLen = 0;
-		rLoc = 3897;
+		rLoc = 3928;
 		rType = 0;
 		vrLen = 1539;
 		vrLoc = 2014;
@@ -3966,7 +4091,7 @@
 		comments = "error: '\" cachesize: \"' cannot be used as a function";
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		rLen = 1;
-		rLoc = 220;
+		rLoc = 228;
 		rType = 1;
 	};
 	6232E2530DB39AC20046EF37 /* PBXTextBookmark */ = {
@@ -3984,7 +4109,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 218";
 		rLen = 0;
-		rLoc = 8527;
+		rLoc = 8701;
 		rType = 0;
 		vrLen = 675;
 		vrLoc = 7506;
@@ -4014,7 +4139,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 210";
 		rLen = 0;
-		rLoc = 8359;
+		rLoc = 8533;
 		rType = 0;
 		vrLen = 1344;
 		vrLoc = 7042;
@@ -4064,7 +4189,7 @@
 		fRef = 625BF8A50D13D79E0028A447 /* ScenarioManager.h */;
 		name = "ScenarioManager.h: generateExperiments";
 		rLen = 0;
-		rLoc = 3897;
+		rLoc = 3928;
 		rType = 0;
 		vrLen = 1539;
 		vrLoc = 2014;
@@ -4114,7 +4239,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 220";
 		rLen = 0;
-		rLoc = 8528;
+		rLoc = 8702;
 		rType = 0;
 		vrLen = 675;
 		vrLoc = 7506;
@@ -4144,7 +4269,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 210";
 		rLen = 0;
-		rLoc = 8359;
+		rLoc = 8533;
 		rType = 0;
 		vrLen = 1348;
 		vrLoc = 7042;
@@ -4194,7 +4319,7 @@
 		fRef = 625BF8A50D13D79E0028A447 /* ScenarioManager.h */;
 		name = "ScenarioManager.h: generateExperiments";
 		rLen = 0;
-		rLoc = 3897;
+		rLoc = 3928;
 		rType = 0;
 		vrLen = 1539;
 		vrLoc = 2014;
@@ -4254,7 +4379,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 210";
 		rLen = 0;
-		rLoc = 8359;
+		rLoc = 8533;
 		rType = 0;
 		vrLen = 1344;
 		vrLoc = 7042;
@@ -4304,7 +4429,7 @@
 		fRef = 625BF8A50D13D79E0028A447 /* ScenarioManager.h */;
 		name = "ScenarioManager.h: generateExperiments";
 		rLen = 0;
-		rLoc = 3897;
+		rLoc = 3928;
 		rType = 0;
 		vrLen = 1539;
 		vrLoc = 2014;
@@ -4354,7 +4479,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 218";
 		rLen = 0;
-		rLoc = 8495;
+		rLoc = 8669;
 		rType = 0;
 		vrLen = 675;
 		vrLoc = 7506;
@@ -4374,7 +4499,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 218";
 		rLen = 0;
-		rLoc = 8495;
+		rLoc = 8669;
 		rType = 0;
 		vrLen = 675;
 		vrLoc = 7506;
@@ -4394,7 +4519,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 218";
 		rLen = 0;
-		rLoc = 8495;
+		rLoc = 8669;
 		rType = 0;
 		vrLen = 675;
 		vrLoc = 7506;
@@ -4414,7 +4539,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 218";
 		rLen = 0;
-		rLoc = 8495;
+		rLoc = 8669;
 		rType = 0;
 		vrLen = 675;
 		vrLoc = 7506;
@@ -4434,7 +4559,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 218";
 		rLen = 0;
-		rLoc = 8495;
+		rLoc = 8669;
 		rType = 0;
 		vrLen = 675;
 		vrLoc = 7506;
@@ -4454,7 +4579,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 218";
 		rLen = 0;
-		rLoc = 8495;
+		rLoc = 8669;
 		rType = 0;
 		vrLen = 675;
 		vrLoc = 7506;
@@ -4478,7 +4603,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 218";
 		rLen = 0;
-		rLoc = 8495;
+		rLoc = 8669;
 		rType = 0;
 		vrLen = 675;
 		vrLoc = 7506;
@@ -4498,7 +4623,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 218";
 		rLen = 0;
-		rLoc = 8495;
+		rLoc = 8669;
 		rType = 0;
 		vrLen = 675;
 		vrLoc = 7506;
@@ -4518,7 +4643,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 218";
 		rLen = 0;
-		rLoc = 8495;
+		rLoc = 8669;
 		rType = 0;
 		vrLen = 675;
 		vrLoc = 7506;
@@ -4538,7 +4663,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 218";
 		rLen = 0;
-		rLoc = 8495;
+		rLoc = 8669;
 		rType = 0;
 		vrLen = 675;
 		vrLoc = 7506;
@@ -4562,7 +4687,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 218";
 		rLen = 0;
-		rLoc = 8495;
+		rLoc = 8669;
 		rType = 0;
 		vrLen = 675;
 		vrLoc = 7506;
@@ -4590,7 +4715,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 218";
 		rLen = 0;
-		rLoc = 8495;
+		rLoc = 8669;
 		rType = 0;
 		vrLen = 675;
 		vrLoc = 7506;
@@ -4608,7 +4733,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 218";
 		rLen = 0;
-		rLoc = 8495;
+		rLoc = 8669;
 		rType = 0;
 		vrLen = 675;
 		vrLoc = 7506;
@@ -4999,7 +5124,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 220";
 		rLen = 0;
-		rLoc = 8528;
+		rLoc = 8702;
 		rType = 0;
 		vrLen = 1445;
 		vrLoc = 7076;
@@ -5079,7 +5204,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 220";
 		rLen = 0;
-		rLoc = 8528;
+		rLoc = 8702;
 		rType = 0;
 		vrLen = 1443;
 		vrLoc = 7076;
@@ -5149,7 +5274,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 73";
 		rLen = 0;
-		rLoc = 2389;
+		rLoc = 2416;
 		rType = 0;
 		vrLen = 403;
 		vrLoc = 2097;
@@ -5159,7 +5284,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 220";
 		rLen = 0;
-		rLoc = 8528;
+		rLoc = 8702;
 		rType = 0;
 		vrLen = 1443;
 		vrLoc = 7076;
@@ -5169,7 +5294,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 219";
 		rLen = 0;
-		rLoc = 8526;
+		rLoc = 8700;
 		rType = 0;
 		vrLen = 1439;
 		vrLoc = 7076;
@@ -5659,7 +5784,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 73";
 		rLen = 0;
-		rLoc = 2389;
+		rLoc = 2416;
 		rType = 0;
 		vrLen = 403;
 		vrLoc = 2097;
@@ -5719,7 +5844,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 73";
 		rLen = 0;
-		rLoc = 2389;
+		rLoc = 2416;
 		rType = 0;
 		vrLen = 403;
 		vrLoc = 2097;
@@ -7214,7 +7339,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 220";
 		rLen = 0;
-		rLoc = 8528;
+		rLoc = 8702;
 		rType = 0;
 		vrLen = 1375;
 		vrLoc = 6796;
@@ -7735,7 +7860,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 64";
 		rLen = 0;
-		rLoc = 2189;
+		rLoc = 2216;
 		rType = 0;
 		vrLen = 1205;
 		vrLoc = 1401;
@@ -7799,7 +7924,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 64";
 		rLen = 0;
-		rLoc = 2189;
+		rLoc = 2216;
 		rType = 0;
 		vrLen = 1205;
 		vrLoc = 1401;
@@ -7859,7 +7984,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 64";
 		rLen = 0;
-		rLoc = 2189;
+		rLoc = 2216;
 		rType = 0;
 		vrLen = 1205;
 		vrLoc = 1401;
@@ -7939,7 +8064,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 64";
 		rLen = 0;
-		rLoc = 2189;
+		rLoc = 2216;
 		rType = 0;
 		vrLen = 1205;
 		vrLoc = 1401;
@@ -8029,7 +8154,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 64";
 		rLen = 0;
-		rLoc = 2189;
+		rLoc = 2216;
 		rType = 0;
 		vrLen = 1205;
 		vrLoc = 1401;
@@ -8123,7 +8248,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 64";
 		rLen = 0;
-		rLoc = 2189;
+		rLoc = 2216;
 		rType = 0;
 		vrLen = 1205;
 		vrLoc = 1401;
@@ -8213,7 +8338,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 64";
 		rLen = 0;
-		rLoc = 2189;
+		rLoc = 2216;
 		rType = 0;
 		vrLen = 1205;
 		vrLoc = 1401;
@@ -8347,7 +8472,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 64";
 		rLen = 0;
-		rLoc = 2189;
+		rLoc = 2216;
 		rType = 0;
 		vrLen = 1205;
 		vrLoc = 1401;
@@ -8467,7 +8592,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 64";
 		rLen = 0;
-		rLoc = 2189;
+		rLoc = 2216;
 		rType = 0;
 		vrLen = 1205;
 		vrLoc = 1401;
@@ -8547,7 +8672,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 64";
 		rLen = 0;
-		rLoc = 2189;
+		rLoc = 2216;
 		rType = 0;
 		vrLen = 1205;
 		vrLoc = 1401;
@@ -8657,7 +8782,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 64";
 		rLen = 0;
-		rLoc = 2189;
+		rLoc = 2216;
 		rType = 0;
 		vrLen = 1205;
 		vrLoc = 1401;
@@ -8807,7 +8932,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 64";
 		rLen = 0;
-		rLoc = 2189;
+		rLoc = 2216;
 		rType = 0;
 		vrLen = 1205;
 		vrLoc = 1401;
@@ -8897,7 +9022,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 64";
 		rLen = 0;
-		rLoc = 2189;
+		rLoc = 2216;
 		rType = 0;
 		vrLen = 1205;
 		vrLoc = 1401;
@@ -8987,7 +9112,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 64";
 		rLen = 0;
-		rLoc = 2189;
+		rLoc = 2216;
 		rType = 0;
 		vrLen = 1205;
 		vrLoc = 1401;
@@ -9057,7 +9182,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 64";
 		rLen = 0;
-		rLoc = 2189;
+		rLoc = 2216;
 		rType = 0;
 		vrLen = 1205;
 		vrLoc = 1401;
@@ -9127,7 +9252,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 64";
 		rLen = 0;
-		rLoc = 2189;
+		rLoc = 2216;
 		rType = 0;
 		vrLen = 1205;
 		vrLoc = 1401;
@@ -9197,7 +9322,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 64";
 		rLen = 0;
-		rLoc = 2189;
+		rLoc = 2216;
 		rType = 0;
 		vrLen = 1205;
 		vrLoc = 1401;
@@ -9277,7 +9402,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 64";
 		rLen = 0;
-		rLoc = 2189;
+		rLoc = 2216;
 		rType = 0;
 		vrLen = 1205;
 		vrLoc = 1401;
@@ -9385,7 +9510,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 64";
 		rLen = 0;
-		rLoc = 2189;
+		rLoc = 2216;
 		rType = 0;
 		vrLen = 1205;
 		vrLoc = 1401;
@@ -9465,7 +9590,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 64";
 		rLen = 0;
-		rLoc = 2189;
+		rLoc = 2216;
 		rType = 0;
 		vrLen = 1205;
 		vrLoc = 1401;
@@ -9535,7 +9660,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 73";
 		rLen = 0;
-		rLoc = 2389;
+		rLoc = 2416;
 		rType = 0;
 		vrLen = 307;
 		vrLoc = 2078;
@@ -9545,7 +9670,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 64";
 		rLen = 0;
-		rLoc = 2189;
+		rLoc = 2216;
 		rType = 0;
 		vrLen = 1205;
 		vrLoc = 1401;
@@ -9555,7 +9680,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 239";
 		rLen = 0;
-		rLoc = 9126;
+		rLoc = 9300;
 		rType = 0;
 		vrLen = 1061;
 		vrLoc = 7897;
@@ -9625,7 +9750,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 73";
 		rLen = 0;
-		rLoc = 2389;
+		rLoc = 2416;
 		rType = 0;
 		vrLen = 307;
 		vrLoc = 2078;
@@ -9635,7 +9760,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 239";
 		rLen = 0;
-		rLoc = 9126;
+		rLoc = 9300;
 		rType = 0;
 		vrLen = 1061;
 		vrLoc = 7897;
@@ -9705,7 +9830,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 73";
 		rLen = 0;
-		rLoc = 2389;
+		rLoc = 2416;
 		rType = 0;
 		vrLen = 307;
 		vrLoc = 2078;
@@ -9715,7 +9840,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 239";
 		rLen = 0;
-		rLoc = 9126;
+		rLoc = 9300;
 		rType = 0;
 		vrLen = 1064;
 		vrLoc = 7897;
@@ -9785,7 +9910,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 73";
 		rLen = 0;
-		rLoc = 2389;
+		rLoc = 2416;
 		rType = 0;
 		vrLen = 307;
 		vrLoc = 2078;
@@ -9795,7 +9920,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 239";
 		rLen = 0;
-		rLoc = 9125;
+		rLoc = 9299;
 		rType = 0;
 		vrLen = 1064;
 		vrLoc = 7897;
@@ -9845,7 +9970,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 73";
 		rLen = 0;
-		rLoc = 2389;
+		rLoc = 2416;
 		rType = 0;
 		vrLen = 307;
 		vrLoc = 2078;
@@ -9855,7 +9980,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 239";
 		rLen = 0;
-		rLoc = 9125;
+		rLoc = 9299;
 		rType = 0;
 		vrLen = 1064;
 		vrLoc = 7897;
@@ -9865,7 +9990,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 239";
 		rLen = 0;
-		rLoc = 9125;
+		rLoc = 9299;
 		rType = 0;
 		vrLen = 1066;
 		vrLoc = 7897;
@@ -9935,7 +10060,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 73";
 		rLen = 0;
-		rLoc = 2389;
+		rLoc = 2416;
 		rType = 0;
 		vrLen = 307;
 		vrLoc = 2078;
@@ -9945,7 +10070,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 73";
 		rLen = 0;
-		rLoc = 2389;
+		rLoc = 2416;
 		rType = 0;
 		vrLen = 307;
 		vrLoc = 2078;
@@ -10019,7 +10144,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 74";
 		rLen = 0;
-		rLoc = 2389;
+		rLoc = 2416;
 		rType = 0;
 		vrLen = 311;
 		vrLoc = 2135;
@@ -10029,7 +10154,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 65";
 		rLen = 0;
-		rLoc = 2189;
+		rLoc = 2216;
 		rType = 0;
 		vrLen = 1236;
 		vrLoc = 1433;
@@ -10089,7 +10214,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 74";
 		rLen = 0;
-		rLoc = 2389;
+		rLoc = 2416;
 		rType = 0;
 		vrLen = 311;
 		vrLoc = 2135;
@@ -10099,7 +10224,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 65";
 		rLen = 0;
-		rLoc = 2189;
+		rLoc = 2216;
 		rType = 0;
 		vrLen = 1236;
 		vrLoc = 1433;
@@ -10159,7 +10284,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 74";
 		rLen = 0;
-		rLoc = 2389;
+		rLoc = 2416;
 		rType = 0;
 		vrLen = 311;
 		vrLoc = 2135;
@@ -10189,7 +10314,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 65";
 		rLen = 0;
-		rLoc = 2189;
+		rLoc = 2216;
 		rType = 0;
 		vrLen = 1236;
 		vrLoc = 1433;
@@ -10239,7 +10364,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 74";
 		rLen = 0;
-		rLoc = 2389;
+		rLoc = 2416;
 		rType = 0;
 		vrLen = 311;
 		vrLoc = 2135;
@@ -10249,7 +10374,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 74";
 		rLen = 0;
-		rLoc = 2389;
+		rLoc = 2416;
 		rType = 0;
 		vrLen = 311;
 		vrLoc = 2135;
@@ -10259,7 +10384,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 65";
 		rLen = 0;
-		rLoc = 2189;
+		rLoc = 2216;
 		rType = 0;
 		vrLen = 1236;
 		vrLoc = 1433;
@@ -10269,7 +10394,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 63";
 		rLen = 0;
-		rLoc = 2011;
+		rLoc = 2038;
 		rType = 0;
 		vrLen = 1236;
 		vrLoc = 1433;
@@ -10329,7 +10454,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 74";
 		rLen = 0;
-		rLoc = 2389;
+		rLoc = 2416;
 		rType = 0;
 		vrLen = 311;
 		vrLoc = 2135;
@@ -10389,7 +10514,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 74";
 		rLen = 0;
-		rLoc = 2389;
+		rLoc = 2416;
 		rType = 0;
 		vrLen = 311;
 		vrLoc = 2135;
@@ -10449,7 +10574,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 74";
 		rLen = 0;
-		rLoc = 2389;
+		rLoc = 2416;
 		rType = 0;
 		vrLen = 311;
 		vrLoc = 2135;
@@ -10509,7 +10634,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 74";
 		rLen = 0;
-		rLoc = 2389;
+		rLoc = 2416;
 		rType = 0;
 		vrLen = 311;
 		vrLoc = 2135;
@@ -10569,7 +10694,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 74";
 		rLen = 0;
-		rLoc = 2389;
+		rLoc = 2416;
 		rType = 0;
 		vrLen = 311;
 		vrLoc = 2135;
@@ -10633,7 +10758,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 74";
 		rLen = 0;
-		rLoc = 2389;
+		rLoc = 2416;
 		rType = 0;
 		vrLen = 311;
 		vrLoc = 2136;
@@ -10643,7 +10768,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 65";
 		rLen = 0;
-		rLoc = 2189;
+		rLoc = 2216;
 		rType = 0;
 		vrLen = 1439;
 		vrLoc = 1662;
@@ -10707,7 +10832,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 74";
 		rLen = 0;
-		rLoc = 2389;
+		rLoc = 2416;
 		rType = 0;
 		vrLen = 311;
 		vrLoc = 2135;
@@ -10717,7 +10842,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 65";
 		rLen = 0;
-		rLoc = 2189;
+		rLoc = 2216;
 		rType = 0;
 		vrLen = 1431;
 		vrLoc = 1495;
@@ -10781,7 +10906,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 74";
 		rLen = 0;
-		rLoc = 2389;
+		rLoc = 2416;
 		rType = 0;
 		vrLen = 311;
 		vrLoc = 2119;
@@ -10791,7 +10916,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 63";
 		rLen = 0;
-		rLoc = 2077;
+		rLoc = 2104;
 		rType = 0;
 		vrLen = 1253;
 		vrLoc = 1454;
@@ -10851,7 +10976,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 74";
 		rLen = 0;
-		rLoc = 2389;
+		rLoc = 2416;
 		rType = 0;
 		vrLen = 311;
 		vrLoc = 2119;
@@ -10919,7 +11044,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 74";
 		rLen = 0;
-		rLoc = 2389;
+		rLoc = 2416;
 		rType = 0;
 		vrLen = 311;
 		vrLoc = 2119;
@@ -10939,7 +11064,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 74";
 		rLen = 0;
-		rLoc = 2389;
+		rLoc = 2416;
 		rType = 0;
 		vrLen = 1298;
 		vrLoc = 1032;
@@ -10989,7 +11114,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 74";
 		rLen = 0;
-		rLoc = 2389;
+		rLoc = 2416;
 		rType = 0;
 		vrLen = 311;
 		vrLoc = 2119;
@@ -11009,7 +11134,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 74";
 		rLen = 0;
-		rLoc = 2389;
+		rLoc = 2416;
 		rType = 0;
 		vrLen = 1298;
 		vrLoc = 1032;
@@ -11059,7 +11184,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 74";
 		rLen = 0;
-		rLoc = 2389;
+		rLoc = 2416;
 		rType = 0;
 		vrLen = 311;
 		vrLoc = 2119;
@@ -11079,7 +11204,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 74";
 		rLen = 0;
-		rLoc = 2389;
+		rLoc = 2416;
 		rType = 0;
 		vrLen = 1298;
 		vrLoc = 1032;
@@ -11109,7 +11234,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 74";
 		rLen = 0;
-		rLoc = 2389;
+		rLoc = 2416;
 		rType = 0;
 		vrLen = 311;
 		vrLoc = 2119;
@@ -11119,7 +11244,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 74";
 		rLen = 0;
-		rLoc = 2389;
+		rLoc = 2416;
 		rType = 0;
 		vrLen = 311;
 		vrLoc = 2119;
@@ -11129,7 +11254,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 74";
 		rLen = 0;
-		rLoc = 2389;
+		rLoc = 2416;
 		rType = 0;
 		vrLen = 1298;
 		vrLoc = 1032;
@@ -11139,7 +11264,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 64";
 		rLen = 0;
-		rLoc = 2085;
+		rLoc = 2112;
 		rType = 0;
 		vrLen = 1502;
 		vrLoc = 1572;
@@ -11199,7 +11324,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 74";
 		rLen = 0;
-		rLoc = 2389;
+		rLoc = 2416;
 		rType = 0;
 		vrLen = 311;
 		vrLoc = 2119;
@@ -11259,7 +11384,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 74";
 		rLen = 0;
-		rLoc = 2389;
+		rLoc = 2416;
 		rType = 0;
 		vrLen = 311;
 		vrLoc = 2119;
@@ -11437,7 +11562,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 74";
 		rLen = 0;
-		rLoc = 2389;
+		rLoc = 2416;
 		rType = 0;
 		vrLen = 311;
 		vrLoc = 2119;
@@ -11447,7 +11572,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 63";
 		rLen = 0;
-		rLoc = 2032;
+		rLoc = 2059;
 		rType = 0;
 		vrLen = 1212;
 		vrLoc = 1454;
@@ -11524,7 +11649,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 74";
 		rLen = 0;
-		rLoc = 2389;
+		rLoc = 2416;
 		rType = 0;
 		vrLen = 339;
 		vrLoc = 2120;
@@ -11534,7 +11659,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 66";
 		rLen = 0;
-		rLoc = 2191;
+		rLoc = 2218;
 		rType = 0;
 		vrLen = 2247;
 		vrLoc = 4385;
@@ -11612,7 +11737,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 74";
 		rLen = 0;
-		rLoc = 2389;
+		rLoc = 2416;
 		rType = 0;
 		vrLen = 339;
 		vrLoc = 2120;
@@ -11632,7 +11757,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 74";
 		rLen = 0;
-		rLoc = 2389;
+		rLoc = 2416;
 		rType = 0;
 		vrLen = 339;
 		vrLoc = 2120;
@@ -11652,7 +11777,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 66";
 		rLen = 0;
-		rLoc = 2191;
+		rLoc = 2218;
 		rType = 0;
 		vrLen = 2247;
 		vrLoc = 4385;
@@ -11662,7 +11787,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 63";
 		rLen = 0;
-		rLoc = 2001;
+		rLoc = 2028;
 		rType = 0;
 		vrLen = 1321;
 		vrLoc = 1032;
@@ -11752,7 +11877,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 66";
 		rLen = 0;
-		rLoc = 2189;
+		rLoc = 2216;
 		rType = 0;
 		vrLen = 1320;
 		vrLoc = 1032;
@@ -11822,7 +11947,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 66";
 		rLen = 0;
-		rLoc = 2189;
+		rLoc = 2216;
 		rType = 0;
 		vrLen = 1320;
 		vrLoc = 1032;
@@ -11832,7 +11957,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 63";
 		rLen = 0;
-		rLoc = 1926;
+		rLoc = 1953;
 		rType = 0;
 		vrLen = 1321;
 		vrLoc = 1032;
@@ -11922,7 +12047,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 63";
 		rLen = 0;
-		rLoc = 1926;
+		rLoc = 1953;
 		rType = 0;
 		vrLen = 1321;
 		vrLoc = 1032;
@@ -12104,7 +12229,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 65";
 		rLen = 0;
-		rLoc = 2085;
+		rLoc = 2112;
 		rType = 0;
 		vrLen = 1453;
 		vrLoc = 1572;
@@ -12234,7 +12359,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 66";
 		rLen = 0;
-		rLoc = 2189;
+		rLoc = 2216;
 		rType = 0;
 		vrLen = 1452;
 		vrLoc = 1572;
@@ -12324,7 +12449,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 66";
 		rLen = 0;
-		rLoc = 2189;
+		rLoc = 2216;
 		rType = 0;
 		vrLen = 1453;
 		vrLoc = 1572;
@@ -12434,7 +12559,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 66";
 		rLen = 0;
-		rLoc = 2189;
+		rLoc = 2216;
 		rType = 0;
 		vrLen = 1453;
 		vrLoc = 1572;
@@ -12524,7 +12649,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 75";
 		rLen = 0;
-		rLoc = 2389;
+		rLoc = 2416;
 		rType = 0;
 		vrLen = 321;
 		vrLoc = 2120;
@@ -12534,7 +12659,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 66";
 		rLen = 0;
-		rLoc = 2189;
+		rLoc = 2216;
 		rType = 0;
 		vrLen = 1453;
 		vrLoc = 1572;
@@ -12544,7 +12669,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 66";
 		rLen = 0;
-		rLoc = 2189;
+		rLoc = 2216;
 		rType = 0;
 		vrLen = 1452;
 		vrLoc = 1572;
@@ -12614,7 +12739,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 75";
 		rLen = 0;
-		rLoc = 2389;
+		rLoc = 2416;
 		rType = 0;
 		vrLen = 334;
 		vrLoc = 2210;
@@ -12664,7 +12789,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 66";
 		rLen = 0;
-		rLoc = 2189;
+		rLoc = 2216;
 		rType = 0;
 		vrLen = 1313;
 		vrLoc = 1454;
@@ -12674,7 +12799,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 75";
 		rLen = 0;
-		rLoc = 2389;
+		rLoc = 2416;
 		rType = 0;
 		vrLen = 334;
 		vrLoc = 2210;
@@ -12684,7 +12809,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 66";
 		rLen = 0;
-		rLoc = 2189;
+		rLoc = 2216;
 		rType = 0;
 		vrLen = 1313;
 		vrLoc = 1454;
@@ -12826,7 +12951,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 75";
 		rLen = 0;
-		rLoc = 2389;
+		rLoc = 2416;
 		rType = 0;
 		vrLen = 334;
 		vrLoc = 2210;
@@ -12870,7 +12995,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 75";
 		rLen = 0;
-		rLoc = 2389;
+		rLoc = 2416;
 		rType = 0;
 		vrLen = 305;
 		vrLoc = 2306;
@@ -12880,7 +13005,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 71";
 		rLen = 0;
-		rLoc = 2191;
+		rLoc = 2218;
 		rType = 0;
 		vrLen = 1519;
 		vrLoc = 1749;
@@ -12937,7 +13062,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 75";
 		rLen = 0;
-		rLoc = 2389;
+		rLoc = 2416;
 		rType = 0;
 		vrLen = 305;
 		vrLoc = 2308;
@@ -12947,7 +13072,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 71";
 		rLen = 0;
-		rLoc = 2191;
+		rLoc = 2218;
 		rType = 0;
 		vrLen = 1519;
 		vrLoc = 1749;
@@ -12997,7 +13122,7 @@
 		comments = "error: 'aca' was not declared in this scope";
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		rLen = 0;
-		rLoc = 68;
+		rLoc = 69;
 		rType = 1;
 	};
 	6232E97C0DB4EAD10046EF37 /* PBXTextBookmark */ = {
@@ -13015,7 +13140,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 70";
 		rLen = 0;
-		rLoc = 2191;
+		rLoc = 2218;
 		rType = 0;
 		vrLen = 641;
 		vrLoc = 2120;
@@ -13035,7 +13160,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 70";
 		rLen = 0;
-		rLoc = 2191;
+		rLoc = 2218;
 		rType = 0;
 		vrLen = 641;
 		vrLoc = 2120;
@@ -13055,7 +13180,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 70";
 		rLen = 0;
-		rLoc = 2191;
+		rLoc = 2218;
 		rType = 0;
 		vrLen = 641;
 		vrLoc = 2120;
@@ -13075,7 +13200,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 75";
 		rLen = 0;
-		rLoc = 2389;
+		rLoc = 2416;
 		rType = 0;
 		vrLen = 305;
 		vrLoc = 2308;
@@ -13085,7 +13210,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 71";
 		rLen = 0;
-		rLoc = 2191;
+		rLoc = 2218;
 		rType = 0;
 		vrLen = 1519;
 		vrLoc = 1749;
@@ -13125,7 +13250,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 75";
 		rLen = 0;
-		rLoc = 2389;
+		rLoc = 2416;
 		rType = 0;
 		vrLen = 334;
 		vrLoc = 2211;
@@ -13135,7 +13260,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 65";
 		rLen = 0;
-		rLoc = 2085;
+		rLoc = 2112;
 		rType = 0;
 		vrLen = 1453;
 		vrLoc = 1572;
@@ -13175,7 +13300,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 73";
 		rLen = 0;
-		rLoc = 2192;
+		rLoc = 2219;
 		rType = 0;
 		vrLen = 658;
 		vrLoc = 2120;
@@ -13195,7 +13320,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 79";
 		rLen = 0;
-		rLoc = 2389;
+		rLoc = 2416;
 		rType = 0;
 		vrLen = 340;
 		vrLoc = 2211;
@@ -13205,7 +13330,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 84";
 		rLen = 0;
-		rLoc = 2622;
+		rLoc = 2649;
 		rType = 0;
 		vrLen = 1502;
 		vrLoc = 1821;
@@ -13245,7 +13370,7 @@
 		comments = "error: 'absMap' was not declared in this scope";
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		rLen = 0;
-		rLoc = 68;
+		rLoc = 69;
 		rType = 1;
 	};
 	6232E9A40DB4EBFA0046EF37 /* PBXTextBookmark */ = {
@@ -13253,7 +13378,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 75";
 		rLen = 0;
-		rLoc = 2191;
+		rLoc = 2218;
 		rType = 0;
 		vrLen = 673;
 		vrLoc = 2120;
@@ -13273,7 +13398,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 75";
 		rLen = 0;
-		rLoc = 2191;
+		rLoc = 2218;
 		rType = 0;
 		vrLen = 673;
 		vrLoc = 2120;
@@ -13288,7 +13413,7 @@
 		vrLen = 472;
 		vrLoc = 8427;
 	};
-	6232E9A90DB4EC250046EF37 /* sample.cpp:69 */ = {
+	6232E9A90DB4EC250046EF37 /* sample.cpp:70 */ = {
 		isa = PBXFileBreakpoint;
 		actions = (
 		);
@@ -13298,8 +13423,9 @@
 		fileReference = 62E915780CFD536200AA46AB /* sample.cpp */;
 		functionName = "createSimulation()";
 		hitCount = 1;
-		lineNumber = 69;
-		modificationTime = 230017140.482648;
+		lineNumber = 70;
+		location = simulation;
+		modificationTime = 230054194.069643;
 		state = 1;
 	};
 	6232E9AB0DB4EC310046EF37 /* PBXTextBookmark */ = {
@@ -13307,7 +13433,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 79";
 		rLen = 0;
-		rLoc = 2389;
+		rLoc = 2416;
 		rType = 0;
 		vrLen = 340;
 		vrLoc = 2211;
@@ -13317,7 +13443,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 84";
 		rLen = 0;
-		rLoc = 2622;
+		rLoc = 2649;
 		rType = 0;
 		vrLen = 1502;
 		vrLoc = 1821;
@@ -13357,7 +13483,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 75";
 		rLen = 0;
-		rLoc = 2191;
+		rLoc = 2218;
 		rType = 0;
 		vrLen = 673;
 		vrLoc = 2120;
@@ -13377,7 +13503,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 79";
 		rLen = 0;
-		rLoc = 2389;
+		rLoc = 2416;
 		rType = 0;
 		vrLen = 340;
 		vrLoc = 2211;
@@ -13387,7 +13513,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 84";
 		rLen = 0;
-		rLoc = 2622;
+		rLoc = 2649;
 		rType = 0;
 		vrLen = 1502;
 		vrLoc = 1821;
@@ -13427,7 +13553,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 64";
 		rLen = 0;
-		rLoc = 2011;
+		rLoc = 2038;
 		rType = 0;
 		vrLen = 647;
 		vrLoc = 1622;
@@ -13447,7 +13573,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 64";
 		rLen = 0;
-		rLoc = 2011;
+		rLoc = 2038;
 		rType = 0;
 		vrLen = 647;
 		vrLoc = 1622;
@@ -13467,7 +13593,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 64";
 		rLen = 0;
-		rLoc = 2011;
+		rLoc = 2038;
 		rType = 0;
 		vrLen = 647;
 		vrLoc = 1622;
@@ -13487,7 +13613,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 64";
 		rLen = 0;
-		rLoc = 2011;
+		rLoc = 2038;
 		rType = 0;
 		vrLen = 647;
 		vrLoc = 1622;
@@ -13507,7 +13633,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 80";
 		rLen = 0;
-		rLoc = 2389;
+		rLoc = 2416;
 		rType = 0;
 		vrLen = 379;
 		vrLoc = 2211;
@@ -13517,7 +13643,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 76";
 		rLen = 0;
-		rLoc = 2191;
+		rLoc = 2218;
 		rType = 0;
 		vrLen = 1314;
 		vrLoc = 1622;
@@ -13557,7 +13683,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 64";
 		rLen = 0;
-		rLoc = 2011;
+		rLoc = 2038;
 		rType = 0;
 		vrLen = 647;
 		vrLoc = 1622;
@@ -13577,7 +13703,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 64";
 		rLen = 0;
-		rLoc = 2011;
+		rLoc = 2038;
 		rType = 0;
 		vrLen = 647;
 		vrLoc = 1622;
@@ -13597,7 +13723,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 80";
 		rLen = 0;
-		rLoc = 2389;
+		rLoc = 2416;
 		rType = 0;
 		vrLen = 379;
 		vrLoc = 2211;
@@ -13607,7 +13733,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 88";
 		rLen = 0;
-		rLoc = 2623;
+		rLoc = 2650;
 		rType = 0;
 		vrLen = 1312;
 		vrLoc = 1622;
@@ -13647,7 +13773,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 64";
 		rLen = 0;
-		rLoc = 2011;
+		rLoc = 2038;
 		rType = 0;
 		vrLen = 647;
 		vrLoc = 1622;
@@ -13667,7 +13793,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 80";
 		rLen = 0;
-		rLoc = 2389;
+		rLoc = 2416;
 		rType = 0;
 		vrLen = 379;
 		vrLoc = 2211;
@@ -13677,7 +13803,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 64";
 		rLen = 0;
-		rLoc = 2011;
+		rLoc = 2038;
 		rType = 0;
 		vrLen = 1312;
 		vrLoc = 1622;
@@ -13717,7 +13843,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 64";
 		rLen = 0;
-		rLoc = 2011;
+		rLoc = 2038;
 		rType = 0;
 		vrLen = 647;
 		vrLoc = 1622;
@@ -13737,7 +13863,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 80";
 		rLen = 0;
-		rLoc = 2389;
+		rLoc = 2416;
 		rType = 0;
 		vrLen = 379;
 		vrLoc = 2210;
@@ -13747,7 +13873,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 66";
 		rLen = 0;
-		rLoc = 2189;
+		rLoc = 2216;
 		rType = 0;
 		vrLen = 1311;
 		vrLoc = 1622;
@@ -13787,7 +13913,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 64";
 		rLen = 0;
-		rLoc = 2011;
+		rLoc = 2038;
 		rType = 0;
 		vrLen = 646;
 		vrLoc = 1622;
@@ -13807,7 +13933,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 64";
 		rLen = 0;
-		rLoc = 2011;
+		rLoc = 2038;
 		rType = 0;
 		vrLen = 646;
 		vrLoc = 1622;
@@ -13827,7 +13953,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 64";
 		rLen = 0;
-		rLoc = 2011;
+		rLoc = 2038;
 		rType = 0;
 		vrLen = 646;
 		vrLoc = 1622;
@@ -13845,7 +13971,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 64";
 		rLen = 0;
-		rLoc = 2011;
+		rLoc = 2038;
 		rType = 0;
 		vrLen = 646;
 		vrLoc = 1622;
@@ -13875,7 +14001,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 80";
 		rLen = 0;
-		rLoc = 2389;
+		rLoc = 2416;
 		rType = 0;
 		vrLen = 379;
 		vrLoc = 2210;
@@ -13885,7 +14011,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 80";
 		rLen = 0;
-		rLoc = 2389;
+		rLoc = 2416;
 		rType = 0;
 		vrLen = 379;
 		vrLoc = 2210;
@@ -14061,8 +14187,7 @@
 		functionName = "AnnotatedClusterTest::buildHorizontalEntrancesShouldCreateTwoTransitionsAtEachEndOfTheEntranceAreaIfAllNodesAlongEachClusterBorderHaveIdenticalClearance()";
 		hitCount = 1;
 		lineNumber = 481;
-		location = testsimulation;
-		modificationTime = 230017140.482657;
+		modificationTime = 230054456.282675;
 		state = 1;
 	};
 	6232EA360DB4F67F0046EF37 /* PBXTextBookmark */ = {
@@ -14096,8 +14221,7 @@
 		functionName = "AnnotatedClusterTest::buildHorizontalEntrancesShouldCreateTwoTransitionsAtEachEndOfTheEntranceAreaIfAllNodesAlongEachClusterBorderHaveIdenticalClearance()";
 		hitCount = 1;
 		lineNumber = 473;
-		location = testsimulation;
-		modificationTime = 230017140.482666;
+		modificationTime = 230054456.282648;
 		state = 1;
 	};
 	6232EA3E0DB4F6C70046EF37 /* PBXTextBookmark */ = {
@@ -14411,7 +14535,7 @@
 		comments = "error: 'absmap' was not declared in this scope";
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		rLen = 1;
-		rLoc = 75;
+		rLoc = 76;
 		rType = 1;
 	};
 	6232EA920DB4FC870046EF37 /* PBXTextBookmark */ = {
@@ -14429,7 +14553,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 84";
 		rLen = 0;
-		rLoc = 2474;
+		rLoc = 2501;
 		rType = 0;
 		vrLen = 274;
 		vrLoc = 2567;
@@ -14439,7 +14563,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 65";
 		rLen = 0;
-		rLoc = 2085;
+		rLoc = 2112;
 		rType = 0;
 		vrLen = 1510;
 		vrLoc = 1666;
@@ -14479,7 +14603,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 84";
 		rLen = 0;
-		rLoc = 2474;
+		rLoc = 2501;
 		rType = 0;
 		vrLen = 839;
 		vrLoc = 2504;
@@ -14499,7 +14623,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 84";
 		rLen = 0;
-		rLoc = 2474;
+		rLoc = 2501;
 		rType = 0;
 		vrLen = 274;
 		vrLoc = 2568;
@@ -14509,7 +14633,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 65";
 		rLen = 0;
-		rLoc = 2085;
+		rLoc = 2112;
 		rType = 0;
 		vrLen = 1511;
 		vrLoc = 1666;
@@ -14557,16 +14681,16 @@
 	625BF8A40D13D79E0028A447 /* ScenarioManager.cpp */ = {
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {1406, 1876}}";
-			sepNavSelRange = "{2217, 0}";
-			sepNavVisRect = "{{0, 1309}, {894, 567}}";
+			sepNavSelRange = "{1813, 0}";
+			sepNavVisRect = "{{0, 1015}, {817, 224}}";
 			sepNavWindowFrame = "{{38, 24}, {939, 696}}";
 		};
 	};
 	625BF8A50D13D79E0028A447 /* ScenarioManager.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {914, 1624}}";
-			sepNavSelRange = "{4056, 60}";
-			sepNavVisRect = "{{0, 1331}, {890, 293}}";
+			sepNavIntBoundsRect = "{{0, 0}, {914, 1638}}";
+			sepNavSelRange = "{2702, 0}";
+			sepNavVisRect = "{{0, 704}, {894, 567}}";
 			sepNavWindowFrame = "{{15, 45}, {939, 696}}";
 		};
 	};
@@ -14619,7 +14743,7 @@
 		fRef = 625BF8A50D13D79E0028A447 /* ScenarioManager.h */;
 		name = "ScenarioManager.h: ~AbstractScenarioManager";
 		rLen = 0;
-		rLoc = 3067;
+		rLoc = 3098;
 		rType = 0;
 		vrLen = 547;
 		vrLoc = 2469;
@@ -14775,7 +14899,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 73";
 		rLen = 0;
-		rLoc = 2455;
+		rLoc = 2482;
 		rType = 0;
 		vrLen = 324;
 		vrLoc = 1954;
@@ -14845,7 +14969,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 84";
 		rLen = 0;
-		rLoc = 2474;
+		rLoc = 2501;
 		rType = 0;
 		vrLen = 274;
 		vrLoc = 2568;
@@ -14855,7 +14979,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 65";
 		rLen = 0;
-		rLoc = 2085;
+		rLoc = 2112;
 		rType = 0;
 		vrLen = 1511;
 		vrLoc = 1666;
@@ -14879,7 +15003,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 84";
 		rLen = 0;
-		rLoc = 2474;
+		rLoc = 2501;
 		rType = 0;
 		vrLen = 274;
 		vrLoc = 2570;
@@ -14889,7 +15013,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 64";
 		rLen = 0;
-		rLoc = 2077;
+		rLoc = 2104;
 		rType = 0;
 		vrLen = 1375;
 		vrLoc = 1454;
@@ -14909,7 +15033,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 84";
 		rLen = 0;
-		rLoc = 2474;
+		rLoc = 2501;
 		rType = 0;
 		vrLen = 274;
 		vrLoc = 2570;
@@ -14919,7 +15043,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 64";
 		rLen = 0;
-		rLoc = 2077;
+		rLoc = 2104;
 		rType = 0;
 		vrLen = 1409;
 		vrLoc = 7402;
@@ -14929,7 +15053,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 65";
 		rLen = 0;
-		rLoc = 2085;
+		rLoc = 2112;
 		rType = 0;
 		vrLen = 1261;
 		vrLoc = 1401;
@@ -14962,7 +15086,7 @@
 		isa = PBXTextBookmark;
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		rLen = 25;
-		rLoc = 5021;
+		rLoc = 5091;
 		rType = 0;
 	};
 	629939E30DB5912300B2E02C /* PBXTextBookmark */ = {
@@ -14980,7 +15104,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 181";
 		rLen = 0;
-		rLoc = 6388;
+		rLoc = 6564;
 		rType = 0;
 		vrLen = 380;
 		vrLoc = 6682;
@@ -15000,7 +15124,7 @@
 		comments = "error: 'myScenarioGeneratorCLHandler' was not declared in this scope";
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		rLen = 1;
-		rLoc = 126;
+		rLoc = 127;
 		rType = 1;
 	};
 	629939EB0DB5917200B2E02C /* PBXTextBookmark */ = {
@@ -15008,7 +15132,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 84";
 		rLen = 0;
-		rLoc = 2474;
+		rLoc = 2501;
 		rType = 0;
 		vrLen = 274;
 		vrLoc = 2570;
@@ -15027,8 +15151,8 @@
 		isa = PBXTextBookmark;
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "installCommandLineHandler(myScenarioGeneratorCLHandler, \"-genscenarios\", \"-genscenarios [.map filename] [number of scenarios] [capability] [clearance]\", \"Generates a scenario; a set of path problems on a given map\");";
-		rLen = 205;
-		rLoc = 5127;
+		rLen = 311;
+		rLoc = 5197;
 		rType = 0;
 		vrLen = 662;
 		vrLoc = 5928;
@@ -15065,7 +15189,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 65";
 		rLen = 0;
-		rLoc = 2085;
+		rLoc = 2112;
 		rType = 0;
 		vrLen = 1261;
 		vrLoc = 1401;
@@ -15089,7 +15213,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 160";
 		rLen = 0;
-		rLoc = 5127;
+		rLoc = 5197;
 		rType = 0;
 		vrLen = 662;
 		vrLoc = 5928;
@@ -15099,7 +15223,7 @@
 		fRef = 62E915790CFD536200AA46AB /* sample.h */;
 		name = "sample.h: myScenarioGeneratorCLHandler";
 		rLen = 0;
-		rLoc = 1288;
+		rLoc = 1354;
 		rType = 0;
 		vrLen = 524;
 		vrLoc = 861;
@@ -15109,7 +15233,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 160";
 		rLen = 0;
-		rLoc = 5127;
+		rLoc = 5197;
 		rType = 0;
 		vrLen = 662;
 		vrLoc = 5928;
@@ -15119,7 +15243,7 @@
 		fRef = 62E915790CFD536200AA46AB /* sample.h */;
 		name = "sample.h: myScenarioGeneratorCLHandler";
 		rLen = 0;
-		rLoc = 1288;
+		rLoc = 1354;
 		rType = 0;
 		vrLen = 524;
 		vrLoc = 861;
@@ -15129,7 +15253,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 65";
 		rLen = 0;
-		rLoc = 2085;
+		rLoc = 2112;
 		rType = 0;
 		vrLen = 1261;
 		vrLoc = 1401;
@@ -15139,7 +15263,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 179";
 		rLen = 0;
-		rLoc = 5916;
+		rLoc = 6092;
 		rType = 0;
 		vrLen = 1585;
 		vrLoc = 5661;
@@ -15149,7 +15273,7 @@
 		fRef = 62E915790CFD536200AA46AB /* sample.h */;
 		name = "sample.h: myScenarioGeneratorCLHandler";
 		rLen = 0;
-		rLoc = 1288;
+		rLoc = 1354;
 		rType = 0;
 		vrLen = 1385;
 		vrLoc = 0;
@@ -15179,7 +15303,7 @@
 		comments = "error: 'map' was not declared in this scope";
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		rLen = 1;
-		rLoc = 146;
+		rLoc = 150;
 		rType = 1;
 	};
 	62993A270DB5943300B2E02C /* PBXTextBookmark */ = {
@@ -15187,7 +15311,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 178";
 		rLen = 0;
-		rLoc = 5777;
+		rLoc = 5953;
 		rType = 0;
 		vrLen = 448;
 		vrLoc = 6601;
@@ -15197,7 +15321,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = myCLHandler;
 		rLen = 11;
-		rLoc = 5530;
+		rLoc = 5706;
 		rType = 0;
 		vrLen = 514;
 		vrLoc = 6167;
@@ -15214,7 +15338,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = myCLHandler;
 		rLen = 11;
-		rLoc = 5530;
+		rLoc = 5706;
 		rType = 0;
 		vrLen = 514;
 		vrLoc = 6167;
@@ -15224,7 +15348,7 @@
 		fRef = 62E915790CFD536200AA46AB /* sample.h */;
 		name = "sample.h: myScenarioGeneratorCLHandler";
 		rLen = 0;
-		rLoc = 1288;
+		rLoc = 1354;
 		rType = 0;
 		vrLen = 651;
 		vrLoc = 734;
@@ -15234,7 +15358,7 @@
 		fRef = 62E915790CFD536200AA46AB /* sample.h */;
 		name = "sample.h: myScenarioGeneratorCLHandler";
 		rLen = 0;
-		rLoc = 1288;
+		rLoc = 1354;
 		rType = 0;
 		vrLen = 524;
 		vrLoc = 861;
@@ -15244,7 +15368,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 175";
 		rLen = 0;
-		rLoc = 5737;
+		rLoc = 5913;
 		rType = 0;
 		vrLen = 1622;
 		vrLoc = 5661;
@@ -15254,7 +15378,7 @@
 		fRef = 62E915790CFD536200AA46AB /* sample.h */;
 		name = "sample.h: myScenarioGeneratorCLHandler";
 		rLen = 0;
-		rLoc = 1288;
+		rLoc = 1354;
 		rType = 0;
 		vrLen = 1385;
 		vrLoc = 0;
@@ -15284,7 +15408,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 180";
 		rLen = 0;
-		rLoc = 5777;
+		rLoc = 5953;
 		rType = 0;
 		vrLen = 512;
 		vrLoc = 6601;
@@ -15294,7 +15418,7 @@
 		fRef = 62E915790CFD536200AA46AB /* sample.h */;
 		name = "sample.h: myScenarioGeneratorCLHandler";
 		rLen = 0;
-		rLoc = 1288;
+		rLoc = 1354;
 		rType = 0;
 		vrLen = 651;
 		vrLoc = 734;
@@ -15304,7 +15428,7 @@
 		fRef = 62E915790CFD536200AA46AB /* sample.h */;
 		name = "sample.h: myScenarioGeneratorCLHandler";
 		rLen = 0;
-		rLoc = 1288;
+		rLoc = 1354;
 		rType = 0;
 		vrLen = 524;
 		vrLoc = 861;
@@ -15314,7 +15438,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 176";
 		rLen = 0;
-		rLoc = 5754;
+		rLoc = 5930;
 		rType = 0;
 		vrLen = 1621;
 		vrLoc = 5661;
@@ -15324,7 +15448,7 @@
 		fRef = 62E915790CFD536200AA46AB /* sample.h */;
 		name = "sample.h: myScenarioGeneratorCLHandler";
 		rLen = 0;
-		rLoc = 1288;
+		rLoc = 1354;
 		rType = 0;
 		vrLen = 1385;
 		vrLoc = 0;
@@ -15354,7 +15478,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 180";
 		rLen = 0;
-		rLoc = 5777;
+		rLoc = 5953;
 		rType = 0;
 		vrLen = 511;
 		vrLoc = 6601;
@@ -15364,7 +15488,7 @@
 		fRef = 62E915790CFD536200AA46AB /* sample.h */;
 		name = "sample.h: myScenarioGeneratorCLHandler";
 		rLen = 0;
-		rLoc = 1288;
+		rLoc = 1354;
 		rType = 0;
 		vrLen = 651;
 		vrLoc = 734;
@@ -15374,7 +15498,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 180";
 		rLen = 0;
-		rLoc = 5777;
+		rLoc = 5953;
 		rType = 0;
 		vrLen = 511;
 		vrLoc = 6601;
@@ -15384,7 +15508,7 @@
 		fRef = 62E915790CFD536200AA46AB /* sample.h */;
 		name = "sample.h: myScenarioGeneratorCLHandler";
 		rLen = 0;
-		rLoc = 1288;
+		rLoc = 1354;
 		rType = 0;
 		vrLen = 651;
 		vrLoc = 734;
@@ -15394,7 +15518,7 @@
 		fRef = 62E915790CFD536200AA46AB /* sample.h */;
 		name = "sample.h: myScenarioGeneratorCLHandler";
 		rLen = 0;
-		rLoc = 1288;
+		rLoc = 1354;
 		rType = 0;
 		vrLen = 524;
 		vrLoc = 861;
@@ -15404,7 +15528,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 183";
 		rLen = 0;
-		rLoc = 6388;
+		rLoc = 6564;
 		rType = 0;
 		vrLen = 1578;
 		vrLoc = 5661;
@@ -15414,7 +15538,7 @@
 		fRef = 62E915790CFD536200AA46AB /* sample.h */;
 		name = "sample.h: myScenarioGeneratorCLHandler";
 		rLen = 0;
-		rLoc = 1288;
+		rLoc = 1354;
 		rType = 0;
 		vrLen = 1385;
 		vrLoc = 0;
@@ -15434,7 +15558,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 180";
 		rLen = 0;
-		rLoc = 5777;
+		rLoc = 5953;
 		rType = 0;
 		vrLen = 468;
 		vrLoc = 6601;
@@ -15444,7 +15568,7 @@
 		fRef = 62E915790CFD536200AA46AB /* sample.h */;
 		name = "sample.h: myScenarioGeneratorCLHandler";
 		rLen = 0;
-		rLoc = 1288;
+		rLoc = 1354;
 		rType = 0;
 		vrLen = 651;
 		vrLoc = 734;
@@ -15454,7 +15578,7 @@
 		fRef = 62E915790CFD536200AA46AB /* sample.h */;
 		name = "sample.h: myScenarioGeneratorCLHandler";
 		rLen = 0;
-		rLoc = 1288;
+		rLoc = 1354;
 		rType = 0;
 		vrLen = 524;
 		vrLoc = 861;
@@ -15464,7 +15588,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 182";
 		rLen = 0;
-		rLoc = 5901;
+		rLoc = 6077;
 		rType = 0;
 		vrLen = 1594;
 		vrLoc = 5661;
@@ -15474,7 +15598,7 @@
 		fRef = 62E915790CFD536200AA46AB /* sample.h */;
 		name = "sample.h: myScenarioGeneratorCLHandler";
 		rLen = 0;
-		rLoc = 1288;
+		rLoc = 1354;
 		rType = 0;
 		vrLen = 1385;
 		vrLoc = 0;
@@ -15494,7 +15618,7 @@
 		comments = "error: expected `;' before 'map'";
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		rLen = 1;
-		rLoc = 146;
+		rLoc = 150;
 		rType = 1;
 	};
 	62993A620DB595A400B2E02C /* PBXTextBookmark */ = {
@@ -15502,7 +15626,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 182";
 		rLen = 0;
-		rLoc = 5875;
+		rLoc = 6051;
 		rType = 0;
 		vrLen = 494;
 		vrLoc = 6601;
@@ -15512,7 +15636,7 @@
 		fRef = 62E915790CFD536200AA46AB /* sample.h */;
 		name = "sample.h: myScenarioGeneratorCLHandler";
 		rLen = 0;
-		rLoc = 1288;
+		rLoc = 1354;
 		rType = 0;
 		vrLen = 651;
 		vrLoc = 734;
@@ -15522,7 +15646,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 182";
 		rLen = 0;
-		rLoc = 5875;
+		rLoc = 6051;
 		rType = 0;
 		vrLen = 494;
 		vrLoc = 6601;
@@ -15532,31 +15656,17 @@
 		fRef = 62E915790CFD536200AA46AB /* sample.h */;
 		name = "sample.h: myScenarioGeneratorCLHandler";
 		rLen = 0;
-		rLoc = 1288;
+		rLoc = 1354;
 		rType = 0;
 		vrLen = 651;
 		vrLoc = 734;
-	};
-	62993A6E0DB5962100B2E02C /* common.cpp:190 */ = {
-		isa = PBXFileBreakpoint;
-		actions = (
-		);
-		breakpointStyle = 0;
-		continueAfterActions = 0;
-		delayBeforeContinue = 0;
-		fileReference = 62E9152E0CFD511100AA46AB /* common.cpp */;
-		functionName = "processCommandLineArgs()";
-		hitCount = 1;
-		lineNumber = 190;
-		modificationTime = 230017140.482675;
-		state = 1;
 	};
 	62993A720DB5973200B2E02C /* PBXTextBookmark */ = {
 		isa = PBXTextBookmark;
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 182";
 		rLen = 0;
-		rLoc = 5875;
+		rLoc = 6051;
 		rType = 0;
 		vrLen = 494;
 		vrLoc = 6601;
@@ -15566,7 +15676,7 @@
 		fRef = 62E915790CFD536200AA46AB /* sample.h */;
 		name = "sample.h: myScenarioGeneratorCLHandler";
 		rLen = 0;
-		rLoc = 1288;
+		rLoc = 1354;
 		rType = 0;
 		vrLen = 651;
 		vrLoc = 734;
@@ -15580,7 +15690,7 @@
 		fRef = 62E915790CFD536200AA46AB /* sample.h */;
 		name = "sample.h: myScenarioGeneratorCLHandler";
 		rLen = 0;
-		rLoc = 1288;
+		rLoc = 1354;
 		rType = 0;
 		vrLen = 524;
 		vrLoc = 861;
@@ -15590,7 +15700,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 182";
 		rLen = 0;
-		rLoc = 5838;
+		rLoc = 6014;
 		rType = 0;
 		vrLen = 1488;
 		vrLoc = 5818;
@@ -15610,7 +15720,7 @@
 		comments = "error: invalid conversion from 'char*' to 'int'";
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		rLen = 1;
-		rLoc = 149;
+		rLoc = 153;
 		rType = 1;
 	};
 	62993CB50DB59F7400B2E02C /* PBXTextBookmark */ = {
@@ -15618,7 +15728,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 186";
 		rLen = 0;
-		rLoc = 5977;
+		rLoc = 6153;
 		rType = 0;
 		vrLen = 592;
 		vrLoc = 6828;
@@ -15628,7 +15738,7 @@
 		fRef = 62E915790CFD536200AA46AB /* sample.h */;
 		name = "sample.h: myScenarioGeneratorCLHandler";
 		rLen = 0;
-		rLoc = 1288;
+		rLoc = 1354;
 		rType = 0;
 		vrLen = 651;
 		vrLoc = 734;
@@ -15638,7 +15748,7 @@
 		comments = "error: request for member 'generateExperiments' in 'scenariomgr', which is of non-class type 'AHAScenarioManager ()()'";
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		rLen = 1;
-		rLoc = 155;
+		rLoc = 160;
 		rType = 1;
 	};
 	62993CBA0DB5A00A00B2E02C /* PBXTextBookmark */ = {
@@ -15646,7 +15756,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 185";
 		rLen = 0;
-		rLoc = 5950;
+		rLoc = 6126;
 		rType = 0;
 		vrLen = 590;
 		vrLoc = 6828;
@@ -15656,7 +15766,7 @@
 		fRef = 62E915790CFD536200AA46AB /* sample.h */;
 		name = "sample.h: myScenarioGeneratorCLHandler";
 		rLen = 0;
-		rLoc = 1288;
+		rLoc = 1354;
 		rType = 0;
 		vrLen = 651;
 		vrLoc = 734;
@@ -15666,7 +15776,7 @@
 		fRef = 62E915790CFD536200AA46AB /* sample.h */;
 		name = "sample.h: myScenarioGeneratorCLHandler";
 		rLen = 0;
-		rLoc = 1288;
+		rLoc = 1354;
 		rType = 0;
 		vrLen = 524;
 		vrLoc = 861;
@@ -15686,7 +15796,7 @@
 		fRef = 62E915790CFD536200AA46AB /* sample.h */;
 		name = "sample.h: myScenarioGeneratorCLHandler";
 		rLen = 0;
-		rLoc = 1288;
+		rLoc = 1354;
 		rType = 0;
 		vrLen = 524;
 		vrLoc = 861;
@@ -15706,7 +15816,7 @@
 		fRef = 625BF8A50D13D79E0028A447 /* ScenarioManager.h */;
 		name = "ScenarioManager.h: ~AbstractScenarioManager";
 		rLen = 0;
-		rLoc = 3067;
+		rLoc = 3098;
 		rType = 0;
 		vrLen = 554;
 		vrLoc = 2469;
@@ -15716,7 +15826,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 192";
 		rLen = 0;
-		rLoc = 6140;
+		rLoc = 6316;
 		rType = 0;
 		vrLen = 929;
 		vrLoc = 6508;
@@ -15726,7 +15836,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 188";
 		rLen = 0;
-		rLoc = 6028;
+		rLoc = 6204;
 		rType = 0;
 		vrLen = 1111;
 		vrLoc = 6663;
@@ -15763,7 +15873,7 @@
 		fRef = 625BF8A50D13D79E0028A447 /* ScenarioManager.h */;
 		name = "ScenarioManager.h: ~AbstractScenarioManager";
 		rLen = 0;
-		rLoc = 3067;
+		rLoc = 3098;
 		rType = 0;
 		vrLen = 423;
 		vrLoc = 2389;
@@ -15803,7 +15913,7 @@
 		fRef = 625BF8A50D13D79E0028A447 /* ScenarioManager.h */;
 		name = "ScenarioManager.h: generateExperiments";
 		rLen = 0;
-		rLoc = 3995;
+		rLoc = 4026;
 		rType = 0;
 		vrLen = 1427;
 		vrLoc = 2596;
@@ -15813,7 +15923,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 188";
 		rLen = 0;
-		rLoc = 6028;
+		rLoc = 6204;
 		rType = 0;
 		vrLen = 1122;
 		vrLoc = 6661;
@@ -15833,7 +15943,7 @@
 		fRef = 625BF8A50D13D79E0028A447 /* ScenarioManager.h */;
 		name = "ScenarioManager.h: ~AbstractScenarioManager";
 		rLen = 0;
-		rLoc = 3067;
+		rLoc = 3098;
 		rType = 0;
 		vrLen = 423;
 		vrLoc = 2389;
@@ -15863,7 +15973,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 188";
 		rLen = 0;
-		rLoc = 6028;
+		rLoc = 6204;
 		rType = 0;
 		vrLen = 1122;
 		vrLoc = 6661;
@@ -15883,7 +15993,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 193";
 		rLen = 0;
-		rLoc = 6388;
+		rLoc = 6564;
 		rType = 0;
 		vrLen = 646;
 		vrLoc = 6967;
@@ -15903,7 +16013,7 @@
 		fRef = 625BF8A50D13D79E0028A447 /* ScenarioManager.h */;
 		name = "ScenarioManager.h: 106";
 		rLen = 0;
-		rLoc = 4126;
+		rLoc = 4157;
 		rType = 0;
 		vrLen = 807;
 		vrLoc = 3204;
@@ -15931,7 +16041,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 193";
 		rLen = 0;
-		rLoc = 6388;
+		rLoc = 6564;
 		rType = 0;
 		vrLen = 646;
 		vrLoc = 6967;
@@ -15951,7 +16061,7 @@
 		fRef = 625BF8A50D13D79E0028A447 /* ScenarioManager.h */;
 		name = "ScenarioManager.h: generateExperiments";
 		rLen = 0;
-		rLoc = 3913;
+		rLoc = 3944;
 		rType = 0;
 		vrLen = 780;
 		vrLoc = 2831;
@@ -15971,7 +16081,7 @@
 		fRef = 625BF8A50D13D79E0028A447 /* ScenarioManager.h */;
 		name = "virtual void generateExperiments(AbstractAnnotatedMapAbstraction* absMap, int numscenarios, int agentsize) throw(TooManyTriesException) = 0;";
 		rLen = 143;
-		rLoc = 3321;
+		rLoc = 3352;
 		rType = 0;
 		vrLen = 977;
 		vrLoc = 3068;
@@ -15991,7 +16101,7 @@
 		fRef = 625BF8A50D13D79E0028A447 /* ScenarioManager.h */;
 		name = "AHAExperiment* generateSingleExperiment(mapAbstraction*, int validterrain, int minagentsize);";
 		rLen = 111;
-		rLoc = 4128;
+		rLoc = 4159;
 		rType = 0;
 		vrLen = 848;
 		vrLoc = 3204;
@@ -16011,7 +16121,7 @@
 		fRef = 625BF8A50D13D79E0028A447 /* ScenarioManager.h */;
 		name = "AHAExperiment* generateSingleExperiment(mapAbstraction*, int validterrain, int minagentsize);";
 		rLen = 111;
-		rLoc = 4128;
+		rLoc = 4159;
 		rType = 0;
 		vrLen = 848;
 		vrLoc = 3204;
@@ -16041,7 +16151,7 @@
 		fRef = 625BF8A50D13D79E0028A447 /* ScenarioManager.h */;
 		name = "ScenarioManager.h: 106";
 		rLen = 0;
-		rLoc = 4126;
+		rLoc = 4157;
 		rType = 0;
 		vrLen = 807;
 		vrLoc = 3204;
@@ -16071,7 +16181,7 @@
 		fRef = 62E915790CFD536200AA46AB /* sample.h */;
 		name = "sample.h: myScenarioGeneratorCLHandler";
 		rLen = 0;
-		rLoc = 1288;
+		rLoc = 1354;
 		rType = 0;
 		vrLen = 651;
 		vrLoc = 734;
@@ -16091,7 +16201,7 @@
 		fRef = 62E915790CFD536200AA46AB /* sample.h */;
 		name = "sample.h: myScenarioGeneratorCLHandler";
 		rLen = 0;
-		rLoc = 1288;
+		rLoc = 1354;
 		rType = 0;
 		vrLen = 651;
 		vrLoc = 734;
@@ -16101,7 +16211,7 @@
 		fRef = 625BF8A50D13D79E0028A447 /* ScenarioManager.h */;
 		name = "ScenarioManager.h: ~AbstractScenarioManager";
 		rLen = 0;
-		rLoc = 3067;
+		rLoc = 3098;
 		rType = 0;
 		vrLen = 423;
 		vrLoc = 2389;
@@ -16171,7 +16281,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 188";
 		rLen = 0;
-		rLoc = 6028;
+		rLoc = 6204;
 		rType = 0;
 		vrLen = 1122;
 		vrLoc = 6661;
@@ -16201,7 +16311,7 @@
 		fRef = 62E915790CFD536200AA46AB /* sample.h */;
 		name = "sample.h: myScenarioGeneratorCLHandler";
 		rLen = 0;
-		rLoc = 1288;
+		rLoc = 1354;
 		rType = 0;
 		vrLen = 651;
 		vrLoc = 734;
@@ -16221,7 +16331,7 @@
 		fRef = 62E915790CFD536200AA46AB /* sample.h */;
 		name = "sample.h: myScenarioGeneratorCLHandler";
 		rLen = 0;
-		rLoc = 1288;
+		rLoc = 1354;
 		rType = 0;
 		vrLen = 651;
 		vrLoc = 734;
@@ -16241,7 +16351,7 @@
 		fRef = 62E915790CFD536200AA46AB /* sample.h */;
 		name = "sample.h: myScenarioGeneratorCLHandler";
 		rLen = 0;
-		rLoc = 1288;
+		rLoc = 1354;
 		rType = 0;
 		vrLen = 651;
 		vrLoc = 734;
@@ -16261,7 +16371,7 @@
 		fRef = 62E915790CFD536200AA46AB /* sample.h */;
 		name = "sample.h: myScenarioGeneratorCLHandler";
 		rLen = 0;
-		rLoc = 1288;
+		rLoc = 1354;
 		rType = 0;
 		vrLen = 651;
 		vrLoc = 734;
@@ -16309,7 +16419,7 @@
 		fRef = 62E915790CFD536200AA46AB /* sample.h */;
 		name = "sample.h: myScenarioGeneratorCLHandler";
 		rLen = 0;
-		rLoc = 1288;
+		rLoc = 1354;
 		rType = 0;
 		vrLen = 651;
 		vrLoc = 734;
@@ -16319,7 +16429,7 @@
 		fRef = 625BF8A50D13D79E0028A447 /* ScenarioManager.h */;
 		name = "ScenarioManager.h: capability";
 		rLen = 0;
-		rLoc = 2942;
+		rLoc = 2973;
 		rType = 0;
 		vrLen = 483;
 		vrLoc = 1951;
@@ -16347,7 +16457,7 @@
 		fRef = 625BF8A50D13D79E0028A447 /* ScenarioManager.h */;
 		name = "ScenarioManager.h: capability";
 		rLen = 0;
-		rLoc = 2942;
+		rLoc = 2973;
 		rType = 0;
 		vrLen = 483;
 		vrLoc = 1951;
@@ -16377,7 +16487,7 @@
 		fRef = 62E915790CFD536200AA46AB /* sample.h */;
 		name = "sample.h: myScenarioGeneratorCLHandler";
 		rLen = 0;
-		rLoc = 1288;
+		rLoc = 1354;
 		rType = 0;
 		vrLen = 651;
 		vrLoc = 734;
@@ -16397,7 +16507,7 @@
 		fRef = 62E915790CFD536200AA46AB /* sample.h */;
 		name = "sample.h: myScenarioGeneratorCLHandler";
 		rLen = 0;
-		rLoc = 1288;
+		rLoc = 1354;
 		rType = 0;
 		vrLen = 651;
 		vrLoc = 734;
@@ -16417,7 +16527,7 @@
 		fRef = 62E915790CFD536200AA46AB /* sample.h */;
 		name = "sample.h: myScenarioGeneratorCLHandler";
 		rLen = 0;
-		rLoc = 1288;
+		rLoc = 1354;
 		rType = 0;
 		vrLen = 651;
 		vrLoc = 734;
@@ -16433,8 +16543,7 @@
 		functionName = "ScenarioManagerTest::generateSingleExperimentReturnsAValidExperimentForTheGivenParameters()";
 		hitCount = 1;
 		lineNumber = 174;
-		location = testsimulation;
-		modificationTime = 230017140.482685;
+		modificationTime = 230054456.282631;
 		state = 1;
 	};
 	62993DA20DB5C6A700B2E02C /* PBXTextBookmark */ = {
@@ -16452,7 +16561,7 @@
 		fRef = 62E915790CFD536200AA46AB /* sample.h */;
 		name = "sample.h: myScenarioGeneratorCLHandler";
 		rLen = 0;
-		rLoc = 1288;
+		rLoc = 1354;
 		rType = 0;
 		vrLen = 651;
 		vrLoc = 734;
@@ -16462,7 +16571,7 @@
 		fRef = 625BF8A50D13D79E0028A447 /* ScenarioManager.h */;
 		name = "ScenarioManager.h: capability";
 		rLen = 0;
-		rLoc = 2942;
+		rLoc = 2973;
 		rType = 0;
 		vrLen = 381;
 		vrLoc = 2012;
@@ -16536,7 +16645,7 @@
 		fRef = 625BF8A50D13D79E0028A447 /* ScenarioManager.h */;
 		name = "ScenarioManager.h: capability";
 		rLen = 0;
-		rLoc = 2942;
+		rLoc = 2973;
 		rType = 0;
 		vrLen = 1310;
 		vrLoc = 2008;
@@ -16546,7 +16655,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 188";
 		rLen = 0;
-		rLoc = 6028;
+		rLoc = 6204;
 		rType = 0;
 		vrLen = 1122;
 		vrLoc = 6661;
@@ -16576,7 +16685,7 @@
 		fRef = 62E915790CFD536200AA46AB /* sample.h */;
 		name = "sample.h: myScenarioGeneratorCLHandler";
 		rLen = 0;
-		rLoc = 1288;
+		rLoc = 1354;
 		rType = 0;
 		vrLen = 651;
 		vrLoc = 734;
@@ -16596,7 +16705,7 @@
 		fRef = 62E915790CFD536200AA46AB /* sample.h */;
 		name = "sample.h: myScenarioGeneratorCLHandler";
 		rLen = 0;
-		rLoc = 1288;
+		rLoc = 1354;
 		rType = 0;
 		vrLen = 651;
 		vrLoc = 734;
@@ -16616,7 +16725,7 @@
 		fRef = 62E915790CFD536200AA46AB /* sample.h */;
 		name = "sample.h: myScenarioGeneratorCLHandler";
 		rLen = 0;
-		rLoc = 1288;
+		rLoc = 1354;
 		rType = 0;
 		vrLen = 651;
 		vrLoc = 734;
@@ -16636,7 +16745,7 @@
 		fRef = 62E915790CFD536200AA46AB /* sample.h */;
 		name = "sample.h: myScenarioGeneratorCLHandler";
 		rLen = 0;
-		rLoc = 1288;
+		rLoc = 1354;
 		rType = 0;
 		vrLen = 651;
 		vrLoc = 734;
@@ -16656,7 +16765,7 @@
 		fRef = 62E915790CFD536200AA46AB /* sample.h */;
 		name = "sample.h: myScenarioGeneratorCLHandler";
 		rLen = 0;
-		rLoc = 1288;
+		rLoc = 1354;
 		rType = 0;
 		vrLen = 651;
 		vrLoc = 734;
@@ -16676,7 +16785,7 @@
 		fRef = 62E915790CFD536200AA46AB /* sample.h */;
 		name = "sample.h: myScenarioGeneratorCLHandler";
 		rLen = 0;
-		rLoc = 1288;
+		rLoc = 1354;
 		rType = 0;
 		vrLen = 651;
 		vrLoc = 734;
@@ -16686,7 +16795,7 @@
 		fRef = 625BF8A50D13D79E0028A447 /* ScenarioManager.h */;
 		name = "ScenarioManager.h: capability";
 		rLen = 0;
-		rLoc = 2942;
+		rLoc = 2973;
 		rType = 0;
 		vrLen = 381;
 		vrLoc = 2012;
@@ -16746,7 +16855,7 @@
 		fRef = 625BF8A50D13D79E0028A447 /* ScenarioManager.h */;
 		name = "ScenarioManager.h: capability";
 		rLen = 0;
-		rLoc = 2942;
+		rLoc = 2973;
 		rType = 0;
 		vrLen = 1310;
 		vrLoc = 2008;
@@ -16756,7 +16865,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 188";
 		rLen = 0;
-		rLoc = 6028;
+		rLoc = 6204;
 		rType = 0;
 		vrLen = 1122;
 		vrLoc = 6661;
@@ -16786,7 +16895,7 @@
 		fRef = 62E915790CFD536200AA46AB /* sample.h */;
 		name = "sample.h: myScenarioGeneratorCLHandler";
 		rLen = 0;
-		rLoc = 1288;
+		rLoc = 1354;
 		rType = 0;
 		vrLen = 651;
 		vrLoc = 734;
@@ -16806,7 +16915,7 @@
 		fRef = 62E915790CFD536200AA46AB /* sample.h */;
 		name = "sample.h: myScenarioGeneratorCLHandler";
 		rLen = 0;
-		rLoc = 1288;
+		rLoc = 1354;
 		rType = 0;
 		vrLen = 651;
 		vrLoc = 734;
@@ -16816,7 +16925,7 @@
 		fRef = 625BF8A50D13D79E0028A447 /* ScenarioManager.h */;
 		name = "ScenarioManager.h: capability";
 		rLen = 0;
-		rLoc = 2942;
+		rLoc = 2973;
 		rType = 0;
 		vrLen = 381;
 		vrLoc = 2012;
@@ -16856,7 +16965,7 @@
 		fRef = 625BF8A50D13D79E0028A447 /* ScenarioManager.h */;
 		name = "ScenarioManager.h: capability";
 		rLen = 0;
-		rLoc = 2942;
+		rLoc = 2973;
 		rType = 0;
 		vrLen = 1310;
 		vrLoc = 2008;
@@ -16866,7 +16975,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 188";
 		rLen = 0;
-		rLoc = 6028;
+		rLoc = 6204;
 		rType = 0;
 		vrLen = 1122;
 		vrLoc = 6661;
@@ -16924,7 +17033,7 @@
 		fRef = 62E915790CFD536200AA46AB /* sample.h */;
 		name = "sample.h: myScenarioGeneratorCLHandler";
 		rLen = 0;
-		rLoc = 1288;
+		rLoc = 1354;
 		rType = 0;
 		vrLen = 651;
 		vrLoc = 734;
@@ -16944,7 +17053,7 @@
 		fRef = 62E915790CFD536200AA46AB /* sample.h */;
 		name = "sample.h: myScenarioGeneratorCLHandler";
 		rLen = 0;
-		rLoc = 1288;
+		rLoc = 1354;
 		rType = 0;
 		vrLen = 651;
 		vrLoc = 734;
@@ -16964,7 +17073,7 @@
 		fRef = 62E915790CFD536200AA46AB /* sample.h */;
 		name = "sample.h: myScenarioGeneratorCLHandler";
 		rLen = 0;
-		rLoc = 1288;
+		rLoc = 1354;
 		rType = 0;
 		vrLen = 651;
 		vrLoc = 734;
@@ -16974,7 +17083,7 @@
 		fRef = 625BF8A50D13D79E0028A447 /* ScenarioManager.h */;
 		name = "ScenarioManager.h: capability";
 		rLen = 0;
-		rLoc = 2942;
+		rLoc = 2973;
 		rType = 0;
 		vrLen = 381;
 		vrLoc = 2012;
@@ -16984,7 +17093,7 @@
 		fRef = 625BF8A50D13D79E0028A447 /* ScenarioManager.h */;
 		name = "ScenarioManager.h: capability";
 		rLen = 0;
-		rLoc = 2942;
+		rLoc = 2973;
 		rType = 0;
 		vrLen = 381;
 		vrLoc = 2012;
@@ -16994,7 +17103,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 162";
 		rLen = 0;
-		rLoc = 5127;
+		rLoc = 5197;
 		rType = 0;
 		vrLen = 649;
 		vrLoc = 5976;
@@ -17044,7 +17153,7 @@
 		fRef = 625BF8A50D13D79E0028A447 /* ScenarioManager.h */;
 		name = "ScenarioManager.h: capability";
 		rLen = 0;
-		rLoc = 2942;
+		rLoc = 2973;
 		rType = 0;
 		vrLen = 1310;
 		vrLoc = 2008;
@@ -17054,7 +17163,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 162";
 		rLen = 0;
-		rLoc = 5127;
+		rLoc = 5197;
 		rType = 0;
 		vrLen = 649;
 		vrLoc = 5976;
@@ -17084,7 +17193,7 @@
 		fRef = 625BF8A50D13D79E0028A447 /* ScenarioManager.h */;
 		name = "ScenarioManager.h: capability";
 		rLen = 0;
-		rLoc = 2942;
+		rLoc = 2973;
 		rType = 0;
 		vrLen = 1310;
 		vrLoc = 2008;
@@ -17094,7 +17203,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 193";
 		rLen = 0;
-		rLoc = 6175;
+		rLoc = 6351;
 		rType = 0;
 		vrLen = 661;
 		vrLoc = 6932;
@@ -17132,7 +17241,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 193";
 		rLen = 0;
-		rLoc = 6175;
+		rLoc = 6351;
 		rType = 0;
 		vrLen = 661;
 		vrLoc = 6932;
@@ -17162,7 +17271,7 @@
 		fRef = 62E915790CFD536200AA46AB /* sample.h */;
 		name = "sample.h: myScenarioGeneratorCLHandler";
 		rLen = 0;
-		rLoc = 1288;
+		rLoc = 1354;
 		rType = 0;
 		vrLen = 651;
 		vrLoc = 734;
@@ -17190,7 +17299,7 @@
 		fRef = 62E915790CFD536200AA46AB /* sample.h */;
 		name = "sample.h: myScenarioGeneratorCLHandler";
 		rLen = 0;
-		rLoc = 1288;
+		rLoc = 1354;
 		rType = 0;
 		vrLen = 651;
 		vrLoc = 734;
@@ -17200,7 +17309,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 162";
 		rLen = 0;
-		rLoc = 5127;
+		rLoc = 5197;
 		rType = 0;
 		vrLen = 649;
 		vrLoc = 5976;
@@ -17230,7 +17339,7 @@
 		fRef = 625BF8A50D13D79E0028A447 /* ScenarioManager.h */;
 		name = "ScenarioManager.h: capability";
 		rLen = 0;
-		rLoc = 2942;
+		rLoc = 2973;
 		rType = 0;
 		vrLen = 1310;
 		vrLoc = 2008;
@@ -17250,7 +17359,7 @@
 		fRef = 62E915790CFD536200AA46AB /* sample.h */;
 		name = "sample.h: myScenarioGeneratorCLHandler";
 		rLen = 0;
-		rLoc = 1288;
+		rLoc = 1354;
 		rType = 0;
 		vrLen = 651;
 		vrLoc = 734;
@@ -17274,7 +17383,7 @@
 		comments = "error: 'cout' was not declared in this scope";
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		rLen = 1;
-		rLoc = 156;
+		rLoc = 161;
 		rType = 1;
 	};
 	62993E550DB5D2E200B2E02C /* PBXTextBookmark */ = {
@@ -17292,7 +17401,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 194";
 		rLen = 0;
-		rLoc = 6215;
+		rLoc = 6391;
 		rType = 0;
 		vrLen = 662;
 		vrLoc = 6784;
@@ -17302,7 +17411,7 @@
 		fRef = 62E915790CFD536200AA46AB /* sample.h */;
 		name = "sample.h: myScenarioGeneratorCLHandler";
 		rLen = 0;
-		rLoc = 1288;
+		rLoc = 1354;
 		rType = 0;
 		vrLen = 651;
 		vrLoc = 734;
@@ -17312,7 +17421,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 162";
 		rLen = 0;
-		rLoc = 5127;
+		rLoc = 5197;
 		rType = 0;
 		vrLen = 649;
 		vrLoc = 5976;
@@ -17322,7 +17431,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 197";
 		rLen = 0;
-		rLoc = 6388;
+		rLoc = 6564;
 		rType = 0;
 		vrLen = 1557;
 		vrLoc = 5976;
@@ -17352,7 +17461,7 @@
 		fRef = 625BF8A50D13D79E0028A447 /* ScenarioManager.h */;
 		name = "ScenarioManager.h: capability";
 		rLen = 0;
-		rLoc = 2942;
+		rLoc = 2973;
 		rType = 0;
 		vrLen = 1310;
 		vrLoc = 2008;
@@ -17366,7 +17475,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 162";
 		rLen = 0;
-		rLoc = 5127;
+		rLoc = 5197;
 		rType = 0;
 		vrLen = 649;
 		vrLoc = 5976;
@@ -17376,7 +17485,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 162";
 		rLen = 0;
-		rLoc = 5127;
+		rLoc = 5197;
 		rType = 0;
 		vrLen = 745;
 		vrLoc = 5976;
@@ -17386,7 +17495,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 197";
 		rLen = 0;
-		rLoc = 6388;
+		rLoc = 6564;
 		rType = 0;
 		vrLen = 1557;
 		vrLoc = 5976;
@@ -17396,7 +17505,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 196";
 		rLen = 0;
-		rLoc = 6388;
+		rLoc = 6564;
 		rType = 0;
 		vrLen = 1043;
 		vrLoc = 6720;
@@ -17436,7 +17545,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 162";
 		rLen = 0;
-		rLoc = 5127;
+		rLoc = 5197;
 		rType = 0;
 		vrLen = 745;
 		vrLoc = 5976;
@@ -17446,7 +17555,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 196";
 		rLen = 0;
-		rLoc = 6388;
+		rLoc = 6564;
 		rType = 0;
 		vrLen = 1048;
 		vrLoc = 6720;
@@ -17486,7 +17595,7 @@
 		fRef = 625BF8A50D13D79E0028A447 /* ScenarioManager.h */;
 		name = "virtual void writeScenarioFile(const char* filelocation);";
 		rLen = 60;
-		rLoc = 4056;
+		rLoc = 4087;
 		rType = 0;
 		vrLen = 607;
 		vrLoc = 3642;
@@ -17496,7 +17605,7 @@
 		comments = "error: no matching function for call to 'AHAScenarioManager::writeScenarioFile(std::string&)'";
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		rLen = 1;
-		rLoc = 159;
+		rLoc = 164;
 		rType = 1;
 	};
 	62993E810DB6178100B2E02C /* PBXTextBookmark */ = {
@@ -17504,7 +17613,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 194";
 		rLen = 0;
-		rLoc = 6306;
+		rLoc = 6482;
 		rType = 0;
 		vrLen = 629;
 		vrLoc = 7032;
@@ -17514,7 +17623,7 @@
 		fRef = 625BF8A50D13D79E0028A447 /* ScenarioManager.h */;
 		name = "virtual void writeScenarioFile(const char* filelocation);";
 		rLen = 60;
-		rLoc = 4056;
+		rLoc = 4087;
 		rType = 0;
 		vrLen = 607;
 		vrLoc = 3642;
@@ -17524,7 +17633,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 195";
 		rLen = 0;
-		rLoc = 6375;
+		rLoc = 6551;
 		rType = 0;
 		vrLen = 635;
 		vrLoc = 7114;
@@ -17534,7 +17643,7 @@
 		fRef = 62E915790CFD536200AA46AB /* sample.h */;
 		name = "sample.h: myScenarioGeneratorCLHandler";
 		rLen = 0;
-		rLoc = 1288;
+		rLoc = 1354;
 		rType = 0;
 		vrLen = 651;
 		vrLoc = 734;
@@ -17544,7 +17653,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 127";
 		rLen = 0;
-		rLoc = 5127;
+		rLoc = 5197;
 		rType = 0;
 		vrLen = 202;
 		vrLoc = 6290;
@@ -17558,7 +17667,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 127";
 		rLen = 0;
-		rLoc = 5127;
+		rLoc = 5197;
 		rType = 0;
 		vrLen = 202;
 		vrLoc = 6290;
@@ -17618,7 +17727,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 196";
 		rLen = 0;
-		rLoc = 6388;
+		rLoc = 6564;
 		rType = 0;
 		vrLen = 1048;
 		vrLoc = 6720;
@@ -17628,7 +17737,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 171";
 		rLen = 0;
-		rLoc = 6608;
+		rLoc = 6784;
 		rType = 0;
 		vrLen = 1098;
 		vrLoc = 5526;
@@ -17638,7 +17747,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 160";
 		rLen = 0;
-		rLoc = 6375;
+		rLoc = 6551;
 		rType = 0;
 		vrLen = 647;
 		vrLoc = 6916;
@@ -17648,7 +17757,7 @@
 		fRef = 62E914B20CFD4FCC00AA46AB /* scenarioLoader.h */;
 		name = "int startx, starty, goalx, goaly;";
 		rLen = 36;
-		rLoc = 1084;
+		rLoc = 1112;
 		rType = 0;
 		vrLen = 816;
 		vrLoc = 379;
@@ -17666,7 +17775,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 160";
 		rLen = 0;
-		rLoc = 6375;
+		rLoc = 6551;
 		rType = 0;
 		vrLen = 647;
 		vrLoc = 6916;
@@ -17676,7 +17785,7 @@
 		fRef = 62E914B20CFD4FCC00AA46AB /* scenarioLoader.h */;
 		name = "int startx, starty, goalx, goaly;";
 		rLen = 36;
-		rLoc = 1084;
+		rLoc = 1112;
 		rType = 0;
 		vrLen = 816;
 		vrLoc = 379;
@@ -17696,7 +17805,7 @@
 		fRef = 62E915790CFD536200AA46AB /* sample.h */;
 		name = "sample.h: myScenarioGeneratorCLHandler";
 		rLen = 0;
-		rLoc = 1288;
+		rLoc = 1354;
 		rType = 0;
 		vrLen = 651;
 		vrLoc = 734;
@@ -17716,7 +17825,7 @@
 		fRef = 62E915790CFD536200AA46AB /* sample.h */;
 		name = "sample.h: myScenarioGeneratorCLHandler";
 		rLen = 0;
-		rLoc = 1288;
+		rLoc = 1354;
 		rType = 0;
 		vrLen = 651;
 		vrLoc = 734;
@@ -17746,7 +17855,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 171";
 		rLen = 0;
-		rLoc = 6608;
+		rLoc = 6784;
 		rType = 0;
 		vrLen = 1098;
 		vrLoc = 5526;
@@ -17766,10 +17875,1139 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 171";
 		rLen = 0;
-		rLoc = 6608;
+		rLoc = 6784;
 		rType = 0;
 		vrLen = 1259;
 		vrLoc = 5771;
+	};
+	62993EC40DB6278D00B2E02C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62D8F62F0DAE6DCC009F6E57 /* ScenarioManagerTest.cpp */;
+		name = "ScenarioManagerTest.cpp: 214";
+		rLen = 0;
+		rLoc = 8540;
+		rType = 0;
+		vrLen = 1547;
+		vrLoc = 7925;
+	};
+	62993EC50DB6278D00B2E02C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62E915790CFD536200AA46AB /* sample.h */;
+		name = "sample.h: myScenarioGeneratorCLHandler";
+		rLen = 0;
+		rLoc = 1354;
+		rType = 0;
+		vrLen = 651;
+		vrLoc = 734;
+	};
+	62993EC80DB6279200B2E02C /* PBXBookmark */ = {
+		isa = PBXBookmark;
+		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
+	};
+	62993EC90DB6279700B2E02C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62D8F6550DAE704D009F6E57 /* TestConstants.h */;
+		name = "TestConstants.h: 1";
+		rLen = 0;
+		rLoc = 0;
+		rType = 0;
+		vrLen = 161;
+		vrLoc = 0;
+	};
+	62993ECC0DB6279700B2E02C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
+		name = "sample.cpp: 171";
+		rLen = 0;
+		rLoc = 6784;
+		rType = 0;
+		vrLen = 1259;
+		vrLoc = 5771;
+	};
+	62993ED10DB62F8500B2E02C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62D8F62F0DAE6DCC009F6E57 /* ScenarioManagerTest.cpp */;
+		name = "ScenarioManagerTest.cpp: 214";
+		rLen = 0;
+		rLoc = 8540;
+		rType = 0;
+		vrLen = 1547;
+		vrLoc = 7925;
+	};
+	62993ED20DB62F8500B2E02C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		comments = "error: expected class-name before '{' token";
+		fRef = 62E9149C0CFD4FCC00AA46AB /* aStar3.h */;
+		rLen = 1;
+		rLoc = 40;
+		rType = 1;
+	};
+	62993ED30DB62F8500B2E02C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62D8F62F0DAE6DCC009F6E57 /* ScenarioManagerTest.cpp */;
+		name = "ScenarioManagerTest.cpp: 214";
+		rLen = 0;
+		rLoc = 8540;
+		rType = 0;
+		vrLen = 1547;
+		vrLoc = 7925;
+	};
+	62993ED40DB62F8500B2E02C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62E9149C0CFD4FCC00AA46AB /* aStar3.h */;
+		name = "class aStarOld : public searchAlgorithm {";
+		rLen = 42;
+		rLoc = 1223;
+		rType = 0;
+		vrLen = 759;
+		vrLoc = 1004;
+	};
+	62993ED50DB62F8500B2E02C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62E915790CFD536200AA46AB /* sample.h */;
+		name = "sample.h: myScenarioGeneratorCLHandler";
+		rLen = 0;
+		rLoc = 1354;
+		rType = 0;
+		vrLen = 651;
+		vrLoc = 734;
+	};
+	62993ED80DB62FB000B2E02C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62E9149C0CFD4FCC00AA46AB /* aStar3.h */;
+		name = "class aStarOld : public searchAlgorithm {";
+		rLen = 42;
+		rLoc = 1223;
+		rType = 0;
+		vrLen = 545;
+		vrLoc = 935;
+	};
+	62993ED90DB62FB000B2E02C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62E915790CFD536200AA46AB /* sample.h */;
+		name = "sample.h: myScenarioGeneratorCLHandler";
+		rLen = 0;
+		rLoc = 1354;
+		rType = 0;
+		vrLen = 651;
+		vrLoc = 734;
+	};
+	62993EDF0DB6302700B2E02C /* unitSimulation.h:40 */ = {
+		isa = PBXFileBreakpoint;
+		actions = (
+		);
+		breakpointStyle = 0;
+		continueAfterActions = 0;
+		delayBeforeContinue = 0;
+		fileReference = 62E9144D0CFD4F9300AA46AB /* unitSimulation.h */;
+		hitCount = 1;
+		lineNumber = 40;
+		location = hog;
+		modificationTime = 230054194.069827;
+		state = 1;
+	};
+	62993F350DB6481F00B2E02C /* PBXBookmark */ = {
+		isa = PBXBookmark;
+		fRef = 625BF8A50D13D79E0028A447 /* ScenarioManager.h */;
+	};
+	62993F3B0DB6484000B2E02C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62E9149C0CFD4FCC00AA46AB /* aStar3.h */;
+		name = "class aStarOld : public searchAlgorithm {";
+		rLen = 42;
+		rLoc = 1223;
+		rType = 0;
+		vrLen = 545;
+		vrLoc = 935;
+	};
+	62993F3C0DB6484000B2E02C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62E9144D0CFD4F9300AA46AB /* unitSimulation.h */;
+		name = "class ScenarioManager;";
+		rLen = 22;
+		rLoc = 1271;
+		rType = 0;
+		vrLen = 327;
+		vrLoc = 1078;
+	};
+	62993F3D0DB6484000B2E02C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62E9144C0CFD4F9300AA46AB /* unitSimulation.cpp */;
+		name = "AHAExperiment* nextExperiment = scenariomgr->getNthExperiment(nextExperimentId);";
+		rLen = 0;
+		rLoc = 33763;
+		rType = 0;
+		vrLen = 639;
+		vrLoc = 33941;
+	};
+	62993F3E0DB6484000B2E02C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		comments = "error: return type specification for destructor invalid";
+		fRef = 62E914B20CFD4FCC00AA46AB /* scenarioLoader.h */;
+		rLen = 1;
+		rLoc = 25;
+		rType = 1;
+	};
+	62993F3F0DB6484000B2E02C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62E9149C0CFD4FCC00AA46AB /* aStar3.h */;
+		name = "class aStarOld : public searchAlgorithm {";
+		rLen = 42;
+		rLoc = 1223;
+		rType = 0;
+		vrLen = 545;
+		vrLoc = 935;
+	};
+	62993F400DB6484000B2E02C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62E9144C0CFD4F9300AA46AB /* unitSimulation.cpp */;
+		name = "if(nextExperimentId < scenariomgr->getNumExperiments());";
+		rLen = 0;
+		rLoc = 33763;
+		rType = 0;
+		vrLen = 580;
+		vrLoc = 33799;
+	};
+	62993F410DB6484000B2E02C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62E9144D0CFD4F9300AA46AB /* unitSimulation.h */;
+		name = "class ScenarioManager;";
+		rLen = 22;
+		rLoc = 1271;
+		rType = 0;
+		vrLen = 327;
+		vrLoc = 1078;
+	};
+	62993F420DB6484000B2E02C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62E9144C0CFD4F9300AA46AB /* unitSimulation.cpp */;
+		name = "if(nextExperimentId < scenariomgr->getNumExperiments());";
+		rLen = 0;
+		rLoc = 33763;
+		rType = 0;
+		vrLen = 580;
+		vrLoc = 33799;
+	};
+	62993F430DB6484000B2E02C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62E9144D0CFD4F9300AA46AB /* unitSimulation.h */;
+		name = "class ScenarioManager;";
+		rLen = 22;
+		rLoc = 1271;
+		rType = 0;
+		vrLen = 327;
+		vrLoc = 1078;
+	};
+	62993F440DB6484000B2E02C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62E9144C0CFD4F9300AA46AB /* unitSimulation.cpp */;
+		name = "AHAExperiment* nextExperiment = scenariomgr->getNthExperiment(nextExperimentId);";
+		rLen = 0;
+		rLoc = 33763;
+		rType = 0;
+		vrLen = 639;
+		vrLoc = 33941;
+	};
+	62993F450DB6484000B2E02C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62E914B20CFD4FCC00AA46AB /* scenarioLoader.h */;
+		name = "scenarioLoader.h: ~Experiment";
+		rLen = 0;
+		rLoc = 505;
+		rType = 0;
+		vrLen = 846;
+		vrLoc = 188;
+	};
+	62993F460DB6484000B2E02C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62E915790CFD536200AA46AB /* sample.h */;
+		name = "sample.h: myScenarioGeneratorCLHandler";
+		rLen = 0;
+		rLoc = 1354;
+		rType = 0;
+		vrLen = 651;
+		vrLoc = 734;
+	};
+	62993F520DB6497000B2E02C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62D8F6550DAE704D009F6E57 /* TestConstants.h */;
+		name = "TestConstants.h: 1";
+		rLen = 0;
+		rLoc = 0;
+		rType = 0;
+		vrLen = 161;
+		vrLoc = 0;
+	};
+	62993F530DB6497000B2E02C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62E9144C0CFD4F9300AA46AB /* unitSimulation.cpp */;
+		name = "unitSimulation.cpp: 1250";
+		rLen = 0;
+		rLoc = 33763;
+		rType = 0;
+		vrLen = 274;
+		vrLoc = 33929;
+	};
+	62993F540DB6497000B2E02C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 625BF8A40D13D79E0028A447 /* ScenarioManager.cpp */;
+		name = "ScenarioManager.cpp: 55";
+		rLen = 0;
+		rLoc = 1676;
+		rType = 0;
+		vrLen = 296;
+		vrLoc = 1923;
+	};
+	62993F550DB6497000B2E02C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 625BF8A50D13D79E0028A447 /* ScenarioManager.h */;
+		name = "ScenarioManager.h: capability";
+		rLen = 0;
+		rLoc = 2973;
+		rType = 0;
+		vrLen = 381;
+		vrLoc = 2012;
+	};
+	62993F560DB6497000B2E02C /* PBXBookmark */ = {
+		isa = PBXBookmark;
+		fRef = 62E914B20CFD4FCC00AA46AB /* scenarioLoader.h */;
+	};
+	62993F570DB6497000B2E02C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62D8F6550DAE704D009F6E57 /* TestConstants.h */;
+		name = "TestConstants.h: 1";
+		rLen = 0;
+		rLoc = 0;
+		rType = 0;
+		vrLen = 161;
+		vrLoc = 0;
+	};
+	62993F580DB6497000B2E02C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62E9144C0CFD4F9300AA46AB /* unitSimulation.cpp */;
+		name = "unitSimulation.cpp: 1250";
+		rLen = 0;
+		rLoc = 33763;
+		rType = 0;
+		vrLen = 274;
+		vrLoc = 33929;
+	};
+	62993F590DB6497000B2E02C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 625BF8A40D13D79E0028A447 /* ScenarioManager.cpp */;
+		name = "ScenarioManager.cpp: 55";
+		rLen = 0;
+		rLoc = 1676;
+		rType = 0;
+		vrLen = 296;
+		vrLoc = 1923;
+	};
+	62993F5A0DB6497000B2E02C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 625BF8A50D13D79E0028A447 /* ScenarioManager.h */;
+		name = "ScenarioManager.h: capability";
+		rLen = 0;
+		rLoc = 2973;
+		rType = 0;
+		vrLen = 381;
+		vrLoc = 2012;
+	};
+	62993F5B0DB6497000B2E02C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62E914B20CFD4FCC00AA46AB /* scenarioLoader.h */;
+		name = "int startx, starty, goalx, goaly;";
+		rLen = 36;
+		rLoc = 1112;
+		rType = 0;
+		vrLen = 225;
+		vrLoc = 984;
+	};
+	62993F5E0DB6497000B2E02C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62E9144D0CFD4F9300AA46AB /* unitSimulation.h */;
+		name = "unitSimulation.h: setCanCrossDiagonally";
+		rLen = 0;
+		rLoc = 6021;
+		rType = 0;
+		vrLen = 1870;
+		vrLoc = 4763;
+	};
+	62993F5F0DB6497000B2E02C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62E9144D0CFD4F9300AA46AB /* unitSimulation.h */;
+		name = "unitSimulation.h: setCanCrossDiagonally";
+		rLen = 0;
+		rLoc = 6021;
+		rType = 0;
+		vrLen = 1870;
+		vrLoc = 4763;
+	};
+	62993F620DB6497000B2E02C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62E9144C0CFD4F9300AA46AB /* unitSimulation.cpp */;
+		name = "unitSimulation.cpp: 107";
+		rLen = 0;
+		rLoc = 2912;
+		rType = 0;
+		vrLen = 1108;
+		vrLoc = 2284;
+	};
+	62993F630DB6497000B2E02C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62E9144C0CFD4F9300AA46AB /* unitSimulation.cpp */;
+		name = "unitSimulation.cpp: 107";
+		rLen = 0;
+		rLoc = 2912;
+		rType = 0;
+		vrLen = 1108;
+		vrLoc = 2284;
+	};
+	62993F660DB6497000B2E02C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 625BF8A50D13D79E0028A447 /* ScenarioManager.h */;
+		name = "ScenarioManager.h: ~AHAExperiment";
+		rLen = 0;
+		rLoc = 2702;
+		rType = 0;
+		vrLen = 1338;
+		vrLoc = 2011;
+	};
+	62993F670DB64C5600B2E02C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62E914B20CFD4FCC00AA46AB /* scenarioLoader.h */;
+		name = "int startx, starty, goalx, goaly;";
+		rLen = 36;
+		rLoc = 1112;
+		rType = 0;
+		vrLen = 225;
+		vrLoc = 984;
+	};
+	62993F680DB64C5600B2E02C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62E9144D0CFD4F9300AA46AB /* unitSimulation.h */;
+		name = "unitSimulation.h: setCanCrossDiagonally";
+		rLen = 0;
+		rLoc = 6021;
+		rType = 0;
+		vrLen = 1870;
+		vrLoc = 4763;
+	};
+	62993F690DB64C5600B2E02C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62E9144D0CFD4F9300AA46AB /* unitSimulation.h */;
+		name = "unitSimulation.h: setCanCrossDiagonally";
+		rLen = 0;
+		rLoc = 6021;
+		rType = 0;
+		vrLen = 1320;
+		vrLoc = 6100;
+	};
+	62993F6A0DB64C5600B2E02C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62E9144C0CFD4F9300AA46AB /* unitSimulation.cpp */;
+		name = "unitSimulation.cpp: 107";
+		rLen = 0;
+		rLoc = 2912;
+		rType = 0;
+		vrLen = 1108;
+		vrLoc = 2284;
+	};
+	62993F6B0DB64C5600B2E02C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62E9144C0CFD4F9300AA46AB /* unitSimulation.cpp */;
+		name = "unitSimulation.cpp: 1244";
+		rLen = 0;
+		rLoc = 33924;
+		rType = 0;
+		vrLen = 1067;
+		vrLoc = 15515;
+	};
+	62993F6C0DB64C5600B2E02C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 625BF8A50D13D79E0028A447 /* ScenarioManager.h */;
+		name = "ScenarioManager.h: ~AHAExperiment";
+		rLen = 0;
+		rLoc = 2702;
+		rType = 0;
+		vrLen = 1338;
+		vrLoc = 2011;
+	};
+	62993F7C0DB64F2300B2E02C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62E914B20CFD4FCC00AA46AB /* scenarioLoader.h */;
+		name = "scenarioLoader.h: ~Experiment";
+		rLen = 0;
+		rLoc = 505;
+		rType = 0;
+		vrLen = 846;
+		vrLoc = 188;
+	};
+	62993F7D0DB64F2300B2E02C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		comments = "error: invalid conversion from 'Experiment*' to 'AHAExperiment*'";
+		fRef = 62E9144C0CFD4F9300AA46AB /* unitSimulation.cpp */;
+		rLen = 0;
+		rLoc = 1236;
+		rType = 1;
+	};
+	62993F7E0DB64F2300B2E02C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62E914B20CFD4FCC00AA46AB /* scenarioLoader.h */;
+		name = "scenarioLoader.h: ~Experiment";
+		rLen = 0;
+		rLoc = 505;
+		rType = 0;
+		vrLen = 846;
+		vrLoc = 188;
+	};
+	62993F7F0DB64F2300B2E02C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62E9144C0CFD4F9300AA46AB /* unitSimulation.cpp */;
+		name = "unitSimulation.cpp: 1245";
+		rLen = 0;
+		rLoc = 33924;
+		rType = 0;
+		vrLen = 479;
+		vrLoc = 1835;
+	};
+	62993F800DB64F2300B2E02C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62E915790CFD536200AA46AB /* sample.h */;
+		name = "sample.h: myScenarioGeneratorCLHandler";
+		rLen = 0;
+		rLoc = 1354;
+		rType = 0;
+		vrLen = 651;
+		vrLoc = 734;
+	};
+	62993F810DB64F2C00B2E02C /* PBXBookmark */ = {
+		isa = PBXBookmark;
+		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
+	};
+	62993F820DB64F4200B2E02C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62E914B20CFD4FCC00AA46AB /* scenarioLoader.h */;
+		name = "int startx, starty, goalx, goaly;";
+		rLen = 36;
+		rLoc = 1112;
+		rType = 0;
+		vrLen = 225;
+		vrLoc = 984;
+	};
+	62993F830DB64F4200B2E02C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62E9144C0CFD4F9300AA46AB /* unitSimulation.cpp */;
+		name = "unitSimulation.cpp: 1237";
+		rLen = 0;
+		rLoc = 33763;
+		rType = 0;
+		vrLen = 183;
+		vrLoc = 33721;
+	};
+	62993F840DB64F4200B2E02C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62E914B20CFD4FCC00AA46AB /* scenarioLoader.h */;
+		name = "int startx, starty, goalx, goaly;";
+		rLen = 36;
+		rLoc = 1112;
+		rType = 0;
+		vrLen = 225;
+		vrLoc = 984;
+	};
+	62993F850DB64F4200B2E02C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62E9144C0CFD4F9300AA46AB /* unitSimulation.cpp */;
+		name = "unitSimulation.cpp: 1238";
+		rLen = 0;
+		rLoc = 33763;
+		rType = 0;
+		vrLen = 194;
+		vrLoc = 33729;
+	};
+	62993F880DB64F4200B2E02C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
+		name = "sample.cpp: 253";
+		rLen = 0;
+		rLoc = 9323;
+		rType = 0;
+		vrLen = 1194;
+		vrLoc = 8599;
+	};
+	62993F890DB64F4200B2E02C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 625BF8A50D13D79E0028A447 /* ScenarioManager.h */;
+		name = "ScenarioManager.h: ~AHAExperiment";
+		rLen = 0;
+		rLoc = 2702;
+		rType = 0;
+		vrLen = 1338;
+		vrLoc = 2011;
+	};
+	62993F8A0DB64F7700B2E02C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62E9144C0CFD4F9300AA46AB /* unitSimulation.cpp */;
+		name = "unitSimulation.cpp: 1238";
+		rLen = 0;
+		rLoc = 33763;
+		rType = 0;
+		vrLen = 194;
+		vrLoc = 33729;
+	};
+	62993F8B0DB64F7700B2E02C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
+		name = "sample.cpp: 512";
+		rLen = 0;
+		rLoc = 15761;
+		rType = 0;
+		vrLen = 1194;
+		vrLoc = 8560;
+	};
+	62993F8C0DB64F7700B2E02C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 625BF8A50D13D79E0028A447 /* ScenarioManager.h */;
+		name = "ScenarioManager.h: ~AHAExperiment";
+		rLen = 0;
+		rLoc = 2702;
+		rType = 0;
+		vrLen = 1338;
+		vrLoc = 2011;
+	};
+	62993F9C0DB6550D00B2E02C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62E9144C0CFD4F9300AA46AB /* unitSimulation.cpp */;
+		name = "unitSimulation.cpp: 1245";
+		rLen = 0;
+		rLoc = 33924;
+		rType = 0;
+		vrLen = 479;
+		vrLoc = 1835;
+	};
+	62993F9D0DB6550D00B2E02C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62E915790CFD536200AA46AB /* sample.h */;
+		name = "sample.h: myScenarioGeneratorCLHandler";
+		rLen = 0;
+		rLoc = 1354;
+		rType = 0;
+		vrLen = 651;
+		vrLoc = 734;
+	};
+	62993FAC0DB655BB00B2E02C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62E9144C0CFD4F9300AA46AB /* unitSimulation.cpp */;
+		name = "unitSimulation.cpp: 1245";
+		rLen = 0;
+		rLoc = 33924;
+		rType = 0;
+		vrLen = 479;
+		vrLoc = 1835;
+	};
+	62993FAD0DB655BB00B2E02C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62993FAE0DB655BB00B2E02C /* math.h */;
+		name = "extern double exp( double );";
+		rLen = 29;
+		rLoc = 18537;
+		rType = 0;
+		vrLen = 418;
+		vrLoc = 18356;
+	};
+	62993FAE0DB655BB00B2E02C /* math.h */ = {
+		isa = PBXFileReference;
+		name = math.h;
+		path = /usr/include/architecture/ppc/math.h;
+		sourceTree = "<absolute>";
+	};
+	62993FAF0DB655BB00B2E02C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		comments = "error: invalid use of 'this' in non-member function";
+		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
+		rLen = 1;
+		rLoc = 423;
+		rType = 1;
+	};
+	62993FB00DB655BB00B2E02C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62E9144C0CFD4F9300AA46AB /* unitSimulation.cpp */;
+		name = "unitSimulation.cpp: 1245";
+		rLen = 0;
+		rLoc = 33924;
+		rType = 0;
+		vrLen = 479;
+		vrLoc = 1835;
+	};
+	62993FB10DB655BB00B2E02C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
+		name = "AHAExperiment* exp;";
+		rLen = 31;
+		rLoc = 1575;
+		rType = 0;
+		vrLen = 575;
+		vrLoc = 951;
+	};
+	62993FB20DB655BB00B2E02C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62993FB30DB655BB00B2E02C /* math.h */;
+		name = "extern double exp( double );";
+		rLen = 29;
+		rLoc = 18537;
+		rType = 0;
+		vrLen = 418;
+		vrLoc = 18356;
+	};
+	62993FB30DB655BB00B2E02C /* math.h */ = {
+		isa = PBXFileReference;
+		name = math.h;
+		path = /usr/include/architecture/ppc/math.h;
+		sourceTree = "<absolute>";
+	};
+	62993FB40DB655BB00B2E02C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
+		name = "sample.cpp: 423";
+		rLen = 0;
+		rLoc = 14321;
+		rType = 0;
+		vrLen = 758;
+		vrLoc = 10775;
+	};
+	62993FB50DB655BB00B2E02C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62E915790CFD536200AA46AB /* sample.h */;
+		name = "sample.h: myScenarioGeneratorCLHandler";
+		rLen = 0;
+		rLoc = 1354;
+		rType = 0;
+		vrLen = 651;
+		vrLoc = 734;
+	};
+	62993FC50DB656AB00B2E02C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		comments = "error: expected `;' before 'return'";
+		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
+		rLen = 1;
+		rLoc = 264;
+		rType = 1;
+	};
+	62993FC60DB656AB00B2E02C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
+		name = "sample.cpp: 265";
+		rLen = 0;
+		rLoc = 9561;
+		rType = 0;
+		vrLen = 648;
+		vrLoc = 9252;
+	};
+	62993FC70DB656AB00B2E02C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62E915790CFD536200AA46AB /* sample.h */;
+		name = "sample.h: myExecuteScenarioCLHandler";
+		rLen = 0;
+		rLoc = 1354;
+		rType = 0;
+		vrLen = 621;
+		vrLoc = 734;
+	};
+	62993FC80DB656AD00B2E02C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
+		name = "sample.cpp: 265";
+		rLen = 0;
+		rLoc = 9561;
+		rType = 0;
+		vrLen = 648;
+		vrLoc = 9252;
+	};
+	62993FC90DB656AD00B2E02C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62E915790CFD536200AA46AB /* sample.h */;
+		name = "sample.h: myExecuteScenarioCLHandler";
+		rLen = 0;
+		rLoc = 1354;
+		rType = 0;
+		vrLen = 621;
+		vrLoc = 734;
+	};
+	62993FCC0DB656AF00B2E02C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
+		name = "sample.cpp: 265";
+		rLen = 0;
+		rLoc = 9561;
+		rType = 0;
+		vrLen = 648;
+		vrLoc = 9252;
+	};
+	62993FCD0DB656AF00B2E02C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62E915790CFD536200AA46AB /* sample.h */;
+		name = "sample.h: myExecuteScenarioCLHandler";
+		rLen = 0;
+		rLoc = 1354;
+		rType = 0;
+		vrLen = 621;
+		vrLoc = 734;
+	};
+	62993FD30DB656E100B2E02C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
+		name = "sample.cpp: 265";
+		rLen = 0;
+		rLoc = 9561;
+		rType = 0;
+		vrLen = 648;
+		vrLoc = 9252;
+	};
+	62993FD40DB656E100B2E02C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62E915790CFD536200AA46AB /* sample.h */;
+		name = "sample.h: myExecuteScenarioCLHandler";
+		rLen = 0;
+		rLoc = 1354;
+		rType = 0;
+		vrLen = 621;
+		vrLoc = 734;
+	};
+	62993FE00DB6577A00B2E02C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
+		name = "sample.cpp: 264";
+		rLen = 0;
+		rLoc = 9561;
+		rType = 0;
+		vrLen = 620;
+		vrLoc = 9252;
+	};
+	62993FE10DB6577A00B2E02C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62E915790CFD536200AA46AB /* sample.h */;
+		name = "sample.h: myExecuteScenarioCLHandler";
+		rLen = 0;
+		rLoc = 1354;
+		rType = 0;
+		vrLen = 621;
+		vrLoc = 734;
+	};
+	62993FE40DB6577E00B2E02C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
+		name = "sample.cpp: 264";
+		rLen = 0;
+		rLoc = 9561;
+		rType = 0;
+		vrLen = 620;
+		vrLoc = 9252;
+	};
+	62993FE50DB6577E00B2E02C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62E915790CFD536200AA46AB /* sample.h */;
+		name = "sample.h: myExecuteScenarioCLHandler";
+		rLen = 0;
+		rLoc = 1354;
+		rType = 0;
+		vrLen = 621;
+		vrLoc = 734;
+	};
+	62993FEA0DB657DD00B2E02C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
+		name = "sample.cpp: 264";
+		rLen = 0;
+		rLoc = 9561;
+		rType = 0;
+		vrLen = 620;
+		vrLoc = 9252;
+	};
+	62993FEB0DB657DD00B2E02C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62E915790CFD536200AA46AB /* sample.h */;
+		name = "sample.h: myExecuteScenarioCLHandler";
+		rLen = 0;
+		rLoc = 1354;
+		rType = 0;
+		vrLen = 621;
+		vrLoc = 734;
+	};
+	62993FEE0DB6582A00B2E02C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
+		name = "sample.cpp: 264";
+		rLen = 0;
+		rLoc = 9561;
+		rType = 0;
+		vrLen = 620;
+		vrLoc = 9252;
+	};
+	62993FEF0DB6582A00B2E02C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62E915790CFD536200AA46AB /* sample.h */;
+		name = "sample.h: myExecuteScenarioCLHandler";
+		rLen = 0;
+		rLoc = 1354;
+		rType = 0;
+		vrLen = 621;
+		vrLoc = 734;
+	};
+	62993FF90DB658F200B2E02C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62E9144C0CFD4F9300AA46AB /* unitSimulation.cpp */;
+		name = "unitSimulation.cpp: 1238";
+		rLen = 0;
+		rLoc = 33763;
+		rType = 0;
+		vrLen = 194;
+		vrLoc = 33729;
+	};
+	62993FFA0DB658F200B2E02C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62E914B20CFD4FCC00AA46AB /* scenarioLoader.h */;
+		name = "int startx, starty, goalx, goaly;";
+		rLen = 36;
+		rLoc = 1112;
+		rType = 0;
+		vrLen = 225;
+		vrLoc = 984;
+	};
+	62993FFB0DB658F200B2E02C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		comments = "error: 'AHAExperiment* exp' redeclared as different kind of symbol";
+		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
+		rLen = 1;
+		rLoc = 50;
+		rType = 1;
+	};
+	62993FFC0DB658F200B2E02C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62E9144C0CFD4F9300AA46AB /* unitSimulation.cpp */;
+		name = "unitSimulation.cpp: 1238";
+		rLen = 0;
+		rLoc = 33763;
+		rType = 0;
+		vrLen = 194;
+		vrLoc = 33729;
+	};
+	62993FFD0DB658F200B2E02C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62E914B20CFD4FCC00AA46AB /* scenarioLoader.h */;
+		name = "int startx, starty, goalx, goaly;";
+		rLen = 36;
+		rLoc = 1112;
+		rType = 0;
+		vrLen = 225;
+		vrLoc = 984;
+	};
+	62993FFE0DB658F200B2E02C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
+		name = "sample.cpp: nextExperiment";
+		rLen = 0;
+		rLoc = 1604;
+		rType = 0;
+		vrLen = 265;
+		vrLoc = 1482;
+	};
+	62993FFF0DB658F200B2E02C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
+		name = myExecuteScenarioCLHandler;
+		rLen = 26;
+		rLoc = 8156;
+		rType = 0;
+		vrLen = 2543;
+		vrLoc = 5828;
+	};
+	629940000DB658F200B2E02C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
+		name = "sample.cpp: 427";
+		rLen = 0;
+		rLoc = 14319;
+		rType = 0;
+		vrLen = 1574;
+		vrLoc = 14116;
+	};
+	629940020DB6590000B2E02C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
+		name = "sample.cpp: 264";
+		rLen = 0;
+		rLoc = 9561;
+		rType = 0;
+		vrLen = 620;
+		vrLoc = 9252;
+	};
+	629940030DB6590000B2E02C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62E915790CFD536200AA46AB /* sample.h */;
+		name = "sample.h: myExecuteScenarioCLHandler";
+		rLen = 0;
+		rLoc = 1354;
+		rType = 0;
+		vrLen = 621;
+		vrLoc = 734;
+	};
+	629940060DB6590B00B2E02C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
+		name = "sample.cpp: 264";
+		rLen = 0;
+		rLoc = 9561;
+		rType = 0;
+		vrLen = 620;
+		vrLoc = 9252;
+	};
+	629940070DB6590B00B2E02C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62E915790CFD536200AA46AB /* sample.h */;
+		name = "sample.h: myExecuteScenarioCLHandler";
+		rLen = 0;
+		rLoc = 1354;
+		rType = 0;
+		vrLen = 621;
+		vrLoc = 734;
+	};
+	629940080DB6590E00B2E02C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
+		name = "sample.cpp: 264";
+		rLen = 0;
+		rLoc = 9561;
+		rType = 0;
+		vrLen = 620;
+		vrLoc = 9252;
+	};
+	629940090DB6590E00B2E02C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62E915790CFD536200AA46AB /* sample.h */;
+		name = "sample.h: myExecuteScenarioCLHandler";
+		rLen = 0;
+		rLoc = 1354;
+		rType = 0;
+		vrLen = 621;
+		vrLoc = 734;
+	};
+	6299400A0DB6592100B2E02C /* PBXBookmark */ = {
+		isa = PBXBookmark;
+		fRef = 62E9144C0CFD4F9300AA46AB /* unitSimulation.cpp */;
+	};
+	6299400C0DB6592F00B2E02C /* unitSimulation.cpp:730 */ = {
+		isa = PBXFileBreakpoint;
+		actions = (
+		);
+		breakpointStyle = 0;
+		continueAfterActions = 0;
+		delayBeforeContinue = 0;
+		fileReference = 62E9144C0CFD4F9300AA46AB /* unitSimulation.cpp */;
+		functionName = "unitSimulation::stepUnitTime()";
+		hitCount = 1;
+		lineNumber = 730;
+		location = hog;
+		modificationTime = 230054232.356493;
+		state = 1;
+	};
+	6299400E0DB6595400B2E02C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
+		name = "sample.cpp: nextExperiment";
+		rLen = 0;
+		rLoc = 1604;
+		rType = 0;
+		vrLen = 265;
+		vrLoc = 1482;
+	};
+	6299400F0DB6595400B2E02C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62E9144C0CFD4F9300AA46AB /* unitSimulation.cpp */;
+		name = "unitSimulation.cpp: 1238";
+		rLen = 0;
+		rLoc = 33763;
+		rType = 0;
+		vrLen = 194;
+		vrLoc = 33729;
+	};
+	629940100DB6595400B2E02C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
+		name = "sample.cpp: nextExperiment";
+		rLen = 0;
+		rLoc = 1604;
+		rType = 0;
+		vrLen = 265;
+		vrLoc = 1482;
+	};
+	629940110DB6595400B2E02C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62E9144C0CFD4F9300AA46AB /* unitSimulation.cpp */;
+		name = "unitSimulation.cpp: 1238";
+		rLen = 0;
+		rLoc = 33763;
+		rType = 0;
+		vrLen = 194;
+		vrLoc = 33729;
+	};
+	629940140DB6595400B2E02C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62E9144C0CFD4F9300AA46AB /* unitSimulation.cpp */;
+		name = kStay;
+		rLen = 5;
+		rLoc = 19222;
+		rType = 0;
+		vrLen = 1215;
+		vrLoc = 18620;
+	};
+	629940150DB6595400B2E02C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
+		name = "sample.cpp: 446";
+		rLen = 0;
+		rLoc = 15154;
+		rType = 0;
+		vrLen = 1288;
+		vrLoc = 13621;
+	};
+	629940180DB65A3900B2E02C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
+		name = "sample.cpp: 264";
+		rLen = 0;
+		rLoc = 9561;
+		rType = 0;
+		vrLen = 620;
+		vrLoc = 9252;
+	};
+	629940190DB65A3900B2E02C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62E915790CFD536200AA46AB /* sample.h */;
+		name = "sample.h: myExecuteScenarioCLHandler";
+		rLen = 0;
+		rLoc = 1354;
+		rType = 0;
+		vrLen = 621;
+		vrLoc = 734;
+	};
+	6299401C0DB65A4300B2E02C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62E9144C0CFD4F9300AA46AB /* unitSimulation.cpp */;
+		name = "unitSimulation.cpp: 1238";
+		rLen = 0;
+		rLoc = 33763;
+		rType = 0;
+		vrLen = 194;
+		vrLoc = 33729;
+	};
+	6299401D0DB65A4300B2E02C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
+		name = "sample.cpp: 446";
+		rLen = 0;
+		rLoc = 15154;
+		rType = 0;
+		vrLen = 1288;
+		vrLoc = 13621;
 	};
 	62A5ED270D9D2505007A8073 /* AnnotatedClusterFactory.h */ = {
 		uiCtxt = {
@@ -17878,8 +19116,7 @@
 		functionName = "AnnotatedMapAbstractionTest::checkNodeAnnotationsAgainstExpectations()";
 		hitCount = 1;
 		lineNumber = 268;
-		location = testsimulation;
-		modificationTime = 230017140.482614;
+		modificationTime = 230054456.282701;
 		state = 1;
 	};
 	62A71DFC0DA48B0800F8AC71 /* AnnotatedMapAbstractionTest.cpp:270 */ = {
@@ -17893,8 +19130,7 @@
 		functionName = "AnnotatedMapAbstractionTest::checkNodeAnnotationsAgainstExpectations()";
 		hitCount = 1;
 		lineNumber = 270;
-		location = testsimulation;
-		modificationTime = 230017140.48263;
+		modificationTime = 230054456.282578;
 		state = 1;
 	};
 	62A71F690DA4D8F600F8AC71 /* PBXTextBookmark */ = {
@@ -17958,11 +19194,12 @@
 			62A71DE30DA488B700F8AC71 /* AnnotatedMapAbstractionTest.cpp:268 */,
 			62A71DFC0DA48B0800F8AC71 /* AnnotatedMapAbstractionTest.cpp:270 */,
 			62DC99020DB0F08300023BEC /* clusterAbstraction.h:195 */,
-			6232E9A90DB4EC250046EF37 /* sample.cpp:69 */,
+			6232E9A90DB4EC250046EF37 /* sample.cpp:70 */,
 			6232EA320DB4F6370046EF37 /* AnnotatedClusterTest.cpp:481 */,
 			6232EA390DB4F6840046EF37 /* AnnotatedClusterTest.cpp:473 */,
-			62993A6E0DB5962100B2E02C /* common.cpp:190 */,
 			62993D9E0DB5C66F00B2E02C /* ScenarioManagerTest.cpp:174 */,
+			62993EDF0DB6302700B2E02C /* unitSimulation.h:40 */,
+			6299400C0DB6592F00B2E02C /* unitSimulation.cpp:730 */,
 		);
 	};
 	62B18BD50D3654860061AE72 /* TestHelper.cpp:27 */ = {
@@ -17977,7 +19214,7 @@
 		hitCount = 1;
 		lineNumber = 27;
 		location = hog;
-		modificationTime = 230017141.821901;
+		modificationTime = 230054456.282661;
 		state = 1;
 	};
 	62B2FE6E0D6AD307006A12F8 /* CapabilityUnitTest.h */ = {
@@ -18173,7 +19410,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = y2;
 		rLen = 2;
-		rLoc = 8486;
+		rLoc = 8660;
 		rType = 0;
 		vrLen = 1315;
 		vrLoc = 7031;
@@ -18193,7 +19430,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 210";
 		rLen = 0;
-		rLoc = 8677;
+		rLoc = 8851;
 		rType = 0;
 		vrLen = 1280;
 		vrLoc = 6745;
@@ -18361,8 +19598,8 @@
 	62D8F62F0DAE6DCC009F6E57 /* ScenarioManagerTest.cpp */ = {
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {974, 3136}}";
-			sepNavSelRange = "{7952, 84}";
-			sepNavVisRect = "{{0, 2540}, {913, 596}}";
+			sepNavSelRange = "{8540, 0}";
+			sepNavVisRect = "{{0, 2836}, {890, 293}}";
 			sepNavWindowFrame = "{{15, 16}, {958, 725}}";
 		};
 	};
@@ -18472,7 +19709,7 @@
 		hitCount = 1;
 		lineNumber = 195;
 		location = hog;
-		modificationTime = 230017140.482639;
+		modificationTime = 230054194.069634;
 		state = 1;
 	};
 	62DC995C0DB0F98C00023BEC /* PBXTextBookmark */ = {
@@ -18683,17 +19920,17 @@
 	};
 	62E9144C0CFD4F9300AA46AB /* unitSimulation.cpp */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {913, 17332}}";
-			sepNavSelRange = "{28350, 33}";
-			sepNavVisRect = "{{0, 14448}, {913, 596}}";
+			sepNavIntBoundsRect = "{{0, 0}, {830, 17430}}";
+			sepNavSelRange = "{33763, 0}";
+			sepNavVisRect = "{{0, 17275}, {576, 127}}";
 			sepNavWindowFrame = "{{15, 16}, {958, 725}}";
 		};
 	};
 	62E9144D0CFD4F9300AA46AB /* unitSimulation.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {830, 3136}}";
-			sepNavSelRange = "{5915, 0}";
-			sepNavVisRect = "{{0, 2373}, {817, 224}}";
+			sepNavIntBoundsRect = "{{0, 0}, {913, 3178}}";
+			sepNavSelRange = "{6021, 0}";
+			sepNavVisRect = "{{0, 2570}, {913, 596}}";
 			sepNavWindowFrame = "{{15, 16}, {958, 725}}";
 		};
 	};
@@ -18819,9 +20056,9 @@
 	};
 	62E9149C0CFD4FCC00AA46AB /* aStar3.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {626, 910}}";
-			sepNavSelRange = "{1954, 12}";
-			sepNavVisRect = "{{0, 742}, {576, 127}}";
+			sepNavIntBoundsRect = "{{0, 0}, {890, 910}}";
+			sepNavSelRange = "{1223, 42}";
+			sepNavVisRect = "{{0, 350}, {890, 293}}";
 			sepNavWindowFrame = "{{38, 24}, {939, 696}}";
 		};
 	};
@@ -18914,9 +20151,9 @@
 	};
 	62E914B20CFD4FCC00AA46AB /* scenarioLoader.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {890, 910}}";
-			sepNavSelRange = "{1084, 36}";
-			sepNavVisRect = "{{0, 337}, {890, 293}}";
+			sepNavIntBoundsRect = "{{0, 0}, {817, 924}}";
+			sepNavSelRange = "{984, 0}";
+			sepNavVisRect = "{{0, 385}, {817, 224}}";
 			sepNavWindowFrame = "{{38, 24}, {939, 696}}";
 		};
 	};
@@ -19069,7 +20306,7 @@
 			YES,
 		);
 		argumentStrings = (
-			"-scenario /Users/dharabor/src/maps/local/demo.map.scenario",
+			"-scenario /Users/dharabor/src/ahastar/maps/local/demo.map.scenario",
 		);
 		autoAttachOnCrash = 1;
 		configStateDict = {
@@ -19095,7 +20332,7 @@
 	62E9152E0CFD511100AA46AB /* common.cpp */ = {
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {830, 6524}}";
-			sepNavSelRange = "{5593, 0}";
+			sepNavSelRange = "{5524, 0}";
 			sepNavVisRect = "{{0, 2541}, {817, 224}}";
 			sepNavWindowFrame = "{{15, 45}, {939, 696}}";
 		};
@@ -19111,8 +20348,16 @@
 	62E915440CFD511100AA46AB /* main.cpp */ = {
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {1190, 12180}}";
-			sepNavSelRange = "{1696, 0}";
-			sepNavVisRect = "{{0, 624}, {913, 596}}";
+			sepNavSelRange = "{22505, 6}";
+			sepNavVisRect = "{{0, 9994}, {913, 596}}";
+			sepNavWindowFrame = "{{15, 16}, {958, 725}}";
+		};
+	};
+	62E915450CFD511100AA46AB /* main.h */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {913, 1050}}";
+			sepNavSelRange = "{0, 0}";
+			sepNavVisRect = "{{0, 454}, {913, 596}}";
 			sepNavWindowFrame = "{{15, 16}, {958, 725}}";
 		};
 	};
@@ -19134,9 +20379,9 @@
 	};
 	62E915780CFD536200AA46AB /* sample.cpp */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1262, 4480}}";
-			sepNavSelRange = "{6608, 0}";
-			sepNavVisRect = "{{0, 2024}, {894, 567}}";
+			sepNavIntBoundsRect = "{{0, 0}, {1262, 6524}}";
+			sepNavSelRange = "{15154, 0}";
+			sepNavVisRect = "{{1, 5567}, {894, 567}}";
 			sepNavWindowFrame = "{{15, 46}, {939, 696}}";
 		};
 	};
@@ -19378,7 +20623,7 @@
 		fRef = 625BF8A50D13D79E0028A447 /* ScenarioManager.h */;
 		name = "ScenarioManager.h: ~AbstractScenarioManager";
 		rLen = 0;
-		rLoc = 3067;
+		rLoc = 3098;
 		rType = 0;
 		vrLen = 547;
 		vrLoc = 2469;
@@ -19415,7 +20660,7 @@
 		fRef = 62E915780CFD536200AA46AB /* sample.cpp */;
 		name = "sample.cpp: 72";
 		rLen = 0;
-		rLoc = 2389;
+		rLoc = 2416;
 		rType = 0;
 		vrLen = 308;
 		vrLoc = 2166;

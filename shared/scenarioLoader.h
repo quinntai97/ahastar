@@ -23,6 +23,7 @@ class Experiment{
 public:
   Experiment(int sx,int sy,int gx,int gy,int b, double d, string m)
     :startx(sx),starty(sy),goalx(gx),goaly(gy),scaleX(kNoScaling),scaleY(kNoScaling),bucket(b),distance(d),map(m){}
+  virtual ~Experiment() { }
   Experiment(int sx,int sy,int gx,int gy,int sizeX, int sizeY,int b, double d, string m)
     :startx(sx),starty(sy),goalx(gx),goaly(gy),scaleX(sizeX),scaleY(sizeY),bucket(b),distance(d),map(m){}
   int getStartX(){return startx;}

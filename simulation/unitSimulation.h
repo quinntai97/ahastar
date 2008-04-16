@@ -42,6 +42,7 @@
 #undef check
 #endif
 
+class ScenarioManager;
 class unit;
 class unitGroup;
 
@@ -176,6 +177,8 @@ public:
 
 	bool canCrossDiagonally() { return (!disallowDiagonalCrossingMoves); }
 	void setCanCrossDiagonally(bool cross) { disallowDiagonalCrossingMoves = !cross; }
+	void setNextExperimentPtr(void (*nextExpPtr)(unitSimulation*)) { nextExperiment = nextExpPtr; }
+	int getNumUnits() { return units.size(); }
 	
 protected:
 	unitInfo *findUnit(unit *);	
@@ -216,6 +219,8 @@ protected:
 	bool keepHistory; // keep action history
 	
 	statCollection stats;
+	void (*nextExperiment) (unitSimulation*);
+	
 };
 
 #define LOCAL_PATH
