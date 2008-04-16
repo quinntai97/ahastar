@@ -32,12 +32,16 @@ class AHAScenarioManager;
 class AnnotatedAStarMock;
 class AnnotatedMapAbstractionMock;
 class ExperimentManager;
+class TooManyTriesException;
 
 class ScenarioManagerTest: public CppUnit::TestFixture
 {
 	CPPUNIT_TEST_SUITE( ScenarioManagerTest );
-	CPPUNIT_TEST( GeneratedExperimentsAreValid );
-	CPPUNIT_TEST( NoExperimentsGeneratedWhenMapIsNotTraversable );
+	CPPUNIT_TEST( generateExperimentsProducesCorrectNumberOfExperiments );
+	CPPUNIT_TEST( generateExperimentsProducesExperimentsWithDifferentCapabilityTypes );
+	CPPUNIT_TEST( generateSingleExperimentReturnsAValidExperimentForTheGivenParameters );
+	CPPUNIT_TEST( generateSingleExperimentReturnsNullIfNoPairOfStartAndGoalNodesCouldBeLocatedForTheGivenParameters );
+	CPPUNIT_TEST_EXCEPTION( NoExperimentsGeneratedWhenMapIsNotTraversable, TooManyTriesException );
 	CPPUNIT_TEST( ScenarioFileIsNotCreatedWhenNoExperimentsExist );
 	CPPUNIT_TEST( ScenarioFileWrittenToDiskAndWellFormatted );
 
@@ -50,7 +54,10 @@ class ScenarioManagerTest: public CppUnit::TestFixture
 		
 		/* todo: mock ama pathable() should sometimes return true and other times false (depends on map passed down -- name maybe?)
 		  */
-		void GeneratedExperimentsAreValid();
+		void generateSingleExperimentReturnsAValidExperimentForTheGivenParameters();
+		void generateSingleExperimentReturnsNullIfNoPairOfStartAndGoalNodesCouldBeLocatedForTheGivenParameters();
+		void generateExperimentsProducesCorrectNumberOfExperiments();
+		void generateExperimentsProducesExperimentsWithDifferentCapabilityTypes();
 		void NoExperimentsGeneratedWhenMapIsNotTraversable();
 		void ScenarioFileIsNotCreatedWhenNoExperimentsExist();
 		void ScenarioFileWrittenToDiskAndWellFormatted();

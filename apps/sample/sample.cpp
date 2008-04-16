@@ -41,6 +41,8 @@
 #include "AnnotatedAStar.h"
 #include "AnnotatedHierarchicalAStar.h"
 #include "clusterAbstraction.h"
+#include "ScenarioManager.h"
+#include <cstdlib>
 
 bool mouseTracking;
 int px1, py1, px2, py2;
@@ -61,7 +63,7 @@ void processStats(statCollection *)
 void createSimulation(unitSimulation * &unitSim)
 {
 //	Map* map = new Map("/Users/dharabor/src/ahastar/tests/testmaps/clustertest.map");
-//	Map* map = new Map("/Users/dharabor/src/ahastar/maps/local/demo.map");
+//	Map* map = new Map("/Users/dharabor/src/ahastar/maps/local/pacman.map");
 	Map* map = new Map("/Users/dharabor/src/ahastar/maps/local/adaptive-depth-10.map");
 	int CLUSTERSIZE=10;
 /*	Map *map;
@@ -157,6 +159,7 @@ void initializeHandlers()
 	installKeyboardHandler(myRandomUnitKeyHandler, "Add simple Unit", "Deploys a right-hand-rule unit", kControlDown, 1);
 
 	installCommandLineHandler(myCLHandler, "-map", "-map filename", "Selects the default map to be loaded.");
+	installCommandLineHandler(myScenarioGeneratorCLHandler, "-genscenarios", "-genscenarios [.map filename] [number of scenarios] [clearance]", "Generates a scenario; a set of path problems on a given map");
 	
 	installMouseClickHandler(myClickHandler);
 }
@@ -168,6 +171,32 @@ int myCLHandler(char *argument[], int maxNumArgs)
 	strncpy(gDefaultMap, argument[1], 1024);
 	return 2;
 }
+
+int myScenarioGeneratorCLHandler(char *argument[], int maxNumArgs)
+{
+	std::cout << "\n sup yo. SGCL here. ";
+	if (maxNumArgs < 4)
+		return 0;
+	std::cout << "processing SGCL params";
+	
+	std::string map(argument[1]);
+	std::string genscen(argument[0]);
+	std::cout << "call: "<<genscen<<" "<<map<<" "<<argument[2] <<" "<<argument[3];
+	
+	AHAScenarioManager scenariomgr;
+	int numScenarios = atoi(argument[2]);
+	int minAgentSize = atoi(argument[3]);
+
+	AnnotatedAStar* aastar = new AnnotatedAStar();
+	AnnotatedMapAbstraction ama(new Map(map.c_str()), aastar);
+	
+	scenariomgr.generateExperiments(&ama, numScenarios, minAgentSize);
+	std::cout << "\ngenerated: "<<scenariomgr.getNumExperiments()<< " experiments";
+	scenariomgr.writeScenarioFile("/Users/dharabor/src/ahastar/myexperiments.scenario");
+	exit(-1);
+//	return 2;
+}
+
 
 void myDisplayHandler(unitSimulation *unitSim, tKeyboardModifier mod, char key)
 {
