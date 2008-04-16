@@ -66,16 +66,6 @@ void createSimulation(unitSimulation * &unitSim)
 //	Map* map = new Map("/Users/dharabor/src/ahastar/maps/local/pacman.map");
 	Map* map = new Map("/Users/dharabor/src/ahastar/maps/local/adaptive-depth-10.map");
 	int CLUSTERSIZE=10;
-/*	Map *map;
-	if (gDefaultMap[0] == 0)
-		map = new Map(60, 60);
-	else
-		map = new Map(gDefaultMap);
-*/
-//	mapAbstraction* absmap;
-	
-//	absmap = new AnnotatedMapAbstraction(map, new AnnotatedAStar());
-//	((AnnotatedMapAbstraction*)absmap)->annotateMap();
 
 	AnnotatedClusterAbstraction* aca = new AnnotatedClusterAbstraction(map, new AnnotatedAStar(), CLUSTERSIZE);
 	AnnotatedClusterFactory* acf = new AnnotatedClusterFactory();
@@ -87,32 +77,7 @@ void createSimulation(unitSimulation * &unitSim)
 	std::cout << "\n absnodes: "<<absg->getNumNodes()<<" absedges: "<<absg->getNumEdges();
 
 	unitSim = new unitSimulation(aca);	
-
-	//	debugging
-/*	edge_iterator ei = absg->getEdgeIter();
-	edge* e = absg->edgeIterNext(ei);
-	while(e)
-	{
-		node* f = absg->getNode(e->getFrom());
-		node* t = absg->getNode(e->getTo());
-		std::cout << "\n edge connects "<<f->getLabelL(kFirstData)<<","<<f->getLabelL(kFirstData+1)<< " and "<<t->getLabelL(kFirstData)<<","<<t->getLabelL(kFirstData+1);
-		std::cout <<"(weight: "<<e->getWeight()<<" caps: "<<e->getCapability() << " clearance: "<<e->getClearance(e->getCapability())<<")";
-		e = absg->edgeIterNext(ei);
-	}
-*/	
-
-	
-/*	if (absType == 0)
-		unitSim = new unitSimulation(new mapCliqueAbstraction(map));
-	else if (absType == 1)
-		unitSim = new unitSimulation(new radiusAbstraction(map, 1));
-	else if (absType == 2)
-		unitSim = new unitSimulation(new mapQuadTreeAbstraction(map, 2));
-	else if (absType == 3)
-		unitSim = new unitSimulation(new clusterAbstraction(map, 8));
-*/	
 	unitSim->setCanCrossDiagonally(true);
-	//unitSim = new unitSimulation(new mapFlatAbstraction(map));
 }
 
 /**
@@ -160,6 +125,7 @@ void initializeHandlers()
 
 	installCommandLineHandler(myCLHandler, "-map", "-map filename", "Selects the default map to be loaded.");
 	installCommandLineHandler(myScenarioGeneratorCLHandler, "-genscenarios", "-genscenarios [.map filename] [number of scenarios] [clearance]", "Generates a scenario; a set of path problems on a given map");
+	//installCommandLineHandler(myExecuteScenarioCLHandler, "-scenario", "-scenario filename", "Execute all experiments in a given .scenario file");
 	
 	installMouseClickHandler(myClickHandler);
 }
@@ -174,11 +140,8 @@ int myCLHandler(char *argument[], int maxNumArgs)
 
 int myScenarioGeneratorCLHandler(char *argument[], int maxNumArgs)
 {
-	std::cout << "\n sup yo. SGCL here. ";
 	if (maxNumArgs < 4)
-		return 0;
-	std::cout << "processing SGCL params";
-	
+		return 0;	
 	std::string map(argument[1]);
 	std::string genscen(argument[0]);
 	std::cout << "call: "<<genscen<<" "<<map<<" "<<argument[2] <<" "<<argument[3];
@@ -192,11 +155,22 @@ int myScenarioGeneratorCLHandler(char *argument[], int maxNumArgs)
 	
 	scenariomgr.generateExperiments(&ama, numScenarios, minAgentSize);
 	std::cout << "\ngenerated: "<<scenariomgr.getNumExperiments()<< " experiments";
-	scenariomgr.writeScenarioFile("/Users/dharabor/src/ahastar/myexperiments.scenario");
+
+	string outfile = map + ".scenario"; 
+	scenariomgr.writeScenarioFile(outfile.c_str());
 	exit(-1);
-//	return 2;
 }
 
+int myExecuteScenarioCLHandler(char *argument[], int maxNumArgs)
+{	
+	if(maxNumArgs < 2)
+		return 0;
+		
+	std::string infile(argument[1]);
+	AHAScenarioManager scenariomgr;
+	scenariomgr.loadScenarioFile(infile.c_str());
+	return 2;
+}
 
 void myDisplayHandler(unitSimulation *unitSim, tKeyboardModifier mod, char key)
 {

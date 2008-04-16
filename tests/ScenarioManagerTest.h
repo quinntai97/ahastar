@@ -41,6 +41,7 @@ class ScenarioManagerTest: public CppUnit::TestFixture
 	CPPUNIT_TEST( generateExperimentsProducesExperimentsWithDifferentCapabilityTypes );
 	CPPUNIT_TEST( generateSingleExperimentReturnsAValidExperimentForTheGivenParameters );
 	CPPUNIT_TEST( generateSingleExperimentReturnsNullIfNoPairOfStartAndGoalNodesCouldBeLocatedForTheGivenParameters );
+	CPPUNIT_TEST( loadScenarioShouldCreateExperimentObjectsGivenAFileThatDescribesExperimentAttributes );
 	CPPUNIT_TEST_EXCEPTION( NoExperimentsGeneratedWhenMapIsNotTraversable, TooManyTriesException );
 	CPPUNIT_TEST( ScenarioFileIsNotCreatedWhenNoExperimentsExist );
 	CPPUNIT_TEST( ScenarioFileWrittenToDiskAndWellFormatted );
@@ -61,6 +62,7 @@ class ScenarioManagerTest: public CppUnit::TestFixture
 		void NoExperimentsGeneratedWhenMapIsNotTraversable();
 		void ScenarioFileIsNotCreatedWhenNoExperimentsExist();
 		void ScenarioFileWrittenToDiskAndWellFormatted();
+		void loadScenarioShouldCreateExperimentObjectsGivenAFileThatDescribesExperimentAttributes();
 
 
 	private:
