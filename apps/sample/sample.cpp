@@ -50,6 +50,7 @@ int absType = 3;
 AHAScenarioManager scenariomgr;
 AHAExperiment* nextExperiment;
 int expnum=0;
+bool runAHA=false;
 
 /**
  * This function is called each time a unitSimulation is deallocated to
@@ -153,7 +154,7 @@ void createSimulation(unitSimulation * &unitSim)
 //	Map* map = new Map("/Users/dharabor/src/ahastar/maps/local/pacman.map");
 //	Map* map = new Map("/Users/dharabor/src/ahastar/maps/local/adaptive-depth-10.map");
 	Map* map = new Map(gDefaultMap);
-	int CLUSTERSIZE=10;
+	int CLUSTERSIZE=5;
 
 	AnnotatedClusterAbstraction* aca = new AnnotatedClusterAbstraction(map, new AnnotatedAStar(), CLUSTERSIZE);
 	AnnotatedClusterFactory* acf = new AnnotatedClusterFactory();
@@ -161,8 +162,21 @@ void createSimulation(unitSimulation * &unitSim)
 	delete acf;
 	aca->buildEntrances();
 	aca->setDrawClusters(true);
+	aca->setDrawClearance(true);
 	graph* absg = aca->getAbstractGraph(1);
 	std::cout << "\n map: "<<gDefaultMap<< "absnodes: "<<absg->getNumNodes()<<" absedges: "<<absg->getNumEdges();
+
+	edge_iterator ei = absg->getEdgeIter();
+/*	edge* e = absg->edgeIterNext(ei);
+	while(e)
+	{
+		node* f = absg->getNode(e->getFrom());
+		node* t = absg->getNode(e->getTo());
+		std::cout << "\n edge connects "<<f->getLabelL(kFirstData)<<","<<f->getLabelL(kFirstData+1)<< " and "<<t->getLabelL(kFirstData)<<","<<t->getLabelL(kFirstData+1);
+		std::cout <<"(weight: "<<e->getWeight()<<" caps: "<<e->getCapability() << " clearance: "<<e->getClearance(e->getCapability())<<")";
+		e = absg->edgeIterNext(ei);
+	}
+*/
 
 	unitSim = new unitSimulation(aca);	
 	unitSim->setCanCrossDiagonally(true);
@@ -421,46 +435,34 @@ void runNextExperiment(unitSimulation *unitSim)
 
 	AHAExperiment* nextExperiment = dynamic_cast<AHAExperiment*>(scenariomgr.getNthExperiment(expnum));
 	
-	int numunits = unitSim->getNumUnits();
-	if(numunits > 0)
+	searchUnit* nextUnit;
+	unit* nextTarget = new unit(nextExperiment->getGoalX(), nextExperiment->getGoalY());
+	if(runAHA)
 	{
-		assert(numunits == 1);
-		searchUnit* curUnit = dynamic_cast<searchUnit*>(unitSim->getUnit(0));
-		assert(curUnit);
-		
-		searchUnit* nextUnit;
-		unit* nextTarget = new unit(nextExperiment->getGoalX(), nextExperiment->getGoalY());
-		if(dynamic_cast<AnnotatedAStar*>(curUnit->getAlgorithm()))
-		{
-			AnnotatedHierarchicalAStar* ahastar = new AnnotatedHierarchicalAStar();
-			ahastar->setCapability(nextExperiment->getCapability());
-			ahastar->setClearance(nextExperiment->getAgentsize());			
-			nextUnit = new searchUnit(nextExperiment->getStartX(), nextExperiment->getStartY(), nextTarget, ahastar); 
-			expnum++;
-		}
-		else
-		{
-			AnnotatedAStar* aastar = new AnnotatedAStar();
-			aastar->setCapability(nextExperiment->getCapability());
-			aastar->setClearance(nextExperiment->getAgentsize());			
-			nextUnit = new searchUnit(nextExperiment->getStartX(), nextExperiment->getStartY(), nextTarget, aastar); 
-		}
-		
-		unitSim->clearAllUnits();
-		unitSim->addUnit(nextTarget);
-		unitSim->addUnit(nextUnit);
+		AnnotatedHierarchicalAStar* ahastar = new AnnotatedHierarchicalAStar();
+		ahastar->setCapability(nextExperiment->getCapability());
+		ahastar->setClearance(nextExperiment->getAgentsize());			
+		nextUnit = new searchUnit(nextExperiment->getStartX(), nextExperiment->getStartY(), nextTarget, ahastar); 
+		nextUnit->setColor(1,0.98,0.8);
+		nextTarget->setColor(1,0.98,0.8);
+		expnum++;
+		runAHA=false;
 	}
 	else
 	{
-			AnnotatedAStar* aastar = new AnnotatedAStar();
-			aastar->setCapability(nextExperiment->getCapability());
-			aastar->setClearance(nextExperiment->getAgentsize());			
-
-			unit* nextTarget = new unit(nextExperiment->getGoalX(), nextExperiment->getGoalY());
-			searchUnit* nextUnit = new searchUnit(nextExperiment->getStartX(), nextExperiment->getStartY(), nextTarget, aastar); 
-
-			unitSim->addUnit(nextTarget);
-			unitSim->addUnit(nextUnit);
+		AnnotatedAStar* aastar = new AnnotatedAStar();
+		aastar->setCapability(nextExperiment->getCapability());
+		aastar->setClearance(nextExperiment->getAgentsize());			
+		nextUnit = new searchUnit(nextExperiment->getStartX(), nextExperiment->getStartY(), nextTarget, aastar); 
+		nextUnit->setColor(1,1,0);
+		nextTarget->setColor(1,1,0);
+		runAHA=true;
 	}
+	
+//	nextUnit->setSpeed(0.000001);
+	nextUnit->setSpeed(0.25);
+	unitSim->clearAllUnits();
+	unitSim->addUnit(nextTarget);
+	unitSim->addUnit(nextUnit);
 	
 }

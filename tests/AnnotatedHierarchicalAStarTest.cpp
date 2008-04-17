@@ -183,7 +183,7 @@ void AnnotatedHierarchicalAStarTest::getPathShouldReturnTheShortestPathBetweenTw
 	cur = cur->next;
 	CPPUNIT_ASSERT_MESSAGE("node @ start+7 in path is wrong", aca->getNodeFromMap(5,4)== cur->n);
 	cur = cur->next;
-	CPPUNIT_ASSERT_MESSAGE("node @ start+8 in path is wrong", aca->getNodeFromMap(4,4)== cur->n);
+	CPPUNIT_ASSERT_MESSAGE("node @ start+8 in path is wrong", aca->getNodeFromMap(5,5)== cur->n);
 	CPPUNIT_ASSERT_MESSAGE("end of path is wrong", goal == p->tail()->n);
 	
 	double expectedDist =  9.41;
@@ -210,8 +210,8 @@ void AnnotatedHierarchicalAStarTest::getPathShouldRemoveAllInsertedNodesAndEdges
 	aca->buildEntrances();
 
 	graph* absmap = aca->getAbstractGraph(1);
-	node *start = aca->getNodeFromMap(2,4);
-	node* goal = aca->getNodeFromMap(4,5);
+	node *start = aca->getNodeFromMap(2,1);
+	node* goal = aca->getNodeFromMap(2,5);
 	
 	int capability = kGround;
 	int size = 1;

@@ -197,3 +197,14 @@ void TestGraph::findAnnotatedEdgeShouldReturnZeroWhenEndpointParametersAreNull()
 	expectedEdge = g->findAnnotatedEdge(NULL, NULL, targetCapability, targetClearance, weight);
 	CPPUNIT_ASSERT_MESSAGE("failed to return zero when both from and to are NULL", expectedEdge == 0);	
 }
+
+void TestGraph::findAnnotatedEdgeShouldReturnTheShortestEdgeIfSeveralCandidateEdgesExistThatMatchWhatParametersAskedFor()
+{
+	addEdgeToGraph(kGround, 2, 5);
+	addEdgeToGraph(kGround, 1, 4.5);
+
+
+	edge* e = g->findAnnotatedEdge(from, to, kGround, 1, 50);
+	
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("failed to return shortest edge among those existing between endpoints", 4.5, e->getWeight());
+}

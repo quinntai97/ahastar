@@ -220,6 +220,7 @@ protected:
 	
 	statCollection stats;
 	void (*nextExperiment) (unitSimulation*);
+	bool clearMap;
 	
 };
 

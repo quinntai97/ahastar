@@ -202,6 +202,8 @@ edge* graph::findAnnotatedEdge(node* from, node* to, int capability, int clearan
         if(!(from && to))
                 return 0;
 
+		edge* shortestSoFar=0;
+		
         edge_iterator ei = from->getEdgeIter();
         edge * e = from->edgeIterNext(ei);
         while(e)
@@ -216,7 +218,16 @@ edge* graph::findAnnotatedEdge(node* from, node* to, int capability, int clearan
 								int eclearance = e->getClearance(capability);
 								if(e->getWeight() <= weight)
 									if(eclearance >= clearance)
-										return e;
+									{
+										if(shortestSoFar==0)
+											shortestSoFar = e;
+										else
+										{
+											if(e->getWeight() < shortestSoFar->getWeight())
+												shortestSoFar = e;
+										}
+										
+									}
 //									else
 //										std::cout << "\nWARNING! findAnnotatedEdge being queried about a more optimal path between endpoints\n";
 						}
@@ -224,7 +235,7 @@ edge* graph::findAnnotatedEdge(node* from, node* to, int capability, int clearan
                         e = from->edgeIterNext(ei);
         }
 
-        return 0;
+        return shortestSoFar;
 }
 
 bool graph::relax(edge *e, int weightIndex)

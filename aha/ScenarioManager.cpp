@@ -70,7 +70,7 @@ AHAExperiment* AHAScenarioManager::generateSingleExperiment(AbstractAnnotatedMap
 
 	r1 = g->getRandomNode();
 	r2 = g->getRandomNode();
-	if(r1->getClearance(capability) >= size && r2->getClearance(capability) >= size)
+	if(r1->getClearance(capability) >= size && r2->getClearance(capability) >= size && r1 != r2)
 	{
 		AbstractAnnotatedAStar* searchalg = dynamic_cast<AbstractAnnotatedAStar*>(absMap->getSearchAlgorithm());
 		searchalg->setCapability(capability);

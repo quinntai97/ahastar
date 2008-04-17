@@ -902,33 +902,6 @@ but the highway is more convenient. In our case, conveniece means an abstraction
 
 In this test, for clearance 1, we should reuse a path with kGround capability instead of  building a new, shorter kGround|Trees path.
 */
-void AnnotatedClusterTest::connectEntranceEndpointsShouldCalculateTheSmallestSetOfShortestPathsBetweenEachPairOfParentNodesGivenALowOrMediumQualityAbstraction()
-{
-	createEntranceNodes();
-	int capability1 = kGround;
-	int capability2 = (kGround|kTrees);	
-	
-	aca_mock->setGraphQualityParameter(ACAUtil::kMediumQualityAbstraction);
-	aca_mock->buildClusters();
-
-	node* existingendpoint = dynamic_cast<node*>(e1_n1->clone());
-	existingendpoint->setParentCluster(e1_n1->getParentCluster());
-	ac->getParents().push_back(existingendpoint);
-	
-	node* newendpoint = dynamic_cast<node*>(e3_n1->clone());
-	newendpoint->setParentCluster(e3_n1->getParentCluster());
-		
-	absg->addNode(existingendpoint);
-	absg->addNode(newendpoint);
-		
-	// TODO: build a better AAStarMock
-	delete aca_mock->getSearchAlgorithm();
-	aca_mock->setSearchAlgorithm(new AnnotatedAStar());
-	
-	int numEdges = absg->getNumEdges();
-	ac->connectEntranceEndpoints(newendpoint, aca_mock);
-	CPPUNIT_ASSERT_EQUAL_MESSAGE("failed to find all connections between new and existing endpoints for medium quality abstraction", numEdges+2, absg->getNumEdges());
-}
 
 void AnnotatedClusterTest::connectEntranceEndpointsShouldCalculateFirstTheSetOfShortestPathsWithLargestClearanceGivenALowQualityAbstraction()
 {
@@ -936,7 +909,7 @@ void AnnotatedClusterTest::connectEntranceEndpointsShouldCalculateFirstTheSetOfS
 	int capability1 = kGround;
 	int capability2 = (kGround|kTrees);	
 	
-	aca_mock->setGraphQualityParameter(ACAUtil::kMediumQualityAbstraction);
+	aca_mock->setGraphQualityParameter(ACAUtil::kLowQualityAbstraction);
 	aca_mock->buildClusters();
 
 	node* existingendpoint = dynamic_cast<node*>(e1_n1->clone());

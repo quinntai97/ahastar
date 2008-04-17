@@ -360,23 +360,40 @@ void AnnotatedCluster::connectEntranceEndpoints(node* newendpoint, AnnotatedClus
 	for(int i=0; i<getParents().size(); i++)
 	{
 		node* existingendpoint = getParents()[i];
-		for(int capindex=0; capindex < NUMCAPABILITIES ; capindex++)
-		{
-			int capability = capabilities[capindex];
 		
-			if(aca->getQualityParam() == ACAUtil::kLowQualityAbstraction)
-				for(int i = NUMAGENTSIZES-1; i>=0; i--) // build largest single-capability first and re-use as many as possible later in building abstraction
+		switch(aca->getQualityParam())
+		{
+			case ACAUtil::kLowQualityAbstraction:
 				{
-					int size = agentsizes[i]; // assumes agentsize is ordered 0..n -- smallest to largest
-					connectEntranceEndpointsForAGivenCapabilityAndSize(newendpoint, existingendpoint, capability, size, aca);
+					for(int capindex=0; capindex < NUMCAPABILITIES ; capindex++) // assumes all single-terrain first, multi-terrain last
+					{
+						int capability = capabilities[capindex];
+						for(int sizeindex = NUMAGENTSIZES-1; sizeindex>=0; sizeindex--) // build largest single-capability first and re-use as many as possible
+						{
+							int size = agentsizes[sizeindex]; // assumes agentsize is ordered 0..n -- smallest to largest
+							connectEntranceEndpointsForAGivenCapabilityAndSize(newendpoint, existingendpoint, capability, size, aca);
+						}
+					}
 				}
-			else
-				for(int i = 0; i<NUMAGENTSIZES; i++)
+				break;
+			
+			case ACAUtil::kHighQualityAbstraction:
 				{
-					int size = agentsizes[i]; // assumes agentsize is ordered 0..n -- smallest to largest
-					connectEntranceEndpointsForAGivenCapabilityAndSize(newendpoint, existingendpoint, capability, size, aca);
-				}			
-		}			
+					for(int capindex=0; capindex < NUMCAPABILITIES ; capindex++) 
+					{
+						int capability = capabilities[capindex];
+						for(int sizeindex = NUMAGENTSIZES-1; sizeindex>=0; sizeindex--)
+						{
+							int size = agentsizes[sizeindex]; // assumes agentsize is ordered 0..n -- smallest to largest
+							connectEntranceEndpointsForAGivenCapabilityAndSize(newendpoint, existingendpoint, capability, size, aca);
+						}
+					}
+
+				}
+		
+		
+		
+		}
 	}
 }
 
@@ -386,7 +403,7 @@ void AnnotatedCluster::connectEntranceEndpointsForAGivenCapabilityAndSize(node* 
 	double maxdist = getWidth()*getHeight(); // use maximum possible distance between these two endpoints as an upperbound param when searching for existing edges that may exist between these two endpoints
 	edge* e=0;
 	
-	if(aca->getQualityParam() != ACAUtil::kHighQualityAbstraction)
+	if(aca->getQualityParam() == ACAUtil::kLowQualityAbstraction)
 	{
 		e = absg->findAnnotatedEdge(newendpoint,existingendpoint,capability,size,maxdist); // try to re-use an existing path
 		if(e == 0)

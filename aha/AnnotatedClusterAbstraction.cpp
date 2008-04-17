@@ -1,14 +1,6 @@
 /*
  *  AnnotatedClusterAbstraction.cpp
  *  hog
-	
-	Extends a HPA Cluster in several ways:
-		- Is concerned with annotated nodes
-		- each cluster must be free of hard obstacles (ie. intraversable nodes). <- implicit if annotations are OK
-		- each cluster must have a rectangular or square shape <- but, if these are fscked, we might try to add hard obstacles; need exception
-		- each node assigned to the cluster will not be assigned to some other cluster
-		- each node in the cluster will not have a larger clearance than the origin node (node at top-left corner of the cluster);
-			the clearance value we use for this test is the superset of all single terrain types (currently, kGround|kTrees)
  *
  *  Created by Daniel Harabor on 22/02/08.
  *  Copyright 2008 __MyCompanyName__. All rights reserved.
@@ -20,6 +12,7 @@
 #include "clusterAbstraction.h"
 #include "AHAConstants.h"
 #include "AnnotatedAStar.h"
+#include "map.h"
 
 #include "glUtil.h"
 #ifdef OS_MAC
@@ -43,6 +36,7 @@ AnnotatedClusterAbstraction::AnnotatedClusterAbstraction(Map* m, AbstractAnnotat
 	nodesExpanded = nodesTouched = peakMemory = 0;
 	searchTime = 0;
 	drawClusters = false;
+	drawClearance=false;
 }
 
 AnnotatedClusterAbstraction::~AnnotatedClusterAbstraction()
@@ -129,11 +123,17 @@ double AnnotatedClusterAbstraction::distance(path* p)
 
 // TODO: remove code duplication from this method
 void AnnotatedClusterAbstraction::insertStartAndGoalNodesIntoAbstractGraph(node* start, node* goal) 
-	throw(NodeIsNullException, NodeHasNonZeroAbstractionLevelException)
+	throw(NodeIsNullException, NodeHasNonZeroAbstractionLevelException, NodeIsHardObstacleException)
 {
 	if(start == NULL || goal == NULL)
 		throw NodeIsNullException();
 
+	if(start->getClearance(start->getTerrainType()) == 0)
+		throw NodeIsHardObstacleException(start, NULL);
+
+	if(goal->getClearance(goal->getTerrainType()) == 0)
+		throw NodeIsHardObstacleException(goal, NULL);
+		
 	if(start->getLabelL(kAbstractionLevel) != 0 || goal->getLabelL(kAbstractionLevel) != 0)
 		throw NodeHasNonZeroAbstractionLevelException();
 
@@ -255,6 +255,26 @@ path* AnnotatedClusterAbstraction::getPathFromCache(edge* e)
 	return p;	
 }
 
+/* method in mapAbstraction makes some.. interesting.. decisions about abstraction hierarchies. doesn't work for us */
+double AnnotatedClusterAbstraction::h(node* a, node*b) throw(NodeIsNullException)
+{
+
+	if(a == NULL || b == NULL) 
+		throw NodeIsNullException();
+	int x1 = a->getLabelL(kFirstData);
+	int x2 = b->getLabelL(kFirstData);
+	int y1 = a->getLabelL(kFirstData+1);
+	int y2 = b->getLabelL(kFirstData+1);
+	
+	double answer = 0.0;
+	const double root2m1 = ROOT_TWO-1;//sqrt(2.0)-1;
+		if (fabs(x1-x2) < fabs(y1-y2))
+			answer = root2m1*fabs(x1-x2)+fabs(y1-y2);
+	else
+		answer = root2m1*fabs(y1-y2)+fabs(x1-x2);
+	return answer;
+}
+
 void AnnotatedClusterAbstraction::openGLDraw()
 {
 	Map* map = this->getMap();
@@ -348,4 +368,7 @@ void AnnotatedClusterAbstraction::openGLDraw()
 	}
 
 	glLineWidth(1.0f);
+	
+	if(drawClearance)
+		AnnotatedMapAbstraction::openGLDraw();
 }

@@ -224,7 +224,7 @@ void AnnotatedMapAbstraction::drawClearanceInfo()
                         n = this->getNodeFromMap(i,j,kNone);
 						if(n)
 						{
-							sprintf(clearance, "%x", n->getClearance(n->getTerrainType()));
+							sprintf(clearance, "%x", n->getClearance((kGround|kTrees)));
 							this->getMap()->getOpenGLCoord(i,j,rv.x,rv.y,rv.z,r);
 							glRasterPos3f((float)rv.x-0.02, (float)rv.y+0.01, rv.z-0.011);
 							glutBitmapCharacter (GLUT_BITMAP_HELVETICA_12, clearance[0]);
