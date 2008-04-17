@@ -22,6 +22,8 @@ class AnnotatedClusterMockFactory;
 class Map;
 class node;
 class AnnotatedClusterMock;
+class NodeIsHardObstacleException;
+class NodeIsNullException;
 
 class AnnotatedClusterAbstractionTest : public CPPUNIT_NS::TestFixture
 {
@@ -35,7 +37,6 @@ class AnnotatedClusterAbstractionTest : public CPPUNIT_NS::TestFixture
 	CPPUNIT_TEST( getClusterShouldReturnZeroWhenIdParameterIsGreaterThanNumberOfClusters );
 	CPPUNIT_TEST( getClusterShouldReturnRequestedClusterGivenAValidClusterId );
 	CPPUNIT_TEST( buildEntrancesShouldCreateCorrectNumberOfTransitionsBetweenClustersAndAddTransitionsToAbstractGraph );
-	CPPUNIT_TEST( buildEntrancesShouldCreateCorrectNumberOfTransitionsBetweenClustersAndAddTransitionsToAbstractGraphGivenAMediumQualityAbstraction );
 	CPPUNIT_TEST( buildEntrancesShouldCreateCorrectNumberOfTransitionsBetweenClustersAndAddTransitionsToAbstractGraphGivenALowQualityAbstraction );
 	CPPUNIT_TEST( buildEntrancesShouldAskEachClusterToCreateItsOwnEntrances );
 	CPPUNIT_TEST( buildEntrancesShouldResultInOneCachedPathForEachAbstractEdge );
@@ -48,6 +49,8 @@ class AnnotatedClusterAbstractionTest : public CPPUNIT_NS::TestFixture
 	CPPUNIT_TEST( insertStartAndGoalIntoAbstractGraphShouldSet_kAbstractionLevel_LabelOfNewNodesToPointToTheCorrectAbstractGraph );
 	CPPUNIT_TEST( insertStartAndGoalIntoAbstractGraphShouldRecordStatisticsToMeasureInsertionEffort );
 	CPPUNIT_TEST( insertStartAndGoalIntoAbstractGraphShouldAddToCacheAPathForEachNewlyCreatedEdge );
+	CPPUNIT_TEST_EXCEPTION( insertStartAndGoalIntoAbstractGraphShouldThrowExceptionGivenNonTraversableStartNodeParameters, NodeIsHardObstacleException );
+	CPPUNIT_TEST_EXCEPTION( insertStartAndGoalIntoAbstractGraphShouldThrowExceptionGivenNonTraversableGoalNodeParameters, NodeIsHardObstacleException );
 	CPPUNIT_TEST( removeStartAndGoalNodesFromAbstractGraphShouldDeleteAllNodesAndEdgesAddedByInsertionMethodFromAbstractGraph );
 	CPPUNIT_TEST( removeStartAndGoalNodesFromAbstractGraphShouldResetStartIDAndGoalIDToDefaultValues );
 	CPPUNIT_TEST( removeStartAndGoalNodesFromAbstractGraphShouldNotDeleteAnyNodesOriginallyInTheAbstractGraph );
@@ -60,6 +63,8 @@ class AnnotatedClusterAbstractionTest : public CPPUNIT_NS::TestFixture
 	CPPUNIT_TEST( getPathFromCacheShouldReturnAPathGivenAValidEdge );
 	CPPUNIT_TEST( getPathFromCacheShouldReturnZeroGivenAnInvalidEdge );
 	CPPUNIT_TEST( getPathFromCacheShouldReturnZeroGivenAnEdgeThatHasNoCorrespondingPathInCache );
+	CPPUNIT_TEST( hShouldProduceIdenticalResultsToOverriddenMethodInMapAbstractionGivenTwoValidNodeParameters );
+	CPPUNIT_TEST_EXCEPTION( hShouldThrowExceptionGivenANullNodeParameter, NodeIsNullException );
 	CPPUNIT_TEST_SUITE_END();
 	
 	
@@ -82,7 +87,6 @@ class AnnotatedClusterAbstractionTest : public CPPUNIT_NS::TestFixture
 
 		//////// INTEGRATION TESTS BELOW HERE (uses production code from other classes) ////////////
 		void buildEntrancesShouldCreateCorrectNumberOfTransitionsBetweenClustersAndAddTransitionsToAbstractGraph();
-		void buildEntrancesShouldCreateCorrectNumberOfTransitionsBetweenClustersAndAddTransitionsToAbstractGraphGivenAMediumQualityAbstraction();
 		void buildEntrancesShouldCreateCorrectNumberOfTransitionsBetweenClustersAndAddTransitionsToAbstractGraphGivenALowQualityAbstraction();
 
 		//void insertNodeIntoAbstractGraphShouldCloneALowLevelNodeAndAddItToTheLocalClusterAndAbstractGraph();
@@ -95,7 +99,9 @@ class AnnotatedClusterAbstractionTest : public CPPUNIT_NS::TestFixture
 		void insertStartAndGoalIntoAbstractGraphShouldSet_kAbstractionLevel_LabelOfNewNodesToPointToTheCorrectAbstractGraph();
 		void insertStartAndGoalIntoAbstractGraphShouldRecordStatisticsToMeasureInsertionEffort();
 		void insertStartAndGoalIntoAbstractGraphShouldAddToCacheAPathForEachNewlyCreatedEdge();
-		
+		void insertStartAndGoalIntoAbstractGraphShouldThrowExceptionGivenNonTraversableStartNodeParameters();
+		void insertStartAndGoalIntoAbstractGraphShouldThrowExceptionGivenNonTraversableGoalNodeParameters();
+				
 		void removeStartAndGoalNodesFromAbstractGraphShouldDeleteAllNodesAndEdgesAddedByInsertionMethodFromAbstractGraph();
 		void removeStartAndGoalNodesFromAbstractGraphShouldNotDeleteAnyNodesOriginallyInTheAbstractGraph();
 		void removeStartAndGoalNodesFromAbstractGraphShouldResetStartIDAndGoalIDToDefaultValues();
@@ -112,6 +118,9 @@ class AnnotatedClusterAbstractionTest : public CPPUNIT_NS::TestFixture
 		void getPathFromCacheShouldReturnZeroGivenAnInvalidEdge();
 		void getPathFromCacheShouldReturnZeroGivenAnEdgeThatHasNoCorrespondingPathInCache();
 
+		void hShouldProduceIdenticalResultsToOverriddenMethodInMapAbstractionGivenTwoValidNodeParameters();
+		void hShouldThrowExceptionGivenANullNodeParameter();
+		
 		
 	private:
 		AnnotatedClusterAbstraction *aca;

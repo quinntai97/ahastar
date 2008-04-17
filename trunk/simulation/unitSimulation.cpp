@@ -588,6 +588,14 @@ void unitSimulation::advanceTime(double amount)
 	if (pause)
 		return;
 	
+	if(clearMap)
+	{
+		clearAllUnits();
+		clearMap=false;
+		if(nextExperiment)
+			nextExperiment(this);
+	}
+	
 	stats.addStat("simulationTime", "unitSimulation", currTime);
 	doPreTimestepCalc();
 	currTime += amount;
@@ -730,8 +738,7 @@ void unitSimulation::stepUnitTime(unitInfo *theUnit)
 		if(nextExperiment)
 		{
 			//if(((searchUnit*)u)->getGoalUnreachable() || ((searchUnit*)u)->getOnTarget())
-				//clearMap = true;
-			nextExperiment(this);
+				clearMap = true;
 		}
 		return;
 	}

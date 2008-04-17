@@ -32,6 +32,7 @@ class TestGraph : public CPPUNIT_NS::TestFixture
   CPPUNIT_TEST( findAnnotatedEdgeShouldReturnZeroWhenExistingEdgeIsLongerAndMoreNarrowThanWhatParametersAskedFor );
   CPPUNIT_TEST( findAnnotatedEdgeShouldReturnZeroWhenExistingEdgeIsLongerAndWiderThanWhatParametersAskedFor );
   CPPUNIT_TEST( findAnnotatedEdgeShouldReturnZeroWhenEndpointParametersAreNull );
+  CPPUNIT_TEST( findAnnotatedEdgeShouldReturnTheShortestEdgeIfSeveralCandidateEdgesExistThatMatchWhatParametersAskedFor );
   CPPUNIT_TEST_SUITE_END();
 
 public:
@@ -44,6 +45,7 @@ public:
 	void findAnnotatedEdgeShouldReturnAnExistingEdgeIfOneExistsWhichIsIdenticalToWhatParametersAskFor();
 	void findAnnotatedEdgeShouldReturnAnExistingEdgeIfOneExistsWhichIsWiderAndShorterThanWhatParametersAskFor();
 	void findAnnotatedEdgeShouldReturnAnExistingEdgeIfOneExistsWhichIsWiderButOtherwiseIdenticalToWhatParametersAskFor();
+	void findAnnotatedEdgeShouldReturnTheShortestEdgeIfSeveralCandidateEdgesExistThatMatchWhatParametersAskedFor();
 	
 	// negative cases
 	void findAnnotatedEdgeShouldReturnZeroWhenNoEdgeExistsBetweenParameterEndpoints();

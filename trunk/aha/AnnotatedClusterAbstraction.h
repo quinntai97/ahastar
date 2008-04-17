@@ -28,7 +28,6 @@ namespace ACAUtil
 	enum GraphQualityParameter
 	{
 		kHighQualityAbstraction, // abstract graph includes all optimal paths for every capability between endpoints in each cluster
-		kMediumQualityAbstraction, // try to re-use optimal paths found using single-terrain-capability for multi-terrain-capable agents
 		kLowQualityAbstraction // build large single capability corridors first and re-use as many as possible 
 	};
 }
@@ -51,7 +50,7 @@ class AnnotatedClusterAbstraction : public AnnotatedMapAbstraction
 
 		virtual void buildClusters(IAnnotatedClusterFactory*);
 		virtual void buildEntrances();
-		virtual void insertStartAndGoalNodesIntoAbstractGraph(node*, node*) throw(NodeIsNullException, NodeHasNonZeroAbstractionLevelException);
+		virtual void insertStartAndGoalNodesIntoAbstractGraph(node*, node*) throw(NodeIsNullException, NodeHasNonZeroAbstractionLevelException, NodeIsHardObstacleException);
 		virtual void removeStartAndGoalNodesFromAbstractGraph();
 
 		virtual int getClusterSize() { return clustersize; } 
@@ -74,9 +73,14 @@ class AnnotatedClusterAbstraction : public AnnotatedMapAbstraction
 		ACAUtil::GraphQualityParameter getQualityParam() { return quality; }
 		void setGraphQualityParameter(ACAUtil::GraphQualityParameter newqual) { quality = newqual; }
 		
+		virtual double h(node *a, node *b) throw(NodeIsNullException);
+		
 		virtual void openGLDraw(); 
 		void setDrawClusters(bool draw) { drawClusters = draw; }
 		bool getDrawClusters() { return drawClusters; }
+		void setDrawClearance(bool draw) { drawClearance = draw; }
+		bool getDrawClearance() { return drawClearance; }
+
 		
 	protected: 
 		virtual void addCluster(AnnotatedCluster* ac);
@@ -94,6 +98,7 @@ class AnnotatedClusterAbstraction : public AnnotatedMapAbstraction
 		ACAUtil::pathTable pathCache;
 		ACAUtil::GraphQualityParameter quality;
 		bool drawClusters;
+		bool drawClearance;
 };
 
 

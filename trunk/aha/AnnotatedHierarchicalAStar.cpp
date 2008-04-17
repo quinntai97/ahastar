@@ -55,22 +55,35 @@ path* AnnotatedHierarchicalAStar::getPath(graphAbstraction* aMap, node* from, no
 	node* absstart = absg->getNode(from->getLabelL(kParent));
 	node* absgoal = absg->getNode(to->getLabelL(kParent));
 	
+
+/*	edge_iterator ei = absg->getEdgeIter();
+	edge* e = absg->edgeIterNext(ei);
+	while(e)
+	{
+		node* f = absg->getNode(e->getFrom());
+		node* t = absg->getNode(e->getTo());
+		std::cout << "\n edge connects "<<f->getLabelL(kFirstData)<<","<<f->getLabelL(kFirstData+1)<< " and "<<t->getLabelL(kFirstData)<<","<<t->getLabelL(kFirstData+1);
+		std::cout <<"(weight: "<<e->getWeight()<<" caps: "<<e->getCapability() << " clearance: "<<e->getClearance(e->getCapability())<<")";
+		e = absg->edgeIterNext(ei);
+	}
+*/
+
 	path* thepath=0;
 	path* abspath = getAbstractPath(aMap, absstart, absgoal);
 	
 	if(abspath)
 	{
-	/*	// debugging
-		std::cout << "\n abstract path: ";
-		path* tmp = abspath;
-		while(tmp)
+		// debugging
+/*		std::cout << "\n abstract path: ";
+		path* tmpptr = abspath;
+		while(tmpptr)
 		{
-			node* n = tmp->n;
+			node* n = tmpptr->n;
 			std::cout << "\n id: "<<n->getUniqueID()<<" node @ "<<n->getLabelL(kFirstData) << ","<<n->getLabelL(kFirstData+1);
-			tmp = tmp->next;
+			tmpptr = tmpptr->next;
 		}
-	*/
-
+	
+*/
 		int capability = this->getCapability();
 		int clearance = this->getClearance();
 		path* tail;
@@ -117,5 +130,6 @@ path* AnnotatedHierarchicalAStar::getPath(graphAbstraction* aMap, node* from, no
 	aca->removeStartAndGoalNodesFromAbstractGraph();
 	delete abspath;
 
+	//std::cout << "\n thepath distance: "<<aMap->distance(thepath);
 	return thepath;
 }
