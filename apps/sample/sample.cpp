@@ -165,6 +165,8 @@ void createSimulation(unitSimulation * &unitSim)
 	aca->setDrawClusters(true);
 	//aca->setDrawClearance(true);
 	graph* absg = aca->getAbstractGraph(1);
+	graph* g = aca->getAbstractGraph(0);
+	std::cout << "\noriginal map: nodes: "<<g->getNumNodes()<<" edges: "<<g->getNumEdges();
 	std::cout << "\n map: "<<gDefaultMap<< "absnodes: "<<absg->getNumNodes()<<" absedges: "<<absg->getNumEdges();
 
 	edge_iterator ei = absg->getEdgeIter();
