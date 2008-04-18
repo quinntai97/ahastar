@@ -57,7 +57,10 @@ class TooManyTriesException : public std::exception
 		TooManyTriesException(int _generated, int _target) : generated(_generated), target(_target) { }
 		const char* what() const throw()
 		{
-			std::cout << "\n well, this sucks. can't generate enough experiments for the given map. I managed to create "<<generated<<" of "<<target;
+			std::string errmsg("\n well, this sucks. can't generate enough experiments for the given map. I managed to create ");
+			//errmsg = errmsg + generated +" of " + target;
+			//std::cout<<errmsg;
+			return errmsg.c_str();
 		}
 	
 	private:
@@ -86,7 +89,7 @@ class AbstractScenarioManager
 		AbstractScenarioManager(){};
 		virtual ~AbstractScenarioManager();
 
-		Experiment* getNthExperiment(int which) { if(which < experiments.size()) return experiments[which]; return 0; }
+		Experiment* getNthExperiment(int which) { if(which < (int)experiments.size()) return experiments[which]; return 0; }
 		void addExperiment(Experiment* newexp) { experiments.push_back(newexp); }
 		int getNumExperiments() { return experiments.size(); }
 		
@@ -115,3 +118,4 @@ class AHAScenarioManager: public AbstractScenarioManager
 };
 
 #endif
+

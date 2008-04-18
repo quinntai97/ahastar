@@ -179,7 +179,6 @@ void AnnotatedCluster::buildVerticalEntrances(int curCapability, AnnotatedCluste
 	if(aca == NULL)
 		throw AnnotatedClusterAbstractionIsNullException();
 	
-	int mapheight = aca->getMap()->getMapHeight();
 	int mapwidth = aca->getMap()->getMapWidth();
 
 	node* candidateNode1 = 0; // multiple entrances may exist along a border so we track candidate w/ largest clearance so far
@@ -223,7 +222,6 @@ void AnnotatedCluster::buildHorizontalEntrances(int curCapability, AnnotatedClus
 		throw AnnotatedClusterAbstractionIsNullException();
 	
 	int mapheight = aca->getMap()->getMapHeight();
-	int mapwidth = aca->getMap()->getMapWidth();
 
 	node* candidateNode1 = 0; // multiple entrances may exist along a border so we track candidate w/ largest clearance so far
 	node* candidateNode2 = 0;

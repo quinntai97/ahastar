@@ -16,16 +16,17 @@ class AnnotatedClusterAbstraction;
 class IAnnotatedClusterFactory
 {
 	public:
+		virtual ~IAnnotatedClusterFactory() { }
 		virtual AnnotatedCluster* createCluster(int xpos, int ypos, int width, int height) = 0;		
 };
 
 class AnnotatedClusterFactory : public IAnnotatedClusterFactory
 {
 	public:
+		virtual ~AnnotatedClusterFactory() { }
 		virtual AnnotatedCluster* createCluster(int xpos, int ypos, int width, int height);
 	
-	private:
-		AnnotatedClusterAbstraction* aca;
 };
 
 #endif
+

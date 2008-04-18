@@ -33,3 +33,4 @@ int myScenarioGeneratorCLHandler(char *argument[], int maxNumArgs);
 int myExecuteScenarioCLHandler(char *argument[], int maxNumArgs);
 bool myClickHandler(unitSimulation *, int x, int y, point3d loc, tButtonType, tMouseEventType);
 void runNextExperiment(unitSimulation *unitSim);
+

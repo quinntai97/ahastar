@@ -162,7 +162,7 @@ void createSimulation(unitSimulation * &unitSim)
 	delete acf;
 	aca->buildEntrances();
 	aca->setDrawClusters(true);
-	aca->setDrawClearance(true);
+	//aca->setDrawClearance(true);
 	graph* absg = aca->getAbstractGraph(1);
 	std::cout << "\n map: "<<gDefaultMap<< "absnodes: "<<absg->getNumNodes()<<" absedges: "<<absg->getNumEdges();
 
@@ -181,8 +181,8 @@ void createSimulation(unitSimulation * &unitSim)
 	unitSim = new unitSimulation(aca);	
 	unitSim->setCanCrossDiagonally(true);
 	
-	unitSim->setNextExperimentPtr(&runNextExperiment);
-	runNextExperiment(unitSim);
+	//unitSim->setNextExperimentPtr(&runNextExperiment);
+	//runNextExperiment(unitSim);
 }
 
 /**
@@ -466,3 +466,4 @@ void runNextExperiment(unitSimulation *unitSim)
 	unitSim->addUnit(nextUnit);
 	
 }
+
