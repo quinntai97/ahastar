@@ -51,6 +51,7 @@ AHAScenarioManager scenariomgr;
 AHAExperiment* nextExperiment;
 int expnum=0;
 bool runAHA=false;
+bool scenario=false;
 
 /**
  * This function is called each time a unitSimulation is deallocated to
@@ -181,8 +182,11 @@ void createSimulation(unitSimulation * &unitSim)
 	unitSim = new unitSimulation(aca);	
 	unitSim->setCanCrossDiagonally(true);
 	
-	//unitSim->setNextExperimentPtr(&runNextExperiment);
-	//runNextExperiment(unitSim);
+	if(scenario)
+	{
+		unitSim->setNextExperimentPtr(&runNextExperiment);
+		runNextExperiment(unitSim);
+	}
 }
 
 /**
@@ -276,6 +280,7 @@ int myExecuteScenarioCLHandler(char *argument[], int maxNumArgs)
 	strncpy(gDefaultMap, scenariomgr.getNthExperiment(0)->getMapName(), 1024);
 	
 	std::cout << "\n executing scenario file at " << gDefaultMap<<". hold on to your hats, this could get hairy!";
+	scenario=true;
 	return 2;
 }
 
