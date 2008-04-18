@@ -304,7 +304,6 @@ void AnnotatedHierarchicalAStarTest::getPathShouldFindASolutionEvenWhenCacheRetu
 
 void AnnotatedHierarchicalAStarTest::getPathShouldAddInsertionEffortToPerformanceMetrics()
 {
-	AnnotatedAStar aastar;
 	Map *m = new Map(maplocation.c_str());
 	AnnotatedClusterAbstraction* aca = new AnnotatedClusterAbstraction(m, new AnnotatedAStar(), TESTCLUSTERSIZE);
 	AnnotatedClusterFactory* acfactory = new AnnotatedClusterFactory();
@@ -321,21 +320,20 @@ void AnnotatedHierarchicalAStarTest::getPathShouldAddInsertionEffortToPerformanc
 	ahastar->setGraphAbstraction(aca);
 	ahastar->setClearance(size);
 	ahastar->setCapability(capability);
-	
-	int numExpectedNodes = absmap->getNumNodes();
-	int numExpectedEdges = absmap->getNumEdges();
-	int numExpectedPathCacheSize = aca->getPathCacheSize();
-	
-	path* p = ahastar->getPath(aca, start, goal);
-	path* p2 = aastar.getPath(aca, start, goal);
+		
+	path* p2 = ahastar->getPath(aca, start, goal);
 
-	CPPUNIT_ASSERT_MESSAGE("failed to increment nodesExpanded to account for insertion of start/goal", aastar.getNodesExpanded() < ahastar->getNodesExpanded());
-	CPPUNIT_ASSERT_MESSAGE("failed to increment nodesTouched to account for insertion of start/goal", aastar.getNodesTouched() < ahastar->getNodesTouched());
-	CPPUNIT_ASSERT_MESSAGE("failed to update peakMemory to account for insertion of start/goal", aastar.getPeakMemory() > ahastar->getPeakMemory());
-	CPPUNIT_ASSERT_MESSAGE("failed to update searchTime to account for insertion of start/goal", aastar.getSearchTime() != ahastar->getSearchTime());
-
+	CPPUNIT_ASSERT_MESSAGE("insertion effort (in nodes expanded) not recorded", ahastar->getInsertNodesExpanded() != 0);
+	CPPUNIT_ASSERT_MESSAGE("insertion effort (in nodes touched) not recorded", ahastar->getInsertNodesTouched() != 0);
+	CPPUNIT_ASSERT_MESSAGE("insertion effort (in peak memory) not recorded", ahastar->getInsertPeakMemory() != 0);
+	CPPUNIT_ASSERT_MESSAGE("insertion effort (in search time) not recorded", ahastar->getSearchTime() != 0);
 	
-	delete p;
+	CPPUNIT_ASSERT_MESSAGE("nodes expanded doesn't add up", (ahastar->getInsertNodesExpanded() + ahastar->getAbsNodesExpanded()) == ahastar->getNodesExpanded());
+	CPPUNIT_ASSERT_MESSAGE("nodes touched doesn't add up", (ahastar->getInsertNodesTouched() + ahastar->getAbsNodesTouched()) == ahastar->getNodesTouched());
+	CPPUNIT_ASSERT_MESSAGE("peak memory wrong", ahastar->getPeakMemory() > ahastar->getAbsPeakMemory());
+	CPPUNIT_ASSERT_MESSAGE("searchtime doesn't add up", (ahastar->getInsertSearchTime() + ahastar->getAbsSearchTime()) == ahastar->getSearchTime());
+	
+	delete p2;
 	delete acfactory;
 	delete aca;
 	

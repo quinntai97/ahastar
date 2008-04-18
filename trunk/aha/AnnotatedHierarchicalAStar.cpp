@@ -49,6 +49,12 @@ path* AnnotatedHierarchicalAStar::getPath(graphAbstraction* aMap, node* from, no
 	AnnotatedClusterAbstraction* aca = dynamic_cast<AnnotatedClusterAbstraction*>(aMap);
 	assert(aca != 0); 
 	
+	absNodesExpanded=absNodesTouched=absPeakMemory=0;
+	absSearchTime=0;
+	
+	insertNodesExpanded = insertNodesTouched = insertPeakMemory =0;
+	insertSearchTime = 0;
+	
 	aca->insertStartAndGoalNodesIntoAbstractGraph(from, to);
 
 	graph *absg = aca->getAbstractGraph(1);
@@ -127,6 +133,24 @@ path* AnnotatedHierarchicalAStar::getPath(graphAbstraction* aMap, node* from, no
 			tmp = tmp->next;
 		}
 	}
+	
+	insertNodesExpanded = aca->getNodesExpanded();
+	insertNodesTouched = aca->getNodesTouched();
+	insertPeakMemory = aca->getPeakMemory();
+	insertSearchTime = aca->getSearchTime();
+	
+	this->absNodesExpanded = this->nodesExpanded;
+	this->absNodesTouched = this->nodesTouched;
+	this->absPeakMemory = this->peakmemory;
+	this->absSearchTime = this->searchtime;
+	
+	this->nodesExpanded += insertNodesExpanded;
+	this->nodesTouched += insertNodesTouched;
+	this->searchtime += insertSearchTime;
+	
+	if(this->peakmemory < insertPeakMemory)
+		this->peakmemory = insertPeakMemory;
+	
 	aca->removeStartAndGoalNodesFromAbstractGraph();
 	delete abspath;
 
