@@ -27,7 +27,7 @@
 #include "AnnotatedMapAbstraction.h"
 #include "AnnotatedAStar.h"
 #include "AHAConstants.h"
-#ifdef OSMAC
+#ifdef OS_MAC
 	#include "GLUT/glut.h"
 	#include <OpenGL/gl.h>
 #else
