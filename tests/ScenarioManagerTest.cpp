@@ -46,7 +46,7 @@ void ScenarioManagerTest::tearDown()
 
 void ScenarioManagerTest::NoExperimentsGeneratedWhenMapIsNotTraversable()
 {
-	string targetmap("/Users/dharabor/src/ahastar/maps/local/pacman.map"); // no paths for kGround when size > 1
+	string targetmap("/Users/dharabor/src/ahastar/maps/local/LINE.map"); // no paths for kGround when size > 1
 	Map* m = new Map(targetmap.c_str());
 	AnnotatedAStar* aastar = new AnnotatedAStar();
 	AnnotatedMapAbstraction* ama = new AnnotatedMapAbstraction(m, aastar);
