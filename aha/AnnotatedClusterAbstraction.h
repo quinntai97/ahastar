@@ -45,7 +45,7 @@ class AnnotatedClusterAbstraction : public AnnotatedMapAbstraction
 	#endif
 	
 	public: 
-		AnnotatedClusterAbstraction::AnnotatedClusterAbstraction(Map* m, AbstractAnnotatedAStar* searchalg, int clustersize, ACAUtil::GraphQualityParameter qual=ACAUtil::kHighQualityAbstraction);
+		AnnotatedClusterAbstraction(Map* m, AbstractAnnotatedAStar* searchalg, int clustersize, ACAUtil::GraphQualityParameter qual=ACAUtil::kHighQualityAbstraction);
 		virtual ~AnnotatedClusterAbstraction();
 
 		virtual void buildClusters(IAnnotatedClusterFactory*);
@@ -103,3 +103,4 @@ class AnnotatedClusterAbstraction : public AnnotatedMapAbstraction
 
 
 #endif
+

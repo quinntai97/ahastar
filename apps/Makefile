@@ -29,7 +29,7 @@ $($(strip TARGS)) : $(HDRS) Makefile
 #	@echo '	@ranlib libs/$(value DAT)' >> $(@)
 	@echo >> $(@)
 	@echo '$(value DLR)($(basename $(@))_OBJS)' \
- ' : %.o : %.cpp $(value DLR)(DRIVER_SRC:.cpp=.h) $(value DLR)(SHARED_SRC:.cpp=.h) $(value DLR)(UTIL_SRC:.cpp=.h) $(value DLR)(SIMULATION_SRC:.cpp=.h) $(value DLR)(RTS_OBJS:.o=.h)' >> $(@)
+ ' : %.o : %.cpp $(value DLR)(DRIVER_SRC:.cpp=.h) $(value DLR)(AHASTAR_SRC:.cpp=.h) $(value DLR)(SHARED_SRC:.cpp=.h) $(value DLR)(UTIL_SRC:.cpp=.h) $(value DLR)(SIMULATION_SRC:.cpp=.h) $(value DLR)(RTS_OBJS:.o=.h)' >> $(@)
 	@echo '	@if (! -d $(basename $(@))/objs) mkdir $(basename $(@))/objs' >> $(@)
 	@echo '	@-$(value DLR)(RM) libs/lib$(basename $(@)).a' >> $(@)
 	@echo '	$(value DLR)(CC) $(value VCFLG) -c -o $(basename $(@))/objs/$(value DLR)(notdir $(value DAT)) $(basename $(@))/$(value DLR)(patsubst %.o,%.cpp,$(value DAT))' >> $(@)
@@ -41,7 +41,7 @@ apps.mk : $(TARGS) Makefile
 	@echo "#auto-generated file, do not edit!" >! apps.mk
 	@echo "SHELL = /bin/tcsh" >> apps.mk
 	@echo "CC = g++" >> apps.mk
-	@echo "CFLAGS = -Wall -O3 -g -I../abstraction -I../driver -I../shared -I../simulation -I../util" >> apps.mk
+	@echo "CFLAGS = -Wall -O3 -g -I ../aha -I../abstraction -I../driver -I../shared -I../simulation -I../util" >> apps.mk
 	@echo >> $(@)
 
 	@echo 'ifeq ($(value DLR)(findstring "Darwin", "$(value DLR)(shell uname -s)"), "Darwin")' >> $(@)
@@ -69,6 +69,7 @@ apps.mk : $(TARGS) Makefile
 	@echo 'SHARED_SRC = $(value DLR)(wildcard ../shared/*.cpp)' >> $(@)
 	@echo 'SIMULATION_SRC = $(value DLR)(wildcard ../simulation/*.cpp)' >> $(@)
 	@echo 'UTIL_SRC = $(value DLR)(wildcard ../util/*.cpp)' >> $(@)
+	@echo 'AHASTAR_SRC = $(value DLR)(wildcard ../aha/*.cpp)' >> $(@)
 
 
 clean:

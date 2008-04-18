@@ -9,7 +9,7 @@
 
 #include "AnnotatedAStar.h"
 #include "AnnotatedMapAbstraction.h"
-#include "Timer.h"
+#include "timer.h"
 
 using namespace std;
 
@@ -87,8 +87,8 @@ path* AnnotatedAStar::getPath(graphAbstraction *aMap, node *from, node* to, rese
 		/* get the current node on the open list and check if it contains the goal */
 		peakmemory = openList->size()>peakmemory?openList->size():peakmemory;
 		node* current = ((node*)openList->remove()); 
-		int cx = current->getLabelL(kFirstData);
-		int cy = current->getLabelL(kFirstData+1);
+		//int cx = current->getLabelL(kFirstData);
+		//int cy = current->getLabelL(kFirstData+1);
 		nodesExpanded++;
 		if(current == to)
 		{
@@ -104,9 +104,9 @@ path* AnnotatedAStar::getPath(graphAbstraction *aMap, node *from, node* to, rese
 			// TODO: fix HOG's graph stuff; nodes identified using position in array instead of uniqueid. graph should just store a hash_map
 			int neighbourid = e->getFrom()==current->getNum()?e->getTo():e->getFrom();
 			node* neighbour = g->getNode(neighbourid);
-			int nx = neighbour->getLabelL(kFirstData);
+			/*int nx = neighbour->getLabelL(kFirstData);
 			int ny = neighbour->getLabelL(kFirstData+1);
-			double weight = e->getWeight();
+			double weight = e->getWeight();*/
 
 			if(!closedList[neighbour->getUniqueID()]) // skip nodes we've already closed
 			{
@@ -172,7 +172,7 @@ bool AnnotatedAStar::evaluate(node* current, node* target)
 		return false;
 				
 	AbstractAnnotatedMapAbstraction* ama = (AbstractAnnotatedMapAbstraction*)getGraphAbstraction();
-	graph *g = ama->getAbstractGraph(0);
+	//graph *g = ama->getAbstractGraph(0);
 
 	int tx, ty, tcl, tterr;
 	tterr = target->getTerrainType();

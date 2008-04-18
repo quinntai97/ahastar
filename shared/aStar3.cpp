@@ -137,12 +137,13 @@ void aStarOld::relaxEdge(heap *nodeHeap, graph *g, edge *e, int source, int next
 	node *to = g->getNode(nextNode);
 	
 	/* alternate path fCost = from.gCost (derived as from.fCost - from.hCost) + to.hCost + length(from, to) */
-	double hTo = wh*map->h(to, d);
+	/*double hTo = wh*map->h(to, d);
 	double hFrom = wh*map->h(from, d);
 	double edgeweight = e->getWeight();
 	double oldgcost = from->getLabelF(kTemporaryLabel);
 	double gcost = from->getLabelF(kTemporaryLabel)-wh*map->h(from, d);
-	double hcost = wh*map->h(to, d)+e->getWeight(); 
+	double hcost = wh*map->h(to, d)+e->getWeight(); */
+
 	weight = from->getLabelF(kTemporaryLabel)-wh*map->h(from, d)+wh*map->h(to, d)+e->getWeight(); 
 	
 	if (fless(weight, to->getLabelF(kTemporaryLabel)))

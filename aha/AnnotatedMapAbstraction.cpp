@@ -27,13 +27,13 @@
 #include "AnnotatedMapAbstraction.h"
 #include "AnnotatedAStar.h"
 #include "AHAConstants.h"
-//#ifdef OSMAC
-#include "GLUT/glut.h"
-#include <OpenGL/gl.h>
-/*#else
-#include <GL/glut.h>
-#include <GL/gl.h>
-#endif*/
+#ifdef OSMAC
+	#include "GLUT/glut.h"
+	#include <OpenGL/gl.h>
+#else
+	#include <GL/glut.h>
+	#include <GL/gl.h>
+#endif
 
 
 using namespace std;

@@ -32,3 +32,4 @@ const int MINAGENTSIZE = 1;
 const int MAXAGENTSIZE = 2;
 
 #endif
+

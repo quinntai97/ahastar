@@ -45,7 +45,6 @@ AnnotatedClusterAbstraction::~AnnotatedClusterAbstraction()
 		delete clusters.at(i);
 	clusters.erase(clusters.begin(), clusters.end());
 
-//	delete (*pathCache.begin()).second;
 	for(ACAUtil::pathTable::iterator it = pathCache.begin(); it != pathCache.end(); it++)
 		delete (*it).second;
 	pathCache.erase(pathCache.begin(), pathCache.end());
@@ -107,7 +106,6 @@ double AnnotatedClusterAbstraction::distance(path* p)
 	if(!p)
 		return dist;
 		
-	graph *g = abstractions[p->n->getLabelL(kAbstractionLevel)];
 	
 	path* next = p->next;
 	while(next)
@@ -289,13 +287,13 @@ void AnnotatedClusterAbstraction::openGLDraw()
 	while(e)
 	{
 		node *n1, *n2; 		
-		double x1, x2, y1, y2;
+		//double x1, x2, y1, y2;
 
 		path* thepath = pathCache[e->getUniqueID()];
 		if(thepath)
 		{
-			node* efrom = abstractions[1]->getNode(e->getFrom()); 
-			node* eto = abstractions[1]->getNode(e->getTo());
+			//node* efrom = abstractions[1]->getNode(e->getFrom()); 
+			//node* eto = abstractions[1]->getNode(e->getTo());
 			
 			glLineWidth(1.0f);
 			while(thepath->next)
@@ -372,3 +370,4 @@ void AnnotatedClusterAbstraction::openGLDraw()
 	if(drawClearance)
 		AnnotatedMapAbstraction::openGLDraw();
 }
+

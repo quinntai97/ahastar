@@ -45,8 +45,8 @@ public:
 	virtual path *getPath(graphAbstraction *aMap, node *from, node *to, reservationProvider *rp = 0);
 	virtual const char *getName() { return aStarName; }
 	void drawPath(bool _doPathDraw) { doPathDraw = _doPathDraw; }
-	void setDefaultEdgeWeight(int newwh) { wh = newwh; }
-	int getDefaultEdgeWeight() { return wh; }
+	void setDefaultEdgeWeight(double newwh) { wh = newwh; }
+	double getDefaultEdgeWeight() { return wh; }
 	void setGraphAbstraction(graphAbstraction *aMap) { map = aMap; }
 	graphAbstraction* getGraphAbstraction() { return map; }
 	

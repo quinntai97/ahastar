@@ -1,7 +1,7 @@
 #auto-generated file, do not edit!
 SHELL = /bin/tcsh
 CC = g++
-CFLAGS = -Wall -O3 -g -I../abstraction -I../driver -I../shared -I../simulation -I../util
+CFLAGS = -Wall -O3 -g -I ../aha -I../abstraction -I../driver -I../shared -I../simulation -I../util
 
 ifeq ($(findstring "Darwin", "$(shell uname -s)"), "Darwin")
 ifeq ("$(OPENGL)", "STUB")
@@ -24,3 +24,4 @@ DRIVER_SRC = $(wildcard ../driver/*.cpp)
 SHARED_SRC = $(wildcard ../shared/*.cpp)
 SIMULATION_SRC = $(wildcard ../simulation/*.cpp)
 UTIL_SRC = $(wildcard ../util/*.cpp)
+AHASTAR_SRC = $(wildcard ../aha/*.cpp)

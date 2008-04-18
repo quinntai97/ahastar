@@ -80,11 +80,11 @@ public:
 	std::vector<node*>&  getParents() { return parents; } 
     std::vector<node*> parents; // each connected component gets its own parent
 	
-	int setHeight(const int newheight) { m_height = newheight; }
-	int setWidth(const int newwidth) { m_width = newwidth; }
-	int setHOrig(const int newhorig) { m_horizOrigin = newhorig; }
-	int setVOrig(const int newvorig) { m_vertOrigin = newvorig; }
-	int setClusterId(const int newid) { m_id = newid; }
+	void setHeight(const int newheight) { m_height = newheight; }
+	void setWidth(const int newwidth) { m_width = newwidth; }
+	void setHOrig(const int newhorig) { m_horizOrigin = newhorig; }
+	void setVOrig(const int newvorig) { m_vertOrigin = newvorig; }
+	void setClusterId(const int newid) { m_id = newid; }
 
 private:
   int m_id;

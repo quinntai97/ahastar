@@ -31,3 +31,4 @@ class AnnotatedHierarchicalAStar : public AnnotatedAStar
 };
 
 #endif
+

@@ -1,4 +1,7 @@
-VPATH = abstraction/:driver/:shared/:simulation/:util/:objs/:apps/libs:bin/
+VPATH = aha/:abstraction/:driver/:shared/:simulation/:util/:objs/:apps/libs:bin/
+
+AHASTAR_SRC = $(notdir $(wildcard aha/*.cpp))
+AHASTAR_OBJ = $(AHASTAR_SRC:.cpp=.o)
 
 ABSTRACTION_SRC = $(notdir $(wildcard abstraction/*.cpp))
 ABSTRACTION_OBJ = $(ABSTRACTION_SRC:.cpp=.o)
@@ -20,7 +23,7 @@ TARGETS = $(filter-out %~ CVS Makefile %.mk libs,$(notdir $(wildcard apps/*)))
 
 .PHONY : $(addprefix lib, $(addsuffix .a, $(TARGETS)))
 
-CFLAGS = -Wall -O3 -g -I./abstraction -I./driver -I./shared -I./simulation -I./util
+CFLAGS = -Wall -O3 -g -I./aha -I./abstraction -I./driver -I./shared -I./simulation -I./util 
 
 CC = c++
 
@@ -39,7 +42,7 @@ CFLAGS += -I/System/Library/Frameworks/AGL.framework/Versions/A/Headers/
 endif
 
 else # not darwin
-LIBFLAGS = -Lapps/libs -L/usr/X11R6/lib64 -L/usr/X11R6/lib
+LIBFLAGS = -Lapps/libs -L/usr/X11R6/lib64 -L/usr/X11R6/lib -L/usr/lib -L$(HOME)/lib
 
 ifeq ("$(OPENGL)", "STUB")
 CFLAGS += -I./driver/STUB/ -I./driver/STUB/GL/ -DNO_OPENGL
@@ -57,12 +60,13 @@ endif
 
 all : $(TARGETS)
 
-$(TARGETS) : % : lib%.a $(UTIL_OBJ) $(SIMULATION_OBJ) $(ABSTRACTION_OBJ) $(SHARED_OBJ) $(DRIVER_OBJ)
+$(TARGETS) : % : lib%.a $(UTIL_OBJ) $(SIMULATION_OBJ) $(ABSTRACTION_OBJ) $(SHARED_OBJ) $(AHASTAR_OBJ) $(DRIVER_OBJ) 
 	$(CC)	$(CFLAGS) $(LIBFLAGS) -o $(addprefix bin/,$(@)) \
 		$(addprefix objs/,$(UTIL_OBJ)) \
 		$(addprefix objs/,$(SIMULATION_OBJ)) \
 		$(addprefix objs/,$(ABSTRACTION_OBJ)) \
 		$(addprefix objs/,$(SHARED_OBJ)) \
+		$(addprefix objs/,$(AHASTAR_OBJ)) \
 		$(addprefix objs/,$(DRIVER_OBJ)) \
 		-l$(@)
 
@@ -86,10 +90,13 @@ $(SHARED_OBJ) : %.o : %.cpp $(SHARED_SRC:.cpp=.h) $(UTIL_SRC:.cpp=.h) $(SIMULATI
 	$(CC) $(CFLAGS) -c -o $(addprefix objs/,$(@)) \
 		$(addprefix shared/,$(notdir $(@:.o=.cpp)))
 
-$(DRIVER_OBJ) : %.o : %.cpp $(DRIVER_SRC:.cpp=.h) $(UTIL_SRC:.cpp=.h) $(SIMULATION_SRC:.cpp=.h) $(SHARED_SRC:.cpp=.h)
+$(AHASTAR_OBJ) : %.o : %.cpp $(AHASTAR_SRC:.cpp=.h) $(UTIL_SRC:.cpp=.h) $(SIMULATION_SRC:.cpp=.h) $(SHARED_SRC:.cpp=.h)
+	$(CC) $(CFLAGS) -c -o $(addprefix objs/,$(@)) \
+		$(addprefix aha/,$(notdir $(@:.o=.cpp)))
+
+$(DRIVER_OBJ) : %.o : %.cpp $(AHASTAR_SRC:.cpp=.h) $(DRIVER_SRC:.cpp=.h) $(UTIL_SRC:.cpp=.h) $(SIMULATION_SRC:.cpp=.h) $(SHARED_SRC:.cpp=.h)
 	$(CC) $(CFLAGS) -c -o $(addprefix objs/,$(@)) \
 		$(addprefix driver/,$(notdir $(@:.o=.cpp)))
-
 clean:
 	@-$(RM) objs/*.o
 	@-$(RM) bin/*

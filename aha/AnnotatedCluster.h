@@ -140,12 +140,12 @@ class InvalidClearanceParameterException : public std::exception
 
 class EntranceNodeIsNotTraversable : public std::exception
 {	
-	virtual const char* what() const throw() { "entrance's capability clearance parameter does not match endpoint node clearance"; }	
+	virtual const char* what() const throw() { return "entrance's capability clearance parameter does not match endpoint node clearance"; }	
 };
 
 class ValidateMapAbstractionException : public std::exception
 {
-	virtual const char* what() const throw() { "Map abstraction parameter cannot be null"; }
+	virtual const char* what() const throw() { return "Map abstraction parameter cannot be null"; }
 };
 
 class ValidateTransitionEndpointsException : public std::exception
@@ -212,3 +212,4 @@ class AnnotatedCluster : public Cluster
 
 
 #endif
+

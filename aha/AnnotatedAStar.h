@@ -84,3 +84,4 @@ class AnnotatedAStar : public AbstractAnnotatedAStar
 };
 
 #endif
+
