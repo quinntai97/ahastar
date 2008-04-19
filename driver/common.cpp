@@ -20,6 +20,8 @@
  */ 
 
 #include <iostream>
+#include <unistd.h>
+#include <cstdlib>
 
 //#ifdef OS_MAC
 //#include <OpenGL/gl.h>
@@ -50,6 +52,8 @@ static bool const verbose = false;
 
 char gDefaultMap[1024] = "";
 const recVec gOrigin = { 0.0, 0.0, 0.0 };
+char* HOGHOME=0;
+
 
 using namespace std;
 
@@ -463,3 +467,6 @@ point3d GetOGLPos(int x, int y)
 	
 	return point3d(posX, posY, posZ);
 }
+
+char* getHome() { return HOGHOME; }
+void setHome(char* val) { HOGHOME=val; std::cout<<"\nHOGHOME="<<HOGHOME<<". Can be overridden by setting the HOGHOME environment variable."; }

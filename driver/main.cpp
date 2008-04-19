@@ -46,16 +46,28 @@ int gCurrButton = -1;
 //int ppMouseClicks = 0;
 pRecContext backup;
 double fps = 30.0;
-
 pRecContext getCurrentContext()
 {
 	return pContextInfo;
 }
 
 int main(int argc, char** argv)
-{
-  // Init traj global
-	
+{	
+	/* where are we? */
+	char* HOGHOME;
+	char* val = getenv("HOGHOME");
+	if(val != NULL)
+	{
+		HOGHOME = (char*)malloc(sizeof(char*)*strlen(val));
+		strcpy(HOGHOME, val);
+	}
+	else 
+		HOGHOME = getcwd(val, PATH_MAX);
+
+	std::cout << "\nHOGHOME: "<<HOGHOME;
+	setHome(HOGHOME);
+
+	// Init traj global
 	startTrajRecap = false;
 
 	srandom(time(0));
@@ -91,6 +103,7 @@ int main(int argc, char** argv)
 	processStats(pContextInfo->unitLayer->getStats());
 	delete pContextInfo->unitLayer;
 	delete pContextInfo;
+	free(HOGHOME);
 	
 	return 0;
 }

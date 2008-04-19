@@ -71,4 +71,8 @@ mapAbstraction* getMapAbstraction();
 pRecContext getCurrentContext();
 //static void drawCaps (pRecContext pContextInfo) {}
 
+void setupHOGHOME();
+void cleanupHOGHOME();
+
+
 bool startTrajRecap;
