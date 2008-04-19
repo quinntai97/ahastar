@@ -157,3 +157,18 @@ path* AnnotatedHierarchicalAStar::getPath(graphAbstraction* aMap, node* from, no
 	//std::cout << "\n thepath distance: "<<aMap->distance(thepath);
 	return thepath;
 }
+
+void AnnotatedHierarchicalAStar::logStats(statCollection* stats)
+{
+	AnnotatedAStar::logStats(stats);
+	
+	stats->addStat("absNodesExpanded",getName(),getAbsNodesExpanded());
+	stats->addStat("absNodesTouched",getName(),getAbsNodesTouched());
+	stats->addStat("absPeakMemory",getName(),getAbsPeakMemory());
+	stats->addStat("absSearchTime",getName(),getAbsSearchTime());
+
+	stats->addStat("insNodesExpanded",getName(),getInsertNodesExpanded());
+	stats->addStat("insNodesTouched",getName(),getInsertNodesTouched());
+	stats->addStat("insPeakMemory",getName(),getInsertPeakMemory());
+	stats->addStat("insSearchTime",getName(),getInsertSearchTime());
+}

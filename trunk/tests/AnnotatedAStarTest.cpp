@@ -16,6 +16,7 @@
 #include "mapFlatAbstraction.h"
 #include "AnnotatedClusterAbstractionMock.h"
 #include "TestConstants.h"
+#include "statCollection.h"
 
 
 CPPUNIT_TEST_SUITE_REGISTRATION( AnnotatedAStarTest );
@@ -421,4 +422,39 @@ void AnnotatedAStarTest::getPathReturnsTheShortestPathWithinCorridorBounds()
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("corridor path has wrong length", realdist, pdist );
 	
 	delete p;	
+}
+
+void AnnotatedAStarTest::logStatsShouldRecordAllMetricsToStatsCollection()
+{	
+	amamock = new AnnotatedMapAbstractionMock(new Map(acmap.c_str()), new AnnotatedAStarMock());
+	amamock->annotateMap();
+
+	statCollection sc;
+	aastar->setClearance(1);
+	aastar->setCapability(kGround);
+	path* p = aastar->getPath(amamock, amamock->getNodeFromMap(2,1), amamock->getNodeFromMap(4,5));
+	aastar->logStats(&sc);
+	
+	assert(p != 0);
+	string catNE = "nodesExpanded";
+	string catNT = "nodesTouched";
+	string catPM = "peakMemory";
+	string catST = "searchTime";
+	
+	statValue result;
+	int lookupResult = sc.lookupStat(catNE.c_str(), aastar->getName() , result);
+	CPPUNIT_ASSERT_MESSAGE("couldn't find nodesExpanded metric in statsCollection", lookupResult != -1);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("nodesExpanded metric in statsCollection doesn't match expected result", (long)aastar->getNodesExpanded(), result.lval);
+
+	lookupResult = sc.lookupStat(catNT.c_str(), aastar->getName() , result);
+	CPPUNIT_ASSERT_MESSAGE("couldn't find nodesTouched metric in statsCollection", lookupResult != -1);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("nodesTouched metric in statsCollection doesn't match expected result", (long)aastar->getNodesTouched(), result.lval);
+
+	lookupResult = sc.lookupStat(catPM.c_str(), aastar->getName() , result);
+	CPPUNIT_ASSERT_MESSAGE("couldn't find peakMemory metric in statsCollection", lookupResult != -1);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("peakMemory metric in statsCollection doesn't match expected result", (long)aastar->getPeakMemory(), result.lval);
+
+	lookupResult = sc.lookupStat(catST.c_str(), aastar->getName() , result);
+	CPPUNIT_ASSERT_MESSAGE("couldn't find searchTime metric in statsCollection", lookupResult != -1);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("searchTime metric in statsCollection doesn't match expected result", (double)aastar->getSearchTime(), result.fval);
 }

@@ -19,17 +19,17 @@ class AnnotatedHierarchicalAStar : public AnnotatedAStar
 	#endif
 	
 	public:	
-		virtual const char* getName() { return "AnnotatedHierarchicalAStar"; }
+		virtual const char* getName() { return "AHAStar"; }
 		virtual path* getPath(graphAbstraction* aMap, node* from, node* to, reservationProvider *rp=0);
-		int getInsertNodesExpanded() { return insertNodesExpanded; }
-		int getInsertNodesTouched() { return insertNodesTouched; }
-		int getInsertPeakMemory() { return insertPeakMemory; }
+		long getInsertNodesExpanded() { return insertNodesExpanded; }
+		long getInsertNodesTouched() { return insertNodesTouched; }
+		long getInsertPeakMemory() { return insertPeakMemory; }
 		double getInsertSearchTime() { return insertSearchTime; }
-		int getAbsNodesExpanded() { return absNodesExpanded; }
-		int getAbsNodesTouched() { return absNodesTouched; }
-		int getAbsPeakMemory() { return absPeakMemory; }
+		long getAbsNodesExpanded() { return absNodesExpanded; }
+		long getAbsNodesTouched() { return absNodesTouched; }
+		long getAbsPeakMemory() { return absPeakMemory; }
 		double getAbsSearchTime() { return absSearchTime; }
-
+		virtual void logStats(statCollection* sc);
 		
 	protected:
 		virtual path* getAbstractPath(graphAbstraction* aMap, node* from, node* to) 
@@ -39,9 +39,9 @@ class AnnotatedHierarchicalAStar : public AnnotatedAStar
 		virtual bool evaluate(node* n, node* target);
 		
 	private:		
-		int insertNodesExpanded, absNodesExpanded;
-		int insertNodesTouched, absNodesTouched;
-		int insertPeakMemory, absPeakMemory;
+		long insertNodesExpanded, absNodesExpanded;
+		long insertNodesTouched, absNodesTouched;
+		long insertPeakMemory, absPeakMemory;
 		double insertSearchTime, absSearchTime;
 };
 
