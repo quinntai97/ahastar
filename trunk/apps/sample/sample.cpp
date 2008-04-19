@@ -42,7 +42,6 @@
 #include "AnnotatedHierarchicalAStar.h"
 #include "clusterAbstraction.h"
 #include "ScenarioManager.h"
-#include <cstdlib>
 
 bool mouseTracking;
 int px1, py1, px2, py2;
@@ -52,6 +51,7 @@ AHAExperiment* nextExperiment;
 int expnum=0;
 bool runAHA=false;
 bool scenario=false;
+bool hog_gui=true;
 
 /**
  * This function is called each time a unitSimulation is deallocated to
@@ -180,14 +180,16 @@ void createSimulation(unitSimulation * &unitSim)
 		e = absg->edgeIterNext(ei);
 	}
 */
-
-	unitSim = new unitSimulation(aca);	
-	unitSim->setCanCrossDiagonally(true);
 	
-	if(scenario)
+	if(hog_gui)
 	{
-		unitSim->setNextExperimentPtr(&runNextExperiment);
-		runNextExperiment(unitSim);
+		unitSim = new unitSimulation(aca);	
+		unitSim->setCanCrossDiagonally(true);
+		if(scenario)
+		{
+			unitSim->setNextExperimentPtr(&runNextExperiment);
+			runNextExperiment(unitSim);
+		}
 	}
 }
 
@@ -237,6 +239,8 @@ void initializeHandlers()
 	installCommandLineHandler(myCLHandler, "-map", "-map filename", "Selects the default map to be loaded.");
 	installCommandLineHandler(myScenarioGeneratorCLHandler, "-genscenarios", "-genscenarios [.map filename] [number of scenarios] [clearance]", "Generates a scenario; a set of path problems on a given map");
 	installCommandLineHandler(myExecuteScenarioCLHandler, "-scenario", "-scenario filename", "Execute all experiments in a given .scenario file");
+	installCommandLineHandler(myGUICLHandler, "-gui", "-gui [enable/disable]", "Run the app without a pretty interface. Defaults to enable if not specified (used in conjunction with -scenario)");	
+	
 	
 	installMouseClickHandler(myClickHandler);
 }
@@ -256,7 +260,7 @@ int myScenarioGeneratorCLHandler(char *argument[], int maxNumArgs)
 	std::string map(argument[1]);
 	std::string genscen(argument[0]);
 	std::cout << "call: "<<genscen<<" "<<map<<" "<<argument[2] <<" "<<argument[3];
-	
+		
 	AHAScenarioManager scenariomgr;
 	int numScenarios = atoi(argument[2]);
 	int minAgentSize = atoi(argument[3]);
@@ -274,16 +278,24 @@ int myScenarioGeneratorCLHandler(char *argument[], int maxNumArgs)
 
 int myExecuteScenarioCLHandler(char *argument[], int maxNumArgs)
 {	
-	if(maxNumArgs < 2)
+	if(maxNumArgs < 1)
 		return 0;
-		
+	
+	std::cout << "\n -scenario call: "<<argument[1];
 	std::string infile(argument[1]);
 	scenariomgr.loadScenarioFile(infile.c_str());	
 	strncpy(gDefaultMap, scenariomgr.getNthExperiment(0)->getMapName(), 1024);
 	
-	std::cout << "\n executing scenario file at " << gDefaultMap<<". hold on to your hats, this could get hairy!";
 	scenario=true;
 	return 2;
+}
+
+int myGUICLHandler(char *argument[], int maxNumArgs)
+{
+	std::cout <<"yo";
+	std::string value(argument[1]);
+	if(value.compare("disable"))
+		hog_gui=false;
 }
 
 void myDisplayHandler(unitSimulation *unitSim, tKeyboardModifier mod, char key)
@@ -474,3 +486,7 @@ void runNextExperiment(unitSimulation *unitSim)
 	
 }
 
+void runSimulationNoGUI()
+{
+	std::cout << "\nok, no gui";
+}

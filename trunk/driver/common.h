@@ -289,4 +289,7 @@ void cameraMoveTo(GLfloat x, GLfloat y, GLfloat z, float cameraSpeed = 0.1);
 void resetCamera();
 point3d GetOGLPos(int x, int y);
 
+char* getHome();
+void setHome(char* );
+
 #endif
