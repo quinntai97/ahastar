@@ -30,6 +30,7 @@ namespace AAStarUtil {
   typedef __gnu_cxx::hash_map<int,bool> NodeMap;
 }
 
+class statCollection;
 
 // TODO: get rid of overridden getPath methods with capability & size params. these are set using accessor methods. if not, the search 
 // returns null anyway (0 default values for both).
@@ -37,23 +38,24 @@ class AbstractAnnotatedAStar : public aStarOld
 {
 	public:	
 		AbstractAnnotatedAStar(int _capability, int _clearance) : useCorridor(false), capability(_capability), clearance(_clearance) { capability=0; clearance=0; }
-		virtual const char* getName() { return "AbstractAnnotatedAStar"; }
+		virtual const char* getName() = 0;
 		virtual path *getPath(graphAbstraction *aMap, node *from, node *to, reservationProvider *rp = 0) = 0;
 		
 		int getClearance() { return clearance;}
 		void setClearance(int clearance) { this->clearance = clearance; }
 		int getCapability() { return capability; }
 		void setCapability(int capability) { this->capability = capability; }
-		int getPeakMemory() { return peakmemory; }
+		long getPeakMemory() { return peakmemory; }
 		double getSearchTime() { return searchtime; }
 		void limitSearchToClusterCorridor(bool value) { useCorridor=value; }
 		void setCorridorClusters(int cid1, int cid2) { cluster1 = cid1; cluster2 = cid2; }
+		virtual void logStats(statCollection *stats) = 0;
 		
 	protected:
 		bool isInCorridor(node* n) { if(n->getParentCluster() != cluster1 && n->getParentCluster() != cluster2) return false; return true; }
 		bool verbose;
 		virtual bool evaluate(node* n, node* target) = 0; // check if a node is traversable
-		int peakmemory;
+		long peakmemory;
 		double searchtime;
 		bool useCorridor;
 		
@@ -72,9 +74,9 @@ class AnnotatedAStar : public AbstractAnnotatedAStar
 		#endif
 		AnnotatedAStar(int _capability=0, int _clearance=0) : AbstractAnnotatedAStar(_capability, _clearance) { e = NULL; }
 		virtual path *getPath(graphAbstraction *aMap, node *from, node *to, reservationProvider *rp = 0);
-		virtual const char* getName() { return "AnnotatedAStar"; }
+		virtual const char* getName() { return "AAStar"; }
 		static tDirection getDirection(node* current, node* target); // TODO: move this to a common AStar base class
-
+		virtual void logStats(statCollection *stats);
 
 	protected:
 		virtual bool evaluate(node* n, node* target);

@@ -42,6 +42,7 @@
 #include "AnnotatedHierarchicalAStar.h"
 #include "clusterAbstraction.h"
 #include "ScenarioManager.h"
+#include "CapabilityUnit.h"
 
 bool mouseTracking;
 int px1, py1, px2, py2;
@@ -239,7 +240,7 @@ void initializeHandlers()
 	installCommandLineHandler(myCLHandler, "-map", "-map filename", "Selects the default map to be loaded.");
 	installCommandLineHandler(myScenarioGeneratorCLHandler, "-genscenarios", "-genscenarios [.map filename] [number of scenarios] [clearance]", "Generates a scenario; a set of path problems on a given map");
 	installCommandLineHandler(myExecuteScenarioCLHandler, "-scenario", "-scenario filename", "Execute all experiments in a given .scenario file");
-	installCommandLineHandler(myGUICLHandler, "-gui", "-gui [enable/disable]", "Run the app without a pretty interface. Defaults to enable if not specified (used in conjunction with -scenario)");	
+	installCommandLineHandler(myGUICLHandler, "-gui", "-gui enable/disable", "Run the app without a pretty interface (used in conjunction with -scenario). Defaults to enable if not specified or if a non-valid argument is given ");	
 	
 	
 	installMouseClickHandler(myClickHandler);
@@ -292,10 +293,11 @@ int myExecuteScenarioCLHandler(char *argument[], int maxNumArgs)
 
 int myGUICLHandler(char *argument[], int maxNumArgs)
 {
-	std::cout <<"yo";
 	std::string value(argument[1]);
-	if(value.compare("disable"))
+	if(strcmp(argument[1], "disable") == 0)
 		hog_gui=false;
+
+	return 2;
 }
 
 void myDisplayHandler(unitSimulation *unitSim, tKeyboardModifier mod, char key)
@@ -364,16 +366,20 @@ void myRandomUnitKeyHandler(unitSimulation *unitSim, tKeyboardModifier mod, char
 			aastar = new AnnotatedHierarchicalAStar();
 			aastar->setClearance(clearance);
 			aastar->setCapability(capability);
-			unitSim->addUnit(u=new searchUnit(x2, y2, targ, aastar)); 
+			unitSim->addUnit(u=new CapabilityUnit(x2, y2, targ, aastar)); 
+			u->setColor(1,0.98,0.8);
+			targ->setColor(1,0.98,0.8);
 			break;
 		default:
 			aastar = new AnnotatedAStar();
 			aastar->setClearance(clearance);
 			aastar->setCapability(capability);
-			unitSim->addUnit(u=new searchUnit(x2, y2, targ, aastar)); 
+			unitSim->addUnit(u=new CapabilityUnit(x2, y2, targ, aastar)); 
+			u->setColor(1,1,0);
+			targ->setColor(1,1,0);
 			break;
 	}
-	u->setSpeed(0.25);
+	u->setSpeed(0.12);
 //	u->setSpeed(0.000001);
 	//unitSim->setmapAbstractionDisplay(1);
 }

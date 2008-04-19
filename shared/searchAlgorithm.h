@@ -43,13 +43,13 @@ public:
 	virtual ~searchAlgorithm() {}
 	virtual const char *getName() = 0;
 	virtual path *getPath(graphAbstraction *aMap, node *from, node *to, reservationProvider *rp = 0) = 0;
-	int getNodesExpanded() { return nodesExpanded; }
-	int getNodesTouched() { return nodesTouched; }
+	long getNodesExpanded() { return nodesExpanded; }
+	long getNodesTouched() { return nodesTouched; }
 	virtual void logFinalStats(statCollection *) {}
 
 	//protected:
-	int nodesExpanded;
-	int nodesTouched;
+	long nodesExpanded;
+	long nodesTouched;
 };
 
 extern void doRandomPath(graphAbstraction *aMap, searchAlgorithm *sa, bool repeat = false);

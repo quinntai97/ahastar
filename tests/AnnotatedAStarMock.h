@@ -13,6 +13,7 @@
 #include "AnnotatedAStar.h"
 #include "ExperimentManager.h"
 
+class statCollection;
 class AnnotatedAStarMock : public AbstractAnnotatedAStar
 {
 	public:
@@ -21,6 +22,7 @@ class AnnotatedAStarMock : public AbstractAnnotatedAStar
 		virtual const char* getName() { return "AnnotatedAStarMock"; }
 		virtual bool evaluate(node* n, node* target); 
 		void setCurrentTestExperiment(ExpMgrUtil::TestExperiment* exp) { curexp = exp; }
+		void logStats(statCollection* sc) { }
 
 	private:
 		ExpMgrUtil::TestExperiment* curexp;

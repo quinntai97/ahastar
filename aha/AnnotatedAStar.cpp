@@ -28,6 +28,11 @@ using namespace std;
 */
 path* AnnotatedAStar::getPath(graphAbstraction *aMap, node *from, node* to, reservationProvider *rp)
 {
+	nodesExpanded=0;
+	nodesTouched=0;
+	peakmemory = 0;
+	searchtime =0;
+
 	if(aMap == NULL || !dynamic_cast<AbstractAnnotatedMapAbstraction*>(aMap))
 		return NULL;
 		
@@ -67,10 +72,6 @@ path* AnnotatedAStar::getPath(graphAbstraction *aMap, node *from, node* to, rese
 	path *p = NULL;
 	
 	Timer t;
-	nodesExpanded=0;
-	nodesTouched=0;
-	peakmemory = 0;
-	searchtime =0;
 	
 	if(useCorridor)
 		this->setCorridorClusters(from->getParentCluster(),to->getParentCluster());
@@ -262,4 +263,12 @@ tDirection AnnotatedAStar::getDirection(node* current, node* target)
 		}
 		
 		return (tDirection)dir;
+}
+
+void AnnotatedAStar::logStats(statCollection *stats)
+{
+	stats->addStat("nodesExpanded",getName(),getNodesExpanded());
+	stats->addStat("nodesTouched",getName(),getNodesTouched());
+	stats->addStat("peakMemory",getName(),getPeakMemory());
+	stats->addStat("searchTime",getName(),getSearchTime());
 }
