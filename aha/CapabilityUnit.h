@@ -22,8 +22,6 @@ class CapabilityUnit : public searchUnit
 		virtual ~CapabilityUnit() { }
 
 		virtual void openGLDraw(mapProvider *, simulationInfo *);
-		void logStats(statCollection *stats);
-		void logFinalStats(statCollection *stats);
 };
 
 #endif CAPABILITYUNIT_H

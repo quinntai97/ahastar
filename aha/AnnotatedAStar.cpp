@@ -146,6 +146,12 @@ path* AnnotatedAStar::getPath(graphAbstraction *aMap, node *from, node* to, rese
 	searchtime = t.endTimer();
 	delete openList; 
 	closedList.clear();
+	
+	int ne = this->nodesExpanded;
+	int nt = this->nodesTouched;
+	double st = this->searchtime;
+	int pm = this->peakmemory;
+	
 	return p;	
 }
 
@@ -265,10 +271,12 @@ tDirection AnnotatedAStar::getDirection(node* current, node* target)
 		return (tDirection)dir;
 }
 
-void AnnotatedAStar::logStats(statCollection *stats)
+void AnnotatedAStar::logFinalStats(statCollection *stats)
 {
 	stats->addStat("nodesExpanded",getName(),getNodesExpanded());
 	stats->addStat("nodesTouched",getName(),getNodesTouched());
 	stats->addStat("peakMemory",getName(),getPeakMemory());
 	stats->addStat("searchTime",getName(),getSearchTime());
+	stats->addStat("agentSize", getName(), (long)getClearance());
+	stats->addStat("agentCapability", getName(), (long)getCapability());
 }

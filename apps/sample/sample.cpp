@@ -43,6 +43,9 @@
 #include "clusterAbstraction.h"
 #include "ScenarioManager.h"
 #include "CapabilityUnit.h"
+#include "statCollection.h"
+#include <cstdlib>
+#include <sstream>
 
 bool mouseTracking;
 int px1, py1, px2, py2;
@@ -53,6 +56,8 @@ int expnum=0;
 bool runAHA=false;
 bool scenario=false;
 bool hog_gui=true;
+bool highquality=true;
+int CLUSTERSIZE=10;
 
 /**
  * This function is called each time a unitSimulation is deallocated to
@@ -61,89 +66,115 @@ bool hog_gui=true;
 
 void processStats(statCollection *stat)
 {
-/*	std::stringstream ss;
-	ss << "/Users/dharabor/src/hog/experiments/results";
-	FILE *f = fopen(ss.str().c_str(), "a+");
+	if(stat->getNumStats() == 0)
+		return;
+	
+	std::string unitname;
+	if(runAHA) // aha is next; we just finished aa* experiment
+		unitname = "AAStar";		
+	else
+		unitname = "AHAStar";
+	
+	processStats(stat, unitname.c_str());
+	stat->clearAllStats();
+}
+
+void processStats(statCollection* stat, const char* unitname)
+{
+	//stat->printStatsTable();
+	std::ostringstream ss;
+	ss << "results";
+	if(highquality)
+		ss << "_highquality";
+	else
+		ss << "_lowquality";
+
+	ss << "_csize"<<CLUSTERSIZE;
+	
 	statValue val;
-	std::vector<const char *> *owners = stat->getOwners();
-	std::cout << "e\tid\ts\tc\tne\tnt\thne\thnt\tmem\thmem\ts&ct\ttst\thst\tsl\thsl\thdm\tdm"<<std::endl;
-	for(int i=0;i<owners->size();i++)
+	
+	int ne, nt, pm, absne, absnt, abspm, insne, insnt, inspm;
+	double st, absst, insst, pathdist;
+	int expId = expnum;
+	if(strcmp(unitname, "AHAStar") == 0 && hog_gui)
+		expId--;
+
+	ss << "_"<<unitname;
+	FILE *f = fopen(ss.str().c_str(), "a+");
+
+	ne = nt = pm = absne = absnt = abspm = insne = insnt = inspm = 0;
+	st = absst = insst = pathdist = 0;
+	bool exists;
+
+	fprintf(f, "%i,\t", expId);
+
+	fprintf(f, "%s,\t", unitname);
+
+	exists = stat->lookupStat("agentSize", unitname, val);
+	assert(exists);
+	int agentSize=val.lval;
+	fprintf(f, "%i,\t", agentSize);
+
+	
+	exists = stat->lookupStat("agentCapability", unitname, val);
+	assert(exists);
+	int agentCaps = val.lval;
+	fprintf(f, "%i,\t", agentCaps);
+	
+	exists = stat->lookupStat("nodesExpanded", unitname, val);
+	assert(exists);
+	ne = val.lval;
+	fprintf(f, "%i,\t", ne);
+
+	
+	exists = stat->lookupStat("nodesTouched", unitname, val);
+	assert(exists);
+	nt = val.lval;
+	fprintf(f, "%i,\t", nt);
+
+	exists = stat->lookupStat("peakMemory", unitname, val);
+	assert(exists);
+	pm = val.lval;
+	fprintf(f, "%i,\t", pm);
+
+	exists = stat->lookupStat("searchTime", unitname, val);
+	assert(exists);
+	st = val.fval;
+	fprintf(f, "%.6f,\t", st);
+	
+	if(strcmp(unitname, "AHAStar") == 0)
 	{
-		const char* unitname = owners->at(i);
-		stat->lookupStat("experimentId", unitname, val);
-		int expId = val.lval;
+		exists = stat->lookupStat("insNodesExpanded", unitname, val);
+		assert(exists);
+		insne = val.lval;
+		fprintf(f, "%i,\t", insne);
+
+		exists = stat->lookupStat("insNodesTouched", unitname, val);
+		assert(exists);
+		insnt = val.lval;
+		fprintf(f, "%i,\t", insnt);
 		
-		//cout <<val.lval<<",\t";
-		//std::cout << unitname << ",\t";
-		stat->lookupStat("agentSize", unitname, val);
-		int agentSize=val.lval;
-		//cout <<val.lval<<",\t";
-		stat->lookupStat("agentCapabilities", unitname, val);
-		int agentCaps = val.lval;
-		
-		//cout <<val.lval<<",\t";
-		stat->lookupStat("totalNodesExpanded", unitname, val);
-		int tne = val.lval;
-		//cout <<val.lval<<",\t";
-		stat->lookupStat("totalNodesTouched", unitname, val);
-		int tnt = val.lval;
-		
-		//cout <<val.lval<<",\t";
-		stat->lookupStat("hNodesExpanded", unitname, val);
-		int hne = val.lval;
-		//cout <<val.lval<<",\t";
-		stat->lookupStat("hNodesTouched", unitname, val);
-		int hnt = val.lval;
-		
-		//cout <<val.lval<<",\t";
-		stat->lookupStat("peakMemoryUsage", unitname, val);
-		int pmu = val.lval;
-		
-		//cout <<val.lval<<",\t";
-		stat->lookupStat("hMemoryUsage", unitname, val);
-		int hmu = val.lval;
-		
-		//cout <<val.lval<<",\t";
-		stat->lookupStat("setupAndCleanupTime", unitname, val);
-		double stc = val.fval;
-		
-		//cout <<setprecision(3) << val.fval<<",\t";
-		stat->lookupStat("totalSearchTime", unitname, val);
-		double tst = val.fval;
-		
-		//cout <<setprecision(3) << val.fval<<",\t";
-		stat->lookupStat("hSearchTime", unitname, val);
-		double hst = val.fval;
-		
-		//cout <<setprecision(3) << val.fval<<",\t";
-		stat->lookupStat("solutionLength", unitname, val);
-		int sl = val.lval;
-		
-		//cout << val.lval<<",\t";
-		stat->lookupStat("hSolutionLength", unitname, val);
-		int hsl = val.lval;
-		
-		//cout << val.lval<<",\t";
-		stat->lookupStat("hDistance", unitname, val);
-		double hdist = val.fval;
-		
-		//cout <<setprecision(3) << val.fval<<"\t";
-		stat->lookupStat("distanceMoved", unitname, val);
-		double dm = val.fval;
+		exists = stat->lookupStat("insPeakMemory", unitname, val);
+		assert(exists);
+		inspm = val.lval;
+		fprintf(f, "%i,\t", inspm);
 				
-		//cout <<setprecision(3) << val.fval<<std::endl;
-		fprintf(f, "%s,\t %i,\t %i,\t %i,\t %i,\t %i,\t %i,\t %i,\t %i,\t %i,\t %.2f,\t %.2f,\t %.2f,\t %i,\t %i,\t %.2f,\t %.2f,\t %s \n", 
-					unitname, expId, agentSize, agentCaps, tne, tnt, hne, hnt, pmu, hmu, stc, tst, hst, sl, hsl, hdist, dm, mapname.c_str());
-		
+		exists = stat->lookupStat("insSearchTime", unitname, val);
+		assert(exists);
+		insst = val.fval;
+		fprintf(f, "%.6f,\t", insst);
 
 	}
+	
+	exists = stat->lookupStat("distanceMoved", unitname, val);
+	assert(exists);
+	pathdist = val.fval;
+	fprintf(f, "%.3f,\t", pathdist);	
+	
+	fprintf(f, "%s\n", gDefaultMap);	
 
-	//fprintf(f,"\n");
 	fflush(f);
 	fclose(f);
-	//stat->printStatsTable();
-	
-	*/
 }
 
 /**
@@ -156,9 +187,13 @@ void createSimulation(unitSimulation * &unitSim)
 //	Map* map = new Map("/Users/dharabor/src/ahastar/maps/local/pacman.map");
 //	Map* map = new Map("/Users/dharabor/src/ahastar/maps/local/adaptive-depth-10.map");
 	Map* map = new Map(gDefaultMap);
-	int CLUSTERSIZE=5;
 
-	AnnotatedClusterAbstraction* aca = new AnnotatedClusterAbstraction(map, new AnnotatedAStar(), CLUSTERSIZE);
+	AnnotatedClusterAbstraction* aca;
+	if(highquality)
+		aca = new AnnotatedClusterAbstraction(map, new AnnotatedAStar(), CLUSTERSIZE);
+	else
+		aca = new AnnotatedClusterAbstraction(map, new AnnotatedAStar(), CLUSTERSIZE, ACAUtil::kLowQualityAbstraction);
+				
 	AnnotatedClusterFactory* acf = new AnnotatedClusterFactory();
 	aca->buildClusters(acf);
 	delete acf;
@@ -167,20 +202,28 @@ void createSimulation(unitSimulation * &unitSim)
 	//aca->setDrawClearance(true);
 	graph* absg = aca->getAbstractGraph(1);
 	graph* g = aca->getAbstractGraph(0);
+	
+	std::ostringstream ss;
+	ss << "results_graphsize";
+	if(highquality)
+		ss << "_highquality";
+	else
+		ss << "_lowquality";
+
+	ss << "_csize"<<CLUSTERSIZE;
+	
+	FILE *f = fopen(ss.str().c_str(), "a+");
+
+	fprintf(f, "%i,\t%i,\t", g->getNumNodes(), g->getNumEdges());
+	fprintf(f, "%i,\t%i,\t", absg->getNumNodes(), absg->getNumEdges());
+	fprintf(f, "%s\n", gDefaultMap);
+	fflush(f);
+	fclose(f);
+	
 	std::cout << "\noriginal map: nodes: "<<g->getNumNodes()<<" edges: "<<g->getNumEdges();
 	std::cout << "\n map: "<<gDefaultMap<< "absnodes: "<<absg->getNumNodes()<<" absedges: "<<absg->getNumEdges();
 
 	edge_iterator ei = absg->getEdgeIter();
-/*	edge* e = absg->edgeIterNext(ei);
-	while(e)
-	{
-		node* f = absg->getNode(e->getFrom());
-		node* t = absg->getNode(e->getTo());
-		std::cout << "\n edge connects "<<f->getLabelL(kFirstData)<<","<<f->getLabelL(kFirstData+1)<< " and "<<t->getLabelL(kFirstData)<<","<<t->getLabelL(kFirstData+1);
-		std::cout <<"(weight: "<<e->getWeight()<<" caps: "<<e->getCapability() << " clearance: "<<e->getClearance(e->getCapability())<<")";
-		e = absg->edgeIterNext(ei);
-	}
-*/
 	
 	if(hog_gui)
 	{
@@ -192,7 +235,47 @@ void createSimulation(unitSimulation * &unitSim)
 			runNextExperiment(unitSim);
 		}
 	}
+	else
+	{
+		gogoGadgetNOGUIScenario(aca);
+	}
 }
+
+void gogoGadgetNOGUIScenario(AnnotatedClusterAbstraction* aca)
+{
+	AnnotatedAStar aastar;
+	AnnotatedHierarchicalAStar ahastar;
+	statCollection stats;
+	
+	for(int i=0; i< scenariomgr.getNumExperiments(); i++)
+	{
+		expnum = i;
+		nextExperiment = (AHAExperiment*)scenariomgr.getNthExperiment(i);
+		aastar.setCapability(nextExperiment->getCapability());
+		aastar.setClearance(nextExperiment->getAgentsize());
+		node* from = aca->getNodeFromMap(nextExperiment->getStartX(), nextExperiment->getStartY());
+		node* to = aca->getNodeFromMap(nextExperiment->getGoalX(), nextExperiment->getGoalY());
+		
+		path* p = aastar.getPath(aca, from, to);
+		double distanceTravelled = aca->distance(p);
+		stats.addStat("distanceMoved", aastar.getName(), distanceTravelled);
+		aastar.logFinalStats(&stats);
+		processStats(&stats, aastar.getName());
+		stats.clearAllStats();
+		
+		ahastar.setCapability(nextExperiment->getCapability());
+		ahastar.setClearance(nextExperiment->getAgentsize());
+		p = ahastar.getPath(aca, from, to);
+		distanceTravelled = aca->distance(p);
+		stats.addStat("distanceMoved", ahastar.getName(), distanceTravelled);
+		ahastar.logFinalStats(&stats);
+		processStats(&stats);
+	}
+	
+	delete aca;
+	exit(0);
+}
+
 
 /**
  * This function is called once after each [time-step and frame draw]
@@ -241,7 +324,8 @@ void initializeHandlers()
 	installCommandLineHandler(myScenarioGeneratorCLHandler, "-genscenarios", "-genscenarios [.map filename] [number of scenarios] [clearance]", "Generates a scenario; a set of path problems on a given map");
 	installCommandLineHandler(myExecuteScenarioCLHandler, "-scenario", "-scenario filename", "Execute all experiments in a given .scenario file");
 	installCommandLineHandler(myGUICLHandler, "-gui", "-gui enable/disable", "Run the app without a pretty interface (used in conjunction with -scenario). Defaults to enable if not specified or if a non-valid argument is given ");	
-	
+	installCommandLineHandler(myQualityCLHandler, "-quality", "-quality high/low", "Type of cluster abstraction to create (high results in better quality solutions but costs more memory & takes longer to set up). Default = high");	
+	installCommandLineHandler(myClustersizeCLHandler, "-clustersize", "-clustersize [num]", "Size of clusters to split up map into. Larger clusters are faster to create but less accurate. Default = 10.");		
 	
 	installMouseClickHandler(myClickHandler);
 }
@@ -299,6 +383,39 @@ int myGUICLHandler(char *argument[], int maxNumArgs)
 
 	return 2;
 }
+
+int myQualityCLHandler(char *argument[], int maxNumArgs)
+{
+	std::string value(argument[1]);
+	if(strcmp(argument[1], "high") == 0)
+	{
+		highquality=true;
+		return 2;
+	}
+	else 
+		if(strcmp(argument[1], "low") == 0)
+		{
+			highquality=false;
+			return 2;
+		}
+		
+	return 0;
+}
+
+int myClustersizeCLHandler(char *argument[], int maxNumArgs)
+{
+	std::string value(argument[1]);
+	int val = atoi(value.c_str());
+	if(val>0)
+	{
+		CLUSTERSIZE=val;
+		return 2;
+	}
+
+	return 0;
+}
+
+
 
 void myDisplayHandler(unitSimulation *unitSim, tKeyboardModifier mod, char key)
 {
@@ -458,6 +575,7 @@ void runNextExperiment(unitSimulation *unitSim)
 		exit(0);
 	}
 
+	processStats(unitSim->getStats());
 	AHAExperiment* nextExperiment = dynamic_cast<AHAExperiment*>(scenariomgr.getNthExperiment(expnum));
 	
 	searchUnit* nextUnit;
@@ -467,7 +585,7 @@ void runNextExperiment(unitSimulation *unitSim)
 		AnnotatedHierarchicalAStar* ahastar = new AnnotatedHierarchicalAStar();
 		ahastar->setCapability(nextExperiment->getCapability());
 		ahastar->setClearance(nextExperiment->getAgentsize());			
-		nextUnit = new searchUnit(nextExperiment->getStartX(), nextExperiment->getStartY(), nextTarget, ahastar); 
+		nextUnit = new CapabilityUnit(nextExperiment->getStartX(), nextExperiment->getStartY(), nextTarget, ahastar); 
 		nextUnit->setColor(1,0.98,0.8);
 		nextTarget->setColor(1,0.98,0.8);
 		expnum++;
@@ -478,14 +596,13 @@ void runNextExperiment(unitSimulation *unitSim)
 		AnnotatedAStar* aastar = new AnnotatedAStar();
 		aastar->setCapability(nextExperiment->getCapability());
 		aastar->setClearance(nextExperiment->getAgentsize());			
-		nextUnit = new searchUnit(nextExperiment->getStartX(), nextExperiment->getStartY(), nextTarget, aastar); 
+		nextUnit = new CapabilityUnit(nextExperiment->getStartX(), nextExperiment->getStartY(), nextTarget, aastar); 
 		nextUnit->setColor(1,1,0);
 		nextTarget->setColor(1,1,0);
 		runAHA=true;
 	}
 	
-//	nextUnit->setSpeed(0.000001);
-	nextUnit->setSpeed(0.25);
+	nextUnit->setSpeed(0.05);
 	unitSim->clearAllUnits();
 	unitSim->addUnit(nextTarget);
 	unitSim->addUnit(nextUnit);

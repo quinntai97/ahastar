@@ -56,8 +56,8 @@ public:
 	virtual void updateLocation(int _x, int _y, bool, simulationInfo *);
 	virtual void openGLDraw(mapProvider *, simulationInfo *);
 	//void printRoundStats(FILE *f);
-	void logStats(statCollection *stats);
-	void logFinalStats(statCollection *stats);
+	virtual void logStats(statCollection *stats);
+	virtual void logFinalStats(statCollection *stats);
 protected:
 	virtual void addPathToCache(path *p);
 	bool getCachedMove(tDirection &dir);

@@ -32,14 +32,3 @@ void CapabilityUnit::openGLDraw(mapProvider *mp, simulationInfo *si)
 	drawSphere(xx, yy, zz, rad*size);
 
 }
-
-void CapabilityUnit::logStats(statCollection *stats)
-{
-	((AnnotatedAStar*)getAlgorithm())->logStats(stats);
-
-}
-
-void CapabilityUnit::logFinalStats(statCollection *stats)
-{
-	return; // why does HOG require two log methods??
-}

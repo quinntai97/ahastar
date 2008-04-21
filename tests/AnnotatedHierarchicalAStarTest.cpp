@@ -328,11 +328,9 @@ void AnnotatedHierarchicalAStarTest::getPathShouldAddInsertionEffortToPerformanc
 	CPPUNIT_ASSERT_MESSAGE("insertion effort (in nodes touched) not recorded", ahastar->getInsertNodesTouched() != 0);
 	CPPUNIT_ASSERT_MESSAGE("insertion effort (in peak memory) not recorded", ahastar->getInsertPeakMemory() != 0);
 	CPPUNIT_ASSERT_MESSAGE("insertion effort (in search time) not recorded", ahastar->getSearchTime() != 0);
-	
-	CPPUNIT_ASSERT_MESSAGE("nodes expanded doesn't add up", (ahastar->getInsertNodesExpanded() + ahastar->getAbsNodesExpanded()) == ahastar->getNodesExpanded());
-	CPPUNIT_ASSERT_MESSAGE("nodes touched doesn't add up", (ahastar->getInsertNodesTouched() + ahastar->getAbsNodesTouched()) == ahastar->getNodesTouched());
-	CPPUNIT_ASSERT_MESSAGE("peak memory wrong", ahastar->getPeakMemory() > ahastar->getAbsPeakMemory());
-	CPPUNIT_ASSERT_MESSAGE("searchtime doesn't add up", (ahastar->getInsertSearchTime() + ahastar->getAbsSearchTime()) == ahastar->getSearchTime());
+		
+	CPPUNIT_ASSERT_MESSAGE("insertion effort == search effort", ahastar->getNodesExpanded() == ahastar->getInsertNodesExpanded());
+//	CPPUNIT_ASSERT_MESSAGE("insertion effort == search effort", ahastar->getNodesExpanded() == ahastar->getInsertNodesExpanded());
 	
 	delete p2;
 	delete acfactory;
@@ -363,7 +361,7 @@ void AnnotatedHierarchicalAStarTest::logStatsShouldRecordAllMetricsToStatsCollec
 	path* p = ahastar->getPath(aca, start, goal);
 	assert(p != 0);
 	
-	ahastar->logStats(&sc);
+	ahastar->logFinalStats(&sc);
 	
 	statValue result;
 	int lookupResult = sc.lookupStat("nodesExpanded", ahastar->getName() , result);
@@ -381,22 +379,6 @@ void AnnotatedHierarchicalAStarTest::logStatsShouldRecordAllMetricsToStatsCollec
 	lookupResult = sc.lookupStat("searchTime", ahastar->getName() , result);
 	CPPUNIT_ASSERT_MESSAGE("couldn't find searchTime metric in statsCollection", lookupResult != -1);
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("searchTime metric in statsCollection doesn't match expected result", (double)ahastar->getSearchTime(), result.fval);
-
-	lookupResult = sc.lookupStat("absNodesExpanded", ahastar->getName() , result);
-	CPPUNIT_ASSERT_MESSAGE("couldn't find nodesExpanded metric in statsCollection", lookupResult != -1);
-	CPPUNIT_ASSERT_EQUAL_MESSAGE("nodesExpanded metric in statsCollection doesn't match expected result", (long)ahastar->getAbsNodesExpanded(), result.lval);
-
-	lookupResult = sc.lookupStat("absNodesTouched", ahastar->getName() , result);
-	CPPUNIT_ASSERT_MESSAGE("couldn't find nodesTouched metric in statsCollection", lookupResult != -1);
-	CPPUNIT_ASSERT_EQUAL_MESSAGE("nodesTouched metric in statsCollection doesn't match expected result", (long)ahastar->getAbsNodesTouched(), result.lval);
-
-	lookupResult = sc.lookupStat("absPeakMemory", ahastar->getName() , result);
-	CPPUNIT_ASSERT_MESSAGE("couldn't find peakMemory metric in statsCollection", lookupResult != -1);
-	CPPUNIT_ASSERT_EQUAL_MESSAGE("peakMemory metric in statsCollection doesn't match expected result", (long)ahastar->getAbsPeakMemory(), result.lval);
-
-	lookupResult = sc.lookupStat("absSearchTime", ahastar->getName() , result);
-	CPPUNIT_ASSERT_MESSAGE("couldn't find searchTime metric in statsCollection", lookupResult != -1);
-	CPPUNIT_ASSERT_EQUAL_MESSAGE("searchTime metric in statsCollection doesn't match expected result", (double)ahastar->getAbsSearchTime(), result.fval);
 
 	lookupResult = sc.lookupStat("insNodesExpanded", ahastar->getName() , result);
 	CPPUNIT_ASSERT_MESSAGE("couldn't find nodesExpanded metric in statsCollection", lookupResult != -1);

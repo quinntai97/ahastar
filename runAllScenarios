@@ -1,0 +1,7 @@
+#!/bin/bash
+for i in $(ls experiments/scenarios/*.scenario);
+do
+   #./bin/sample -scenario $i -gui disable -quality  $1  -clustersize $2
+   ./bin/sample -scenario $i -gui disable -quality high  -clustersize $1
+   ./bin/sample -scenario $i -gui disable -quality low  -clustersize $1
+done
