@@ -49,7 +49,6 @@ class AbstractAnnotatedAStar : public aStarOld
 		double getSearchTime() { return searchtime; }
 		void limitSearchToClusterCorridor(bool value) { useCorridor=value; }
 		void setCorridorClusters(int cid1, int cid2) { cluster1 = cid1; cluster2 = cid2; }
-		virtual void logStats(statCollection *stats) = 0;
 		
 	protected:
 		bool isInCorridor(node* n) { if(n->getParentCluster() != cluster1 && n->getParentCluster() != cluster2) return false; return true; }
@@ -76,7 +75,7 @@ class AnnotatedAStar : public AbstractAnnotatedAStar
 		virtual path *getPath(graphAbstraction *aMap, node *from, node *to, reservationProvider *rp = 0);
 		virtual const char* getName() { return "AAStar"; }
 		static tDirection getDirection(node* current, node* target); // TODO: move this to a common AStar base class
-		virtual void logStats(statCollection *stats);
+		virtual void logFinalStats(statCollection *stats);
 
 	protected:
 		virtual bool evaluate(node* n, node* target);

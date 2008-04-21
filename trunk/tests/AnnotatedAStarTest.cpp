@@ -433,7 +433,8 @@ void AnnotatedAStarTest::logStatsShouldRecordAllMetricsToStatsCollection()
 	aastar->setClearance(1);
 	aastar->setCapability(kGround);
 	path* p = aastar->getPath(amamock, amamock->getNodeFromMap(2,1), amamock->getNodeFromMap(4,5));
-	aastar->logStats(&sc);
+	double expectedPathDist = abs(amamock->distance(p));
+	aastar->logFinalStats(&sc);
 	
 	assert(p != 0);
 	string catNE = "nodesExpanded";
@@ -442,19 +443,32 @@ void AnnotatedAStarTest::logStatsShouldRecordAllMetricsToStatsCollection()
 	string catST = "searchTime";
 	
 	statValue result;
-	int lookupResult = sc.lookupStat(catNE.c_str(), aastar->getName() , result);
-	CPPUNIT_ASSERT_MESSAGE("couldn't find nodesExpanded metric in statsCollection", lookupResult != -1);
+	bool lookupResult = sc.lookupStat(catNE.c_str(), aastar->getName() , result);
+	CPPUNIT_ASSERT_MESSAGE("couldn't find nodesExpanded metric in statsCollection", lookupResult == true);
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("nodesExpanded metric in statsCollection doesn't match expected result", (long)aastar->getNodesExpanded(), result.lval);
 
 	lookupResult = sc.lookupStat(catNT.c_str(), aastar->getName() , result);
-	CPPUNIT_ASSERT_MESSAGE("couldn't find nodesTouched metric in statsCollection", lookupResult != -1);
+	CPPUNIT_ASSERT_MESSAGE("couldn't find nodesTouched metric in statsCollection", lookupResult == true);
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("nodesTouched metric in statsCollection doesn't match expected result", (long)aastar->getNodesTouched(), result.lval);
 
 	lookupResult = sc.lookupStat(catPM.c_str(), aastar->getName() , result);
-	CPPUNIT_ASSERT_MESSAGE("couldn't find peakMemory metric in statsCollection", lookupResult != -1);
+	CPPUNIT_ASSERT_MESSAGE("couldn't find peakMemory metric in statsCollection", lookupResult == true);
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("peakMemory metric in statsCollection doesn't match expected result", (long)aastar->getPeakMemory(), result.lval);
 
 	lookupResult = sc.lookupStat(catST.c_str(), aastar->getName() , result);
-	CPPUNIT_ASSERT_MESSAGE("couldn't find searchTime metric in statsCollection", lookupResult != -1);
+	CPPUNIT_ASSERT_MESSAGE("couldn't find searchTime metric in statsCollection", lookupResult == true);
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("searchTime metric in statsCollection doesn't match expected result", (double)aastar->getSearchTime(), result.fval);
+
+	lookupResult = sc.lookupStat("agentSize", aastar->getName() , result);
+	CPPUNIT_ASSERT_MESSAGE("couldn't find agentSize metric in statsCollection", lookupResult == true);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("agentSize metric in statsCollection doesn't match expected result", aastar->getClearance(), (int)result.lval);
+
+	lookupResult = sc.lookupStat("agentCapability", aastar->getName() , result);
+	CPPUNIT_ASSERT_MESSAGE("couldn't find agentCapability metric in statsCollection", lookupResult == true);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("agentSize metric in statsCollection doesn't match expected result", aastar->getCapability(), (int)result.lval);
+
+/*	lookupResult = sc.lookupStat("pathDistance", aastar->getName() , result);
+	CPPUNIT_ASSERT_MESSAGE("couldn't find pathDistance metric in statsCollection", lookupResult == true);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("pathDistance metric in statsCollection doesn't match expected result", expectedPathDist, (double)result.fval);
+*/
 }

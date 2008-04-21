@@ -25,11 +25,7 @@ class AnnotatedHierarchicalAStar : public AnnotatedAStar
 		long getInsertNodesTouched() { return insertNodesTouched; }
 		long getInsertPeakMemory() { return insertPeakMemory; }
 		double getInsertSearchTime() { return insertSearchTime; }
-		long getAbsNodesExpanded() { return absNodesExpanded; }
-		long getAbsNodesTouched() { return absNodesTouched; }
-		long getAbsPeakMemory() { return absPeakMemory; }
-		double getAbsSearchTime() { return absSearchTime; }
-		virtual void logStats(statCollection* sc);
+		virtual void logFinalStats(statCollection* sc);
 		
 	protected:
 		virtual path* getAbstractPath(graphAbstraction* aMap, node* from, node* to) 
@@ -39,10 +35,10 @@ class AnnotatedHierarchicalAStar : public AnnotatedAStar
 		virtual bool evaluate(node* n, node* target);
 		
 	private:		
-		long insertNodesExpanded, absNodesExpanded;
-		long insertNodesTouched, absNodesTouched;
-		long insertPeakMemory, absPeakMemory;
-		double insertSearchTime, absSearchTime;
+		long insertNodesExpanded;
+		long insertNodesTouched;
+		long insertPeakMemory;
+		double insertSearchTime;
 };
 
 #endif

@@ -120,6 +120,9 @@ bool searchUnit::getCachedMove(tDirection &dir)
 
 tDirection searchUnit::makeMove(mapProvider *mp, reservationProvider *rp, simulationInfo *simInfo)
 {
+	if(onTarget)
+		return kStay;
+		
 	tDirection res;
 	if (getCachedMove(res))
 		return res;
@@ -178,7 +181,7 @@ tDirection searchUnit::makeMove(mapProvider *mp, reservationProvider *rp, simula
 			targetTime = simInfo->getSimulationTime();
 		}
 		onTarget = true;
-//		return kStay;
+		return kStay;
 	}
 	else
 		onTarget = false;

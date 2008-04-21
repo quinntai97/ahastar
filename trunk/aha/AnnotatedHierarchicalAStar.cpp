@@ -48,10 +48,7 @@ path* AnnotatedHierarchicalAStar::getPath(graphAbstraction* aMap, node* from, no
 {
 	AnnotatedClusterAbstraction* aca = dynamic_cast<AnnotatedClusterAbstraction*>(aMap);
 	assert(aca != 0); 
-	
-	absNodesExpanded=absNodesTouched=absPeakMemory=0;
-	absSearchTime=0;
-	
+		
 	insertNodesExpanded = insertNodesTouched = insertPeakMemory =0;
 	insertSearchTime = 0;
 	
@@ -139,11 +136,6 @@ path* AnnotatedHierarchicalAStar::getPath(graphAbstraction* aMap, node* from, no
 	insertPeakMemory = aca->getPeakMemory();
 	insertSearchTime = aca->getSearchTime();
 	
-	this->absNodesExpanded = this->nodesExpanded;
-	this->absNodesTouched = this->nodesTouched;
-	this->absPeakMemory = this->peakmemory;
-	this->absSearchTime = this->searchtime;
-	
 	this->nodesExpanded += insertNodesExpanded;
 	this->nodesTouched += insertNodesTouched;
 	this->searchtime += insertSearchTime;
@@ -158,15 +150,10 @@ path* AnnotatedHierarchicalAStar::getPath(graphAbstraction* aMap, node* from, no
 	return thepath;
 }
 
-void AnnotatedHierarchicalAStar::logStats(statCollection* stats)
+void AnnotatedHierarchicalAStar::logFinalStats(statCollection* stats)
 {
-	AnnotatedAStar::logStats(stats);
+	AnnotatedAStar::logFinalStats(stats);
 	
-	stats->addStat("absNodesExpanded",getName(),getAbsNodesExpanded());
-	stats->addStat("absNodesTouched",getName(),getAbsNodesTouched());
-	stats->addStat("absPeakMemory",getName(),getAbsPeakMemory());
-	stats->addStat("absSearchTime",getName(),getAbsSearchTime());
-
 	stats->addStat("insNodesExpanded",getName(),getInsertNodesExpanded());
 	stats->addStat("insNodesTouched",getName(),getInsertNodesTouched());
 	stats->addStat("insPeakMemory",getName(),getInsertPeakMemory());
