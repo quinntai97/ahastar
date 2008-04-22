@@ -329,8 +329,8 @@ void AnnotatedHierarchicalAStarTest::getPathShouldAddInsertionEffortToPerformanc
 	CPPUNIT_ASSERT_MESSAGE("insertion effort (in peak memory) not recorded", ahastar->getInsertPeakMemory() != 0);
 	CPPUNIT_ASSERT_MESSAGE("insertion effort (in search time) not recorded", ahastar->getSearchTime() != 0);
 		
-	CPPUNIT_ASSERT_MESSAGE("insertion effort == search effort", ahastar->getNodesExpanded() == ahastar->getInsertNodesExpanded());
-//	CPPUNIT_ASSERT_MESSAGE("insertion effort == search effort", ahastar->getNodesExpanded() == ahastar->getInsertNodesExpanded());
+	CPPUNIT_ASSERT_MESSAGE("insertion effort != search effort", ahastar->getNodesExpanded() != ahastar->getInsertNodesExpanded());
+	CPPUNIT_ASSERT_MESSAGE("insertion effort-search effort > 0", (ahastar->getNodesExpanded() - ahastar->getInsertNodesExpanded()) > 0);
 	
 	delete p2;
 	delete acfactory;

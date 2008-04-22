@@ -181,38 +181,74 @@ void AnnotatedCluster::buildVerticalEntrances(int curCapability, AnnotatedCluste
 	
 	int mapwidth = aca->getMap()->getMapWidth();
 
-	node* candidateNode1 = 0; // multiple entrances may exist along a border so we track candidate w/ largest clearance so far
-	node* candidateNode2 = 0;
-	int candidateClearance=0;
-		
 	/* scan for vertical entrances along the eastern border */
 	int x = this->getHOrig()+this->getWidth();
 	if(x == mapwidth)
 		return; // no eastern neighbour; nothing to build
+	int y = this->getVOrig();
+	while(y < this->getVOrig()+this->getHeight())
+	{
+		int minY, maxY;
+		minY = findLocalMinimaForVerticalEntrance(x, y, curCapability, aca);
+		maxY = findLocalMaximaForVerticalEntrance(x, y, minY, curCapability, aca); // maximum clearance between current pos and some local minima nearby
 	
-	for(int y=getVOrig(); y<getVOrig()+getHeight(); y++)
+		node* endpoint1 = aca->getNodeFromMap(x, maxY); // inside eastern neighbour
+		node* endpoint2 = aca->getNodeFromMap(x-1, maxY);
+		int clearance = endpoint1->getClearance(curCapability)>endpoint2->getClearance(curCapability)?
+				endpoint2->getClearance(curCapability):endpoint1->getClearance(curCapability);
+
+		if(clearance > 0)
+			this->addEntrance(endpoint2, endpoint1, curCapability, clearance, aca); // each transition we identify is a local maxima clearance for curCapability
+		y = minY+1;
+	}
+}
+
+int AnnotatedCluster::findLocalMinimaForVerticalEntrance(int x, int startY, int curCapability, AnnotatedClusterAbstraction* aca)
+{
+	int minClearance = MAXINT;
+	int minY=startY;
+	for(int y=startY; y<getVOrig()+getHeight();y++)
 	{
 		node *c1 = aca->getNodeFromMap(x,y); // node in neighbouring cluster
 		node *c2 = aca->getNodeFromMap(x-1, y); // border node in 'this' cluster
 		int clearance = c1->getClearance(curCapability)>c2->getClearance(curCapability)?
 							c2->getClearance(curCapability):c1->getClearance(curCapability);
-
-		if(clearance > candidateClearance)
+	
+		if(clearance == 0)
+			return y;
+			
+		if(clearance <= minClearance)
 		{
-			candidateNode1 = c1;
-			candidateNode2 = c2;
-			candidateClearance = clearance;
+			minClearance = clearance;	
+			minY=y;
 		}
-		if(clearance == 0 && candidateClearance != 0) // hard obstacle encountered. build the largest entrance so far	
+		if(clearance > minClearance)
+			return minY;  // increase in clearance indicates local minima found.
+	}
+	
+	return minY;
+}
+
+int AnnotatedCluster::findLocalMaximaForVerticalEntrance(int x, int startY, int endY, int curCapability, AnnotatedClusterAbstraction* aca)
+{
+	int maxClearance = 0;
+	int maxY = startY;
+
+	for(int y=startY; y<=endY; y++)
+	{
+		node *c1 = aca->getNodeFromMap(x,y); // node in neighbouring cluster
+		node *c2 = aca->getNodeFromMap(x-1, y); // border node in 'this' cluster
+		int clearance = c1->getClearance(curCapability)>c2->getClearance(curCapability)?
+							c2->getClearance(curCapability):c1->getClearance(curCapability);
+		
+		if(clearance > maxClearance)
 		{
-				this->addEntrance(candidateNode2,candidateNode1, curCapability, candidateClearance, aca);
-				candidateNode1 = candidateNode2 = 0;
-				candidateClearance = 0;
+			maxClearance = clearance;
+			maxY = y;
 		}
 	}
 	
-	if(candidateClearance != 0)
-		this->addEntrance(candidateNode2,candidateNode1, curCapability, candidateClearance, aca);
+	return maxY;
 }
 
 void AnnotatedCluster::buildHorizontalEntrances(int curCapability, AnnotatedClusterAbstraction* aca)
@@ -222,10 +258,6 @@ void AnnotatedCluster::buildHorizontalEntrances(int curCapability, AnnotatedClus
 		throw AnnotatedClusterAbstractionIsNullException();
 	
 	int mapheight = aca->getMap()->getMapHeight();
-
-	node* candidateNode1 = 0; // multiple entrances may exist along a border so we track candidate w/ largest clearance so far
-	node* candidateNode2 = 0;
-	int candidateClearance=0;
 		
 	/* scan for horizontal entrances along the southern border */
 	int	y = this->getVOrig()+this->getHeight();
@@ -233,29 +265,72 @@ void AnnotatedCluster::buildHorizontalEntrances(int curCapability, AnnotatedClus
 	if(y == mapheight)
 		return; // no southern neighbour; nothing to build
 
-	for(int x=getHOrig(); x<getHOrig()+getWidth(); x++)
+	int x = this->getHOrig();
+	while(x < this->getHOrig()+this->getWidth())
+	{
+		int minX, maxX;
+		minX = findLocalMinimaForHorizontalEntrance(y, x, curCapability, aca);
+		maxX = findLocalMaximaForHorizontalEntrance(y, x, minX, curCapability, aca); // maximum clearance between current pos and some local minima nearby
+	
+		node* endpoint1 = aca->getNodeFromMap(maxX, y); // inside eastern neighbour
+		node* endpoint2 = aca->getNodeFromMap(maxX, y-1);
+		int clearance = endpoint1->getClearance(curCapability)>endpoint2->getClearance(curCapability)?
+				endpoint2->getClearance(curCapability):endpoint1->getClearance(curCapability);
+
+		if(clearance > 0)
+			this->addEntrance(endpoint2, endpoint1, curCapability, clearance, aca); // each transition we identify is a local maxima clearance for curCapability
+		x = minX+1;
+	}
+
+
+}
+
+int AnnotatedCluster::findLocalMinimaForHorizontalEntrance(int y, int startX, int curCapability, AnnotatedClusterAbstraction* aca)
+{
+	int minClearance = MAXINT;
+	int minX=startX;
+	for(int x=startX; x<getHOrig()+getWidth();x++)
 	{
 		node *c1 = aca->getNodeFromMap(x,y); // node in neighbouring cluster
 		node *c2 = aca->getNodeFromMap(x, y-1); // border node in 'this' cluster
 		int clearance = c1->getClearance(curCapability)>c2->getClearance(curCapability)?
 							c2->getClearance(curCapability):c1->getClearance(curCapability);
-
-		if(clearance > candidateClearance)
+	
+		if(clearance == 0)
+			return x;
+			
+		if(clearance <= minClearance)
 		{
-			candidateNode1 = c1;
-			candidateNode2 = c2;
-			candidateClearance = clearance;
+			minClearance = clearance;	
+			minX=x;
 		}
-		if(clearance == 0 && candidateClearance != 0) // hard obstacle encountered. build the largest entrance so far	
+		if(clearance > minClearance)
+			return minX;  // increase in clearance indicates local minima found.
+	}
+	
+	return minX;
+}
+
+int AnnotatedCluster::findLocalMaximaForHorizontalEntrance(int y, int startX, int endX, int curCapability, AnnotatedClusterAbstraction* aca)
+{
+	int maxClearance = 0;
+	int maxX = startX;
+
+	for(int x=startX; x<=endX; x++)
+	{
+		node *c1 = aca->getNodeFromMap(x,y); // node in neighbouring cluster
+		node *c2 = aca->getNodeFromMap(x, y-1); // border node in 'this' cluster
+		int clearance = c1->getClearance(curCapability)>c2->getClearance(curCapability)?
+							c2->getClearance(curCapability):c1->getClearance(curCapability);
+		
+		if(clearance > maxClearance)
 		{
-				this->addEntrance(candidateNode2,candidateNode1, curCapability, candidateClearance, aca);
-				candidateNode1 = candidateNode2 = 0;
-				candidateClearance = 0;
+			maxClearance = clearance;
+			maxX = x;
 		}
 	}
 	
-	if(candidateClearance != 0)
-		this->addEntrance(candidateNode2,candidateNode1, curCapability, candidateClearance, aca);
+	return maxX;
 }
 
 void AnnotatedCluster::buildEntrances(AnnotatedClusterAbstraction* aca) throw(AnnotatedClusterAbstractionIsNullException)

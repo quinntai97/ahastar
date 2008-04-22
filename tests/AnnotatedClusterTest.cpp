@@ -315,8 +315,6 @@ void AnnotatedClusterTest::constructorShouldThrowExceptionWhenYOriginParameterIs
 void AnnotatedClusterTest::addEntranceShouldSetEdgeWeightToExactlyOne()
 {
 	createEntranceNodes();
-	int cid = e1_n1->getParentCluster();
-	int cid2 = e1_n2->getParentCluster();
 	ac->addEntrance(e1_n1, e1_n2, e1_capability, e1_clearance, aca_mock);
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("too many edges in abstract graph", 1, absg->getNumEdges());
 	edge* e = absg->getRandomEdge();
@@ -465,6 +463,56 @@ void AnnotatedClusterTest::buildHorizontalEntrancesShouldCreateOneMaximallySized
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("entrance1 clearance incorrect", te1.getClearance(te1.getCapability()), entrance->getClearance(te1.getCapability()));
 	entrance = absg->findEdge(te2_endpoint2->getNum(), te2_endpoint1->getNum());
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("entrance2 clearance incorrect", te1.getClearance(te1.getCapability()), entrance->getClearance(te2.getCapability()));
+}
+
+// integration test
+void AnnotatedClusterTest::buildHorizontalEntrancesShouldCreateOneTransitionForEachLocalMaximaOfAnEntranceArea()
+{
+	int testClusterSize=6;
+	AnnotatedClusterAbstraction aca(new Map("/Users/dharabor/src/ahastar/tests/testmaps/vdiamonds.map"), new AnnotatedAStar(), testClusterSize);
+	AnnotatedClusterFactory acf;
+	aca.buildClusters(&acf);
+
+	graph* absg = aca.getAbstractGraph(1);	
+	int numNodesBefore=absg->getNumNodes();
+	int numEdgesBefore=absg->getNumEdges();
+
+	AnnotatedCluster* targetcluster = aca.getCluster(0);
+	targetcluster->buildHorizontalEntrances(kGround, &aca);
+		
+	int numNodesActual=absg->getNumNodes();
+	int numEdgesActual=absg->getNumEdges();
+	int numNodesExpected=4;
+	int numEdgesExpected=5; // 2 local maxima + 3 edges connecting the nodes inside each cluster
+	
+/*	edge_iterator ei = absg->getEdgeIter();
+	edge* e = absg->edgeIterNext(ei);
+	while(e)
+	{
+		node* f = absg->getNode(e->getFrom());
+		node* t = absg->getNode(e->getTo());
+		cout << "\n edge connects "<<f->getLabelL(kFirstData)<<","<<f->getLabelL(kFirstData+1)<< " and "<<t->getLabelL(kFirstData)<<","<<t->getLabelL(kFirstData+1);
+		cout <<"(weight: "<<e->getWeight()<<" caps: "<<e->getCapability() << " clearance: "<<e->getClearance(e->getCapability())<<")";
+		e = absg->edgeIterNext(ei);
+	}
+*/
+	
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("not enough nodes in abstract graph", numNodesExpected, numNodesActual);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("not enough edges in abstract graph", numEdgesExpected, numEdgesActual);
+	
+	node* endpoint1 = absg->getNode(aca.getNodeFromMap(0,5)->getLabelL(kParent)); // local maxima for kGround
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("second transition; endpoint1 is null", true, endpoint1 != 0);
+	node* endpoint2 = absg->getNode(aca.getNodeFromMap(0,6)->getLabelL(kParent));
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("second transition; endpoint2 is null", true, endpoint2 != 0);
+	edge* myedge = absg->findAnnotatedEdge(endpoint1,endpoint2,kGround,2, 1);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("can't find edge for second transition", true, myedge != 0);
+
+	endpoint1 = absg->getNode(aca.getNodeFromMap(3,5)->getLabelL(kParent)); // local maxima for kGround
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("third transition; endpoint1 is null", true, endpoint2 != 0);
+	endpoint2 = absg->getNode(aca.getNodeFromMap(3,6)->getLabelL(kParent));
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("third transition; endpoint2 is null", true, endpoint2 != 0);
+	myedge = absg->findAnnotatedEdge(endpoint1,endpoint2,kGround,2, 1);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("can't find edge for third transition", true, myedge != 0);
 }
 
 /* todo: fix with mock ACA otherwise this test will be hard to maintain */
@@ -1013,4 +1061,54 @@ void AnnotatedClusterTest::addParentsShouldCreateEdgesToRepresentAllValidPathsBe
 	ac->addParent(to, aca_mock);
 	
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("failed to build required # of connections between cluster endpoints", expectedEdges, absg->getNumEdges());
+}
+
+// integration test
+void AnnotatedClusterTest::buildVerticalEntrancesShouldCreateOneTransitionForEachLocalMaximaOfAnEntranceArea()
+{
+	int testClusterSize=9;
+	AnnotatedClusterAbstraction aca(new Map("/Users/dharabor/src/ahastar/tests/testmaps/hdiamonds.map"), new AnnotatedAStar(), testClusterSize);
+	AnnotatedClusterFactory acf;
+	aca.buildClusters(&acf);
+
+	graph* absg = aca.getAbstractGraph(1);	
+	int numNodesBefore=absg->getNumNodes();
+	int numEdgesBefore=absg->getNumEdges();
+
+	AnnotatedCluster* targetcluster = aca.getCluster(0);
+	targetcluster->buildVerticalEntrances(kGround, &aca);
+		
+	int numNodesActual=absg->getNumNodes();
+	int numEdgesActual=absg->getNumEdges();
+	int numNodesExpected=4;
+	int numEdgesExpected=5; // 2 local maxima + 3 edges connecting the nodes inside each cluster
+	
+/*	edge_iterator ei = absg->getEdgeIter();
+	edge* e = absg->edgeIterNext(ei);
+	while(e)
+	{
+		node* f = absg->getNode(e->getFrom());
+		node* t = absg->getNode(e->getTo());
+		cout << "\n edge connects "<<f->getLabelL(kFirstData)<<","<<f->getLabelL(kFirstData+1)<< " and "<<t->getLabelL(kFirstData)<<","<<t->getLabelL(kFirstData+1);
+		cout <<"(weight: "<<e->getWeight()<<" caps: "<<e->getCapability() << " clearance: "<<e->getClearance(e->getCapability())<<")";
+		e = absg->edgeIterNext(ei);
+	}
+*/
+	
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("not enough nodes in abstract graph", numNodesExpected, numNodesActual);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("not enough edges in abstract graph", numEdgesExpected, numEdgesActual);
+	
+	node* endpoint1 = absg->getNode(aca.getNodeFromMap(8,1)->getLabelL(kParent)); // local maxima for kGround
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("second transition; endpoint1 is null", true, endpoint1 != 0);
+	node* endpoint2 = absg->getNode(aca.getNodeFromMap(9,1)->getLabelL(kParent));
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("second transition; endpoint2 is null", true, endpoint2 != 0);
+	edge* myedge = absg->findAnnotatedEdge(endpoint1,endpoint2,kGround,2, 1);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("can't find edge for second transition", true, myedge != 0);
+
+	endpoint1 = absg->getNode(aca.getNodeFromMap(8,5)->getLabelL(kParent)); // local maxima for kGround
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("third transition; endpoint1 is null", true, endpoint2 != 0);
+	endpoint2 = absg->getNode(aca.getNodeFromMap(9,5)->getLabelL(kParent));
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("third transition; endpoint2 is null", true, endpoint2 != 0);
+	myedge = absg->findAnnotatedEdge(endpoint1,endpoint2,kGround,2, 1);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("can't find edge for third transition", true, myedge != 0);
 }
