@@ -173,11 +173,11 @@ void ScenarioManagerTest::generateSingleExperimentReturnsAValidExperimentForTheG
 	
 	int minsize = 1;
 	
-	AHAExperiment* exp = sg->generateSingleExperiment(ama, capability, agentsize);
+	AHAExperiment* exp = sg->generateSingleExperiment(ama, capability, minsize);
 	CPPUNIT_ASSERT_MESSAGE("incorrectly returned NULL instead of a valid experiment", exp != NULL);
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("experiment mapname not the same", 0, strcmp(emptymap.c_str(), exp->getMapName()));
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("found an invalid capability for experiment", capability,  exp->getCapability());
-	CPPUNIT_ASSERT_MESSAGE("agent size non-valid",  exp->getAgentsize() >= agentsize);
+	CPPUNIT_ASSERT_MESSAGE("agent size non-valid",  exp->getAgentsize() >= minsize);
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("start == goal", true, !(exp->getStartX() == exp->getGoalX() && exp->getStartY() == exp->getGoalY()));
 	CPPUNIT_ASSERT_MESSAGE("path distance <= 0", exp->getDistance() > 0);
 	

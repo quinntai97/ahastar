@@ -146,12 +146,6 @@ path* AnnotatedAStar::getPath(graphAbstraction *aMap, node *from, node* to, rese
 	searchtime = t.endTimer();
 	delete openList; 
 	closedList.clear();
-	
-	int ne = this->nodesExpanded;
-	int nt = this->nodesTouched;
-	double st = this->searchtime;
-	int pm = this->peakmemory;
-	
 	return p;	
 }
 

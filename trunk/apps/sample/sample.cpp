@@ -262,6 +262,20 @@ void gogoGadgetNOGUIScenario(AnnotatedClusterAbstraction* aca)
 		aastar.logFinalStats(&stats);
 		processStats(&stats, aastar.getName());
 		stats.clearAllStats();
+		delete p;
+		
+		if(aastar.getClearance() == 2)
+		{
+			aastar.setClearance(1);
+			p = aastar.getPath(aca, from, to);
+			distanceTravelled = aca->distance(p);
+			stats.addStat("distanceMoved", aastar.getName(), distanceTravelled);
+			aastar.logFinalStats(&stats);
+			processStats(&stats, aastar.getName());
+			stats.clearAllStats();
+			delete p;
+		}
+
 		
 		ahastar.setCapability(nextExperiment->getCapability());
 		ahastar.setClearance(nextExperiment->getAgentsize());
@@ -270,6 +284,20 @@ void gogoGadgetNOGUIScenario(AnnotatedClusterAbstraction* aca)
 		stats.addStat("distanceMoved", ahastar.getName(), distanceTravelled);
 		ahastar.logFinalStats(&stats);
 		processStats(&stats);
+		stats.clearAllStats();
+		delete p;
+
+		if(ahastar.getClearance() == 2)
+		{
+			ahastar.setClearance(1);
+			p = ahastar.getPath(aca, from, to);
+			distanceTravelled = aca->distance(p);
+			stats.addStat("distanceMoved", ahastar.getName(), distanceTravelled);
+			ahastar.logFinalStats(&stats);
+			processStats(&stats, ahastar.getName());
+			stats.clearAllStats();
+			delete p;
+		}
 	}
 	
 	delete aca;

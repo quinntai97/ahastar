@@ -203,8 +203,11 @@ class AnnotatedCluster : public Cluster
 		void connectEntranceEndpoints(node* newendpoint, AnnotatedClusterAbstraction* aca);
 		void connectEntranceEndpointsForAGivenCapabilityAndSize(node* newendpoint, node* existingendpoint, int capability, int size, AnnotatedClusterAbstraction* aca);
 		void getPathClearance(path *p, int& capability, int& clearance);
-		void buildHorizontalTransitionsForEntranceArea(int startx, int starty, int minclearance, int maxclearance, int entrancesize, AnnotatedClusterAbstraction* aca);
-		
+		int findLocalMinimaForVerticalEntrance(int x, int startY, int curCapability, AnnotatedClusterAbstraction* aca);
+		int findLocalMaximaForVerticalEntrance(int x, int startY, int endY, int curCapability, AnnotatedClusterAbstraction* aca);
+		int findLocalMinimaForHorizontalEntrance(int y, int startX, int curCapability, AnnotatedClusterAbstraction* aca);
+		int findLocalMaximaForHorizontalEntrance(int y, int startX, int endX, int curCapability, AnnotatedClusterAbstraction* aca);
+
 
 		static unsigned int uniqueClusterIdCnt;
 		
