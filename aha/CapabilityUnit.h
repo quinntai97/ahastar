@@ -24,4 +24,5 @@ class CapabilityUnit : public searchUnit
 		virtual void openGLDraw(mapProvider *, simulationInfo *);
 };
 
-#endif CAPABILITYUNIT_H
+#endif
+

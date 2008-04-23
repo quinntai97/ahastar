@@ -1,5 +1,8 @@
 VPATH = aha/:abstraction/:driver/:shared/:simulation/:util/:objs/:apps/libs:bin/
 
+AHASTARTESTS_SRC = $(notdir $(wildcard tests/*.cpp))
+AHASTARTESTS_OBJ = $(AHASTAR_SRC:.cpp=.o)
+
 AHASTAR_SRC = $(notdir $(wildcard aha/*.cpp))
 AHASTAR_OBJ = $(AHASTAR_SRC:.cpp=.o)
 
