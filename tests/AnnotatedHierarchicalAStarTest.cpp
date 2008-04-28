@@ -412,7 +412,7 @@ void AnnotatedHierarchicalAStarTest::getPathShouldFindASolutionWithoutInsertingI
 	int numCachedPathsExpected = aca->getPathCacheSize();
 	
 	node *start = aca->getNodeFromMap(2,1);
-	node* goal = aca->getNodeFromMap(4,0);
+	node* goal = aca->getNodeFromMap(3,0);
 
 	int capability = kGround;
 	int size = 1;
@@ -423,6 +423,7 @@ void AnnotatedHierarchicalAStarTest::getPathShouldFindASolutionWithoutInsertingI
 
 	path* p = ahastar->getPath(aca, start,goal);	
 	
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("no solution found when one exists", true, p!=0);
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("insNodesExpanded metric unexpectedly non-zero", (long)0, ahastar->getInsertNodesExpanded());
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("insNodesTouched metric unexpectedly non-zero", (long)0, ahastar->getInsertNodesTouched());
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("insSearchTime metric unexpectedly non-zero", (double)0, ahastar->getInsertSearchTime());
@@ -432,4 +433,3 @@ void AnnotatedHierarchicalAStarTest::getPathShouldFindASolutionWithoutInsertingI
 	delete acfactory;
 	delete aca;	
 }
-
