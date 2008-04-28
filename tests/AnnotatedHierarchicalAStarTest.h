@@ -34,6 +34,7 @@ class AnnotatedHierarchicalAStarTest : public CPPUNIT_NS::TestFixture
 	CPPUNIT_TEST( getPathShouldRemoveAllInsertedNodesAndEdgesFromTheAbstractPathAndPathCacheIfTheSearchFailsToFindASolution );
 	CPPUNIT_TEST( getPathShouldRemoveAllInsertedNodesAndEdgesFromTheAbstractPathAndPathCacheIfTheSearchFindsASolution );
 	CPPUNIT_TEST( getPathShouldFindASolutionEvenWhenCacheReturnsAPathInReverseOrderToRequirements );
+	CPPUNIT_TEST( getPathShouldFindASolutionWithoutInsertingIntoTheAbstractGraphIfBothStartAndGoalAreInTheSameCluster );
 	CPPUNIT_TEST( getPathShouldAddInsertionEffortToPerformanceMetrics );
 	CPPUNIT_TEST( logStatsShouldRecordAllMetricsToStatsCollection );
 	CPPUNIT_TEST_SUITE_END();
@@ -55,6 +56,7 @@ class AnnotatedHierarchicalAStarTest : public CPPUNIT_NS::TestFixture
 		void getPathShouldRemoveAllInsertedNodesAndEdgesFromTheAbstractPathAndPathCacheIfTheSearchFindsASolution();	
 		void getPathShouldFindASolutionEvenWhenCacheReturnsAPathInReverseOrderToRequirements();	
 		void getPathShouldAddInsertionEffortToPerformanceMetrics();
+		void getPathShouldFindASolutionWithoutInsertingIntoTheAbstractGraphIfBothStartAndGoalAreInTheSameCluster();
 		
 		void logStatsShouldRecordAllMetricsToStatsCollection();
 		

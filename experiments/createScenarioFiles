@@ -1,8 +1,8 @@
 #!/bin/bash
-cd ../maps/bgmaps
+cd ../maps/bgmaps/originalmaps
 PREFIX=`pwd`
 for i in $(ls *.map);
 do
-  ../../bin/sample -genscenarios $PREFIX/$i 100 2
+  ../../../bin/sample -genscenarios $PREFIX/$i 100 2
 done
- mv *scenario ../../experiments/scenarios/
+ mv *scenario ../../../experiments/scenarios/softobs_0pct

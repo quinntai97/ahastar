@@ -140,7 +140,7 @@ void processStats(statCollection* stat, const char* unitname)
 	exists = stat->lookupStat("searchTime", unitname, val);
 	assert(exists);
 	st = val.fval;
-	fprintf(f, "%.6f,\t", st);
+	fprintf(f, "%.8f,\t", st);
 	
 	if(strcmp(unitname, "AHAStar") == 0)
 	{
@@ -162,7 +162,7 @@ void processStats(statCollection* stat, const char* unitname)
 		exists = stat->lookupStat("insSearchTime", unitname, val);
 		assert(exists);
 		insst = val.fval;
-		fprintf(f, "%.6f,\t", insst);
+		fprintf(f, "%.8f,\t", insst);
 
 	}
 	
@@ -187,6 +187,7 @@ void createSimulation(unitSimulation * &unitSim)
 //	Map* map = new Map("/Users/dharabor/src/ahastar/maps/local/pacman.map");
 //	Map* map = new Map("/Users/dharabor/src/ahastar/maps/local/adaptive-depth-10.map");
 	Map* map = new Map(gDefaultMap);
+	//map->scale(100, 100);
 
 	AnnotatedClusterAbstraction* aca;
 	if(highquality)
