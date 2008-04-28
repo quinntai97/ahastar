@@ -55,7 +55,13 @@ path* AnnotatedHierarchicalAStar::getPath(graphAbstraction* aMap, node* from, no
 	path* thepath=0;
 
 	if(from->getParentCluster() == to->getParentCluster())
-		thepath = AnnotatedAStar::getPath(aMap, from, to, rp);
+	{
+		AnnotatedAStar aastar;
+		aastar.setGraphAbstraction(aMap);
+		aastar.setCapability(this->getCapability());
+		aastar.setClearance(this->getClearance());
+		thepath = aastar.getPath(aMap, from, to, rp);
+	}
 	else
 	{
 		aca->insertStartAndGoalNodesIntoAbstractGraph(from, to);
