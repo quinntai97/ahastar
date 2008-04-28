@@ -1,16 +1,25 @@
+%\documentclass[a4paper]{article}
 
-\documentclass[a4paper]{article}
+\documentclass[letterpaper]{article}
+\usepackage{aaai}
+\usepackage{times}
+\usepackage{helvet}
+\usepackage{courier}
+\usepackage{ifpdf}
+
+\ifpdf
+\pdfinfo{
+/Title (Efficient path planning for multi-capable agents of heterogenous size)
+/Subject (International Conference on Automated Planning and Scheduling)
+/Author (Daniel, Harabor; Adi, Botea)}
+\fi
+
 \usepackage{graphicx}
-%\usepackage{graphics}
 
-%\newcommand{\Omit}[1]{}
-%\newcommand{\requirement}[1]{\begin{itemize}\item{\sf\bf #1}\end{itemize}}
+\title{Efficient path planning for heterogenous agents and terrain}
+\author{Daniel Harabor \and Adi Botea \\ u4272656 at anu.edu.au \\ adi.botea at nicta.com.au}
 
 \begin{document}
-
-\title{Efficient path planning for heterogenous agents and terrains}
-
-\author{Daniel Harabor, Adi Botea}
 
 \maketitle
 
@@ -35,7 +44,7 @@ A very effective method for the efficient compuation of path planning solutions 
 \item{If necessary, refine each step in the abstract plan by solving a smaller problem in the initial state space.}
 \end{enumerate}
 Our basic approach is identical to \cite{holte96} however we focus our efforts specifically on solving path planning problems rather than general search. \\ \newline 
-Two recent hierarchial path planners that bear some resemblance to our work are describedin \cite{hpa} and \cite{pra}. The first of these, HPA*, performs grid-based decomposition of the search-space by dividing the environment into clusters and entrances which represent inter-cluster transitions. Planning involves inserting the low-level start and goal nodes into the abstract graph and finding the shortest path between them. 
+Two recent hierarchial path planners that bear some resemblance to our work are describedin \cite{botea04} and \cite{sturtevant05}. The first of these, HPA*, performs grid-based decomposition of the search-space by dividing the environment into clusters and entrances which represent inter-cluster transitions. Planning involves inserting the low-level start and goal nodes into the abstract graph and finding the shortest path between them. 
 PRA* on the other hand builds a multi-level search-space by abstracting cliques of nodes; the result is to narrow the search space in the original problem to a "window" of nodes along the optimal shortest-path.\newline
 Both HPA* and PRA* are focused on solving planning problems for homogenous agents in homogenous-terrain environmnets and hence are not complete when either of these variables changes. We use clearance-value calculations to work out the size of the corridor connecting the start and goal nodes, thus guiding our search to only consider traversable locations. Our basic problem-solving approach however is quite similar to HPA*, which can be seen as a simplified version of AHA*. \\ \newline
 One technique which bears some similarity to our work is the use of force potentials, frequently employed to help autonomous robots find a collision-free path through an environment. The basic intution is that a robot is attracted to the far-away goal and repulsed away from obstacles as it nears them. A well known method for calculating potentials is the Brushfire algorithm \cite{latombe91}, which proceeds by annotating each tile in a grid-map with the distance to the nearest obstacle. This embedded information allows the robot to calculate repulsive potentials and makes it possible to plan using gradient descent. \newline
@@ -45,40 +54,7 @@ Similarities exist between AHA*'s approach to computing clearance and the CMM  m
 Representing an environment using navigation-meshes is increasingly popular in theliterature. Two recent planners in this category that bears some similarity to our workis Triangulation A* and Triangulation Reduction A* \cite{demyen07}. TA* makes use of a technique known as Delaunay triangulations to cover the environment with triangular polygons whose degrees are maximised. This results in an undirected graphconnected by constrained and unconstrained edges; the former being traversable and the latter not. TRA* is an extension of this approach that abstracts the triangle mesh into a structure resembling a roadmap. 
 Like our approach, both TA* and TRA* are able to answer path queries for multi-size agents. In the case of TRA* the required clearance value to traverse a triangle is annotated into the edges connecting graph nodes; again, similar to our method. The abstraction approaches used by TA and TRA* are very distinctly different from our work; where we identify homogenous areas of terrain in order to build clusters their approach aims to maximise triangle size. We also have additional requirements to identify all possible transitions between two adjacent clusters; both TA* and TRA* assume a homogenous terrain.
 
-
-\begin{thebibliography}{99}
-
-\bibitem{hpa}
-Botea, Mueller and Schaeffer.
-Near-optimal hierarchical path-finding
-\emph{Journal of Game Development 1} (2004): 7--28.
-
-\bibitem{demyen07}
-  Demyen and Burro.
-  Efficient triangulation-based pathfinding.
-  \emph{AIIDE} (2007): 9--25.
-
-\bibitem{pra}
-  Nathan Sturtevant, Michael Burro.
-  Partial path-finding using map abstraction and refinement. 
-  \emph{AAAI} (2005): 22.
-
-\bibitem{holte96}
-  Holte, Perez, Zimmer and MacDoonald.
-  Hierarchical A*: Searching abstraction hierarchies efficiently.
-  \emph{AAAI} (1996): 530--535.
-
-\bibitem{latombe91}
-  J Latombe.
-  Robot Motion Planning.
-  \emph{Kulwer Academic Publishers} (1991): 10--24.
-
-\bibitem{geraerts07}
-  Geraerts and Overmars.
-  The corridor-map method: a general framework for real-time high-quality path planning.
-  \emph{Computer Animation and Virtual Worlds 107-119} (2007): 2--25.
-
-\end{thebibliography}
-
+\bibliographystyle{aaai}
+\bibliography{references}
 
 \end{document}
