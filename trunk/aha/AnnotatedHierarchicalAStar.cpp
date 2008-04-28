@@ -51,100 +51,103 @@ path* AnnotatedHierarchicalAStar::getPath(graphAbstraction* aMap, node* from, no
 		
 	insertNodesExpanded = insertNodesTouched = insertPeakMemory =0;
 	insertSearchTime = 0;
-	
-	aca->insertStartAndGoalNodesIntoAbstractGraph(from, to);
-
-	graph *absg = aca->getAbstractGraph(1);
-	node* absstart = absg->getNode(from->getLabelL(kParent));
-	node* absgoal = absg->getNode(to->getLabelL(kParent));
-	
-
-/*	edge_iterator ei = absg->getEdgeIter();
-	edge* e = absg->edgeIterNext(ei);
-	while(e)
-	{
-		node* f = absg->getNode(e->getFrom());
-		node* t = absg->getNode(e->getTo());
-		std::cout << "\n edge connects "<<f->getLabelL(kFirstData)<<","<<f->getLabelL(kFirstData+1)<< " and "<<t->getLabelL(kFirstData)<<","<<t->getLabelL(kFirstData+1);
-		std::cout <<"(weight: "<<e->getWeight()<<" caps: "<<e->getCapability() << " clearance: "<<e->getClearance(e->getCapability())<<")";
-		e = absg->edgeIterNext(ei);
-	}
-*/
 
 	path* thepath=0;
-	path* abspath = getAbstractPath(aMap, absstart, absgoal);
-	
-	if(abspath)
-	{
-		// debugging
-/*		std::cout << "\n abstract path: ";
-		path* tmpptr = abspath;
-		while(tmpptr)
-		{
-			node* n = tmpptr->n;
-			std::cout << "\n id: "<<n->getUniqueID()<<" node @ "<<n->getLabelL(kFirstData) << ","<<n->getLabelL(kFirstData+1);
-			tmpptr = tmpptr->next;
-		}
-	
-*/
-		int capability = this->getCapability();
-		int clearance = this->getClearance();
-		path* tail;
-		path* tmp = abspath;//->next;
-		while(tmp->next)
-		{
-			edge* e = absg->findAnnotatedEdge(tmp->n,tmp->next->n,capability,clearance,MAXINT);
-			if(e == NULL)
-			{
-				std::cout << "\n AHA::getPath -- something went horribly wrong; I couldn't find any cached paths. Search params: ";
-				std::cout << "from: "<<from->getLabelL(kFirstData)<<","<<from->getLabelL(kFirstData+1);
-				std::cout << " to: "<<to->getLabelL(kFirstData)<<","<<to->getLabelL(kFirstData+1);
-				std::cout << " caps: "<<capability<<" clearance: "<<clearance;
-				exit(-1);
-			}
-			
-			path* cachedpath = aca->getPathFromCache(e)->clone();
-			if(e->getFrom() != tmp->n->getNum()) // fix segments if necessary
-				cachedpath = cachedpath->reverse();
 
-			if(thepath == 0)
-				thepath = cachedpath;				
-			tail = thepath->tail();	
-			
-			/*	// debugging
-				node* n1 = absg->getNode(e->getFrom());
-				node* n2 = absg->getNode(e->getTo());		
-				std::cout << "\n expanding abstract edge between nodes: "<<n1->getUniqueID()<<" and "<<n2->getUniqueID();
-				path* meh = cachedpath;
-				std::cout << "\n expanding cached path: ";
-				while(meh)
-				{
-					std::cout << "\n id: "<<meh->n->getUniqueID()<<" node @ "<<meh->n->getLabelL(kFirstData) << ","<<meh->n->getLabelL(kFirstData+1);
-					meh = meh->next;
-				}
-			*/
-			
-			if(tail->n->getNum() == cachedpath->n->getNum()) // avoid overlap where the cached path segments overlap (one ends where another begins)
-				tail->next = cachedpath->next;
-			
-			tmp = tmp->next;
+	if(from->getParentCluster() == to->getParentCluster())
+		thepath = AnnotatedAStar::getPath(aMap, from, to, rp);
+	else
+	{
+		aca->insertStartAndGoalNodesIntoAbstractGraph(from, to);
+		graph *absg = aca->getAbstractGraph(1);
+		node* absstart = absg->getNode(from->getLabelL(kParent));
+		node* absgoal = absg->getNode(to->getLabelL(kParent));
+		
+	/*	edge_iterator ei = absg->getEdgeIter();
+		edge* e = absg->edgeIterNext(ei);
+		while(e)
+		{
+			node* f = absg->getNode(e->getFrom());
+			node* t = absg->getNode(e->getTo());
+			std::cout << "\n edge connects "<<f->getLabelL(kFirstData)<<","<<f->getLabelL(kFirstData+1)<< " and "<<t->getLabelL(kFirstData)<<","<<t->getLabelL(kFirstData+1);
+			std::cout <<"(weight: "<<e->getWeight()<<" caps: "<<e->getCapability() << " clearance: "<<e->getClearance(e->getCapability())<<")";
+			e = absg->edgeIterNext(ei);
 		}
+	*/
+
+		path* abspath = getAbstractPath(aMap, absstart, absgoal);
+		
+		if(abspath)
+		{
+			// debugging
+	/*		std::cout << "\n abstract path: ";
+			path* tmpptr = abspath;
+			while(tmpptr)
+			{
+				node* n = tmpptr->n;
+				std::cout << "\n id: "<<n->getUniqueID()<<" node @ "<<n->getLabelL(kFirstData) << ","<<n->getLabelL(kFirstData+1);
+				tmpptr = tmpptr->next;
+			}
+		
+	*/
+			int capability = this->getCapability();
+			int clearance = this->getClearance();
+			path* tail;
+			path* tmp = abspath;//->next;
+			while(tmp->next)
+			{
+				edge* e = absg->findAnnotatedEdge(tmp->n,tmp->next->n,capability,clearance,MAXINT);
+				if(e == NULL)
+				{
+					std::cout << "\n AHA::getPath -- something went horribly wrong; I couldn't find any cached paths. Search params: ";
+					std::cout << "from: "<<from->getLabelL(kFirstData)<<","<<from->getLabelL(kFirstData+1);
+					std::cout << " to: "<<to->getLabelL(kFirstData)<<","<<to->getLabelL(kFirstData+1);
+					std::cout << " caps: "<<capability<<" clearance: "<<clearance;
+					exit(-1);
+				}
+				
+				path* cachedpath = aca->getPathFromCache(e)->clone();
+				if(e->getFrom() != tmp->n->getNum()) // fix segments if necessary
+					cachedpath = cachedpath->reverse();
+
+				if(thepath == 0)
+					thepath = cachedpath;				
+				tail = thepath->tail();	
+				
+				/*	// debugging
+					node* n1 = absg->getNode(e->getFrom());
+					node* n2 = absg->getNode(e->getTo());		
+					std::cout << "\n expanding abstract edge between nodes: "<<n1->getUniqueID()<<" and "<<n2->getUniqueID();
+					path* meh = cachedpath;
+					std::cout << "\n expanding cached path: ";
+					while(meh)
+					{
+						std::cout << "\n id: "<<meh->n->getUniqueID()<<" node @ "<<meh->n->getLabelL(kFirstData) << ","<<meh->n->getLabelL(kFirstData+1);
+						meh = meh->next;
+					}
+				*/
+				
+				if(tail->n->getNum() == cachedpath->n->getNum()) // avoid overlap where the cached path segments overlap (one ends where another begins)
+					tail->next = cachedpath->next;
+				
+				tmp = tmp->next;
+			}
+		}	
+		insertNodesExpanded = aca->getNodesExpanded();
+		insertNodesTouched = aca->getNodesTouched();
+		insertPeakMemory = aca->getPeakMemory();
+		insertSearchTime = aca->getSearchTime();
+
+		aca->removeStartAndGoalNodesFromAbstractGraph();
+		delete abspath;
 	}
-	
-	insertNodesExpanded = aca->getNodesExpanded();
-	insertNodesTouched = aca->getNodesTouched();
-	insertPeakMemory = aca->getPeakMemory();
-	insertSearchTime = aca->getSearchTime();
-	
+		
 	this->nodesExpanded += insertNodesExpanded;
 	this->nodesTouched += insertNodesTouched;
 	this->searchtime += insertSearchTime;
 	
 	if(this->peakmemory < insertPeakMemory)
 		this->peakmemory = insertPeakMemory;
-	
-	aca->removeStartAndGoalNodesFromAbstractGraph();
-	delete abspath;
 
 	//std::cout << "\n thepath distance: "<<aMap->distance(thepath);
 	return thepath;

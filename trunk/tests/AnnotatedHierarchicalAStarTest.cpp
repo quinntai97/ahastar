@@ -397,4 +397,39 @@ void AnnotatedHierarchicalAStarTest::logStatsShouldRecordAllMetricsToStatsCollec
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("searchTime metric in statsCollection doesn't match expected result", (double)ahastar->getInsertSearchTime(), result.fval);
 }
 
+void AnnotatedHierarchicalAStarTest::getPathShouldFindASolutionWithoutInsertingIntoTheAbstractGraphIfBothStartAndGoalAreInTheSameCluster()
+{
+
+	Map *m = new Map(acmap.c_str());
+	AnnotatedClusterAbstraction* aca = new AnnotatedClusterAbstraction(m, new AnnotatedAStar(), TESTCLUSTERSIZE);
+	AnnotatedClusterFactory* acfactory = new AnnotatedClusterFactory();
+	aca->buildClusters(acfactory);
+	aca->buildEntrances();
+
+	graph  *absg = aca->getAbstractGraph(1);
+	int numNodesExpected = absg->getNumNodes();
+	int numEdgesExpected = absg->getNumEdges();
+	int numCachedPathsExpected = aca->getPathCacheSize();
+	
+	node *start = aca->getNodeFromMap(2,1);
+	node* goal = aca->getNodeFromMap(4,0);
+
+	int capability = kGround;
+	int size = 1;
+
+	ahastar->setGraphAbstraction(aca);
+	ahastar->setClearance(size);
+	ahastar->setCapability(capability);
+
+	path* p = ahastar->getPath(aca, start,goal);	
+	
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("insNodesExpanded metric unexpectedly non-zero", (long)0, ahastar->getInsertNodesExpanded());
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("insNodesTouched metric unexpectedly non-zero", (long)0, ahastar->getInsertNodesTouched());
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("insSearchTime metric unexpectedly non-zero", (double)0, ahastar->getInsertSearchTime());
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("insPeakMemory metric unexpectedly non-zero", (long)0, ahastar->getInsertPeakMemory());
+		
+	delete p;
+	delete acfactory;
+	delete aca;	
+}
 

@@ -1,5 +1,5 @@
 #!/bin/bash
-for i in $(ls experiments/scenarios/*.scenario);
+for i in $(ls experiments/scenarios/softobs_10pct/*.scenario);
 do
    #./bin/sample -scenario $i -gui disable -quality  $1  -clustersize $2
    ./bin/sample -scenario $i -gui disable -quality high  -clustersize $1
