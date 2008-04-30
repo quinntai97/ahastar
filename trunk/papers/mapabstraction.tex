@@ -1,6 +1,21 @@
-\section{Map Abstraction}
-Hierarchical representations.. blah
+\section{Cluster-based Map Abstraction}
+\label{aha:mapabstraction}
+The annotated graph we created in Section \ref{aha:computingclearance} is sufficient for computing a low-level strategy but this is inefficient for large problem size; we would prefer instead to express a more general strategy for navigating from the start to the goal position -- in terms of macro-operations.
 
-\subsection{Building clusters}
+We will achieve this by using a similar technique to that described in \cite{botea04} and divide our map into equally-sized adjacent sections called \emph{clusters}. This is a simple off-line process which we outline in figure \ref{aha:buildingclusters}. If required, we can easily associate the location of an agent in the world with a cluster given a fixed cluster-size and the \emph{x,y} coordinates of the tile currently being occuppied.\\ \newline
+Having thus decomposed the map we must now define transitions between each pair of adjacent clusters. HPA* proceeds by identifying \emph{entrances} between clusters, which are defined as contiguous areas between two adjacent lines of tiles, $l1$ and $l2$, that represent the border between clusters $c1$ and $c2$ (see figure \ref{effp-fig:hpa_entrances} for an example). For $e$ to be valid, it must respect a few key conditions:
+\begin{enumerate}
+\item{An entrance cannot span an area larger than the size of the border between two adjacent clusters.}
+\item{The tiles in each cluster along the common border must be contiguous (no breaks) and symmetrical (ie. for each tile in $l1$ there exists an equivalent tile in $l2$.)}
+\item{An entrance must contain no (hard) obstacle tiles.}
+\end{enumerate}
+Each entrance is associated with a particular \emph{size} (the length of the maximally sized contiguous area) and \emph{orientation} (either veritcal or horizontal depending on the nature of the adjacency) and represented in the abstract graph by one or two transition points, depending on the size of the entrance. 
+We apply a similar idea but take a single transition point: the pair of nodes which maximise the clearance value for a given capability. We compute this latter metric by taking the minimum clearance among each node pair in the entrance area and selecting the largest value from the resultant set. Each transition is represented in the abstract graph by a pair of nodes and an undirected edge of weight 1. 
+We proceed in this way for each available capability and annotate each resultant abstract edge with the clearance and capability values used to find it. We do not need to add any annotations to our abstract nodes; it is sufficient to define the length and traversal requirements of the corridor connecting them. Note that in certain situations we may discover several transitions at the same location on the low-level map; this is common where the latter capability being used is a superset (ie. includes all terrains) of the former. In these cases, we re-use any existing abstract nodes and, if the existing corridor is traversable given the current capability and maximal clearance, the edge between them also. Figure \ref{aha-fig:ahaentrances} highlights this process. In this example we have 2 entrances for the ground-terrain capability (a) one forest-terrain entrance (b) and 3 maximal transition points (c).
 
-\subsection{Transitions}
+Our final step to complete the abstraction involves connecting each abstract node to every other in the local cluster. We achieve this by using AA* to search for the optimal path between each pair of nodes for all available capabilities. We then insert a new undirected edge into the abstract graph to connect the two nodes using the path distance as its cost and annotating it with the capability and clearance parameters used by AA* to find the solution. We present our final algorithm for map decomposition in \ref{aha-alg:buildabstraction}.
+
+\input algorithms/alg_buildabstraction
+
+Note that to keep the size of our abstract graph to a minimum we use the set of available agent sizes as clearance parameters for AA* -- in descending order. We also order the capability parameters we pass to AA* from simplest (those containing the least number of terrains) to most complex (the capability corresponding to the set of all terrains). The intuition here is that if a simple optimal path exists between two nodes, we would like to re-use it instead of adding more edges to the graph. A reasonable analogy is to compare the way off-road vehicles opportunistically use roads where possible even if an off-road route (or trail) might exist which has an identical distance/time cost. Figure \ref{aha-fig:abstractgraph} shows the results of our abstraction technique on the toy map presented earlier.
+
