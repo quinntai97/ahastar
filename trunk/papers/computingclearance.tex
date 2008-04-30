@@ -4,13 +4,13 @@ In order to meet our stated goal of building a planner able to solve problems in
 The problem becomes more difficult when we introduce variability in the size of the agent as each location in a grid environment has a fixed size; if some agents are larger than others they could occupy several tiles at once and the performance of our planner would quickly degrade as we are forced to check for collisions with static obstacles at every time-step. Increasing the resolution of the grid is another possibility but this suffers from other problems such as large reductions in path quality for all but the largest agents. Other approaches, such as building several representations -- one for each type of agent -- are likewise unsuitable as the memory requirements grow by orders of magnitude with each different type of agent we add. \\ \newline
 
 In robotics, probabilistic roadmaps are embedded with clearance values measuring distance to the nearest obstacle in order to overcome this problem \cite{geraerts04}. 
-A clearance value is associated with each tile on our grid map and represents the dimensions of a theoretical bounding volume (square in this case) that begins at the tile being evaluated and extends diagonally down and to the right (we assume down and right correspond to the cardinal directions south and east on our grid map) until it intersects an obstacle. This is an important measurement because it guarantees that the area subsumed by the bounding box is homogenous (topographically speaking). \\ \newline
+A clearance value is associated with each tile on our grid map and represents the dimensions of a theoretical bounding volume (square in this case) that begins at the tile being evaluated and extends diagonally down and to the right (we assume down and right correspond to the cardinal directions south and east on our grid map) until it intersects an obstacle. This is an important measurement because it guarantees that the area subsumed by the bounding box is homogenous (topographically speaking).
 To refine this idea, we will say that each traversable tile starts out with a minimum \emph{base clearance} of 1 while tiles marked as non-traversable (or those outside the grid map) always have a clearance value of 0. Once we have derived a clearance value, we use an additional few bytes of memory to annotate the corresponding node in our graph. Figure \ref{aha-fig:calculatingclearance} gives a quick overview of our technique.
 
 \begin{figure}[htbp]
         \caption{\emph{Determining maximal clearance} (a): Each tile has a minimum base clearance of 1. (b) Clearance values for two adjacent traversable tiles on the map perimiter (c) Clearance values for a 3x3 traversable area. (d): The effect of a non-traversable neighbour on clearance. }
         \begin{center}
-                        \includegraphics[scale=0.5]{diagrams/calculatingclearance.png}
+                        \includegraphics[scale=0.5]{diagrams/calculatingclearance.eps}
         \end{center}
         \label{aha-fig:calculatingclearance}
 \end{figure}
@@ -20,23 +20,22 @@ Although this approach is highly effective, it breaks down when there are multip
 The process for calculating capability clearances is identical to that described until now with only one minor difference: we need to specify a target capability which we use to calculate the right clearance value. During processing, any tile we encounter that is not traversable for the given capability we will refer to as a \emph{soft obstacle} and assign it a clearance value of 0 for that capability. Tiles which are not traversable by any capability are said to be \emph{hard obstacles} and always assigned 0.  We continue in this manner for each available capability until all map tiles have been processed. Figure \ref{aha-fig:annotations} shows the results of different clearance value annotations we embedded into a tiny map during development.
 
 Using these definitions, we can easily derive the following recursive algorithm for computing clearance annotations:
-\begin{equation}
-CV(t,c) = min(CV(t_{East}, c), CV(t_{South}, c), CV(t_{Southeast}), c) + BaseClearance
-\labe{aha-alg:cv}
-\end{equation}
+
+\input algorithms/alg1_calculateclearance
+
 Where $t$ is a traversable tile in our grid map, $CV$ is the clearance value function, $c$ is our target capability and $t_{East}$, $t_{South}$ and $t_{Southeast}$ are also tiles in our grid map (not necessarily traversable); their  subscripts indicate they are octile neighbours of $t$ in the stated directions.
 
 \begin{figure}[htbp]
         \caption{\emph{Single terrain and multi-terrain clearance value annotations.} Top: Clearance values for the single-terrain case. Bottom: Multi-terrain (Plains + Forests) annotations. In both cases, clearance values for hard-obstacles (here, water tiles) is omitted.}
         \begin{center}
-                        \includegraphics[scale=0.8]{diagrams/annotations.png}
+                        \includegraphics[scale=0.4]{diagrams/annotations.eps}
         \end{center}
         \label{aha-fig:annotations}
 \end{figure}
 
 If we assume a capability exists for each combination of available terrain types, the exact number of annotations required for each map node is given by:
 \begin{equation}
-2^(t)/2 - |N_{HO}|
+2^t/2 - |N_{HO}|
 \label{aha-eq:cv}
 \end{equation}
 
