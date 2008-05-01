@@ -11,7 +11,7 @@
 #
 ###############################################################################
 
-LATEX=latex
+LATEX=pdflatex
 DVIPS=dvips
 PS2PDF=ps2pdf14
 BIBTEX=bibtex
