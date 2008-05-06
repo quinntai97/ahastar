@@ -166,9 +166,12 @@ void processStats(statCollection* stat, const char* unitname)
 
 	}
 	
-	exists = stat->lookupStat("distanceMoved", unitname, val);
-	assert(exists);
-	pathdist = val.fval;
+	if(!hog_gui)
+	{
+		exists = stat->lookupStat("distanceMoved", unitname, val);
+		assert(exists);
+		pathdist = val.fval;
+	}
 	fprintf(f, "%.3f,\t", pathdist);	
 	
 	fprintf(f, "%s\n", gDefaultMap);	
