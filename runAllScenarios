@@ -2,6 +2,19 @@
 for i in $(ls experiments/scenarios/softobs_10pct/*.scenario);
 do
    #./bin/sample -scenario $i -gui disable -quality  $1  -clustersize $2
-   ./bin/sample -scenario $i -gui disable -quality high  -clustersize $1
-   ./bin/sample -scenario $i -gui disable -quality low  -clustersize $1
+   ./bin/sample -scenario $i -gui disable -quality high  -clustersize 10
+   ./bin/sample -scenario $i -gui disable -quality low  -clustersize 10
 done
+for i in $(ls experiments/scenarios/softobs_10pct/*.scenario);
+do
+   #./bin/sample -scenario $i -gui disable -quality  $1  -clustersize $2
+   ./bin/sample -scenario $i -gui disable -quality high  -clustersize 15
+   ./bin/sample -scenario $i -gui disable -quality low  -clustersize 15
+done
+for i in $(ls experiments/scenarios/softobs_10pct/*.scenario);
+do
+   #./bin/sample -scenario $i -gui disable -quality  $1  -clustersize $2
+   ./bin/sample -scenario $i -gui disable -quality high  -clustersize 20
+   ./bin/sample -scenario $i -gui disable -quality low  -clustersize 20
+done
+mv results_* 10pct_refine

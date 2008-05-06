@@ -60,9 +60,16 @@ path* AnnotatedHierarchicalAStar::getPath(graphAbstraction* aMap, node* from, no
 		aastar.setGraphAbstraction(aMap);
 		aastar.setCapability(this->getCapability());
 		aastar.setClearance(this->getClearance());
+		aastar.limitSearchToClusterCorridor(true);
 		thepath = aastar.getPath(aMap, from, to, rp);
+		this->nodesExpanded += aastar.getNodesExpanded();
+		this->nodesTouched += aastar.getNodesTouched();
+		if(this->peakmemory < aastar.getPeakMemory())
+			this->peakmemory = aastar.getPeakMemory();
+		this->searchtime += aastar.getSearchTime();
 	}
-	else
+	
+	if(thepath==0)
 	{
 		aca->insertStartAndGoalNodesIntoAbstractGraph(from, to);
 		graph *absg = aca->getAbstractGraph(1);
@@ -96,6 +103,7 @@ path* AnnotatedHierarchicalAStar::getPath(graphAbstraction* aMap, node* from, no
 			}
 		
 	*/
+			AnnotatedAStar aastar;
 			int capability = this->getCapability();
 			int clearance = this->getClearance();
 			path* tail;
@@ -112,10 +120,22 @@ path* AnnotatedHierarchicalAStar::getPath(graphAbstraction* aMap, node* from, no
 					exit(-1);
 				}
 				
-				path* cachedpath = aca->getPathFromCache(e)->clone();
+//				path refinement. enable this and comment out section below to turn off caching (one or the other)
+				node* llstart = aca->getNodeFromMap(tmp->n->getLabelL(kFirstData), tmp->n->getLabelL(kFirstData+1));
+				node* llgoal = aca->getNodeFromMap(tmp->next->n->getLabelL(kFirstData), tmp->next->n->getLabelL(kFirstData+1));
+				aastar.setCapability(this->getCapability());
+				aastar.setClearance(this->getClearance());
+				path* cachedpath = aastar.getPath(aMap,llstart, llgoal); 
+				this->nodesExpanded += aastar.getNodesExpanded();
+				this->nodesTouched += aastar.getNodesTouched();
+				if(this->peakmemory < aastar.getPeakMemory())
+					this->peakmemory = aastar.getPeakMemory();
+				this->searchtime += aastar.getSearchTime();
+
+/*				path* cachedpath = aca->getPathFromCache(e)->clone();
 				if(e->getFrom() != tmp->n->getNum()) // fix segments if necessary
 					cachedpath = cachedpath->reverse();
-
+*/
 				if(thepath == 0)
 					thepath = cachedpath;				
 				tail = thepath->tail();	
