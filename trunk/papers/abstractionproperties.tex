@@ -1,7 +1,39 @@
 \section{A Characterisation of Hierarchial Abstraction}
-It is difficult to characterise precisely the space complexity of our abstraction algorithm because the result is highly dependent upon the number of combinations of terrains and clearances which vary from map to map. We can however make a characterisation of some upper-bounds on the size of the resutant graph and the number of annotations required to construct it. 
-\medskip
-First, we will first attempt to show an upper-bound on the number of nodes in the abstract graph. 
+It is difficult to characterise precisely the space complexity of our abstraction algorithm because the result is highly dependent upon the number of combinations of terrains and clearances which vary from map to map. We can however make a characterisation of some upper-bounds on the size of the resultant graph and the number of annotations required to construct it. \\
+Since we only add edge annotations while building the abstract graph we can easily find the total number of annotations by re-stating lemma \ref{aha-lemma:numannotations} as: 
+\begin{equation}
+\label{aha-eq:totalannotations}
+|V|*2^r/2 - |V_{HO}| + 2*|E_{abs}|
+\end{equation}
+Where $E_{abs}$ is the set of edges in the abstract graph and to each member of that set we add 2 annotations (clearance and capability). \\
+To better understand what this means, we must make a characterisation of the worst-case for $E_{abs}$. We proceed by first deriving an upper-bound on the number of edges inside each cluster. 
+\begin{lemma}
+\label{aha-lemma:maxedgesincluster}
+Given a map with $r$ terrains and $2^r$ capabilities, a cluster of size $n*n$, $x$ abstract nodes per cluster and a set of unique agent sizes $S$, then the number of edges to connect all abstract nodes in the cluster is, in the worst case, $(2^r/2 * |S|) * x(x-1)/2$.
+\end{lemma}
+
+\begin{proof}
+For each size/capability combination there is at most one optimal length solution (by definition). From lemma \ref{aha-lemma:numannotations} we know each node is traversable at most by $2^r/2$ capabilities, thus, it follows that there must be, at most, $2^r/2 * |S|$ ways of connecting 2 nodes (intuitively). Furthermore, in the worst case, a maximal number of abstract nodes $x$ exist in each cluster. We have to connect each pair and there are $x(x-1)/2$ pairs of nodes (by induction). \qed
+\end{proof}
+
+Next, we will attempt to characterise a worst-case for the number of inter-cluster edges (ie. entrance transitions). 
+\begin{lemma}
+\label{aha-lemma:maxtransitions}
+Given a map which is perfectly divisble into $c*c$ clusters, each of size $n*n$, then, in the worst case, the number of inter-cluster edges is given by $(2c^2 - 2c)*n(n-1)/2$.
+\end{lemma}
+
+\begin{proof}
+In the worst case, the border between each pair of adjacent clusters is free of hard obstacles and a maximally sized entrance is always possible. If we count the number of entrances in each cluster, avoiding duplication, then each cluster contributes 2 entrances to the total, except the last cluster, which contributes none. Thus, the total number of entrances is $2c^2 + 2c$. (by induction) \\
+To maximise the number of transitions in each entrance area, we must maximise the number of capabilites which can be used to traverse each transition (problem definition). From lemma \ref{aha-lemma:numannotations} we know each node is traversable by at most $2^r/2$ capabilities, thus, both transition endpoints must share the same terrain type or the number of capabilities in the maximal set is reduced (intuitively).
+Furthemore, to ensure that a transition point is created for every pair of nodes on the border area between the clusters the number of terrains, $r$ must be $r \geq n$, where $n$ is the width of one of our clusters. By observation we can see that that this will produce [$n$ single-capability transitions]...[1 $n$-capability transition]. By induction, we can see that this recurrence relation holds for the general sequence counting formula $n(n-1)/2$. \qed
+\end{proof}
+Thus, the worst case for the number of edges in the abstract graph is: 
+\begin{equation}
+\label{aha-eq:maxabstractedges}
+E_{abs} = (2^r/2 * |S|) * n(n-1)/2 + (2c^2 + 2c)*((n^2-n)/2)
+\end{equation}
+Where $E_{abs}$ is the set of abstract edges for a map with $r$ terrains which is divisible into $c*c$ clusters of size $n*n$ and where $S$ is the set of available agent sizes traversing through the environment. \\ \newline
+The worst-case for the number of nodes required to build the abstract graph is easier to derive. 
 \begin{lemma}
 \label{aha-lemma:maxnodes}
 Given grid map of size $m*m$, which is perfectly divisible into $c*c$ clusters with a size $n*n$, then, in the worst case, the total number of nodes in the abstract graph is given by $4(2n-1) + (4c - 4)(3n-2) + (c-1)^2(4n-4)$.
@@ -11,52 +43,10 @@ Given grid map of size $m*m$, which is perfectly divisible into $c*c$ clusters w
 In the worst case, our map is divisble into maximally sized clusters of size $(m/n)^2$ (by definition). In this scenario each node on the adjacent border with another cluster will be associated with a transition point and hence, a node in the abstract graph.
 There $4(n-4)$ nodes per cluster if the cluster is in the middle of the map and there are $(c-1)^2$ such clusters. Clusters, on the permieter of the map (excluding corners) have 3 neighbours which results in $3(n-2)$ nodes; there are $4(c-1)$ such clusters. Corner clusters, which have 2 neighbours, each contain $2(n-1)$ nodes and there are four of these. \qed
 \end{proof}
-Next, we will attempt to characterise the maximal number of edges between two nodes.
-\begin{lemma}
-\label{aha-lemma:maxedges}
-Given some number of capabilities $k$ and a pair of vertices $v1, v2 \in V$, the number of edges between $v1$ and $v2$, in the worst case, is given by $2^k/2$ when they both share the same terrain type.
-\end{lemma}
 
-\begin{proof}
-Each edge in the abstract graph is associated with exactly one capability which must include the terrain types of the nodes it connects (by definition), so it follows that to maximise the number of edges between two nodes we must maximise the number of capabilities which may be used to connect them (problem statement). 
-There are $2^k$ capabilities but only $2^k/2$ ways to traverse a node (lemma \ref{aha-lemma:numoptimalpaths}). There are [$k$ single-terrain capabilities], [$k-1$ two-terrain capabilities]...[1 $k$-terrain capabilities] (by induction). From this, it follows that if the terrain types of the two nodes are different we must exclude all single-terrain capabilities from the set with which we can connect the nodes; since $2^n/2 - 1 < 2^n/2$ it cannot be the case that the terrain types of the nodes are different in the worst case. \qed
-\end{proof}
-Given this result, we can now construct a worst case for the number of edges in each cluster.
-\begin{lemma}
-\label{aha-lemma:maxedgesincluster}
-Given a map with $r$ terrains and $2^r$ capabilities, a cluster of size $n*n$ and with $x$ abstract nodes, and a set of unique agent sizes $S$, then the number of edges for each cluster is, in the worst case, $(2^r/2 * |S|) * x(x-1)/2$.
-\end{lemma}
-
-\begin{proof}
-For each size/capability combination there is at most one optimal length solution (by definition). Given a set of capabilities $K$ and a set of unique agent sizes $S$, it follows that there must be $|K| * |S|$ ways of connecting 2 nodes (intuitively). However, we know from lemma \ref{aha-lemma:maxedges)} that the number of connections is actually upper-bounded by $2^r/2$. Furthermore, in the worst case, a maximal number of abstract nodes $x$ exist in each cluster. We have to connect each pair and there are $x(x-1)/2$ pairs of nodes (by induction). \qed
-\end{proof}
-
-Finally, we will attempt to characterise a worst-case for the number of inter-cluster edges (ie. entrance transitions). 
-\begin{lemma}
-\label{aha-lemma:maxtransitions}
-Given a map of $c*c$ clusters, each of size $n*n$, in the worst case, the number of inter-cluster edges is given by $(2c^2 - 2c)*n(n-1)/2$.
-\end{lemma}
-
-\begin{proof}
-In the worst case, the border between each pair of adjacent clusters is free of hard obstacles and a maximally sized entrance is always possible. If we count the number of entrances in each cluster, avoiding duplication, then each cluster contributes 2 entrances to the total, except the last cluster, which contributes none. Thus, the total number of entrances is $2c^2 + 2c$. (by induction) \\
-To maximise the number of transitions in each entrance area, every pair of adjacent nodes must share the same terrain (lemma \ref{aha-lemma:maxedges}) and the terrain of each pair must be is unique in the entrance set (intuitively).
-Furthemore, to ensure that a transition point is created for every pair of nodes on the border area between the clusters the number of terrains, $t$ must be $t \geq n$, where $n$ is the width of one of our clusters. By observation we can see that that this will produce [$n$ single-capability transitions]...[1 $n$-capability transition]. By induction, we can see that this recurrence relation holds for the general sequence counting formula $n(n-1)/2$. \qed
-\end{proof}
-Thus, we cann characterise the number of edges in the abstract graph:
-\begin{lemma}
-Let $AM$ be an annotated map of size $m*m$ divisible into $c*c$ clusters of size $n*n$. Further, let $r$ be the number of terrains, $S$ a set of agent sizes and $2^r$ the maximal number of capabilties for traversing $AM$. If each cluster has $x$ abstract nodes, then, in the worst case, the maximum number of edges in the abstract annotated graph of $AM$ is $(2^r/2 * |S|) * n(n-1)/2$ + $(2c^2 + 2c)*((n^2-n)/2)$
-\end{lemma}
-\medskip
-Finally, we present a lemma for the total number of annotations, including those in the abstract graph. We omit a proof as it is trivial.
-\begin{lemma}
-\label{aha-lemma:totalannotations}
-Let $AM$ be an annotated map with $r$ terrains and $V \in G$ the set of nodes annotated with clearance values. Further, let $V_{HO} \in G$ be the set of hard obstacles and let $E_{abs} \in G_{abs}$ be the set of edges in the abstract graph of $G$. If each edge $e_{abs} \in E_{abs}$ is annotated with capability and clearance information, then, the total number of annotations required to build $G$ and $G_{abs}$ is given by: 
-$|V|*2^r/2 - |V_{HO}| + 2*|E_{abs}|$
-\end{lemma}
-\medskip
 The above results are interesting for several reasons. 
 Firstly, lemma \ref{aha-lemma:maxnodes} shows that the number of nodes in the graph is a function of cluster-size. This suggests that by varying the dimensions of clusters we can trade a little performance (the time it takes to traverse a cluster) for memory (less abstraction overhead).
 The results in lemma \ref{aha-lemma:maxedgesincluster} seem to support this hypothesis. We see that the number of edges in the graph is mostly dependent on the size of the cluster rather than the number of capabilities. 
 This is exciting because it means that, despite having an exponential abstract edge growth function, we can directly control the size of the exponent! The cluster-based decomposition technique, in a classic example of dynamic programming, allows us to include as much or as little complexity in each cluster as we require.\\ \newline
-Note also that the set of agents $S$ which also has a significant impact on the number of edges inside a cluster, can also be controlled in much the same way -- once we have found the shortest path between two abstract nodes in a cluster we do not need to run any searches for agents smaller than the size of the newly discovered corridor; any such edges would be strong dominated and hence not required. Our job thus becomes to search only for agent sizes in the range between that given by width of the optimal distance corridor and the maximal size of any corridor between the two nodes. By changing the size of the cluster we can increase or reduce this range as required.\\ 
-These findings indicate that the worst-case scenario for edges given in the preceeding lemmas is, infact, a highly pathological case. We were unable to concot any scenarios where the number of edges even approached the theoretical worst-case suggesting that it should be thought of as a mere approximation. A more exact characterisation in the general case is not easily derived due mostly to the combinatiorial blow-up of possible terrain arrangements on even small maps with highly limited variable domains.
+Note also that the set of agents $S$ which also has a significant impact on the number of edges inside a cluster, can also be controlled in much the same way -- once we have found the shortest path between two abstract nodes in a cluster we do not need to run any searches for agents smaller than the size of the newly discovered corridor; any such edges would be strongly dominated and hence not required. Our job thus becomes to search only for agent sizes in the range between that given by width of the optimal distance corridor and the maximal size of any corridor between the two nodes. By changing the size of the cluster we can increase or reduce this range as required.\\ 
+These findings indicate that the worst-case scenario for edges given in the preceeding lemmas is, infact, a highly pathological case. We were unable to concot any scenarios where the number of edges even approached the theoretical worst-case suggesting that it should be thought of as a mere approximation. A more exact characterisation is not easily derived due mostly to the combinatiorial blow-up of possible terrain arrangements on even small maps with highly limited variable domains.

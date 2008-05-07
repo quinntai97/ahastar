@@ -1,14 +1,14 @@
 \section{Problem definition}
 \begin{definition}
-A gridmap is a structure composed of square cells, of unit size, each of which represent a unique location in the environment. Each grid cell is connected to $n$ neighbours, where  $0 \leq n \leq 8$. Furthermore, eEach grid cell is associated with a particular terrain type and there are $n \geq 1$ possible terrains.
+A gridmap is a structure composed of square cells, of unit size, each of which represent a unique location in the environment. Each grid cell is an octile connected to $n$ neighbours, where  $0 \leq n \leq 8$. Furthermore, each octile is associated with a particular terrain type and there are $r \geq 1$ possible terrains.
 \end{definition}
 
 \begin{definition}
-Each grid map is representable as a graph, $G = {V, E}$ where each grid cell corresponds to a vertex in the set of vertices $V$ and each cell/neighbour adjacency is represented by an edge in the set of all edges $E$
+Each grid map is representable as a graph, $G = (V, E)$ where each grid cell corresponds to a vertex in the set of vertices $V$ and each cell/neighbour adjacency is represented by an edge in the set of all edges $E$
 \end{definition}
 
 \begin{definition}
-An agent is any entity attempting to move across a grid environment. Agents have an initial start location where they begin and a goal location which they actively try to reach. Every agent is square in shape and has a size $s \geq 1$ . Furthermore, every agent has a terrain traversal capability which is not the null set.
+An agent is any entity attempting to move across a grid environment. Agents have an initial start location where they begin and a goal location which they actively try to reach. Every agent is square in shape and has a size $s \geq 1$. While stationary or moving, each agent occupies $s^2$ tiles. Furthermore, every agent has a terrain traversal capability which is not the null set.
 \end{definition}
 
 
@@ -24,7 +24,11 @@ A location is traversable by an agent only if the agent's capability includes th
 \end{definition}
 
 \begin{definition}
-An \emph{soft obstacle} is a location in the environment which is not traversable by an agent because it lacks the correct capability or its size makes is too large to traverse the location.  Locations which are not traversable by any agent are called \emph{hard obstacles}.
+An \emph{soft obstacle} is a location in the environment which is not traversable by an agent because it lacks the correct capability or its size makes it too large to traverse the location. 
+\end{definition}
+
+\begin{definition}
+A \emph{hard obstacle} is a location which is not traversable by any agent regardless of capability or size.
 \end{definition}
 
 \begin{definition}
