@@ -1,0 +1,33 @@
+\section{Problem definition}
+\begin{definition}
+A gridmap is a structure composed of square cells, of unit size, each of which represent a unique location in the environment. Each grid cell is connected to $n$ neighbours, where  $0 \leq n \leq 8$. Furthermore, eEach grid cell is associated with a particular terrain type and there are $n \geq 1$ possible terrains.
+\end{definition}
+
+\begin{definition}
+Each grid map is representable as a graph, $G = {V, E}$ where each grid cell corresponds to a vertex in the set of vertices $V$ and each cell/neighbour adjacency is represented by an edge in the set of all edges $E$
+\end{definition}
+
+\begin{definition}
+An agent is any entity attempting to move across a grid environment. Agents have an initial start location where they begin and a goal location which they actively try to reach. Every agent is square in shape and has a size $s \geq 1$ . Furthermore, every agent has a terrain traversal capability which is not the null set.
+\end{definition}
+
+
+\begin{definition}
+A capability is an agent attribute comprising a proper subset of terrains. Each capability is unique in the set of all capabilities. 
+\end{definition}
+
+\begin{definition}A clearance value is a metric associated with a particular capability and location in the grid environment. It measures the maximal size of an agent at a given location without intersecting any obstacle in the environment. 
+\end{definition}
+
+\begin{definition}
+A location is traversable by an agent only if the agent's capability includes the terrain type of the target location and the agent's size is at most equal to the  clearance value associated with the agent's capability at the target location. 
+\end{definition}
+
+\begin{definition}
+An \emph{soft obstacle} is a location in the environment which is not traversable by an agent because it lacks the correct capability or its size makes is too large to traverse the location.  Locations which are not traversable by any agent are called \emph{hard obstacles}.
+\end{definition}
+
+\begin{definition}
+There is at most one optimal true distance between a start and goal location for each agent size and capability.
+\end{definition}
+
