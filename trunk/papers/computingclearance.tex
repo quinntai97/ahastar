@@ -1,7 +1,7 @@
 \section{Planning with Clearance Value Annotations}
 \label{aha:planningwithannotations}
 On a grid map, a clearance value is associated with each octile and is perhaps best explained as representing the length or width of a theoretical square bounding volume that begins at the tile being evaluated and is expanded until it intersects an obstacle. \\
-Figure \ref{aha-fig:annotations} gives a quick overview of the idea. In \ref{aha-fig:annotations}(a) we present a simple map region and a traversable target tile with minimum clearance. (b) and (c) show the first two successful expansions of the bounding volume; the third (d), fails. In (e) we show the resultant annotations using a single-terrain capability on our two-terrain toy map example. Note that hard obstacles are black and their clearances omitted. Finally, In \ref{aha-fig:annotations}(f) we show a different set of annotations derived using two-terrain capability.
+Figure \ref{aha-fig:annotations} gives a quick overview of the idea. In \ref{aha-fig:annotations}(a) we present a simple map region and a traversable target tile with minimum clearance. (b) and (c) show the first two successful expansions of the bounding volume; the third (d), fails. In (e) we show the resultant annotations for all single-terrain capabilities on our two-terrain toy map example (note that hard obstacles are black and their clearances omitted). Finally, In \ref{aha-fig:annotations}(f) we show a different set of annotations derived using a two-terrain capability; useful for agents that can traverse both types of terrains.
 
 \begin{figure}[htbp]
        \caption{\emph{The annotation process (top). Annoating our example map using a single terrain capability (left)  and multi-terrain capability (right) } }
@@ -29,7 +29,7 @@ The clearance value of a traversable tile, for some capability $c$, is equal to 
 \end{definition}
 
 \begin{definition}
-All obstalces (hard or soft) have a clearance value of 0. 
+All obstacles (hard or soft) have a clearance value of 0. 
 \end{definition}
 
 Once derived, we will use an additional few bytes of memory to annotate the corresponding node in our graph with this new information and repeat the entire procedure for each member in the set of all capabilities. Note that we do not need to store 0 values as the clearance for any capability which does not include a node's terrain is automatically 0 (ie. the node is a soft obstacle for any agent with  such capabilities). We omit precise implementation details of where to store clearances as these considerations will vary depending on the specific application and available resources. We opted to add attributes to our node data structures for simplicity; a better method would be to use compact tables.
@@ -50,7 +50,7 @@ There are $2^r$ capabilities (by induction) but the maximum number of capabiliti
 
 The key advantage of annotating a map in this fashion is that we are able to plan for both large and small agents using a fixed size grid. 
 We can determine valid pathfinding areas for any agent by simply comparing the size and capabilities of our agent with the corresponding terrain and capability clearance values in the search graph. 
-In the case of large agents, we need know only that the top-left tile that will be occupied by the the agent is valid; the clearance value annotation guarantees that the rest of the area is obstacle free. This is an important property leading to reducibility and simplification of search problems. We give the following theorem and proof by contradiction:
+In the case of large agents, which will occupy several tiles simultaneously, we need know only that the top-left tile that will be occupied by the the agent is traversable; the clearance value annotation guarantees that the rest of the area is obstacle free. This is an important property leading to reducibility and simplification of search problems. We give the following theorem and proof by contradiction:
 
 \begin{theorem}
 \label{aha-theorem:reducibility}
