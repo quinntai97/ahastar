@@ -4,7 +4,7 @@
 \begin{algorithmic}
 \REQUIRE $t \in Tiles_{all}$ and $c \in Capabilities_{all}$
 
-	\IF{ traversable(t,c)} \STATE $return \leftarrow 0$  \ENDIF
+	\IF{ $\neg$ traversable(t,c)} \STATE $return \leftarrow 0$  \ENDIF
 	\STATE $cv \leftarrow min(CV(t_{E}, c), CV(t_{S}, c), CV(t_{SE})) + 1$
 	\STATE \textbf{return} $cv$
 \end{algorithmic}

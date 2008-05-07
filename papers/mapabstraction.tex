@@ -12,25 +12,25 @@ An \emph{entrance} is a contiguous area (ie. obstacle free) between two adjacent
 Each entrance is associated with a particular \emph{size} (the length of the maximally sized contiguous area) and \emph{orientation} (either veritcal or horizontal depending on the nature of the adjacency). If obstacles exist along the border between two clusters, several entrances may be created.
 \end{definition}
 
-In figure \ref{aha-fig:buildabstraction}(a) We show the result of a simple division using a fixed-size square cluster approach. In this case, our toy map is divided into 4 adjacent clusters. \\ \newline
+In figure \ref{aha-fig:abstractgraph}(a) We show the result of a simple division using a fixed-size square cluster approach. In this case, our toy map is divided into 4 adjacent clusters. \\ \newline
 Building entrances is likewise straightforward. We must scan the border of every cluster where it is adjacent to another in order to determine if one is reachable from the other. In the original work, once an entrance is identified, transitions are created between the clusters by adding a pair of connected nodes to the abstract graph which represent key locations along the entrance area. In our case, we choose as the transition point the pair of nodes which maximise the clearance value for a given capability. We compute this latter metric by taking the minimum clearance among each node pair in the entrance area and selecting the largest value from the resultant set. \\ \newline
 We proceed in this way and scan the entrance area for transitions for each available capability. When a maximally sized transition is located, we annotate the resultant abstract edge with the newly discovered clearance value and the capability used to find it. \\
 We do not need to add any annotations to our abstract nodes; it is sufficient to define the length and traversal requirements of the corridor connecting them.  
 
 \begin{definition}
-A \emph{corridor} is a set of adjacent traversable nodes in the grid environment which connect a pair of locations. The length of a corridor is the sum of the traversal costs of all the nodes in the corridor set. A corridor is associated with a particular capability which must include the terrain type of every node in the corridor set. 
-The width of a corridor is the minimum capability clearance value among all nodes in the corridor set. 
+A \emph{corridor} is a set of connected traversable nodes in the grid environment which connect a pair of locations. The length of a corridor is the sum of the traversal costs of all the nodes in the corridor set. A corridor is associated with a particular capability which must include the terrain type of every node in the corridor set. 
+The width of a corridor is the minimum clearance value for some given capability among all nodes in the corridor set. 
 \end{definition}
 
 Figure \ref{aha-fig:abstractgraph}(b) highlights our decomposition process. On the left we present two adjacent clusters, while on the right are the three entrances identified and their respective transition points. \emph{E1} and {E2} are discovered using single-terrain capabilities, while \emph{E3}, which spans the whole border area, is discovered using a more complex multi-terrain capability. 
-Note that \emph{E3} shares the same the location on the low-level map with \emph{E1} since we actively attempt to re-use any existing abstract nodes in case multiple transitions are identified at the same location in the original grid map. If the existing abstract nodes are already connected we also attempt to re-use the edge between them by checking if the existing edge is traversable using the capability and maximal clearance values of the proposed transition. In our example \emph{E3} represents a wider corridor than \emph{E1} so we add a new edge to the abstract multi-graph. \\ \newline
-
+Note that \emph{E3} shares the same the location on the low-level map with \emph{E1} since we actively attempt to re-use any existing abstract nodes in case multiple transitions are identified at the same location in the original grid map. If the existing abstract nodes are already connected we also attempt to re-use the edge between them by checking if the existing edge is traversable using the capability and maximal clearance values of the proposed transition. In our example \emph{E3} represents a wider corridor than \emph{E1} so we add a new edge to the abstract multi-graph. 
+\medskip
 Our final step to complete the abstraction involves connecting each abstract node to every other reachable abstract node in the local cluster. 
 We achieve this by using AA* to search for the optimal path between each pair of nodes for all available capabilities and agent sizes. 
 Once a path is found we insert a new undirected edge into the abstract graph to connect the two nodes using the path distance as its cost and annotating it with the capability and clearance parameters used by AA* to find the solution. 
 To avoid edge duplication when pathfinding inside each  cluster we will order from lagest to smallest the set of available agent sizes which we pass as clearance parameters to AA*. 
 We also order the capability parameters we pass to AA* from simplest (those containing the least number of terrains) to most complex (the capability corresponding to the set of all terrains). 
-The intuition here is that if a traversable optimal-length path exists between two nodes we would like to re-use it instead of adding more edges to the graph. This is an instance of weak edge dominance, a concept we will discuss shortly.
+The intuition here is that if an optimal length corridor exists between two nodes we would like to re-use it instead of adding more edges to the graph. This is an instance of edge dominance, a concept we will discuss shortly.
 We thus present our complete map decomposition approach in  Algorithm \ref{aha-alg:buildabstraction}.
 
 \input algorithms/alg_buildabstraction
