@@ -1,32 +1,33 @@
 \section{A Characterisation of Hierarchial Abstraction}
 It is difficult to characterise precisely the space complexity of our abstraction algorithm because the result is highly dependent upon the number of combinations of terrains and clearances which vary from map to map. We can however make a characterisation of some upper-bounds on the size of the resultant graph and the number of annotations required to construct it. \\
-Since we only add two annotations to every edge while building the abstract graph we can easily find the overhead involved by determining the number of edges in the abstract graph. This requires we find the number of transitions between clusters as well as the number of edges inside each cluster. We proceed by first deriving an upper-bound on the latter. 
+Since we only add two annotations to every edge while building the abstract graph we can easily find the overhead involved by determining the number of edges in the abstract graph. We proceed by first deriving an upper-bound on the number of edges inside each cluster. 
 \begin{lemma}
 \label{aha-lemma:maxedgesincluster}
-Let $r$ be the number of terrains found on a map divided into $c*c$ clusters where each cluster contains at most $x$ abstract nodes. Further, let $t$ be the number of unique terrains found inside each cluster and $S$ the set of sizes which agents traversing the map may have. Then, the total number of intra-cluster edges is, in the worst case, $((2^t/2 * |S|) *(x^2-x)/2)*c^2$.
+Let $AM$ be a map with $r$ terrains divided into clusters of size $n*n$ containing at most $x$ abstract nodes. Further, let $t$ be the number of unique terrains found inside the cluster such that $r > t$. Also, let $S$ be the set of sizes which agents traversing $AM$ may have. Then, the number of edges required to connect all abstract nodes in each cluster is, in the worst case, $(2^t/2 * |S|) * x(x-1)/2$.
 \end{lemma}
 
 \begin{proof}
 For each size/capability combination there is at most one optimal length solution (by definition). From lemma \ref{aha-lemma:numannotations} we know each node is traversable at most by $2^r/2$ capabilities thus there must be $2^r/2 * |S|$ ways of covering 2 nodes (intuitively). 
-However, the number of terrains inside a cluster is governed by its size; only $t$ terrains may be found. From this, it follows that the upper-bound on the size of the set of edges covering each pair of nodes is infact $2^t/2 * |S|$. In the worst case there will be a maximal number of edges between each pair of nodes and there are $x(x-1)/2$ such pairs in total per cluster (by induction) and $c^2$ clusters in total (by definition)\qed
+However, the number of terrains inside a cluster is governed by its size; only $t$ terrains may be found. From this, it follows that the upper-bound on the size of the set of edges covering each pair of nodes is infact $2^t/2 * |S|$. In the worst case there will be a maximal number of edges between each pair of nodes and there are $x(x-1)/2$ such pairs in total per cluster (by induction). \qed
 \end{proof}
 
 Next, we will attempt to characterise a worst-case for the number of inter-cluster edges (ie. entrance transitions). 
 \begin{lemma}
 \label{aha-lemma:maxtransitions}
-Given a map which is perfectly divisble into $c*c$ clusters, each of size $n*n$, then, in the worst case, the number of inter-cluster edges is given by $((2c^2 - 2c)*(n^2-n)/2)*c^2$.
+Given a map which is perfectly divisble into $c*c$ clusters, each of size $n*n$, then, in the worst case, the number of inter-cluster edges is given by $(2c^2 - 2c)*n(n-1)/2$.
 \end{lemma}
 
 \begin{proof}
 In the worst case, the border between each pair of adjacent clusters is free of hard obstacles and a maximally sized entrance is always possible. If we count the number of entrances in each cluster, avoiding duplication, then each cluster contributes 2 entrances to the total, except the last cluster, which contributes none. Thus, the total number of entrances is $2c^2 + 2c$. (by induction) \\
 To maximise the number of transitions in each entrance area, we must maximise the number of capabilites which can be used to traverse each transition (problem definition). From lemma \ref{aha-lemma:numannotations} we know each node is traversable by at most $2^r/2$ capabilities, thus, both transition endpoints must share the same terrain type or the number of capabilities in the maximal set is reduced (intuitively).
-Furthemore, to ensure a maximal number of transitions the set of terrains for each pair of nodes in the entrance area must be unique. In the worst case, $r > n$ and by observation we can see that that this will produce [$n$ single-capability transitions]...[1 $n$-capability transition]. By induction, we can see that this recurrence relation holds for the general sequence counting formula $n(n-1)/2$ and we note that there are $c^2$ clusters in total\qed
+Furthemore, to ensure that a transition point is created for every pair of nodes on the border area between the clusters the number of terrains, $r$ must be $r \geq n$, where $n$ is the width of one of our clusters. By observation we can see that that this will produce [$n$ single-capability transitions]...[1 $n$-capability transition]. By induction, we can see that this recurrence relation holds for the general sequence counting formula $n(n-1)/2$. \qed
 \end{proof}
-Thus, the worst case for the number of edges in the abstract graph, $E_{abs}$, is given by: 
+Thus, the worst case for the number of edges in the abstract graph is: 
 \begin{equation}
 \label{aha-eq:maxabstractedges}
-E_{abs} = ((2^t/2 * |S|) * (x^2-x)/2 + (2c^2 + 2c)*(n^2-n)/2))*c^2
+E_{abs} = (2^t/2 * |S|) * n(n-1)/2 + (2c^2 + 2c)*((n^2-n)/2)
 \end{equation}
+Where $E_{abs}$ is the set of abstract edges for a map with $r$ terrains which is divisible into $c*c$ clusters of size $n*n$ and where $t$ represents the number of terrains found inside each cluster such that $r > t$. $S$ is the set of sizes that agents traversing through the environment may have. \\ \newline
 The worst-case for the number of nodes required to build the abstract graph is easier to derive. 
 \begin{lemma}
 \label{aha-lemma:maxnodes}
