@@ -1,0 +1,113 @@
+gs_edges <- as.data.frame(c0gs_cs10hq$edges)
+gs_edges <- cbind(gs_edges, maporder)
+gs_edges <- cbind(gs_edges, c0gs_cs10hq$absedges)
+gs_edges <- cbind(gs_edges, c0gs_cs10lq$absedges)
+gs_edges <- cbind(gs_edges, c0gs_cs15hq$absedges)
+gs_edges <- cbind(gs_edges, c0gs_cs15lq$absedges)
+gs_edges <- cbind(gs_edges, c0gs_cs20hq$absedges)
+gs_edges <- cbind(gs_edges, c0gs_cs20lq$absedges)
+gs_edges <- cbind(gs_edges, c5gs_cs10hq$absedges)
+gs_edges <- cbind(gs_edges, c5gs_cs10lq$absedges)
+gs_edges <- cbind(gs_edges, c5gs_cs15hq$absedges)
+gs_edges <- cbind(gs_edges, c5gs_cs15lq$absedges)
+gs_edges <- cbind(gs_edges, c5gs_cs20hq$absedges)
+gs_edges <- cbind(gs_edges, c5gs_cs20lq$absedges)
+gs_edges <- cbind(gs_edges, c10gs_cs10hq$absedges)
+gs_edges <- cbind(gs_edges, c10gs_cs10lq$absedges)
+gs_edges <- cbind(gs_edges, c10gs_cs15hq$absedges)
+gs_edges <- cbind(gs_edges, c10gs_cs15lq$absedges)
+gs_edges <- cbind(gs_edges, c10gs_cs20hq$absedges)
+gs_edges <- cbind(gs_edges, c10gs_cs20lq$absedges)
+gs_edges <- gs_edges[order(gs_edges$"c0gs_cs10hq$edges"),]
+
+gs_nodes <- as.data.frame(c0gs_cs10hq$nodes)
+gs_nodes <- cbind(gs_nodes, maporder)
+gs_nodes <- cbind(gs_nodes, c0gs_cs10hq$absnodes)
+gs_nodes <- cbind(gs_nodes, c0gs_cs10lq$absnodes)
+gs_nodes <- cbind(gs_nodes, c0gs_cs15hq$absnodes)
+gs_nodes <- cbind(gs_nodes, c0gs_cs15lq$absnodes)
+gs_nodes <- cbind(gs_nodes, c0gs_cs20hq$absnodes)
+gs_nodes <- cbind(gs_nodes, c0gs_cs20lq$absnodes)
+gs_nodes <- cbind(gs_nodes, c5gs_cs10hq$absnodes)
+gs_nodes <- cbind(gs_nodes, c5gs_cs10lq$absnodes)
+gs_nodes <- cbind(gs_nodes, c5gs_cs15hq$absnodes)
+gs_nodes <- cbind(gs_nodes, c5gs_cs15lq$absnodes)
+gs_nodes <- cbind(gs_nodes, c5gs_cs20hq$absnodes)
+gs_nodes <- cbind(gs_nodes, c5gs_cs20lq$absnodes)
+gs_nodes <- cbind(gs_nodes, c10gs_cs10hq$absnodes)
+gs_nodes <- cbind(gs_nodes, c10gs_cs10lq$absnodes)
+gs_nodes <- cbind(gs_nodes, c10gs_cs15hq$absnodes)
+gs_nodes <- cbind(gs_nodes, c10gs_cs15lq$absnodes)
+gs_nodes <- cbind(gs_nodes, c10gs_cs20hq$absnodes)
+gs_nodes <- cbind(gs_nodes, c10gs_cs20lq$absnodes)
+gs_nodes <- gs_nodes[order(gs_nodes$"c0gs_cs10hq$nodes"),]
+
+### we don't record size of original map very well; use HPA numbers instead ###
+avgnodes <- 4469
+avgedges <- 16420
+
+pdf(file="graphsize.pdf", width=10, height=6)
+par(mfrow=c(1,2))
+plot(gs_edges$"c0gs_cs10hq$edges", gs_edges$"c0gs_cs10hq$edges", type="l", main="Edges in Graph (SO=10%, AQ=High)", xlab="# of  edges", ylab="# of  edges")
+lines(gs_edges$"c0gs_cs10hq$edges", gs_edges$"c10gs_cs10hq$absedges", col="red", lty=2)
+lines(gs_edges$"c0gs_cs10hq$edges", gs_edges$"c10gs_cs15hq$absedges", col="blue", lty=3)
+lines(gs_edges$"c0gs_cs10hq$edges", gs_edges$"c10gs_cs20hq$absedges", col="orange", lty=4)
+points(gs_edges$"c0gs_cs10hq$edges", gs_edges$"c0gs_cs10hq$edges", pch=1)
+legend("topleft", c("No abstraction", "CS = 10", "CS = 15", "CS = 20"), lty=c(1,2,3,4), col=c("black", "red", "blue", "orange"))
+
+plot(gs_nodes$"c0gs_cs10hq$nodes", gs_nodes$"c0gs_cs10hq$nodes", type="l", main="Nodes in Graph (SO=10%, AQ=High)", xlab="# of  nodes", ylab="# of  nodes")
+lines(gs_nodes$"c0gs_cs10hq$nodes", gs_nodes$"c10gs_cs10hq$absnodes", col="red", lty=2)
+lines(gs_nodes$"c0gs_cs10hq$nodes", gs_nodes$"c10gs_cs15hq$absnodes", col="blue", lty=3)
+lines(gs_nodes$"c0gs_cs10hq$nodes", gs_nodes$"c10gs_cs20hq$absnodes", col="orange", lty=4)
+points(gs_nodes$"c0gs_cs10hq$nodes", gs_nodes$"c0gs_cs10hq$nodes", pch=1)
+legend("topleft", c("No abstraction", "CS = 10", "CS = 15", "CS = 20"), lty=c(1,2,3,4), col=c("black", "red", "blue", "orange"))
+dev.off()
+
+gsnodes_table <- as.data.frame(mean(c0gs_cs10hq$absnodes) / avgnodes)
+gsnodes_table <- cbind(gsnodes_table, mean(c5gs_cs10hq$absnodes) / avgnodes)
+gsnodes_table <- cbind(gsnodes_table, mean(c10gs_cs10hq$absnodes) / avgnodes)
+gsnrow <- mean(c0gs_cs15hq$absnodes) / avgnodes
+gsnrow <- c(gsnrow, mean(c5gs_cs15hq$absnodes) / avgnodes)
+gsnrow <- c(gsnrow, mean(c10gs_cs15hq$absnodes) / avgnodes)
+gsnodes_table <- rbind(gsnodes_table, gsnrow)
+gsnrow <- c()
+gsnrow <- mean(c0gs_cs20hq$absnodes) / avgnodes
+gsnrow <- c(gsnrow, mean(c5gs_cs20hq$absnodes) / avgnodes)
+gsnrow <- c(gsnrow, mean(c10gs_cs20hq$absnodes) / avgnodes)
+gsnodes_table <- rbind(gsnodes_table, gsnrow)
+gsnodes_table <- gsnodes_table*100
+dimnames(gsnodes_table) <- list(c("CS10", "CS15", "CS20"), c("0% SO", "5% SO", "10% SO"))
+
+library(xtable)
+gsnoutput <- xtable(gsnodes_table)
+
+gsedges_table <- as.data.frame(mean(c0gs_cs10hq$absedges) / avgedges)
+gsedges_table <- cbind(gsedges_table, mean(c5gs_cs10hq$absedges) / avgedges)
+gsedges_table <- cbind(gsedges_table, mean(c10gs_cs10hq$absedges) / avgedges)
+gserow <- mean(c0gs_cs10lq$absedges) / avgedges
+gserow <- c(gserow, mean(c5gs_cs10lq$absedges) / avgedges)
+gserow <- c(gserow, mean(c10gs_cs10lq$absedges) / avgedges)
+gsedges_table <- rbind(gsedges_table, gserow)
+gserow <- c()
+gserow <- mean(c0gs_cs15hq$absedges) / avgedges
+gserow <- c(gserow, mean(c5gs_cs15hq$absedges) / avgedges)
+gserow <- c(gserow, mean(c10gs_cs15hq$absedges) / avgedges)
+gsedges_table <- rbind(gsedges_table, gserow)
+gserow <- c()
+gserow <- mean(c0gs_cs15lq$absedges) / avgedges
+gserow <- c(gserow, mean(c5gs_cs15lq$absedges) / avgedges)
+gserow <- c(gserow, mean(c10gs_cs15lq$absedges) / avgedges)
+gsedges_table <- rbind(gsedges_table, gserow)
+gserow <- c()
+gserow <- mean(c0gs_cs20hq$absedges) / avgedges
+gserow <- c(gserow, mean(c5gs_cs20hq$absedges) / avgedges)
+gserow <- c(gserow, mean(c10gs_cs20hq$absedges) / avgedges)
+gsedges_table <- rbind(gsedges_table, gserow)
+gserow <- c()
+gserow <- mean(c0gs_cs20lq$absedges) / avgedges
+gserow <- c(gserow, mean(c5gs_cs20lq$absedges) / avgedges)
+gserow <- c(gserow, mean(c10gs_cs20lq$absedges) / avgedges)
+gsedges_table <- rbind(gsedges_table, gserow)
+dimnames(gsedges_table) <- list(c("CS10 HQ", "CS10 LQ", "CS15 HQ", "CS15 LQ", "CS20 HQ", "CS20 LQ"), c("0% SO", "5% SO", "10% SO"))
+gsedges_table <- gsedges_table*100
+gseoutputtable <- xtable(gsedges_table)
