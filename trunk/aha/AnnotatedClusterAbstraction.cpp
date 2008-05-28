@@ -273,6 +273,42 @@ double AnnotatedClusterAbstraction::h(node* a, node*b) throw(NodeIsNullException
 	return answer;
 }
 
+void AnnotatedClusterAbstraction::findDominantTransition(edge* first, edge* second, edge** dominantOut)
+{
+	*dominantOut = 0;
+	if(first == 0 || second == 0)
+		return;
+	
+	int e1Capability = first->getCapability();
+	int e1Clearance = first->getClearance(e1Capability);
+	int e2Capability = second->getCapability();
+	int e2Clearance = second->getClearance(e2Capability);
+	
+	if(e1Capability == e2Capability) 
+	{	
+		if(e1Clearance > e2Clearance) 
+			*dominantOut = first; 
+		else
+			*dominantOut = second;
+		return;
+	}
+	
+	/* check for dominance by checking if some complex multi-terrain corridor can be substituted for a simpler one */
+	if(e1Clearance >= e2Clearance && first->getClearance(e2Capability) > 0) 
+	{
+		*dominantOut = first;
+		return;
+	}
+	
+	/* reverse order */
+	if(e2Clearance >= e1Clearance && second->getClearance(e1Capability) > 0) 
+	{
+		*dominantOut = second;
+		return;
+	}
+	
+}
+
 void AnnotatedClusterAbstraction::openGLDraw()
 {
 	Map* map = this->getMap();

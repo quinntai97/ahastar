@@ -172,7 +172,6 @@ void AnnotatedCluster::addEntrance(node* from, node* to, int capability, int cle
 	addTransitionToAbstractGraph(absfrom, absto, capability, clearance, weight, aca);
 }
 
-// TODO: in a higher level function, need to call this for each capability type
 void AnnotatedCluster::buildVerticalEntrances(int curCapability, AnnotatedClusterAbstraction* aca)
 {
 
@@ -360,6 +359,9 @@ void AnnotatedCluster::validateTransitionEndpoints(node* from, node* to) throw(V
 		throw ValidateTransitionEndpointsException("transition endpoints cannot have identical (x,y) coordinates");
 }
 
+/* adds an inter-cluster transition to the abstract graph 
+	TODO: rename this to something more appropriate (less about endpoints, more about transitions)
+*/
 void AnnotatedCluster::addEndpointsToAbstractGraph(node* from, node* to, AnnotatedClusterAbstraction* aca) 
 	throw(EntranceNodesAreNotAdjacentException, CannotBuildEntranceToSelfException, CannotBuildEntranceFromAbstractNodeException)
 {
@@ -373,7 +375,7 @@ void AnnotatedCluster::addEndpointsToAbstractGraph(node* from, node* to, Annotat
 	graph* g = aca->getAbstractGraph(1);
 	node *absfrom, *absto;
 	
-	/* need to add nodes to abstract graph to represent the entrance; some entrances may share endpoints so we minimise graph size by reusing nodes */
+	/* some entrances may share endpoints so we minimise graph size by reusing nodes */
 	if(from->getLabelL(kParent) == -1)
 	{
 		absfrom = dynamic_cast<node*>(from->clone());
@@ -422,50 +424,24 @@ void AnnotatedCluster::addTransitionToAbstractGraph(node* from, node* to, int ca
 		aca->addPathToCache(interedge,p);
 	}
 }
-/* some notes:
-	When we add a new abstract node (or endpoint) it must be connected to all the other entrance endpoints in the cluster. 
-	In the worst case [numCapabilities*numAgentSizes] number of edges need to be created. Creating an edge requires running AnnotatedA*. 
-	This is expensive, especially for short paths. So, we try to minimise this by checking if we already found an optimal length path
-	between the two endpoints which is traversable using the given capability.
-*/
+
 void AnnotatedCluster::connectEntranceEndpoints(node* newendpoint, AnnotatedClusterAbstraction* aca)
 {
 	for(int i=0; i<getParents().size(); i++)
 	{
-		node* existingendpoint = getParents()[i];
-		
-		switch(aca->getQualityParam())
+		/* simplest capabilities (those involving fewest terrains) first and others last. important to avoid creating identical edges 
+		NB: assumes capabilities array is sorted accordingly  */
+		node* existingendpoint = getParents()[i];		
+		for(int capindex=0; capindex < NUMCAPABILITIES ; capindex++) 
 		{
-			case ACAUtil::kLowQualityAbstraction:
-				{
-					for(int capindex=0; capindex < NUMCAPABILITIES ; capindex++) // assumes all single-terrain first, multi-terrain last
-					{
-						int capability = capabilities[capindex];
-						for(int sizeindex = NUMAGENTSIZES-1; sizeindex>=0; sizeindex--) // build largest single-capability first and re-use as many as possible
-						{
-							int size = agentsizes[sizeindex]; // assumes agentsize is ordered 0..n -- smallest to largest
-							connectEntranceEndpointsForAGivenCapabilityAndSize(newendpoint, existingendpoint, capability, size, aca);
-						}
-					}
-				}
-				break;
+			int capability = capabilities[capindex];
 			
-			case ACAUtil::kHighQualityAbstraction:
-				{
-					for(int capindex=0; capindex < NUMCAPABILITIES ; capindex++) 
-					{
-						int capability = capabilities[capindex];
-						for(int sizeindex = NUMAGENTSIZES-1; sizeindex>=0; sizeindex--)
-						{
-							int size = agentsizes[sizeindex]; // assumes agentsize is ordered 0..n -- smallest to largest
-							connectEntranceEndpointsForAGivenCapabilityAndSize(newendpoint, existingendpoint, capability, size, aca);
-						}
-					}
-
-				}
-		
-		
-		
+			/* find paths for largest size agents first and smallest ones last. NB: assumes agentsizes array is sorted accordingly */
+			for(int sizeindex = NUMAGENTSIZES-1; sizeindex>=0; sizeindex--) 
+			{
+				int size = agentsizes[sizeindex]; 
+				connectEntranceEndpointsForAGivenCapabilityAndSize(newendpoint, existingendpoint, capability, size, aca);
+			}
 		}
 	}
 }
@@ -478,12 +454,13 @@ void AnnotatedCluster::connectEntranceEndpointsForAGivenCapabilityAndSize(node* 
 	
 	if(aca->getQualityParam() == ACAUtil::kLowQualityAbstraction)
 	{
-		e = absg->findAnnotatedEdge(newendpoint,existingendpoint,capability,size,maxdist); // try to re-use an existing path
+		/* check if an existing intra-edge dominates the proposed transition */
+		e = absg->findAnnotatedEdge(newendpoint,existingendpoint,capability,size,maxdist); 
 		if(e == 0)
 			findShortestPathBetweenTwoEndpoints(newendpoint, existingendpoint, capability, size, aca);
 	}
 	else
-		findShortestPathBetweenTwoEndpoints(newendpoint, existingendpoint, capability, size, aca); // find them all
+		findShortestPathBetweenTwoEndpoints(newendpoint, existingendpoint, capability, size, aca); // don't use intra-edge dominance-checking
 }
 
 void AnnotatedCluster::findShortestPathBetweenTwoEndpoints(node* n1, node* n2, int capability, int size, AnnotatedClusterAbstraction* aca)
