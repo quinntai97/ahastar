@@ -65,6 +65,12 @@ class AnnotatedClusterAbstractionTest : public CPPUNIT_NS::TestFixture
 	CPPUNIT_TEST( getPathFromCacheShouldReturnZeroGivenAnEdgeThatHasNoCorrespondingPathInCache );
 	CPPUNIT_TEST( hShouldProduceIdenticalResultsToOverriddenMethodInMapAbstractionGivenTwoValidNodeParameters );
 	CPPUNIT_TEST_EXCEPTION( hShouldThrowExceptionGivenANullNodeParameter, NodeIsNullException );
+	
+	CPPUNIT_TEST( findDominantTransitionShouldReturnAWeaklyDominantEdgeGivenTwoInterEdgesWithTheSameCapabilityButDifferentClearance );
+	CPPUNIT_TEST( findDominantTransitionShouldReturnANullDominantEdgeGivenTwoInteEdgesEitherOfWhichOrBothAreNull );
+	CPPUNIT_TEST( findDominantTransitionShouldReturnAWeaklyDominantEdgeGivenTwoInterEdgesWithIntersectingCapabilitySets );
+	CPPUNIT_TEST( findDominantTransitionShouldReturnANullDominantEdgeGivenTwoInterEdgesWithIntersectingCapabilityButNoCorridorSizeDominance );
+
 	CPPUNIT_TEST_SUITE_END();
 	
 	
@@ -120,6 +126,12 @@ class AnnotatedClusterAbstractionTest : public CPPUNIT_NS::TestFixture
 
 		void hShouldProduceIdenticalResultsToOverriddenMethodInMapAbstractionGivenTwoValidNodeParameters();
 		void hShouldThrowExceptionGivenANullNodeParameter();
+		
+		void findDominantTransitionShouldReturnAWeaklyDominantEdgeGivenTwoInterEdgesWithTheSameCapabilityButDifferentClearance();
+		void findDominantTransitionShouldReturnANullDominantEdgeGivenTwoInteEdgesEitherOfWhichOrBothAreNull();
+		void findDominantTransitionShouldReturnAWeaklyDominantEdgeGivenTwoInterEdgesWithIntersectingCapabilitySets();
+		void findDominantTransitionShouldReturnANullDominantEdgeGivenTwoInterEdgesWithIntersectingCapabilityButNoCorridorSizeDominance();
+		
 		
 		
 	private:
