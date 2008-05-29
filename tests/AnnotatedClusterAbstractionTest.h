@@ -21,6 +21,7 @@ class AnnotatedClusterAbstraction;
 class AnnotatedClusterMockFactory;
 class Map;
 class node;
+class edge;
 class AnnotatedClusterMock;
 class NodeIsHardObstacleException;
 class NodeIsNullException;
@@ -70,6 +71,8 @@ class AnnotatedClusterAbstractionTest : public CPPUNIT_NS::TestFixture
 	CPPUNIT_TEST( findDominantTransitionShouldReturnANullDominantEdgeGivenTwoInteEdgesEitherOfWhichOrBothAreNull );
 	CPPUNIT_TEST( findDominantTransitionShouldReturnAWeaklyDominantEdgeGivenTwoInterEdgesWithIntersectingCapabilitySets );
 	CPPUNIT_TEST( findDominantTransitionShouldReturnANullDominantEdgeGivenTwoInterEdgesWithIntersectingCapabilityButNoCorridorSizeDominance );
+	CPPUNIT_TEST( findDominantTransitionShouldReturnANullGivenOneOrTwoInteredgesWhichReferenceInvalidNodeIDsAsTheirEndpoints );
+	CPPUNIT_TEST( findDominantTransitionShouldReturnANullGivenAPairofEdgesWhichDoNotConnectTheSameSetOfClusters );
 
 	CPPUNIT_TEST_SUITE_END();
 	
@@ -127,18 +130,26 @@ class AnnotatedClusterAbstractionTest : public CPPUNIT_NS::TestFixture
 		void hShouldProduceIdenticalResultsToOverriddenMethodInMapAbstractionGivenTwoValidNodeParameters();
 		void hShouldThrowExceptionGivenANullNodeParameter();
 		
+		/* positive dominance cases */
 		void findDominantTransitionShouldReturnAWeaklyDominantEdgeGivenTwoInterEdgesWithTheSameCapabilityButDifferentClearance();
-		void findDominantTransitionShouldReturnANullDominantEdgeGivenTwoInteEdgesEitherOfWhichOrBothAreNull();
 		void findDominantTransitionShouldReturnAWeaklyDominantEdgeGivenTwoInterEdgesWithIntersectingCapabilitySets();
+		
+		/* negative dominance cases */
+		void findDominantTransitionShouldReturnANullDominantEdgeGivenTwoInteEdgesEitherOfWhichOrBothAreNull();
 		void findDominantTransitionShouldReturnANullDominantEdgeGivenTwoInterEdgesWithIntersectingCapabilityButNoCorridorSizeDominance();
+		void findDominantTransitionShouldReturnANullGivenOneOrTwoInteredgesWhichReferenceInvalidNodeIDsAsTheirEndpoints();
+		void findDominantTransitionShouldReturnANullGivenAPairofEdgesWhichDoNotConnectTheSameSetOfClusters();
 		
 		
+		void setupDominanceRelationshipTestData(int dmCapability, int dmClearance, int dtCapability, int dtClearance);
 		
 	private:
 		AnnotatedClusterAbstraction *aca;
 		AnnotatedClusterMockFactory* acmock_factory;
 		ExperimentManager* expmgr;
 		Map *testmap;
+		edge *e1, *e2;
+		node *n1, *n2, *n3, *n4;
 };
 
 #endif
