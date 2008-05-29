@@ -412,7 +412,7 @@ void AnnotatedCluster::addTransitionToAbstractGraph(node* from, node* to, int ca
 	graph* g = aca->getAbstractGraph(1);
 
 	/* annotate the edge representing the entrance with appropriate capabilities and clearance values */
-	edge* interedge = g->findAnnotatedEdge(from,to, capability, clearance, weight); // can we re-use any edge that fits caps/clearance criteria?
+	edge* interedge = from->findAnnotatedEdge(to, capability, clearance, weight); // can we re-use any edge that fits caps/clearance criteria?
 	if(interedge == 0)
 	{
 		//std::cout << "\nadding new edge to abs graph: "<<from->getLabelL(kFirstData)<<","<<from->getLabelL(kFirstData+1)<<" and " << to->getLabelL(kFirstData)<<","<<to->getLabelL(kFirstData+1) << " caps: "<<capability<<" clearance: "<<clearance;
@@ -455,7 +455,7 @@ void AnnotatedCluster::connectEntranceEndpointsForAGivenCapabilityAndSize(node* 
 	if(aca->getQualityParam() == ACAUtil::kLowQualityAbstraction)
 	{
 		/* check if an existing intra-edge dominates the proposed transition */
-		e = absg->findAnnotatedEdge(newendpoint,existingendpoint,capability,size,maxdist); 
+		e = newendpoint->findAnnotatedEdge(existingendpoint,capability,size,maxdist); 
 		if(e == 0)
 			findShortestPathBetweenTwoEndpoints(newendpoint, existingendpoint, capability, size, aca);
 	}
@@ -481,7 +481,7 @@ void AnnotatedCluster::findShortestPathBetweenTwoEndpoints(node* n1, node* n2, i
 			edge* e = 0;
 			if(aca->getQualityParam() == ACAUtil::kHighQualityAbstraction) // don't add paths twice (optimal paths between two nodes may be identical for two capabilities/sizes)
 			{
-				e = absg->findAnnotatedEdge(n1,n2,capability,size,dist); 			
+				e = n1->findAnnotatedEdge(n2,capability,size,dist); 			
 				if(e != 0)
 					return; 
 			}

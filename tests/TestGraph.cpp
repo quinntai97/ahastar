@@ -9,9 +9,9 @@
 
 #include "TestGraph.h"
 
-CPPUNIT_TEST_SUITE_REGISTRATION( TestGraph );
+//CPPUNIT_TEST_SUITE_REGISTRATION( TestGraph );
 
-void TestGraph::setUp()
+/*void TestGraph::setUp()
 {
 	g = new graph();
 	from = new node("");
@@ -208,3 +208,4 @@ void TestGraph::findAnnotatedEdgeShouldReturnTheShortestEdgeIfSeveralCandidateEd
 	
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("failed to return shortest edge among those existing between endpoints", 4.5, e->getWeight());
 }
+*/

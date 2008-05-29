@@ -201,13 +201,13 @@ void AnnotatedClusterAbstractionTest::buildEntrancesShouldCreateCorrectNumberOfT
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("buildEntrances resulted in incorrect number of abstract nodes", numExpectedAbstractNodes, absg->getNumNodes());
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("buildEntrances resulted in incorrect number of abstract edges", numExpectedAbstractEdges, absg->getNumEdges());
 	
-	edge *myedge = absg->findAnnotatedEdge(absg->getNode(aca->getNodeFromMap(5,1)->getLabelL(kParent)), 
-									absg->getNode(aca->getNodeFromMap(5,4)->getLabelL(kParent)), kGround, 1, 4.5); // created when using high or medium quality abstraction. if this is missing, the low abstraction is OK
+	node* mynode = absg->getNode(aca->getNodeFromMap(5,1)->getLabelL(kParent));
+	edge *myedge = mynode->findAnnotatedEdge(absg->getNode(aca->getNodeFromMap(5,4)->getLabelL(kParent)), kGround, 1, 4.5); // created when using high or medium quality abstraction. if this is missing, the low abstraction is OK
 									
 	CPPUNIT_ASSERT_MESSAGE("found an edge in AC2 that shouldn't exist", myedge == 0);
 	
-	myedge = absg->findAnnotatedEdge(absg->getNode(aca->getNodeFromMap(5,1)->getLabelL(kParent)), 
-									absg->getNode(aca->getNodeFromMap(5,4)->getLabelL(kParent)), kGround, 2, 7); // should exist
+	mynode = absg->getNode(aca->getNodeFromMap(5,1)->getLabelL(kParent));
+	myedge = mynode->findAnnotatedEdge(absg->getNode(aca->getNodeFromMap(5,4)->getLabelL(kParent)), kGround, 2, 7); // should exist
 
 	CPPUNIT_ASSERT_MESSAGE("failed to find an edge in AC2 that should exist", myedge != 0);
 }

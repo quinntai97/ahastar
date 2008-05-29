@@ -504,14 +504,14 @@ void AnnotatedClusterTest::buildHorizontalEntrancesShouldCreateOneTransitionForE
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("second transition; endpoint1 is null", true, endpoint1 != 0);
 	node* endpoint2 = absg->getNode(aca.getNodeFromMap(0,6)->getLabelL(kParent));
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("second transition; endpoint2 is null", true, endpoint2 != 0);
-	edge* myedge = absg->findAnnotatedEdge(endpoint1,endpoint2,kGround,2, 1);
+	edge* myedge = endpoint1->findAnnotatedEdge(endpoint2,kGround,2, 1);
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("can't find edge for second transition", true, myedge != 0);
 
 	endpoint1 = absg->getNode(aca.getNodeFromMap(3,5)->getLabelL(kParent)); // local maxima for kGround
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("third transition; endpoint1 is null", true, endpoint2 != 0);
 	endpoint2 = absg->getNode(aca.getNodeFromMap(3,6)->getLabelL(kParent));
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("third transition; endpoint2 is null", true, endpoint2 != 0);
-	myedge = absg->findAnnotatedEdge(endpoint1,endpoint2,kGround,2, 1);
+	myedge = endpoint1->findAnnotatedEdge(endpoint2,kGround,2, 1);
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("can't find edge for third transition", true, myedge != 0);
 }
 
@@ -827,7 +827,7 @@ void AnnotatedClusterTest::addTransitionToAbstractGraphShouldConnectAbstractNode
 	absg->addNode(abs_n2);
 	
 	ac->addTransitionToAbstractGraph(abs_n1, abs_n2, capability, clearance, 1.0, aca_mock); 
-	edge* e = absg->findAnnotatedEdge(abs_n1,abs_n2, capability, clearance, 1.0);
+	edge* e = abs_n1->findAnnotatedEdge(abs_n2, capability, clearance, 1.0);
 	
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("could not find inter-edge connecting abstract nodes", true, e != 0);
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("edge capability incorrect", capability, e->getCapability());
@@ -853,7 +853,7 @@ void AnnotatedClusterTest::addTransitionToAbstractGraphShouldAddANewPathToTheAnn
 	ac->addTransitionToAbstractGraph(n1, n2, capability, clearance, 1.0, aca_mock); 
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("failed to add a new path to the cache", numExpectedPathsInCache, aca_mock->addPathsToCacheCounter);
 
-	edge* e = absg->findAnnotatedEdge(n1,n2, capability, clearance, 1.0);	
+	edge* e = n1->findAnnotatedEdge(n2, capability, clearance, 1.0);	
 	path* p = aca_mock->getPathFromCache(e);
 	node* expectedNode1 = aca_mock->getNodeFromMap(n1->getLabelL(kFirstData), n1->getLabelL(kFirstData+1));
 	CPPUNIT_ASSERT_MESSAGE("cached path has wrong expected node, 1", expectedNode1 == p->n);
@@ -1102,13 +1102,13 @@ void AnnotatedClusterTest::buildVerticalEntrancesShouldCreateOneTransitionForEac
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("second transition; endpoint1 is null", true, endpoint1 != 0);
 	node* endpoint2 = absg->getNode(aca.getNodeFromMap(9,1)->getLabelL(kParent));
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("second transition; endpoint2 is null", true, endpoint2 != 0);
-	edge* myedge = absg->findAnnotatedEdge(endpoint1,endpoint2,kGround,2, 1);
+	edge* myedge = endpoint1->findAnnotatedEdge(endpoint2,kGround,2, 1);
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("can't find edge for second transition", true, myedge != 0);
 
 	endpoint1 = absg->getNode(aca.getNodeFromMap(8,5)->getLabelL(kParent)); // local maxima for kGround
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("third transition; endpoint1 is null", true, endpoint2 != 0);
 	endpoint2 = absg->getNode(aca.getNodeFromMap(9,5)->getLabelL(kParent));
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("third transition; endpoint2 is null", true, endpoint2 != 0);
-	myedge = absg->findAnnotatedEdge(endpoint1,endpoint2,kGround,2, 1);
+	myedge = endpoint1->findAnnotatedEdge(endpoint2,kGround,2, 1);
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("can't find edge for third transition", true, myedge != 0);
 }

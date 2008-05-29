@@ -29,11 +29,19 @@ void TestNode::setUp()
 	}
 	
 	n = new node("");
+
+	g = new graph();
+	from = new node("");
+	to = new node("");
+	g->addNode(from);
+	g->addNode(to);
+
 }
 
 void TestNode::tearDown()
 {
 	delete n;
+	delete g;
 }
 
 /* TerrainAnnotationsTest
@@ -143,4 +151,183 @@ void TestNode::cloneShouldNotDeepCopyEdges()
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("clone copied some edges when it shouldn't have", 0, clone->getNumEdges());
 	
 	delete g;
+}
+
+
+void TestNode::addEdgeToNode(int caps, int clearance, double weight)
+{
+	e = new edge(from->getNum(), to->getNum(), weight);
+	e->setClearance(caps,clearance);
+	g->addEdge(e);
+}
+
+
+
+void TestNode::findAnnotatedEdgeShouldReturnAnExistingEdgeIfOneExistsWhichIsIdenticalToWhatParametersAskFor()
+{
+	double weight = 1.0;
+	int targetClearance = 2;
+	int targetCapability = (kTrees|kGround);
+	
+	addEdgeToNode(kGround, targetClearance, weight);
+		
+	edge* expectedEdge = from->findAnnotatedEdge(to, kGround, targetClearance, weight);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("failed to find identical existing annotated edge", e, expectedEdge);
+
+	expectedEdge = from->findAnnotatedEdge(to, targetCapability, targetClearance, weight);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("failed to find existing annotated edge using capability superset", e, expectedEdge);
+}
+
+void TestNode::findAnnotatedEdgeShouldReturnAnExistingEdgeIfOneExistsWhichIsShorterButOtherwiseIdenticalToWhatParametersAskFor()
+{
+	double weight = 3.0;
+	int targetClearance = 2;
+	int targetCapability = (kTrees|kGround);
+	
+	addEdgeToNode(kGround, targetClearance, weight-1);
+		
+	edge* expectedEdge = from->findAnnotatedEdge(to, kGround, targetClearance, weight);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("failed to find identical existing annotated edge", e, expectedEdge);
+
+	expectedEdge = from->findAnnotatedEdge(to, targetCapability, targetClearance, weight);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("failed to find existing annotated edge using capability superset", e, expectedEdge);
+}
+
+void TestNode::findAnnotatedEdgeShouldReturnAnExistingEdgeIfOneExistsWhichIsWiderAndShorterThanWhatParametersAskFor()
+{
+	double weight = 3.0;
+	int targetClearance = 2;
+	int targetCapability = (kTrees|kGround);
+	
+	addEdgeToNode(kGround, targetClearance+1, weight-1);
+		
+	edge* expectedEdge = from->findAnnotatedEdge(to, kGround, targetClearance, weight);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("failed to find identical existing annotated edge", e, expectedEdge);
+
+	expectedEdge = from->findAnnotatedEdge(to, targetCapability, targetClearance, weight);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("failed to find existing annotated edge using capability superset", e, expectedEdge);	
+}
+
+void TestNode::findAnnotatedEdgeShouldReturnAnExistingEdgeIfOneExistsWhichIsWiderButOtherwiseIdenticalToWhatParametersAskFor()
+{
+	double weight = 3.0;
+	int targetClearance = 2;
+	int targetCapability = (kTrees|kGround);
+	
+	addEdgeToNode(kGround, targetClearance+1, weight);
+		
+	edge* expectedEdge = from->findAnnotatedEdge(to, kGround, targetClearance, weight);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("failed to find identical existing annotated edge", e, expectedEdge);
+
+	expectedEdge = from->findAnnotatedEdge(to, targetCapability, targetClearance, weight);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("failed to find existing annotated edge using capability superset", e, expectedEdge);	
+}
+
+void TestNode::findAnnotatedEdgeShouldReturnZeroWhenNoEdgeExistsBetweenParameterEndpoints()
+{
+	double weight = 3.0;
+	int targetClearance = 2;
+	int targetCapability = (kTrees|kGround);
+
+	edge *expectedEdge = from->findAnnotatedEdge(to, targetCapability, targetClearance, weight);
+	CPPUNIT_ASSERT_MESSAGE("failed to return zero when no edge exists connecting target endpoints", expectedEdge == 0);	
+}
+
+// NB: if capability values are identical, this method returning zero is a warning sign something is probably wrong with cluster annotation 
+// ie. we're querying about an edge connecting two endpoints which represents a shorter path with larger clearance. why didn't we find it before?
+void TestNode::findAnnotatedEdgeShouldReturnZeroWhenExistingEdgeIsShorterAndMoreNarrowThanWhatParametersAskFor()
+{
+	double weight = 3.0;
+	int targetClearance = 2;
+	int targetCapability = (kTrees|kGround);
+	
+	addEdgeToNode(kGround, targetClearance-1, weight-1);
+		
+	edge* expectedEdge = from->findAnnotatedEdge(to, kGround, targetClearance, weight);
+	CPPUNIT_ASSERT_MESSAGE("failed to return zero", expectedEdge == 0);
+
+	expectedEdge = from->findAnnotatedEdge(to, targetCapability, targetClearance, weight);
+	CPPUNIT_ASSERT_MESSAGE("failed to return zero using capability superset", expectedEdge == 0);	
+}
+
+void TestNode::findAnnotatedEdgeShouldReturnZeroWhenExistingEdgeIsOfTheSameLengthButMoreNarrowThanWhatParametersAskFor()
+{
+	double weight = 3.0;
+	int targetClearance = 2;
+	int targetCapability = (kTrees|kGround);
+	
+	addEdgeToNode(kGround, targetClearance-1, weight);
+		
+	edge* expectedEdge = from->findAnnotatedEdge(to, kGround, targetClearance, weight);
+	CPPUNIT_ASSERT_MESSAGE("failed to return zero", expectedEdge == 0);
+
+	expectedEdge = from->findAnnotatedEdge(to, targetCapability, targetClearance, weight);
+	CPPUNIT_ASSERT_MESSAGE("failed to return zero using capability superset", expectedEdge == 0);	
+}
+
+void TestNode::findAnnotatedEdgeShouldReturnZeroWhenExistingEdgeIsLongerAndMoreNarrowThanWhatParametersAskedFor()
+{
+	double weight = 3.0;
+	int targetClearance = 2;
+	int targetCapability = (kTrees|kGround);
+	
+	addEdgeToNode(kGround, targetClearance-1, weight+1);
+		
+	edge* expectedEdge = from->findAnnotatedEdge(to, kGround, targetClearance, weight);
+	CPPUNIT_ASSERT_MESSAGE("failed to return zero", expectedEdge == 0);
+
+	expectedEdge = from->findAnnotatedEdge(to, targetCapability, targetClearance, weight);
+	CPPUNIT_ASSERT_MESSAGE("failed to return zero using capability superset", expectedEdge == 0);	
+}
+
+// NB: another warning method. we're querying about an edge which is more optimal than the current connection between the two endpoints
+void TestNode::findAnnotatedEdgeShouldReturnZeroWhenExistingEdgeIsLongerButOtherwiseIdenticalToWhatParametersAskFor()
+{
+	double weight = 3.0;
+	int targetClearance = 2;
+	int targetCapability = (kTrees|kGround);
+	
+	addEdgeToNode(kGround, targetClearance, weight+1);
+		
+	edge* expectedEdge = from->findAnnotatedEdge(to, kGround, targetClearance, weight);
+	CPPUNIT_ASSERT_MESSAGE("failed to return zero", expectedEdge == 0);
+
+	expectedEdge = from->findAnnotatedEdge(to, targetCapability, targetClearance, weight);
+	CPPUNIT_ASSERT_MESSAGE("failed to return zero using capability superset", expectedEdge == 0);
+}
+
+void TestNode::findAnnotatedEdgeShouldReturnZeroWhenExistingEdgeIsLongerAndWiderThanWhatParametersAskedFor()
+{
+	double weight = 3.0;
+	int targetClearance = 2;
+	int targetCapability = (kTrees|kGround);
+	
+	addEdgeToNode(kGround, targetClearance+1, weight+1);
+		
+	edge* expectedEdge = from->findAnnotatedEdge(to, kGround, targetClearance, weight);
+	CPPUNIT_ASSERT_MESSAGE("failed to return zero", expectedEdge == 0);
+
+	expectedEdge = from->findAnnotatedEdge(to, targetCapability, targetClearance, weight);
+	CPPUNIT_ASSERT_MESSAGE("failed to return zero using capability superset", expectedEdge == 0);	
+}
+
+void TestNode::findAnnotatedEdgeShouldReturnZeroWhenEndpointParametersAreNull()
+{
+	double weight = 3.0;
+	int targetClearance = 2;
+	int targetCapability = (kTrees|kGround);
+			
+	edge* expectedEdge = from->findAnnotatedEdge(NULL, targetCapability, targetClearance, weight);
+	CPPUNIT_ASSERT_MESSAGE("failed to return zero when to is NULL", expectedEdge == 0);	
+}
+
+void TestNode::findAnnotatedEdgeShouldReturnTheShortestEdgeIfSeveralCandidateEdgesExistThatMatchWhatParametersAskedFor()
+{
+	addEdgeToNode(kGround, 2, 5);
+	addEdgeToNode(kGround, 1, 4.5);
+
+
+	edge* e = from->findAnnotatedEdge(to, kGround, 1, 50);
+	
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("failed to return shortest edge among those existing between endpoints", 4.5, e->getWeight());
 }
