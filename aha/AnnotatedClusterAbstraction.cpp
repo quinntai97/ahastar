@@ -284,29 +284,21 @@ void AnnotatedClusterAbstraction::findDominantTransition(edge* first, edge* seco
 	int e2Capability = second->getCapability();
 	int e2Clearance = second->getClearance(e2Capability);
 	
-	if(e1Capability == e2Capability) 
-	{	
-		if(e1Clearance > e2Clearance) 
-			*dominantOut = first; 
-		else
-			*dominantOut = second;
-		return;
-	}
-	
-	/* check for dominance by checking if some complex multi-terrain corridor can be substituted for a simpler one */
-	if(e1Clearance >= e2Clearance && first->getClearance(e2Capability) > 0) 
+	/* a dominant transition is one traversable by a capability involving fewer terrains and larger larger clearance */
+	if(first->getClearance(e2Capability) >= e2Clearance)
 	{
-		*dominantOut = first;
-		return;
+			*dominantOut = first;
 	}
-	
-	/* reverse order */
-	if(e2Clearance >= e1Clearance && second->getClearance(e1Capability) > 0) 
+	else
 	{
-		*dominantOut = second;
-		return;
+		if(second->getClearance(e1Capability) >= e1Clearance)
+		{
+				*dominantOut = second;
+		}
 	}
 	
+	if(*dominantOut == 0) // transitions incompatible; no dominance relationship exists
+		return;
 }
 
 void AnnotatedClusterAbstraction::openGLDraw()

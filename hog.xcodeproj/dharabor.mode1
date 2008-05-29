@@ -190,6 +190,46 @@
 			<key>Content</key>
 			<dict>
 				<key>PBXProjectModuleGUID</key>
+				<string>62FE095D0DEDB7D500061815</string>
+				<key>PBXProjectModuleLabel</key>
+				<string>AnnotatedCluster.cpp</string>
+				<key>PBXSplitModuleInNavigatorKey</key>
+				<dict>
+					<key>Split0</key>
+					<dict>
+						<key>PBXProjectModuleGUID</key>
+						<string>62FE095E0DEDB7D500061815</string>
+						<key>PBXProjectModuleLabel</key>
+						<string>AnnotatedCluster.cpp</string>
+						<key>_historyCapacity</key>
+						<integer>0</integer>
+						<key>bookmark</key>
+						<string>62FE095F0DEDB7D500061815</string>
+						<key>history</key>
+						<array>
+							<string>62FE095B0DEDB7CA00061815</string>
+						</array>
+					</dict>
+					<key>SplitCount</key>
+					<string>1</string>
+				</dict>
+				<key>StatusBarVisibility</key>
+				<true/>
+			</dict>
+			<key>Geometry</key>
+			<dict>
+				<key>Frame</key>
+				<string>{{0, 20}, {975, 616}}</string>
+				<key>PBXModuleWindowStatusBarHidden2</key>
+				<false/>
+				<key>RubberWindowFrame</key>
+				<string>22 80 975 657 0 0 1024 746 </string>
+			</dict>
+		</dict>
+		<dict>
+			<key>Content</key>
+			<dict>
+				<key>PBXProjectModuleGUID</key>
 				<string>62FE08BB0DEDA96D00061815</string>
 				<key>PBXProjectModuleLabel</key>
 				<string>AnnotatedClusterAbstractionTest.cpp</string>
@@ -204,7 +244,7 @@
 						<key>_historyCapacity</key>
 						<integer>0</integer>
 						<key>bookmark</key>
-						<string>62FE094E0DEDB65900061815</string>
+						<string>62FE09600DEDB7D500061815</string>
 						<key>history</key>
 						<array>
 							<string>62FE09390DEDB58300061815</string>
@@ -244,7 +284,7 @@
 						<key>_historyCapacity</key>
 						<integer>0</integer>
 						<key>bookmark</key>
-						<string>62FE094F0DEDB65900061815</string>
+						<string>62FE09610DEDB7D500061815</string>
 						<key>history</key>
 						<array>
 							<string>62FE093B0DEDB58300061815</string>
@@ -354,7 +394,7 @@
 							<key>PBXSmartGroupTreeModuleOutlineStateSelectionKey</key>
 							<array>
 								<array>
-									<integer>2</integer>
+									<integer>14</integer>
 									<integer>1</integer>
 									<integer>0</integer>
 								</array>
@@ -407,7 +447,7 @@
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>62FE094D0DEDB65900061815</string>
+										<string>62FE095C0DEDB7D500061815</string>
 										<key>history</key>
 										<array>
 											<string>621652FB0D4D9E0500536A5B</string>
@@ -754,18 +794,18 @@
 	<integer>5</integer>
 	<key>WindowOrderList</key>
 	<array>
-		<string>62FE09500DEDB65900061815</string>
 		<string>1C530D57069F1CE1000CFCEE</string>
 		<string>62FE08470DEDA12900061815</string>
 		<string>62FE08480DEDA12900061815</string>
 		<string>62E917290D03F39A00AA46AB</string>
+		<string>1CD10A99069EF8BA00B06720</string>
 		<string>62FE058A0DE923BB00061815</string>
 		<string>1C0AD2B3069F1EA900FABCE6</string>
 		<string>62FE090B0DEDAE2F00061815</string>
 		<string>62E9117E0CFD4B5300AA46AB</string>
-		<string>/Users/dharabor/src/ahastar/hog.xcodeproj</string>
 		<string>62FE08BB0DEDA96D00061815</string>
-		<string>1CD10A99069EF8BA00B06720</string>
+		<string>/Users/dharabor/src/ahastar/hog.xcodeproj</string>
+		<string>62FE095D0DEDB7D500061815</string>
 	</array>
 	<key>WindowString</key>
 	<string>45 80 942 575 0 0 1024 746 </string>
@@ -969,7 +1009,7 @@
 			<key>WindowToolGUID</key>
 			<string>1CD10A99069EF8BA00B06720</string>
 			<key>WindowToolIsVisible</key>
-			<true/>
+			<false/>
 		</dict>
 		<dict>
 			<key>FirstTimeWindowDisplayed</key>

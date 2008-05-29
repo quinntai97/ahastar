@@ -18,6 +18,7 @@
 			62651CED0DBC7EE500ED1CE9 /* searchUnit.cpp:123 */,
 			62651CF80DBC7F7200ED1CE9 /* searchUnit.cpp:172 */,
 			62FE094B0DEDB63C00061815 /* AnnotatedClusterAbstractionTest.cpp:928 */,
+			62FE096C0DEEC71A00061815 /* AnnotatedClusterAbstractionTest.cpp:908 */,
 		);
 		breakpointsGroup = 62B1888B0D34F4280061AE72 /* XCBreakpointsBucket */;
 		codeSenseManager = 62E910C50CFD49B200AA46AB /* Code sense */;
@@ -422,6 +423,16 @@
 			62FE094F0DEDB65900061815 /* PBXTextBookmark */ = 62FE094F0DEDB65900061815 /* PBXTextBookmark */;
 			62FE09530DEDB66900061815 /* PBXTextBookmark */ = 62FE09530DEDB66900061815 /* PBXTextBookmark */;
 			62FE09570DEDB6F100061815 /* PBXTextBookmark */ = 62FE09570DEDB6F100061815 /* PBXTextBookmark */;
+			62FE095A0DEDB7C500061815 /* PBXTextBookmark */ = 62FE095A0DEDB7C500061815 /* PBXTextBookmark */;
+			62FE095B0DEDB7CA00061815 /* PBXBookmark */ = 62FE095B0DEDB7CA00061815 /* PBXBookmark */;
+			62FE095C0DEDB7D500061815 /* PBXTextBookmark */ = 62FE095C0DEDB7D500061815 /* PBXTextBookmark */;
+			62FE095F0DEDB7D500061815 /* PBXTextBookmark */ = 62FE095F0DEDB7D500061815 /* PBXTextBookmark */;
+			62FE09600DEDB7D500061815 /* PBXTextBookmark */ = 62FE09600DEDB7D500061815 /* PBXTextBookmark */;
+			62FE09610DEDB7D500061815 /* PBXTextBookmark */ = 62FE09610DEDB7D500061815 /* PBXTextBookmark */;
+			62FE096A0DEEC70B00061815 /* PBXTextBookmark */ = 62FE096A0DEEC70B00061815 /* PBXTextBookmark */;
+			62FE09710DEEC77B00061815 /* PBXTextBookmark */ = 62FE09710DEEC77B00061815 /* PBXTextBookmark */;
+			62FE09780DEEC89400061815 /* PBXTextBookmark */ = 62FE09780DEEC89400061815 /* PBXTextBookmark */;
+			62FE09800DEEC91F00061815 /* PBXTextBookmark */ = 62FE09800DEEC91F00061815 /* PBXTextBookmark */;
 			62FE41E30D81055100F2D3DA = 62FE41E30D81055100F2D3DA /* PBXTextBookmark */;
 			62FE42240D8107BA00F2D3DA = 62FE42240D8107BA00F2D3DA /* PBXTextBookmark */;
 		};
@@ -452,7 +463,7 @@
 		hitCount = 1;
 		lineNumber = 35;
 		location = simulation;
-		modificationTime = 233682505.287583;
+		modificationTime = 233752349.395188;
 		state = 2;
 	};
 	620BE0B70DBB82920092B475 /* PBXTextBookmark */ = {
@@ -714,8 +725,8 @@
 	621C072B0D7F8432000C424F /* AnnotatedCluster.cpp */ = {
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {1502, 7266}}";
-			sepNavSelRange = "{13887, 46}";
-			sepNavVisRect = "{{0, 5543}, {930, 584}}";
+			sepNavSelRange = "{14141, 0}";
+			sepNavVisRect = "{{0, 489}, {930, 584}}";
 			sepNavWindowFrame = "{{22, 24}, {975, 713}}";
 		};
 	};
@@ -1201,7 +1212,7 @@
 		hitCount = 1;
 		lineNumber = 581;
 		location = simulation;
-		modificationTime = 233682505.287592;
+		modificationTime = 233752349.395197;
 		state = 2;
 	};
 	62651C8A0DBBF52800ED1CE9 /* unitSimulation.cpp:425 */ = {
@@ -1216,7 +1227,7 @@
 		hitCount = 1;
 		lineNumber = 425;
 		location = hog;
-		modificationTime = 233682505.287601;
+		modificationTime = 233752349.395205;
 		state = 1;
 	};
 	62651CD00DBC098900ED1CE9 /* AnnotatedAStar.cpp:31 */ = {
@@ -1231,7 +1242,7 @@
 		hitCount = 1;
 		lineNumber = 31;
 		location = simulation;
-		modificationTime = 233682505.28761;
+		modificationTime = 233752349.395223;
 		state = 2;
 	};
 	62651CE10DBC7E2800ED1CE9 /* searchUnit.cpp:191 */ = {
@@ -1246,7 +1257,7 @@
 		hitCount = 1;
 		lineNumber = 191;
 		location = hog;
-		modificationTime = 233682505.287618;
+		modificationTime = 233752349.395234;
 		state = 2;
 	};
 	62651CED0DBC7EE500ED1CE9 /* searchUnit.cpp:123 */ = {
@@ -1261,7 +1272,7 @@
 		hitCount = 1;
 		lineNumber = 123;
 		location = hog;
-		modificationTime = 233682505.287627;
+		modificationTime = 233752349.395242;
 		state = 2;
 	};
 	62651CF80DBC7F7200ED1CE9 /* searchUnit.cpp:172 */ = {
@@ -1276,7 +1287,7 @@
 		hitCount = 1;
 		lineNumber = 172;
 		location = hog;
-		modificationTime = 233682505.287637;
+		modificationTime = 233752349.395252;
 		state = 1;
 	};
 	6281EBFF0D7FFA8D0074AE59 /* PBXTextBookmark */ = {
@@ -1321,7 +1332,7 @@
 		hitCount = 1;
 		lineNumber = 106;
 		location = hog;
-		modificationTime = 233682602.406451;
+		modificationTime = 233752394.718178;
 		state = 1;
 	};
 	6289C1B10DBA16B600F06BD5 /* PBXTextBookmark */ = {
@@ -1415,7 +1426,7 @@
 		functionName = "myGUICLHandler()";
 		hitCount = 1;
 		lineNumber = 383;
-		modificationTime = 233682602.406391;
+		modificationTime = 233752394.718126;
 		state = 1;
 	};
 	6289C5040DBA48AF00F06BD5 /* PBXTextBookmark */ = {
@@ -1826,6 +1837,7 @@
 			62651CED0DBC7EE500ED1CE9 /* searchUnit.cpp:123 */,
 			62651CF80DBC7F7200ED1CE9 /* searchUnit.cpp:172 */,
 			62FE094B0DEDB63C00061815 /* AnnotatedClusterAbstractionTest.cpp:928 */,
+			62FE096C0DEEC71A00061815 /* AnnotatedClusterAbstractionTest.cpp:908 */,
 		);
 	};
 	62B2FE6E0D6AD307006A12F8 /* CapabilityUnitTest.h */ = {
@@ -2134,8 +2146,8 @@
 	62D8F6220DAE6DCC009F6E57 /* AnnotatedClusterAbstractionTest.cpp */ = {
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {1346, 13118}}";
-			sepNavSelRange = "{34350, 0}";
-			sepNavVisRect = "{{0, 12873}, {817, 224}}";
+			sepNavSelRange = "{35450, 0}";
+			sepNavVisRect = "{{0, 12583}, {817, 224}}";
 			sepNavWindowFrame = "{{15, 16}, {958, 725}}";
 		};
 	};
@@ -3468,7 +3480,7 @@
 		isa = PBXTextBookmark;
 		fRef = 625D21340D6EAE2400211E90 /* AnnotatedClusterAbstraction.cpp */;
 		rLen = 0;
-		rLoc = "-2147482762";
+		rLoc = "-2147482876";
 		rType = 0;
 	};
 	62FE082E0DEDA12900061815 /* PBXTextBookmark */ = {
@@ -3476,7 +3488,7 @@
 		fRef = 625D21340D6EAE2400211E90 /* AnnotatedClusterAbstraction.cpp */;
 		name = "AnnotatedClusterAbstraction.cpp: 287";
 		rLen = 0;
-		rLoc = 8037;
+		rLoc = 8023;
 		rType = 0;
 		vrLen = 952;
 		vrLoc = 7541;
@@ -3630,7 +3642,7 @@
 		fRef = 625D21340D6EAE2400211E90 /* AnnotatedClusterAbstraction.cpp */;
 		name = "AnnotatedClusterAbstraction.cpp: 287";
 		rLen = 0;
-		rLoc = 8037;
+		rLoc = 8023;
 		rType = 0;
 		vrLen = 952;
 		vrLoc = 7541;
@@ -3760,7 +3772,7 @@
 		fRef = 625D21340D6EAE2400211E90 /* AnnotatedClusterAbstraction.cpp */;
 		name = "AnnotatedClusterAbstraction.cpp: 287";
 		rLen = 0;
-		rLoc = 8037;
+		rLoc = 8023;
 		rType = 0;
 		vrLen = 952;
 		vrLoc = 7541;
@@ -3890,7 +3902,7 @@
 		fRef = 625D21340D6EAE2400211E90 /* AnnotatedClusterAbstraction.cpp */;
 		name = "AnnotatedClusterAbstraction.cpp: 297";
 		rLen = 0;
-		rLoc = 8154;
+		rLoc = 8023;
 		rType = 0;
 		vrLen = 961;
 		vrLoc = 7541;
@@ -3990,7 +4002,7 @@
 		fRef = 625D21340D6EAE2400211E90 /* AnnotatedClusterAbstraction.cpp */;
 		name = "AnnotatedClusterAbstraction.cpp: 292";
 		rLen = 0;
-		rLoc = 8121;
+		rLoc = 8023;
 		rType = 0;
 		vrLen = 405;
 		vrLoc = 7955;
@@ -4018,7 +4030,7 @@
 		fRef = 625D21340D6EAE2400211E90 /* AnnotatedClusterAbstraction.cpp */;
 		name = "AnnotatedClusterAbstraction.cpp: 292";
 		rLen = 0;
-		rLoc = 8121;
+		rLoc = 8023;
 		rType = 0;
 		vrLen = 405;
 		vrLoc = 7955;
@@ -4125,7 +4137,7 @@
 		fRef = 625D21340D6EAE2400211E90 /* AnnotatedClusterAbstraction.cpp */;
 		name = "AnnotatedClusterAbstraction.cpp: 297";
 		rLen = 0;
-		rLoc = 8154;
+		rLoc = 8023;
 		rType = 0;
 		vrLen = 961;
 		vrLoc = 7541;
@@ -4404,7 +4416,7 @@
 		fRef = 625D21340D6EAE2400211E90 /* AnnotatedClusterAbstraction.cpp */;
 		name = "AnnotatedClusterAbstraction.cpp: 302";
 		rLen = 0;
-		rLoc = 8495;
+		rLoc = 8325;
 		rType = 0;
 		vrLen = 896;
 		vrLoc = 7780;
@@ -4609,7 +4621,7 @@
 		hitCount = 1;
 		lineNumber = 928;
 		location = testsimulation;
-		modificationTime = 233682540.022909;
+		modificationTime = 233752349.39526;
 		state = 1;
 	};
 	62FE094D0DEDB65900061815 /* PBXTextBookmark */ = {
@@ -4653,6 +4665,115 @@
 		vrLoc = 3894;
 	};
 	62FE09570DEDB6F100061815 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62D8F6230DAE6DCC009F6E57 /* AnnotatedClusterAbstractionTest.h */;
+		name = "AnnotatedClusterAbstractionTest.h: findDominantTransitionShouldReturnANullDominantEdgeGivenTwoInteEdgesEitherOfWhichOrBothAreNull";
+		rLen = 0;
+		rLoc = 4649;
+		rType = 0;
+		vrLen = 1259;
+		vrLoc = 3894;
+	};
+	62FE095A0DEDB7C500061815 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62D8F6230DAE6DCC009F6E57 /* AnnotatedClusterAbstractionTest.h */;
+		name = "AnnotatedClusterAbstractionTest.h: findDominantTransitionShouldReturnANullDominantEdgeGivenTwoInteEdgesEitherOfWhichOrBothAreNull";
+		rLen = 0;
+		rLoc = 4649;
+		rType = 0;
+		vrLen = 1259;
+		vrLoc = 3894;
+	};
+	62FE095B0DEDB7CA00061815 /* PBXBookmark */ = {
+		isa = PBXBookmark;
+		fRef = 621C072B0D7F8432000C424F /* AnnotatedCluster.cpp */;
+	};
+	62FE095C0DEDB7D500061815 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62D8F6220DAE6DCC009F6E57 /* AnnotatedClusterAbstractionTest.cpp */;
+		name = "AnnotatedClusterAbstractionTest.cpp: findDominantTransitionShouldReturnANullDominantEdgeGivenTwoInterEdgesWithIntersectingCapabilityButNoCorridorSizeDominance";
+		rLen = 0;
+		rLoc = 35493;
+		rType = 0;
+		vrLen = 298;
+		vrLoc = 30728;
+	};
+	62FE095F0DEDB7D500061815 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 621C072B0D7F8432000C424F /* AnnotatedCluster.cpp */;
+		name = "AnnotatedCluster.cpp: 411";
+		rLen = 0;
+		rLoc = 14141;
+		rType = 0;
+		vrLen = 1433;
+		vrLoc = 1027;
+	};
+	62FE09600DEDB7D500061815 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62D8F6220DAE6DCC009F6E57 /* AnnotatedClusterAbstractionTest.cpp */;
+		name = "AnnotatedClusterAbstractionTest.cpp: 924";
+		rLen = 0;
+		rLoc = 35054;
+		rType = 0;
+		vrLen = 1575;
+		vrLoc = 33918;
+	};
+	62FE09610DEDB7D500061815 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62D8F6230DAE6DCC009F6E57 /* AnnotatedClusterAbstractionTest.h */;
+		name = "AnnotatedClusterAbstractionTest.h: findDominantTransitionShouldReturnANullDominantEdgeGivenTwoInterEdgesWithIntersectingCapabilityButNoCorridorSizeDominance";
+		rLen = 0;
+		rLoc = 4912;
+		rType = 0;
+		vrLen = 3232;
+		vrLoc = 2733;
+	};
+	62FE096A0DEEC70B00061815 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62D8F6230DAE6DCC009F6E57 /* AnnotatedClusterAbstractionTest.h */;
+		name = "AnnotatedClusterAbstractionTest.h: findDominantTransitionShouldReturnANullDominantEdgeGivenTwoInteEdgesEitherOfWhichOrBothAreNull";
+		rLen = 0;
+		rLoc = 4649;
+		rType = 0;
+		vrLen = 1259;
+		vrLoc = 3894;
+	};
+	62FE096C0DEEC71A00061815 /* AnnotatedClusterAbstractionTest.cpp:908 */ = {
+		isa = PBXFileBreakpoint;
+		actions = (
+		);
+		breakpointStyle = 0;
+		continueAfterActions = 0;
+		delayBeforeContinue = 0;
+		fileReference = 62D8F6220DAE6DCC009F6E57 /* AnnotatedClusterAbstractionTest.cpp */;
+		functionName = "AnnotatedClusterAbstractionTest::findDominantTransitionShouldReturnAWeaklyDominantEdgeGivenTwoInterEdgesWithIntersectingCapabilitySets()";
+		hitCount = 1;
+		lineNumber = 908;
+		location = testsimulation;
+		modificationTime = 233752362.671482;
+		state = 1;
+	};
+	62FE09710DEEC77B00061815 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62D8F6230DAE6DCC009F6E57 /* AnnotatedClusterAbstractionTest.h */;
+		name = "AnnotatedClusterAbstractionTest.h: findDominantTransitionShouldReturnANullDominantEdgeGivenTwoInteEdgesEitherOfWhichOrBothAreNull";
+		rLen = 0;
+		rLoc = 4649;
+		rType = 0;
+		vrLen = 1259;
+		vrLoc = 3894;
+	};
+	62FE09780DEEC89400061815 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62D8F6230DAE6DCC009F6E57 /* AnnotatedClusterAbstractionTest.h */;
+		name = "AnnotatedClusterAbstractionTest.h: findDominantTransitionShouldReturnANullDominantEdgeGivenTwoInteEdgesEitherOfWhichOrBothAreNull";
+		rLen = 0;
+		rLoc = 4649;
+		rType = 0;
+		vrLen = 1259;
+		vrLoc = 3894;
+	};
+	62FE09800DEEC91F00061815 /* PBXTextBookmark */ = {
 		isa = PBXTextBookmark;
 		fRef = 62D8F6230DAE6DCC009F6E57 /* AnnotatedClusterAbstractionTest.h */;
 		name = "AnnotatedClusterAbstractionTest.h: findDominantTransitionShouldReturnANullDominantEdgeGivenTwoInteEdgesEitherOfWhichOrBothAreNull";
