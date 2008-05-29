@@ -284,23 +284,69 @@ void AnnotatedClusterAbstraction::findDominantTransition(edge* first, edge* seco
 	int e2Capability = second->getCapability();
 	int e2Clearance = second->getClearance(e2Capability);
 	
+	edge *dominant, *dominated;
+	dominant = dominated = 0;
+	
 	/* a dominant transition is one traversable by a capability involving fewer terrains and larger larger clearance */
 	if(first->getClearance(e2Capability) >= e2Clearance)
 	{
-			*dominantOut = first;
+			dominant = first;
+			dominated = second;
 	}
 	else
 	{
 		if(second->getClearance(e1Capability) >= e1Clearance)
 		{
-				*dominantOut = second;
+				dominant = second;
+				dominated = first;
 		}
 	}
 	
-	if(*dominantOut == 0) // transitions incompatible; no dominance relationship exists
+	if(dominant == 0) // transitions incompatible; no dominance relationship exists
 		return;
-
 	
+	graph* g = this->getAbstractGraph(1);
+	node* dec1 = g->getNode(dominant->getFrom()); // dominant endpoint in cluster 1
+	node* dec2 = g->getNode(dominant->getTo()); // dominant endpoint in cluster 2
+	node *dtc1, *dtc2; // dominated endpoints
+	
+	dtc1 = g->getNode(dominated->getFrom());
+	dtc2 = g->getNode(dominated->getTo());
+	
+	if(dec1 == 0 || dec2 == 0 || dtc1 == 0 || dtc2 == 0) 
+		return; 
+	
+	if(dec1->getParentCluster() != dtc1->getParentCluster())
+	{
+		node* tmp = dtc1;
+		dtc1 = dtc2;
+		dtc2 = tmp;
+		if(dec1->getParentCluster() != dtc1->getParentCluster())
+			return;
+	}
+	if(dec2->getParentCluster() != dtc2->getParentCluster())
+	{
+		node* tmp = dtc2;
+		dtc2 = dtc1;
+		dtc1 = tmp;
+		if(dec2->getParentCluster() != dtc2->getParentCluster())
+			return;
+	}
+	
+	/* circuit must exist between the endpoints of the two edges. further, each edge must be traversable by any agent able
+		to traverse the dominated edge. Otherwise, no dominance relationship exists */
+	int MAX_INT = 2147483647;
+	if(dec1->findAnnotatedEdge(dtc1, dominated->getCapability(), dominated->getClearance(dominated->getCapability()), MAX_INT) && 
+		dec2->findAnnotatedEdge(dtc2, dominated->getCapability(), dominated->getClearance(dominated->getCapability()), MAX_INT) )
+	{
+		*dominantOut = dominant;
+	}
+	
+	// no circuit on between either pair of endpoints
+	// no circuit between both pairs of endpoints
+	// circuit exists but too small
+	// circuit exists but wrong capability
+	// endpoints not ordered properly
 }
 
 void AnnotatedClusterAbstraction::openGLDraw()

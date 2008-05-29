@@ -17,8 +17,8 @@
 			62651CE10DBC7E2800ED1CE9 /* searchUnit.cpp:191 */,
 			62651CED0DBC7EE500ED1CE9 /* searchUnit.cpp:123 */,
 			62651CF80DBC7F7200ED1CE9 /* searchUnit.cpp:172 */,
-			62FE094B0DEDB63C00061815 /* AnnotatedClusterAbstractionTest.cpp:928 */,
-			62FE096C0DEEC71A00061815 /* AnnotatedClusterAbstractionTest.cpp:908 */,
+			62FE094B0DEDB63C00061815 /* AnnotatedClusterAbstractionTest.cpp:921 */,
+			62FE096C0DEEC71A00061815 /* AnnotatedClusterAbstractionTest.cpp:910 */,
 		);
 		breakpointsGroup = 62B1888B0D34F4280061AE72 /* XCBreakpointsBucket */;
 		codeSenseManager = 62E910C50CFD49B200AA46AB /* Code sense */;
@@ -520,6 +520,64 @@
 			62FE0A330DEED2E300061815 /* PBXTextBookmark */ = 62FE0A330DEED2E300061815 /* PBXTextBookmark */;
 			62FE0A340DEED2E300061815 /* PBXTextBookmark */ = 62FE0A340DEED2E300061815 /* PBXTextBookmark */;
 			62FE0A350DEED2E300061815 /* PBXTextBookmark */ = 62FE0A350DEED2E300061815 /* PBXTextBookmark */;
+			62FE0A420DEED5A000061815 /* PBXTextBookmark */ = 62FE0A420DEED5A000061815 /* PBXTextBookmark */;
+			62FE0A430DEED5A000061815 /* PBXTextBookmark */ = 62FE0A430DEED5A000061815 /* PBXTextBookmark */;
+			62FE0A440DEED5A000061815 /* PBXTextBookmark */ = 62FE0A440DEED5A000061815 /* PBXTextBookmark */;
+			62FE0A450DEED5A000061815 /* PBXTextBookmark */ = 62FE0A450DEED5A000061815 /* PBXTextBookmark */;
+			62FE0A460DEED5A000061815 /* PBXTextBookmark */ = 62FE0A460DEED5A000061815 /* PBXTextBookmark */;
+			62FE0A470DEED5A000061815 /* PBXTextBookmark */ = 62FE0A470DEED5A000061815 /* PBXTextBookmark */;
+			62FE0A480DEED5A000061815 /* PBXTextBookmark */ = 62FE0A480DEED5A000061815 /* PBXTextBookmark */;
+			62FE0A490DEED5A000061815 /* PBXTextBookmark */ = 62FE0A490DEED5A000061815 /* PBXTextBookmark */;
+			62FE0A4A0DEED5A000061815 /* PBXTextBookmark */ = 62FE0A4A0DEED5A000061815 /* PBXTextBookmark */;
+			62FE0A4B0DEED5A000061815 /* PBXTextBookmark */ = 62FE0A4B0DEED5A000061815 /* PBXTextBookmark */;
+			62FE0A4E0DEED5B600061815 /* PBXTextBookmark */ = 62FE0A4E0DEED5B600061815 /* PBXTextBookmark */;
+			62FE0A650DEEDA7B00061815 /* PBXTextBookmark */ = 62FE0A650DEEDA7B00061815 /* PBXTextBookmark */;
+			62FE0A660DEEDA7B00061815 /* PBXTextBookmark */ = 62FE0A660DEEDA7B00061815 /* PBXTextBookmark */;
+			62FE0A670DEEDA7B00061815 /* PBXTextBookmark */ = 62FE0A670DEEDA7B00061815 /* PBXTextBookmark */;
+			62FE0A700DEEE63700061815 /* PBXTextBookmark */ = 62FE0A700DEEE63700061815 /* PBXTextBookmark */;
+			62FE0A710DEEE63700061815 /* PBXTextBookmark */ = 62FE0A710DEEE63700061815 /* PBXTextBookmark */;
+			62FE0A720DEEE63800061815 /* PBXTextBookmark */ = 62FE0A720DEEE63800061815 /* PBXTextBookmark */;
+			62FE0A730DEEE63800061815 /* PBXTextBookmark */ = 62FE0A730DEEE63800061815 /* PBXTextBookmark */;
+			62FE0A810DEEE88C00061815 /* PBXTextBookmark */ = 62FE0A810DEEE88C00061815 /* PBXTextBookmark */;
+			62FE0A820DEEE88C00061815 /* PBXTextBookmark */ = 62FE0A820DEEE88C00061815 /* PBXTextBookmark */;
+			62FE0A850DEEE8C800061815 /* PBXTextBookmark */ = 62FE0A850DEEE8C800061815 /* PBXTextBookmark */;
+			62FE0A860DEEE8C800061815 /* PBXTextBookmark */ = 62FE0A860DEEE8C800061815 /* PBXTextBookmark */;
+			62FE0A8B0DEEEB5D00061815 /* PBXTextBookmark */ = 62FE0A8B0DEEEB5D00061815 /* PBXTextBookmark */;
+			62FE0A8C0DEEEB5D00061815 /* PBXTextBookmark */ = 62FE0A8C0DEEEB5D00061815 /* PBXTextBookmark */;
+			62FE0A910DEEEBD800061815 /* PBXTextBookmark */ = 62FE0A910DEEEBD800061815 /* PBXTextBookmark */;
+			62FE0A920DEEEBD800061815 /* PBXTextBookmark */ = 62FE0A920DEEEBD800061815 /* PBXTextBookmark */;
+			62FE0A930DEEEBD800061815 /* PBXTextBookmark */ = 62FE0A930DEEEBD800061815 /* PBXTextBookmark */;
+			62FE0A940DEEEBD800061815 /* PBXTextBookmark */ = 62FE0A940DEEEBD800061815 /* PBXTextBookmark */;
+			62FE0A950DEEEBD800061815 /* PBXTextBookmark */ = 62FE0A950DEEEBD800061815 /* PBXTextBookmark */;
+			62FE0A980DEEEBDB00061815 /* PBXTextBookmark */ = 62FE0A980DEEEBDB00061815 /* PBXTextBookmark */;
+			62FE0A990DEEEBDB00061815 /* PBXTextBookmark */ = 62FE0A990DEEEBDB00061815 /* PBXTextBookmark */;
+			62FE0A9C0DEEEC3100061815 /* PBXTextBookmark */ = 62FE0A9C0DEEEC3100061815 /* PBXTextBookmark */;
+			62FE0A9D0DEEEC3100061815 /* PBXTextBookmark */ = 62FE0A9D0DEEEC3100061815 /* PBXTextBookmark */;
+			62FE0AA10DEEECC600061815 /* PBXTextBookmark */ = 62FE0AA10DEEECC600061815 /* PBXTextBookmark */;
+			62FE0AA20DEEECC600061815 /* PBXTextBookmark */ = 62FE0AA20DEEECC600061815 /* PBXTextBookmark */;
+			62FE0AA30DEEECC600061815 /* PBXTextBookmark */ = 62FE0AA30DEEECC600061815 /* PBXTextBookmark */;
+			62FE0AA60DEEECC600061815 /* PBXTextBookmark */ = 62FE0AA60DEEECC600061815 /* PBXTextBookmark */;
+			62FE0AA70DEEECC600061815 /* PBXTextBookmark */ = 62FE0AA70DEEECC600061815 /* PBXTextBookmark */;
+			62FE0AA80DEEECC600061815 /* PBXTextBookmark */ = 62FE0AA80DEEECC600061815 /* PBXTextBookmark */;
+			62FE0AA90DEEECC600061815 /* PBXTextBookmark */ = 62FE0AA90DEEECC600061815 /* PBXTextBookmark */;
+			62FE0AAC0DEEECC600061815 /* PBXTextBookmark */ = 62FE0AAC0DEEECC600061815 /* PBXTextBookmark */;
+			62FE0AAD0DEEECC600061815 /* PBXTextBookmark */ = 62FE0AAD0DEEECC600061815 /* PBXTextBookmark */;
+			62FE0AB00DEEECC600061815 /* PBXTextBookmark */ = 62FE0AB00DEEECC600061815 /* PBXTextBookmark */;
+			62FE0AB10DEEECC600061815 /* PBXTextBookmark */ = 62FE0AB10DEEECC600061815 /* PBXTextBookmark */;
+			62FE0AB50DEEECE200061815 /* PBXTextBookmark */ = 62FE0AB50DEEECE200061815 /* PBXTextBookmark */;
+			62FE0AB60DEEECE200061815 /* PBXTextBookmark */ = 62FE0AB60DEEECE200061815 /* PBXTextBookmark */;
+			62FE0AC00DEEEE8700061815 /* PBXTextBookmark */ = 62FE0AC00DEEEE8700061815 /* PBXTextBookmark */;
+			62FE0AC10DEEEE8700061815 /* PBXTextBookmark */ = 62FE0AC10DEEEE8700061815 /* PBXTextBookmark */;
+			62FE0AC90DEEF06B00061815 /* PBXTextBookmark */ = 62FE0AC90DEEF06B00061815 /* PBXTextBookmark */;
+			62FE0ACA0DEEF06B00061815 /* PBXTextBookmark */ = 62FE0ACA0DEEF06B00061815 /* PBXTextBookmark */;
+			62FE0AD00DEEF0D300061815 /* PBXTextBookmark */ = 62FE0AD00DEEF0D300061815 /* PBXTextBookmark */;
+			62FE0AD10DEEF0D300061815 /* PBXTextBookmark */ = 62FE0AD10DEEF0D300061815 /* PBXTextBookmark */;
+			62FE0ADB0DEEF2D800061815 /* PBXTextBookmark */ = 62FE0ADB0DEEF2D800061815 /* PBXTextBookmark */;
+			62FE0ADC0DEEF2D800061815 /* PBXTextBookmark */ = 62FE0ADC0DEEF2D800061815 /* PBXTextBookmark */;
+			62FE0AE30DEEF42A00061815 /* PBXTextBookmark */ = 62FE0AE30DEEF42A00061815 /* PBXTextBookmark */;
+			62FE0AE40DEEF42A00061815 /* PBXTextBookmark */ = 62FE0AE40DEEF42A00061815 /* PBXTextBookmark */;
+			62FE0AE70DEEF42B00061815 /* PBXTextBookmark */ = 62FE0AE70DEEF42B00061815 /* PBXTextBookmark */;
+			62FE0AE80DEEF42B00061815 /* PBXTextBookmark */ = 62FE0AE80DEEF42B00061815 /* PBXTextBookmark */;
 			62FE41E30D81055100F2D3DA = 62FE41E30D81055100F2D3DA /* PBXTextBookmark */;
 			62FE42240D8107BA00F2D3DA = 62FE42240D8107BA00F2D3DA /* PBXTextBookmark */;
 		};
@@ -550,7 +608,7 @@
 		hitCount = 1;
 		lineNumber = 35;
 		location = simulation;
-		modificationTime = 233752349.395188;
+		modificationTime = 233763558.901865;
 		state = 2;
 	};
 	620BE0B70DBB82920092B475 /* PBXTextBookmark */ = {
@@ -1052,7 +1110,7 @@
 		fRef = 62D8F6220DAE6DCC009F6E57 /* AnnotatedClusterAbstractionTest.cpp */;
 		name = "AnnotatedClusterAbstractionTest.cpp: getPathFromCacheShouldReturnZeroGivenAnEdgeThatHasNoCorrespondingPathInCache";
 		rLen = 0;
-		rLoc = 35503;
+		rLoc = 38098;
 		rType = 0;
 		vrLen = 201;
 		vrLoc = 30730;
@@ -1141,9 +1199,9 @@
 	};
 	625D21340D6EAE2400211E90 /* AnnotatedClusterAbstraction.cpp */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {938, 5656}}";
-			sepNavSelRange = "{8023, 0}";
-			sepNavVisRect = "{{0, 3832}, {901, 608}}";
+			sepNavIntBoundsRect = "{{0, 0}, {938, 6300}}";
+			sepNavSelRange = "{9511, 0}";
+			sepNavVisRect = "{{0, 4627}, {817, 224}}";
 			sepNavWindowFrame = "{{13, 7}, {946, 737}}";
 		};
 	};
@@ -1299,7 +1357,7 @@
 		hitCount = 1;
 		lineNumber = 581;
 		location = simulation;
-		modificationTime = 233752349.395197;
+		modificationTime = 233763558.901874;
 		state = 2;
 	};
 	62651C8A0DBBF52800ED1CE9 /* unitSimulation.cpp:425 */ = {
@@ -1314,7 +1372,7 @@
 		hitCount = 1;
 		lineNumber = 425;
 		location = hog;
-		modificationTime = 233752349.395205;
+		modificationTime = 233763558.901882;
 		state = 1;
 	};
 	62651CD00DBC098900ED1CE9 /* AnnotatedAStar.cpp:31 */ = {
@@ -1329,7 +1387,7 @@
 		hitCount = 1;
 		lineNumber = 31;
 		location = simulation;
-		modificationTime = 233752349.395223;
+		modificationTime = 233763558.901908;
 		state = 2;
 	};
 	62651CE10DBC7E2800ED1CE9 /* searchUnit.cpp:191 */ = {
@@ -1344,7 +1402,7 @@
 		hitCount = 1;
 		lineNumber = 191;
 		location = hog;
-		modificationTime = 233752349.395234;
+		modificationTime = 233763558.90192;
 		state = 2;
 	};
 	62651CED0DBC7EE500ED1CE9 /* searchUnit.cpp:123 */ = {
@@ -1359,7 +1417,7 @@
 		hitCount = 1;
 		lineNumber = 123;
 		location = hog;
-		modificationTime = 233752349.395242;
+		modificationTime = 233763558.901929;
 		state = 2;
 	};
 	62651CF80DBC7F7200ED1CE9 /* searchUnit.cpp:172 */ = {
@@ -1374,7 +1432,7 @@
 		hitCount = 1;
 		lineNumber = 172;
 		location = hog;
-		modificationTime = 233752349.395252;
+		modificationTime = 233763558.901952;
 		state = 1;
 	};
 	6281EBFF0D7FFA8D0074AE59 /* PBXTextBookmark */ = {
@@ -1419,7 +1477,7 @@
 		hitCount = 1;
 		lineNumber = 106;
 		location = hog;
-		modificationTime = 233752394.718178;
+		modificationTime = 233763827.736472;
 		state = 1;
 	};
 	6289C1B10DBA16B600F06BD5 /* PBXTextBookmark */ = {
@@ -1513,7 +1571,7 @@
 		functionName = "myGUICLHandler()";
 		hitCount = 1;
 		lineNumber = 383;
-		modificationTime = 233752394.718126;
+		modificationTime = 233763827.736415;
 		state = 1;
 	};
 	6289C5040DBA48AF00F06BD5 /* PBXTextBookmark */ = {
@@ -1923,8 +1981,8 @@
 			62651CE10DBC7E2800ED1CE9 /* searchUnit.cpp:191 */,
 			62651CED0DBC7EE500ED1CE9 /* searchUnit.cpp:123 */,
 			62651CF80DBC7F7200ED1CE9 /* searchUnit.cpp:172 */,
-			62FE094B0DEDB63C00061815 /* AnnotatedClusterAbstractionTest.cpp:928 */,
-			62FE096C0DEEC71A00061815 /* AnnotatedClusterAbstractionTest.cpp:908 */,
+			62FE094B0DEDB63C00061815 /* AnnotatedClusterAbstractionTest.cpp:921 */,
+			62FE096C0DEEC71A00061815 /* AnnotatedClusterAbstractionTest.cpp:910 */,
 		);
 	};
 	62B2FE6E0D6AD307006A12F8 /* CapabilityUnitTest.h */ = {
@@ -2161,7 +2219,7 @@
 		fRef = 62D8F6230DAE6DCC009F6E57 /* AnnotatedClusterAbstractionTest.h */;
 		name = "AnnotatedClusterAbstractionTest.h: 25";
 		rLen = 0;
-		rLoc = 581;
+		rLoc = 593;
 		rType = 0;
 		vrLen = 252;
 		vrLoc = 461;
@@ -2200,8 +2258,8 @@
 		isa = PBXTextBookmark;
 		fRef = 62D8F6230DAE6DCC009F6E57 /* AnnotatedClusterAbstractionTest.h */;
 		name = "CPPUNIT_TEST_EXCEPTION( hShouldThrowExceptionGivenANullNodeParameter, NodeIsNullException );";
-		rLen = 602;
-		rLoc = 4312;
+		rLen = 839;
+		rLoc = 4324;
 		rType = 0;
 		vrLen = 552;
 		vrLoc = 3894;
@@ -2232,25 +2290,25 @@
 	};
 	62D8F6220DAE6DCC009F6E57 /* AnnotatedClusterAbstractionTest.cpp */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1382, 13118}}";
-			sepNavSelRange = "{7880, 0}";
-			sepNavVisRect = "{{0, 2703}, {890, 293}}";
+			sepNavIntBoundsRect = "{{0, 0}, {1382, 13986}}";
+			sepNavSelRange = "{37056, 0}";
+			sepNavVisRect = "{{0, 13531}, {817, 224}}";
 			sepNavWindowFrame = "{{15, 16}, {958, 725}}";
 		};
 	};
 	62D8F6230DAE6DCC009F6E57 /* AnnotatedClusterAbstractionTest.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {944, 2016}}";
-			sepNavSelRange = "{4912, 0}";
-			sepNavVisRect = "{{0, 723}, {913, 596}}";
+			sepNavIntBoundsRect = "{{0, 0}, {944, 2128}}";
+			sepNavSelRange = "{530, 0}";
+			sepNavVisRect = "{{0, 275}, {890, 293}}";
 			sepNavWindowFrame = "{{15, 16}, {958, 725}}";
 		};
 	};
 	62D8F6260DAE6DCC009F6E57 /* AnnotatedClusterTest.cpp */ = {
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {1100, 15596}}";
-			sepNavSelRange = "{30162, 108}";
-			sepNavVisRect = "{{0, 11830}, {913, 596}}";
+			sepNavSelRange = "{49964, 0}";
+			sepNavVisRect = "{{0, 15303}, {890, 293}}";
 			sepNavWindowFrame = "{{14, 16}, {958, 725}}";
 		};
 	};
@@ -2344,9 +2402,9 @@
 	};
 	62D8F6430DAE6E9F009F6E57 /* TestNode.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {913, 1330}}";
-			sepNavSelRange = "{2976, 0}";
-			sepNavVisRect = "{{0, 678}, {913, 596}}";
+			sepNavIntBoundsRect = "{{0, 0}, {800, 1330}}";
+			sepNavSelRange = "{4390, 0}";
+			sepNavVisRect = "{{0, 1147}, {576, 127}}";
 			sepNavWindowFrame = "{{15, 16}, {958, 725}}";
 		};
 	};
@@ -2750,9 +2808,9 @@
 	};
 	62E914A10CFD4FCC00AA46AB /* hpaStar.cpp */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {734, 8148}}";
-			sepNavSelRange = "{6314, 11}";
-			sepNavVisRect = "{{0, 4117}, {734, 180}}";
+			sepNavIntBoundsRect = "{{0, 0}, {656, 8148}}";
+			sepNavSelRange = "{190, 7}";
+			sepNavVisRect = "{{0, 140}, {576, 127}}";
 			sepNavWindowFrame = "{{15, 41}, {821, 700}}";
 		};
 	};
@@ -2871,16 +2929,16 @@
 	62E914EE0CFD4FDB00AA46AB /* graph.cpp */ = {
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {1154, 14308}}";
-			sepNavSelRange = "{5135, 0}";
-			sepNavVisRect = "{{0, 2893}, {894, 567}}";
+			sepNavSelRange = "{15647, 0}";
+			sepNavVisRect = "{{0, 5845}, {817, 224}}";
 			sepNavWindowFrame = "{{38, 24}, {939, 696}}";
 		};
 	};
 	62E914EF0CFD4FDB00AA46AB /* graph.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {894, 3822}}";
-			sepNavSelRange = "{3399, 0}";
-			sepNavVisRect = "{{0, 1303}, {894, 567}}";
+			sepNavIntBoundsRect = "{{0, 0}, {817, 3822}}";
+			sepNavSelRange = "{4774, 0}";
+			sepNavVisRect = "{{0, 2149}, {817, 224}}";
 			sepNavWindowFrame = "{{15, 45}, {939, 696}}";
 		};
 	};
@@ -3377,7 +3435,7 @@
 		fRef = 62D8F6230DAE6DCC009F6E57 /* AnnotatedClusterAbstractionTest.h */;
 		name = "AnnotatedClusterAbstractionTest.h: findDominatedTransitionShouldReturnAStronglyDominantEdgeGivenTwoInterEdgesWithTheSameCapabilityButDifferentClearance";
 		rLen = 0;
-		rLoc = 4536;
+		rLoc = 4548;
 		rType = 0;
 		vrLen = 1458;
 		vrLoc = 3160;
@@ -3386,8 +3444,8 @@
 		isa = PBXTextBookmark;
 		comments = "error: no 'void AnnotatedClusterAbstraction::findDominatedTransitionShouldReturnAStronglyDominantEdgeGivenTwoInterEdgesWithTheSameCapabilityButDifferentClearance()' member function declared in class 'AnnotatedClusterAbstraction'";
 		fRef = 62D8F6220DAE6DCC009F6E57 /* AnnotatedClusterAbstractionTest.cpp */;
-		rLen = 1;
-		rLoc = 857;
+		rLen = 0;
+		rLoc = 889;
 		rType = 1;
 	};
 	62FE07FC0DED9DF600061815 /* PBXTextBookmark */ = {
@@ -3395,7 +3453,7 @@
 		fRef = 62D8F6230DAE6DCC009F6E57 /* AnnotatedClusterAbstractionTest.h */;
 		name = "AnnotatedClusterAbstractionTest.h: findDominatedTransitionShouldReturnAStronglyDominantEdgeGivenTwoInterEdgesWithTheSameCapabilityButDifferentClearance";
 		rLen = 0;
-		rLoc = 4536;
+		rLoc = 4548;
 		rType = 0;
 		vrLen = 1458;
 		vrLoc = 3160;
@@ -3405,7 +3463,7 @@
 		fRef = 62D8F6220DAE6DCC009F6E57 /* AnnotatedClusterAbstractionTest.cpp */;
 		name = "AnnotatedClusterAbstractionTest.cpp: findDominatedTransitionShouldReturnAStronglyDominantEdgeGivenTwoInterEdgesWithTheSameCapabilityButDifferentClearance";
 		rLen = 0;
-		rLoc = 32659;
+		rLoc = 33786;
 		rType = 0;
 		vrLen = 701;
 		vrLoc = 32500;
@@ -3419,7 +3477,7 @@
 		fRef = 62D8F6220DAE6DCC009F6E57 /* AnnotatedClusterAbstractionTest.cpp */;
 		name = "AnnotatedClusterAbstractionTest.cpp: findDominatedTransitionShouldReturnAStronglyDominantEdgeGivenTwoInterEdgesWithTheSameCapabilityButDifferentClearance";
 		rLen = 0;
-		rLoc = 32659;
+		rLoc = 33786;
 		rType = 0;
 		vrLen = 701;
 		vrLoc = 32500;
@@ -3433,7 +3491,7 @@
 		fRef = 62D8F6220DAE6DCC009F6E57 /* AnnotatedClusterAbstractionTest.cpp */;
 		name = "AnnotatedClusterAbstractionTest.cpp: findDominatedTransitionShouldReturnAStronglyDominantEdgeGivenTwoInterEdgesWithTheSameCapabilityButDifferentClearance";
 		rLen = 0;
-		rLoc = 32659;
+		rLoc = 33786;
 		rType = 0;
 		vrLen = 702;
 		vrLoc = 32500;
@@ -3483,7 +3541,7 @@
 		comments = "error: 'findDominatedTransitionShouldReturnADominantEdgeGivenTwoInterEdgesOneOfWhichWhichIsDominatedByTheOtherEitherStronglyOrWeakly' is not a member of 'AnnotatedClusterAbstractionTest'";
 		fRef = 62D8F6230DAE6DCC009F6E57 /* AnnotatedClusterAbstractionTest.h */;
 		rLen = 1;
-		rLoc = 68;
+		rLoc = 69;
 		rType = 1;
 	};
 	62FE081D0DEDA12900061815 /* PBXTextBookmark */ = {
@@ -3531,7 +3589,7 @@
 		fRef = 62D8F6230DAE6DCC009F6E57 /* AnnotatedClusterAbstractionTest.h */;
 		name = "AnnotatedClusterAbstractionTest.h: findDominatedTransitionShouldReturnAStronglyDominantEdgeGivenTwoInterEdgesWithTheSameCapabilityButDifferentClearance";
 		rLen = 0;
-		rLoc = 4536;
+		rLoc = 4548;
 		rType = 0;
 		vrLen = 492;
 		vrLoc = 4107;
@@ -3540,7 +3598,7 @@
 		isa = PBXTextBookmark;
 		fRef = 62D8F6220DAE6DCC009F6E57 /* AnnotatedClusterAbstractionTest.cpp */;
 		rLen = 0;
-		rLoc = "-2147481347";
+		rLoc = "-2147478752";
 		rType = 0;
 	};
 	62FE08270DEDA12900061815 /* PBXTextBookmark */ = {
@@ -3548,7 +3606,7 @@
 		fRef = 62D8F6220DAE6DCC009F6E57 /* AnnotatedClusterAbstractionTest.cpp */;
 		name = "AnnotatedClusterAbstractionTest.cpp: 869";
 		rLen = 0;
-		rLoc = 32984;
+		rLoc = 33786;
 		rType = 0;
 		vrLen = 1740;
 		vrLoc = 31474;
@@ -3558,7 +3616,7 @@
 		fRef = 62D8F6230DAE6DCC009F6E57 /* AnnotatedClusterAbstractionTest.h */;
 		name = "AnnotatedClusterAbstractionTest.h: findDominatedTransitionShouldReturnAStronglyDominantEdgeGivenTwoInterEdgesWithTheSameCapabilityButDifferentClearance";
 		rLen = 0;
-		rLoc = 4536;
+		rLoc = 4548;
 		rType = 0;
 		vrLen = 3210;
 		vrLoc = 2274;
@@ -3567,7 +3625,7 @@
 		isa = PBXTextBookmark;
 		fRef = 625D21340D6EAE2400211E90 /* AnnotatedClusterAbstraction.cpp */;
 		rLen = 0;
-		rLoc = "-2147482873";
+		rLoc = "-2147481297";
 		rType = 0;
 	};
 	62FE082E0DEDA12900061815 /* PBXTextBookmark */ = {
@@ -3575,7 +3633,7 @@
 		fRef = 625D21340D6EAE2400211E90 /* AnnotatedClusterAbstraction.cpp */;
 		name = "AnnotatedClusterAbstraction.cpp: 287";
 		rLen = 0;
-		rLoc = 8023;
+		rLoc = 8081;
 		rType = 0;
 		vrLen = 952;
 		vrLoc = 7541;
@@ -3699,7 +3757,7 @@
 		fRef = 62D8F6230DAE6DCC009F6E57 /* AnnotatedClusterAbstractionTest.h */;
 		name = "AnnotatedClusterAbstractionTest.h: findDominatedTransitionShouldReturnAStronglyDominantEdgeGivenTwoInterEdgesWithTheSameCapabilityButDifferentClearance";
 		rLen = 0;
-		rLoc = 4536;
+		rLoc = 4548;
 		rType = 0;
 		vrLen = 492;
 		vrLoc = 4107;
@@ -3709,7 +3767,7 @@
 		fRef = 62D8F6220DAE6DCC009F6E57 /* AnnotatedClusterAbstractionTest.cpp */;
 		name = "AnnotatedClusterAbstractionTest.cpp: 869";
 		rLen = 0;
-		rLoc = 32984;
+		rLoc = 33786;
 		rType = 0;
 		vrLen = 1740;
 		vrLoc = 31474;
@@ -3719,7 +3777,7 @@
 		fRef = 62D8F6230DAE6DCC009F6E57 /* AnnotatedClusterAbstractionTest.h */;
 		name = "AnnotatedClusterAbstractionTest.h: findDominatedTransitionShouldReturnAStronglyDominantEdgeGivenTwoInterEdgesWithTheSameCapabilityButDifferentClearance";
 		rLen = 0;
-		rLoc = 4536;
+		rLoc = 4548;
 		rType = 0;
 		vrLen = 3210;
 		vrLoc = 2274;
@@ -3729,7 +3787,7 @@
 		fRef = 625D21340D6EAE2400211E90 /* AnnotatedClusterAbstraction.cpp */;
 		name = "AnnotatedClusterAbstraction.cpp: 287";
 		rLen = 0;
-		rLoc = 8023;
+		rLoc = 8081;
 		rType = 0;
 		vrLen = 952;
 		vrLoc = 7541;
@@ -3829,7 +3887,7 @@
 		fRef = 62D8F6230DAE6DCC009F6E57 /* AnnotatedClusterAbstractionTest.h */;
 		name = "AnnotatedClusterAbstractionTest.h: findDominatedTransitionShouldReturnAStronglyDominantEdgeGivenTwoInterEdgesWithTheSameCapabilityButDifferentClearance";
 		rLen = 0;
-		rLoc = 4536;
+		rLoc = 4548;
 		rType = 0;
 		vrLen = 492;
 		vrLoc = 4107;
@@ -3839,7 +3897,7 @@
 		fRef = 62D8F6220DAE6DCC009F6E57 /* AnnotatedClusterAbstractionTest.cpp */;
 		name = "AnnotatedClusterAbstractionTest.cpp: 869";
 		rLen = 0;
-		rLoc = 32984;
+		rLoc = 33786;
 		rType = 0;
 		vrLen = 1740;
 		vrLoc = 31474;
@@ -3849,7 +3907,7 @@
 		fRef = 62D8F6230DAE6DCC009F6E57 /* AnnotatedClusterAbstractionTest.h */;
 		name = "AnnotatedClusterAbstractionTest.h: findDominatedTransitionShouldReturnAStronglyDominantEdgeGivenTwoInterEdgesWithTheSameCapabilityButDifferentClearance";
 		rLen = 0;
-		rLoc = 4536;
+		rLoc = 4548;
 		rType = 0;
 		vrLen = 3210;
 		vrLoc = 2274;
@@ -3859,7 +3917,7 @@
 		fRef = 625D21340D6EAE2400211E90 /* AnnotatedClusterAbstraction.cpp */;
 		name = "AnnotatedClusterAbstraction.cpp: 287";
 		rLen = 0;
-		rLoc = 8023;
+		rLoc = 8081;
 		rType = 0;
 		vrLen = 952;
 		vrLoc = 7541;
@@ -3959,7 +4017,7 @@
 		fRef = 62D8F6220DAE6DCC009F6E57 /* AnnotatedClusterAbstractionTest.cpp */;
 		name = "AnnotatedClusterAbstractionTest.cpp: findDominatedTransitionShouldReturnAStronglyDominantEdgeGivenTwoInterEdgesWithTheSameCapabilityButDifferentClearance";
 		rLen = 0;
-		rLoc = 32659;
+		rLoc = 33786;
 		rType = 0;
 		vrLen = 690;
 		vrLoc = 32500;
@@ -3969,7 +4027,7 @@
 		fRef = 62D8F6220DAE6DCC009F6E57 /* AnnotatedClusterAbstractionTest.cpp */;
 		name = "AnnotatedClusterAbstractionTest.cpp: findDominatedTransitionShouldReturnAStronglyDominantEdgeGivenTwoInterEdgesWithTheSameCapabilityButDifferentClearance";
 		rLen = 0;
-		rLoc = 32659;
+		rLoc = 33786;
 		rType = 0;
 		vrLen = 690;
 		vrLoc = 32500;
@@ -3979,7 +4037,7 @@
 		fRef = 62D8F6230DAE6DCC009F6E57 /* AnnotatedClusterAbstractionTest.h */;
 		name = "AnnotatedClusterAbstractionTest.h: findDominatedTransitionShouldReturnAStronglyDominantEdgeGivenTwoInterEdgesWithTheSameCapabilityButDifferentClearance";
 		rLen = 0;
-		rLoc = 4536;
+		rLoc = 4548;
 		rType = 0;
 		vrLen = 492;
 		vrLoc = 4107;
@@ -3989,7 +4047,7 @@
 		fRef = 625D21340D6EAE2400211E90 /* AnnotatedClusterAbstraction.cpp */;
 		name = "AnnotatedClusterAbstraction.cpp: 297";
 		rLen = 0;
-		rLoc = 8023;
+		rLoc = 8081;
 		rType = 0;
 		vrLen = 961;
 		vrLoc = 7541;
@@ -4089,7 +4147,7 @@
 		fRef = 625D21340D6EAE2400211E90 /* AnnotatedClusterAbstraction.cpp */;
 		name = "AnnotatedClusterAbstraction.cpp: 292";
 		rLen = 0;
-		rLoc = 8023;
+		rLoc = 8081;
 		rType = 0;
 		vrLen = 405;
 		vrLoc = 7955;
@@ -4098,8 +4156,8 @@
 		isa = PBXTextBookmark;
 		comments = "error: no matching function for call to 'AnnotatedClusterAbstraction::findDominatedTransition(edge*&, edge*&, edge**, edge**)'";
 		fRef = 62D8F6220DAE6DCC009F6E57 /* AnnotatedClusterAbstractionTest.cpp */;
-		rLen = 1;
-		rLoc = 867;
+		rLen = 0;
+		rLoc = 889;
 		rType = 1;
 	};
 	62FE089C0DEDA4AE00061815 /* PBXTextBookmark */ = {
@@ -4107,7 +4165,7 @@
 		fRef = 62D8F6220DAE6DCC009F6E57 /* AnnotatedClusterAbstractionTest.cpp */;
 		name = "AnnotatedClusterAbstractionTest.cpp: findDominatedTransitionShouldReturnAStronglyDominantEdgeGivenTwoInterEdgesWithTheSameCapabilityButDifferentClearance";
 		rLen = 0;
-		rLoc = 32659;
+		rLoc = 33786;
 		rType = 0;
 		vrLen = 692;
 		vrLoc = 32500;
@@ -4117,7 +4175,7 @@
 		fRef = 625D21340D6EAE2400211E90 /* AnnotatedClusterAbstraction.cpp */;
 		name = "AnnotatedClusterAbstraction.cpp: 292";
 		rLen = 0;
-		rLoc = 8023;
+		rLoc = 8081;
 		rType = 0;
 		vrLen = 405;
 		vrLoc = 7955;
@@ -4127,7 +4185,7 @@
 		fRef = 62D8F6220DAE6DCC009F6E57 /* AnnotatedClusterAbstractionTest.cpp */;
 		name = "AnnotatedClusterAbstractionTest.cpp: 868";
 		rLen = 0;
-		rLoc = 32974;
+		rLoc = 33786;
 		rType = 0;
 		vrLen = 629;
 		vrLoc = 32588;
@@ -4137,7 +4195,7 @@
 		fRef = 62D8F6220DAE6DCC009F6E57 /* AnnotatedClusterAbstractionTest.cpp */;
 		name = "AnnotatedClusterAbstractionTest.cpp: 868";
 		rLen = 0;
-		rLoc = 32974;
+		rLoc = 33786;
 		rType = 0;
 		vrLen = 629;
 		vrLoc = 32588;
@@ -4147,7 +4205,7 @@
 		fRef = 62D8F6220DAE6DCC009F6E57 /* AnnotatedClusterAbstractionTest.cpp */;
 		name = "AnnotatedClusterAbstractionTest.cpp: 868";
 		rLen = 0;
-		rLoc = 32974;
+		rLoc = 33786;
 		rType = 0;
 		vrLen = 637;
 		vrLoc = 32588;
@@ -4157,7 +4215,7 @@
 		fRef = 62D8F6230DAE6DCC009F6E57 /* AnnotatedClusterAbstractionTest.h */;
 		name = "AnnotatedClusterAbstractionTest.h: findDominatedTransitionShouldReturnAStronglyDominantEdgeGivenTwoInterEdgesWithTheSameCapabilityButDifferentClearance";
 		rLen = 0;
-		rLoc = 4536;
+		rLoc = 4548;
 		rType = 0;
 		vrLen = 492;
 		vrLoc = 4107;
@@ -4167,7 +4225,7 @@
 		fRef = 62D8F6230DAE6DCC009F6E57 /* AnnotatedClusterAbstractionTest.h */;
 		name = "AnnotatedClusterAbstractionTest.h: findDominatedTransitionShouldReturnAStronglyDominantEdgeGivenTwoInterEdgesWithTheSameCapabilityButDifferentClearance";
 		rLen = 0;
-		rLoc = 4536;
+		rLoc = 4548;
 		rType = 0;
 		vrLen = 492;
 		vrLoc = 4107;
@@ -4177,7 +4235,7 @@
 		fRef = 62D8F6220DAE6DCC009F6E57 /* AnnotatedClusterAbstractionTest.cpp */;
 		name = "AnnotatedClusterAbstractionTest.cpp: findDominatedTransitionShouldReturnNullDominantAndDominatedEdgesGivenTwoInteEdgesEitherOfWhichOrBothAreNull";
 		rLen = 0;
-		rLoc = 35503;
+		rLoc = 38098;
 		rType = 0;
 		vrLen = 298;
 		vrLoc = 30728;
@@ -4187,7 +4245,7 @@
 		fRef = 62D8F6220DAE6DCC009F6E57 /* AnnotatedClusterAbstractionTest.cpp */;
 		name = "AnnotatedClusterAbstractionTest.cpp: 871";
 		rLen = 0;
-		rLoc = 33112;
+		rLoc = 33786;
 		rType = 0;
 		vrLen = 1749;
 		vrLoc = 31476;
@@ -4197,7 +4255,7 @@
 		fRef = 62D8F6220DAE6DCC009F6E57 /* AnnotatedClusterAbstractionTest.cpp */;
 		name = "AnnotatedClusterAbstractionTest.cpp: 895";
 		rLen = 0;
-		rLoc = 34039;
+		rLoc = 34524;
 		rType = 0;
 		vrLen = 1768;
 		vrLoc = 32586;
@@ -4206,7 +4264,7 @@
 		isa = PBXTextBookmark;
 		fRef = 62D8F6230DAE6DCC009F6E57 /* AnnotatedClusterAbstractionTest.h */;
 		rLen = 0;
-		rLoc = "-2147482929";
+		rLoc = "-2147482233";
 		rType = 0;
 	};
 	62FE08C20DEDA96D00061815 /* PBXTextBookmark */ = {
@@ -4214,7 +4272,7 @@
 		fRef = 62D8F6230DAE6DCC009F6E57 /* AnnotatedClusterAbstractionTest.h */;
 		name = "AnnotatedClusterAbstractionTest.h: findDominatedTransitionShouldReturnNullDominantAndDominatedEdgesGivenTwoInteEdgesEitherOfWhichOrBothAreNull";
 		rLen = 0;
-		rLoc = 9122;
+		rLoc = 9661;
 		rType = 0;
 		vrLen = 2937;
 		vrLoc = 5859;
@@ -4224,7 +4282,7 @@
 		fRef = 625D21340D6EAE2400211E90 /* AnnotatedClusterAbstraction.cpp */;
 		name = "AnnotatedClusterAbstraction.cpp: 297";
 		rLen = 0;
-		rLoc = 8023;
+		rLoc = 8081;
 		rType = 0;
 		vrLen = 961;
 		vrLoc = 7541;
@@ -4261,7 +4319,7 @@
 		fRef = 62D8F6220DAE6DCC009F6E57 /* AnnotatedClusterAbstractionTest.cpp */;
 		name = "AnnotatedClusterAbstractionTest.cpp: 868";
 		rLen = 0;
-		rLoc = 32974;
+		rLoc = 33786;
 		rType = 0;
 		vrLen = 638;
 		vrLoc = 32588;
@@ -4271,7 +4329,7 @@
 		fRef = 62D8F6220DAE6DCC009F6E57 /* AnnotatedClusterAbstractionTest.cpp */;
 		name = "AnnotatedClusterAbstractionTest.cpp: 868";
 		rLen = 0;
-		rLoc = 32974;
+		rLoc = 33786;
 		rType = 0;
 		vrLen = 638;
 		vrLoc = 32588;
@@ -4281,7 +4339,7 @@
 		fRef = 62D8F6220DAE6DCC009F6E57 /* AnnotatedClusterAbstractionTest.cpp */;
 		name = "AnnotatedClusterAbstractionTest.cpp: 868";
 		rLen = 0;
-		rLoc = 32974;
+		rLoc = 33786;
 		rType = 0;
 		vrLen = 638;
 		vrLoc = 32588;
@@ -4291,7 +4349,7 @@
 		fRef = 62D8F6220DAE6DCC009F6E57 /* AnnotatedClusterAbstractionTest.cpp */;
 		name = "AnnotatedClusterAbstractionTest.cpp: 868";
 		rLen = 0;
-		rLoc = 32974;
+		rLoc = 33786;
 		rType = 0;
 		vrLen = 922;
 		vrLoc = 32588;
@@ -4301,7 +4359,7 @@
 		fRef = 62D8F6220DAE6DCC009F6E57 /* AnnotatedClusterAbstractionTest.cpp */;
 		name = "AnnotatedClusterAbstractionTest.cpp: 868";
 		rLen = 0;
-		rLoc = 32974;
+		rLoc = 33786;
 		rType = 0;
 		vrLen = 938;
 		vrLoc = 32588;
@@ -4311,7 +4369,7 @@
 		fRef = 62D8F6220DAE6DCC009F6E57 /* AnnotatedClusterAbstractionTest.cpp */;
 		name = "AnnotatedClusterAbstractionTest.cpp: findDominatedTransitionShouldReturnNullDominantAndDominatedEdgesGivenTwoInteEdgesEitherOfWhichOrBothAreNull";
 		rLen = 0;
-		rLoc = 35503;
+		rLoc = 38098;
 		rType = 0;
 		vrLen = 298;
 		vrLoc = 30728;
@@ -4361,7 +4419,7 @@
 		fRef = 62D8F6220DAE6DCC009F6E57 /* AnnotatedClusterAbstractionTest.cpp */;
 		name = "AnnotatedClusterAbstractionTest.cpp: 893";
 		rLen = 0;
-		rLoc = 33878;
+		rLoc = 34363;
 		rType = 0;
 		vrLen = 1752;
 		vrLoc = 32610;
@@ -4371,7 +4429,7 @@
 		fRef = 62D8F6220DAE6DCC009F6E57 /* AnnotatedClusterAbstractionTest.cpp */;
 		name = "AnnotatedClusterAbstractionTest.cpp: 882";
 		rLen = 0;
-		rLoc = 33549;
+		rLoc = 34034;
 		rType = 0;
 		vrLen = 1474;
 		vrLoc = 32586;
@@ -4381,7 +4439,7 @@
 		fRef = 62D8F6230DAE6DCC009F6E57 /* AnnotatedClusterAbstractionTest.h */;
 		name = "AnnotatedClusterAbstractionTest.h: findDominatedTransitionShouldReturnNullDominantAndDominatedEdgesGivenTwoInteEdgesEitherOfWhichOrBothAreNull";
 		rLen = 0;
-		rLoc = 9122;
+		rLoc = 9661;
 		rType = 0;
 		vrLen = 2937;
 		vrLoc = 5859;
@@ -4391,7 +4449,7 @@
 		fRef = 62D8F6230DAE6DCC009F6E57 /* AnnotatedClusterAbstractionTest.h */;
 		name = "AnnotatedClusterAbstractionTest.h: findDominatedTransitionShouldReturnAStronglyDominantEdgeGivenTwoInterEdgesWithTheSameCapabilityButDifferentClearance";
 		rLen = 0;
-		rLoc = 8705;
+		rLoc = 8987;
 		rType = 0;
 		vrLen = 2938;
 		vrLoc = 5858;
@@ -4400,8 +4458,8 @@
 		isa = PBXTextBookmark;
 		comments = "error: 'dominated' was not declared in this scope";
 		fRef = 62D8F6220DAE6DCC009F6E57 /* AnnotatedClusterAbstractionTest.cpp */;
-		rLen = 1;
-		rLoc = 871;
+		rLen = 0;
+		rLoc = 889;
 		rType = 1;
 	};
 	62FE08FC0DEDAC4100061815 /* PBXTextBookmark */ = {
@@ -4409,7 +4467,7 @@
 		fRef = 62D8F6220DAE6DCC009F6E57 /* AnnotatedClusterAbstractionTest.cpp */;
 		name = "AnnotatedClusterAbstractionTest.cpp: 893";
 		rLen = 0;
-		rLoc = 33897;
+		rLoc = 34382;
 		rType = 0;
 		vrLen = 777;
 		vrLoc = 33263;
@@ -4419,7 +4477,7 @@
 		fRef = 62D8F6220DAE6DCC009F6E57 /* AnnotatedClusterAbstractionTest.cpp */;
 		name = "AnnotatedClusterAbstractionTest.cpp: 893";
 		rLen = 0;
-		rLoc = 33897;
+		rLoc = 34382;
 		rType = 0;
 		vrLen = 777;
 		vrLoc = 33263;
@@ -4429,7 +4487,7 @@
 		fRef = 62D8F6220DAE6DCC009F6E57 /* AnnotatedClusterAbstractionTest.cpp */;
 		name = "AnnotatedClusterAbstractionTest.cpp: findDominantTransitionShouldReturnAWeaklyDominantEdgeGivenTwoInterEdgesWithIntersectingCapabilitySets";
 		rLen = 0;
-		rLoc = 35503;
+		rLoc = 38098;
 		rType = 0;
 		vrLen = 298;
 		vrLoc = 30728;
@@ -4439,7 +4497,7 @@
 		fRef = 62D8F6220DAE6DCC009F6E57 /* AnnotatedClusterAbstractionTest.cpp */;
 		name = "AnnotatedClusterAbstractionTest.cpp: 893";
 		rLen = 0;
-		rLoc = 33897;
+		rLoc = 34382;
 		rType = 0;
 		vrLen = 1539;
 		vrLoc = 32501;
@@ -4449,7 +4507,7 @@
 		fRef = 62D8F6220DAE6DCC009F6E57 /* AnnotatedClusterAbstractionTest.cpp */;
 		name = "AnnotatedClusterAbstractionTest.cpp: 916";
 		rLen = 0;
-		rLoc = 34718;
+		rLoc = 34539;
 		rType = 0;
 		vrLen = 1456;
 		vrLoc = 33265;
@@ -4459,7 +4517,7 @@
 		fRef = 62D8F6230DAE6DCC009F6E57 /* AnnotatedClusterAbstractionTest.h */;
 		name = "AnnotatedClusterAbstractionTest.h: 131";
 		rLen = 0;
-		rLoc = 9119;
+		rLoc = 9436;
 		rType = 0;
 		vrLen = 2829;
 		vrLoc = 6187;
@@ -4469,7 +4527,7 @@
 		fRef = 62D8F6230DAE6DCC009F6E57 /* AnnotatedClusterAbstractionTest.h */;
 		name = "AnnotatedClusterAbstractionTest.h: 131";
 		rLen = 0;
-		rLoc = 8883;
+		rLoc = 9305;
 		rType = 0;
 		vrLen = 2942;
 		vrLoc = 6079;
@@ -4479,7 +4537,7 @@
 		fRef = 62D8F6220DAE6DCC009F6E57 /* AnnotatedClusterAbstractionTest.cpp */;
 		name = "AnnotatedClusterAbstractionTest.cpp: 894";
 		rLen = 0;
-		rLoc = 33897;
+		rLoc = 34382;
 		rType = 0;
 		vrLen = 788;
 		vrLoc = 33265;
@@ -4493,7 +4551,7 @@
 		fRef = 62D8F6220DAE6DCC009F6E57 /* AnnotatedClusterAbstractionTest.cpp */;
 		name = "AnnotatedClusterAbstractionTest.cpp: findDominantTransitionShouldReturnAWeaklyDominantEdgeGivenTwoInterEdgesWithIntersectingCapabilitySets";
 		rLen = 0;
-		rLoc = 35503;
+		rLoc = 38098;
 		rType = 0;
 		vrLen = 298;
 		vrLoc = 30728;
@@ -4503,7 +4561,7 @@
 		fRef = 625D21340D6EAE2400211E90 /* AnnotatedClusterAbstraction.cpp */;
 		name = "AnnotatedClusterAbstraction.cpp: 302";
 		rLen = 0;
-		rLoc = 8325;
+		rLoc = 8421;
 		rType = 0;
 		vrLen = 896;
 		vrLoc = 7780;
@@ -4513,7 +4571,7 @@
 		fRef = 62D8F6220DAE6DCC009F6E57 /* AnnotatedClusterAbstractionTest.cpp */;
 		name = "AnnotatedClusterAbstractionTest.cpp: 916";
 		rLen = 0;
-		rLoc = 34718;
+		rLoc = 34539;
 		rType = 0;
 		vrLen = 1456;
 		vrLoc = 33265;
@@ -4523,7 +4581,7 @@
 		fRef = 62D8F6230DAE6DCC009F6E57 /* AnnotatedClusterAbstractionTest.h */;
 		name = "AnnotatedClusterAbstractionTest.h: findDominantTransitionShouldReturnAWeaklyDominantEdgeGivenTwoInterEdgesWithIntersectingCapabilitySets";
 		rLen = 0;
-		rLoc = 8883;
+		rLoc = 9305;
 		rType = 0;
 		vrLen = 2942;
 		vrLoc = 6079;
@@ -4533,7 +4591,7 @@
 		fRef = 62D8F6220DAE6DCC009F6E57 /* AnnotatedClusterAbstractionTest.cpp */;
 		name = "AnnotatedClusterAbstractionTest.cpp: 894";
 		rLen = 0;
-		rLoc = 33897;
+		rLoc = 34382;
 		rType = 0;
 		vrLen = 788;
 		vrLoc = 33265;
@@ -4543,7 +4601,7 @@
 		fRef = 62D8F6220DAE6DCC009F6E57 /* AnnotatedClusterAbstractionTest.cpp */;
 		name = "AnnotatedClusterAbstractionTest.cpp: 894";
 		rLen = 0;
-		rLoc = 33897;
+		rLoc = 34382;
 		rType = 0;
 		vrLen = 788;
 		vrLoc = 33265;
@@ -4553,7 +4611,7 @@
 		fRef = 62D8F6220DAE6DCC009F6E57 /* AnnotatedClusterAbstractionTest.cpp */;
 		name = "AnnotatedClusterAbstractionTest.cpp: findDominantTransitionShouldReturnAWeaklyDominantEdgeGivenTwoInterEdgesWithIntersectingCapabilitySets";
 		rLen = 0;
-		rLoc = 35503;
+		rLoc = 38098;
 		rType = 0;
 		vrLen = 298;
 		vrLoc = 30728;
@@ -4563,7 +4621,7 @@
 		fRef = 62D8F6220DAE6DCC009F6E57 /* AnnotatedClusterAbstractionTest.cpp */;
 		name = "AnnotatedClusterAbstractionTest.cpp: 916";
 		rLen = 0;
-		rLoc = 34718;
+		rLoc = 34539;
 		rType = 0;
 		vrLen = 1456;
 		vrLoc = 33265;
@@ -4573,7 +4631,7 @@
 		fRef = 62D8F6230DAE6DCC009F6E57 /* AnnotatedClusterAbstractionTest.h */;
 		name = "AnnotatedClusterAbstractionTest.h: findDominantTransitionShouldReturnAWeaklyDominantEdgeGivenTwoInterEdgesWithIntersectingCapabilitySets";
 		rLen = 0;
-		rLoc = 8883;
+		rLoc = 9305;
 		rType = 0;
 		vrLen = 2942;
 		vrLoc = 6079;
@@ -4583,7 +4641,7 @@
 		fRef = 62D8F6220DAE6DCC009F6E57 /* AnnotatedClusterAbstractionTest.cpp */;
 		name = "AnnotatedClusterAbstractionTest.cpp: 894";
 		rLen = 0;
-		rLoc = 33897;
+		rLoc = 34382;
 		rType = 0;
 		vrLen = 788;
 		vrLoc = 33265;
@@ -4593,7 +4651,7 @@
 		fRef = 62D8F6220DAE6DCC009F6E57 /* AnnotatedClusterAbstractionTest.cpp */;
 		name = "AnnotatedClusterAbstractionTest.cpp: 894";
 		rLen = 0;
-		rLoc = 33897;
+		rLoc = 34382;
 		rType = 0;
 		vrLen = 788;
 		vrLoc = 33265;
@@ -4603,7 +4661,7 @@
 		fRef = 62D8F6220DAE6DCC009F6E57 /* AnnotatedClusterAbstractionTest.cpp */;
 		name = "AnnotatedClusterAbstractionTest.cpp: findDominantTransitionShouldReturnANullDominantEdgeGivenTwoInterEdgesWithIntersectingCapabilityButNoCorridorSizeDominance";
 		rLen = 0;
-		rLoc = 35503;
+		rLoc = 38098;
 		rType = 0;
 		vrLen = 298;
 		vrLoc = 30728;
@@ -4613,7 +4671,7 @@
 		fRef = 62D8F6220DAE6DCC009F6E57 /* AnnotatedClusterAbstractionTest.cpp */;
 		name = "AnnotatedClusterAbstractionTest.cpp: 919";
 		rLen = 0;
-		rLoc = 35503;
+		rLoc = 38098;
 		rType = 0;
 		vrLen = 1427;
 		vrLoc = 33289;
@@ -4623,7 +4681,7 @@
 		fRef = 62D8F6220DAE6DCC009F6E57 /* AnnotatedClusterAbstractionTest.cpp */;
 		name = "AnnotatedClusterAbstractionTest.cpp: 924";
 		rLen = 0;
-		rLoc = 35064;
+		rLoc = 35038;
 		rType = 0;
 		vrLen = 1585;
 		vrLoc = 33918;
@@ -4633,7 +4691,7 @@
 		fRef = 62D8F6230DAE6DCC009F6E57 /* AnnotatedClusterAbstractionTest.h */;
 		name = findDominantTransitionShouldReturnANullDominantEdgeGivenTwoInterEdgesWithIntersectingCapabilityButNoCorridorSizeDominance;
 		rLen = 121;
-		rLoc = 8995;
+		rLoc = 9313;
 		rType = 0;
 		vrLen = 3059;
 		vrLoc = 6079;
@@ -4643,7 +4701,7 @@
 		fRef = 62D8F6230DAE6DCC009F6E57 /* AnnotatedClusterAbstractionTest.h */;
 		name = "AnnotatedClusterAbstractionTest.h: findDominantTransitionShouldReturnANullDominantEdgeGivenTwoInterEdgesWithIntersectingCapabilityButNoCorridorSizeDominance";
 		rLen = 0;
-		rLoc = 4912;
+		rLoc = 5161;
 		rType = 0;
 		vrLen = 3243;
 		vrLoc = 2733;
@@ -4653,7 +4711,7 @@
 		fRef = 62D8F6220DAE6DCC009F6E57 /* AnnotatedClusterAbstractionTest.cpp */;
 		name = "AnnotatedClusterAbstractionTest.cpp: 894";
 		rLen = 0;
-		rLoc = 33897;
+		rLoc = 34382;
 		rType = 0;
 		vrLen = 777;
 		vrLoc = 33265;
@@ -4663,7 +4721,7 @@
 		comments = "error: 'findDominantTransitionShouldReturnNullDominantAndDominantEdgesGivenTwoInteEdgesEitherOfWhichOrBothAreNull' is not a member of 'AnnotatedClusterAbstractionTest'";
 		fRef = 62D8F6230DAE6DCC009F6E57 /* AnnotatedClusterAbstractionTest.h */;
 		rLen = 1;
-		rLoc = 69;
+		rLoc = 70;
 		rType = 1;
 	};
 	62FE09420DEDB5D900061815 /* PBXTextBookmark */ = {
@@ -4671,7 +4729,7 @@
 		fRef = 62D8F6220DAE6DCC009F6E57 /* AnnotatedClusterAbstractionTest.cpp */;
 		name = "AnnotatedClusterAbstractionTest.cpp: 894";
 		rLen = 0;
-		rLoc = 33897;
+		rLoc = 34382;
 		rType = 0;
 		vrLen = 777;
 		vrLoc = 33265;
@@ -4681,7 +4739,7 @@
 		fRef = 62D8F6230DAE6DCC009F6E57 /* AnnotatedClusterAbstractionTest.h */;
 		name = "AnnotatedClusterAbstractionTest.h: findDominantTransitionShouldReturnANullDominantEdgeGivenTwoInteEdgesEitherOfWhichOrBothAreNull";
 		rLen = 0;
-		rLoc = 4649;
+		rLoc = 4661;
 		rType = 0;
 		vrLen = 1259;
 		vrLoc = 3894;
@@ -4691,12 +4749,12 @@
 		fRef = 62D8F6230DAE6DCC009F6E57 /* AnnotatedClusterAbstractionTest.h */;
 		name = "AnnotatedClusterAbstractionTest.h: findDominantTransitionShouldReturnANullDominantEdgeGivenTwoInteEdgesEitherOfWhichOrBothAreNull";
 		rLen = 0;
-		rLoc = 4649;
+		rLoc = 4661;
 		rType = 0;
 		vrLen = 1259;
 		vrLoc = 3894;
 	};
-	62FE094B0DEDB63C00061815 /* AnnotatedClusterAbstractionTest.cpp:928 */ = {
+	62FE094B0DEDB63C00061815 /* AnnotatedClusterAbstractionTest.cpp:921 */ = {
 		isa = PBXFileBreakpoint;
 		actions = (
 		);
@@ -4706,9 +4764,9 @@
 		fileReference = 62D8F6220DAE6DCC009F6E57 /* AnnotatedClusterAbstractionTest.cpp */;
 		functionName = "AnnotatedClusterAbstractionTest::findDominantTransitionShouldReturnANullDominantEdgeGivenTwoInterEdgesWithIntersectingCapabilityButNoCorridorSizeDominance()";
 		hitCount = 1;
-		lineNumber = 928;
+		lineNumber = 921;
 		location = testsimulation;
-		modificationTime = 233752349.39526;
+		modificationTime = 233763558.901963;
 		state = 1;
 	};
 	62FE094D0DEDB65900061815 /* PBXTextBookmark */ = {
@@ -4716,7 +4774,7 @@
 		fRef = 62D8F6220DAE6DCC009F6E57 /* AnnotatedClusterAbstractionTest.cpp */;
 		name = "AnnotatedClusterAbstractionTest.cpp: findDominantTransitionShouldReturnANullDominantEdgeGivenTwoInterEdgesWithIntersectingCapabilityButNoCorridorSizeDominance";
 		rLen = 0;
-		rLoc = 35503;
+		rLoc = 38098;
 		rType = 0;
 		vrLen = 298;
 		vrLoc = 30728;
@@ -4726,7 +4784,7 @@
 		fRef = 62D8F6220DAE6DCC009F6E57 /* AnnotatedClusterAbstractionTest.cpp */;
 		name = "AnnotatedClusterAbstractionTest.cpp: 924";
 		rLen = 0;
-		rLoc = 35064;
+		rLoc = 35038;
 		rType = 0;
 		vrLen = 1585;
 		vrLoc = 33918;
@@ -4736,7 +4794,7 @@
 		fRef = 62D8F6230DAE6DCC009F6E57 /* AnnotatedClusterAbstractionTest.h */;
 		name = "AnnotatedClusterAbstractionTest.h: findDominantTransitionShouldReturnANullDominantEdgeGivenTwoInterEdgesWithIntersectingCapabilityButNoCorridorSizeDominance";
 		rLen = 0;
-		rLoc = 4912;
+		rLoc = 5161;
 		rType = 0;
 		vrLen = 3232;
 		vrLoc = 2733;
@@ -4746,7 +4804,7 @@
 		fRef = 62D8F6230DAE6DCC009F6E57 /* AnnotatedClusterAbstractionTest.h */;
 		name = "AnnotatedClusterAbstractionTest.h: findDominantTransitionShouldReturnANullDominantEdgeGivenTwoInteEdgesEitherOfWhichOrBothAreNull";
 		rLen = 0;
-		rLoc = 4649;
+		rLoc = 4661;
 		rType = 0;
 		vrLen = 1259;
 		vrLoc = 3894;
@@ -4756,7 +4814,7 @@
 		fRef = 62D8F6230DAE6DCC009F6E57 /* AnnotatedClusterAbstractionTest.h */;
 		name = "AnnotatedClusterAbstractionTest.h: findDominantTransitionShouldReturnANullDominantEdgeGivenTwoInteEdgesEitherOfWhichOrBothAreNull";
 		rLen = 0;
-		rLoc = 4649;
+		rLoc = 4661;
 		rType = 0;
 		vrLen = 1259;
 		vrLoc = 3894;
@@ -4766,7 +4824,7 @@
 		fRef = 62D8F6230DAE6DCC009F6E57 /* AnnotatedClusterAbstractionTest.h */;
 		name = "AnnotatedClusterAbstractionTest.h: findDominantTransitionShouldReturnANullDominantEdgeGivenTwoInteEdgesEitherOfWhichOrBothAreNull";
 		rLen = 0;
-		rLoc = 4649;
+		rLoc = 4661;
 		rType = 0;
 		vrLen = 1259;
 		vrLoc = 3894;
@@ -4780,7 +4838,7 @@
 		fRef = 62D8F6220DAE6DCC009F6E57 /* AnnotatedClusterAbstractionTest.cpp */;
 		name = "AnnotatedClusterAbstractionTest.cpp: findDominantTransitionShouldReturnANullDominantEdgeGivenTwoInterEdgesWithIntersectingCapabilityButNoCorridorSizeDominance";
 		rLen = 0;
-		rLoc = 35503;
+		rLoc = 38098;
 		rType = 0;
 		vrLen = 298;
 		vrLoc = 30728;
@@ -4800,7 +4858,7 @@
 		fRef = 62D8F6220DAE6DCC009F6E57 /* AnnotatedClusterAbstractionTest.cpp */;
 		name = "AnnotatedClusterAbstractionTest.cpp: 924";
 		rLen = 0;
-		rLoc = 35064;
+		rLoc = 35038;
 		rType = 0;
 		vrLen = 1575;
 		vrLoc = 33918;
@@ -4810,7 +4868,7 @@
 		fRef = 62D8F6230DAE6DCC009F6E57 /* AnnotatedClusterAbstractionTest.h */;
 		name = "AnnotatedClusterAbstractionTest.h: findDominantTransitionShouldReturnANullDominantEdgeGivenTwoInterEdgesWithIntersectingCapabilityButNoCorridorSizeDominance";
 		rLen = 0;
-		rLoc = 4912;
+		rLoc = 5161;
 		rType = 0;
 		vrLen = 3232;
 		vrLoc = 2733;
@@ -4824,12 +4882,12 @@
 		fRef = 62D8F6230DAE6DCC009F6E57 /* AnnotatedClusterAbstractionTest.h */;
 		name = "AnnotatedClusterAbstractionTest.h: findDominantTransitionShouldReturnANullDominantEdgeGivenTwoInteEdgesEitherOfWhichOrBothAreNull";
 		rLen = 0;
-		rLoc = 4649;
+		rLoc = 4661;
 		rType = 0;
 		vrLen = 1259;
 		vrLoc = 3894;
 	};
-	62FE096C0DEEC71A00061815 /* AnnotatedClusterAbstractionTest.cpp:908 */ = {
+	62FE096C0DEEC71A00061815 /* AnnotatedClusterAbstractionTest.cpp:910 */ = {
 		isa = PBXFileBreakpoint;
 		actions = (
 		);
@@ -4839,9 +4897,9 @@
 		fileReference = 62D8F6220DAE6DCC009F6E57 /* AnnotatedClusterAbstractionTest.cpp */;
 		functionName = "AnnotatedClusterAbstractionTest::findDominantTransitionShouldReturnAWeaklyDominantEdgeGivenTwoInterEdgesWithIntersectingCapabilitySets()";
 		hitCount = 1;
-		lineNumber = 908;
+		lineNumber = 910;
 		location = testsimulation;
-		modificationTime = 233752362.671482;
+		modificationTime = 233763558.901972;
 		state = 1;
 	};
 	62FE09710DEEC77B00061815 /* PBXTextBookmark */ = {
@@ -4849,7 +4907,7 @@
 		fRef = 62D8F6230DAE6DCC009F6E57 /* AnnotatedClusterAbstractionTest.h */;
 		name = "AnnotatedClusterAbstractionTest.h: findDominantTransitionShouldReturnANullDominantEdgeGivenTwoInteEdgesEitherOfWhichOrBothAreNull";
 		rLen = 0;
-		rLoc = 4649;
+		rLoc = 4661;
 		rType = 0;
 		vrLen = 1259;
 		vrLoc = 3894;
@@ -4859,7 +4917,7 @@
 		fRef = 62D8F6230DAE6DCC009F6E57 /* AnnotatedClusterAbstractionTest.h */;
 		name = "AnnotatedClusterAbstractionTest.h: findDominantTransitionShouldReturnANullDominantEdgeGivenTwoInteEdgesEitherOfWhichOrBothAreNull";
 		rLen = 0;
-		rLoc = 4649;
+		rLoc = 4661;
 		rType = 0;
 		vrLen = 1259;
 		vrLoc = 3894;
@@ -4869,7 +4927,7 @@
 		fRef = 62D8F6230DAE6DCC009F6E57 /* AnnotatedClusterAbstractionTest.h */;
 		name = "AnnotatedClusterAbstractionTest.h: findDominantTransitionShouldReturnANullDominantEdgeGivenTwoInteEdgesEitherOfWhichOrBothAreNull";
 		rLen = 0;
-		rLoc = 4649;
+		rLoc = 4661;
 		rType = 0;
 		vrLen = 1259;
 		vrLoc = 3894;
@@ -4891,7 +4949,7 @@
 		fRef = 62D8F6220DAE6DCC009F6E57 /* AnnotatedClusterAbstractionTest.cpp */;
 		name = "AnnotatedClusterAbstractionTest.cpp: findDominantTransitionShouldReturnANullDominantEdgeGivenTwoInterEdgesWithIntersectingCapabilityButNoCorridorSizeDominance";
 		rLen = 0;
-		rLoc = 35503;
+		rLoc = 38098;
 		rType = 0;
 		vrLen = 298;
 		vrLoc = 30728;
@@ -4911,7 +4969,7 @@
 		fRef = 62D8F6220DAE6DCC009F6E57 /* AnnotatedClusterAbstractionTest.cpp */;
 		name = "AnnotatedClusterAbstractionTest.cpp: findDominantTransitionShouldReturnANullDominantEdgeGivenTwoInterEdgesWithIntersectingCapabilityButNoCorridorSizeDominance";
 		rLen = 0;
-		rLoc = 35503;
+		rLoc = 38098;
 		rType = 0;
 		vrLen = 298;
 		vrLoc = 30728;
@@ -4985,7 +5043,7 @@
 		fRef = 62D8F6220DAE6DCC009F6E57 /* AnnotatedClusterAbstractionTest.cpp */;
 		name = "AnnotatedClusterAbstractionTest.cpp: 924";
 		rLen = 0;
-		rLoc = 35064;
+		rLoc = 35038;
 		rType = 0;
 		vrLen = 1520;
 		vrLoc = 33429;
@@ -4995,7 +5053,7 @@
 		fRef = 62D8F6220DAE6DCC009F6E57 /* AnnotatedClusterAbstractionTest.cpp */;
 		name = "AnnotatedClusterAbstractionTest.cpp: 924";
 		rLen = 0;
-		rLoc = 35064;
+		rLoc = 35038;
 		rType = 0;
 		vrLen = 1653;
 		vrLoc = 33641;
@@ -5005,7 +5063,7 @@
 		fRef = 62D8F6230DAE6DCC009F6E57 /* AnnotatedClusterAbstractionTest.h */;
 		name = "AnnotatedClusterAbstractionTest.h: findDominantTransitionShouldReturnANullDominantEdgeGivenTwoInterEdgesWithIntersectingCapabilityButNoCorridorSizeDominance";
 		rLen = 0;
-		rLoc = 4912;
+		rLoc = 5161;
 		rType = 0;
 		vrLen = 3232;
 		vrLoc = 2733;
@@ -5015,7 +5073,7 @@
 		fRef = 625D21340D6EAE2400211E90 /* AnnotatedClusterAbstraction.cpp */;
 		name = "AnnotatedClusterAbstraction.cpp: 287";
 		rLen = 0;
-		rLoc = 8023;
+		rLoc = 8081;
 		rType = 0;
 		vrLen = 1049;
 		vrLoc = 7652;
@@ -5093,7 +5151,7 @@
 		fRef = 62D8F6220DAE6DCC009F6E57 /* AnnotatedClusterAbstractionTest.cpp */;
 		name = "AnnotatedClusterAbstractionTest.cpp: 924";
 		rLen = 0;
-		rLoc = 35064;
+		rLoc = 35038;
 		rType = 0;
 		vrLen = 1653;
 		vrLoc = 33641;
@@ -5103,7 +5161,7 @@
 		fRef = 62D8F6230DAE6DCC009F6E57 /* AnnotatedClusterAbstractionTest.h */;
 		name = "AnnotatedClusterAbstractionTest.h: findDominantTransitionShouldReturnANullDominantEdgeGivenTwoInterEdgesWithIntersectingCapabilityButNoCorridorSizeDominance";
 		rLen = 0;
-		rLoc = 4912;
+		rLoc = 5161;
 		rType = 0;
 		vrLen = 3232;
 		vrLoc = 2733;
@@ -5113,7 +5171,7 @@
 		fRef = 625D21340D6EAE2400211E90 /* AnnotatedClusterAbstraction.cpp */;
 		name = "AnnotatedClusterAbstraction.cpp: 287";
 		rLen = 0;
-		rLoc = 8023;
+		rLoc = 8081;
 		rType = 0;
 		vrLen = 1049;
 		vrLoc = 7652;
@@ -5173,7 +5231,7 @@
 		fRef = 62D8F6220DAE6DCC009F6E57 /* AnnotatedClusterAbstractionTest.cpp */;
 		name = "AnnotatedClusterAbstractionTest.cpp: 924";
 		rLen = 0;
-		rLoc = 35064;
+		rLoc = 35038;
 		rType = 0;
 		vrLen = 1653;
 		vrLoc = 33641;
@@ -5183,7 +5241,7 @@
 		fRef = 62D8F6230DAE6DCC009F6E57 /* AnnotatedClusterAbstractionTest.h */;
 		name = "AnnotatedClusterAbstractionTest.h: findDominantTransitionShouldReturnANullDominantEdgeGivenTwoInterEdgesWithIntersectingCapabilityButNoCorridorSizeDominance";
 		rLen = 0;
-		rLoc = 4912;
+		rLoc = 5161;
 		rType = 0;
 		vrLen = 3232;
 		vrLoc = 2733;
@@ -5193,7 +5251,7 @@
 		fRef = 625D21340D6EAE2400211E90 /* AnnotatedClusterAbstraction.cpp */;
 		name = "AnnotatedClusterAbstraction.cpp: 287";
 		rLen = 0;
-		rLoc = 8023;
+		rLoc = 8081;
 		rType = 0;
 		vrLen = 1049;
 		vrLoc = 7652;
@@ -5203,7 +5261,7 @@
 		fRef = 62D8F6230DAE6DCC009F6E57 /* AnnotatedClusterAbstractionTest.h */;
 		name = "AnnotatedClusterAbstractionTest.h: findDominantTransitionShouldReturnANullDominantEdgeGivenTwoInteEdgesEitherOfWhichOrBothAreNull";
 		rLen = 0;
-		rLoc = 4649;
+		rLoc = 4661;
 		rType = 0;
 		vrLen = 1259;
 		vrLoc = 3894;
@@ -5221,7 +5279,7 @@
 		fRef = 62D8F6230DAE6DCC009F6E57 /* AnnotatedClusterAbstractionTest.h */;
 		name = "AnnotatedClusterAbstractionTest.h: findDominantTransitionShouldReturnANullDominantEdgeGivenTwoInteEdgesEitherOfWhichOrBothAreNull";
 		rLen = 0;
-		rLoc = 4649;
+		rLoc = 4661;
 		rType = 0;
 		vrLen = 1259;
 		vrLoc = 3894;
@@ -5454,7 +5512,7 @@
 		fRef = 62D8F6220DAE6DCC009F6E57 /* AnnotatedClusterAbstractionTest.cpp */;
 		name = "AnnotatedClusterAbstractionTest.cpp: 924";
 		rLen = 0;
-		rLoc = 35064;
+		rLoc = 35038;
 		rType = 0;
 		vrLen = 1653;
 		vrLoc = 33641;
@@ -5464,7 +5522,7 @@
 		fRef = 62D8F6230DAE6DCC009F6E57 /* AnnotatedClusterAbstractionTest.h */;
 		name = "AnnotatedClusterAbstractionTest.h: findDominantTransitionShouldReturnANullDominantEdgeGivenTwoInterEdgesWithIntersectingCapabilityButNoCorridorSizeDominance";
 		rLen = 0;
-		rLoc = 4912;
+		rLoc = 5161;
 		rType = 0;
 		vrLen = 3232;
 		vrLoc = 2733;
@@ -5474,7 +5532,7 @@
 		fRef = 625D21340D6EAE2400211E90 /* AnnotatedClusterAbstraction.cpp */;
 		name = "AnnotatedClusterAbstraction.cpp: 287";
 		rLen = 0;
-		rLoc = 8023;
+		rLoc = 8081;
 		rType = 0;
 		vrLen = 1049;
 		vrLoc = 7652;
@@ -5554,7 +5612,7 @@
 		fRef = 62D8F6220DAE6DCC009F6E57 /* AnnotatedClusterAbstractionTest.cpp */;
 		name = "AnnotatedClusterAbstractionTest.cpp: 924";
 		rLen = 0;
-		rLoc = 35064;
+		rLoc = 35038;
 		rType = 0;
 		vrLen = 1653;
 		vrLoc = 33641;
@@ -5564,7 +5622,7 @@
 		fRef = 62D8F6230DAE6DCC009F6E57 /* AnnotatedClusterAbstractionTest.h */;
 		name = "AnnotatedClusterAbstractionTest.h: findDominantTransitionShouldReturnANullDominantEdgeGivenTwoInterEdgesWithIntersectingCapabilityButNoCorridorSizeDominance";
 		rLen = 0;
-		rLoc = 4912;
+		rLoc = 5161;
 		rType = 0;
 		vrLen = 3232;
 		vrLoc = 2733;
@@ -5574,7 +5632,7 @@
 		fRef = 625D21340D6EAE2400211E90 /* AnnotatedClusterAbstraction.cpp */;
 		name = "AnnotatedClusterAbstraction.cpp: 287";
 		rLen = 0;
-		rLoc = 8023;
+		rLoc = 8081;
 		rType = 0;
 		vrLen = 1049;
 		vrLoc = 7652;
@@ -5672,7 +5730,7 @@
 		fRef = 62D8F6220DAE6DCC009F6E57 /* AnnotatedClusterAbstractionTest.cpp */;
 		name = "AnnotatedClusterAbstractionTest.cpp: 924";
 		rLen = 0;
-		rLoc = 35064;
+		rLoc = 35038;
 		rType = 0;
 		vrLen = 1653;
 		vrLoc = 33641;
@@ -5682,7 +5740,7 @@
 		fRef = 62D8F6230DAE6DCC009F6E57 /* AnnotatedClusterAbstractionTest.h */;
 		name = "AnnotatedClusterAbstractionTest.h: findDominantTransitionShouldReturnANullDominantEdgeGivenTwoInterEdgesWithIntersectingCapabilityButNoCorridorSizeDominance";
 		rLen = 0;
-		rLoc = 4912;
+		rLoc = 5161;
 		rType = 0;
 		vrLen = 3232;
 		vrLoc = 2733;
@@ -5692,10 +5750,577 @@
 		fRef = 625D21340D6EAE2400211E90 /* AnnotatedClusterAbstraction.cpp */;
 		name = "AnnotatedClusterAbstraction.cpp: 287";
 		rLen = 0;
-		rLoc = 8023;
+		rLoc = 8081;
 		rType = 0;
 		vrLen = 1049;
 		vrLoc = 7652;
+	};
+	62FE0A420DEED5A000061815 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62D8F6420DAE6E9F009F6E57 /* TestNode.cpp */;
+		name = "TestNode.cpp: 320";
+		rLen = 0;
+		rLoc = 11580;
+		rType = 0;
+		vrLen = 793;
+		vrLoc = 11210;
+	};
+	62FE0A430DEED5A000061815 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 621C072B0D7F8432000C424F /* AnnotatedCluster.cpp */;
+		name = "AnnotatedCluster.cpp: 484";
+		rLen = 0;
+		rLoc = 17753;
+		rType = 0;
+		vrLen = 804;
+		vrLoc = 17348;
+	};
+	62FE0A440DEED5A000061815 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62ECC8740DAA5E4E00002350 /* AnnotatedHierarchicalAStar.cpp */;
+		name = "AnnotatedHierarchicalAStar.cpp: 113";
+		rLen = 0;
+		rLoc = 3484;
+		rType = 0;
+		vrLen = 802;
+		vrLoc = 3249;
+	};
+	62FE0A450DEED5A000061815 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62D8F6220DAE6DCC009F6E57 /* AnnotatedClusterAbstractionTest.cpp */;
+		name = "AnnotatedClusterAbstractionTest.cpp: 204";
+		rLen = 0;
+		rLoc = 7880;
+		rType = 0;
+		vrLen = 1484;
+		vrLoc = 7010;
+	};
+	62FE0A460DEED5A000061815 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		comments = "error: 'class graph' has no member named 'findAnnotatedEdge'";
+		fRef = 62D8F6260DAE6DCC009F6E57 /* AnnotatedClusterTest.cpp */;
+		rLen = 1;
+		rLoc = 1111;
+		rType = 1;
+	};
+	62FE0A470DEED5A000061815 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62D8F6420DAE6E9F009F6E57 /* TestNode.cpp */;
+		name = "TestNode.cpp: 320";
+		rLen = 0;
+		rLoc = 11580;
+		rType = 0;
+		vrLen = 793;
+		vrLoc = 11210;
+	};
+	62FE0A480DEED5A000061815 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 621C072B0D7F8432000C424F /* AnnotatedCluster.cpp */;
+		name = "AnnotatedCluster.cpp: 484";
+		rLen = 0;
+		rLoc = 17753;
+		rType = 0;
+		vrLen = 804;
+		vrLoc = 17348;
+	};
+	62FE0A490DEED5A000061815 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62ECC8740DAA5E4E00002350 /* AnnotatedHierarchicalAStar.cpp */;
+		name = "AnnotatedHierarchicalAStar.cpp: 113";
+		rLen = 0;
+		rLoc = 3484;
+		rType = 0;
+		vrLen = 802;
+		vrLoc = 3249;
+	};
+	62FE0A4A0DEED5A000061815 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62D8F6220DAE6DCC009F6E57 /* AnnotatedClusterAbstractionTest.cpp */;
+		name = "AnnotatedClusterAbstractionTest.cpp: 204";
+		rLen = 0;
+		rLoc = 7880;
+		rType = 0;
+		vrLen = 1484;
+		vrLoc = 7010;
+	};
+	62FE0A4B0DEED5A000061815 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62D8F6260DAE6DCC009F6E57 /* AnnotatedClusterTest.cpp */;
+		name = "AnnotatedClusterTest.cpp: 1112";
+		rLen = 0;
+		rLoc = 49964;
+		rType = 0;
+		vrLen = 1293;
+		vrLoc = 48787;
+	};
+	62FE0A4E0DEED5B600061815 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62D8F6260DAE6DCC009F6E57 /* AnnotatedClusterTest.cpp */;
+		name = "AnnotatedClusterTest.cpp: 1112";
+		rLen = 0;
+		rLoc = 49964;
+		rType = 0;
+		vrLen = 1293;
+		vrLoc = 48787;
+	};
+	62FE0A650DEEDA7B00061815 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62D8F6260DAE6DCC009F6E57 /* AnnotatedClusterTest.cpp */;
+		name = "AnnotatedClusterTest.cpp: 1112";
+		rLen = 0;
+		rLoc = 49964;
+		rType = 0;
+		vrLen = 1293;
+		vrLoc = 48787;
+	};
+	62FE0A660DEEDA7B00061815 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62E914A10CFD4FCC00AA46AB /* hpaStar.cpp */;
+		rLen = 7;
+		rLoc = 190;
+		rType = 0;
+	};
+	62FE0A670DEEDA7B00061815 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62E914A10CFD4FCC00AA46AB /* hpaStar.cpp */;
+		name = "const int MAX_INT = 2147483647;";
+		rLen = 32;
+		rLoc = 180;
+		rType = 0;
+		vrLen = 191;
+		vrLoc = 90;
+	};
+	62FE0A700DEEE63700061815 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62D8F6260DAE6DCC009F6E57 /* AnnotatedClusterTest.cpp */;
+		name = "AnnotatedClusterTest.cpp: 1112";
+		rLen = 0;
+		rLoc = 49964;
+		rType = 0;
+		vrLen = 1293;
+		vrLoc = 48787;
+	};
+	62FE0A710DEEE63700061815 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62E914A10CFD4FCC00AA46AB /* hpaStar.cpp */;
+		name = "const int MAX_INT = 2147483647;";
+		rLen = 32;
+		rLoc = 180;
+		rType = 0;
+		vrLen = 191;
+		vrLoc = 90;
+	};
+	62FE0A720DEEE63800061815 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62D8F6260DAE6DCC009F6E57 /* AnnotatedClusterTest.cpp */;
+		name = "AnnotatedClusterTest.cpp: 1112";
+		rLen = 0;
+		rLoc = 49964;
+		rType = 0;
+		vrLen = 1293;
+		vrLoc = 48787;
+	};
+	62FE0A730DEEE63800061815 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62E914A10CFD4FCC00AA46AB /* hpaStar.cpp */;
+		name = "const int MAX_INT = 2147483647;";
+		rLen = 32;
+		rLoc = 180;
+		rType = 0;
+		vrLen = 191;
+		vrLoc = 90;
+	};
+	62FE0A810DEEE88C00061815 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62D8F6260DAE6DCC009F6E57 /* AnnotatedClusterTest.cpp */;
+		name = "AnnotatedClusterTest.cpp: 1112";
+		rLen = 0;
+		rLoc = 49964;
+		rType = 0;
+		vrLen = 1293;
+		vrLoc = 48787;
+	};
+	62FE0A820DEEE88C00061815 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62E914A10CFD4FCC00AA46AB /* hpaStar.cpp */;
+		name = "const int MAX_INT = 2147483647;";
+		rLen = 32;
+		rLoc = 180;
+		rType = 0;
+		vrLen = 191;
+		vrLoc = 90;
+	};
+	62FE0A850DEEE8C800061815 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62D8F6260DAE6DCC009F6E57 /* AnnotatedClusterTest.cpp */;
+		name = "AnnotatedClusterTest.cpp: 1112";
+		rLen = 0;
+		rLoc = 49964;
+		rType = 0;
+		vrLen = 1293;
+		vrLoc = 48787;
+	};
+	62FE0A860DEEE8C800061815 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62E914A10CFD4FCC00AA46AB /* hpaStar.cpp */;
+		name = "const int MAX_INT = 2147483647;";
+		rLen = 32;
+		rLoc = 180;
+		rType = 0;
+		vrLen = 191;
+		vrLoc = 90;
+	};
+	62FE0A8B0DEEEB5D00061815 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62D8F6260DAE6DCC009F6E57 /* AnnotatedClusterTest.cpp */;
+		name = "AnnotatedClusterTest.cpp: 1112";
+		rLen = 0;
+		rLoc = 49964;
+		rType = 0;
+		vrLen = 1293;
+		vrLoc = 48787;
+	};
+	62FE0A8C0DEEEB5D00061815 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62E914A10CFD4FCC00AA46AB /* hpaStar.cpp */;
+		name = "const int MAX_INT = 2147483647;";
+		rLen = 32;
+		rLoc = 180;
+		rType = 0;
+		vrLen = 191;
+		vrLoc = 90;
+	};
+	62FE0A910DEEEBD800061815 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62D8F6260DAE6DCC009F6E57 /* AnnotatedClusterTest.cpp */;
+		name = "AnnotatedClusterTest.cpp: 1112";
+		rLen = 0;
+		rLoc = 49964;
+		rType = 0;
+		vrLen = 1293;
+		vrLoc = 48787;
+	};
+	62FE0A920DEEEBD800061815 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		comments = "error: ISO C++ forbids declaration of 'edge' with no type";
+		fRef = 62D8F6230DAE6DCC009F6E57 /* AnnotatedClusterAbstractionTest.h */;
+		rLen = 1;
+		rLoc = 150;
+		rType = 1;
+	};
+	62FE0A930DEEEBD800061815 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62D8F6260DAE6DCC009F6E57 /* AnnotatedClusterTest.cpp */;
+		name = "AnnotatedClusterTest.cpp: 1112";
+		rLen = 0;
+		rLoc = 49964;
+		rType = 0;
+		vrLen = 1293;
+		vrLoc = 48787;
+	};
+	62FE0A940DEEEBD800061815 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62D8F6230DAE6DCC009F6E57 /* AnnotatedClusterAbstractionTest.h */;
+		name = "AnnotatedClusterAbstractionTest.h: 24";
+		rLen = 0;
+		rLoc = 530;
+		rType = 0;
+		vrLen = 1107;
+		vrLoc = 426;
+	};
+	62FE0A950DEEEBD800061815 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62E914A10CFD4FCC00AA46AB /* hpaStar.cpp */;
+		name = "const int MAX_INT = 2147483647;";
+		rLen = 32;
+		rLoc = 180;
+		rType = 0;
+		vrLen = 191;
+		vrLoc = 90;
+	};
+	62FE0A980DEEEBDB00061815 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62D8F6230DAE6DCC009F6E57 /* AnnotatedClusterAbstractionTest.h */;
+		name = "AnnotatedClusterAbstractionTest.h: 24";
+		rLen = 0;
+		rLoc = 530;
+		rType = 0;
+		vrLen = 1107;
+		vrLoc = 426;
+	};
+	62FE0A990DEEEBDB00061815 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62E914A10CFD4FCC00AA46AB /* hpaStar.cpp */;
+		name = "const int MAX_INT = 2147483647;";
+		rLen = 32;
+		rLoc = 180;
+		rType = 0;
+		vrLen = 191;
+		vrLoc = 90;
+	};
+	62FE0A9C0DEEEC3100061815 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62D8F6230DAE6DCC009F6E57 /* AnnotatedClusterAbstractionTest.h */;
+		name = "AnnotatedClusterAbstractionTest.h: 24";
+		rLen = 0;
+		rLoc = 530;
+		rType = 0;
+		vrLen = 1107;
+		vrLoc = 426;
+	};
+	62FE0A9D0DEEEC3100061815 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62E914A10CFD4FCC00AA46AB /* hpaStar.cpp */;
+		name = "const int MAX_INT = 2147483647;";
+		rLen = 32;
+		rLoc = 180;
+		rType = 0;
+		vrLen = 191;
+		vrLoc = 90;
+	};
+	62FE0AA10DEEECC600061815 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62D8F6430DAE6E9F009F6E57 /* TestNode.h */;
+		name = "TestNode.h: e";
+		rLen = 0;
+		rLoc = 4390;
+		rType = 0;
+		vrLen = 110;
+		vrLoc = 4315;
+	};
+	62FE0AA20DEEECC600061815 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62D8F6430DAE6E9F009F6E57 /* TestNode.h */;
+		name = "TestNode.h: e";
+		rLen = 0;
+		rLoc = 4390;
+		rType = 0;
+		vrLen = 110;
+		vrLoc = 4315;
+	};
+	62FE0AA30DEEECC600061815 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62E914A10CFD4FCC00AA46AB /* hpaStar.cpp */;
+		name = MAX_INT;
+		rLen = 7;
+		rLoc = 190;
+		rType = 0;
+		vrLen = 158;
+		vrLoc = 111;
+	};
+	62FE0AA60DEEECC600061815 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62D8F6220DAE6DCC009F6E57 /* AnnotatedClusterAbstractionTest.cpp */;
+		name = "setupDominanceRelationshipTestData(int dmCapability, int dmClearance, int dtCapability, int dtClearance)";
+		rLen = 104;
+		rLoc = 32661;
+		rType = 0;
+		vrLen = 1378;
+		vrLoc = 32275;
+	};
+	62FE0AA70DEEECC600061815 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62D8F6220DAE6DCC009F6E57 /* AnnotatedClusterAbstractionTest.cpp */;
+		name = "AnnotatedClusterAbstractionTest.cpp: findDominantTransitionShouldReturnANullDominantEdgeGivenTwoInterEdgesWithIntersectingCapabilityButNoCorridorSizeDominance";
+		rLen = 0;
+		rLoc = 35370;
+		rType = 0;
+		vrLen = 1755;
+		vrLoc = 34543;
+	};
+	62FE0AA80DEEECC600061815 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62D8F6230DAE6DCC009F6E57 /* AnnotatedClusterAbstractionTest.h */;
+		name = "AnnotatedClusterAbstractionTest.h: 135";
+		rLen = 0;
+		rLoc = 9672;
+		rType = 0;
+		vrLen = 2796;
+		vrLoc = 6560;
+	};
+	62FE0AA90DEEECC600061815 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62D8F6230DAE6DCC009F6E57 /* AnnotatedClusterAbstractionTest.h */;
+		name = "AnnotatedClusterAbstractionTest.h: setupDominanceRelationshipTestData";
+		rLen = 0;
+		rLoc = 9777;
+		rType = 0;
+		vrLen = 2989;
+		vrLoc = 6444;
+	};
+	62FE0AAC0DEEECC600061815 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 625D21340D6EAE2400211E90 /* AnnotatedClusterAbstraction.cpp */;
+		rLen = 0;
+		rLoc = "-2147483562";
+		rType = 0;
+	};
+	62FE0AAD0DEEECC600061815 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 625D21340D6EAE2400211E90 /* AnnotatedClusterAbstraction.cpp */;
+		name = "AnnotatedClusterAbstraction.cpp: 350";
+		rLen = 0;
+		rLoc = 10003;
+		rType = 0;
+		vrLen = 1217;
+		vrLoc = 7759;
+	};
+	62FE0AB00DEEECC600061815 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 625D21330D6EAE2400211E90 /* AnnotatedClusterAbstraction.h */;
+		rLen = 0;
+		rLoc = 2147483647;
+		rType = 0;
+	};
+	62FE0AB10DEEECC600061815 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 625D21330D6EAE2400211E90 /* AnnotatedClusterAbstraction.h */;
+		name = "AnnotatedClusterAbstraction.h: findDominantTransition";
+		rLen = 0;
+		rLoc = 3202;
+		rType = 0;
+		vrLen = 1538;
+		vrLoc = 1962;
+	};
+	62FE0AB50DEEECE200061815 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62D8F6230DAE6DCC009F6E57 /* AnnotatedClusterAbstractionTest.h */;
+		name = "AnnotatedClusterAbstractionTest.h: 24";
+		rLen = 0;
+		rLoc = 530;
+		rType = 0;
+		vrLen = 1107;
+		vrLoc = 426;
+	};
+	62FE0AB60DEEECE200061815 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62E914A10CFD4FCC00AA46AB /* hpaStar.cpp */;
+		name = "const int MAX_INT = 2147483647;";
+		rLen = 32;
+		rLoc = 180;
+		rType = 0;
+		vrLen = 191;
+		vrLoc = 90;
+	};
+	62FE0AC00DEEEE8700061815 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62D8F6230DAE6DCC009F6E57 /* AnnotatedClusterAbstractionTest.h */;
+		name = "AnnotatedClusterAbstractionTest.h: 24";
+		rLen = 0;
+		rLoc = 530;
+		rType = 0;
+		vrLen = 1107;
+		vrLoc = 426;
+	};
+	62FE0AC10DEEEE8700061815 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62E914A10CFD4FCC00AA46AB /* hpaStar.cpp */;
+		name = "const int MAX_INT = 2147483647;";
+		rLen = 32;
+		rLoc = 180;
+		rType = 0;
+		vrLen = 191;
+		vrLoc = 90;
+	};
+	62FE0AC90DEEF06B00061815 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62D8F6230DAE6DCC009F6E57 /* AnnotatedClusterAbstractionTest.h */;
+		name = "AnnotatedClusterAbstractionTest.h: 24";
+		rLen = 0;
+		rLoc = 530;
+		rType = 0;
+		vrLen = 1107;
+		vrLoc = 426;
+	};
+	62FE0ACA0DEEF06B00061815 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62E914A10CFD4FCC00AA46AB /* hpaStar.cpp */;
+		name = "const int MAX_INT = 2147483647;";
+		rLen = 32;
+		rLoc = 180;
+		rType = 0;
+		vrLen = 191;
+		vrLoc = 90;
+	};
+	62FE0AD00DEEF0D300061815 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62D8F6230DAE6DCC009F6E57 /* AnnotatedClusterAbstractionTest.h */;
+		name = "AnnotatedClusterAbstractionTest.h: 24";
+		rLen = 0;
+		rLoc = 530;
+		rType = 0;
+		vrLen = 1107;
+		vrLoc = 426;
+	};
+	62FE0AD10DEEF0D300061815 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62E914A10CFD4FCC00AA46AB /* hpaStar.cpp */;
+		name = "const int MAX_INT = 2147483647;";
+		rLen = 32;
+		rLoc = 180;
+		rType = 0;
+		vrLen = 191;
+		vrLoc = 90;
+	};
+	62FE0ADB0DEEF2D800061815 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62D8F6230DAE6DCC009F6E57 /* AnnotatedClusterAbstractionTest.h */;
+		name = "AnnotatedClusterAbstractionTest.h: 24";
+		rLen = 0;
+		rLoc = 530;
+		rType = 0;
+		vrLen = 1107;
+		vrLoc = 426;
+	};
+	62FE0ADC0DEEF2D800061815 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62E914A10CFD4FCC00AA46AB /* hpaStar.cpp */;
+		name = "const int MAX_INT = 2147483647;";
+		rLen = 32;
+		rLoc = 180;
+		rType = 0;
+		vrLen = 191;
+		vrLoc = 90;
+	};
+	62FE0AE30DEEF42A00061815 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62D8F6230DAE6DCC009F6E57 /* AnnotatedClusterAbstractionTest.h */;
+		name = "AnnotatedClusterAbstractionTest.h: 24";
+		rLen = 0;
+		rLoc = 530;
+		rType = 0;
+		vrLen = 1107;
+		vrLoc = 426;
+	};
+	62FE0AE40DEEF42A00061815 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62E914A10CFD4FCC00AA46AB /* hpaStar.cpp */;
+		name = "const int MAX_INT = 2147483647;";
+		rLen = 32;
+		rLoc = 180;
+		rType = 0;
+		vrLen = 191;
+		vrLoc = 90;
+	};
+	62FE0AE70DEEF42B00061815 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62D8F6230DAE6DCC009F6E57 /* AnnotatedClusterAbstractionTest.h */;
+		name = "AnnotatedClusterAbstractionTest.h: 24";
+		rLen = 0;
+		rLoc = 530;
+		rType = 0;
+		vrLen = 1107;
+		vrLoc = 426;
+	};
+	62FE0AE80DEEF42B00061815 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62E914A10CFD4FCC00AA46AB /* hpaStar.cpp */;
+		name = "const int MAX_INT = 2147483647;";
+		rLen = 32;
+		rLoc = 180;
+		rType = 0;
+		vrLen = 191;
+		vrLoc = 90;
 	};
 	62FE41E30D81055100F2D3DA /* PBXTextBookmark */ = {
 		isa = PBXTextBookmark;

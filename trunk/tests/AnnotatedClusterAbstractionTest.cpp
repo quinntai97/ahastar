@@ -855,26 +855,38 @@ void AnnotatedClusterAbstractionTest::hShouldThrowExceptionGivenANullNodeParamet
 		aca->h(NULL, NULL);
 }
 
-void AnnotatedClusterAbstractionTest::findDominantTransitionShouldReturnAWeaklyDominantEdgeGivenTwoInterEdgesWithTheSameCapabilityButDifferentClearance()
+void AnnotatedClusterAbstractionTest::setupDominanceRelationshipTestData(int dmCapability, int dmClearance, int dtCapability, int dtClearance)
 {
-	edge* e1 = new edge(0, 1, 1);
-	edge* e2 = new edge(2,3,1);
-	edge *dominant;
+	graph *absg = aca->getAbstractGraph(1);
+	n1 = new node("dominantendpoint1");
+	n2 = new node("dominantendpoint2");
+	n3 = new node("dominatedendpoint1");
+	n4 = new node("dominatedendpoint2");
+	absg->addNode(n1);
+	absg->addNode(n2);
+	absg->addNode(n3);
+	absg->addNode(n4);
+	e1 = new edge(n1->getNum(),n2->getNum(),1);
+	e2 = new edge(n3->getNum(),n4->getNum(),1);
+	e1->setClearance(dmCapability, dmClearance);  // dominant edge
+	e2->setClearance(dtCapability, dtClearance); // dominated edge
+	absg->addEdge(e1);
+	absg->addEdge(e2);
 	
-	e1->setClearance(kGround,3);
-	e2->setClearance(kGround, 1);
-	dominant = 0;
-	
-	aca->findDominantTransition(e1, e2, &dominant);
-	CPPUNIT_ASSERT_EQUAL_MESSAGE("failed to find dominant edge (param order: e1, e2)", true, &*e1 == &*dominant);
-	
-	dominant = 0;
-	aca->findDominantTransition(e2, e1, &dominant);
-	CPPUNIT_ASSERT_EQUAL_MESSAGE("failed to find dominant edge (param order: e2, e1)", true, &*e1 == &*dominant);
-	
-	delete e1;
-	delete e2;
+	n1->setParentCluster(0);
+	n2->setParentCluster(1);
+	n3->setParentCluster(0);
+	n4->setParentCluster(1);
+
+	/* complete the circuit; an equivalent path between the endpoints of the dominated transition via the dominant transition must exist */
+	edge* temp = new edge(n1->getNum(), n3->getNum(), 1);
+	temp->setClearance(dtCapability,dtClearance);
+	absg->addEdge(temp);
+	temp = new edge(n2->getNum(), n4->getNum(), 1);
+	temp->setClearance(dtCapability,dtClearance);
+	absg->addEdge(temp);
 }
+
 
 void AnnotatedClusterAbstractionTest::findDominantTransitionShouldReturnANullDominantEdgeGivenTwoInteEdgesEitherOfWhichOrBothAreNull()
 {
@@ -896,34 +908,15 @@ void AnnotatedClusterAbstractionTest::findDominantTransitionShouldReturnANullDom
 	delete e2;	
 }
 
-void AnnotatedClusterAbstractionTest::findDominantTransitionShouldReturnAWeaklyDominantEdgeGivenTwoInterEdgesWithIntersectingCapabilitySets()
-{
-	edge *e1, *e2, *dominant;
-	e1 = new edge(0,1,3);
-	e2 = new edge(0,1,3);
-	e1->setClearance(kGround, 3);
-	e2->setClearance((kGround|kTrees), 3);
-	dominant = 0;
-	
-	aca->findDominantTransition(e1, e2, &dominant);
-	CPPUNIT_ASSERT_EQUAL_MESSAGE("failed to find dominant edge (param order: e1, e2)", true, &*e1 == &*dominant);
-
-	dominant=0;
-	aca->findDominantTransition(e2, e1, &dominant);
-	CPPUNIT_ASSERT_EQUAL_MESSAGE("failed to find dominant edge (param order: e2, e1)", true, &*e1 == &*dominant);
-
-	delete e1;
-	delete e2;
-}
-
+/* in this test e1 capability is simpler than e2 capability but corridor is narrower so e1 does not dominate e2 */
 void AnnotatedClusterAbstractionTest::findDominantTransitionShouldReturnANullDominantEdgeGivenTwoInterEdgesWithIntersectingCapabilityButNoCorridorSizeDominance()
 {
-	edge *e1, *e2, *dominant;
-	e1 = new edge(0,1,3);
-	e2 = new edge(0,1,3);
-	e1->setClearance(kGround, 2); // e1 capability is simpler than e2 capability but corridor is narrower so e1 does not dominate e2
-	e2->setClearance((kGround|kTrees), 3);
-	dominant = 0;
+	int dmClearance=2;
+	int dtClearance=3;
+	int dmCapability = kGround;
+	int dtCapability = (kGround|kTrees);
+	setupDominanceRelationshipTestData(dmCapability, dmClearance, dtCapability, dtClearance);
+	edge* dominant = 0;
 	
 	aca->findDominantTransition(e1, e2, &dominant);
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("incorrectly found dominant edge (param order: e1, e2)", true, dominant == 0);
@@ -931,7 +924,76 @@ void AnnotatedClusterAbstractionTest::findDominantTransitionShouldReturnANullDom
 	dominant=0;
 	aca->findDominantTransition(e2, e1, &dominant);
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("incorrectly found dominant edge (param order: e2, e1)", true, dominant == 0);
+}
 
+/* in this test, we create edges with endpoints that do not exist in the abstract graph */
+void AnnotatedClusterAbstractionTest::findDominantTransitionShouldReturnANullGivenOneOrTwoInteredgesWhichReferenceInvalidNodeIDsAsTheirEndpoints()
+{
+	int dmClearance=3;
+	int dtClearance=2;
+	int dmCapability = kGround;
+	int dtCapability = (kGround|kTrees);	
+	edge* dominant = 0;
+	e1 = new edge(0, 1, 1);
+	e2 = new edge(2, 3, 1);
+	
+	aca->findDominantTransition(e1, e2, &dominant);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("expected null result yet an object is returned", true, dominant == 0);	
+	
 	delete e1;
-	delete e2;	
+	delete e2;
+}
+
+/* in this test, we create two edges which represent transitions between different clusters */
+void AnnotatedClusterAbstractionTest::findDominantTransitionShouldReturnANullGivenAPairofEdgesWhichDoNotConnectTheSameSetOfClusters()
+{
+	int dmClearance=3;
+	int dtClearance=2;
+	int dmCapability = kGround;
+	int dtCapability = (kGround|kTrees);
+	setupDominanceRelationshipTestData(dmCapability, dmClearance, dtCapability, dtClearance);
+	edge* dominant = 0;
+	
+	n1->setParentCluster(0);
+	n2->setParentCluster(1);
+	n3->setParentCluster(2);
+	n4->setParentCluster(3);
+
+	aca->findDominantTransition(e1, e2, &dominant);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("expected null result yet an object is returned", true, dominant == 0);	
+}
+
+void AnnotatedClusterAbstractionTest::findDominantTransitionShouldReturnAWeaklyDominantEdgeGivenTwoInterEdgesWithTheSameCapabilityButDifferentClearance()
+{
+	int dmClearance=3;
+	int dtClearance=1;
+	int dmCapability = kGround;
+	int dtCapability = kGround;
+	setupDominanceRelationshipTestData(dmCapability, dmClearance, dtCapability, dtClearance);
+	edge* dominant = 0;
+		
+	aca->findDominantTransition(e1, e2, &dominant);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("failed to find dominant edge (param order: e1, e2)", true, &*e1 == &*dominant);
+	
+	dominant = 0;
+	aca->findDominantTransition(e2, e1, &dominant);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("failed to find dominant edge (param order: e2, e1)", true, &*e1 == &*dominant);
+
+}
+
+void AnnotatedClusterAbstractionTest::findDominantTransitionShouldReturnAWeaklyDominantEdgeGivenTwoInterEdgesWithIntersectingCapabilitySets()
+{	
+	int dmClearance=3;
+	int dtClearance=3;
+	int dmCapability = kGround;
+	int dtCapability = (kGround|kTrees);
+	setupDominanceRelationshipTestData(dmCapability, dmClearance, dtCapability, dtClearance);
+	edge* dominant = 0;
+	
+	aca->findDominantTransition(e1, e2, &dominant);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("failed to find dominant edge (param order: e1, e2)", true, &*e1 == &*dominant);
+
+	dominant=0;
+	aca->findDominantTransition(e2, e1, &dominant);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("failed to find dominant edge (param order: e2, e1)", true, &*e1 == &*dominant);
 }
