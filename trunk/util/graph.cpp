@@ -197,7 +197,7 @@ edge *graph::findEdge(unsigned int from, unsigned int to)
   return 0;
 }
 
-edge* graph::findAnnotatedEdge(node* from, node* to, int capability, int clearance, double weight)
+/*edge* graph::findAnnotatedEdge(node* from, node* to, int capability, int clearance, double weight)
 {
         if(!(from && to))
                 return 0;
@@ -212,10 +212,10 @@ edge* graph::findAnnotatedEdge(node* from, node* to, int capability, int clearan
                         if ((which = e->getFrom()) == from->getNum()) which = e->getTo();
 
                         /* found an existing edge between these two nodes */
-                        if(which == to->getNum())
+/*                        if(which == to->getNum())
                         {
                                 /* is the edge traversable with the given capability parameter? */
-								int eclearance = e->getClearance(capability);
+/*								int eclearance = e->getClearance(capability);
 								if(e->getWeight() <= weight)
 									if(eclearance >= clearance)
 									{
@@ -237,6 +237,7 @@ edge* graph::findAnnotatedEdge(node* from, node* to, int capability, int clearan
 
         return shortestSoFar;
 }
+*/
 
 bool graph::relax(edge *e, int weightIndex)
 {
@@ -383,17 +384,48 @@ node *graph::removeNode(node *n, unsigned int &oldID)
   return tmp;
 }
 
-// fixme: should be inlined
-int graph::getNumEdges()
+
+edge* node::findAnnotatedEdge(node* to, int capability, int clearance, double weight)
 {
-  return _edges.size();
+        if(!to)
+                return 0;
+
+		edge* shortestSoFar=0;
+		
+        edge_iterator ei = this->getEdgeIter();
+        edge * e = this->edgeIterNext(ei);
+        while(e)
+        {
+                        unsigned int which;
+                        if ((which = e->getFrom()) == this->getNum()) which = e->getTo();
+
+                        /* found an existing edge between these two nodes */
+                        if(which == to->getNum())
+                        {
+                                /* is the edge traversable with the given capability parameter? */
+								int eclearance = e->getClearance(capability);
+								if(e->getWeight() <= weight)
+									if(eclearance >= clearance)
+									{
+										if(shortestSoFar==0)
+											shortestSoFar = e;
+										else
+										{
+											if(e->getWeight() < shortestSoFar->getWeight())
+												shortestSoFar = e;
+										}
+										
+									}
+//									else
+//										std::cout << "\nWARNING! findAnnotatedEdge being queried about a more optimal path between endpoints\n";
+						}
+
+                        e = this->edgeIterNext(ei);
+        }
+
+        return shortestSoFar;
 }
 
-// fixme: should be inlined
-int graph::getNumNodes()
-{
-  return _nodes.size();
-}
 
 // BFS from start node
 vector<node*>* graph::getReachableNodes(node* start)

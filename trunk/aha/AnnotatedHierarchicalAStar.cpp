@@ -110,7 +110,7 @@ path* AnnotatedHierarchicalAStar::getPath(graphAbstraction* aMap, node* from, no
 			path* tmp = abspath;//->next;
 			while(tmp->next)
 			{
-				edge* e = absg->findAnnotatedEdge(tmp->n,tmp->next->n,capability,clearance,MAXINT);
+				edge* e = tmp->n->findAnnotatedEdge(tmp->next->n,capability,clearance,MAXINT);
 				if(e == NULL)
 				{
 					std::cout << "\n AHA::getPath -- something went horribly wrong; I couldn't find any cached paths. Search params: ";

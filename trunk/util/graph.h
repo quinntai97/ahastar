@@ -102,17 +102,18 @@ public:
   void removeNode(node *n) { unsigned int x; removeNode(n, x); } // if you don't care about node #'s
   void removeNode(unsigned int nodeNum) { removeNode(getNode(nodeNum)); }
 	
-  int getNumEdges();
-  int getNumNodes();
+  inline int getNumEdges() { return _edges.size(); }
+  inline int getNumNodes() { return _nodes.size(); }
   
   std::vector<node*>* getReachableNodes(node* start);
   
   bool verifyGraph() const;
   void Print(std::ostream&) const;
   void printStats();
+
   
   /* AHA* extensions */
-  edge* findAnnotatedEdge(node* from, node* to, int capability, int clearance, double dist);
+//  edge* findAnnotatedEdge(node* from, node* to, int capability, int clearance, double dist);
 	
 private:
   std::vector<node *> _nodes;
@@ -219,14 +220,15 @@ public:
   // set/get various labels for each node
   void setLabelF(unsigned int index, double val);
   void setLabelL(unsigned int index, long val);
+  
   inline double getLabelF(unsigned int index) {
     if (index < label.size()) return label[index].fval; return MAXINT;
   }
+
   inline long getLabelL(unsigned int index) {
     if (index < label.size()) return label[index].lval; return MAXINT;
   }
-	
-	
+  
   // set/get marked edge for each node (limit 1)
   void markEdge(edge *e) { markedEdge = e; }
   edge *getMarkedEdge() { return markedEdge; }
@@ -243,7 +245,7 @@ public:
   int getTerrainType();
   void setParentCluster(int clusterid);
   int getParentCluster(); 
-
+  edge* findAnnotatedEdge(node* to, int capability, int clearance, double dist);
   
 private:
   friend class graph;

@@ -299,6 +299,8 @@ void AnnotatedClusterAbstraction::findDominantTransition(edge* first, edge* seco
 	
 	if(*dominantOut == 0) // transitions incompatible; no dominance relationship exists
 		return;
+
+	
 }
 
 void AnnotatedClusterAbstraction::openGLDraw()
