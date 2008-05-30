@@ -341,12 +341,9 @@ void AnnotatedClusterAbstraction::findDominantTransition(edge* first, edge* seco
 	{
 		*dominantOut = dominant;
 	}
-	
-	// no circuit on between either pair of endpoints
-	// no circuit between both pairs of endpoints
-	// circuit exists but too small
-	// circuit exists but wrong capability
-	// endpoints not ordered properly
+
+	// no capability dominance exists 
+	// no clearance dominance exists 
 }
 
 void AnnotatedClusterAbstraction::openGLDraw()

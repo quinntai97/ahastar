@@ -879,12 +879,12 @@ void AnnotatedClusterAbstractionTest::setupDominanceRelationshipTestData(int dmC
 	n4->setParentCluster(1);
 
 	/* complete the circuit; an equivalent path between the endpoints of the dominated transition via the dominant transition must exist */
-	edge* temp = new edge(n1->getNum(), n3->getNum(), 1);
-	temp->setClearance(dtCapability,dtClearance);
-	absg->addEdge(temp);
-	temp = new edge(n2->getNum(), n4->getNum(), 1);
-	temp->setClearance(dtCapability,dtClearance);
-	absg->addEdge(temp);
+	intra1 = new edge(n1->getNum(), n3->getNum(), 1);
+	intra1->setClearance(dtCapability,dtClearance);
+	absg->addEdge(intra1);
+	intra2 = new edge(n2->getNum(), n4->getNum(), 1);
+	intra2->setClearance(dtCapability,dtClearance);
+	absg->addEdge(intra2);
 }
 
 
@@ -961,6 +961,118 @@ void AnnotatedClusterAbstractionTest::findDominantTransitionShouldReturnANullGiv
 
 	aca->findDominantTransition(e1, e2, &dominant);
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("expected null result yet an object is returned", true, dominant == 0);	
+}
+
+void AnnotatedClusterAbstractionTest::findDominantTransitionShouldReturnANullIfNoCircuitExistsBetweenEndpointsOfTwoTransitionsWhereOneDomiantesTheOther()
+{
+	int dmClearance=3;
+	int dtClearance=2;
+	int dmCapability = kGround;
+	int dtCapability = (kGround|kTrees);
+	setupDominanceRelationshipTestData(dmCapability, dmClearance, dtCapability, dtClearance);
+	edge* dominant = 0;
+	
+	graph* absg = aca->getAbstractGraph(1);
+	
+	/* test1; break the circuit by removing the intra-edge connecting the endpoints in one cluster */
+	absg->removeEdge(intra1); 
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("test1. wrong # of edges in graph", 3, absg->getNumEdges());
+	aca->findDominantTransition(e1, e2, &dominant);	
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("(no intraedge in c1) expected null result yet an object is returned", true, dominant == 0);	
+
+	/* test2; as above, but with the intra-edge from the other cluster */
+	absg->addEdge(intra1);
+	absg->removeEdge(intra2); 
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("test2. wrong # of edges in graph", 3, absg->getNumEdges());
+	aca->findDominantTransition(e1, e2, &dominant);	
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("(no intraedge in c2) expected null result yet an object is returned", true, dominant == 0);	
+	
+	/* test3; remove both */
+	absg->removeEdge(intra1);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("test3. wrong # of edges in graph", 2, absg->getNumEdges());
+	aca->findDominantTransition(e1, e2, &dominant);	
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("(no intraedge in c1 or c2) expected null result yet an object is returned", true, dominant == 0);	
+
+	delete intra1;
+	delete intra2;
+
+}
+
+void AnnotatedClusterAbstractionTest::findDominantTransitionShouldReturnANullIfTheIntraEdgesInTheCircuitDoNotHaveSufficentClearance()
+{
+	int dmClearance=3;
+	int dtClearance=2;
+	int dmCapability = kGround;
+	int dtCapability = (kGround|kTrees);
+	setupDominanceRelationshipTestData(dmCapability, dmClearance, dtCapability, dtClearance);
+	edge* dominant = 0;
+
+	/* test1; intra-edge in cluster1 is too narrow to be traversed by all agents able to traverse the dominated transition (circuit is invalid) */
+	intra1->setClearance(dtCapability, dtClearance-1);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("test1; circuit invalid. expected null but got an object", true, dominant == 0);
+	
+	/* test2; as above, other intra-edge */
+	intra1->setClearance(dtCapability, dtClearance);
+	intra2->setClearance(dtCapability, dtClearance-1);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("test2; circuit invalid. expected null but got an object", true, dominant == 0);
+
+	/* test3; both */
+	intra1->setClearance(dtCapability, dtClearance-1);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("test3; circuit invalid. expected null but got an object", true, dominant == 0);
+}
+
+void AnnotatedClusterAbstractionTest::findDominantTransitionShouldReturnANullIfTheIntraEdgesInTheCircuitAreNotTraversableByTheCapabilityOfTheDominatedTransition()
+{
+	int dmClearance=3;
+	int dtClearance=2;
+	int dmCapability = kGround;
+	int dtCapability = (kGround|kTrees);
+	setupDominanceRelationshipTestData(dmCapability, dmClearance, dtCapability, dtClearance);
+	edge* dominant = 0;
+
+	/* test1; intra-edge in cluster1 is not traversable by all agents able to traverse the dominated transition (circuit is invalid) */
+	intra1->setClearance(dmCapability, dtClearance);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("test1; circuit invalid. expected null but got an object", true, dominant == 0);
+	
+	/* test2; as above, other intra-edge */
+	intra1->setClearance(dtCapability, dtClearance);
+	intra2->setClearance(dmCapability, dtClearance);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("test2; circuit invalid. expected null but got an object", true, dominant == 0);
+
+	/* test3; both */
+	intra1->setClearance(dmCapability, dtClearance);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("test3; circuit invalid. expected null but got an object", true, dominant == 0);
+}
+
+/* in this test we verify findDominant doesn't get confused if the cluster of e1->from isn't the same as e2->from 
+(but both edges connect the same pair of clusters) */
+void AnnotatedClusterAbstractionTest::findDominantTransitionShouldReturnAWeaklyDominantEgeGivenTwoInterEdgesWith__TO__and__FROM__EndpointsSwapped()
+{
+	int dmClearance=3;
+	int dtClearance=2;
+	int dmCapability = kGround;
+	int dtCapability = (kGround|kTrees);
+	setupDominanceRelationshipTestData(dmCapability, dmClearance, dtCapability, dtClearance);
+	edge* dominant = 0;
+	
+	/* test1; reverse order of to/from for dominant edge e1 */
+	graph *absg = aca->getAbstractGraph(1);
+	absg->removeEdge(e1);
+	delete e1;
+	e1 = new edge(n2->getNum(), n1->getNum(), 1); 
+	e1->setClearance(dmCapability,dmClearance);
+	absg->addEdge(e1);
+	aca->findDominantTransition(e1, e2, &dominant);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("failed to find dominant edge (reversed endpoints of e1)", true, &*e1 == &*dominant);
+
+	/* test2; now the dominated edge */
+	absg->removeEdge(e2);
+	delete e2;
+	e2 = new edge(n4->getNum(), n3->getNum(), 1);
+	e2->setClearance(dtCapability, dtClearance);
+	absg->addEdge(e2);
+	aca->findDominantTransition(e1, e2, &dominant);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("failed to find dominant edge (reversed endpoints of e2)", true, &*e1 == &*dominant);
 }
 
 void AnnotatedClusterAbstractionTest::findDominantTransitionShouldReturnAWeaklyDominantEdgeGivenTwoInterEdgesWithTheSameCapabilityButDifferentClearance()
