@@ -342,8 +342,6 @@ void AnnotatedClusterAbstraction::findDominantTransition(edge* first, edge* seco
 		*dominantOut = dominant;
 	}
 
-	// no capability dominance exists 
-	// no clearance dominance exists 
 }
 
 void AnnotatedClusterAbstraction::openGLDraw()
