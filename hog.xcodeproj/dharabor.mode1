@@ -204,10 +204,10 @@
 						<key>_historyCapacity</key>
 						<integer>0</integer>
 						<key>bookmark</key>
-						<string>62FE0AA70DEEECC600061815</string>
+						<string>62FE0B4F0DF0449000061815</string>
 						<key>history</key>
 						<array>
-							<string>62FE0AA60DEEECC600061815</string>
+							<string>62FE0B4E0DF0449000061815</string>
 						</array>
 					</dict>
 					<key>SplitCount</key>
@@ -244,10 +244,10 @@
 						<key>_historyCapacity</key>
 						<integer>0</integer>
 						<key>bookmark</key>
-						<string>62FE0AA90DEEECC600061815</string>
+						<string>62FE0B510DF0449000061815</string>
 						<key>history</key>
 						<array>
-							<string>62FE0AA80DEEECC600061815</string>
+							<string>62FE0B500DF0449000061815</string>
 						</array>
 					</dict>
 					<key>SplitCount</key>
@@ -284,7 +284,7 @@
 						<key>_historyCapacity</key>
 						<integer>0</integer>
 						<key>bookmark</key>
-						<string>62FE0AAD0DEEECC600061815</string>
+						<string>62FE0B520DF0449000061815</string>
 						<key>history</key>
 						<array>
 							<string>62FE0AAC0DEEECC600061815</string>
@@ -324,7 +324,7 @@
 						<key>_historyCapacity</key>
 						<integer>0</integer>
 						<key>bookmark</key>
-						<string>62FE0AB10DEEECC600061815</string>
+						<string>62FE0B530DF0449000061815</string>
 						<key>history</key>
 						<array>
 							<string>62FE0AB00DEEECC600061815</string>
@@ -486,7 +486,7 @@
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>62FE0AA30DEEECC600061815</string>
+										<string>62FE0B4D0DF0449000061815</string>
 										<key>history</key>
 										<array>
 											<string>621652FB0D4D9E0500536A5B</string>
@@ -668,6 +668,8 @@
 							<string>159pt</string>
 						</dict>
 						<dict>
+							<key>BecomeActive</key>
+							<true/>
 							<key>ContentConfiguration</key>
 							<dict>
 								<key>PBXProjectModuleGUID</key>
@@ -847,12 +849,12 @@
 		<string>1CD10A99069EF8BA00B06720</string>
 		<string>62FE058A0DE923BB00061815</string>
 		<string>62E9117E0CFD4B5300AA46AB</string>
-		<string>62FE0AAE0DEEECC600061815</string>
 		<string>/Users/dharabor/src/ahastar/hog.xcodeproj</string>
+		<string>62FE0AAE0DEEECC600061815</string>
 		<string>62FE0AAA0DEEECC600061815</string>
 		<string>62FE090B0DEDAE2F00061815</string>
-		<string>1C0AD2B3069F1EA900FABCE6</string>
 		<string>62FE0AA40DEEECC600061815</string>
+		<string>1C0AD2B3069F1EA900FABCE6</string>
 	</array>
 	<key>WindowString</key>
 	<string>45 80 942 575 0 0 1024 746 </string>
@@ -871,8 +873,6 @@
 					<key>Dock</key>
 					<array>
 						<dict>
-							<key>BecomeActive</key>
-							<true/>
 							<key>ContentConfiguration</key>
 							<dict>
 								<key>PBXProjectModuleGUID</key>
@@ -895,6 +895,8 @@
 							<string>325pt</string>
 						</dict>
 						<dict>
+							<key>BecomeActive</key>
+							<true/>
 							<key>ContentConfiguration</key>
 							<dict>
 								<key>PBXProjectModuleGUID</key>

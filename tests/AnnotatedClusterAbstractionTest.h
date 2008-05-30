@@ -68,11 +68,16 @@ class AnnotatedClusterAbstractionTest : public CPPUNIT_NS::TestFixture
 	CPPUNIT_TEST_EXCEPTION( hShouldThrowExceptionGivenANullNodeParameter, NodeIsNullException );
 	
 	CPPUNIT_TEST( findDominantTransitionShouldReturnAWeaklyDominantEdgeGivenTwoInterEdgesWithTheSameCapabilityButDifferentClearance );
-	CPPUNIT_TEST( findDominantTransitionShouldReturnANullDominantEdgeGivenTwoInteEdgesEitherOfWhichOrBothAreNull );
 	CPPUNIT_TEST( findDominantTransitionShouldReturnAWeaklyDominantEdgeGivenTwoInterEdgesWithIntersectingCapabilitySets );
+
+	CPPUNIT_TEST( findDominantTransitionShouldReturnANullDominantEdgeGivenTwoInteEdgesEitherOfWhichOrBothAreNull );
 	CPPUNIT_TEST( findDominantTransitionShouldReturnANullDominantEdgeGivenTwoInterEdgesWithIntersectingCapabilityButNoCorridorSizeDominance );
 	CPPUNIT_TEST( findDominantTransitionShouldReturnANullGivenOneOrTwoInteredgesWhichReferenceInvalidNodeIDsAsTheirEndpoints );
 	CPPUNIT_TEST( findDominantTransitionShouldReturnANullGivenAPairofEdgesWhichDoNotConnectTheSameSetOfClusters );
+	CPPUNIT_TEST( findDominantTransitionShouldReturnANullIfNoCircuitExistsBetweenEndpointsOfTwoTransitionsWhereOneDomiantesTheOther );
+	CPPUNIT_TEST( findDominantTransitionShouldReturnANullIfTheIntraEdgesInTheCircuitDoNotHaveSufficentClearance );
+	CPPUNIT_TEST( findDominantTransitionShouldReturnANullIfTheIntraEdgesInTheCircuitAreNotTraversableByTheCapabilityOfTheDominatedTransition );
+	CPPUNIT_TEST( findDominantTransitionShouldReturnAWeaklyDominantEgeGivenTwoInterEdgesWith__TO__and__FROM__EndpointsSwapped );
 
 	CPPUNIT_TEST_SUITE_END();
 	
@@ -133,14 +138,18 @@ class AnnotatedClusterAbstractionTest : public CPPUNIT_NS::TestFixture
 		/* positive dominance cases */
 		void findDominantTransitionShouldReturnAWeaklyDominantEdgeGivenTwoInterEdgesWithTheSameCapabilityButDifferentClearance();
 		void findDominantTransitionShouldReturnAWeaklyDominantEdgeGivenTwoInterEdgesWithIntersectingCapabilitySets();
-		
+		void findDominantTransitionShouldReturnAWeaklyDominantEgeGivenTwoInterEdgesWith__TO__and__FROM__EndpointsSwapped();
+
+			
 		/* negative dominance cases */
 		void findDominantTransitionShouldReturnANullDominantEdgeGivenTwoInteEdgesEitherOfWhichOrBothAreNull();
 		void findDominantTransitionShouldReturnANullDominantEdgeGivenTwoInterEdgesWithIntersectingCapabilityButNoCorridorSizeDominance();
 		void findDominantTransitionShouldReturnANullGivenOneOrTwoInteredgesWhichReferenceInvalidNodeIDsAsTheirEndpoints();
 		void findDominantTransitionShouldReturnANullGivenAPairofEdgesWhichDoNotConnectTheSameSetOfClusters();
-		
-		
+		void findDominantTransitionShouldReturnANullIfNoCircuitExistsBetweenEndpointsOfTwoTransitionsWhereOneDomiantesTheOther();
+		void findDominantTransitionShouldReturnANullIfTheIntraEdgesInTheCircuitDoNotHaveSufficentClearance();
+		void findDominantTransitionShouldReturnANullIfTheIntraEdgesInTheCircuitAreNotTraversableByTheCapabilityOfTheDominatedTransition();
+	
 		void setupDominanceRelationshipTestData(int dmCapability, int dmClearance, int dtCapability, int dtClearance);
 		
 	private:
@@ -148,7 +157,7 @@ class AnnotatedClusterAbstractionTest : public CPPUNIT_NS::TestFixture
 		AnnotatedClusterMockFactory* acmock_factory;
 		ExperimentManager* expmgr;
 		Map *testmap;
-		edge *e1, *e2;
+		edge *e1, *e2, *intra1, *intra2;
 		node *n1, *n2, *n3, *n4;
 };
 
