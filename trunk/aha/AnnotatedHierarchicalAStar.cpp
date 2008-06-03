@@ -121,7 +121,7 @@ path* AnnotatedHierarchicalAStar::getPath(graphAbstraction* aMap, node* from, no
 				}
 				
 //				path refinement. enable this and comment out section below to turn off caching (one or the other)
-/*				node* llstart = aca->getNodeFromMap(tmp->n->getLabelL(kFirstData), tmp->n->getLabelL(kFirstData+1));
+				node* llstart = aca->getNodeFromMap(tmp->n->getLabelL(kFirstData), tmp->n->getLabelL(kFirstData+1));
 				node* llgoal = aca->getNodeFromMap(tmp->next->n->getLabelL(kFirstData), tmp->next->n->getLabelL(kFirstData+1));
 				aastar.setCapability(this->getCapability());
 				aastar.setClearance(this->getClearance());
@@ -131,15 +131,15 @@ path* AnnotatedHierarchicalAStar::getPath(graphAbstraction* aMap, node* from, no
 				if(this->peakmemory < aastar.getPeakMemory())
 					this->peakmemory = aastar.getPeakMemory();
 				this->searchtime += aastar.getSearchTime();
-*/
-				path* cachedpath = aca->getPathFromCache(e)->clone();
+
+/*				path* cachedpath = aca->getPathFromCache(e)->clone();
 				if(e->getFrom() != tmp->n->getNum()) // fix segments if necessary
 					cachedpath = cachedpath->reverse();
 
 				if(thepath == 0)
 					thepath = cachedpath;				
 				tail = thepath->tail();	
-				
+*/				
 				/*	// debugging
 					node* n1 = absg->getNode(e->getFrom());
 					node* n2 = absg->getNode(e->getTo());		
