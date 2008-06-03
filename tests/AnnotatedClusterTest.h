@@ -73,6 +73,7 @@ class AnnotatedClusterTest : public CPPUNIT_NS::TestFixture
 	CPPUNIT_TEST( addEntranceShouldThrowExceptionIfClearanceParameterLessThanOrEqualToZero );
 	CPPUNIT_TEST( addEntranceShouldThrowExceptionIfCapabilityParameterIsInvalid );
 	CPPUNIT_TEST( addEntranceShouldSetEdgeWeightToExactlyOne );
+	CPPUNIT_TEST( addEntranceShouldTruncateClearanceTo_MAXAGENTSIZE_IfLarger );
 	
 	CPPUNIT_TEST( validateMapAbstractionThrowsExceptionGivenNullParameter );
 	
@@ -165,6 +166,7 @@ class AnnotatedClusterTest : public CPPUNIT_NS::TestFixture
 		void addTransitionToAbstractGraphShouldAddANewPathToTheAnnotatedClusterAbstractionCacheForEachNewlyCreatedEdge();
 				
 		/* addEntrance() */
+		void addEntranceShouldTruncateClearanceTo_MAXAGENTSIZE_IfLarger();
 		void addEntranceShouldSetEdgeWeightToExactlyOne();
 		void addEntranceShouldThrowExceptionIfFirstParameterNodeIsAHardObstacle(); // should be checking during build phase. not needed?
 		void addEntranceShouldThrowExceptionIfSecondParameterNodeIsAHardObstacle();

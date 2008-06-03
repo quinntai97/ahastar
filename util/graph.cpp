@@ -649,7 +649,7 @@ void edge::setClearance(int capability, int clearance)
 	if(clearance <= 0)
 		return;
 	
-	switch(capability)
+/*(	switch(capability)
 	{
 		case 0x4: // kGround
 			this->capability = capability;
@@ -658,9 +658,9 @@ void edge::setClearance(int capability, int clearance)
 			this->capability = capability;
 			this->clearance = clearance;
 		case 0x44: // kGround|kTrees
-			this->capability = capability;
+*/			this->capability = capability;
 			this->clearance = clearance;
-	}
+//	}
 }
 int edge::getClearance(int agentcapability)
 {

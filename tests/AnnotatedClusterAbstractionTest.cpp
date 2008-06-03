@@ -177,39 +177,65 @@ void AnnotatedClusterAbstractionTest::buildEntrancesShouldCreateCorrectNumberOfT
 	delete ac_factory;
 	
 	int numExpectedClusters = 4;
-	int numExpectedAbstractEdges = 15; 
-	int numExpectedAbstractNodes = 10;
+	int numExpectedAbstractEdges = 10; 
+	int numExpectedAbstractNodes = 8;
 	
 	aca->buildEntrances();
-
 	graph* absg = aca->getAbstractGraph(1);
 	
-/*	//debugging
-	std::cout << "\nlow quality abstraction";
+	//debugging
+/*	std::cout << "\nlow quality abstraction";
 	edge_iterator ei = absg->getEdgeIter();
 	edge* e = absg->edgeIterNext(ei);
 	while(e)
 	{
 		node* f = absg->getNode(e->getFrom());
 		node* t = absg->getNode(e->getTo());
-		cout << "\n edge connects "<<f->getLabelL(kFirstData)<<","<<f->getLabelL(kFirstData+1)<< " and "<<t->getLabelL(kFirstData)<<","<<t->getLabelL(kFirstData+1);
-		cout <<"(weight: "<<e->getWeight()<<" caps: "<<e->getCapability() << " clearance: "<<e->getClearance(e->getCapability())<<")";
+		std::cout << "\n edge # "<<e->getEdgeNum()<<" uid "<<e->getUniqueID()<<" connects "<<f->getLabelL(kFirstData)<<","<<f->getLabelL(kFirstData+1)<< " and "<<t->getLabelL(kFirstData)<<","<<t->getLabelL(kFirstData+1) << " (clusters: "<<f->getParentCluster()<< " and "<<t->getParentCluster() << ")";
+		std::cout <<"(weight: "<<e->getWeight()<<" caps: "<<e->getCapability() << " clearance: "<<e->getClearance(e->getCapability())<<")";
 		e = absg->edgeIterNext(ei);
 	}
 */	
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("buildEntrances resulted in incorrect number of clusters created", numExpectedClusters, aca->getNumClusters());
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("buildEntrances resulted in incorrect number of abstract nodes", numExpectedAbstractNodes, absg->getNumNodes());
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("buildEntrances resulted in incorrect number of abstract edges", numExpectedAbstractEdges, absg->getNumEdges());
-	
-	node* mynode = absg->getNode(aca->getNodeFromMap(5,1)->getLabelL(kParent));
-	edge *myedge = mynode->findAnnotatedEdge(absg->getNode(aca->getNodeFromMap(5,4)->getLabelL(kParent)), kGround, 1, 4.5); // created when using high or medium quality abstraction. if this is missing, the low abstraction is OK
-									
-	CPPUNIT_ASSERT_MESSAGE("found an edge in AC2 that shouldn't exist", myedge == 0);
-	
-	mynode = absg->getNode(aca->getNodeFromMap(5,1)->getLabelL(kParent));
-	myedge = mynode->findAnnotatedEdge(absg->getNode(aca->getNodeFromMap(5,4)->getLabelL(kParent)), kGround, 2, 7); // should exist
 
-	CPPUNIT_ASSERT_MESSAGE("failed to find an edge in AC2 that should exist", myedge != 0);
+	/* check if expected edges exist */
+	node* mynode = absg->getNode(aca->getNodeFromMap(0,4)->getLabelL(kParent));
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("wrong # of edges for node @ (0,4)", 3, mynode->getNumEdges());
+	mynode = absg->getNode(aca->getNodeFromMap(0,5)->getLabelL(kParent));
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("wrong # of edges for node @ (0,5)", 2, mynode->getNumEdges());
+
+	mynode = absg->getNode(aca->getNodeFromMap(5,1)->getLabelL(kParent));
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("wrong # of edges for node @ (5,1)", 2, mynode->getNumEdges());
+	
+	mynode = absg->getNode(aca->getNodeFromMap(5,4)->getLabelL(kParent));
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("wrong # of edges for node @ (5,4)", 3, mynode->getNumEdges());
+
+	mynode = absg->getNode(aca->getNodeFromMap(4,4)->getLabelL(kParent));
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("wrong # of edges for node @ (4,4)", 2, mynode->getNumEdges());
+
+	mynode = absg->getNode(aca->getNodeFromMap(4,5)->getLabelL(kParent));
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("wrong # of edges for node @ (4,5)", 3, mynode->getNumEdges());
+
+	int label = aca->getNodeFromMap(5,5)->getLabelL(kParent);
+	mynode = absg->getNode(aca->getNodeFromMap(5,5)->getLabelL(kParent));
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("wrong # of edges for node @ (5,5)", 2, mynode->getNumEdges());
+	
+	/* check if clusters have correct number of abstract nodes */
+	AnnotatedCluster* myac = aca->getCluster(0);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("cluster ac0 has wrong abstract node count", 3, (int)myac->getParents().size());
+
+	myac = aca->getCluster(1);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("cluster ac1 has wrong abstract node count", 2, (int)myac->getParents().size());
+
+	myac = aca->getCluster(2);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("cluster ac1 has wrong abstract node count", 2, (int)myac->getParents().size());
+
+	myac = aca->getCluster(3);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("cluster ac1 has wrong abstract node count", 1, (int)myac->getParents().size());
+
+
 }
 
 void AnnotatedClusterAbstractionTest::buildEntrancesShouldResultInOneCachedPathForEachAbstractEdge()
@@ -858,14 +884,38 @@ void AnnotatedClusterAbstractionTest::hShouldThrowExceptionGivenANullNodeParamet
 void AnnotatedClusterAbstractionTest::setupDominanceRelationshipTestData(int dmCapability, int dmClearance, int dtCapability, int dtClearance)
 {
 	graph *absg = aca->getAbstractGraph(1);
-	n1 = new node("dominantendpoint1");
-	n2 = new node("dominantendpoint2");
-	n3 = new node("dominatedendpoint1");
-	n4 = new node("dominatedendpoint2");
+	
+	/* pick some arbitrary locations for the transitions on the low-level map */
+	n1 = dynamic_cast<node*>(aca->getNodeFromMap(0,0)->clone());
+	aca->getNodeFromMap(0,0)->setLabelL(kParent, n1->getNum());
+	n2 = dynamic_cast<node*>(aca->getNodeFromMap(1,0)->clone());
+	aca->getNodeFromMap(1,0)->setLabelL(kParent, n2->getNum());
+	n3 = dynamic_cast<node*>(aca->getNodeFromMap(0,1)->clone());
+	aca->getNodeFromMap(0,1)->setLabelL(kParent, n3->getNum());
+	n4 = dynamic_cast<node*>(aca->getNodeFromMap(1,1)->clone());
+	aca->getNodeFromMap(1,1)->setLabelL(kParent, n4->getNum());
 	absg->addNode(n1);
 	absg->addNode(n2);
 	absg->addNode(n3);
 	absg->addNode(n4);
+
+	/* dummy up a couple of clusters; connected by 2 transitions initially */
+	AnnotatedCluster* ac = new AnnotatedCluster(0, 0, 2, 1);
+	ac->setClusterId(0);
+	ac->getParents().push_back(n1);
+	ac->getParents().push_back(n3);
+	aca->addCluster(ac);	
+	AnnotatedCluster* ac2 = new AnnotatedCluster(0,1,2,1);
+	ac2->setClusterId(1);
+	ac2->getParents().push_back(n2);
+	ac2->getParents().push_back(n4);
+	aca->addCluster(ac2);
+	n1->setParentCluster(0);
+	n2->setParentCluster(1);
+	n3->setParentCluster(0);
+	n4->setParentCluster(1);
+
+	/* create inter-edges */
 	e1 = new edge(n1->getNum(),n2->getNum(),1);
 	e2 = new edge(n3->getNum(),n4->getNum(),1);
 	e1->setClearance(dmCapability, dmClearance);  // dominant edge
@@ -873,10 +923,6 @@ void AnnotatedClusterAbstractionTest::setupDominanceRelationshipTestData(int dmC
 	absg->addEdge(e1);
 	absg->addEdge(e2);
 	
-	n1->setParentCluster(0);
-	n2->setParentCluster(1);
-	n3->setParentCluster(0);
-	n4->setParentCluster(1);
 
 	/* complete the circuit; an equivalent path between the endpoints of the dominated transition via the dominant transition must exist */
 	intra1 = new edge(n1->getNum(), n3->getNum(), 1);
@@ -888,224 +934,566 @@ void AnnotatedClusterAbstractionTest::setupDominanceRelationshipTestData(int dmC
 }
 
 
-void AnnotatedClusterAbstractionTest::findDominantTransitionShouldReturnANullDominantEdgeGivenTwoInteEdgesEitherOfWhichOrBothAreNull()
+void AnnotatedClusterAbstractionTest::findAndMarkDominatedTransitionShouldNotMarkAnyEdgesGivenTwoInteEdgesEitherOfWhichOrBothAreNull()
 {
-	edge *e1, *e2, *dominant, *dominated;
-	e1 = e2 = dominant = 0;
-	aca->findDominantTransition(e1, e2, &dominant);
-	
-	CPPUNIT_ASSERT_MESSAGE("failed to return null dominant edge when e1 is null", dominant == 0);
-	
-	e1 = new edge(0,1,1);
-	aca->findDominantTransition(e1, e2, &dominant);
-	CPPUNIT_ASSERT_MESSAGE("failed to return null dominant edge when e1 is valid but e2 is null", dominant == 0);
-	delete e1;
+	int dmClearance=3;
+	int dtClearance=2;
+	int dmCapability = kGround;
+	int dtCapability = (kGround|kTrees);	
+	setupDominanceRelationshipTestData(dmCapability, dmClearance, dtCapability, dtClearance);
+	graph* absg = aca->getAbstractGraph(1);
 
+	/* test1; first transition parameter is null */
+	absg->removeEdge(e1);	
+	delete e1;
 	e1 = 0;
-	e2 = new edge(0,1,1);
-	aca->findDominantTransition(e1, e2, &dominant);
-	CPPUNIT_ASSERT_MESSAGE("failed to return null dominant edge when e2 is valid but e1 is null", dominant == 0);
-	delete e2;	
+	aca->findAndMarkDominatedTransition(e1, e2);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("test1; incorrectly marked e2", false, e2->getMarked());
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("test1; incorrectly marked intra1", false, intra1->getMarked());
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("test1; incorrectly marked intra2", false, intra2->getMarked());
+	
+	/* test2; second transition parameter is null */
+	aca->findAndMarkDominatedTransition(e2, e1);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("test1; incorrectly marked e2", false, e2->getMarked());
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("test1; incorrectly marked intra1", false, intra1->getMarked());
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("test1; incorrectly marked intra2", false, intra2->getMarked());
+
+	/* test3; both transition parameters are null */
+	absg->removeEdge(e2);
+	delete e2;
+	e2 = 0;
+	aca->findAndMarkDominatedTransition(e1, e2);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("test3; incorrectly marked intra1", false, intra1->getMarked());
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("test3; incorrectly marked intra2", false, intra2->getMarked());
 }
 
 /* in this test e1 capability is simpler than e2 capability but corridor is narrower so e1 does not dominate e2 */
-void AnnotatedClusterAbstractionTest::findDominantTransitionShouldReturnANullDominantEdgeGivenTwoInterEdgesWithIntersectingCapabilityButNoCorridorSizeDominance()
+void AnnotatedClusterAbstractionTest::findAndMarkDominatedTransitionShouldNotMarkAnyEdgesDominantEdgeGivenTwoInterEdgesWithIntersectingCapabilityButNoCorridorSizeDominance()
 {
 	int dmClearance=2;
 	int dtClearance=3;
 	int dmCapability = kGround;
 	int dtCapability = (kGround|kTrees);
 	setupDominanceRelationshipTestData(dmCapability, dmClearance, dtCapability, dtClearance);
-	edge* dominant = 0;
+	graph* absg = aca->getAbstractGraph(1);
 	
-	aca->findDominantTransition(e1, e2, &dominant);
-	CPPUNIT_ASSERT_EQUAL_MESSAGE("incorrectly found dominant edge (param order: e1, e2)", true, dominant == 0);
+	/* test1; param order e1, e2 */
+	aca->findAndMarkDominatedTransition(e1, e2);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("test1; incorrectly marked e1", false, e1->getMarked());
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("test1; incorrectly marked e2", false, e2->getMarked());
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("test1; incorrectly marked intra1", false, intra1->getMarked());
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("test1; incorrectly marked intra2", false, intra2->getMarked());
 
-	dominant=0;
-	aca->findDominantTransition(e2, e1, &dominant);
-	CPPUNIT_ASSERT_EQUAL_MESSAGE("incorrectly found dominant edge (param order: e2, e1)", true, dominant == 0);
+	/* test2; reverse parameter order */
+	aca->findAndMarkDominatedTransition(e2, e1);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("test2; incorrectly marked e1", false, e1->getMarked());
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("test2; incorrectly marked e2", false, e2->getMarked());
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("test2; incorrectly marked intra1", false, intra1->getMarked());
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("test2; incorrectly marked intra2", false, intra2->getMarked());
 }
 
 /* in this test, we create edges with endpoints that do not exist in the abstract graph */
-void AnnotatedClusterAbstractionTest::findDominantTransitionShouldReturnANullGivenOneOrTwoInteredgesWhichReferenceInvalidNodeIDsAsTheirEndpoints()
+void AnnotatedClusterAbstractionTest::findAndMarkDominatedTransitionShouldNotMarkAnyEdgesGivenOneOrTwoInteredgesWhichReferenceInvalidNodeIDsAsTheirEndpoints()
 {
 	int dmClearance=3;
 	int dtClearance=2;
 	int dmCapability = kGround;
 	int dtCapability = (kGround|kTrees);	
-	edge* dominant = 0;
-	e1 = new edge(0, 1, 1);
-	e2 = new edge(2, 3, 1);
-	
-	aca->findDominantTransition(e1, e2, &dominant);
-	CPPUNIT_ASSERT_EQUAL_MESSAGE("expected null result yet an object is returned", true, dominant == 0);	
+	setupDominanceRelationshipTestData(dmCapability, dmClearance, dtCapability, dtClearance);
+	graph* absg = aca->getAbstractGraph(1);
+
+	/* test1; first parameter references nodeids not in the abstract graph */
+	absg->removeEdge(e1);
+	delete e1;
+	e1 = new edge(99, 100, 1);
+	e1->setClearance(dmCapability, dmClearance);
+	aca->findAndMarkDominatedTransition(e1, e2);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("test1; incorrectly marked e1", false, e1->getMarked());
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("test1; incorrectly marked e2", false, e2->getMarked());
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("test1; incorrectly marked intra1", false, intra1->getMarked());
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("test1; incorrectly marked intra2", false, intra2->getMarked());
+
+	/* test2; reverse param order */
+	aca->findAndMarkDominatedTransition(e2, e1);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("test2; incorrectly marked e1", false, e1->getMarked());
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("test2; incorrectly marked e2", false, e2->getMarked());
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("test2; incorrectly marked intra1", false, intra1->getMarked());
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("test2; incorrectly marked intra2", false, intra2->getMarked());
 	
 	delete e1;
-	delete e2;
 }
 
 /* in this test, we create two edges which represent transitions between different clusters */
-void AnnotatedClusterAbstractionTest::findDominantTransitionShouldReturnANullGivenAPairofEdgesWhichDoNotConnectTheSameSetOfClusters()
+void AnnotatedClusterAbstractionTest::findAndMarkDominatedTransitionShouldNotMarkAnyEdgesGivenAPairofEdgesWithUniqueEndpointsWhichDoNotConnectTheSameSetOfClusters()
 {
 	int dmClearance=3;
 	int dtClearance=2;
 	int dmCapability = kGround;
 	int dtCapability = (kGround|kTrees);
 	setupDominanceRelationshipTestData(dmCapability, dmClearance, dtCapability, dtClearance);
-	edge* dominant = 0;
+	graph* absg = aca->getAbstractGraph(1);
 	
 	n1->setParentCluster(0);
 	n2->setParentCluster(1);
 	n3->setParentCluster(2);
 	n4->setParentCluster(3);
 
-	aca->findDominantTransition(e1, e2, &dominant);
-	CPPUNIT_ASSERT_EQUAL_MESSAGE("expected null result yet an object is returned", true, dominant == 0);	
+	aca->findAndMarkDominatedTransition(e1, e2);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("test1; incorrectly marked e1", false, e1->getMarked());
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("test1; incorrectly marked e2", false, e2->getMarked());
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("test1; incorrectly marked intra1", false, intra1->getMarked());
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("test1; incorrectly marked intra2", false, intra2->getMarked());
 }
 
-void AnnotatedClusterAbstractionTest::findDominantTransitionShouldReturnANullIfNoCircuitExistsBetweenEndpointsOfTwoTransitionsWhereOneDomiantesTheOther()
+/* in this test, we're mainly testing the endpoint swapping code;
+	a bug previously existed where endpoints would be swapped twice to try and match up their clusters when no match was possible */
+void AnnotatedClusterAbstractionTest::findAndMarkDominatedTransitionShouldNotMarkAnyEdgesGivenAPairofEdgesWithSomeSharedEndpointsWhichDoNotConnectTheSameSetOfClusters()
+{
+	int dmClearance=2;
+	int dtClearance=2;
+	int dmCapability = kGround;
+	int dtCapability = kGround;
+	graph* absg = aca->getAbstractGraph(1);
+
+	n1 = new node("n1");
+	n2 = new node("n2");
+	n3 = new node("n3");
+	absg->addNode(n1);
+	absg->addNode(n2);
+	absg->addNode(n3);
+	n1->setParentCluster(1);
+	n2->setParentCluster(1);
+	n3->setParentCluster(2);
+	
+	e1 = new edge(n1->getNum(), n2->getNum(), 1);
+	e1->setClearance(dmCapability, dmClearance);
+	e2 = new edge(n3->getNum(), n1->getNum(), 1);
+	e2->setClearance(dtCapability, dtClearance);
+	absg->addEdge(e1);
+	absg->addEdge(e2);
+
+	aca->findAndMarkDominatedTransition(e1, e2);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("test1; incorrectly marked e1", false, e1->getMarked());
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("test1; incorrectly marked e2", false, e2->getMarked());
+}
+
+void AnnotatedClusterAbstractionTest::findAndMarkDominatedTransitionShouldNotUnmarkAnyEdgesWhichAreAlreadyMarked()
 {
 	int dmClearance=3;
 	int dtClearance=2;
 	int dmCapability = kGround;
 	int dtCapability = (kGround|kTrees);
 	setupDominanceRelationshipTestData(dmCapability, dmClearance, dtCapability, dtClearance);
-	edge* dominant = 0;
-	
 	graph* absg = aca->getAbstractGraph(1);
-	
+
+	e2->setMarked(true);
+	aca->findAndMarkDominatedTransition(e1, e2);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("test1; incorrectly un-marked e2", true, e2->getMarked());
+}
+
+
+void AnnotatedClusterAbstractionTest::findAndMarkDominatedTransitionShouldNotMarkAnyEdgesIfNoCircuitExistsBetweenEndpointsOfTwoTransitionsWhereOneDomiantesTheOther()
+{
+	int dmClearance=3;
+	int dtClearance=2;
+	int dmCapability = kGround;
+	int dtCapability = (kGround|kTrees);
+	setupDominanceRelationshipTestData(dmCapability, dmClearance, dtCapability, dtClearance);
+	graph* absg = aca->getAbstractGraph(1);
+		
 	/* test1; break the circuit by removing the intra-edge connecting the endpoints in one cluster */
 	absg->removeEdge(intra1); 
-	CPPUNIT_ASSERT_EQUAL_MESSAGE("test1. wrong # of edges in graph", 3, absg->getNumEdges());
-	aca->findDominantTransition(e1, e2, &dominant);	
-	CPPUNIT_ASSERT_EQUAL_MESSAGE("(no intraedge in c1) expected null result yet an object is returned", true, dominant == 0);	
+	aca->findAndMarkDominatedTransition(e1, e2);	
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("test1; incorrectly marked e1", false, e1->getMarked());
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("test1; incorrectly marked e2", false, e2->getMarked());
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("test1; incorrectly marked intra2", false, intra2->getMarked());
 
 	/* test2; as above, but with the intra-edge from the other cluster */
 	absg->addEdge(intra1);
 	absg->removeEdge(intra2); 
-	CPPUNIT_ASSERT_EQUAL_MESSAGE("test2. wrong # of edges in graph", 3, absg->getNumEdges());
-	aca->findDominantTransition(e1, e2, &dominant);	
-	CPPUNIT_ASSERT_EQUAL_MESSAGE("(no intraedge in c2) expected null result yet an object is returned", true, dominant == 0);	
+	aca->findAndMarkDominatedTransition(e1, e2);	
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("test2; incorrectly marked e1", false, e1->getMarked());
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("test2; incorrectly marked e2", false, e2->getMarked());
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("test2; incorrectly marked intra1", false, intra1->getMarked());
 	
 	/* test3; remove both */
 	absg->removeEdge(intra1);
-	CPPUNIT_ASSERT_EQUAL_MESSAGE("test3. wrong # of edges in graph", 2, absg->getNumEdges());
-	aca->findDominantTransition(e1, e2, &dominant);	
-	CPPUNIT_ASSERT_EQUAL_MESSAGE("(no intraedge in c1 or c2) expected null result yet an object is returned", true, dominant == 0);	
+	aca->findAndMarkDominatedTransition(e1, e2);	
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("test3; incorrectly marked e1", false, e1->getMarked());
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("test3; incorrectly marked e2", false, e2->getMarked());
 
 	delete intra1;
 	delete intra2;
-
 }
 
-void AnnotatedClusterAbstractionTest::findDominantTransitionShouldReturnANullIfTheIntraEdgesInTheCircuitDoNotHaveSufficentClearance()
+void AnnotatedClusterAbstractionTest::findAndMarkDominatedTransitionShouldNotMarkAnyEdgesIfTheIntraEdgesInTheCircuitDoNotHaveSufficentClearance()
 {
 	int dmClearance=3;
 	int dtClearance=2;
 	int dmCapability = kGround;
 	int dtCapability = (kGround|kTrees);
 	setupDominanceRelationshipTestData(dmCapability, dmClearance, dtCapability, dtClearance);
-	edge* dominant = 0;
+	graph* absg = aca->getAbstractGraph(1);
 
 	/* test1; intra-edge in cluster1 is too narrow to be traversed by all agents able to traverse the dominated transition (circuit is invalid) */
 	intra1->setClearance(dtCapability, dtClearance-1);
-	CPPUNIT_ASSERT_EQUAL_MESSAGE("test1; circuit invalid. expected null but got an object", true, dominant == 0);
+	aca->findAndMarkDominatedTransition(e1, e2);	
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("test1; incorrectly marked e1", false, e1->getMarked());
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("test1; incorrectly marked e2", false, e2->getMarked());
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("test1; incorrectly marked intra1", false, intra1->getMarked());
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("test1; incorrectly marked intra2", false, intra2->getMarked());
 	
 	/* test2; as above, other intra-edge */
 	intra1->setClearance(dtCapability, dtClearance);
 	intra2->setClearance(dtCapability, dtClearance-1);
-	CPPUNIT_ASSERT_EQUAL_MESSAGE("test2; circuit invalid. expected null but got an object", true, dominant == 0);
+	aca->findAndMarkDominatedTransition(e1, e2);	
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("test2; incorrectly marked e1", false, e1->getMarked());
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("test2; incorrectly marked e2", false, e2->getMarked());
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("test2; incorrectly marked intra1", false, intra1->getMarked());
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("test2; incorrectly marked intra2", false, intra2->getMarked());
 
 	/* test3; both */
 	intra1->setClearance(dtCapability, dtClearance-1);
-	CPPUNIT_ASSERT_EQUAL_MESSAGE("test3; circuit invalid. expected null but got an object", true, dominant == 0);
+	aca->findAndMarkDominatedTransition(e1, e2);	
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("test3; incorrectly marked e1", false, e1->getMarked());
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("test3; incorrectly marked e2", false, e2->getMarked());
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("test3; incorrectly marked intra1", false, intra1->getMarked());
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("test3; incorrectly marked intra2", false, intra2->getMarked());
 }
 
-void AnnotatedClusterAbstractionTest::findDominantTransitionShouldReturnANullIfTheIntraEdgesInTheCircuitAreNotTraversableByTheCapabilityOfTheDominatedTransition()
+void AnnotatedClusterAbstractionTest::findAndMarkDominatedTransitionShouldNotMarkAnyEdgesIfTheIntraEdgesInTheCircuitAreNotTraversableByTheCapabilityOfTheDominatedTransition()
 {
 	int dmClearance=3;
 	int dtClearance=2;
 	int dmCapability = kGround;
 	int dtCapability = (kGround|kTrees);
 	setupDominanceRelationshipTestData(dmCapability, dmClearance, dtCapability, dtClearance);
-	edge* dominant = 0;
-
+	graph* absg = aca->getAbstractGraph(1);
+	
 	/* test1; intra-edge in cluster1 is not traversable by all agents able to traverse the dominated transition (circuit is invalid) */
-	intra1->setClearance(dmCapability, dtClearance);
-	CPPUNIT_ASSERT_EQUAL_MESSAGE("test1; circuit invalid. expected null but got an object", true, dominant == 0);
+	intra1->setClearance(kWater, dtClearance);
+	aca->findAndMarkDominatedTransition(e1, e2);	
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("test1; incorrectly marked e1", false, e1->getMarked());
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("test1; incorrectly marked e2", false, e2->getMarked());
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("test1; incorrectly marked intra1", false, intra1->getMarked());
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("test1; incorrectly marked intra2", false, intra2->getMarked());
 	
 	/* test2; as above, other intra-edge */
 	intra1->setClearance(dtCapability, dtClearance);
-	intra2->setClearance(dmCapability, dtClearance);
-	CPPUNIT_ASSERT_EQUAL_MESSAGE("test2; circuit invalid. expected null but got an object", true, dominant == 0);
+	intra2->setClearance(kWater, dtClearance);
+	aca->findAndMarkDominatedTransition(e1, e2);	
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("test2; incorrectly marked e1", false, e1->getMarked());
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("test2; incorrectly marked e2", false, e2->getMarked());
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("test2; incorrectly marked intra1", false, intra1->getMarked());
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("test2; incorrectly marked intra2", false, intra2->getMarked());
 
 	/* test3; both */
-	intra1->setClearance(dmCapability, dtClearance);
-	CPPUNIT_ASSERT_EQUAL_MESSAGE("test3; circuit invalid. expected null but got an object", true, dominant == 0);
+	intra1->setClearance(kWater, dtClearance);
+	aca->findAndMarkDominatedTransition(e1, e2);	
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("test3; incorrectly marked e1", false, e1->getMarked());
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("test3; incorrectly marked e2", false, e2->getMarked());
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("test3; incorrectly marked intra1", false, intra1->getMarked());
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("test3; incorrectly marked intra2", false, intra2->getMarked());
+}
+
+void AnnotatedClusterAbstractionTest::findAndMarkDominatedTransitionShouldNotMarkAnyEdgesIfEitherParameterIsAnIntraEdge()
+{
+	int dmClearance=3;
+	int dtClearance=2;
+	int dmCapability = kGround;
+	int dtCapability = (kGround|kTrees);
+	setupDominanceRelationshipTestData(dmCapability, dmClearance, dtCapability, dtClearance);
+	graph* absg = aca->getAbstractGraph(1);
+
+	n1->setParentCluster(0);
+	n2->setParentCluster(0);
+	n3->setParentCluster(0);
+	n4->setParentCluster(1);
+	
+	aca->findAndMarkDominatedTransition(e1, e2);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("test1; incorrectly marked e1", false, e1->getMarked());
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("test1; incorrectly marked e2", false, e2->getMarked());
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("test1; incorrectly marked intra1", false, intra1->getMarked());
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("test1; incorrectly marked intra2", false, intra2->getMarked());
+
+	aca->findAndMarkDominatedTransition(e2, e1);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("test2; incorrectly marked e1", false, e1->getMarked());
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("test2; incorrectly marked e2", false, e2->getMarked());
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("test2; incorrectly marked intra1", false, intra1->getMarked());
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("test2; incorrectly marked intra2", false, intra2->getMarked());
+
+}
+
+void AnnotatedClusterAbstractionTest::findAndMarkDominatedTransitionShouldNotMarkAnyEdgesIfBothParameterEdgesAreIntraEdgesThatBelongToSameCluster()
+{
+	int dmClearance=3;
+	int dtClearance=2;
+	int dmCapability = kGround;
+	int dtCapability = (kGround|kTrees);
+	setupDominanceRelationshipTestData(dmCapability, dmClearance, dtCapability, dtClearance);
+	graph* absg = aca->getAbstractGraph(1);
+
+	n1->setParentCluster(0);
+	n2->setParentCluster(0);
+	n3->setParentCluster(0);
+	n4->setParentCluster(0);
+	
+	aca->findAndMarkDominatedTransition(e1, e2);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("test1; incorrectly marked e1", false, e1->getMarked());
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("test1; incorrectly marked e2", false, e2->getMarked());
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("test1; incorrectly marked intra1", false, intra1->getMarked());
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("test1; incorrectly marked intra2", false, intra2->getMarked());
 }
 
 /* in this test we verify findDominant doesn't get confused if the cluster of e1->from isn't the same as e2->from 
 (but both edges connect the same pair of clusters) */
-void AnnotatedClusterAbstractionTest::findDominantTransitionShouldReturnAWeaklyDominantEgeGivenTwoInterEdgesWith__TO__and__FROM__EndpointsSwapped()
+void AnnotatedClusterAbstractionTest::findAndMarkDominatedTransitionShouldMarkADominatedEdgeGivenTwoInterEdgesWhereOneDominatesTheOtherBut__TO__and__FROM__AttributesOfEndpointsIsSwapped()
 {
 	int dmClearance=3;
 	int dtClearance=2;
 	int dmCapability = kGround;
 	int dtCapability = (kGround|kTrees);
 	setupDominanceRelationshipTestData(dmCapability, dmClearance, dtCapability, dtClearance);
-	edge* dominant = 0;
+	graph* absg = aca->getAbstractGraph(1);
 	
 	/* test1; reverse order of to/from for dominant edge e1 */
-	graph *absg = aca->getAbstractGraph(1);
 	absg->removeEdge(e1);
 	delete e1;
 	e1 = new edge(n2->getNum(), n1->getNum(), 1); 
 	e1->setClearance(dmCapability,dmClearance);
 	absg->addEdge(e1);
-	aca->findDominantTransition(e1, e2, &dominant);
-	CPPUNIT_ASSERT_EQUAL_MESSAGE("failed to find dominant edge (reversed endpoints of e1)", true, &*e1 == &*dominant);
+	aca->findAndMarkDominatedTransition(e1, e2);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("test1; incorrectly marked e1", false, e1->getMarked());
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("test1; failed to mark e2", true, e2->getMarked());
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("test1; incorrectly marked intra1", false, intra1->getMarked());
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("test1; incorrectly marked intra2", false, intra2->getMarked());
 
-	/* test2; now the dominated edge */
+	/* reset test data for test2 */
+	delete aca;
+	Map* m  = new Map(acmap.c_str());
+	aca = new AnnotatedClusterAbstraction(m,new AnnotatedAStar(), TESTCLUSTERSIZE); 	
+	absg = aca->getAbstractGraph(1);
+
+	/* test2; as test1 but swap endpoints of dominated edge */	
+	setupDominanceRelationshipTestData(dmCapability, dmClearance, dtCapability, dtClearance);
 	absg->removeEdge(e2);
 	delete e2;
 	e2 = new edge(n4->getNum(), n3->getNum(), 1);
 	e2->setClearance(dtCapability, dtClearance);
 	absg->addEdge(e2);
-	aca->findDominantTransition(e1, e2, &dominant);
-	CPPUNIT_ASSERT_EQUAL_MESSAGE("failed to find dominant edge (reversed endpoints of e2)", true, &*e1 == &*dominant);
+	aca->findAndMarkDominatedTransition(e1, e2);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("test2; incorrectly marked e1", false, e1->getMarked());
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("test2; failed to maek e2", true, e2->getMarked());
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("test2; incorrectly marked intra1", false, intra1->getMarked());
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("test2; incorrectly marked intra2", false, intra2->getMarked());
 }
 
-void AnnotatedClusterAbstractionTest::findDominantTransitionShouldReturnAWeaklyDominantEdgeGivenTwoInterEdgesWithTheSameCapabilityButDifferentClearance()
+void AnnotatedClusterAbstractionTest::findAndMarkDominatedTransitionShouldMarkADominatedEdgeGivenTwoInterEdgesWithTheSameCapabilityButDifferentClearance()
 {
 	int dmClearance=3;
 	int dtClearance=1;
 	int dmCapability = kGround;
 	int dtCapability = kGround;
 	setupDominanceRelationshipTestData(dmCapability, dmClearance, dtCapability, dtClearance);
-	edge* dominant = 0;
-		
-	aca->findDominantTransition(e1, e2, &dominant);
-	CPPUNIT_ASSERT_EQUAL_MESSAGE("failed to find dominant edge (param order: e1, e2)", true, &*e1 == &*dominant);
-	
-	dominant = 0;
-	aca->findDominantTransition(e2, e1, &dominant);
-	CPPUNIT_ASSERT_EQUAL_MESSAGE("failed to find dominant edge (param order: e2, e1)", true, &*e1 == &*dominant);
+	graph* absg = aca->getAbstractGraph(1);
 
+	aca->findAndMarkDominatedTransition(e1, e2);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("test1; incorrectly marked e1", false, e1->getMarked());
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("test1; failed to mark e2", true, e2->getMarked());
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("test1; incorrectly marked intra1", false, intra1->getMarked());
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("test1; incorrectly marked intra2", false, intra2->getMarked());
+
+	/* reset test data */
+	delete aca;
+	Map* m  = new Map(acmap.c_str());
+	aca = new AnnotatedClusterAbstraction(m,new AnnotatedAStar(), TESTCLUSTERSIZE); 
+	absg = aca->getAbstractGraph(1);	
+
+	/* test2; as above, param order reversed */
+	setupDominanceRelationshipTestData(dmCapability, dmClearance, dtCapability, dtClearance);
+	aca->findAndMarkDominatedTransition(e2, e1);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("test2; incorrectly marked e1", false, e1->getMarked());
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("test2; failed to mark e2", true, e2->getMarked());
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("test2; incorrectly marked intra1", false, intra1->getMarked());
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("test2; incorrectly marked intra2", false, intra2->getMarked());
 }
 
-void AnnotatedClusterAbstractionTest::findDominantTransitionShouldReturnAWeaklyDominantEdgeGivenTwoInterEdgesWithIntersectingCapabilitySets()
+void AnnotatedClusterAbstractionTest::findAndMarkDominatedTransitionShouldMarkADominatedEdgeGivenTwoInterEdgesWithIntersectingCapabilitySets()
 {	
 	int dmClearance=3;
 	int dtClearance=3;
 	int dmCapability = kGround;
 	int dtCapability = (kGround|kTrees);
 	setupDominanceRelationshipTestData(dmCapability, dmClearance, dtCapability, dtClearance);
-	edge* dominant = 0;
+	graph* absg = aca->getAbstractGraph(1);
 	
-	aca->findDominantTransition(e1, e2, &dominant);
-	CPPUNIT_ASSERT_EQUAL_MESSAGE("failed to find dominant edge (param order: e1, e2)", true, &*e1 == &*dominant);
+	aca->findAndMarkDominatedTransition(e1, e2);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("test1; incorrectly marked e1", false, e1->getMarked());
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("test1; failed to mark e2", true, e2->getMarked());
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("test1; incorrectly marked intra1", false, intra1->getMarked());
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("test1; incorrectly marked intra2", false, intra2->getMarked());
 
-	dominant=0;
-	aca->findDominantTransition(e2, e1, &dominant);
-	CPPUNIT_ASSERT_EQUAL_MESSAGE("failed to find dominant edge (param order: e2, e1)", true, &*e1 == &*dominant);
+	/* reset test data */
+	delete aca;
+	Map* m  = new Map(acmap.c_str());
+	aca = new AnnotatedClusterAbstraction(m,new AnnotatedAStar(), TESTCLUSTERSIZE); 	
+	absg = aca->getAbstractGraph(1);
+
+	/* test2; as above, param order reversed */
+	setupDominanceRelationshipTestData(dmCapability, dmClearance, dtCapability, dtClearance);
+	aca->findAndMarkDominatedTransition(e2, e1);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("test2; incorrectly marked e1", false, e1->getMarked());
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("test2; failed to mark e2", true, e2->getMarked());
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("test2; incorrectly marked intra1", false, intra1->getMarked());
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("test2; incorrectly marked intra2", false, intra2->getMarked());
+}
+
+void AnnotatedClusterAbstractionTest::removeDominatedEdgesAndEndpointsShouldDeleteAnyDominatedEdgeButNotAnyEndpointsWhichConnectOtherInterEdges()
+{
+	int dmClearance=3;
+	int dtClearance=3;
+	int dmCapability = kGround;
+	int dtCapability = (kGround|kTrees);
+	int numExpectedEdges = 5;
+	int numExpectedNodes = 6;
+	setupDominanceRelationshipTestData(dmCapability, dmClearance, dtCapability, dtClearance);
+	graph* absg = aca->getAbstractGraph(1);
+
+	/* mark dominated edges */
+	e2->setMarked(true);
+
+	/* setup extra inter-edges from e2's endpoints to other clusters */
+	node* n5 = dynamic_cast<node*>(aca->getNodeFromMap(0,2)->clone());
+	node* n6 = dynamic_cast<node*>(aca->getNodeFromMap(1,2)->clone());
+	absg->addNode(n5);
+	absg->addNode(n6);
+	n5->setParentCluster(2);
+	n6->setParentCluster(3);
+	aca->getNodeFromMap(0,2)->setLabelL(kParent, n5->getNum());
+	aca->getNodeFromMap(1,2)->setLabelL(kParent, n6->getNum());
+	edge* extraInterEdge = new edge(n3->getNum(), n5->getNum(), 1);
+	edge* extraInterEdge2 = new edge(n4->getNum(), n6->getNum(), 1);
+	extraInterEdge->setClearance(kTrees,2);
+	extraInterEdge2->setClearance(kTrees,2);
+	absg->addEdge(extraInterEdge);
+	absg->addEdge(extraInterEdge2);	
+
+	/* delete dominated edge but not its endpoints which are required by other inter-edges */
+	aca->removeDominatedEdgesAndEndpoints();
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("test1. edge count wrong", numExpectedEdges, absg->getNumEdges());
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("test1. node count wrong", numExpectedNodes, absg->getNumNodes());
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("test1; dominant edge missing from graph", true, n1->findAnnotatedEdge(n2, dmCapability, dmClearance, 100) == e1);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("test1; dominated edge not deleted from graph", true, n3->findAnnotatedEdge(n4, dtCapability, dtClearance, 100) == 0);
+}
+
+void AnnotatedClusterAbstractionTest::removeDominatedEdgesAndEndpointsShouldDeleteAllMarkedEdgesAndAnyEndpointsWhichAreNotRequiredByOtherInterEdges()
+{
+	int dmClearance=3;
+	int dtClearance=3;
+	int dmCapability = kGround;
+	int dtCapability = (kGround|kTrees);
+	int numExpectedEdges = 1;
+	int numExpectedNodes = 2;
+	setupDominanceRelationshipTestData(dmCapability, dmClearance, dtCapability, dtClearance);
+	graph* absg = aca->getAbstractGraph(1);
+
+	/* mark dominated edges */
+	e2->setMarked(true);
+
+	/* delete dominated edge and its endpoints */
+	aca->removeDominatedEdgesAndEndpoints();
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("test1. edge count wrong", numExpectedEdges, absg->getNumEdges());
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("test1. node count wrong", numExpectedNodes, absg->getNumNodes());
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("test1; dominant edge missing from graph", true, n1->findAnnotatedEdge(n2, dmCapability, dmClearance, 100) == e1);
+}
+
+void AnnotatedClusterAbstractionTest::removeDominatedEdgesAndEndpointsShouldNotDeleteAnythingIfNoEdgesAreMarked()
+{
+	int dmClearance=3;
+	int dtClearance=3;
+	int dmCapability = kGround;
+	int dtCapability = (kGround|kTrees);
+	int numExpectedEdges = 4;
+	int numExpectedNodes = 4;
+	setupDominanceRelationshipTestData(dmCapability, dmClearance, dtCapability, dtClearance);
+	graph* absg = aca->getAbstractGraph(1);
+
+	/* nothing marked so nothing to delete */
+	aca->removeDominatedEdgesAndEndpoints();
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("test1. edge count wrong", numExpectedEdges, absg->getNumEdges());
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("test1. node count wrong", numExpectedNodes, absg->getNumNodes());
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("test1; dominant edge missing from graph", true, n1->findAnnotatedEdge(n2, dmCapability, dmClearance, 100) == e1);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("test1; dominated edge not deleted from graph", true, n3->findAnnotatedEdge(n4, dtCapability, dtClearance, 100) == e2);
+}
+
+void AnnotatedClusterAbstractionTest::removeDominatedEdgesAndEndpointsShouldRemove__kParent__LabelOfLowLevelNodesThatWereAbstractedByADeletedNode()
+{
+	int dmClearance=3;
+	int dtClearance=3;
+	int dmCapability = kGround;
+	int dtCapability = (kGround|kTrees);
+	int numExpectedEdges = 4;
+	int numExpectedNodes = 4;
+	setupDominanceRelationshipTestData(dmCapability, dmClearance, dtCapability, dtClearance);
+	graph* absg = aca->getAbstractGraph(1);
+
+	node* n1ll = aca->getNodeFromMap(n1->getLabelL(kFirstData), n1->getLabelL(kFirstData+1));
+	node* n2ll = aca->getNodeFromMap(n2->getLabelL(kFirstData), n2->getLabelL(kFirstData+1));
+	node* n3ll = aca->getNodeFromMap(n3->getLabelL(kFirstData), n3->getLabelL(kFirstData+1));
+	node* n4ll = aca->getNodeFromMap(n4->getLabelL(kFirstData), n4->getLabelL(kFirstData+1));
+
+	int expectedValue = -1; // default value for a node without a parent in the abstract graph
+	
+	/* deletete dominated endpoints and check if low-level nodes have had their kParent labels updated (dominant endpoints should not be touched) */
+	e2->setMarked(true);
+	aca->removeDominatedEdgesAndEndpoints();
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("lln1 has wrong kParent label", (int)n1->getNum(), (int)n1ll->getLabelL(kParent));
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("lln2 has wrong kParent label", (int)n2->getNum(), (int)n2ll->getLabelL(kParent));
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("lln3 has wrong kParent label", expectedValue, (int)n3ll->getLabelL(kParent));
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("lln4 has wrong kParent label", expectedValue, (int)n4ll->getLabelL(kParent));
+}
+
+void AnnotatedClusterAbstractionTest::removeDominatedEdgesAndEndpointsShouldRepair__kParent__LabelsOfLowLevelsNodes()
+{
+	int dmClearance=3;
+	int dtClearance=3;
+	int dmCapability = kGround;
+	int dtCapability = (kGround|kTrees);
+	setupDominanceRelationshipTestData(dtCapability, dtClearance, dmCapability, dmClearance); // endpoints of dominated edge first in nodes array
+	graph* absg = aca->getAbstractGraph(1);
+
+	/* test that low-level nodes which are abstracted by the endpoints of the dominant edge have their kParent labels updated to reflect changes
+	in abstract graph  */
+	node* n3ll = aca->getNodeFromMap(n3->getLabelL(kFirstData), n3->getLabelL(kFirstData+1)); 
+	node* n4ll = aca->getNodeFromMap(n4->getLabelL(kFirstData), n4->getLabelL(kFirstData+1));
+
+	e1->setMarked(true);
+	aca->removeDominatedEdgesAndEndpoints();	
+	int n3ExpectedValue = n3->getNum(); // index updated after deletion 
+	int n4ExpectedValue = n4->getNum();
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("lln3 has wrong kParent label", n3ExpectedValue, (int)n3ll->getLabelL(kParent));
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("lln4 has wrong kParent label", n4ExpectedValue, (int)n4ll->getLabelL(kParent));
+}
+
+/* annotated clusters store a list of abstract nodes in their perimeter. need to update/repair this list after removing dominated edges and endpoints */
+void AnnotatedClusterAbstractionTest::removeDominatedEdgesAndEndpointsShouldRepairAbstractNodeCollectionInEachAffectedCluster()
+{
+	int dmClearance=3;
+	int dtClearance=3;
+	int dmCapability = kGround;
+	int dtCapability = (kGround|kTrees);
+	setupDominanceRelationshipTestData(dtCapability, dtClearance, dmCapability, dmClearance); // endpoints of dominated edge first in nodes array
+	AnnotatedCluster* ac = aca->getCluster(0);
+	AnnotatedCluster* ac2 = aca->getCluster(1);
+	
+	e1->setMarked(true);
+	aca->removeDominatedEdgesAndEndpoints();
+	
+	int expectedNodesInCluster = 1;
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("abstract node count in cluster 'ac' incorrect. failed to remove deleted endpoints?", expectedNodesInCluster, (int)ac->getParents().size());
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("abstract node count in cluster 'ac2' incorrect. failed to remove deleted endpoints?", expectedNodesInCluster, (int)ac2->getParents().size());
+	node* aclast = ac->getParents().back();
+	node* ac2last = ac2->getParents().back();
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("found wrong node in 'ac' collection!", true, n3 == aclast);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("found wrong node in 'ac2' collection!", true, n4 == ac2last);
 }

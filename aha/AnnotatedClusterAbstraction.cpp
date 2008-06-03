@@ -95,6 +95,34 @@ void AnnotatedClusterAbstraction::buildEntrances()
 		AnnotatedCluster* ac = clusters[i];
 		ac->buildEntrances(this);
 	}
+	
+
+	
+	if(quality == ACAUtil::kLowQualityAbstraction)
+	{	
+		/* find & mark all dominated edges */
+		graph* absg = this->getAbstractGraph(1);
+		edge_iterator ei1, ei2;
+		edge *first, *second;
+		ei1 = absg->getEdgeIter();
+		first = absg->edgeIterNext(ei1);
+		while(first)
+		{
+			ei2 = ei1;
+			second = absg->edgeIterNext(ei2);
+			while(second)
+			{
+				findAndMarkDominatedTransition(first, second);
+				second = absg->edgeIterNext(ei2);
+			}
+			first = absg->edgeIterNext(ei1);
+		}
+		
+		/* delete all dominated edges */
+		removeDominatedEdgesAndEndpoints();
+	
+	}
+
 }
 
 double AnnotatedClusterAbstraction::distance(path* p)
@@ -273,9 +301,8 @@ double AnnotatedClusterAbstraction::h(node* a, node*b) throw(NodeIsNullException
 	return answer;
 }
 
-void AnnotatedClusterAbstraction::findDominantTransition(edge* first, edge* second, edge** dominantOut)
+void AnnotatedClusterAbstraction::findAndMarkDominatedTransition(edge* first, edge* second)
 {
-	*dominantOut = 0;
 	if(first == 0 || second == 0)
 		return;
 	
@@ -306,42 +333,187 @@ void AnnotatedClusterAbstraction::findDominantTransition(edge* first, edge* seco
 		return;
 	
 	graph* g = this->getAbstractGraph(1);
-	node* dec1 = g->getNode(dominant->getFrom()); // dominant endpoint in cluster 1
-	node* dec2 = g->getNode(dominant->getTo()); // dominant endpoint in cluster 2
+	node* dmc1 = g->getNode(dominant->getFrom()); // dominant endpoint in cluster 1
+	node* dmc2 = g->getNode(dominant->getTo()); // dominant endpoint in cluster 2
 	node *dtc1, *dtc2; // dominated endpoints
 	
 	dtc1 = g->getNode(dominated->getFrom());
 	dtc2 = g->getNode(dominated->getTo());
 	
-	if(dec1 == 0 || dec2 == 0 || dtc1 == 0 || dtc2 == 0) 
-		return; 
+	if(dmc1 == 0 || dmc2 == 0 || dtc1 == 0 || dtc2 == 0) 
+		return; // not all endpoints in graph. TODO: maybe throw exception here? 
 	
-	if(dec1->getParentCluster() != dtc1->getParentCluster())
+	if(dmc1->getParentCluster() == dmc2->getParentCluster())
+		return;
+	if(dtc1->getParentCluster() == dtc2->getParentCluster())
+		return;
+	
+	if(dmc1->getParentCluster() != dtc1->getParentCluster())
 	{
 		node* tmp = dtc1;
 		dtc1 = dtc2;
 		dtc2 = tmp;
-		if(dec1->getParentCluster() != dtc1->getParentCluster())
+		if(dmc1->getParentCluster() != dtc1->getParentCluster()) // no dominance relationship; transitions do not begin in same entrance
+			return;
+		if(dmc2->getParentCluster() != dtc2->getParentCluster())
 			return;
 	}
-	if(dec2->getParentCluster() != dtc2->getParentCluster())
+	if(dmc2->getParentCluster() != dtc2->getParentCluster())
 	{
 		node* tmp = dtc2;
 		dtc2 = dtc1;
 		dtc1 = tmp;
-		if(dec2->getParentCluster() != dtc2->getParentCluster())
+		if(dmc2->getParentCluster() != dtc2->getParentCluster())
+			return;
+		if(dmc1->getParentCluster() != dtc1->getParentCluster())
 			return;
 	}
 	
 	/* circuit must exist between the endpoints of the two edges. further, each edge must be traversable by any agent able
 		to traverse the dominated edge. Otherwise, no dominance relationship exists */
 	int MAX_INT = 2147483647;
-	if(dec1->findAnnotatedEdge(dtc1, dominated->getCapability(), dominated->getClearance(dominated->getCapability()), MAX_INT) && 
-		dec2->findAnnotatedEdge(dtc2, dominated->getCapability(), dominated->getClearance(dominated->getCapability()), MAX_INT) )
-	{
-		*dominantOut = dominant;
+	edge* intra1 = dmc1->findAnnotatedEdge(dtc1, dominated->getCapability(), dominated->getClearance(dominated->getCapability()), MAX_INT);
+	edge* intra2 = dmc2->findAnnotatedEdge(dtc2, dominated->getCapability(), dominated->getClearance(dominated->getCapability()), MAX_INT);
+	if( intra1 && intra2 )
+	{	
+		if(!dominated->getMarked())
+			dominated->setMarked(true);
 	}
+}
 
+void AnnotatedClusterAbstraction::removeDominatedEdgesAndEndpoints()
+{
+		std::vector<edge*> deleteQueue; 
+		graph* absg = this->getAbstractGraph(1);
+
+		edge_iterator ei = absg->getEdgeIter();
+		edge* e = absg->edgeIterNext(ei);
+		while(e)
+		{
+			if(e->getMarked())
+				deleteQueue.push_back(e);
+			e = absg->edgeIterNext(ei);
+		}
+		
+		if(deleteQueue.size() == 0)
+			return;
+			
+		while(deleteQueue.size() > 0)
+		{
+			edge* target = deleteQueue.back();
+			node* n1 = absg->getNode(target->getFrom());
+			node* n2 = absg->getNode(target->getTo());
+			
+			absg->removeEdge(target);
+			delete target;
+			
+			/* if endpoints of dominated transition are not required by other inter-edges, we can delete them too */
+			if(!hasMoreInterEdges(n1, absg)) 
+			{
+				removeDominatedNodeFromParentCluster(n1); 
+				removeDominatedNodeFromGraph(n1, absg);			
+			}
+			if(!hasMoreInterEdges(n2, absg))
+			{
+				removeDominatedNodeFromParentCluster(n2); 
+				removeDominatedNodeFromGraph(n2, absg);
+			}
+			deleteQueue.pop_back();
+		}
+		
+		repair_kParent_Labels();
+		//repairAbstractNodeCollectionInClusters();
+}
+
+void AnnotatedClusterAbstraction::removeDominatedNodeFromParentCluster(node* n)
+{
+	AnnotatedCluster* ac = this->getCluster(n->getParentCluster());
+	std::vector<node*> *nodes = &(ac->getParents());
+	for(int i=0; i<nodes->size(); i++)
+	{
+		node* tmp = nodes->at(i);
+		if(tmp == n)
+		{
+			nodes->erase(nodes->begin()+i);
+			return;
+		}
+	}
+}
+
+void AnnotatedClusterAbstraction::removeDominatedNodeFromGraph(node* n, graph* absg)
+{
+	edge_iterator ei = n->getEdgeIter();
+	edge* e = n->edgeIterNext(ei);
+	while(e)
+	{
+		absg->removeEdge(e);
+		delete e;
+		e = n->edgeIterNext(--ei);
+	}
+	absg->removeNode(n->getNum());
+	node* lowlevelnode = this->getNodeFromMap(n->getLabelL(kFirstData), n->getLabelL(kFirstData+1));
+	lowlevelnode->setLabelL(kParent, -1); // no longer abstracted by anything
+	delete n;	
+}
+
+/* when endpoints of dominated edges are removed, the kParent labels of the nodes in the low-level graph are rendered incorrect
+	(they store index positions of abstract nodes, which change as a result of the deletion). 
+	This method repairs the problem.
+*/
+void AnnotatedClusterAbstraction::repair_kParent_Labels()
+{
+	graph* absg = this->getAbstractGraph(1);
+	node_iterator ni = absg->getNodeIter();
+	node* absn, *n;
+	absn = absg->nodeIterNext(ni);
+	while(absn)
+	{	
+		n = this->getNodeFromMap(absn->getLabelL(kFirstData), absn->getLabelL(kFirstData+1));
+		n->setLabelL(kParent, absn->getNum());
+		absn = absg->nodeIterNext(ni);
+	}
+}
+
+/* repair by rebuilding abstract node collectio; re-add nodes from the abstract graph to the cluster marked as their parent.
+	Easier than iterating through each cluster's nodes and working out what's OK vs not.
+*/
+void AnnotatedClusterAbstraction::repairAbstractNodeCollectionInClusters()
+{	
+	/* blow away the current collection of abstract nodes */
+	int totalClusters = this->getNumClusters();
+	for(int i=0; i<totalClusters; i++)
+	{
+		AnnotatedCluster* ac = this->getCluster(i);
+		ac->getParents().clear();
+	}
+	
+	graph* absg = this->getAbstractGraph(1);
+	node_iterator ni = absg->getNodeIter();
+	node* absn = absg->nodeIterNext(ni);
+	while(absn)
+	{
+		AnnotatedCluster *ac = getCluster(absn->getParentCluster());
+		ac->getParents().push_back(absn);
+		absn = absg->nodeIterNext(ni);
+	}
+}
+
+bool AnnotatedClusterAbstraction::hasMoreInterEdges(node* n, graph* absg)
+{
+	int nParentCluster = n->getParentCluster();
+	edge_iterator ei = n->getEdgeIter();
+	edge* e = n->edgeIterNext(ei);
+	while(e)
+	{
+		node* to = absg->getNode(e->getTo());
+		node* from = absg->getNode(e->getFrom());
+		if(to->getParentCluster() != nParentCluster || from->getParentCluster() != nParentCluster)
+			return true;
+			
+		e = n->edgeIterNext(ei);
+	}
+	
+	return false;
 }
 
 void AnnotatedClusterAbstraction::openGLDraw()

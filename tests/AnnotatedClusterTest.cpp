@@ -311,6 +311,15 @@ void AnnotatedClusterTest::constructorShouldThrowExceptionWhenYOriginParameterIs
 
 }
 
+void AnnotatedClusterTest::addEntranceShouldTruncateClearanceTo_MAXAGENTSIZE_IfLarger()
+{
+	createEntranceNodes();
+	e1_clearance=200;
+	ac->addEntrance(e1_n1, e1_n2, e1_capability, e1_clearance, aca_mock);
+	edge* e = absg->getRandomEdge();
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("clearance value of new entrance not truncated", MAXAGENTSIZE, e->getClearance(e->getCapability()) );
+}
+
 /* integration test; depends on other methods. TODO: add in a mock to isolate code */
 void AnnotatedClusterTest::addEntranceShouldSetEdgeWeightToExactlyOne()
 {
