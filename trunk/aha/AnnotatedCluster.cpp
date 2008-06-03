@@ -159,6 +159,8 @@ void AnnotatedCluster::addEntrance(node* from, node* to, int capability, int cle
 {					
 	if(clearance <= 0)
 		throw InvalidClearanceParameterException();
+	if(clearance > MAXAGENTSIZE)
+		clearance = MAXAGENTSIZE;
 		
 	if(from->getClearance(capability) < clearance || to->getClearance(capability) < clearance)
 		throw EntranceNodeIsNotTraversable();
@@ -448,7 +450,6 @@ void AnnotatedCluster::connectEntranceEndpoints(node* newendpoint, AnnotatedClus
 
 void AnnotatedCluster::connectEntranceEndpointsForAGivenCapabilityAndSize(node* newendpoint, node* existingendpoint, int capability, int size, AnnotatedClusterAbstraction* aca)
 {
-	graph* absg = aca->getAbstractGraph(1);
 	double maxdist = getWidth()*getHeight(); // use maximum possible distance between these two endpoints as an upperbound param when searching for existing edges that may exist between these two endpoints
 	edge* e=0;
 	

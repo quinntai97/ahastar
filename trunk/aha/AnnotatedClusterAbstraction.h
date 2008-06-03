@@ -87,7 +87,13 @@ class AnnotatedClusterAbstraction : public AnnotatedMapAbstraction
 		virtual int getNumberOfAbstractionLevels() { return abstractions.size(); }
 
 	private:
-		void findDominantTransition(edge* first, edge* second, edge** dominantOut);
+		void findAndMarkDominatedTransition(edge* first, edge* second);
+		bool hasMoreInterEdges(node* n, graph* absg);
+		void removeDominatedEdgesAndEndpoints();
+		void removeDominatedNodeFromGraph(node* n, graph* absg);
+		void repair_kParent_Labels();
+		void repairAbstractNodeCollectionInClusters(); 
+		void removeDominatedNodeFromParentCluster(node* n); 
 	
 		int nodesExpanded; 
 		int nodesTouched; 

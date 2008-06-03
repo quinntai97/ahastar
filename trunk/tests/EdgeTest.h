@@ -23,7 +23,7 @@ class EdgeTest : public CPPUNIT_NS::TestFixture
 {
 	CPPUNIT_TEST_SUITE( EdgeTest );
 	CPPUNIT_TEST( setClearanceShouldStoreAGivenCapabilityAndItsCorrespondingClearanceValue );
-	CPPUNIT_TEST( setClearanceShouldDoNothingWhenCapabilityIsNotValid );
+//	CPPUNIT_TEST( setClearanceShouldDoNothingWhenCapabilityIsNotValid );
 	CPPUNIT_TEST( constructorShouldInitialiseClearanceAndCapabilityValuesToZero );
 	CPPUNIT_TEST( setClearanceShouldDoNothingWhenClearanceValueIsLessThanOrEqualToZero );
 	CPPUNIT_TEST( getClearanceShouldReturnZeroGivenACapabilityThatDoesNotMatchTheStoredCapability );
