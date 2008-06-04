@@ -1,5 +1,5 @@
 #!/bin/bash
-mkdir 0pct_cache
+mkdir 0pct_refine
 for i in $(ls experiments/scenarios/softobs_0pct/*.scenario);
 do
    ./bin/sample -scenario $i -gui disable -quality high  -clustersize 10
@@ -15,9 +15,9 @@ do
    ./bin/sample -scenario $i -gui disable -quality high  -clustersize 20
    ./bin/sample -scenario $i -gui disable -quality low  -clustersize 20
 done
-mv results_* 0pct_cache
+mv results_* 0pct_refine
 
-mkdir 5pct_cache
+mkdir 5pct_refine
 for i in $(ls experiments/scenarios/softobs_5pct/*.scenario);
 do
    ./bin/sample -scenario $i -gui disable -quality high  -clustersize 10
@@ -33,9 +33,9 @@ do
    ./bin/sample -scenario $i -gui disable -quality high  -clustersize 20
    ./bin/sample -scenario $i -gui disable -quality low  -clustersize 20
 done
-mv results_* 5pct_cache
+mv results_* 5pct_refine
 
-mkdir 10pct_cache
+mkdir 10pct_refine
 for i in $(ls experiments/scenarios/softobs_10pct/*.scenario);
 do
    ./bin/sample -scenario $i -gui disable -quality high  -clustersize 10
@@ -51,4 +51,4 @@ do
    ./bin/sample -scenario $i -gui disable -quality high  -clustersize 20
    ./bin/sample -scenario $i -gui disable -quality low  -clustersize 20
 done
-mv results_* 10pct_cache
+mv results_* 10pct_refine
