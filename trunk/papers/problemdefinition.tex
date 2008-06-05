@@ -1,37 +1,26 @@
 \section{Problem definition}
-\begin{definition}
-A gridmap is a structure composed of square cells, of unit size, each of which represent a unique location in the environment. Each grid cell is an octile connected to $n$ neighbours, where  $0 \leq n \leq 8$. Furthermore, each octile is associated with a particular terrain type and there are $r \geq 1$ possible terrains.
-\end{definition}
-
-\begin{definition}
+A \emph{gridmap} is a structure composed of square cells, of unit size, each of which represent a unique location in the environment. 
+Each grid cell is an \emph{octile} connected to $n$ neighbours, where  $0 \leq n \leq 8$. 
+Furthermore, each octile is associated with a particular terrain type and there are $r \geq 1$ possible terrains.
+\par \indent
 Each grid map is representable as a graph, $G = (V, E)$ where each grid cell corresponds to a vertex in the set of vertices $V$ and each cell/neighbour adjacency is represented by an edge in the set of all edges $E$
-\end{definition}
-
-\begin{definition}
-An agent is any entity attempting to move across a grid environment. Agents have an initial start location where they begin and a goal location which they actively try to reach. Every agent is square in shape and has a size $s \geq 1$. While stationary or moving, each agent occupies $s^2$ tiles. Furthermore, every agent has a terrain traversal capability which is not the null set.
-\end{definition}
-
-
-\begin{definition}
-A capability is an agent attribute comprising a proper subset of terrains. Each capability is unique in the set of all capabilities. 
-\end{definition}
-
-\begin{definition}A clearance value is a metric associated with a particular capability and location in the grid environment. It measures the maximal size of an agent at a given location without intersecting any obstacle in the environment. 
-\end{definition}
-
-\begin{definition}
-A location is traversable by an agent only if the agent's capability includes the terrain type of the target location and the agent's size is at most equal to the  clearance value associated with the agent's capability at the target location. 
-\end{definition}
-
-\begin{definition}
-An \emph{soft obstacle} is a location in the environment which is not traversable by an agent because it lacks the correct capability or its size makes it too large to traverse the location. 
-\end{definition}
-
-\begin{definition}
-A \emph{hard obstacle} is a location which is not traversable by any agent regardless of capability or size.
-\end{definition}
-
-\begin{definition}
-There is at most one optimal true distance between a start and goal location for each agent size and capability.
-\end{definition}
-
+\par \indent
+Each map tile is either blocked or traversable. 
+Each traversable tile has an associated terrain type. 
+Blocked tiles are called \emph{hard obstacles}, since no agent can occupy them.
+\par \indent
+An \emph{agent} is any entity attempting to move across a grid environment. 
+Every agent is square in shape and has a size $s \geq 1$.
+While stationary or moving, each agent occupies $s^2$ tiles. 
+When an agent occupies several tiles simultaneoulsly, the top-left corner of the agent corresponds to its current location.
+\par \indent
+Every agent has a terrain traversal \emph{capability}, defined as an attribute comprising a non-empty set of terrains. 
+An agent can never occupy a tile whose terrain type is not included in its capability.
+\par \indent 
+A \emph{soft obstacle} is a traversable tile which is not traversable by a specific agent because it lacks the correct capability or its size is larger than the associated clearance value of the tile, as defined below. 
+\par \indent
+A \emph{clearance value} is an obstacle-distance metric associated with a particular tile in the grid environment. 
+Each clearance value measures the maximal size of an agent at a given location without intersecting any obstacle in the environment. 
+A tile can have several clearance values associated with it, one for each capability. 
+\par \indent
+A \emph{problem instance} is defined as a pair of locations in the environment. These correspond to an initial location where an agent begins and a goal location which it actively tries to reach. A problem is valid if at least one path exists between the start and goal locations comprising only tiles traversable by the agent. 
