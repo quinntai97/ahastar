@@ -1,22 +1,34 @@
 \section{Related Work}
-A very effective method for the efficient compuation of path planning solutions is to make the original problem more tractable by creating and searching within a smaller yet equivalent abstract space. Abstraction factors a search problem into many smaller problems and thus allows agents to reason about pathfinding strategies in terms of macro operations. This is known as hierarchical path planning. \\ \newline
-Two recent hierarchial path planners relevant to our work are described in \cite{botea04} and \cite{sturtevant05}. The first of these, HPA*, performs grid-based decomposition of the search-space by dividing the environment into square clusters connected by entrances. Planning involves inserting the low-level start and goal nodes into the abstract graph and finding the shortest path between them. 
-PRA* on the other hand builds a multi-level search-space by abstracting cliques of nodes; the result is to narrow the search space in the original problem to a "window" of nodes along the optimal shortest-path.\newline
-Both HPA* and PRA* are focused on solving planning problems for homogenous agents in homogenous-terrain environments and hence are not complete when either of these variables changes. 
-We use clearance-value calculations to work out the size of the corridor connecting the start and goal nodes, thus guiding our search to only consider traversable locations. 
-Our technique is similar to HPA* but we extend that work and apply our new technique to solving a wider range of problems. \\
-\medskip
-In robotics, force potentials help autonomous robots find collision-free paths through an environment. The basic intution is that a robot is attracted to the far-away goal and repulsed away from obstacles as it nears them. A well known method for calculating potentials is the Brushfire algorithm \cite{latombe91}, which proceeds by annotating each tile in a grid-map with the distance to the nearest obstacle. This embedded information allows the robot to calculate repulsive potentials and makes it possible to plan using a gradient descent strategy. \newline
-Brushfire is similar to AHA* in that the annotations it produces allow an agent to know something about its proximity to a nearby obstacle. AHA* differs by explicitly calculating the maximal size of traversable space at each location on the map. Furthermore, unlike Brushfire, AHA* does not suffer from incompleteness which can occur when repulsive forces cancel each other out and lead the robot into a local minimum. \\
-\medskip
-The Corridor Map Method \cite{geraerts07} is a recently introduced path planner which involves building a \emph{probabilistic roadmap} to represent map connectivity. 
-The roadmap (or backbone path) is comprised of nodes which are annotated with clearance information that indicates the radius of a maximally sized bounding sphere before an obstacle is encountered. Nodes are placed on the roadmap by creating voronoi regions to split the map and identify locations that maximise local distance from fixed obstacles. The approach is very effective and allows the planner to answer queries for multi-size agents. Potential forces are used during path execution to refine the abstract plan and avoid dynamic obstacles. \newline
-Similarities exist between AHA*'s approach to computing clearance and the CMM  method; both metrics are concerned with the amount of traversable space at a given location but our approach is adapted to grid environments which are much simpler to create than roadmaps and more commonly found in a range of applications. 
-Furthermore, instead of computing a single clearance value, we derive one for each terrain traversal capability our agents may be equipped with. 
-This makes our method more information rich. 
-Our cluster-based abstraction technique also differs from the roadmap approach; it allows allows us to vary the size and resolution of our abstraction, giving us fine-grain control over the size of the abstract graph. By comparison, the CMM abstract graph has a fixed size.\\
-\medskip
-Representing an environment using navigation-meshes is increasingly popular in the literature. Two recent planners in this category are Triangulation A* and Triangulation Reduction A* \cite{demyen07}. TA* makes use of a technique known as Delaunay triangulations to cover the environment with triangular polygons whose degrees are maximised. This results in an undirected graph connected by constrained and unconstrained edges; the former being traversable and the latter not. TRA* is an extension of this approach that abstracts the triangle mesh into a structure resembling a roadmap. 
+A very effective method for the efficient compuation of path planning solutions is to make the original problem more tractable by creating and searching within a smaller approximate abstract space. Abstraction factors a search problem into many smaller problems and thus allows agents to reason about pathfinding strategies in terms of macro operations. This is known as hierarchical path planning. 
+\par
+\indent Two recent hierarchial path planners relevant to our work are described in \cite{botea04} and \cite{sturtevant05}. The first of these, HPA*, builds an  abstract search graph by dividing the environment into square clusters connected by entrances. Planning involves inserting the low-level start and goal nodes into the abstract graph and finding the shortest path between them. \\
+PRA* on the other hand builds a multi-level search-space by abstracting cliques of nodes; the result is to narrow the search space in the original problem to a "window" of nodes along the optimal shortest-path.
+Both HPA* and PRA* are focused on solving planning problems for homogenous agents in homogenous-terrain environments and hence are not complete when either of these variables change. 
+Our technique is similar to HPA* but we extend that work and apply our new technique to solving a wider range of problems. 
+\par 
+\indent In robotics, force potentials help autonomous robots find collision-free paths through an environment. The basic intution is that a robot is attracted to the far-away goal and repulsed away from obstacles as it nears them. A well known method for potential-based path planning is the Brushfire algorithm \cite{latombe91}, which proceeds by annotating each tile in a grid-map with the distance to the nearest obstacle. This embedded information allows the robot to calculate repulsive potentials and makes it possible to plan using a gradient descent strategy. 
+Brushfire is similar to AHA* in that the annotations it produces allow an agent to know something about its proximity to a nearby obstacle. 
+AHA* differs by explicitly calculating the maximal size of traversable space at each location on the map. 
+Furthermore, unlike Brushfire, AHA* does not suffer from incompleteness which can occur when repulsive forces cancel each other out and lead the robot into a local minimum. 
+\par
+\indent The Corridor Map Method \cite{geraerts07} is a recently introduced path planner which involves building a \emph{probabilistic roadmap} to represent map connectivity. 
+The roadmap (or backbone path) is comprised of nodes which are annotated with clearance information that indicates the radius of a maximally sized bounding sphere before an obstacle is encountered. 
+Nodes are placed on the roadmap by creating Voronoi regions to split the map and identify locations that maximise local distance from fixed obstacles. 
+The approach is very effective and allows the planner to answer queries for multi-size agents. 
+Potential forces are used during path execution to refine the abstract plan and avoid dynamic obstacles. \\
+Both AHA* and the CMM method are concerned with the amount of traversable space at a given location but our approach is adapted to grid environments, which are much simpler to create than roadmaps and more commonly found in a range of applications. 
+Furthermore, instead of computing a single clearance value, we derive one for each terrain traversal capability our agents may be equipped with, making our method more information rich. 
+Our cluster-based abstraction technique also differs from the roadmap approach; it allows us to vary the size and resolution of our abstraction, giving us fine-grain control over the size of the abstract graph. 
+By comparison, the CMM abstract graph has a fixed size.
+\par 
+\indent Representing an environment using navigation-meshes is increasingly popular in the literature. 
+Two recent planners in this category are Triangulation A* and Triangulation Reduction A* \cite{demyen07}. 
+TA* makes use of a technique known as Delaunay triangulation to cover the environment with triangular polygons whose degrees are maximised. 
+This results in an undirected graph connected by constrained and unconstrained edges; the former being traversable and the latter not. 
+TRA* is an extension of this approach that abstracts the triangle mesh into a structure resembling a roadmap. 
 Like our method, both TA* and TRA* are able to answer path queries for multi-size agents. 
-In the case of TRA* the required clearance value to traverse a triangle is calculated by measuring the length of the triangle sides that need to be crossed and comparing them against the diametric size of the agent's bounding volume; this is similar to our method. The abstraction approaches used by TA and TRA* are very distinctly different from our work. Where we use a simple division of the environment into square clusters, their approach aims to maximise triangle size. We also have additional terrain requirements while both TA* and TRA* assume a homogenous environment.
+In the case of TRA* the required clearance value to traverse a triangle is calculated by measuring the length of the triangle sides that need to be crossed and comparing them against the diametric size of the agent's bounding volume; this is similar to our method. 
+The abstraction approaches used by TA and TRA* are very distinctly different from our work. 
+Where we use a simple division of the environment into square clusters, their approach aims to maximise triangle size. 
+We also have additional terrain requirements while both TA* and TRA* assume a homogenous environment.
 
