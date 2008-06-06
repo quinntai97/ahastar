@@ -1,63 +1,59 @@
-\section{Planning with Clearance Value Annotations}
+\section{Computing Clearance Value Annotations}
 \label{aha:planningwithannotations}
-On a grid map, a clearance value is associated with each octile and is perhaps best explained as representing the length or width of a theoretical square bounding volume that begins at the tile being evaluated and is expanded until it intersects an obstacle. \\
-Figure \ref{aha-fig:annotations} gives a quick overview of the idea. In \ref{aha-fig:annotations}(a) we present a simple map region and a traversable target tile with minimum clearance. (b) and (c) show the first two successful expansions of the bounding volume; the third (d), fails. In (e) we show the resultant annotations for all single-terrain capabilities on our two-terrain toy map example (note that hard obstacles are black and their clearances omitted). Finally, In \ref{aha-fig:annotations}(f) we show a different set of annotations derived using a two-terrain capability; useful for agents that can traverse both types of terrains.
+On a grid map, a clearance value is perhaps best explained as representing the length or width of a square that begins at some octile being evaluated and is expanded symmetrically to the right and down until it intersects an obstacle.     
+To make our ideas more concrete we will use as a running example a simple environment featuring two terrain types: Ground (represented as white tiles) and Trees (represented as grey tiles). To distinguish traversable tiles from non-traversable tiles we will colour hard obstacles black. 
+The set of capabilities, $C$, required to traverse such a map is thus defined as $C = {{Ground}, {Trees}, {Ground \wedge Trees}}$.
+\par \indent
+Figure \ref{aha-fig:annotations} (a) to (e) illustrates how clearance can be computed with an iterative procedure in an environment as described above.
+In fig. \ref{aha-fig:annotations}(a) the clearance square for the highlighted traversable target tile is initialised to 1. 
+Subsequent iterations (fig \ref{aha-fig:annotations}(b)-(c)) extend the square and increment the clearance. 
+The process continues until the square contains an obstacle (fig. \ref{aha-fig:annotations}(d)) or extends beyond a map boundary at which point we terminate and do not increment clearance any further.
+\par \indent
+In fig. 1(e) we show the resultant clearance values for the single-terrain ${Ground}$ capability on a toy map example (note that we omit zero-value clearances).
+Similarly, figures 1(f) and (g) show the clearance values associated with the ${Trees}$ and ${Ground \wedge Trees}$ capabilities respectively.  
 
 \begin{figure}[htbp]
-       \caption{\emph{The annotation process (top). Annoating our example map using a single terrain capability (left)  and multi-terrain capability (right) } }
+       \caption{\emph{(a)-(d) The annotation process. (e)-(g) Clearance values for different capabilities.}}
        \begin{center}
                        \includegraphics[scale=0.25]{diagrams/annotations.png}
        \end{center}
        \label{aha-fig:annotations}
 \end{figure}
 
-%\begin{figure}[htbp]
-%        \caption{\emph{Determining maximal clearance} }
-%        \begin{center}
-%                        \includegraphics[scale=0.42]{diagrams/calculatingclearance.png}
-%        \end{center}
-%        \label{aha-fig:calculatingclearance}
-%\end{figure}
-
-In practice, we can more easily compute clearances recursively; we present such an implementation in algorithm \ref{aha-alg:calculateclearance}. The approach is straightforward:  
-\begin{definition}
-Each traversable tile begins with a minimum \emph{base clearance} of 1
-\end{definition}
-
-\begin{definition}
-The clearance value of a traversable tile, for some capability $c$, is equal to its \emph{base clearance} + the minimum clearance value for $c$ among the set of immediate neighbours in the directions ${East, Southeast, South}$. We assume the map orientation is not isometric and up corresponds to the cardinal direction North. 
-\end{definition}
-
-\begin{definition}
-All obstacles (hard or soft) have a clearance value of 0. 
-\end{definition}
-
-Once derived, we will use an additional few bytes of memory to annotate the corresponding node in our graph with this new information and repeat the entire procedure for each member in the set of all capabilities. Note that we do not need to store 0 values as the clearance for any capability which does not include a node's terrain is automatically 0 (ie. the node is a soft obstacle for any agent with  such capabilities). We omit precise implementation details of where to store clearances as these considerations will vary depending on the specific application and available resources. We opted to add attributes to our node data structures for simplicity; a better method would be to use compact tables.
-
-\input algorithms/alg1_calculateclearance
-
-
+Once a clearance value is derived we store it in memory and repeat the entire procedure for each $c \in C$. The algorithm terminates when all octiles $t \in gridmap$ have been considered. 
+We omit precise implementation details of where to store clearances as these considerations will vary depending on the specific application and available resources. We opted to add attributes to our node data structures for simplicity; a better method would be to use compact tables.
+\par \indent
+We can characterise the space complexity associated with computing clearance values in this fashion as so:
 \begin{lemma}
 \label{aha-lemma:numannotations}
-Let $r$ be the number of all terrain types in an environment, $V$ the set of all graph vertices and $V_{HO} \in V$ the set of hard obstacles. Then, the number of annotations required for a non-abstract graph is $|V|*2^r/2 - |V_{HO}|$
+Let $r$ be the number of all terrain types in an environment, $V$ the set of all graph vertices and $V_{HO} \in V$ the set of hard obstacles. Then, the number of clearance values required for a non-abstract graph is $|V|*2^r/2 - |V_{HO}|$
 \end{lemma}
 
 \begin{proof}
 For a node to be traversable for some capability, the capability must include the node's terrain type (by definition). 
-There are $2^r$ capabilities (by induction) but the maximum number of capabilities that include a node's terrain type is $2^r/2$ (by induction). There are $|V|$ nodes in total to represent the envrionment, and we avoid storing any clearance values for all nodes in $|V_{HO}|$. 
+There are $2^r$ capabilities (by induction) but the maximum number of capabilities that include a node's terrain type is $2^r/2$ (by induction). 
+There are $|V|$ nodes in total to represent the envrionment, and we avoid storing any clearance values for all nodes in $V_{HO}$. 
 \qed
 \end{proof}
 
-The key advantage of annotating a map in this fashion is that we are able to plan for both large and small agents using a fixed size grid. 
-We can determine valid pathfinding areas for any agent by simply comparing the size and capabilities of our agent with the corresponding terrain and capability clearance values in the search graph. 
-In the case of large agents, which will occupy several tiles simultaneously, we need know only that the top-left tile that will be occupied by the the agent is traversable; the clearance value annotation guarantees that the rest of the area is obstacle free. This is an important property leading to reducibility and simplification of search problems. We give the following theorem and proof by contradiction:
-
+The result from lemma \ref{aha-lemma:numannotations} suggests that it is impractical to store every clearance value; there are $\Theta(2^r)$ per node.
+Luckily, clearance values can be computed on-demand with little effort. 
+We present such an approach in algorithm \ref{aha-alg:calculateclearance}. 
+It is worth noting that the amount of time required to determine clearance for an octile can be further reduced if the size of the agent is known beforehand; in such cases, we need only consider the tiles inside a clearance square of maximum area $s^2$ octiles.
+\input algorithms/alg1_calculateclearance
+\par \indent
+The key advantage of annotating a map in this fashion is that we are able to plan for both large and small agents using a fixed size grid. We present the following theorem and proof by construction to demonstrate the validity of this claim:
 \begin{theorem}
 \label{aha-theorem:reducibility}
-Given a suitably annotated grid map, any instance of of a large-agent search problem can be reduced into a small-agent search problem.
+Given an annotated grid map, any instance of a large-agent search problem can be reduced into a small-agent search problem, where the size of the agent is one tile.
 \end{theorem}
 
-To prove theorem \ref{aha-theorem:reducibility}, we need to prove that it is always the case that the area represented by the clearance value of some node is obstacle free. 
 \begin{proof}
-It is not the case than an agent of some size and capability can successfully traverse an area represented by a node annotated with a clearance value at least equal to the agent's size. From this, it follows that one of the tiles in the area occupied by the agent is an obstacle for the agent (by definition). If one of the tiles occupied by the agent is an obstacle, it will have a clearance value of zero (by definition). Since the process for deriving clearance depends on recursively taking the minimum value among a set of neighbours, the clearance metric is measuring the distance to the nearest obstacle (intuitively, by definition). Thus, it cannot be the case that a node can have a larger clearance value than the minimum obstacle distance. This in turn means the agent cannot be occupying any tile which is an obstacle. \qed
+A clearance value for some tile $t \in gridmap$ is given by $t(c_{t}) = cv$ and measures the distance to the nearest obstacle for some capability $c_{t} \in C$ by taking the height or width of a maximal-size clearance square (by definition). 
+If $cv > 0$ it must be the case that the terrain type of every tile in the clearance square is included in $c_{t}$ (by definition). 
+\par \indent
+For an agent to traverse a tile it must have a size $s$ and capability $c_{a} \in C$ such that $t(c_{a}) \geq s$ (intuitively).
+If this condition holds, it must be the case that every tile in the area that will be occupied by the agent is traversable for that agent (by induction). 
+Thus, a large agent is able to navigate across a map by only considering the traversal requirements of the top-left node it will occupy. \qed
 \end{proof}
+This is a highly useful result because it indicates that we can apply abstraction techniques from classical path planning to answer much more complex queries involving a wide range of terrain type and agent-size variables.

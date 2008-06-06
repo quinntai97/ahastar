@@ -1,11 +1,14 @@
 \begin{algorithm}
-\caption{Calculate Clearance Values (CV)}
+\caption{Calculate Octile Clearance Value}
 \label{aha-alg:calculateclearance}
 \begin{algorithmic}
-\REQUIRE $t \in Tiles_{all}$ and $c \in Capabilities_{all}$
-
-	\IF{ $\neg$ traversable(t,c)} \STATE $return \leftarrow 0$  \ENDIF
-	\STATE $cv \leftarrow min(CV(t_{E}, c), CV(t_{S}, c), CV(t_{SE})) + 1$
+\REQUIRE $t \in gridmap$ and $c \in C$
+	\STATE $square \leftarrow t$
+	\STATE $cv \leftarrow 0$
+	\WHILE{traversable(square, c)}
+		\STATE $cv \leftarrow cv + 1$
+		\STATE $square \leftarrow expand(square)$
+	\ENDWHILE
 	\STATE \textbf{return} $cv$
 \end{algorithmic}
 \end{algorithm}
