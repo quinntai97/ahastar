@@ -5,24 +5,18 @@ Instead of planning every step, we would prefer to express a more general strate
 We will achieve this by starting from the off-line decomposition technique described in \cite{botea04} and extending it to deal with large agents and multiple terrains. 
 Our result from theorem {\ref{aha-theorem:reducibility} is key to the spatial abstraction described in this section. 
 \par \indent
-The general process in \cite{botea04} involves dividing a grid map into \emph{clusters} and \emph{entrances}. 
-In that work, a \emph{cluster} is a subset of the original grid map which results when the map is divided into a set of adjacent sections. Meanwhile, an \emph{entrance} is a contiguous area (ie. obstacle free) between two adjacent lines of tiles $l1$ and $l2$ that represent the border of two clusters $c_{l1}$ and $c2_{l2}$. 
-If obstacles exist along the border between two clusters, several entrances may be created.
+The general process in \cite{botea04} involves dividing a grid map into \emph{clusters} and a corresponding set of transition areas called \emph{entrances}. 
+A  cluster is a subset of the original grid map which results when the map is divided into a set of fixed-size square sections. 
+Figure \ref{aha-fig:clustersandentrances}(a) shows the result of this decomposition approach; we use clusters of size 5 to split our toy map into 4 adjacent sections.
+In the original work entrances are obstacle-free transition areas which exist along the border area between adjacent pairs of clusters. They are extended until an obstacle is encountered or the end of the common border area is reached. 
+Once an entrance is identified, transition points are selected at key locations along the entrance area and represented in the abstract graph by a pair of nodes connected by an undirected \emph{inter-edge} of weight 1.0. 
 \par \indent
-In figure \ref{aha-fig:clustersandentrances}(a) we show the result of a simple division using a fixed-size square cluster approach. In this case, our toy map is divided into 4 adjacent clusters. 
-Building entrances is likewise straightforward. 
-We must scan the border of every cluster where it is adjacent to another in order to determine if one is reachable from the other. 
-In the original work, once an entrance is identified, transitions are created between the clusters by adding a pair of connected nodes to the abstract graph to represent key locations along the entrance area. 
-In our case, we choose as the transition point the pair of nodes which maximise the clearance value for a given capability. 
-We compute this latter metric by taking the minimum clearance among each node pair in the entrance area and selecting the largest value from the resultant set. 
+Our approach differs by requiring as parameters $C$, the set of all capabilities, and $S$, the set of all agent sizes that will be traversing the map. We thus begin by attempting to identify entrances $\forall c \in C$. Once found, we choose as the transition point the first pair of adjacent nodes which maximise clearance. We compute this latter metric by taking the minimum clearance among each node pair in the entrance area and selecting the largest value from the set. The resultant inter-edge $e_{inter}$ is annotated such that $e_{inter}(c) = cv$. If $e_{inter}(c) = cv > max(s) \in S$, we truncate the clearance value such that $e_{inter}(c) = max(s)$. As we will see in the following section, this step is important for keeping the size of the graph to a minimum.
 \par \indent
-We proceed in this way and scan the entrance area for transitions for each available capability. 
-When a maximally sized transition is located, we annotate the resultant abstract edge with the newly discovered clearance value and the capability used to find it.
-Figure \ref{aha-fig:clustersandentrances}(b) and (c) highlight the entrance-building process. 
-In \ref{aha-fig:clustersandentrances}(b) we present three entrances identified by scanning the border between clusters $c1$ and $c3$.
-Entrances \emph{E1} and \emph{E2} are discovered using single-terrain capabilities, while \emph{E3}, which spans the whole border area, is discovered using a more complex multi-terrain capability. 
+In figure \ref{aha-fig:clustersandentrances}(b) we present three entrances identified by scanning the border between clusters $c1$ and $c3$.
+Entrances \emph{E1} and \emph{E2}, each of which span only part of the border area, are discovered using $\lbrace Ground \rbrace$ and $\lbrace Trees \rbrace$ capabilities. \emph{E3} meanwhile, which spans the whole border area, is discovered using the more complex $\lbrace Ground \vee Trees \rbrace$ capability. 
 The connected tiles represent the locations of the subsequent transition points; the final result is shown in \ref{aha-fig:clustersandentrances}(c). 
-Note that \emph{E1} and \emph{E3} are incident on the same pair of nodes in the abstract graph since our strategy involves actively attempting to re-use any existing nodes from the abstract graph. 
+Note that \emph{E1} and \emph{E3} are incident on the same pair of nodes in the abstract graph. This is due to our  strategy of actively attempting to re-use any existing nodes from the abstract graph. 
 We thus produce an abstract \emph{multi-graph}.
 
 \begin{figure}[htbp]
@@ -33,16 +27,17 @@ We thus produce an abstract \emph{multi-graph}.
         \label{aha-fig:clustersandentrances}
 \end{figure}
 
-We do not need to add any annotations to our abstract nodes; it is sufficient to define the length and traversal requirements of the \emph{corridor} connecting them. We define a corridor as a set of connected traversable nodes in the grid environment which connect a pair of locations. The length of a corridor is the sum of the traversal costs of all the nodes in the corridor set. A corridor is associated with a particular capability which must include the terrain type of every node in the corridor set. 
-The width of a corridor is thus given by the minimum clearance value for some given capability among all nodes in the corridor set. 
+As per \cite{botea04}, our final step to complete the decomposition involves attempting to connect each pair of abstract nodes identified in each cluster. 
+In our case, we achieve this by using AA* to search for the shortest path between each pair of nodes for each $(c, s)$ where $c \in C$ (the set of all capabilities) and $s \in S$ (the set of all agent sizes that will be traversing the map). We require that the latter be specified up-front when building the abstract graph to limit the combinatorial blow-up that results from trying to reason about the number of shortest paths between two points in complex problem spaces such as ours.
 \par \indent
-Our final step to complete the abstraction involves connecting each abstract node to every other reachable abstract node in the local cluster. 
-We achieve this by using AA* to search for the optimal path between each pair of nodes for all available capabilities and agent sizes. 
-Once a path is found we insert a new undirected edge into the abstract graph to connect the two nodes using the path distance as its cost and annotating it with the capability and clearance parameters used by AA* to find the solution. 
-To avoid edge duplication when pathfinding inside each  cluster we will order from lagest to smallest the set of available agent sizes which we pass as clearance parameters to AA*. 
-We also order the capability parameters we pass to AA* from simplest (those containing the least number of terrains) to most complex (the capability corresponding to the set of all terrains). 
-The intuition here is that if an optimal length corridor exists between two nodes we would like to re-use it instead of adding more edges to the graph. This is an instance of edge dominance, a concept we will discuss shortly.
-We thus present our complete map decomposition approach in  Algorithm \ref{aha-alg:buildabstraction}.
+Once a path is found we insert a new undirected \emph{intra-edge} into the abstract graph to connect the two nodes using the path distance as its weight and annotating it with the capability and clearance parameters used by AA*. 
+To limit the number of inter-edges we add to the abstract graph we will order from lagest to smallest the members of $S$. 
+We also order the members of $C$ from simplest (those capabilities containing the least number of terrains) to most complex (the capability corresponding to the set of all terrains). 
+\par \indent
+The intuition here is that if an inter-edge with large clearance represents the optimal length path between two nodes we would like to re-use it instead of discovering other edges with the same weight and capability using a smaller agent size. This is an instance of edge dominance, a concept we will discuss shortly.
+We term the resultant graph a \emph{high-quality abstraction} and present our complete decomposition approach in  algorithm \ref{aha-alg:buildabstraction}.
+\par \indent
+The result of this approach is highlighted in figure \ref{aha-fig:abstractgraph}(a), where we show the 13 identified intra-edges and their annotations for the pair of clusters from the previous example. In figure \ref{aha-fig:abstractgraph}(c) we can see the complete graph for our running example; we were able to represent a 2-terrain map with 100 nodes and 350 edges using just 13 nodes and  23 edges. 
 
 \input algorithms/alg_buildabstraction
 
@@ -56,12 +51,12 @@ A \emph{dominance relationship} is said to exist between two annotated edges whe
 
 The idea is simple: if two nodes are connected by multiple edges with overlapping traversal requirements we prefer to keep the edge with the largest clearance and most general capability (ie. involving fewer terrains), irrespective of comparative differences in length. A reasonable analogy we could draw at this point is to compare the way off-road vehicles opportunistically use roads where possible even if an off-road route (or trail) might exist which has a smaller distance cost. We prefer roads because are smoother to drive on and have other benefits such less wear and tear, better fuel consumption per kilometer ratio and so on. Of course, opting for a lower-quality abstraction in this way does have an effect on the quality of the computed solutions, but as we will show in our experimental analysis, the differences are reasonably small and the solutions still near-optimal for our test data. The best choice here depends on the requirements of the specific application to which the algorithm is applied; it is a classic tradeoff between performance vs space.
 
-Figure \ref{aha-fig:abstractgraph} shows the results of our abstraction technique on the toy map presented earlier. In \ref{aha-fig:abstractgraph}c we show the final abstraction result; we were able to represent a 2-terrain map with 100 nodes and 350 edges using just 13 nodes and  23 edges. In \ref{aha-fig:abstractgraph}d we show a low-quality abstraction. In this trival example we could only reduce the abstract edge count by 2 (in cluster \emph{C1}) but this is an atypical result as we will later demonstrate.
+In \ref{aha-fig:abstractgraph}d we show a low-quality abstraction. In this trival example we could only reduce the abstract edge count by 2 (in cluster \emph{C1}) but this is an atypical result as we will later demonstrate.
 
 \begin{figure}[htbp]
-        \caption{\emph{Entrance Building Examples} }
+        \caption{\emph{High and low quality abstraction results} }
         \begin{center}
-                        \includegraphics[scale=0.25]{diagrams/clusters_and_entrances.png}
+                        \includegraphics[scale=0.25]{diagrams/abstraction_result.png}
         \end{center}
         \label{aha-fig:abstractgraph}
 \end{figure}
