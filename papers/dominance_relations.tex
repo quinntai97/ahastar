@@ -6,7 +6,8 @@ A consequence of this observation is that in all experimental scenarios the same
 
 \begin{theorem}
 \label{aha-theorem:strongdominance}
-$e_{1} \prec e_{2}$ iff  $e_{1}(c) \geq e_{2}(c) \wedge weight(e_{1}) \leq weight(e_{2})$.
+Let $e_{1}, e_{2} \in E$ be two edges traversable by a common capability $c \in C$. In this scenario, $e_{1} \prec e_{2}$ iff
+$$ e_{1}(c) \geq e_{2}(c) \wedge weight(e_{1}) \leq weight(e_{2})$$
 \end{theorem}
 
 We term the resultant graph in which all strongly dominant edges have been removed a \emph{high-quality} abstraction. In figure \ref{aha-fig:abstractgraph}(c) we can see the complete graph for our running example; we were able to represent a 2-terrain map with 100 nodes and 350 edges using just 13 nodes and  22 edges. 
