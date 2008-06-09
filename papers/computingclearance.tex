@@ -2,15 +2,15 @@
 \label{aha:planningwithannotations}
 On a grid map, a clearance value is perhaps best explained as representing the length or width of a square that begins at some octile being evaluated and is expanded symmetrically to the right and down until it intersects an obstacle.     
 To make our ideas more concrete we will use as a running example a simple environment featuring two terrain types: Ground (represented as white tiles) and Trees (represented as grey tiles). To distinguish traversable tiles from non-traversable tiles we will colour hard obstacles black. 
-The set of capabilities, $C$, required to traverse such a map is thus defined as $C = {{Ground}, {Trees}, {Ground \wedge Trees}}$.
+The set of capabilities, $C$, required to traverse such a map is thus defined as $C = \lbrace \lbrace Ground \rbrace, \lbrace Trees \rbrace, \lbrace Ground \vee Trees \rbrace \rbrace$.
 \par \indent
 Figure \ref{aha-fig:annotations} (a) to (e) illustrates how clearance can be computed with an iterative procedure in an environment as described above.
 In fig. \ref{aha-fig:annotations}(a) the clearance square for the highlighted traversable target tile is initialised to 1. 
 Subsequent iterations (fig \ref{aha-fig:annotations}(b)-(c)) extend the square and increment the clearance. 
 The process continues until the square contains an obstacle (fig. \ref{aha-fig:annotations}(d)) or extends beyond a map boundary at which point we terminate and do not increment clearance any further.
 \par \indent
-In fig. 1(e) we show the resultant clearance values for the single-terrain ${Ground}$ capability on a toy map example (note that we omit zero-value clearances).
-Similarly, figures 1(f) and (g) show the clearance values associated with the ${Trees}$ and ${Ground \wedge Trees}$ capabilities respectively.  
+In fig. 1(e) we show the resultant clearance values for the single-terrain $\lbrace Ground \rbrace$ capability on a toy map example (note that we omit zero-value clearances).
+Similarly, figures 1(f) and (g) show the clearance values associated with the $\lbrace Trees \rbrace$ and $\lbrace Ground \vee Trees \rbrace$ capabilities respectively.  
 
 \begin{figure}[htbp]
        \caption{\emph{(a)-(d) The annotation process. (e)-(g) Clearance values for different capabilities.}}
@@ -26,12 +26,12 @@ We omit precise implementation details of where to store clearances as these con
 We can characterise the space complexity associated with computing clearance values in this fashion as so:
 \begin{lemma}
 \label{aha-lemma:numannotations}
-Let $r$ be the number of all terrain types in an environment, $V$ the set of all graph vertices and $V_{HO} \in V$ the set of hard obstacles. Then, the number of clearance values required for a non-abstract graph is $|V|*2^r/2 - |V_{HO}|$
+Let $CV$ be the set of all clearance values required to annotate a map, $r$ the number of terrain types, $V$ the set of all graph vertices and $V_{HO} \in V$ the set of hard obstacles. Then,  $$|CV| = |V|*\frac{2^r}{2} - |V_{HO}|$$
 \end{lemma}
 
 \begin{proof}
 For a node to be traversable for some capability, the capability must include the node's terrain type (by definition). 
-There are $2^r$ capabilities (by induction) but the maximum number of capabilities that include a node's terrain type is $2^r/2$ (by induction). 
+There are $2^r$ capabilities (by induction) but the maximum number of capabilities that include a node's terrain type is $\frac{2^r}{2}$ (by induction). 
 There are $|V|$ nodes in total to represent the envrionment, and we avoid storing any clearance values for all nodes in $V_{HO}$. 
 \qed
 \end{proof}
@@ -42,7 +42,7 @@ We present such an approach in algorithm \ref{aha-alg:calculateclearance}.
 It is worth noting that the amount of time required to determine clearance for an octile can be further reduced if the size of the agent is known beforehand; in such cases, we need only consider the tiles inside a clearance square of maximum area $s^2$ octiles.
 \input algorithms/alg1_calculateclearance
 \par \indent
-The key advantage of annotating a map in this fashion is that we are able to plan for both large and small agents using a fixed size grid. We present the following theorem and proof by construction to demonstrate the validity of this claim:
+The key advantage of calculating clearance is that we are able to plan for both large and small agents using a fixed size grid. We present the following theorem and proof by construction to demonstrate the validity of this claim:
 \begin{theorem}
 \label{aha-theorem:reducibility}
 Given an annotated grid map, any instance of a large-agent search problem can be reduced into a small-agent search problem, where the size of the agent is one tile.
