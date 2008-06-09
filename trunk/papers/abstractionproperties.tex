@@ -42,9 +42,7 @@ This recurrence relation holds for the general sequence counting formula $\frac{
 
 The above results are interesting for several reasons. 
 Firstly, lemma \ref{aha-lemma:maxnodes} shows that the number of nodes in the graph is a function of cluster-size. This suggests that by varying the dimensions of clusters we can trade a little performance (the time it takes to traverse a cluster) for memory (less abstraction overhead).
-The results in lemma \ref{aha-lemma:maxedgesincluster} and \ref{aha-lemma:maxtransitions}seem to support this hypothesis. 
-We see that the number of edges in the graph is mostly dependent on the size of the cluster rather than the number of capabilities. 
+The results in lemma \ref{aha-lemma:maxedgesincluster} and \ref{aha-lemma:maxtransitions} seem to support this hypothesis. 
+We see that the number of edges between nodes in the graph is mostly dependent on the complexity of the clusters in which they reside rather than exponential in the number of capabilities. 
 This is exciting because it means that, despite having an exponential abstract edge growth function, we can directly control the size of the exponent! 
 The cluster-based decomposition technique, in a classic example of dynamic programming, allows us to include as much or as little complexity in each cluster as we require.
-\par \indent
-We should note that while studying this problem we were unable to concot any scenarios where the number of edges even approached the theoretical worst-case suggesting that it is, infact, a mere approximation (or a highly pathological case).  A more exact characterisation is not easily derived due mostly to the combinatorial blow-up of possible terrain arrangements on even small maps with highly limited variable domains.
