@@ -5,13 +5,14 @@ Instead of planning every step, we would prefer to express a more general strate
 We will achieve this by starting from the off-line decomposition technique described in \cite{botea04} and extending it to deal with large agents and multiple terrains. 
 Our result from theorem {\ref{aha-theorem:reducibility} is key to the spatial abstraction described in this section. 
 \par \indent
-The general process in \cite{botea04} involves dividing a grid map into \emph{clusters} and a corresponding set of transition areas called \emph{entrances}. 
-A  cluster is a subset of the original grid map which results when the map is divided into a set of fixed-size square sections. 
-Figure \ref{aha-fig:clustersandentrances}(a) shows the result of this decomposition approach; we use clusters of size 5 to split our toy map into 4 adjacent sections.
-In the original work entrances are obstacle-free transition areas which exist along the border area between adjacent pairs of clusters. They are extended until an obstacle is encountered or the end of the common border area is reached. 
-Once an entrance is identified, transition points are selected at key locations along the entrance area and represented in the abstract graph by a pair of nodes connected by an undirected \emph{inter-edge} of weight 1.0. 
+The general process in \cite{botea04} involves dividing a grid map into \emph{clusters}; subsets of the original grid map which results when the map is divided into a set of fixed-size square sections. Figure \ref{aha-fig:clustersandentrances}(a) shows the result of this decomposition approach; we use clusters of size 5 to split our toy map into 4 adjacent sections.
 \par \indent
-Our approach differs by requiring as parameters $C$, the set of all capabilities, and $S$, the set of all agent sizes that will be traversing the map. We thus begin by attempting to identify entrances $\forall c \in C$. Once found, we choose as the transition point the first pair of adjacent nodes which maximise clearance. We compute this latter metric by taking the minimum clearance among each node pair in the entrance area and selecting the largest value from the set. The resultant inter-edge $e_{inter}$ is annotated such that $e_{inter}(c) = cv$. If $e_{inter}(c) = cv > max(s) \in S$, we truncate the clearance value such that $e_{inter}(c) = max(s)$. As we will see in the following section, this step is important for keeping the size of the graph to a minimum.
+In the original work \emph{entrances} are obstacle-free transition areas of maximal size which exist along the border area between adjacent pairs of clusters. They are represented in the abstract graph by a pair of nodes connected by an undirected \emph{inter-edge} of weight 1.0. 
+Our approach is similar but requires as parameters $C$, the set of all capabilities, and $S$, the set of all agent sizes that will be traversing the map. We thus begin by attempting to identify entrances $\forall c \in C$. Once an entrance is found, we choose as the transition point the first pair of adjacent nodes which maximise clearance. This latter metric is computed by taking the minimum clearance among each node pair in the entrance area and selecting the largest value from the set. The resultant inter-edge $inter$ is annotated such that $inter(c) = cv$. We also impose the following condition:
+\begin{equation}
+inter(c) > max(s) \Rightarrow inter(c) = max(s) | s \in S
+\end{equation}
+As we will see in the following section, this truncation step is important for keeping the size of the graph to a minimum.
 \par \indent
 In figure \ref{aha-fig:clustersandentrances}(b) we present three entrances identified by scanning the border between clusters $c1$ and $c3$.
 Entrances \emph{E1} and \emph{E2}, each of which span only part of the border area, are discovered using $\lbrace Ground \rbrace$ and $\lbrace Trees \rbrace$ capabilities. \emph{E3} meanwhile, which spans the whole border area, is discovered using the more complex $\lbrace Ground \vee Trees \rbrace$ capability. 
@@ -27,10 +28,15 @@ We thus produce an abstract \emph{multi-graph}.
         \label{aha-fig:clustersandentrances}
 \end{figure}
 
-As per \cite{botea04}, our final step to complete the decomposition involves attempting to connect each pair of abstract nodes identified in each cluster. 
-In our case, we achieve this by using AA* to search for the shortest path between each pair of nodes for each $(c, s)$ where $c \in C$ (the set of all capabilities) and $s \in S$ (the set of all agent sizes that will be traversing the map). We require that the latter be specified up-front when building the abstract graph to limit the combinatorial blow-up that results from trying to reason about the number of shortest paths between two points in complex problem spaces such as ours.
+The final step in the decomposition involves attempting to add to the abstract graph a set of \emph{intra-edges} for each pair of abstract nodes inside a cluster. We achieve this by using AA* such that:
+$$ getShortestPath(c, s) \Leftrightarrow intra : c \in C, s \in S $$
 \par \indent
-Once a path is found we insert a new undirected \emph{intra-edge} into the abstract graph to connect the two nodes using the path distance as its weight and annotating it with the capability and clearance parameters used by AA*. 
+Once a path is found we annotate the new edge, $intra$, with the capability and clearance parameters used by AA* and continue the process $\forall (c, s) : c \in C, s \in S$. The algorithm terminates when all clusters have been considered. 
+We term the resultant abstraction $initial$ and give the following lemmas to characterise its space complexity:
+
+\input abstractionproperties
+
+
 To limit the number of inter-edges we add to the abstract graph we will order from lagest to smallest the members of $S$. 
 We also order the members of $C$ from simplest (those capabilities containing the least number of terrains) to most complex (the capability corresponding to the set of all terrains). 
 \par \indent
