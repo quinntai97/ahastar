@@ -7,10 +7,11 @@ A consequence of this observation is that in all experimental scenarios the same
 \begin{theorem}
 \label{aha-theorem:strongdominance}
 Let $e_{1}, e_{2} \in E$ be two edges traversable by a common capability $c \in C$. In this scenario, $e_{1} \prec e_{2}$ iff
-$$ e_{1}(c) \geq e_{2}(c) \wedge weight(e_{1}) \leq weight(e_{2})$$
+$$ 1 \geq e_{1}(c) \geq e_{2}(c) \wedge weight(e_{1}) \leq weight(e_{2})$$
 \end{theorem}
 
-We term the resultant graph in which all strongly dominant edges have been removed a \emph{high-quality} abstraction. In figure \ref{aha-fig:abstractgraph}(c) we can see the complete graph for our running example; we were able to represent a 2-terrain map with 100 nodes and 350 edges using just 13 nodes and  22 edges. 
+We term the resultant graph in which all strongly dominant edges have been removed a \emph{high-quality} abstraction. 
+In figure \ref{aha-fig:abstractgraph}(c) we can see the complete graph for our running example; we were able to represent a 2-terrain map with 100 nodes and 350 edges using just 15 nodes and  37 edges. 
 
 \begin{figure}[htbp]
         \caption{\emph{Strong edge dominance} }
@@ -21,11 +22,11 @@ We term the resultant graph in which all strongly dominant edges have been remov
 \end{figure}
 
 The abstract graph can be further reduced by noticing that some multi-terrain transitions between clusters can be removed without affecting the completeness of the representation. 
-Figure \ref{aha-fig:abstractgraph}(a) highlights the problem and \ref{aha-fig:abstractgraph}(b) the desired outcome.
-In this example we can see that edges $E5$ and $E6$ have the same clearance but are traversable by different capabilities. 
-However, any agent capable of traversing $E6$ can also traverse $E5$ without loss of generality. 
-We may further notice that the same is also true for $E7$ which suggests we can remove both $E6$ and $E7$ without losing any connectivity information from the graph. 
-In such cases we say $E5$ is \emph{weakly dominant} and denote it as $E5 \sim E6$ and $E5 \sim E7$. 
+Figure \ref{aha-fig:abstractgraph}(a) and (b) highlight the problem and \ref{aha-fig:abstractgraph}(c) and (d) the desired outcome.
+In this example we can see that edges $E1$ and $E2$ have the same clearance but are traversable by different capabilities. 
+However, any agent capable of traversing $E2$ can also traverse $E1$ without loss of generality. 
+In such cases we say $E1$ is \emph{weakly dominant} and denote it as $E1 \sim E2$. 
+We may further notice that the same is also true for $\lbrace E3, E4 \rbrace$, $\lbrace E6, E7 \rbrace$, $\lbrace E10, E8 \rbrace$ and $\lbrace E10, E9 \rbrace$ which suggests we can safely remove these edges without losing any connectivity information from the graph. 
 We formalise the concept using the following theorem:
 \begin{theorem}
 \label{aha-theorem:weakdominance}
@@ -42,9 +43,11 @@ Then, any location which an agent can reached by traversing $e_{b}$ can also be 
 If a circuit exists between the endpoints $\lbrace n1_{a}, n2_{a}, n1_{b}, n2_{b} \rbrace$ which contains only edges with clearances at least as large as $e_{b}(c_{b})$ for the capability $c_{b}$ then any nodes which are reachable from $n1_{b}$ or $n2_{b}$ are also reachable from $n1_{a}$ or $n2_{a}$.
 From this it follows that any destination an agent can reach via $e_{b}$ can also be reached via $e_{a}$ \qed
 \end{proof}
-In addition to removing weakly dominated edges, we can also remove their endpoints, provided they do not connect any other inter-edges. We thus refer to the initial abstraction that has had both strong and weakly dominated edges removed a \emph{low quality abstraction}.
-In \ref{aha-fig:abstractgraph}(d) we show a low-quality abstraction. 
-In this trival example we reduce the high quality abstraction from \ref{aha-fig:abstractgraph}(c) to 10 nodes and 11 edges.
+A direct consequence of theorem \ref{aha-theorem:weakdominance} is that in addition to removing weakly dominated inter-edges, we can also remove their endpoints and any intra edges those nodes may also connect; by the circuit condition, these are also dominated. 
+This corrolary only applies if the endpoints are not required by another (non-dominated) inter-edge representing a different cluster transition. 
+\par \indent
+We refer to the initial abstraction that has had both strong and weakly dominated edges removed a \emph{low quality abstraction}.
+In \ref{aha-fig:abstractgraph}(c) we reduce the high quality abstraction from \ref{aha-fig:abstractgraph}(a) to 10 nodes and 13 edges.
 \begin{figure}[htbp]
         \caption{\emph{High and low quality abstraction results} }
         \begin{center}

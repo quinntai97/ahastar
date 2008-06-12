@@ -2,7 +2,7 @@
 \label{aha:planningwithannotations}
 On a grid map, a clearance value is perhaps best explained as representing the length or width of a square that begins at some octile being evaluated and is expanded symmetrically to the right and down until it intersects an obstacle.     
 To make our ideas more concrete we will use as a running example a simple environment featuring two terrain types: Ground (represented as white tiles) and Trees (represented as grey tiles). To distinguish traversable tiles from non-traversable tiles we will colour hard obstacles black. 
-The set of capabilities, $C$, required to traverse such a map is thus defined as $C = \lbrace \lbrace Ground \rbrace, \lbrace Trees \rbrace, \lbrace Ground \vee Trees \rbrace \rbrace$.
+The set of capabilities, $C$, required to traverse such a map is thus defined as $C = \lbrace \lbrace Ground \rbrace, \lbrace Trees \rbrace, \lbrace Ground \vee Trees \rbrace \rbrace$. We will work with agents of two sizes traversing across this environment and thus let $S = \lbrace 1, 2 \rbrace$
 \par \indent
 Figure \ref{aha-fig:annotations} (a) to (e) illustrates how clearance can be computed with an iterative procedure in an environment as described above.
 In fig. \ref{aha-fig:annotations}(a) the clearance square for the highlighted traversable target tile is initialised to 1. 
@@ -49,10 +49,10 @@ Given an annotated grid map, any instance of a large-agent search problem can be
 \end{theorem}
 
 \begin{proof}
-A clearance value for some tile $t \in gridmap$ is given by $t(c_{t}) = cv$ and measures the distance to the nearest obstacle for some capability $c_{t} \in C$ by taking the height or width of a maximal-size clearance square (by definition). 
-If $cv > 0$ it must be the case that the terrain type of every tile in the clearance square is included in $c_{t}$ (by definition). 
+A clearance value for some tile $n \in gridmap$ is given by $n(c_{n}) = cv_{n}$ and measures the distance to the nearest obstacle for some capability $c_{n} \in C$ by taking the height or width of a maximal-size clearance square (by definition). 
+If $cv_{n} > 0$ it must be the case that the terrain type of every tile in the clearance square used to compute $cv_{n}$ is included in $c_{n}$ (by definition). 
 \par \indent
-For an agent to traverse a tile it must have a size $s$ and capability $c_{a} \in C$ such that $t(c_{a}) \geq s$ (intuitively).
+For an agent to traverse a tile it must have a size $s \in S$ and capability $c_{a} \in C$ such that $n(c_{a}) \geq s : c_{n} \in c_{a} $ (intuitively).
 If this condition holds, it must be the case that every tile in the area that will be occupied by the agent is traversable for that agent (by induction). 
 Thus, a large agent is able to navigate across a map by only considering the traversal requirements of the top-left node it will occupy. \qed
 \end{proof}
