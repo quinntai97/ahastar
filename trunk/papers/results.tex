@@ -1,16 +1,15 @@
 \section{Results}
 In tables \ref{aha-table:graphsize} and \ref{aha-table:searcheffort} we evaluate the performance of AHA* in terms of several variables. 
 Firstly, we look at the effect of increasing the amount of soft obstacles (SO) from 0\% (the original test maps with only one traversable terrain) to 5\% and 10\% respectively. 
-We also contrast high and low quality abstractions (rows marked with HQ and LQ respectively) on a range of cluster sizes $\lbrace 10, 15, 20 \rbrace$ (denoted by CS10, CS15 and CS20).
+We also contrast high and low quality abstractions (denoted HQ and LQ respectively) on a range of cluster sizes $\lbrace 10, 15, 20 \rbrace$ (denoted CS10, CS15 and CS20).
 \par \indent
 In table \ref{aha-table:graphsize} we present the average size of the abstract graph in nodes and edges relative to the size of the original graphs which featured an average 4469 nodes and 16420 edges. 
 \input gsntable.tex
-As expected, the number of both nodes and edges decreases as cluster size increases on each set of test maps. Interestingly, there is a three-fold increase in the number of edges as we move from one traversable terrain to two; this reflects the increasing complexity of terrain in each cluster and confirms the predictions of lemmas \ref{aha-lemma:maxedgesincluster} and \ref{aha-lemma:maxtransitions} which also hold moving from 5\% SO to 10\% SO (though the increase is less dramatic). 
+As expected, the number of both nodes and edges decreases as cluster size increases on each set of test maps. Interestingly, there is a three-fold increase in the number of edges as we move from SO 0\% to SO 5\%; this reflects the increasing complexity of terrain in each cluster and confirms the predictions of lemmas \ref{aha-lemma:maxedgesincluster} and \ref{aha-lemma:maxtransitions} which also hold moving from 5\% SO to 10\% SO (though the increase is less dramatic). 
 \par \indent
-Perhaps most interesting is the counter-balancing effect on graph size stemming from the quality of the abstraction; there is approximately a 5-fold decrease in the number of edges going from a high-quality graph to a low-quality equivalent.
-The number of nodes also drops between 2 and 3 fold. 
+Perhaps most interesting is the counter-balancing effect on graph size stemming from the quality of the abstraction; there is approximately a 5-fold decrease in the number of edges and 2-3 fold reduction in nodes going from a HQ graph to a LQ approximation.
 The best cases appear to be associated with larger cluster sizes which is expected. 
-Even in the worst observed case however the low-quality abstract graph has just 6.7\% the number of edges as the original and only 4.8\% nodes. 
+Even in the worst observed case however the LQ graph has just 6.7\% the number of edges in the original grid and only 4.8\% nodes. 
 If we assume each non-abstract node and edge require one byte of memory to store, then our abstract graph, which contains 2 annotations per edge (capability and clearance, each requiring 1 byte), will still have a space complexity less than 20\% of the original graph even using a naive implementation. 
 Custom implementations could reduce this further still although the most significant gains appear to come from simply increasing the cluster size; in this case, going from CS10 to CS20 almost halves the memory required to store the set of abstract edges.
 \par \indent
@@ -18,7 +17,7 @@ Next we consider the performance of AHA* with respect to path quality. We measur
 $$ \%error = \frac{apl - opl}{opl}100 $$ where $opl$ is the length of the optimal path as calculated by AA* and $apl$ the length of the abstract path used by AHA*.
 Figure \ref{aha-fig:allgraphs}(top) shows the average performance of HQ and LQ abstractions with respect to each cluster size. 
 \begin{figure}[htbp]
-       \caption{\emph{AHA* performance (high vs low quality abstraction). Top: Path quality. Bottom: Search effort. }}
+       \caption{\small{\emph{AHA* performance (HQ vs LQ abstraction). Top: Path quality. Bottom: Search effort. }}}
        \begin{center}
                        \includegraphics[scale=0.35]{diagrams/allgraphs.pdf}
        \end{center}

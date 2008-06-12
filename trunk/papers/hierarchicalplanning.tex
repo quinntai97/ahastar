@@ -1,10 +1,12 @@
 \section{Hierarchical planning}
-Given a suitable graph abstraction, we can once more turn our attention back to agent planning. Our approach is very straightforward extension of the ideas we introduced with AA*. 
+Given a suitable graph abstraction, we can once more turn our attention back to agent planning. 
 We begin by using the $x,y$ coordinates of the start node to identify the local cluster the agent is located in. This is simple for small agents but large agents may be overlapping across several clusters. Such cases may appear problematic, however, recalling our results from theorem \ref{aha-theorem:reducibility}, we know that only the top-left corner of the area the agent is occupying is important.
 \par \indent
-In the event that both the start and goal nodes are located in the same cluster, we use AA* to find a solution directly. To avoid cases where the start and goal are in close proximity but cannot be reached without significant search effort (for instance, on opposite sides of a maze wall) we limit this search to the cluster area. If the search fails, or if the start and goal are not in the same cluster initially, we insert into the abstract graph two new temporary nodes (which we later remove when we are finished) to represent the start and goal; this process is described in \cite{botea04} but we substitute A* for AA*. This phase involves $n+m$ searches in total, corresponding to the number of combined transitions in the start and goal clusters.
+Next, we insert the start and goal into the abstract graph using a similar process to that described in \cite{botea04} but substituting A* for AA*. This phase involves $n+m$ searches in total, corresponding to the number of combined transitions in the start and goal clusters.
 \par \indent
-Once the start and goal are inserted, we use a variation on A* that evaluates the annotations of the edge that must be traversed to reach a location before adding the destination node to the open list.
-If the search is successful we can take the result, and, if immediate execution is not necessary, we are finished. Otherwise, we refine the plan by performing a number of small searches between each pair of nodes along the abstract optimal path. We can optionally skip this step if we cache the result of our previous searches while building the abstraction, in another classic case of performance vs space tradeoff. 
+To compute a high-level plan we again use a variation on A* -- this time to evaluate the annotations of abstract edges before adding a node to the open list.
+Once the search terminates we can take the result, and, if immediate execution is not necessary, we are finished. 
+Otherwise, we refine the plan by performing a number of small searches between each pair of nodes along the abstract optimal path. 
+We can optionally skip this step if we cache the result of our previous searches while building the abstraction, in another classic case of performance vs space tradeoff. 
 \par \indent
 This completes the description of our final algorithm: Annotated Hierarchical A* (AHA* for short).
