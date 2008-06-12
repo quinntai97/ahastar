@@ -6,7 +6,7 @@ A consequence of this observation is that in all experimental scenarios the same
 
 \begin{theorem}
 \label{aha-theorem:strongdominance}
-Let $e_{1}, e_{2} \in E$ be two edges traversable by a common capability $c \in C$. In this scenario, $e_{1} \prec e_{2}$ iff
+Let $e_{1}, e_{2} \in E$ be two edges covering the same pair of nodes. Assume both edges are traversable by a common capability $c \in C : c \neq \lbrace \rbrace$. Then $e_{1} \prec e_{2}$ iff
 $$ 1 \geq e_{1}(c) \geq e_{2}(c) \wedge weight(e_{1}) \leq weight(e_{2})$$
 \end{theorem}
 
@@ -43,7 +43,12 @@ Then, any location which an agent can reached by traversing $e_{b}$ can also be 
 If a circuit exists between the endpoints $\lbrace n1_{a}, n2_{a}, n1_{b}, n2_{b} \rbrace$ which contains only edges with clearances at least as large as $e_{b}(c_{b})$ for the capability $c_{b}$ then any nodes which are reachable from $n1_{b}$ or $n2_{b}$ are also reachable from $n1_{a}$ or $n2_{a}$.
 From this it follows that any destination an agent can reach via $e_{b}$ can also be reached via $e_{a}$ \qed
 \end{proof}
-A direct consequence of theorem \ref{aha-theorem:weakdominance} is that in addition to removing weakly dominated inter-edges, we can also remove their endpoints and any intra edges those nodes may also connect; by the circuit condition, these are also dominated. 
+The number of edges which are weakly dominated can be maximised by leveraging the fact that there are only a limited number of sizes agents may take. We can thus apply the following truncation condition to the abstract graph before we apply weak dominance:
+\begin{equation}
+e(c) > max(s) \Rightarrow e(c) = max(s) : s \in S, \forall e \in E_{abs}
+\end{equation}
+\par \indent
+A direct consequence of theorem \ref{aha-theorem:weakdominance} is that in addition to removing weakly dominated inter-edges, we can also remove their endpoints and any intra edges dependent on those nodes; by the circuit condition, these are also dominated. 
 This corrolary only applies if the endpoints are not required by another (non-dominated) inter-edge representing a different cluster transition. 
 \par \indent
 We refer to the initial abstraction that has had both strong and weakly dominated edges removed a \emph{low quality abstraction}.

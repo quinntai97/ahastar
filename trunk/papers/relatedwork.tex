@@ -11,24 +11,21 @@ Brushfire is similar to AHA* in that the annotations it produces allow an agent 
 AHA* differs by explicitly calculating the maximal size of traversable space at each location on the map. 
 Furthermore, unlike Brushfire, AHA* does not suffer from incompleteness which can occur when repulsive forces cancel each other out and lead the robot into a local minimum. 
 \par
-\indent The Corridor Map Method \cite{geraerts07} is a recently introduced path planner which involves building a \emph{probabilistic roadmap} to represent map connectivity. 
+\indent The Corridor Map Method (CMM) \cite{geraerts07} is a recently introduced path planner able to answer queries for multi-size agents by using a \emph{probabilistic roadmap} to represent map connectivity. 
 The roadmap (or backbone path) is comprised of nodes which are annotated with clearance information that indicates the radius of a maximally sized bounding sphere before an obstacle is encountered. 
 Nodes are placed on the roadmap by creating Voronoi regions to split the map and identify locations that maximise local distance from fixed obstacles. 
-The approach is very effective and allows the planner to answer queries for multi-size agents. 
-Potential forces are used during path execution to refine the abstract plan and avoid dynamic obstacles. \\
-Both AHA* and the CMM method are concerned with the amount of traversable space at a given location but our approach is adapted to grid environments, which are much simpler to create than roadmaps and more commonly found in a range of applications. 
-Furthermore, instead of computing a single clearance value, we derive one for each terrain traversal capability our agents may be equipped with, making our method more information rich. 
-Our cluster-based abstraction technique also differs from the roadmap approach; it allows us to vary the size and resolution of our abstraction, giving us fine-grain control over the size of the abstract graph. 
-By comparison, the CMM abstract graph has a fixed size.
-\par 
-\indent Representing an environment using navigation-meshes is increasingly popular in the literature. 
+\par \indent
+Like CMM, AHA* calculates the amount of traversable space at a given location but our approach is adapted to grid environments, which are simpler to create than roadmaps and more commonly found in a range of applications. 
+Another key difference is that we allow fine-grain control over the size of the abstract graph; CMM abstractions have a fixed size.
+Finally, we deal with multi-terrain cases making our method more information rich. 
+\par \indent 
+Representing an environment using navigation-meshes is increasingly popular in the literature. 
 Two recent planners in this category are Triangulation A* and Triangulation Reduction A* \cite{demyen07}. 
 TA* makes use of a technique known as Delaunay triangulation to cover the environment with triangular polygons whose degrees are maximised. 
 This results in an undirected graph connected by constrained and unconstrained edges; the former being traversable and the latter not. 
 TRA* is an extension of this approach that abstracts the triangle mesh into a structure resembling a roadmap. 
 Like our method, both TA* and TRA* are able to answer path queries for multi-size agents. 
-In the case of TRA* the required clearance value to traverse a triangle is calculated by measuring the length of the triangle sides that need to be crossed and comparing them against the diametric size of the agent's bounding volume; this is similar to our method. 
-The abstraction approaches used by TA and TRA* are very distinctly different from our work. 
+The abstraction approaches used by TA and TRA* however are very distinctly different from our work. 
 Where we use a simple division of the environment into square clusters, their approach aims to maximise triangle size. 
 We also have additional terrain requirements while both TA* and TRA* assume a homogenous environment.
 
