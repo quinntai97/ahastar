@@ -5,9 +5,9 @@ $$|V_{abs}| = 4(2n-1) + (4c - 4)(3n-2) + (c-1)^2(4n-4)$$
 \end{lemma}
 
 \begin{proof}
-Each transition point results in two nodes in the abstract graph (by definition). 
+Each transition point results in two nodes in the abstract graph. 
 In the worst case the number of terrains $r \geq n$. 
-If there are no hard obstacles and every pair of nodes along the adjacent border between two clusters has different terrain type then there will be a maximal number of transition points (by definition). 
+If there are no hard obstacles and every pair of nodes along the adjacent border between two clusters has different terrain type then there will be a maximal number of transition points. 
 In this scenario, clusters in the middle of the map, of which there are $(c-1)^2$, have 4 neighbours and each one contains $4(n-4)$ nodes. 
 Clusters on the perimeter of the map (excluding corners), of which there are $4(c-1)$, have 3 neighbours and $3(n-2)$ nodes. 
 Corner clusters, of which there are 4, have 2 neighbours and each contains $2(n-1)$ nodes.\qed
@@ -15,29 +15,32 @@ Corner clusters, of which there are 4, have 2 neighbours and each contains $2(n-
 
 \begin{lemma}
 \label{aha-lemma:maxedgesincluster}
-Let $E_{abs}(L)$ represent the number of intra-edges for a cluster $L$ that subsets a grid map and contains $x$ abstract nodes. Further, let $r$ be the total number of terrains found in the map and $t$ the number of distinct terrain types found inside $L$. Then, the number of intra-edges required to connect all nodes in $L$ is, in the worst case:
- $$|E_{abs}(L)| = \frac{|S|2^t|x|(|x|-1)}{2}$$.
-\end{lemma}
+Let $E_{abs}(L)$ represent the number of intra-edges for a cluster $L$ that contains $x$ abstract nodes. Further, let $r$ be the total number of terrains found in the map and $t$ the number of distinct terrain types found inside $L$. Then, the number of intra-edges required to connect all nodes in $L$ is, in the worst case:
+ $$|E_{abs}(L)| = |S|\times \frac{2^t}{2} \times \frac{x(x-1)}{2}$$
+ \end{lemma}
 
 \begin{proof}
-For each size/capability combination there is at most one optimal length solution (by definition). From lemma \ref{aha-lemma:numannotations} we know each node is traversable at most by $\frac{2^r}{2}$ capabilities thus there must be at most $|S|\frac{2^r}{2} $ ways of covering 2 nodes (intuitively). 
-However, the number of terrains inside a cluster is governed by its size; only $t \leq r$ terrains may be found. From this, it follows that the upper-bound on the size of the set of edges covering each pair of nodes is infact $|S|\frac{2^t}{2}$. In the worst case there will be a maximal number of edges between each pair of nodes and there are $\frac{|x|(|x|-1)}{2}$ such pairs in total per cluster (by induction). \qed
+For each pair of abstract nodes in a cluster and each size/capability combination, we compute at most one path of optimal length. 
+From lemma \ref{aha-lemma:numannotations} we know each node is traversable at most by $\frac{2^r}{2}$ capabilities thus there must be at most $|S|\times \frac{2^r}{2}$ ways of covering 2 nodes. 
+However, the number of terrains inside a cluster is governed by its size; only $t \leq r$ terrains may be found. 
+From this, it follows that the upper-bound on the size of the set of edges covering each pair of nodes is in fact $|S| \times \frac{2^t}{2}$. 
+In the worst case there will be a maximal number of edges between each pair of nodes and there are $\frac{x(x-1)}{2}$ such pairs in total per cluster. \qed
 \end{proof}
 
 \begin{lemma}
 \label{aha-lemma:maxtransitions}
-Let $E_{abs}(IE)$ repesent the number of inter-edges in a graph of a grid map. If the map is perfectly divisble into $c*c$ clusters, each of size $n*n$, then, in the worst case, the number of inter-edges is given by 
-$$|E_{abs}(IE)| = (2c^2 - 2c)\frac{n(n-1)}{2}$$.
+Let $E_{inter} \in E_{abs}$ repesent the number of inter-edges in a graph of a grid map. If the map is perfectly divisible into $c*c$ clusters, each of size $n*n$, then, in the worst case, the number of inter-edges is given by 
+$$|E_{inter}| = (2c^2 - 2c)\times \frac{n(n-1)}{2}$$.
 \end{lemma}
 
 \begin{proof}
-We know from lemma \ref{aha-lemma:maxnodes} that in the worst case each node along the adjacent border of a cluster results in a transition. 
+We know from the proof of lemma \ref{aha-lemma:maxnodes} that in the worst case each tile along the border between two adjacent clusters is represented by a node in the abstract graph. 
 If we count the number of adjacencies, avoiding duplication, then each cluster contributes 2, except the last cluster, which contributes none. 
-Thus, the total number of adjacencies is $2c^2 + 2c$. (by induction) 
+Thus, the total number of adjacencies is $2c^2 - 2c$.  
 \par \indent
-Each transition results in an inter-edge and there are $n$ single-terrain transitions with clearance 1 per adjacency (intuitively) and some number of inter-edges to represent multi-terrain transitions with larger clearances. 
-By observation we can see that that each adjacency will will produce [$n$ single-capability transitions]...[1 $n$-capability transition]. 
-This recurrence relation holds for the general sequence counting formula $\frac{n(n-1)}{2}$ (by induction)\qed
+Each transition results in an inter-edge and there are $n$ single-terrain transitions with clearance 1 per adjacency and some number of inter-edges to represent multi-terrain transitions with larger clearances. 
+By observation we can see that that each adjacency will produce [$n$ single-capability transitions]...[1 $n$-capability transition]. 
+This recurrence relation holds for the general sequence counting formula $\frac{n(n-1)}{2}$\qed
 \end{proof}
 
 The above results are interesting for several reasons. 
@@ -45,4 +48,4 @@ Firstly, lemma \ref{aha-lemma:maxnodes} shows that the number of nodes in the gr
 The results in lemma \ref{aha-lemma:maxedgesincluster} and \ref{aha-lemma:maxtransitions} seem to support this hypothesis. 
 We see that the number of edges between nodes in the graph is mostly dependent on the complexity of the clusters in which they reside rather than exponential in the number of capabilities. 
 This is exciting because it means that, despite having an exponential abstract edge growth function, we can directly control the size of the exponent! 
-The cluster-based decomposition technique, in a classic example of dynamic programming, allows us to include as much or as little complexity in each cluster as we require.
+The cluster-based decomposition technique allows us to include as much or as little complexity in each cluster as we require.
