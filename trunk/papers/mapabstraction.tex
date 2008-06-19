@@ -2,10 +2,9 @@
 \label{aha:mapabstraction}
 The annotated graph we have focused on creating to now is sufficient for a low-level search but inefficient for large problem sizes. 
 Instead of planning every step, we would prefer to express a more general strategy using macro-operators.
-We will achieve this by starting from the off-line decomposition technique described in \cite{botea04} and extending it to deal with large agents and multiple terrains. 
 Our result from theorem {\ref{aha-theorem:reducibility} is key to the spatial abstraction described in this section. 
 \par \indent
-The general process in \cite{botea04} involves dividing a grid map into fixed-size square sections called \emph{clusters}. Figure \ref{aha-fig:clustersandentrances}(a) shows the result of this decomposition approach; we use clusters of size 5 to split our toy map into 4 adjacent sections.
+We extend the general process in \cite{botea04} which involves dividing a grid map into fixed-size square sections called \emph{clusters}. Figure \ref{aha-fig:clustersandentrances}(a) shows the result of this decomposition approach; we use clusters of size 5 to split our toy map into 4 adjacent sections.
 \par \indent
 In the original work \emph{entrances} are obstacle-free transition areas of maximal size which exist along the border area between adjacent pairs of clusters. 
 They are represented in the abstract graph by a pair of nodes connected with an undirected \emph{inter-edge} of weight 1.0. 
@@ -18,14 +17,13 @@ To avoid generating an incomplete representation we leverage clearance to detect
 \par \indent
 Once an entrance is found, we choose as the transition point the first pair of adjacent nodes which maximise clearance for $c$. 
 This latter metric, $cv_{entrance}$ is computed by taking the minimum clearance among each node pair in the entrance area and selecting the largest value from the set. 
-Thus, we add a new edge to the graph, $inter$ and assign it a single clearance value $inter(c) = cv_{entrance}$. 
+Thus, we add a new edge to the graph, $inter$ and assign it a clearance value $inter(c) = cv_{entrance}$. 
 \par \indent
 In figure \ref{aha-fig:clustersandentrances}(b) we present three entrances identified by scanning the border between clusters $c1$ and $c3$.
 Entrances \emph{E1} and \emph{E2}, each of which span only part of the border area, are discovered using the $\lbrace Ground \rbrace$ and $\lbrace Trees \rbrace$ capabilities respectively. 
 \emph{E3} meanwhile, which spans the whole border area, is discovered using the $\lbrace Ground \vee Trees \rbrace$ capability. 
 The connected tiles represent the locations of the subsequent transition points; the final result is shown in \ref{aha-fig:clustersandentrances}(c). 
 Note that \emph{E1} and \emph{E3} are incident on the same pair of nodes in the abstract graph. This is due to our  strategy of actively attempting to re-use any existing nodes from the abstract graph. 
-We thus produce an abstract \emph{multi-graph}.
 
 \begin{figure}[htbp]
         \caption{\emph{Building clusters and identifying entrances} }
@@ -38,6 +36,9 @@ We thus produce an abstract \emph{multi-graph}.
 The final step in the decomposition involves attempting to add to the abstract graph a set of \emph{intra-edges} for each pair of abstract nodes inside a cluster. We achieve this by running multiple AA* searches $\forall (c, s) : c \in C, s \in S$.
 \par \indent
 Once a path is found we annotate the new edge, $intra$, with the capability and clearance parameters used by AA* and set its weight equal to the cost of the path. The algorithm terminates when all clusters have been considered. 
+\par \indent
+We thus construct an abstract \emph{multi-graph} in which each edge $e$ is annotated with a single capability $c_{e}$ and associated clearance value $cv_{e}$. These represent the minimum capability set that an agent $a$ must posess to traverse the edge and the agent's maximum size, $c_{a}$ and $s_{a}$ respectively. More succinctly:
+$$ e(c_{a}) = cv_{e} \geq s_{a} : c_{a} \in c_{e} \in C$$
 We term the resultant abstraction $initial$ and give the following lemmas to characterise its space complexity:
 
 \input abstractionproperties
