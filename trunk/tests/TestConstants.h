@@ -18,10 +18,11 @@ using namespace std;
 
 
 const int TESTCLUSTERSIZE=5;
-const string maplocation = "/Users/dharabor/src/ahastar/maps/local/demo.map"; // testmap
-const string acmap = "/Users/dharabor/src/ahastar/tests/testmaps/annotatedcluster.map";
+const string HOGHOME = "/Users/alinaharabor/src/ahastar/";
+const string maplocation = HOGHOME+"maps/local/demo.map"; // testmap
+const string acmap = HOGHOME+"tests/testmaps/annotatedcluster.map";
 const string tslocation = "test.scenario"; // test scenario file
-const string badmap = "/Users/dharabor/src/ahastar/maps/local/demo.map";
+const string badmap = HOGHOME+"maps/local/demo.map";
 /* duplicated constants from AHAConstants.h; two copies now. one for testing, one for the app itself */
 /*const int NUMTERRAINS = 3;
 const int NUMAGENTSIZES = 2;

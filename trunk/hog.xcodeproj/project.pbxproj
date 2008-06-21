@@ -822,10 +822,12 @@
 		20286C28FDCF999611CA2CEA /* Project object */ = {
 			isa = PBXProject;
 			buildConfigurationList = C0E91AC908A95435008D54AB /* Build configuration list for PBXProject "hog" */;
+			compatibilityVersion = "Xcode 2.4";
 			hasScannedForEncodings = 1;
 			mainGroup = 20286C29FDCF999611CA2CEA /* hog */;
 			productRefGroup = 62E9118A0CFD4C1800AA46AB /* Products */;
 			projectDirPath = "";
+			projectRoot = "";
 			targets = (
 				62E911910CFD4CE200AA46AB /* hog */,
 				62E915260CFD50E900AA46AB /* simulation */,
@@ -1126,7 +1128,7 @@
 		C0E91ACA08A95435008D54AB /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = ppc;
+				ARCHS = "$(NATIVE_ARCH)";
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_INPUT_FILETYPE = sourcecode.cpp.cpp;
@@ -1157,6 +1159,7 @@
 				);
 				LINKER_DISPLAYS_MANGLED_NAMES = NO;
 				OTHER_LDFLAGS = "";
+				VALID_ARCHS = "ppc64 ppc7400 ppc970 i386 ppc x86_64";
 				ZERO_LINK = YES;
 			};
 			name = Debug;
@@ -1164,7 +1167,7 @@
 		C0E91ACB08A95435008D54AB /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = ppc;
+				ARCHS = i386;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					OS_MAC,
@@ -1180,6 +1183,7 @@
 				);
 				LIBRARY_SEARCH_PATHS = /opt/local/lib;
 				SEPARATE_STRIP = YES;
+				VALID_ARCHS = "ppc64 ppc7400 ppc970 i386 x86_64 ppc";
 			};
 			name = Release;
 		};
