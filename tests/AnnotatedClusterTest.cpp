@@ -478,7 +478,9 @@ void AnnotatedClusterTest::buildHorizontalEntrancesShouldCreateOneMaximallySized
 void AnnotatedClusterTest::buildHorizontalEntrancesShouldCreateOneTransitionForEachLocalMaximaOfAnEntranceArea()
 {
 	int testClusterSize=6;
-	AnnotatedClusterAbstraction aca(new Map("/Users/dharabor/src/ahastar/tests/testmaps/vdiamonds.map"), new AnnotatedAStar(), testClusterSize);
+	std::string testmap(HOGHOME);
+	testmap.append("tests/testmaps/vdiamonds.map");
+	AnnotatedClusterAbstraction aca(new Map(testmap.c_str()), new AnnotatedAStar(), testClusterSize);
 	AnnotatedClusterFactory acf;
 	aca.buildClusters(&acf);
 
@@ -527,7 +529,10 @@ void AnnotatedClusterTest::buildHorizontalEntrancesShouldCreateOneTransitionForE
 /* todo: fix with mock ACA otherwise this test will be hard to maintain */
 void AnnotatedClusterTest::buildHorizontalEntrancesShouldCreateTwoTransitionsAtEachEndOfTheEntranceAreaIfAllNodesAlongEachClusterBorderHaveIdenticalClearance()
 {
-	Map* m = new Map("/Users/dharabor/src/ahastar/tests/testmaps/clustertest.map");
+	std::string testmap(HOGHOME);
+	testmap.append("tests/testmaps/clustertest.map");
+	Map* m = new Map(testmap.c_str());
+
 	AnnotatedClusterAbstraction* aca = new AnnotatedClusterAbstraction(m, new AnnotatedAStar(), cwidth);
 	AnnotatedClusterFactory acf;
 	aca->buildClusters(&acf);
@@ -1076,7 +1081,9 @@ void AnnotatedClusterTest::addParentsShouldCreateEdgesToRepresentAllValidPathsBe
 void AnnotatedClusterTest::buildVerticalEntrancesShouldCreateOneTransitionForEachLocalMaximaOfAnEntranceArea()
 {
 	int testClusterSize=9;
-	AnnotatedClusterAbstraction aca(new Map("/Users/dharabor/src/ahastar/tests/testmaps/hdiamonds.map"), new AnnotatedAStar(), testClusterSize);
+	std::string testmap(HOGHOME);
+	testmap.append("tests/testmaps/hdiamonds.map");
+	AnnotatedClusterAbstraction aca(new Map(testmap.c_str()), new AnnotatedAStar(), testClusterSize);
 	AnnotatedClusterFactory acf;
 	aca.buildClusters(&acf);
 

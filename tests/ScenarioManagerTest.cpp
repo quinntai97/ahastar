@@ -46,7 +46,8 @@ void ScenarioManagerTest::tearDown()
 
 void ScenarioManagerTest::NoExperimentsGeneratedWhenMapIsNotTraversable()
 {
-	string targetmap("/Users/dharabor/src/ahastar/maps/local/LINE.map"); // no paths for kGround when size > 1
+	string targetmap(HOGHOME);
+	targetmap.append("maps/local/LINE.map"); // no paths for kGround when size > 1
 	Map* m = new Map(targetmap.c_str());
 	AnnotatedAStar* aastar = new AnnotatedAStar();
 	AnnotatedMapAbstraction* ama = new AnnotatedMapAbstraction(m, aastar);
@@ -119,7 +120,8 @@ void ScenarioManagerTest::ScenarioFileWrittenToDiskAndWellFormatted()
 
 void ScenarioManagerTest::generateExperimentsProducesCorrectNumberOfExperiments()
 {	
-	string emptymap("/Users/dharabor/src/ahastar/tests/testmaps/emptymap.map");
+	string emptymap(HOGHOME);
+	emptymap.append("tests/testmaps/emptymap.map");
 	Map* m = new Map(emptymap.c_str()); // want to make sure we can always find an experiment 
 	AnnotatedAStar* aastar = new AnnotatedAStar();
 	AnnotatedMapAbstraction* ama = new AnnotatedMapAbstraction(m, aastar);
@@ -133,7 +135,8 @@ void ScenarioManagerTest::generateExperimentsProducesCorrectNumberOfExperiments(
 
 void ScenarioManagerTest::generateExperimentsProducesExperimentsWithDifferentCapabilityTypes()
 {
-	string targetmap("/Users/dharabor/src/ahastar/maps/local/demo.map");
+	string targetmap(HOGHOME);
+	targetmap.append("maps/local/demo.map");
 	Map* m = new Map(targetmap.c_str());
 	AnnotatedAStar* aastar = new AnnotatedAStar();
 	AnnotatedMapAbstraction* ama = new AnnotatedMapAbstraction(m, aastar);
@@ -165,7 +168,8 @@ void ScenarioManagerTest::generateExperimentsProducesExperimentsWithDifferentCap
 // TODO: Replace AMA/AA* with mocks. proper mocks.
 void ScenarioManagerTest::generateSingleExperimentReturnsAValidExperimentForTheGivenParameters()
 {
-	string emptymap("/Users/dharabor/src/ahastar/tests/testmaps/emptymap.map");
+	string emptymap(HOGHOME);
+	emptymap.append("tests/testmaps/emptymap.map");
 	Map* m = new Map(emptymap.c_str()); // want to make sure we can always find an experiment 
 	AnnotatedAStar* aastar = new AnnotatedAStar();
 	AnnotatedMapAbstraction* ama = new AnnotatedMapAbstraction(m, aastar);
@@ -186,7 +190,8 @@ void ScenarioManagerTest::generateSingleExperimentReturnsAValidExperimentForTheG
 
 void ScenarioManagerTest::generateSingleExperimentReturnsNullIfNoPairOfStartAndGoalNodesCouldBeLocatedForTheGivenParameters()
 {
-	string targetmap("/Users/dharabor/src/ahastar/maps/local/pacman.map"); // no paths for kGround when size > 1
+	string targetmap(HOGHOME);
+	targetmap.append("maps/local/pacman.map"); // no paths for kGround when size > 1
 	Map* m = new Map(targetmap.c_str());
 	AnnotatedAStar* aastar = new AnnotatedAStar();
 	AnnotatedMapAbstraction* ama = new AnnotatedMapAbstraction(m, aastar);
@@ -203,9 +208,11 @@ void ScenarioManagerTest::generateSingleExperimentReturnsNullIfNoPairOfStartAndG
 
 void ScenarioManagerTest::loadScenarioShouldCreateExperimentObjectsGivenAFileThatDescribesExperimentAttributes()
 {
-	std::string scenariofilelocation("/Users/dharabor/src/ahastar/tests/testscenarios/demo.map.scenario");
-	std::string demomaplocation("/Users/dharabor/src/ahastar/maps/local/demo.map");
-	AHAExperiment exp(14, 6, 17, 7, (kGround|kTrees), 2, 4, maplocation.c_str());
+	std::string scenariofilelocation(HOGHOME);
+	scenariofilelocation.append("tests/testscenarios/demo.map.scenario");
+	std::string demomaplocation(HOGHOME);
+	demomaplocation.append("maps/local/demo.map");
+	AHAExperiment exp(14, 6, 17, 7, (kGround|kTrees), 2, 4, "maps/local/demo.map");
 	
 	sg->loadScenarioFile(scenariofilelocation.c_str());
 
@@ -221,4 +228,6 @@ void ScenarioManagerTest::loadScenarioShouldCreateExperimentObjectsGivenAFileTha
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("agentsize values do not match", exp.getAgentsize(), fileExp->getAgentsize());
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("path distance values do not match", exp.getDistance(), fileExp->getDistance());
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("mapname values do not match", 0, strcmp(exp.getMapName(), fileExp->getMapName()));
+	
+
 }

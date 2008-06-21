@@ -33,7 +33,7 @@ void AnnotatedMapAbstractionTest::setUp()
 	ama = new AnnotatedMapAbstraction(testmap, aastar_mock);
 	g = ama->getAbstractGraph(0);
 		
-	string targetmap("/Users/dharabor/src/ahastar/maps/local/demo.map");
+	string targetmap(HOGHOME+"maps/local/demo.map");
 	assert(maplocation == targetmap); //make sure we're loading data for the right map
 
 	nclearance=1;	
