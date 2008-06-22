@@ -207,7 +207,8 @@ class AnnotatedCluster : public Cluster
 		int findLocalMaximaForVerticalEntrance(int x, int startY, int endY, int curCapability, AnnotatedClusterAbstraction* aca);
 		int findLocalMinimaForHorizontalEntrance(int y, int startX, int curCapability, AnnotatedClusterAbstraction* aca);
 		int findLocalMaximaForHorizontalEntrance(int y, int startX, int endX, int curCapability, AnnotatedClusterAbstraction* aca);
-
+		int findVerticalEntranceDepthAtLocation(int x, int y, int capability, AnnotatedClusterAbstraction* aca);
+		int findHorizontalEntranceDepthAtLocation(int x, int y, int capability, AnnotatedClusterAbstraction* aca);
 
 		static unsigned int uniqueClusterIdCnt;
 		

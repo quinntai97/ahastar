@@ -159,7 +159,7 @@ void AnnotatedCluster::addEntrance(node* from, node* to, int capability, int cle
 {					
 	if(clearance <= 0)
 		throw InvalidClearanceParameterException();
-	if(clearance > MAXAGENTSIZE)
+	if(clearance > MAXAGENTSIZE) // TODO: low quality only?
 		clearance = MAXAGENTSIZE;
 		
 	if(from->getClearance(capability) < clearance || to->getClearance(capability) < clearance)
@@ -208,26 +208,62 @@ int AnnotatedCluster::findLocalMinimaForVerticalEntrance(int x, int startY, int 
 {
 	int minClearance = MAXINT;
 	int minY=startY;
+	int lastdepth=MAXAGENTSIZE;
 	for(int y=startY; y<getVOrig()+getHeight();y++)
 	{
 		node *c1 = aca->getNodeFromMap(x,y); // node in neighbouring cluster
 		node *c2 = aca->getNodeFromMap(x-1, y); // border node in 'this' cluster
 		int clearance = c1->getClearance(curCapability)>c2->getClearance(curCapability)?
 							c2->getClearance(curCapability):c1->getClearance(curCapability);
-	
+		
 		if(clearance == 0)
 			return y;
+
+		int d = findVerticalEntranceDepthAtLocation(x-1,  y, curCapability, aca);
+
+		if(d > lastdepth)
+			return minY;  // increasing depth indicates end of entrance area; return local minima.
+		lastdepth = d;
 			
 		if(clearance <= minClearance)
 		{
 			minClearance = clearance;	
 			minY=y;
 		}
-		if(clearance > minClearance)
-			return minY;  // increase in clearance indicates local minima found.
+		
 	}
 	
 	return minY;
+}
+
+int AnnotatedCluster::findVerticalEntranceDepthAtLocation(int x, int y, int capability, AnnotatedClusterAbstraction* aca)
+{
+
+	int d1=0; // depth in this cluster
+	int d2=0; // depth in adjacent cluster
+	for(int i=x; i>x-MAXAGENTSIZE;i--)
+	{
+		node* n = aca->getNodeFromMap(i, y);
+		if(n->getClearance(capability) > 0)
+			d1++;
+		else
+			break;
+	}
+//	std::cout << " d1: "<<d1;
+	int maxdepth = aca->getMap()->getMapWidth();
+	for(int i=x+1; i<x+1+MAXAGENTSIZE;i++)
+	{
+		if(i == maxdepth)
+			break;
+			
+		node* n = aca->getNodeFromMap(i, y);
+		if(n->getClearance(capability) > 0)
+			d2++;
+		else
+			break;
+	}
+//	std::cout << " d2: "<<d2;
+	return d1<d2?d1:d2;
 }
 
 int AnnotatedCluster::findLocalMaximaForVerticalEntrance(int x, int startY, int endY, int curCapability, AnnotatedClusterAbstraction* aca)
@@ -289,6 +325,7 @@ void AnnotatedCluster::buildHorizontalEntrances(int curCapability, AnnotatedClus
 int AnnotatedCluster::findLocalMinimaForHorizontalEntrance(int y, int startX, int curCapability, AnnotatedClusterAbstraction* aca)
 {
 	int minClearance = MAXINT;
+	int lastdepth = MAXINT;
 	int minX=startX;
 	for(int x=startX; x<getHOrig()+getWidth();x++)
 	{
@@ -300,16 +337,51 @@ int AnnotatedCluster::findLocalMinimaForHorizontalEntrance(int y, int startX, in
 		if(clearance == 0)
 			return x;
 			
+		int d = findHorizontalEntranceDepthAtLocation(x, y-1, curCapability, aca);
+		if(d > lastdepth)
+			return minX;  // increasing depth indicates end of entrance area; return local minima.
+		lastdepth = d;
+
 		if(clearance <= minClearance)
 		{
 			minClearance = clearance;	
 			minX=x;
 		}
-		if(clearance > minClearance)
-			return minX;  // increase in clearance indicates local minima found.
 	}
 	
 	return minX;
+}
+
+int AnnotatedCluster::findHorizontalEntranceDepthAtLocation(int x, int y, int capability, AnnotatedClusterAbstraction* aca)
+{
+
+	int d1=0; // depth in this cluster
+	int d2=0; // depth in adjacent cluster
+	
+	for(int i=y; i>y-MAXAGENTSIZE;i--)
+	{			
+		node* n = aca->getNodeFromMap(x, i);
+		if(n->getClearance(capability) > 0)
+			d1++;
+		else
+			break;
+	}
+//	std::cout << " d1: "<<d1;
+
+	int maxdepth = aca->getMap()->getMapHeight();
+	for(int i=y+1; i<y+1+MAXAGENTSIZE;i++)
+	{
+		if(i == maxdepth)
+			break;
+			
+		node* n = aca->getNodeFromMap(x, i);
+		if(n->getClearance(capability) > 0)
+			d2++;
+		else
+			break;
+	}
+//	std::cout << " d2: "<<d2;
+	return d1<d2?d1:d2;
 }
 
 int AnnotatedCluster::findLocalMaximaForHorizontalEntrance(int y, int startX, int endX, int curCapability, AnnotatedClusterAbstraction* aca)
