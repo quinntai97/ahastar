@@ -381,6 +381,45 @@ void AnnotatedClusterTest::addEntranceShouldThrowExceptionIfCapabilityParameterI
 	testHelper->checkaddEntranceThrowsCorrectException<EntranceNodeIsNotTraversable>(e1_n1, e1_n2, kWater, e1_clearance);
 }
 
+/* build two entrances between clusters. One cluster is divided into three sections of kGround divided by some kTrees near the adjacent border. 
+Here, we test that three distinct entrances are identified which allows agents to reach each of these sections */
+void AnnotatedClusterTest::buildVerticalEntrancesShouldStopExpandingTheEntranceWhenDepthValueIncreases()
+{	
+	int targetCapability=kGround;
+	int testClusterSize=9;
+	std::string testmap(HOGHOME);
+	testmap.append("tests/testmaps/hdivisions.map");
+	AnnotatedClusterAbstraction aca(new Map(testmap.c_str()), new AnnotatedAStar(), testClusterSize);
+	AnnotatedClusterFactory acf;
+	aca.buildClusters(&acf);
+	
+	int numExpectedNodes = 6;
+	int numExpectedEdges = 9;
+	graph* absg = aca.getAbstractGraph(1);
+	AnnotatedCluster* ac1 = aca.getCluster(0);
+	AnnotatedCluster* ac2 = aca.getCluster(1);
+	ac1->buildVerticalEntrances(targetCapability, &aca);
+
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("incorrect number of abstract nodes", numExpectedNodes, absg->getNumNodes());
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("incorrect number of abstract edges", numExpectedEdges, absg->getNumEdges());
+	
+	int x=8;
+	int y=0;
+	node* first = ac1->getParents().at(0); // endpoint of first entrance	
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("first transition point has wrong x-pos", (long)x, first->getLabelL(kFirstData));
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("first transition point has wrong y-pos", (long)y, first->getLabelL(kFirstData+1));
+	
+	y = 3;
+	node* second = ac1->getParents().at(1); // endpoint of second entrance
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("second transition point has wrong x-pos", (long)x, second->getLabelL(kFirstData));
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("second transition point has wrong y-pos", (long)y, second->getLabelL(kFirstData+1));
+
+	y = 6;
+	node* third = ac1->getParents().at(2); // endpoint of third entrance
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("third transition point has wrong x-pos", (long)x, third->getLabelL(kFirstData));
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("third transition point has wrong y-pos", (long)y, third->getLabelL(kFirstData+1));
+}
+
 /* builds two entrances along a veritcal border between two clusters. border area contains two contiguous areas separated by a hard obstacle */
 void AnnotatedClusterTest::buildVerticalEntrancesShouldCreateOneMaximallySizedEntrancePerContiguousAreaAlongTheVerticalBorderBetweenTwoClusters()
 {
@@ -439,6 +478,40 @@ void AnnotatedClusterTest::buildVerticalEntrancesShouldNotAddAnyEntrancesGivenAn
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("too many nodes in target cluster", numNodesInClusterBefore, (int)ac->getParents().size());
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("too many nodes in adjacent cluster", numNodesInClusterBefore, (int)adjacentCluster->getParents().size());
 
+}
+
+/* build two entrances between clusters. One cluster is divided into two sections of kGround by some kTrees near the adjacent border. 
+Here, we test that two distinct entrances are identified which allows agents to reach each of these sections */
+void AnnotatedClusterTest::buildHorizontalEntrancesShouldStopExpandingTheEntranceWhenDepthValueIncreases()
+{	
+	int targetCapability=kGround;
+	int testClusterSize=5;
+	std::string testmap(HOGHOME);
+	testmap.append("tests/testmaps/vdivisions.map");
+	AnnotatedClusterAbstraction aca(new Map(testmap.c_str()), new AnnotatedAStar(), testClusterSize);
+	AnnotatedClusterFactory acf;
+	aca.buildClusters(&acf);
+	
+	int numExpectedNodes = 4;
+	int numExpectedEdges = 4;
+	graph* absg = aca.getAbstractGraph(1);
+	AnnotatedCluster* ac1 = aca.getCluster(0);
+	AnnotatedCluster* ac2 = aca.getCluster(1);
+	ac1->buildHorizontalEntrances(targetCapability, &aca);
+
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("incorrect number of abstract nodes", numExpectedNodes, absg->getNumNodes());
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("incorrect number of abstract edges", numExpectedEdges, absg->getNumEdges());
+	
+	int x=0;
+	int y=4;
+	node* first = ac1->getParents().at(0); // endpoint of first entrance	
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("first transition point has wrong x-pos", (long)x, first->getLabelL(kFirstData));
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("first transition point has wrong y-pos", (long)y, first->getLabelL(kFirstData+1));
+	
+	x = 3;
+	node* second = ac1->getParents().at(1); // endpoint of second entrance
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("second transition point has wrong x-pos", (long)x, second->getLabelL(kFirstData));
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("second transition point has wrong y-pos", (long)y, second->getLabelL(kFirstData+1));
 }
 
 /* builds two entrances along a veritcal border between two clusters. border area contains two contiguous areas separated by a hard obstacle */

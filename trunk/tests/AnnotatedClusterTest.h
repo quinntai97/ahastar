@@ -87,12 +87,14 @@ class AnnotatedClusterTest : public CPPUNIT_NS::TestFixture
 	CPPUNIT_TEST( addEndpointsToAbstractGraphShouldThrowExceptionIfParameterNodeHaveAnAbstractionLevelNotEqualToZero );
 	
 	CPPUNIT_TEST( buildVerticalEntrancesShouldCreateOneMaximallySizedEntrancePerContiguousAreaAlongTheVerticalBorderBetweenTwoClusters );
+	CPPUNIT_TEST( buildVerticalEntrancesShouldStopExpandingTheEntranceWhenDepthValueIncreases );
 	CPPUNIT_TEST( buildVerticalEntrancesShouldThrowExceptionGivenAnInvalidACAParameter );
 	CPPUNIT_TEST( buildVerticalEntrancesShouldNotAddAnyEntrancesGivenAnInvalidCapabilityParameter );
 	CPPUNIT_TEST( buildVerticalEntrancesShouldSkipClustersWhichHaveNoNeighboursAlongEasternBorder );
 	CPPUNIT_TEST( buildVerticalEntrancesShouldCreateOneTransitionForEachLocalMaximaOfAnEntranceArea );
 	
 	CPPUNIT_TEST( buildHorizontalEntrancesShouldCreateOneMaximallySizedEntrancePerContiguousAreaAlongTheHorizontalBorderBetweenTwoClusters );
+	CPPUNIT_TEST( buildHorizontalEntrancesShouldStopExpandingTheEntranceWhenDepthValueIncreases );
 	CPPUNIT_TEST( buildHorizontalEntrancesShouldThrowExceptionGivenAnInvalidACAParameter );
 	CPPUNIT_TEST( buildHorizontalEntrancesShouldNotAddAnyEntrancesGivenAnInvalidCapabilityParameter );
 	CPPUNIT_TEST( buildHorizontalEntrancesShouldSkipClustersWhichHaveNoNeighboursAlongSouthernBorder );
@@ -181,6 +183,7 @@ class AnnotatedClusterTest : public CPPUNIT_NS::TestFixture
 		void buildVerticalEntrancesShouldNotAddAnyEntrancesGivenAnInvalidCapabilityParameter();
 		void buildVerticalEntrancesShouldSkipClustersWhichHaveNoNeighboursAlongEasternBorder();
 		void buildVerticalEntrancesShouldCreateOneTransitionForEachLocalMaximaOfAnEntranceArea();
+		void buildVerticalEntrancesShouldStopExpandingTheEntranceWhenDepthValueIncreases();
 
 		/* buildHorizontalEntrances() */
 		void buildHorizontalEntrancesShouldCreateOneMaximallySizedEntrancePerContiguousAreaAlongTheHorizontalBorderBetweenTwoClusters();
@@ -189,6 +192,7 @@ class AnnotatedClusterTest : public CPPUNIT_NS::TestFixture
 		void buildHorizontalEntrancesShouldSkipClustersWhichHaveNoNeighboursAlongSouthernBorder();
 		void buildHorizontalEntrancesShouldCreateTwoTransitionsAtEachEndOfTheEntranceAreaIfAllNodesAlongEachClusterBorderHaveIdenticalClearance();
 		void buildHorizontalEntrancesShouldCreateOneTransitionForEachLocalMaximaOfAnEntranceArea();
+		void buildHorizontalEntrancesShouldStopExpandingTheEntranceWhenDepthValueIncreases();
 		
 		/* buildEntrances() */
 		void buildEntrancesShouldThrowExceptionGivenAnInvalidACAParameter();
