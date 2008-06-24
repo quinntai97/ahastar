@@ -94,5 +94,5 @@ pqty_table <- rbind(pqty_table, pqrow)
 
 dimnames(pqty_table) <- list(c("CS10 HQ", "CS10 LQ", "CS15 HQ", "CS15 LQ", "CS20 HQ", "CS20 LQ"), c("0% SO", "5% SO", "10% SO"))
 library(xtable)
-outputtable <- xtable(pqty_table)
-print.xtable(outputtable, type="latex", filename="pqtable.tex")
+pqoutputtable <- xtable(pqty_table)
+print.xtable(pqoutputtable, type="latex", filename="pqtable.tex")
