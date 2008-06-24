@@ -13,7 +13,7 @@ legend("topright", c("CS = 15", "CS = 10", "CS = 20"), lty=c(1,2,3), col=c("blac
 
 
 trenddata <- ams(se_r10$"aa_r10$ne", se_r10$"aa_r10$dist", 25)
-plot(trenddata$avgseries ~ trenddata$avgdist, type="l", main="Search effort (SO=10%, AQ=High)", ylab="nodes expanded", xlab="optimal solution length", ylim=range(0,14000), xlim=range(1,450))
+plot(trenddata$avgseries ~ trenddata$avgdist, type="l", main="Total search effort (SO=10%, AQ=High)", ylab="nodes expanded", xlab="optimal solution length", ylim=range(0,14000), xlim=range(1,450))
 trenddata <- ams(se_r10$"aha_cs10hq_r10$ne", se_r10$"aa_r10$dist", 25)
 lines(trenddata$avgseries ~ trenddata$avgdist, lty=2,col="red")
 trenddata <- ams(se_r10$"aha_cs15hq_r10$ne", se_r10$"aa_r10$dist", 25)
@@ -23,7 +23,7 @@ lines(trenddata$avgseries ~ trenddata$avgdist, lty=4,col="purple")
 legend("topleft", c("AA*", "AHA* (CS = 10)", "AHA* (CS = 15)", "AHA* (CS = 20)"), lty=c(1,2,3,4), col=c("black", "red", "blue", "purple"))
 
 trenddata <- ams(se_r10$"aa_r10$ne", se_r10$"aa_r10$dist", 25)
-plot(trenddata$avgseries ~ trenddata$avgdist, type="l", main="Search effort (SO=10%, AQ=Low)", ylab="nodes expanded", xlab="optimal solution length", ylim=range(0,14000), xlim=range(1,450))
+plot(trenddata$avgseries ~ trenddata$avgdist, type="l", main="Total search effort (SO=10%, AQ=Low)", ylab="nodes expanded", xlab="optimal solution length", ylim=range(0,14000), xlim=range(1,450))
 trenddata <- ams(se_r10$"aha_cs10lq_r10$ne", se_r10$"aa_r10$dist", 25)
 lines(trenddata$avgseries ~ trenddata$avgdist, lty=2,col="red")
 trenddata <- ams(se_r10$"aha_cs15lq_r10$ne", se_r10$"aa_r10$dist", 25)
