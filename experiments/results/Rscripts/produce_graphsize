@@ -63,12 +63,13 @@ points(gs_nodes$"r0gs_cs10hq$nodes", gs_nodes$"r0gs_cs10hq$nodes", pch=1)
 legend("topleft", c("No abstraction", "CS = 10", "CS = 15", "CS = 20"), lty=c(1,2,3,4), col=c("black", "red", "blue", "orange"))
 dev.off()
 
+library(xtable)
 gsnodes_table <- as.data.frame(mean(r0gs_cs10hq$absnodes) / avgnodes)
 gsnodes_table <- cbind(gsnodes_table, mean(r5gs_cs10hq$absnodes) / avgnodes)
 gsnodes_table <- cbind(gsnodes_table, mean(r10gs_cs10hq$absnodes) / avgnodes)
-gsnrow <- mean(r0gs_cs15lq$absnodes) / avgnodes
-gsnrow <- c(gsnrow, mean(r5gs_cs15lq$absnodes) / avgnodes)
-gsnrow <- c(gsnrow, mean(r10gs_cs15lq$absnodes) / avgnodes)
+gsnrow <- mean(r0gs_cs10lq$absnodes) / avgnodes
+gsnrow <- c(gsnrow, mean(r5gs_cs10lq$absnodes) / avgnodes)
+gsnrow <- c(gsnrow, mean(r10gs_cs10lq$absnodes) / avgnodes)
 gsnodes_table <- rbind(gsnodes_table, gsnrow)
 gsnrow <- c()
 gsnrow <- mean(r0gs_cs15hq$absnodes) / avgnodes
@@ -92,8 +93,6 @@ gsnrow <- c(gsnrow, mean(r10gs_cs20lq$absnodes) / avgnodes)
 gsnodes_table <- rbind(gsnodes_table, gsnrow)
 gsnodes_table <- gsnodes_table*100
 dimnames(gsnodes_table) <- list(c("CS10 HQ", "CS10 LQ", "CS15 HQ", "CS15 LQ", "CS20 HQ", "CS20 LQ"), c("0% SO", "5% SO", "10% SO"))
-
-library(xtable)
 gsnoutput <- xtable(gsnodes_table)
 
 gsedges_table <- as.data.frame(mean(r0gs_cs10hq$absedges) / avgedges)
