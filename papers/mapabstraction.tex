@@ -6,14 +6,19 @@ Our result from theorem {\ref{aha-theorem:reducibility} is key to the spatial ab
 \par \indent
 We extend the general process in \cite{botea04} which involves dividing a grid map into fixed-size square sections called \emph{clusters}. Figure \ref{aha-fig:clustersandentrances}(a) shows the result of this decomposition approach; we use clusters of size 5 to split our toy map into 4 adjacent sections.
 \par \indent
-In the original work \emph{entrances} are obstacle-free transition areas of maximal size which exist along the border area between adjacent pairs of clusters. 
-They are represented in the abstract graph by a pair of nodes connected with an undirected \emph{inter-edge} of weight 1.0. 
-Our approach is similar but requires as a parameter $C$, the set of all capabilities. 
+Adjacent pairs of clusters are connected to each other by \emph{entrances}, defined as obstacle-free transition areas of maximal size. 
+Each entrance is represented in the abstract graph by a pair of nodes connected with an undirected \emph{inter-edge} of weight 1.0. 
+Our approach is similar but requires as a parameter $C$, the set of all capabilities and $S$, the set of all agent sizes. 
 We thus begin by attempting to identify entrances $\forall c \in C$. 
 \par \indent
-We start at the beginning of the adjacent border area and extend the entrance until one of three termination conditions occurs: the end of the border area is reached, an obstacle is detected or the clearance value of nodes in either cluster begins to increase. 
-The last condition is important in cases where a cluster is partially divided by an obstacle. 
-To avoid generating an incomplete representation we leverage clearance to detect topographical changes in either cluster and thus identify alternative connections.
+In the original work entrances are discovered by considering only traversable tiles on the immediate border of each pair of adjacent clusters.
+This approach is adequate for small agents but produces incomplete graphs that do not accurately reflect the topography of the original map making them unsuitable for large agents.
+To address this problem we consider a larger set of tiles; up to $d \leq max(s) \in S$  inside each cluster.  
+We call this  the entrance \emph{depth}. 
+Starting at the pair of tiles at the beginning of each adjacent area we first extend the entrance inside each cluster up to $d \leq max(s) \in S$ or until an obstacle is encountered.  
+We then extend the entrance in an orthogonal direction, computing depth at each step, and continuing until one of three termination conditions occurs: the end of the adjacent area is reached, an obstacle is discovered or $d$ begins to increase or decrease in either cluster. 
+The last termination condition is important for detecting bottleneck regions where a cluster is partially divided by an obstacle near the border. 
+In these cases several entrances are required to reflect the local topography.
 \par \indent
 Once an entrance is found, we choose as the transition point the first pair of adjacent nodes which maximise clearance for $c$. 
 This latter metric, $cv_{entrance}$ is computed by taking the minimum clearance among each node pair in the entrance area and selecting the largest value from the set. 

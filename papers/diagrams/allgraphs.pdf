@@ -2,8 +2,8 @@
 %âãÏÓ\r
 1 0 obj
 <<
-/CreationDate (D:20080625102259)
-/ModDate (D:20080625102259)
+/CreationDate (D:20080625144249)
+/ModDate (D:20080625144249)
 /Title (R Graphics Output)
 /Producer (R 2.7.0)
 /Creator (R)
@@ -106,7 +106,7 @@ S
 Q q 0.00 360.00 360.00 360.00 re W n
 BT
 0.000 0.000 0.000 rg
-/F3 1 Tf 12.00 0.00 -0.00 12.00 98.35 691.19 Tm (Path Quality \(SO=10%, AQ=High\)) Tj
+/F3 1 Tf 12.00 0.00 -0.00 12.00 114.94 691.19 Tm (Path Quality \(SO=10%, HQ\)) Tj
 /F2 1 Tf 10.00 0.00 -0.00 10.00 142.21 375.54 Tm (optimal solution length) Tj
 /F2 1 Tf 0.00 10.00 -10.00 0.00 10.76 529.59 Tm (% error) Tj
 ET
@@ -247,7 +247,7 @@ S
 Q q 360.00 360.00 360.00 360.00 re W n
 BT
 0.000 0.000 0.000 rg
-/F3 1 Tf 12.00 0.00 -0.00 12.00 459.77 691.19 Tm (Path Quality \(SO=10%, AQ=Low\)) Tj
+/F3 1 Tf 12.00 0.00 -0.00 12.00 475.61 691.19 Tm (Path Quality \(SO=10%, LQ\)) Tj
 /F2 1 Tf 10.00 0.00 -0.00 10.00 502.21 375.54 Tm (optimal solution length) Tj
 /F2 1 Tf 0.00 10.00 -10.00 0.00 370.76 529.59 Tm (% error) Tj
 ET
@@ -392,7 +392,7 @@ S
 Q q 0.00 0.00 360.00 360.00 re W n
 BT
 0.000 0.000 0.000 rg
-/F3 1 Tf 12.00 0.00 -0.00 12.00 81.49 331.19 Tm (Total search effort \(SO=10%, AQ=High\)) Tj
+/F3 1 Tf 12.00 0.00 -0.00 12.00 98.09 331.19 Tm (Total search effort \(SO=10%, HQ\)) Tj
 /F2 1 Tf 10.00 0.00 -0.00 10.00 142.21 15.54 Tm (optimal solution length) Tj
 /F2 1 Tf 0.00 10.00 -10.00 0.00 10.76 149.16 Tm (nodes expanded) Tj
 ET
@@ -564,7 +564,7 @@ S
 Q q 360.00 0.00 360.00 360.00 re W n
 BT
 0.000 0.000 0.000 rg
-/F3 1 Tf 12.00 0.00 -0.00 12.00 442.91 331.19 Tm (Total search effort \(SO=10%, AQ=Low\)) Tj
+/F3 1 Tf 12.00 0.00 -0.00 12.00 458.75 331.19 Tm (Total search effort \(SO=10%, LQ\)) Tj
 /F2 1 Tf 10.00 0.00 -0.00 10.00 502.21 15.54 Tm (optimal solution length) Tj
 /F2 1 Tf 0.00 10.00 -10.00 0.00 370.76 149.16 Tm (nodes expanded) Tj
 ET
@@ -666,7 +666,7 @@ Q
 endstream
 endobj
 8 0 obj
-13384
+13367
 endobj
 3 0 obj
 <<
@@ -713,15 +713,15 @@ xref
 0000000000 65535 f 
 0000000021 00000 n 
 0000000163 00000 n 
-0000013833 00000 n 
-0000013916 00000 n 
+0000013816 00000 n 
+0000013899 00000 n 
 0000000212 00000 n 
 0000000295 00000 n 
 0000000375 00000 n 
-0000013812 00000 n 
-0000014020 00000 n 
-0000014277 00000 n 
-0000014374 00000 n 
+0000013795 00000 n 
+0000014003 00000 n 
+0000014260 00000 n 
+0000014357 00000 n 
 trailer
 <<
 /Size 12
@@ -729,5 +729,5 @@ trailer
 /Root 2 0 R
 >>
 startxref
-14476
+14459
 %%EOF
