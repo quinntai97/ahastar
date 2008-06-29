@@ -30,7 +30,7 @@ foreach(readdir(MYDIR))
 			#print $tile; 
 			if(not $tile eq "@" and  not $tile eq "\n") 
 			{
-				if(rand 1 < 0.05) { $tile = "T"; }
+				if(rand 1 < 0.25) { $tile = "T"; }
 				else { $tile = "."; }
 			}
 		}
