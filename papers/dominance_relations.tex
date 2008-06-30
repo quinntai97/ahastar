@@ -1,19 +1,23 @@
 \section{Optimising Abstract Graph Size}
 \par \indent
-As we have observed in lemmas \ref{aha-lemma:maxedgesincluster} and \ref{aha-lemma:maxtransitions} the initial abstraction algorithm attempts to represent every optimal path between clusters and inside clusters. 
-However, while studying this problem we were unable to concot any scenarios where the number of edges is equal to the the theoretical worst-case suggesting that it is, in fact, just an approximate upper-bound.  
-\par \indent 
-A consequence of this observation is that in all experimental scenarios the same path was often returned for different pairs of $(c, s)$ parameters when using AA* to discover intra-edges. We highlight the problem in Figure \ref{aha-fig:strongdominance}(a) and contrast it with our desired result in Figure \ref{aha-fig:strongdominance}(b). $\lbrace E3, E5 \rbrace$ represent the same path between nodes $b$ and $c$ but are annotated with different clearance values. The same problem is evident for $\lbrace E4, E6 \rbrace$ which both cover nodes $a$ and $c$. In such cases we say that $E3$ and $E4$ are \emph{strongly dominant}, which we denote $E3 \prec E5$ and $E4 \prec E6$. We give the following theorem to formalise this concept:
+As we have observed in lemmas \ref{aha-lemma:maxedgesincluster} and \ref{aha-lemma:maxtransitions} the initial abstraction algorithm attempts to represent every optimal path between clusters and inside clusters.
+However, most maps have far simpler topographies than the worst-case; in our  experimental scenarios we often observed the same path returned for different pairs of $(c, s)$ parameters when discovering intra-edges.
+This observation presents us with an opportunity to compact the graph and reduce the associated space complexity of our decomposition technique. 
+We achieve this by noticing that if several optimal-length edges exist between two nodes, annotated with the same capability but with different clearance values, we can discard all edges except the one with the largest clearance. 
+\par \indent
+Consider the initial abstraction in Figure \ref{aha-fig:strongdominance}(a) and contrast it with our desired result in Figure \ref{aha-fig:strongdominance}(b). $\lbrace E3, E5 \rbrace$ represent the same path between nodes $b$ and $c$ but are annotated with different clearance values. 
+The same problem is evident for $\lbrace E4, E6 \rbrace$ which both cover nodes $a$ and $c$. In such cases we say that $E3$ and $E4$ are \emph{strongly dominant}, which we denote $E3 \prec E5$ and $E4 \prec E6$. We give the following theorem to formalise this concept:
 
 \begin{theorem}
 \label{aha-definition:strongdominance}
-Let $e_{a}, e_{b} \in E_{abs}$ be two edges that connect the same pair of abstract nodes. 
-Assume both edges are traversable by a common capability with clearance such that $e_{a}(c), e_{b}(c) > 0$ where $c \in C \wedge c \neq \emptyset$. Then $e_{a} \prec e_{b}$ iff
+Let $e_{a}, e_{b} \in E_{abs}$ be two edges that connect the same pair of abstract nodes such that:
 $$ 1 \geq e_{a}(c) \geq e_{b}(c) \wedge weight(e_{a}) \leq weight(e_{b})$$
+Then $e_{a} \prec e_{b}$ and we may remove $e_{b}$ from $E_{abs}$ without loss of generality or optimality.
 \end{theorem}
-
+\begin{proof}
+Any agent able to traverse an edge with small clearance is also able to traverse another edge with larger clearance. Since both $e_{a}$ and $e_{b}$ have the same weight we lose neither optimality nor generality by removing $e_{b}$.
+\end{proof}
 We term the resultant graph in which all strongly dominant edges have been removed a \emph{high-quality} abstraction.  
-In Figure \ref{aha-fig:abstractgraph}(c) we can see the complete graph for our running example; we were able to represent a 2-terrain map with 100 nodes and 350 edges using just 15 nodes and  37 edges. 
 
 \begin{figure}[htbp]
         \caption{\emph{Strong edge dominance} }
@@ -28,6 +32,7 @@ Figure \ref{aha-fig:abstractgraph}(a) and (b) highlight the problem and \ref{aha
 In this example we can see that although edges $E1$ and $E2$ have different clearance values any agent of size $s \in S : S = \lbrace 1, 2 \rbrace$ capable of traversing $E2$ can also traverse $E1$ without loss of generality. 
 In such cases we say $E1$ is \emph{weakly dominant} and denote it as $E1 \sim E2$. 
 We may further notice that $E3 \sim E4$, $E6 \sim E7$, $E10 \sim E8$ and $E10 \sim E9$ which suggests we can safely remove the dominated edges without losing any connectivity information from the graph. 
+
 We formalise the concept using the following theorem:
 \begin{theorem}
 \label{aha-theorem:weakdominance}
@@ -62,4 +67,5 @@ In Figure \ref{aha-fig:abstractgraph}(c) we reduce the high quality abstraction 
         \label{aha-fig:abstractgraph}
 \end{figure}
 \par \indent
-A reasonable analogy to highlight the intuition behind theorem \ref{aha-theorem:weakdominance} is to compare the way off-road vehicles opportunistically use roads where possible even if an off-road route (or trail) might exist which has a smaller distance cost. Roads are smoother to drive on and have other benefits such less wear and tear, and better fuel consumption. Opting for a lower-quality abstraction in this way does have an effect on the quality of the computed solutions, but as we will show, the differences are reasonably small and the solutions still near-optimal. The best choice depends on the requirements of the specific application to which the algorithm is applied; it is a classic tradeoff between running-time vs space.
+A reasonable analogy to highlight the intuition behind theorem \ref{aha-theorem:weakdominance} is to compare the way off-road vehicles opportunistically use roads where possible even if an off-road route (or trail) might exist which has a smaller distance cost. Roads are smoother to drive on and have other benefits such less wear and tear, and better fuel consumption. 
+Opting for a lower-quality abstraction in this way does have an effect on the quality of the computed solutions, but as we will show, the differences are reasonably small and the solutions still near-optimal. The best choice depends on the requirements of the specific application to which the algorithm is applied; it is a classic tradeoff between running-time vs space.

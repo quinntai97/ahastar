@@ -46,7 +46,6 @@ To keep the size of the abstract graph small we actively attempt to re-use exist
 \par \indent
 The final step in the decomposition involves attempting to add to the abstract graph a set of \emph{intra-edges} for each pair of abstract nodes inside a cluster. 
 We achieve this by running multiple AA* searches $\forall (c, s) : c \in C, s \in S$.
-\par \indent
 Once a path is found we annotate the new edge, $e_{intra}$, with the capability and clearance parameters used by AA* and set its weight equal to the cost of the path. 
 The algorithm terminates when all clusters have been considered. 
 \par \indent
