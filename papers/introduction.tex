@@ -1,16 +1,21 @@
 \section{Introduction}
-Agents can take many shapes and sizes; from large vehicles to small, soldiers, robots and creations of fantasy; there is no limit to their diversity. In addition to their physical characteristics, agents can also be equipped with a wide array of capabilities that allow them to traverse heterogenous environments. 
-Modern real-time strategy or role-playing games for example often feature a wide array of units of differing shapes and abilities that must contend with navigating across environments with complex topographical features - many terrains, different elevations etc. Thus, a route which might be valid for an infantry-solider may not be valid for a heavily armoured tank. Likewise, a car and an off-road vehicle may be similar in size and shape but the paths preferred by each one could differ greatly. 
-Such diversity introduces much additional complexity when solving route-finding problems; we must be able to find not just the shortest path but the most suitable path for our agent given some constraints on size and ability to traverse different kinds of terrain. 
-Typical challenges we must consider in such situations include creating state-space representations that are rich enough to capture all the relevant details of the environment in which our agents operate and managing the increase in complexity that is associated with the introduction of these additional parameters. 
-Solving the latter challenge is particularly important in application areas such as robotics and games where the amount of computational resources that can be dedicated to path planning are small.\\
-To date, very little work has focused specifically on addressing planning for diverse-size agents in heterogenous terrain environments. The majority of current path planners, including recent hierarchical planners (\cite{botea04}, \cite{sturtevant05}, \cite{demyen07}, \cite{geraerts07}), perform very well under certain ideal conditions. They assume, for example, that all agents are equally capable of reaching most areas on a given map and any terrain which is not traversable by one agent is not traversable by any. 
+Single-agent path planning is a well known and extensively studied problem in computer science.
+It has many applications such as logistics, robotics and more recently, computer games. 
+\par \indent
+Despite the large amount of progress that has been made in this area, to date, very little work has focused specifically on addressing planning for diverse-size agents in heterogenous terrain environments. 
+The problem is interesting because such diversity introduces much additional complexity when solving route-finding problems.
+Modern real-time strategy or role-playing games for example often feature a wide array of units of differing shapes and abilities that must contend with navigating across environments with complex topographical features - many terrains, different elevations etc. 
+Thus, a route which might be valid for an infantry-solider may not be valid for a heavily armoured tank. 
+Likewise, a car and an off-road vehicle may be similar in size and shape but the paths preferred by each one could differ greatly. 
+\par \indent
+The majority of current path planners, including recent hierarchical planners (\cite{botea04}, \cite{sturtevant05}, \cite{demyen07}, \cite{geraerts07}), perform very well under certain ideal conditions. 
+They assume, for example, that all agents are equally capable of reaching most areas on a given map and any terrain which is not traversable by one agent is not traversable by any. 
 Further assumptions are often made about the size of each respective agent; a path computed for one is equally valid for any other because all agents are typically of uniform size. 
 Since most planners use these assumptions as pillars for further work the applicability of any given technique becomes limited to solving a very narrow set of problems: homogenous agents in a homogenous environment. \\
 We address the opposite case and show how efficient solutions can be calculated in situations where both the agent's size and terrain traversal capability are variable. Our method extends recent work emerging from the areas of robotics and computer games which has shown the effectiveness of using clearance annotations to measure obstacle distance at key locations in the environment and using this information to help agents plan better paths. We contribute in several ways:
 \begin{enumerate}
-\item{We show how clearance values can be computed for grid environments and adapt existing abstraction techniques to produce compact information rich search graphs.}
-\item{We provide new insights into reducibility and show how complicated large-agent searches can be simplified into a classical small-agent searches.}
+\item{We show how clearance values can be computed for grid environments in order produce compact information rich search abstractions.}
+\item{We show how complicated large-agent searches can be simplified into a classical small-agent searches.}
 \item{We introduce AHA*, a new path planner that makes use of map annotations and provide a detailed empirical analysis of its performance. }
 \end{enumerate} 
 
