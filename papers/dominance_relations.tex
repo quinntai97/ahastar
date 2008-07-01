@@ -49,13 +49,21 @@ Then, any location which an agent can reached by traversing $e_{b}$ can also be 
 If a circuit exists between the endpoints $\lbrace n1_{a}, n2_{a}, n1_{b}, n2_{b} \rbrace$ which contains only edges with clearances at least as large as $e_{b}(c_{b})$ for the capability $c_{b}$ then any nodes which are reachable from $n1_{b}$ or $n2_{b}$ are also reachable from $n1_{a}$ or $n2_{a}$.
 From this it follows that any destination an agent can reach via $e_{b}$ can also be reached via $e_{a}$ 
 \end{proof}
-The number of edges which are weakly dominated can be maximised by leveraging the fact that there are only a limited number of sizes agents may take. We can thus apply the following truncation condition to the abstract graph before we apply weak dominance:
+\begin{corollary}
+If $e_{a} \sim e_{b}$, then $n1_{b}$ and $n2_{b}$ and are also dominated and can be removed, unless required by another (non-dominated) inter-edge. 
+\end{corollary}
+\begin{proof}
+If $n1_{b}$ and $n2_{b}$ are required by a non-dominated inter-edge we cannot remove them without violating the capability dominance condition which is required to retain representational completeness. 
+If this is not the case however, we know by the circuit condition that any node reachable by an intra-edge via $n1_{b}$ or $n2_{b}$ is reachable via the endpoints of $e_{a}$. 
+Thus, both nodes and any associated intra-edges dependent on them, can be safely removed.
+\end{proof}
+To maximise the number of weakly annotated edges we can further apply the following truncation condition to the abstract graph before we apply weak dominance:
 \begin{equation}
 e(c) > max(s) \Rightarrow e(c) = max(s) : s \in S, \forall e \in E_{abs}
 \end{equation}
-\par \indent
-A direct consequence of theorem \ref{aha-theorem:weakdominance} is that in addition to removing weakly dominated inter-edges, we can also remove their endpoints and any intra edges dependent on those nodes; by the circuit condition, these are also dominated. 
-This corrolary only applies if the endpoints are not required by another (non-dominated) inter-edge representing a different cluster transition. 
+The intuitition here is based on the observation that multi-terrain transitions tend to have the largest clearances. 
+These may be larger than required by our agents which are limited to size $max(s)$. 
+By truncating clearance values we can apply the capabiliy dominance condition to more edges and do not unnecessarily retain unrequired transitions.
 \par \indent
 We refer to the initial abstraction that has had both strong and weakly dominated edges removed a \emph{low quality abstraction}.
 In Figure \ref{aha-fig:abstractgraph}(c) we reduce the high quality abstraction from Figure \ref{aha-fig:abstractgraph}(a) to 10 nodes and 13 edges.
@@ -67,5 +75,8 @@ In Figure \ref{aha-fig:abstractgraph}(c) we reduce the high quality abstraction 
         \label{aha-fig:abstractgraph}
 \end{figure}
 \par \indent
-A reasonable analogy to highlight the intuition behind theorem \ref{aha-theorem:weakdominance} is to compare the way off-road vehicles opportunistically use roads where possible even if an off-road route (or trail) might exist which has a smaller distance cost. Roads are smoother to drive on and have other benefits such less wear and tear, and better fuel consumption. 
-Opting for a lower-quality abstraction in this way does have an effect on the quality of the computed solutions, but as we will show, the differences are reasonably small and the solutions still near-optimal. The best choice depends on the requirements of the specific application to which the algorithm is applied; it is a classic tradeoff between running-time vs space.
+Of course, opting for a low-quality abstraction in this way does affect the quality of computed solutions. 
+In the worst case, one-step transition of cost 1.0 in a high quality graph may be as long as $n \times 6$, where $n$ is the length of a cluster in a low-quality approximation.
+This is a pathological case however; as we will show the differences in real-world scenarios are much smaller and still near-optimal. 
+The choice of which quality abstraction technique to employ however will depend on the requirements of the specific appliction to which the algorithm is applied.
+It is a classic tradeoff between run-time vs space.

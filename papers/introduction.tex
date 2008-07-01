@@ -1,14 +1,14 @@
 \section{Introduction}
 Single-agent path planning is a well known and extensively studied problem in computer science.
 It has many applications such as logistics, robotics and more recently, computer games. 
-\par \indent
 Despite the large amount of progress that has been made in this area, to date, very little work has focused specifically on addressing planning for diverse-size agents in heterogenous terrain environments. 
+\par \indent
 The problem is interesting because such diversity introduces much additional complexity when solving route-finding problems.
 Modern real-time strategy or role-playing games for example often feature a wide array of units of differing shapes and abilities that must contend with navigating across environments with complex topographical features - many terrains, different elevations etc. 
 Thus, a route which might be valid for an infantry-solider may not be valid for a heavily armoured tank. 
 Likewise, a car and an off-road vehicle may be similar in size and shape but the paths preferred by each one could differ greatly. 
 \par \indent
-The majority of current path planners, including recent hierarchical planners (\cite{botea04}, \cite{sturtevant05}, \cite{demyen07}, \cite{geraerts07}), perform very well under certain ideal conditions. 
+The majority of current path planners however, including recent hierarchical planners (\cite{botea04}, \cite{sturtevant05}, \cite{demyen07}, \cite{geraerts07}), only perform well under certain ideal conditions. 
 They assume, for example, that all agents are equally capable of reaching most areas on a given map and any terrain which is not traversable by one agent is not traversable by any. 
 Further assumptions are often made about the size of each respective agent; a path computed for one is equally valid for any other because all agents are typically of uniform size. 
 Since most planners use these assumptions as pillars for further work the applicability of any given technique becomes limited to solving a very narrow set of problems: homogenous agents in a homogenous environment. \\
