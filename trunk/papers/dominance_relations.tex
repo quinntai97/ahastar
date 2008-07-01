@@ -29,6 +29,14 @@ We term the resultant graph in which all strongly dominant edges have been remov
 
 The abstract graph can be further reduced by noticing that some multi-terrain transitions between clusters can be removed without affecting the completeness of the representation. 
 Figure \ref{aha-fig:abstractgraph}(a) and (b) highlight the problem and \ref{aha-fig:abstractgraph}(c) and (d) the desired outcome.
+\begin{figure}[htbp]
+        \caption{\emph{High and low quality abstraction results} }
+        \begin{center}
+                        \includegraphics[scale=0.25]{diagrams/abstraction_result.png}
+        \end{center}
+        \label{aha-fig:abstractgraph}
+\end{figure}
+\par \indent
 In this example we can see that although edges $E1$ and $E2$ have different clearance values any agent of size $s \in S : S = \lbrace 1, 2 \rbrace$ capable of traversing $E2$ can also traverse $E1$ without loss of generality. 
 In such cases we say $E1$ is \emph{weakly dominant} and denote it as $E1 \sim E2$. 
 We may further notice that $E3 \sim E4$, $E6 \sim E7$, $E10 \sim E8$ and $E10 \sim E9$ which suggests we can safely remove the dominated edges without losing any connectivity information from the graph. 
@@ -57,26 +65,8 @@ If $n1_{b}$ and $n2_{b}$ are required by a non-dominated inter-edge we cannot re
 If this is not the case however, we know by the circuit condition that any node reachable by an intra-edge via $n1_{b}$ or $n2_{b}$ is reachable via the endpoints of $e_{a}$. 
 Thus, both nodes and any associated intra-edges dependent on them, can be safely removed.
 \end{proof}
-To maximise the number of weakly annotated edges we can further apply the following truncation condition to the abstract graph before we apply weak dominance:
-\begin{equation}
-e(c) > max(s) \Rightarrow e(c) = max(s) : s \in S, \forall e \in E_{abs}
-\end{equation}
-The intuitition here is based on the observation that multi-terrain transitions tend to have the largest clearances. 
-These may be larger than required by our agents which are limited to size $max(s)$. 
-By truncating clearance values we can apply the capabiliy dominance condition to more edges and do not unnecessarily retain unrequired transitions.
-\par \indent
-We refer to the initial abstraction that has had both strong and weakly dominated edges removed a \emph{low quality abstraction}.
-In Figure \ref{aha-fig:abstractgraph}(c) we reduce the high quality abstraction from Figure \ref{aha-fig:abstractgraph}(a) to 10 nodes and 13 edges.
-\begin{figure}[htbp]
-        \caption{\emph{High and low quality abstraction results} }
-        \begin{center}
-                        \includegraphics[scale=0.25]{diagrams/abstraction_result.png}
-        \end{center}
-        \label{aha-fig:abstractgraph}
-\end{figure}
-\par \indent
 Of course, opting for a low-quality abstraction in this way does affect the quality of computed solutions. 
-In the worst case, one-step transition of cost 1.0 in a high quality graph may be as long as $n \times 6$, where $n$ is the length of a cluster in a low-quality approximation.
+In the worst case, a one-step transition of cost 1.0 in a high quality graph may be as long as $n \times 6$, where $n$ is the length of a cluster in a low-quality approximation.
 This is a pathological case however; as we will show the differences in real-world scenarios are much smaller and still near-optimal. 
-The choice of which quality abstraction technique to employ however will depend on the requirements of the specific appliction to which the algorithm is applied.
-It is a classic tradeoff between run-time vs space.
+The choice of which quality abstraction technique to employ will depend on the requirements of the specific application to which the algorithm is applied.
+It is a classic tradeoff between run-time performance vs space.
