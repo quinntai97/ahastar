@@ -2,14 +2,14 @@
 A \emph{gridmap} is a structure composed of square cells, of unit size, each of which represent a unique location in the environment. 
 Each grid cell is an \emph{octile}, $t$, connected to $k$ neighbours, where  $0 \leq k \leq 8$. 
 \par \indent
-Each grid map is representable as a graph, $G = (V, E)$ where each traversable tile generates one node $v \in V$ and each cell/neighbour adjacency is represented by an edge $e \in E$.
-\par \indent
-Each octile, $t$, is associated with a particular terrain type, $terrain(t) \in T$ where $T$ is the set of all possible terrains and and there are $r = |T| : r \geq 1$ possible terrains.
+Each octile is associated with a particular terrain type, $terrain(t) \in T$ where $T$ is the set of all possible terrains and and there are $r = |T| : r \geq 1$ possible terrains.
 Each octile is either blocked or traversable. 
 Blocked octiles are called \emph{hard obstacles}, since no agent can occupy them.
 \par \indent
+Each gridmap is representable as a graph, $G = (V, E)$ where each traversable tile generates one node $v \in V$ and each cell/neighbour adjacency is represented by an edge $e \in E$.
+\par \indent
 An \emph{agent} is any entity attempting to move across a grid environment. 
-Every agent is square in shape and has a size $s \geq 1 : s \in S$ where $S$ is the set of finite sizes agents traversing across the gridmap may take.
+Every agent is square or circular in shape and has a size $s \geq 1 : s \in S$ where $S$ is the set of finite sizes agents traversing across the gridmap may take.
 While stationary or moving, each agent occupies $s^2$ octiles. 
 \par \indent
 Every agent has a terrain traversal \emph{capability}, $c \in C$, where $c$ comprises a non-empty subset of terrains.
@@ -21,4 +21,4 @@ A \emph{clearance value} is an obstacle-distance metric associated with a partic
 Each clearance value measures the maximal size of an agent at a given location without intersecting any obstacle in the environment. 
 A tile can have several clearance values associated with it, one for each capability. 
 \par \indent
-A \emph{problem instance} is defined as a pair of locations in the environment corresponding to an initial location where an agent begins and a goal location which it tries to reach. A problem is valid if at least one path exists between the start and goal locations comprising only tiles traversable by the agent. 
+A \emph{problem instance} is defined as a pair of locations, a start and goal, associated with an agent. A problem is valid if at least one path exists between the locations comprising only tiles traversable by the agent. 

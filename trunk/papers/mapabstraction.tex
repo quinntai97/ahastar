@@ -17,7 +17,7 @@ The highlighted region in Figure \ref{aha-fig:clustersandentrances} represents t
         \label{aha-fig:clustersandentrances}
 \end{figure}
 \par \indent
-In the origial work each entrance area consists of a single line of tiles from each adjacent cluster and thus has an implicit \emph{depth}, $d = 1$.
+In the original work each entrance area consists of a single line of tiles from each adjacent cluster and thus has an implicit \emph{depth}, $d = 1$.
 This approach is adequate for small agents but unsuitable for larger agents as it produces incomplete abstract graphs. 
 To demonstrate the validity of this claim, consider the example in Figure \ref{aha-fig:clustersandentrances}(c). 
 Here we show a large agent $A$ of size 2 that begins in the same cluster as the goal location. 
@@ -50,7 +50,7 @@ Once a path is found we annotate the new edge, $e_{intra}$, with the capability 
 The algorithm terminates when all clusters have been considered. 
 \par \indent
 We thus construct an abstract \emph{multi-graph} in which each edge $e$ is annotated with a single capability $c_{e}$ and associated clearance value $cv_{e}$. These represent the minimum capability set that an agent $a$ must posess to traverse the edge, $c_{a}$, and the agent's maximum size, $s_{a}$. More succinctly:
-$$ e(c_{a}) = cv_{e} \geq s_{a} : c_{e} \in c_{a} \in C$$
+$$ e(c_{a}) = cv_{e} \geq s_{a} : c_{e} \in c_{a} \in C, s_{a} \in S$$
 We term the resultant abstraction $initial$ and give the following lemmas to characterise its space complexity:
 
 \input abstractionproperties
