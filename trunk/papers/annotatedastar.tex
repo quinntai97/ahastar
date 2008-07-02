@@ -1,6 +1,5 @@
 \section{Annotated A*}
 \label{aha:aastar}
-Having defined a technique for annotating a graph with pertinent information about important topographical features in the environment, we turn our attention to how one may leverage our newfound information richness to discover suitable paths for diverse sets of agents. 
-\par \indent
+Planning for diverse sets of agents using clearance values is a straightforward application of the ideas thus far.
 We use a variation on the A* algorithm \cite{astar} to compute an optimal shortest path between a start and goal node.  
 Our approach differs from the standard implementation by requiring two additional parameters for each query: the agent's size and capability. This allows us to map any query into an instance of small-agent search as shown earlier by using the parameters to evaluate nodes before they are added to A*'s open list. We term the resultant algorithm Annotated A* (AA* for short).
