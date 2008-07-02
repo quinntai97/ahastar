@@ -10,8 +10,28 @@ lines((ams(pqty_c10$"aha_cs10lq_r10$dist" / pqty_c10$"aa_r10$dist", pqty_c10$"aa
 lines((ams(pqty_c10$"aha_cs20lq_r10$dist" / pqty_c10$"aa_r10$dist", pqty_c10$"aa_r10$dist", 25 )$avgseries-1)*100 ~ ams(pqty_c10$"aa_r10$dist", pqty_c10$"aa_r10$dist", 25)$avgdist, lty=3,col="blue")
 legend("topright", c("CS = 15", "CS = 10", "CS = 20"), lty=c(1,2,3), col=c("black", "red", "blue"))
 
+#### build up data subsets; small single terrain, small multi terrain, large single terrain, large multi terrain ##########
+tmp <- cbind(aha_cs15lq_r0$dist, aa_r0$dist)
+names(tmp) <- c("ahadist", "aadist")
+pqty_r0sst <- tmp[aha_cs15lq_r0$size == 1 & aha_cs15lq_r0$caps == 4,]
+pqty_r0smt <- tmp[aha_cs15lq_r0$size == 1 & aha_cs15lq_r0$caps == 68,]
+pqty_r0lst <- tmp[aha_cs15lq_r0$size == 2 & aha_cs15lq_r0$caps == 4,]
+pqty_r0lmt <- tmp[aha_cs15lq_r0$size == 2 & aha_cs15lq_r0$caps == 68,]
+tmp <- cbind(aha_cs15lq_r25$dist, aa_r25$dist)
+names(tmp) <- c("ahadist", "aadist")
+pqty_r25sst <- tmp[aha_cs15lq_r25$size == 1 & aha_cs15lq_r25$caps == 4,]
+pqty_r25smt <- tmp[aha_cs15lq_r25$size == 1 & aha_cs15lq_r25$caps == 68,]
+pqty_r25lst <- tmp[aha_cs15lq_r25$size == 2 & aha_cs15lq_r25$caps == 4,]
+pqty_r25lmt <- tmp[aha_cs15lq_r25$size == 2 & aha_cs15lq_r25$caps == 68,]
+tmp <- cbind(aha_cs15lq_r50$dist, aa_r50$dist)
+names(tmp) <- c("ahadist", "aadist")
+pqty_r50sst <- tmp[aha_cs15lq_r50$size == 1 & aha_cs15lq_r50$caps == 4,]
+pqty_r50smt <- tmp[aha_cs15lq_r50$size == 1 & aha_cs15lq_r50$caps == 68,]
+pqty_r50lst <- tmp[aha_cs15lq_r50$size == 2 & aha_cs15lq_r50$caps == 4,]
+pqty_r50lmt <- tmp[aha_cs15lq_r50$size == 2 & aha_cs15lq_r50$caps == 68,]
 
 
+################ OLD SEARCH EFFORT JUNK #################################
 trenddata <- ams(se_r10$"aa_r10$ne", se_r10$"aa_r10$dist", 25)
 plot(trenddata$avgseries ~ trenddata$avgdist, type="l", main="Total search effort (SO=10%, AQ=High)", ylab="nodes expanded", xlab="optimal solution length", ylim=range(0,14000), xlim=range(1,450))
 trenddata <- ams(se_r10$"aha_cs10hq_r10$ne", se_r10$"aa_r10$dist", 25)
