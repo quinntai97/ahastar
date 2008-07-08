@@ -197,19 +197,4 @@ gsedges_table <- rbind(gsedges_table, gserow)
 gsedges_table <- gsedges_table*100
 dimnames(gsedges_table) <- list(c("CS10 HQ", "CS10 LQ", "CS15 HQ", "CS15 LQ", "CS20 HQ", "CS20 LQ"), c("0% SO", "10% SO", "20% SO", "30% SO", "40% SO", "50% SO"))
 gseoutputtable <- xtable(gsedges_table)
-
-par(mfrow=c(2,2))
-plot(gsedges_table[1,] ~ seq(0,50,by=10), type="b", ylim=range(0,65), main="Graph size (edges) HQ", xlab="% soft obstacles", ylab="% error")
-lines(gsedges_table[3,] ~ seq(0,50,by=10), type="b", pch=3)
-lines(gsedges_table[5,] ~ seq(0,50,by=10), type="b", pch=5)
-plot(gsedges_table[2,] ~ seq(0,50,by=10), type="b", ylim=range(0,65), main="Graph size (edges) LQ", xlab="% soft obstacles", ylab="% error")
-lines(gsedges_table[4,] ~ seq(0,50,by=10), type="b", pch=4)
-lines(gsedges_table[6,] ~ seq(0,50,by=10), type="b", pch=6)
-
-plot(gsnodes_table[1,] ~ seq(0,50,by=10), type="b", ylim=range(0,65), main="Graph size (nodes) HQ", xlab="% soft obstacles", ylab="% error")
-lines(gsnodes_table[3,] ~ seq(0,50,by=10), type="b", pch=3)
-lines(gsnodes_table[5,] ~ seq(0,50,by=10), type="b", pch=5)
-plot(gsnodes_table[2,] ~ seq(0,50,by=10), type="b", ylim=range(0,65), main="Graph size (nodes) LQ", xlab="% soft obstacles", ylab="% error")
-lines(gsnodes_table[4,] ~ seq(0,50,by=10), type="b", pch=4)
-lines(gsnodes_table[6,] ~ seq(0,50,by=10), type="b", pch=6)
 gsnodes_table
