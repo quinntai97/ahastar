@@ -1,19 +1,38 @@
 \section{Results}
-In table \ref{aha-table:graphsize} we present the average size of the abstract graph in nodes and edges relative to the size of the original graphs which featured an average 4469 nodes and 16420 edges. 
-We look at the effect of increasing the amount of soft obstacles (SO) from 0\% (the original test maps with only one traversable terrain) to 5\% and 10\% respectively. 
+In figure \ref{aha-fig:graphsize} we present the size of the abstract graph in nodes and edges relative to the size of the original graphs which featured an average 4469 nodes and 16420 edges. 
+We look at the effect of increasing the amount of soft obstacles (SO) from 0\% (the original test maps with only one traversable terrain) to 50\%.
 We also contrast high and low quality abstractions (denoted HQ and LQ) on a range of cluster sizes $\lbrace 10, 15, 20 \rbrace$ (denoted CS10, CS15 and CS20).
-\input gsntable.tex
-As expected, the number of both nodes and edges decreases as cluster size increases on each set of test maps. 
-Interestingly, using a HQ abstraction, there is a two-fold increase in the number of nodes as we move from SO 0\% to SO 5\%; this reflects the increasing complexity of terrain in each cluster. 
-The associated increase in the number of edges in these cases is much steeper at between 5-6 fold, confirming the predictions of lemmas \ref{aha-lemma:maxedgesincluster} and \ref{aha-lemma:maxtransitions}. 
-Similar observations also hold moving from 5\% SO to 10\% SO though the increase is less pronounced.
 \par \indent
-Perhaps most interesting is the counter-balancing effect on graph size stemming from the quality of the abstraction. 
-In most cases going from a HQ graph to a LQ approximation reduces the number of nodes by a factor of 2-3 which in turn produces an 8-fold reduction in the number of edges.
-The best cases appear to be associated with larger cluster sizes which is expected. 
-Even in the worst observed case however the LQ graph has just 6.8\% the number of edges in the original grid and only 8.0\% the nodes. 
-If we assume each non-abstract node and edge require one byte of memory to store, then our abstract graph, which contains 2 annotations per edge (capability and clearance, each requiring 1 byte), will still have a space complexity less than 13\% of the original graph even using a naive implementation. 
-Custom implementations could reduce this further still although the most significant gains appear to come from simply increasing the cluster size; in this case, going from CS10 to CS20 almost halves the amount of memory required to store the graph.
+Figure \ref{aha-fig:graphsize} shows the average performance of HQ and LQ abstractions with respect to each cluster size. 
+\begin{figure}[htbp]
+       \caption{\small{\emph{Nodes and edges in abstract graph (HQ vs LQ). }}}
+       \begin{center}
+                       \includegraphics[scale=0.35]{diagrams/graphsize.pdf}
+       \end{center}
+       \label{aha-fig:graphsize}
+\end{figure}
+%\input gsntable.tex
+The first thing to notice is that on both HQ and LQ abstractions the smallest graphs are generated on the SO 0\% problem set. 
+In this case only one traversable terrain exists.
+Consequently, most entrances span the length of the border region between adjacent clusters and relatively few transition points are identified. 
+From there however we see a very sharp rise in the size of the abstract graph; in the case of HQ abstractions both nodes and edges peak at SO 20\%. 
+This observation is consistent with our predictions from lemma \ref{aha-lemma:maxnodes} and lemma \ref{aha-lemma:maxedgesincluster}.
+More soft obstacles result in a larger number of smaller entrances for which we require a greater number of nodes and intra-edges to represent.
+The increasing number of soft obstacles also results in a much larger number of intra-edges; there are more alternate paths for different sizes and capabilities between each pair of abstract nodes.
+Beyond SO 20\% the density of soft obstacles in each cluster makes it harder to find as many paths and consequently less abstract edges are produced. 
+Interestingly, the number of nodes remains approximately constant suggesting the number of inter-edges does not increase.
+\par \indent
+Looking at the LQ graphs, we notice a somewhat different trend. 
+Much fewer nodes and edges are generated but both increase linearly up to SO 50\%. 
+On maps with few soft obstacles approximately half of all nodes and the majority of edges are dominated. 
+As the terrain complexity in each cluster grows however there are less dominated nodes and edges as the circuit condition from theorem \ref{aha-theorem:weakdominance} is less often satisfied.
+Consequently, we see see a gradual rise, in both cases peaking at SO 50\%.
+\par \indent
+As expected, larger clusters result in smaller graphs. 
+The difference is largely dependent on the number of soft obstacles in the environment; the largest gap is between CS10 vs. CS20 on SO 50\% using an LQ abstraction.
+The CS10 graph in this case was the worst observed LQ abstraction with an node count 15.82\% the size as in the original graph and 24.10\% edges.
+If we assume each non-abstract node and edge require one byte of memory to store, then our abstract graph, which contains 2 annotations per edge (capability and clearance, each requiring 1 byte), will still have a space complexity less than 42\% of the original graph even using a naive implementation. 
+Custom implementations using bitpacking could eliminate the edge annotation overhead and reduce this further still although the most significant gains appear to come from simply increasing the cluster size; in this case, going from CS10 to CS20 reduces the space complexity to 26.7\%.
 \par \indent
 Next we consider the performance of AHA* with respect to path quality. We measure this as:
 $$ \%error = \frac{apl - opl}{opl} \times 100 $$ where $opl$ is the length of the optimal path as calculated by AA* and $apl$ the length of the abstract path used by AHA*.
