@@ -142,8 +142,8 @@ void AnnotatedClusterAbstractionTest::buildEntrancesShouldCreateCorrectNumberOfT
 	delete ac_factory;
 	
 	int numExpectedClusters = 4;
-	int numExpectedAbstractEdges = 22; // includes intercluster and intracluster transitions
-	int numExpectedAbstractNodes = 12;
+	int numExpectedAbstractEdges = 17; // includes intercluster and intracluster transitions
+	int numExpectedAbstractNodes = 10;
 	
 	aca->buildEntrances();
 
@@ -248,7 +248,7 @@ void AnnotatedClusterAbstractionTest::buildEntrancesShouldResultInOneCachedPathF
 	aca->buildClusters(ac_factory);
 	delete ac_factory;
 	
-	int numExpectedCachedPaths = 22; 
+	int numExpectedCachedPaths = 17; 
 	
 	aca->buildEntrances();
 	
@@ -312,7 +312,7 @@ void AnnotatedClusterAbstractionTest::insertStartAndGoalNodesIntoAbstractGraphSh
 	aca->buildEntrances();
 
 	node* start = aca->getNodeFromMap(4,1); // created in abstract graph while building entrances
-	node* goal = aca->getNodeFromMap(7,5);
+	node* goal = aca->getNodeFromMap(6,5);
 	graph* absg = aca->getAbstractGraph(1);	
 	int numAbstractNodes = absg->getNumNodes();
 	int numExpectedAbstractNodes = numAbstractNodes+1;
@@ -341,10 +341,10 @@ void AnnotatedClusterAbstractionTest::insertStartAndGoalNodesIntoAbstractGraphSh
 	aca->buildEntrances();
 
 	node* start = aca->getNodeFromMap(2,1); 
-	node* goal = aca->getNodeFromMap(7,5);
+	node* goal = aca->getNodeFromMap(6,5);
 	graph* absg = aca->getAbstractGraph(1);	
 	int numAbstractEdges = absg->getNumEdges();
-	int numExpectedAbstractEdges = numAbstractEdges+6; // 4 new edges in start cluster and 2 new edges in goal cluster
+	int numExpectedAbstractEdges = numAbstractEdges+5; // 3 new edges in start cluster and 2 new edges in goal cluster
 	
 	aca->insertStartAndGoalNodesIntoAbstractGraph(start, goal);	
 	
@@ -359,8 +359,9 @@ void AnnotatedClusterAbstractionTest::insertStartAndGoalNodesIntoAbstractGraphSh
 		cout <<"(weight: "<<e->getWeight()<<" caps: "<<e->getCapability() << " clearance: "<<e->getClearance(e->getCapability())<<")";
 		e = absg->edgeIterNext(ei);
 	}	
-*/
-		
+
+*/	
+	
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("wrong number of edges added to abstract graph", numExpectedAbstractEdges, absg->getNumEdges());
 	
 	delete acfactory;
@@ -611,7 +612,7 @@ void AnnotatedClusterAbstractionTest::removeStartAndGoalNodesFromAbstractGraphSh
 
 	AnnotatedClusterFactory* acfactory = new AnnotatedClusterFactory();
 	node* start = aca->getNodeFromMap(2,1); 
-	node* goal = aca->getNodeFromMap(7,5);
+	node* goal = aca->getNodeFromMap(6,5);
 	graph* absg = aca->getAbstractGraph(1);	
 
 	aca->buildClusters(acfactory);
@@ -762,7 +763,7 @@ void AnnotatedClusterAbstractionTest::insertStartAndGoalIntoAbstractGraphShouldA
 	aca = new AnnotatedClusterAbstraction(m,new AnnotatedAStar(), TESTCLUSTERSIZE); 
 
 	node* start = aca->getNodeFromMap(2,1); 
-	node* goal = aca->getNodeFromMap(7,5);
+	node* goal = aca->getNodeFromMap(6,5);
 	graph* absg = aca->getAbstractGraph(1);
 	
 	int numAbstractNodes = absg->getNumNodes();	
@@ -770,7 +771,7 @@ void AnnotatedClusterAbstractionTest::insertStartAndGoalIntoAbstractGraphShouldA
 	aca->buildClusters(acfactory);
 	aca->buildEntrances();
 
-	int numExpectedPathsInCache = absg->getNumEdges()+6; // 4 new cached paths in start cluster and 2 more in goal cluster
+	int numExpectedPathsInCache = absg->getNumEdges()+5; // 3 new cached paths in start cluster and 2 more in goal cluster
 	aca->insertStartAndGoalNodesIntoAbstractGraph(start, goal);
 		
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("wrong number of paths added to cache", numExpectedPathsInCache, (int)aca->pathCache.size());
