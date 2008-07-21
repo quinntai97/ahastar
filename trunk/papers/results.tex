@@ -1,71 +1,78 @@
 \section{Results}
-In figure \ref{aha-fig:graphsize} we present the size of the abstract graph in nodes and edges relative to the size of the original graphs which featured an average 4469 nodes and 16420 edges. 
+In Figure \ref{aha-fig:graphsize}(a)-(d) we present the size of the abstract graph in nodes and edges relative to the size of the original graphs which featured an average 4469 nodes and 16420 edges. 
 We look at the effect of increasing the amount of soft obstacles (SO) from 0\% (the original test maps with only one traversable terrain) to 50\%.
 We also contrast high and low quality abstractions (denoted HQ and LQ) on a range of cluster sizes $\lbrace 10, 15, 20 \rbrace$ (denoted CS10, CS15 and CS20).
-\par \indent
-Figure \ref{aha-fig:graphsize} shows the average performance of HQ and LQ abstractions with respect to each cluster size. 
 \begin{figure}[htbp]
+	\vspace{-12pt}
        \caption{\small{\emph{Nodes and edges in abstract graph (HQ vs LQ). }}}
        \begin{center}
-                       \includegraphics[scale=0.35]{diagrams/graphsize.pdf}
+                       \includegraphics[scale=0.35, trim = 20mm 12mm 20mm 5mm]{diagrams/graphsize.pdf}
        \end{center}
        \label{aha-fig:graphsize}
+	\vspace{-5pt}
 \end{figure}
-%\input gsntable.tex
-The first thing to notice is that on both HQ and LQ abstractions the smallest graphs are generated on the SO 0\% problem set. 
-In this case only one traversable terrain exists.
-Consequently, most entrances span the length of the border region between adjacent clusters and relatively few transition points are identified. 
-From there however we see a very sharp rise in the size of the abstract graph; in the case of HQ abstractions both nodes and edges peak at SO 20\%. 
-This observation is consistent with our predictions from lemma \ref{aha-lemma:maxnodes} and lemma \ref{aha-lemma:maxedgesincluster}.
-More soft obstacles result in a larger number of smaller entrances for which we require a greater number of nodes and intra-edges to represent.
-The increasing number of soft obstacles also results in a much larger number of intra-edges; there are more alternate paths for different sizes and capabilities between each pair of abstract nodes.
-Beyond SO 20\% the density of soft obstacles in each cluster makes it harder to find as many paths and consequently less abstract edges are produced. 
-Interestingly, the number of nodes remains approximately constant suggesting the number of inter-edges does not increase.
 \par \indent
-Looking at the LQ graphs, we notice a somewhat different trend. 
-Much fewer nodes and edges are generated but both increase linearly up to SO 50\%. 
-On maps with few soft obstacles approximately half of all nodes and the majority of edges are dominated. 
-As the terrain complexity in each cluster grows however there are less dominated nodes and edges as the circuit condition from theorem \ref{aha-theorem:weakdominance} is less often satisfied.
-Consequently, we see see a gradual rise, in both cases peaking at SO 50\%.
+The first thing to notice is that in all cases the abstract graph is only a fraction the size of the original graph.
+As expected, larger clusters generate smaller graphs; the smallest abstractions are observed on the SO 0\% problem set using CS20. 
+In this case, using a HQ abstraction results in 4.9\% the number of nodes found in the original graph and 3.2\% edges. 
+LQ abstractions fare even better featuring just 2\% as many nodes and 0.9\% edges.
+If we assume each non-abstract node and edge require one byte of memory to store, then our abstract graph, which contains 2 annotations per edge (capability and clearance, each requiring 1 byte), will have a space complexity 12.6\% the size of the original graph using a HQ abstraction and just 2.4\% using an LQ abstraction.
+The largest HQ graph occurs for CS10 on SO 20\% and has a space complexity 94.0\% the size of the original.
+By comparison, LQ graphs are largest for CS10 on SO 50\%; here 58.9\% the size of the original gridmap.
+Moving from CS10 to CS20 reduces the worst-case space complexity of HQ graphs to 68.7\% and 38.9\% for LQ graphs.
 \par \indent
-As expected, larger clusters result in smaller graphs. 
-The difference is largely dependent on the number of soft obstacles in the environment; the largest gap is between CS10 vs. CS20 on SO 50\% using an LQ abstraction.
-The CS10 graph in this case was the worst observed LQ abstraction with an node count 15.82\% the size as in the original graph and 24.10\% edges.
-If we assume each non-abstract node and edge require one byte of memory to store, then our abstract graph, which contains 2 annotations per edge (capability and clearance, each requiring 1 byte), will still have a space complexity less than 42\% of the original graph even using a naive implementation. 
-Custom implementations using bitpacking could eliminate the edge annotation overhead and reduce this further still although the most significant gains appear to come from simply increasing the cluster size; in this case, going from CS10 to CS20 reduces the space complexity to 26.7\%.
+Interestingly, if we use the number of nodes as an indicator for the number of inter-edges in a graph, we may deduce that most HQ graphs are predominately composed of intra-edges. 
+The exact number depends on the density of soft obstacles in clusters; less dense clusters (as found on SO 20\%) result in more intra-edges as more unique paths (of differing sizes and capabilities) are found between each pair of abstract nodes. 
+This is consistent with our predictions from lemma \ref{aha-lemma:maxnodes} and lemma \ref{aha-lemma:maxedgesincluster} and useful to understanding the worst-case behaviour of HQ abstractions.
+\par \indent
+The linear increase in the size of LQ graphs is the result of a greater number of single-terrain entrances found as the number of soft obstacles increases.
+Increasing the density of soft obstacles in a cluster causes the circuit condition from theorem \ref{aha-theorem:weakdominance} to be less often satisfied and leads to the observed worst-case on SO 50\%.
 \par \indent
 Next we consider the performance of AHA* with respect to path quality. We measure this as:
 $$ \%error = \frac{apl - opl}{opl} \times 100 $$ where $opl$ is the length of the optimal path as calculated by AA* and $apl$ the length of the abstract path used by AHA*.
-Figure \ref{aha-fig:allgraphs}(top) shows the average performance of HQ and LQ abstractions with respect to each cluster size. 
 \begin{figure}[htbp]
-       \caption{\small{\emph{AHA* performance (HQ vs LQ abstraction). Top: Path quality. Bottom: Search effort. }}}
-       \begin{center}
-                       \includegraphics[scale=0.35]{diagrams/allgraphs.pdf}
-       \end{center}
-       \label{aha-fig:allgraphs}
+	\vspace{-12pt}
+	\caption{\small{\emph{AHA* performance (HQ vs LQ abstraction)}}}
+	\begin{center}
+		       \includegraphics[scale=0.25, trim = 20mm 17mm 20mm 5mm]{diagrams/pathquality.pdf}
+	\end{center}
+	\label{aha-fig:pathquality}
+	\vspace{-5pt}
 \end{figure}
-Overall, using HQ abstraction yields a very low error for the test, between 2.4 - 4.3\%. 
-Perhaps most encouraging however are the results for LQ abstractions, where AHA* performs in the 7-10\% range, giving up relatively little optimality. 
-The higher than average error observed for short paths is due to AHA*'s inability to find a direct route from start to goal -- unlike AA*.
-As the length of the problem increases this localised error becomes less an issue.
-A more complete picture of AHA*'s path quality performance is given in table \ref{aha-table:pathquality} where we observe similar trends. 
-\input pqtable.tex
-A quick glance confirms initial expectations; bigger clusters result in better performance. 
-In some cases however (0\%SO and 5\% SO) going from CS15 LQ to CS20 LQ produces a marginal decrease in quality. 
-This seemingly counter-intuitive result can be explained by our inter-edge placement strategy. 
-In all situations the pair of nodes with maximal clearance in an entrance tends to be towards the beginning of the entrance which is not an optimal placement. 
-On maps that produce low-complexity clusters of predominately one terrain we identify fewer entrances and thus fewer transition points between clusters. 
-\cite{botea04} address this issue by placing multiple transition points per entrance whereas we choose only one. 
-The biggest increase in path quality is thus observed as we move toward more complex maps which generate more transitions. 
-Table \ref{aha-table:pathquality} confirms this; for the SO 10\% set of maps the problem dissapears. 
+\par \indent
+Figure \ref{aha-fig:pathquality}(a) shows the average performance of AHA* with respect to cluster size and soft obstacles.  
+Notice that HQ graphs yield a very low error; in most cases between 3-6\%. 
+Perhaps most encouraging however are the results for LQ abstractions, where AHA* performs in the 6-10\% range, giving up relatively little optimality. 
+The highest observed error in both cases occurs on SO 0\% and is due to our inter-edge placement strategy.
+In all situations the pair of nodes with maximal clearance in an entrance, which we choose as our transition point, tends to be towards the beginning of the entrance area which is not an optimal placement.
+On maps that produce low-complexity clusters of predominately one terrain this results in long entrances that are poorly represented by the single inter-edge.
+Increasing the amount of soft obstacles produces shorter entrances and generates more transition points leading to a significant reduction in error. 
 It appears AHA* is so optimised for complex cases that it suffers some minor performance degredation on simpler problems. 
 \par \indent
-Finally, we turn our attention to figure \ref{aha-fig:allgraphs}(bottom) where we evaluate AHA* using a search effort metric. 
-\input setable.tex
-We contrast the total number of nodes expanded by AHA* (insertion + hierarchical search + refinement) with AA*.
-A more complete set of results is given in table \ref{aha-table:searcheffort} where we contrast total effort with insertion effort; the latter is presented as a \% of the total.
+Interestingly, the error associated with both HQ and LQ abstractions reaches a minimum on SO 20\% before gradually increasing toward SO 50\%. 
+To better understand this phenomenon we present in Figure \ref{aha-fig:pathquality}(b) the performance of both small and large agents on HQ and LQ graphs using a fixed cluster-size of 15.
+Notice that the performance of small agents continues to improve beyond SO 20\% while large agents begin to degrade.
+The observed rise in error stems from the decreasing size of entrances on the problem sets featuring denser clusters. 
+As previously shown in Figures \ref{aha-fig:graphsize}(a) and \ref{aha-fig:graphsize}(c), maps with more soft obstacles result in a greater number of smaller entrances. 
+This situation is beneficial for smaller agents (there are more transitions to choose from) but is disadvantageous for larger agents.
+As the average entrance size shrinks fewer inter-edges exist with clearance $>$ 1 and the location of such edges along the border area between clusters may be quite varied; sometimes we find an entrance toward the beginning of the border area, other times in the middle and sometimes toward the end.
+Consequently, cluster traversal by large agents is often not in a straight line; the abstract paths produced frequently feature a zig-zagging effect that is responsible for the observed error and is most pronounced on SO 50\%.
+\begin{figure}[htbp]
+	\vspace{-12pt}
+	\caption{\small{\emph{AHA* total search effort (nodes expanded).}}}
+	\begin{center}
+		       \includegraphics[scale=0.35, trim = 20mm 17mm 20mm 5mm]{diagrams/searcheffort.pdf}
+	\end{center}
+	\label{aha-fig:searcheffort}
+	\vspace{-5pt}
+\end{figure}
+%\input setable.tex
 \par \indent
-We observe that the set of HQ experiments using large clusters are disadvantaged in this test. 
+Finally, we turn our attention to Figure \ref{aha-fig:searcheffort} where we evaluate AHA* using a search effort metric.
+Here we contrast the total number of nodes expanded by AHA* (during insertion, hierarchical search and refinement phases) with AA* on both HQ and LQ graphs.
+We focus on the SO 20\% problem set in order to analyse the effect on search effort as path length increases but note that similar trends hold for the other problem sets.
+\par \indent
+Looking at Figure \ref{aha-fig:searcheffort}(a) we observe that agents using HQ graphs featuring large cluster-sizes are disadvantaged in this test. 
 The insertion effort required to connect start and goal to each abstract node in their local clusters heavily dominates the total effort causing AHA* CS20 to trail AA* for problems up to length 275.
 We can see the gap between CS20 and the smaller cluster sizes decrease as problem size grows but our benchmark set of experiments are not hard enough for such coarse-grain map decompositions to be advantageous. 
-The difference is less pronounced using LQ graphs (there are less abstract nodes per cluster) however it appears CS10 or CS15 are more suitable choices for problems up to our maximum length, 450.
+By comparison, in Figure \ref{aha-fig:searcheffort}(b) we see that the difference is less pronounced using LQ graphs (there are less abstract nodes per cluster) however it appears CS10 or CS15 are more suitable choices for problems up to our maximum length, 450.
