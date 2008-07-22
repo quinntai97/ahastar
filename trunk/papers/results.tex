@@ -6,7 +6,7 @@ We also contrast high and low quality abstractions (denoted HQ and LQ) on a rang
 	\vspace{-12pt}
        \caption{\small{\emph{Nodes and edges in abstract graph (HQ vs LQ). }}}
        \begin{center}
-                       \includegraphics[scale=0.35, trim = 20mm 12mm 20mm 5mm]{diagrams/graphsize.pdf}
+                       \includegraphics[scale=0.35, trim = 20mm 14mm 20mm 5mm]{diagrams/graphsize.pdf}
        \end{center}
        \label{aha-fig:graphsize}
 	\vspace{-5pt}
@@ -16,10 +16,12 @@ The first thing to notice is that in all cases the abstract graph is only a frac
 As expected, larger clusters generate smaller graphs; the smallest abstractions are observed on the SO 0\% problem set using CS20. 
 In this case, using a HQ abstraction results in 4.9\% the number of nodes found in the original graph and 3.2\% edges. 
 LQ abstractions fare even better featuring just 2\% as many nodes and 0.9\% edges.
-If we assume each non-abstract node and edge require one byte of memory to store, then our abstract graph, which contains 2 annotations per edge (capability and clearance, each requiring 1 byte), will have a space complexity 12.6\% the size of the original graph using a HQ abstraction and just 2.4\% using an LQ abstraction.
-The largest HQ graph occurs for CS10 on SO 20\% and has a space complexity 94.0\% the size of the original.
-By comparison, LQ graphs are largest for CS10 on SO 50\%; here 58.9\% the size of the original gridmap.
-Moving from CS10 to CS20 reduces the worst-case space complexity of HQ graphs to 68.7\% and 38.9\% for LQ graphs.
+\par \indent
+The total space complexity associated with storing a graph is given by the total amount of space required to store both nodes and edges.
+If we assume each non-abstract node and edge require one byte of memory to store, then our smallest abstract graph, which contains 2 annotations per edge (capability and clearance, together requiring 1 additional byte), will have a space complexity 8.7\% the size of the original graph using a HQ abstraction and just 1.8\% using an LQ abstraction.
+Similarly, the largest HQ graph, which occurs for CS10 on SO 20\%, has a space complexity 63.8\% the size of the original.
+By comparison, LQ graphs are largest for CS10 on SO 50\%; here 40.4\% the size of the original gridmap.
+Moving from CS10 to CS20 reduces the worst-case space complexity of HQ graphs to 47.0\% and 26.4\% for LQ graphs.
 \par \indent
 Interestingly, if we use the number of nodes as an indicator for the number of inter-edges in a graph, we may deduce that most HQ graphs are predominately composed of intra-edges. 
 The exact number depends on the density of soft obstacles in clusters; less dense clusters (as found on SO 20\%) result in more intra-edges as more unique paths (of differing sizes and capabilities) are found between each pair of abstract nodes. 
@@ -42,7 +44,7 @@ $$ \%error = \frac{apl - opl}{opl} \times 100 $$ where $opl$ is the length of th
 \par \indent
 Figure \ref{aha-fig:pathquality}(a) shows the average performance of AHA* with respect to cluster size and soft obstacles.  
 Notice that HQ graphs yield a very low error; in most cases between 3-6\%. 
-Perhaps most encouraging however are the results for LQ abstractions, where AHA* performs in the 6-10\% range, giving up relatively little optimality. 
+Perhaps most encouraging however are the results for LQ abstractions, where in most cases AHA* performs within 6-10\% of optimal. 
 The highest observed error in both cases occurs on SO 0\% and is due to our inter-edge placement strategy.
 In all situations the pair of nodes with maximal clearance in an entrance, which we choose as our transition point, tends to be towards the beginning of the entrance area which is not an optimal placement.
 On maps that produce low-complexity clusters of predominately one terrain this results in long entrances that are poorly represented by the single inter-edge.
@@ -73,6 +75,6 @@ Here we contrast the total number of nodes expanded by AHA* (during insertion, h
 We focus on the SO 20\% problem set in order to analyse the effect on search effort as path length increases but note that similar trends hold for the other problem sets.
 \par \indent
 Looking at Figure \ref{aha-fig:searcheffort}(a) we observe that agents using HQ graphs featuring large cluster-sizes are disadvantaged in this test. 
-The insertion effort required to connect start and goal to each abstract node in their local clusters heavily dominates the total effort causing AHA* CS20 to trail AA* for problems up to length 275.
+The insertion effort required to connect start and goal to each abstract node in their local clusters heavily dominates the total effort causing AHA* CS20 to trail AA* for problems up to length 250.
 We can see the gap between CS20 and the smaller cluster sizes decrease as problem size grows but our benchmark set of experiments are not hard enough for such coarse-grain map decompositions to be advantageous. 
 By comparison, in Figure \ref{aha-fig:searcheffort}(b) we see that the difference is less pronounced using LQ graphs (there are less abstract nodes per cluster) however it appears CS10 or CS15 are more suitable choices for problems up to our maximum length, 450.

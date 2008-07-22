@@ -6,7 +6,7 @@ We provide a brief overview of the process here; for a more detailed description
 We begin by using the $x,y$ coordinates of the start and goal  nodes to identify the local cluster each is located in. 
 Next, we insert a two temporary nodes into the abstract graph (which we remove when finished) to represent the start and goal.
 Connecting the nodes to the rest of the graph involves attempting to find an intra-edge from each node to every other abstract node in the cluster using AA*. 
-This phase involves $n+m$ searches in total, corresponding to the number of combined abstract nodes in the start and goal clusters.
+This phase involves $i+j$ searches in total, corresponding to the number of combined abstract nodes in the start and goal clusters.
 \par \indent
 To compute a high-level plan we again use a variation on A* -- this time to evaluate the annotations of abstract edges before adding a node to the open list.
 Once the search terminates we can take the result, and, if immediate execution is not necessary, we are finished. 
