@@ -10,6 +10,12 @@ pqty_r0 <- cbind(pqty_r0, aha_cs20hq_r0$dist)
 pqty_r0 <- cbind(pqty_r0, aha_cs20lq_r0$dist)
 pqty_r0 <- pqty_r0[order(pqty_r0$"aa_r0$dist"),]
 pqty_r0 <- pqty_r0[pqty_r0$"aa_r0$dist" <= 450, ]
+s1pqty_r0 <- pqty_r0[pqty_r0$"aa_r0$size" == 1, ]
+s2pqty_r0 <- pqty_r0[pqty_r0$"aa_r0$size" == 2, ]
+sstpqty_r0 <- pqty_r0[pqty_r0$"aa_r0$size" == 1 & pqty_r0$"aa_r0$caps" != 68, ]
+lstpqty_r0 <- pqty_r0[pqty_r0$"aa_r0$size" == 2 & pqty_r0$"aa_r0$caps" != 68, ]
+smtpqty_r0 <- pqty_r0[pqty_r0$"aa_r0$size" == 1 & pqty_r0$"aa_r0$caps" == 68, ]
+lmtpqty_r0 <- pqty_r0[pqty_r0$"aa_r0$size" == 2 & pqty_r0$"aa_r0$caps" == 68, ]
 
 pqty_r10 <- as.data.frame(originalorder)
 pqty_r10 <- cbind(pqty_r10, aa_r10$dist)
@@ -23,6 +29,12 @@ pqty_r10 <- cbind(pqty_r10, aha_cs20hq_r10$dist)
 pqty_r10 <- cbind(pqty_r10, aha_cs20lq_r10$dist)
 pqty_r10 <- pqty_r10[order(pqty_r10$"aa_r10$dist"),]
 pqty_r10 <- pqty_r10[pqty_r10$"aa_r10$dist" <= 450, ]
+s1pqty_r10 <- pqty_r10[pqty_r10$"aa_r10$size" == 1, ]
+s2pqty_r10 <- pqty_r10[pqty_r10$"aa_r10$size" == 2, ]
+sstpqty_r10 <- pqty_r10[pqty_r10$"aa_r10$size" == 1 & pqty_r10$"aa_r10$caps" != 68, ]
+lstpqty_r10 <- pqty_r10[pqty_r10$"aa_r10$size" == 2 & pqty_r10$"aa_r10$caps" != 68, ]
+smtpqty_r10 <- pqty_r10[pqty_r10$"aa_r10$size" == 1 & pqty_r10$"aa_r10$caps" == 68, ]
+lmtpqty_r10 <- pqty_r10[pqty_r10$"aa_r10$size" == 2 & pqty_r10$"aa_r10$caps" == 68, ]
 
 pqty_r20 <- as.data.frame(originalorder)
 pqty_r20 <- cbind(pqty_r20, aa_r20$dist)
@@ -36,6 +48,12 @@ pqty_r20 <- cbind(pqty_r20, aha_cs20hq_r20$dist)
 pqty_r20 <- cbind(pqty_r20, aha_cs20lq_r20$dist)
 pqty_r20 <- pqty_r20[order(pqty_r20$"aa_r20$dist"),]
 pqty_r20 <- pqty_r20[pqty_r20$"aa_r20$dist" <= 450, ]
+s1pqty_r20 <- pqty_r20[pqty_r20$"aa_r20$size" == 1, ]
+s2pqty_r20 <- pqty_r20[pqty_r20$"aa_r20$size" == 2, ]
+sstpqty_r20 <- pqty_r20[pqty_r20$"aa_r20$size" == 1 & pqty_r20$"aa_r20$caps" != 68, ]
+lstpqty_r20 <- pqty_r20[pqty_r20$"aa_r20$size" == 2 & pqty_r20$"aa_r20$caps" != 68, ]
+smtpqty_r20 <- pqty_r20[pqty_r20$"aa_r20$size" == 1 & pqty_r20$"aa_r20$caps" == 68, ]
+lmtpqty_r20 <- pqty_r20[pqty_r20$"aa_r20$size" == 2 & pqty_r20$"aa_r20$caps" == 68, ]
 
 pqty_r30 <- as.data.frame(originalorder)
 pqty_r30 <- cbind(pqty_r30, aa_r30$dist)
@@ -49,6 +67,12 @@ pqty_r30 <- cbind(pqty_r30, aha_cs20hq_r30$dist)
 pqty_r30 <- cbind(pqty_r30, aha_cs20lq_r30$dist)
 pqty_r30 <- pqty_r30[order(pqty_r30$"aa_r30$dist"),]
 pqty_r30 <- pqty_r30[pqty_r30$"aa_r30$dist" <= 450, ]
+s1pqty_r30 <- pqty_r30[pqty_r30$"aa_r30$size" == 1, ]
+s2pqty_r30 <- pqty_r30[pqty_r30$"aa_r30$size" == 2, ]
+sstpqty_r30 <- pqty_r30[pqty_r30$"aa_r30$size" == 1 & pqty_r30$"aa_r30$caps" != 68, ]
+lstpqty_r30 <- pqty_r30[pqty_r30$"aa_r30$size" == 2 & pqty_r30$"aa_r30$caps" != 68, ]
+smtpqty_r30 <- pqty_r30[pqty_r30$"aa_r30$size" == 1 & pqty_r30$"aa_r30$caps" == 68, ]
+lmtpqty_r30 <- pqty_r30[pqty_r30$"aa_r30$size" == 2 & pqty_r30$"aa_r30$caps" == 68, ]
 
 pqty_r40 <- as.data.frame(originalorder)
 pqty_r40 <- cbind(pqty_r40, aa_r40$dist)
@@ -62,6 +86,12 @@ pqty_r40 <- cbind(pqty_r40, aha_cs20hq_r40$dist)
 pqty_r40 <- cbind(pqty_r40, aha_cs20lq_r40$dist)
 pqty_r40 <- pqty_r40[order(pqty_r40$"aa_r40$dist"),]
 pqty_r40 <- pqty_r40[pqty_r40$"aa_r40$dist" <= 450, ]
+s1pqty_r40 <- pqty_r40[pqty_r40$"aa_r40$size" == 1, ]
+s2pqty_r40 <- pqty_r40[pqty_r40$"aa_r40$size" == 2, ]
+sstpqty_r40 <- pqty_r40[pqty_r40$"aa_r40$size" == 1 & pqty_r40$"aa_r40$caps" != 68, ]
+lstpqty_r40 <- pqty_r40[pqty_r40$"aa_r40$size" == 2 & pqty_r40$"aa_r40$caps" != 68, ]
+smtpqty_r40 <- pqty_r40[pqty_r40$"aa_r40$size" == 1 & pqty_r40$"aa_r40$caps" == 68, ]
+lmtpqty_r40 <- pqty_r40[pqty_r40$"aa_r40$size" == 2 & pqty_r40$"aa_r40$caps" == 68, ]
 
 pqty_r50 <- as.data.frame(originalorder)
 pqty_r50 <- cbind(pqty_r50, aa_r50$dist)
@@ -75,19 +105,65 @@ pqty_r50 <- cbind(pqty_r50, aha_cs20hq_r50$dist)
 pqty_r50 <- cbind(pqty_r50, aha_cs20lq_r50$dist)
 pqty_r50 <- pqty_r50[order(pqty_r50$"aa_r50$dist"),]
 pqty_r50 <- pqty_r50[pqty_r50$"aa_r50$dist" <= 450, ]
+s1pqty_r50 <- pqty_r50[pqty_r50$"aa_r50$size" == 1, ]
+s2pqty_r50 <- pqty_r50[pqty_r50$"aa_r50$size" == 2, ]
+sstpqty_r50 <- pqty_r50[pqty_r50$"aa_r50$size" == 1 & pqty_r50$"aa_r50$caps" != 68, ]
+lstpqty_r50 <- pqty_r50[pqty_r50$"aa_r50$size" == 2 & pqty_r50$"aa_r50$caps" != 68, ]
+smtpqty_r50 <- pqty_r50[pqty_r50$"aa_r50$size" == 1 & pqty_r50$"aa_r50$caps" == 68, ]
+lmtpqty_r50 <- pqty_r50[pqty_r50$"aa_r50$size" == 2 & pqty_r50$"aa_r50$caps" == 68, ]
 
-pdf(width=10, height=6, file="pathquality.pdf")
-par(mfrow=c(1,2))
-plot((ams(pqty_r50$"aha_cs15hq_r50$dist" / pqty_r50$"aa_r50$dist", pqty_r50$"aa_r50$dist", 25 )$avgseries-1)*100 ~ ams(pqty_r50$"aa_r50$dist", pqty_r50$"aa_r50$dist", 25)$avgdist, type="l", main="Path Quality (SO=50%, AQ=High)", ylab="% error", xlab="optimal solution length", ylim=range(0,20))
-lines((ams(pqty_r50$"aha_cs10hq_r50$dist" / pqty_r50$"aa_r50$dist", pqty_r50$"aa_r50$dist", 25 )$avgseries-1)*100 ~ ams(pqty_r50$"aa_r50$dist", pqty_r50$"aa_r50$dist", 25)$avgdist, lty=2,col="red")
-lines((ams(pqty_r50$"aha_cs20hq_r50$dist" / pqty_r50$"aa_r50$dist", pqty_r50$"aa_r50$dist", 25 )$avgseries-1)*100 ~ ams(pqty_r50$"aa_r50$dist", pqty_r50$"aa_r50$dist", 25)$avgdist, lty=3,col="blue")
-legend("topright", c("CS = 15", "CS = 10", "CS = 20"), lty=c(1,2,3), col=c("black", "red", "blue"))
 
-plot((ams(pqty_r50$"aha_cs15lq_r50$dist" / pqty_r50$"aa_r50$dist", pqty_r50$"aa_r50$dist", 25 )$avgseries-1)*100 ~ ams(pqty_r50$"aa_r50$dist", pqty_r50$"aa_r50$dist", 25)$avgdist, type="l", main="Path Quality (SO=50%, AQ=Low)", ylab="% error", xlab="optimal solution length", ylim=range(0,20))
-lines((ams(pqty_r50$"aha_cs10lq_r50$dist" / pqty_r50$"aa_r50$dist", pqty_r50$"aa_r50$dist", 25 )$avgseries-1)*100 ~ ams(pqty_r50$"aa_r50$dist", pqty_r50$"aa_r50$dist", 25)$avgdist, lty=2,col="red")
-lines((ams(pqty_r50$"aha_cs20lq_r50$dist" / pqty_r50$"aa_r50$dist", pqty_r50$"aa_r50$dist", 25 )$avgseries-1)*100 ~ ams(pqty_r50$"aa_r50$dist", pqty_r50$"aa_r50$dist", 25)$avgdist, lty=3,col="blue")
-legend("topright", c("CS = 15", "CS = 10", "CS = 20"), lty=c(1,2,3), col=c("black", "red", "blue"))
-dev.off()
+trenddata <- ams(s1pqty_r0$"aha_cs15hq_r0$dist" / s1pqty_r0$"aa_r0$dist", s1pqty_r0$"aa_r0$dist", 25)
+pqrow <- (mean(trenddata$avgseries)-1)*100
+trenddata <- ams(s1pqty_r10$"aha_cs15hq_r10$dist" / s1pqty_r10$"aa_r10$dist", s1pqty_r10$"aa_r10$dist", 25)
+pqrow <- c(pqrow, (mean(trenddata$avgseries)-1)*100)
+trenddata <- ams(s1pqty_r20$"aha_cs15hq_r20$dist" / s1pqty_r20$"aa_r20$dist", s1pqty_r20$"aa_r20$dist", 25)
+pqrow <- c(pqrow, (mean(trenddata$avgseries)-1)*100)
+trenddata <- ams(s1pqty_r30$"aha_cs15hq_r30$dist" / s1pqty_r30$"aa_r30$dist", s1pqty_r30$"aa_r30$dist", 25)
+pqrow <- c(pqrow, (mean(trenddata$avgseries)-1)*100)
+trenddata <- ams(s1pqty_r40$"aha_cs15hq_r40$dist" / s1pqty_r40$"aa_r40$dist", s1pqty_r40$"aa_r40$dist", 25)
+pqrow <- c(pqrow, (mean(trenddata$avgseries)-1)*100)
+trenddata <- ams(s1pqty_r50$"aha_cs15hq_r50$dist" / s1pqty_r50$"aa_r50$dist", s1pqty_r50$"aa_r50$dist", 25)
+s1pqrowhq <- c(pqrow, (mean(trenddata$avgseries)-1)*100)
+
+trenddata <- ams(s2pqty_r0$"aha_cs15hq_r0$dist" / s2pqty_r0$"aa_r0$dist", s2pqty_r0$"aa_r0$dist", 25)
+pqrow <- (mean(trenddata$avgseries)-1)*100
+trenddata <- ams(s2pqty_r10$"aha_cs15hq_r10$dist" / s2pqty_r10$"aa_r10$dist", s2pqty_r10$"aa_r10$dist", 25)
+pqrow <- c(pqrow, (mean(trenddata$avgseries)-1)*100)
+trenddata <- ams(s2pqty_r20$"aha_cs15hq_r20$dist" / s2pqty_r20$"aa_r20$dist", s2pqty_r20$"aa_r20$dist", 25)
+pqrow <- c(pqrow, (mean(trenddata$avgseries)-1)*100)
+trenddata <- ams(s2pqty_r30$"aha_cs15hq_r30$dist" / s2pqty_r30$"aa_r30$dist", s2pqty_r30$"aa_r30$dist", 25)
+pqrow <- c(pqrow, (mean(trenddata$avgseries)-1)*100)
+trenddata <- ams(s2pqty_r40$"aha_cs15hq_r40$dist" / s2pqty_r40$"aa_r40$dist", s2pqty_r40$"aa_r40$dist", 25)
+pqrow <- c(pqrow, (mean(trenddata$avgseries)-1)*100)
+trenddata <- ams(s2pqty_r50$"aha_cs15hq_r50$dist" / s2pqty_r50$"aa_r50$dist", s2pqty_r50$"aa_r50$dist", 25)
+s2pqrowhq <- c(pqrow, (mean(trenddata$avgseries)-1)*100)
+
+trenddata <- ams(s1pqty_r0$"aha_cs15lq_r0$dist" / s1pqty_r0$"aa_r0$dist", s1pqty_r0$"aa_r0$dist", 25)
+pqrow <- (mean(trenddata$avgseries)-1)*100
+trenddata <- ams(s1pqty_r10$"aha_cs15lq_r10$dist" / s1pqty_r10$"aa_r10$dist", s1pqty_r10$"aa_r10$dist", 25)
+pqrow <- c(pqrow, (mean(trenddata$avgseries)-1)*100)
+trenddata <- ams(s1pqty_r20$"aha_cs15lq_r20$dist" / s1pqty_r20$"aa_r20$dist", s1pqty_r20$"aa_r20$dist", 25)
+pqrow <- c(pqrow, (mean(trenddata$avgseries)-1)*100)
+trenddata <- ams(s1pqty_r30$"aha_cs15lq_r30$dist" / s1pqty_r30$"aa_r30$dist", s1pqty_r30$"aa_r30$dist", 25)
+pqrow <- c(pqrow, (mean(trenddata$avgseries)-1)*100)
+trenddata <- ams(s1pqty_r40$"aha_cs15lq_r40$dist" / s1pqty_r40$"aa_r40$dist", s1pqty_r40$"aa_r40$dist", 25)
+pqrow <- c(pqrow, (mean(trenddata$avgseries)-1)*100)
+trenddata <- ams(s1pqty_r50$"aha_cs15lq_r50$dist" / s1pqty_r50$"aa_r50$dist", s1pqty_r50$"aa_r50$dist", 25)
+s1pqrowlq <- c(pqrow, (mean(trenddata$avgseries)-1)*100)
+
+trenddata <- ams(s2pqty_r0$"aha_cs15lq_r0$dist" / s2pqty_r0$"aa_r0$dist", s2pqty_r0$"aa_r0$dist", 25)
+pqrow <- (mean(trenddata$avgseries)-1)*100
+trenddata <- ams(s2pqty_r10$"aha_cs15lq_r10$dist" / s2pqty_r10$"aa_r10$dist", s2pqty_r10$"aa_r10$dist", 25)
+pqrow <- c(pqrow, (mean(trenddata$avgseries)-1)*100)
+trenddata <- ams(s2pqty_r20$"aha_cs15lq_r20$dist" / s2pqty_r20$"aa_r20$dist", s2pqty_r20$"aa_r20$dist", 25)
+pqrow <- c(pqrow, (mean(trenddata$avgseries)-1)*100)
+trenddata <- ams(s2pqty_r30$"aha_cs15lq_r30$dist" / s2pqty_r30$"aa_r30$dist", s2pqty_r30$"aa_r30$dist", 25)
+pqrow <- c(pqrow, (mean(trenddata$avgseries)-1)*100)
+trenddata <- ams(s2pqty_r40$"aha_cs15lq_r40$dist" / s2pqty_r40$"aa_r40$dist", s2pqty_r40$"aa_r40$dist", 25)
+pqrow <- c(pqrow, (mean(trenddata$avgseries)-1)*100)
+trenddata <- ams(s2pqty_r50$"aha_cs15lq_r50$dist" / s2pqty_r50$"aa_r50$dist", s2pqty_r50$"aa_r50$dist", 25)
+s2pqrowlq <- c(pqrow, (mean(trenddata$avgseries)-1)*100)
 
 ### AVG Path Quality: CS10HQ ###
 trenddata <- ams(pqty_r0$"aha_cs10hq_r0$dist" / pqty_r0$"aa_r0$dist", pqty_r0$"aa_r0$dist", 25)
@@ -196,122 +272,62 @@ print.xtable(pqoutputtable, type="latex", filename="pqtable.tex")
 
 
 #### build up data subsets; small single terrain, small multi terrain, large single terrain, large multi terrain ##########
-### omit values that result in buckets of size < 10 when applying ams() with bucketsize = 25 ####
-pqty_r0sst <- as.data.frame(pqty_r0[pqty_r0$"aa_r0$size" == 1 & (pqty_r0$"aa_r0$caps" == 4 | pqty_r0$"aa_r0$caps" == 64),c(2,8,3,4)])
-names(pqty_r0sst) <- c("aadist", "ahadist", "caps", "size")
-#pqty_r0sst <- pqty_r0sst[pqty_r0sst$aadist < 175,] ## data OK up to 325 but truncate further for comparison with SO5 and SO10
-pqty_r0smt <- as.data.frame(pqty_r0[pqty_r0$"aa_r0$size" == 1 & pqty_r0$"aa_r0$caps" == 68,c(2,8, 3, 4)])
-names(pqty_r0smt) <- c("aadist", "ahadist", "caps", "size")
-#pqty_r0smt <- pqty_r0smt[pqty_r0smt$aadist < 175,] ## data ok up to 350
-pqty_r0lst <- pqty_r0[pqty_r0$"aa_r0$size" == 2 & (pqty_r0$"aa_r0$caps" == 4 | pqty_r0$"aa_r0$caps" == 64),c(2,8, 3, 4)]
-names(pqty_r0lst) <- c("aadist", "ahadist", "caps", "size")
-#pqty_r0lst <- pqty_r0lst[pqty_r0lst$aadist < 175,] ## data ok up to 350
-pqty_r0lmt <- pqty_r0[pqty_r0$"aa_r0$size" == 2 & pqty_r0$"aa_r0$caps" == 68,c(2,8, 3, 4)]
-names(pqty_r0lmt) <- c("aadist", "ahadist", "caps", "size")
-#pqty_r0lmt <- pqty_r0lmt[pqty_r0lmt$aadist < 175,] ## data ok up to 425
 
-pqty_r5sst <- as.data.frame(pqty_r5[pqty_r5$"aa_r5$size" == 1 & (pqty_r5$"aa_r5$caps" == 4 | pqty_r5$"aa_r5$caps" == 64),c(2,8,3,4)])
-names(pqty_r5sst) <- c("aadist", "ahadist", "caps", "size")
-#pqty_r5sst <- pqty_r5sst[pqty_r5sst$aadist < 175,] ## data ok up to 275 but truncate further for comparison with SO5 and SO10
-pqty_r5smt <- as.data.frame(pqty_r5[pqty_r5$"aa_r5$size" == 1 & pqty_r5$"aa_r5$caps" == 68,c(2,8, 3, 4)])
-names(pqty_r5smt) <- c("aadist", "ahadist", "caps", "size")
-#pqty_r5smt <- pqty_r5smt[pqty_r5smt$aadist < 175,] ## data ok up to 375 
-pqty_r5lst <- pqty_r5[pqty_r5$"aa_r5$size" == 2 & (pqty_r5$"aa_r5$caps" == 4 | pqty_r5$"aa_r5$caps" == 64),c(2,8, 3, 4)]
-names(pqty_r5lst) <- c("aadist", "ahadist", "caps", "size")
-#pqty_r5lst <- pqty_r5lst[pqty_r5lst$aadist < 175,] ## data ok up to 275 
-pqty_r5lmt <- pqty_r5[pqty_r5$"aa_r5$size" == 2 & pqty_r5$"aa_r5$caps" == 68,c(2,8, 3, 4)]
-names(pqty_r5lmt) <- c("aadist", "ahadist", "caps", "size")
-#pqty_r5lmt <- pqty_r5lmt[pqty_r5lmt$aadist < 175,] ## data ok up to 400
+trenddata <- ams(lmtpqty_r0$"aha_cs15hq_r0$dist" / lmtpqty_r0$"aa_r0$dist", lmtpqty_r0$"aa_r0$dist", 25)
+pqrow <- (mean(trenddata$avgseries)-1)*100
+trenddata <- ams(lmtpqty_r10$"aha_cs15hq_r10$dist" / lmtpqty_r10$"aa_r10$dist", lmtpqty_r10$"aa_r10$dist", 25)
+pqrow <- c(pqrow, (mean(trenddata$avgseries)-1)*100)
+trenddata <- ams(lmtpqty_r20$"aha_cs15hq_r20$dist" / lmtpqty_r20$"aa_r20$dist", lmtpqty_r20$"aa_r20$dist", 25)
+pqrow <- c(pqrow, (mean(trenddata$avgseries)-1)*100)
+trenddata <- ams(lmtpqty_r30$"aha_cs15hq_r30$dist" / lmtpqty_r30$"aa_r30$dist", lmtpqty_r30$"aa_r30$dist", 25)
+pqrow <- c(pqrow, (mean(trenddata$avgseries)-1)*100)
+trenddata <- ams(lmtpqty_r40$"aha_cs15hq_r40$dist" / lmtpqty_r40$"aa_r40$dist", lmtpqty_r40$"aa_r40$dist", 25)
+pqrow <- c(pqrow, (mean(trenddata$avgseries)-1)*100)
+trenddata <- ams(lmtpqty_r50$"aha_cs15hq_r50$dist" / lmtpqty_r50$"aa_r50$dist", lmtpqty_r50$"aa_r50$dist", 25)
+lmtpqrowhq <- c(pqrow, (mean(trenddata$avgseries)-1)*100)
 
-pqty_r10sst <- as.data.frame(pqty_r10[pqty_r10$"aa_r10$size" == 1 & (pqty_r10$"aa_r10$caps" == 4 | pqty_r10$"aa_r10$caps" == 64),c(2,8,3,4)])
-names(pqty_r10sst) <- c("aadist", "ahadist", "caps", "size")
-#pqty_r10sst <- pqty_r10sst[pqty_r10sst$aadist < 175,]
-pqty_r10smt <- as.data.frame(pqty_r10[pqty_r10$"aa_r10$size" == 1 & pqty_r10$"aa_r10$caps" == 68,c(2,8, 3, 4)])
-names(pqty_r10smt) <- c("aadist", "ahadist", "caps", "size")
-#pqty_r10smt <- pqty_r10smt[pqty_r10smt$aadist < 175,] ## data ok up to 425 
-pqty_r10lst <- pqty_r10[pqty_r10$"aa_r10$size" == 2 & (pqty_r10$"aa_r10$caps" == 4 | pqty_r10$"aa_r10$caps" == 64),c(2,8, 3, 4)]
-names(pqty_r10lst) <- c("aadist", "ahadist", "caps", "size")
-#pqty_r10lst <- pqty_r10lst[pqty_r10lst$aadist < 175,]
-pqty_r10lmt <- pqty_r10[pqty_r10$"aa_r10$size" == 2 & pqty_r10$"aa_r10$caps" == 68,c(2,8, 3, 4)]
-names(pqty_r10lmt) <- c("aadist", "ahadist", "caps", "size")
-#pqty_r10lmt <- pqty_r10lmt[pqty_r10lmt$aadist < 175,] ## data ok up to 425
+trenddata <- ams(lmtpqty_r0$"aha_cs15lq_r0$dist" / lmtpqty_r0$"aa_r0$dist", lmtpqty_r0$"aa_r0$dist", 25)
+pqrow <- (mean(trenddata$avgseries)-1)*100
+trenddata <- ams(lmtpqty_r10$"aha_cs15lq_r10$dist" / lmtpqty_r10$"aa_r10$dist", lmtpqty_r10$"aa_r10$dist", 25)
+pqrow <- c(pqrow, (mean(trenddata$avgseries)-1)*100)
+trenddata <- ams(lmtpqty_r20$"aha_cs15lq_r20$dist" / lmtpqty_r20$"aa_r20$dist", lmtpqty_r20$"aa_r20$dist", 25)
+pqrow <- c(pqrow, (mean(trenddata$avgseries)-1)*100)
+trenddata <- ams(lmtpqty_r30$"aha_cs15lq_r30$dist" / lmtpqty_r30$"aa_r30$dist", lmtpqty_r30$"aa_r30$dist", 25)
+pqrow <- c(pqrow, (mean(trenddata$avgseries)-1)*100)
+trenddata <- ams(lmtpqty_r40$"aha_cs15lq_r40$dist" / lmtpqty_r40$"aa_r40$dist", lmtpqty_r40$"aa_r40$dist", 25)
+pqrow <- c(pqrow, (mean(trenddata$avgseries)-1)*100)
+trenddata <- ams(lmtpqty_r50$"aha_cs15lq_r50$dist" / lmtpqty_r50$"aa_r50$dist", lmtpqty_r50$"aa_r50$dist", 25)
+lmtpqrowlq <- c(pqrow, (mean(trenddata$avgseries)-1)*100)
 
-pqty_r25sst <- as.data.frame(pqty_r25[pqty_r25$"aa_r25$size" == 1 & (pqty_r25$"aa_r25$caps" == 4 | pqty_r25$"aa_r25$caps" == 64),c(2,8,3,4)])
-names(pqty_r25sst) <- c("aadist", "ahadist", "caps", "size") ## All data points have distance < 25. Not enough to compare with others. Discard.
-pqty_r25smt <- as.data.frame(pqty_r25[pqty_r25$"aa_r25$size" == 1 & pqty_r25$"aa_r25$caps" == 68,c(2,8, 3, 4)])
-names(pqty_r25smt) <- c("aadist", "ahadist", "caps", "size")
-#pqty_r25smt <- pqty_r25smt[pqty_r25smt$aadist < 175,] ## data OK up to 425
-pqty_r25lst <- pqty_r25[pqty_r25$"aa_r25$size" == 2 & (pqty_r25$"aa_r25$caps" == 4 | pqty_r25$"aa_r25$caps" == 64),c(2,8, 3, 4)]
-names(pqty_r25lst) <- c("aadist", "ahadist", "caps", "size")
-pqty_r25lmt <- pqty_r25[pqty_r25$"aa_r25$size" == 2 & pqty_r25$"aa_r25$caps" == 68,c(2,8, 3, 4)]
-names(pqty_r25lmt) <- c("aadist", "ahadist", "caps", "size")
-#pqty_r25lmt <- pqty_r25lmt[pqty_r25lmt$aadist < 175,] ## data ok up to 425
+trenddata <- ams(smtpqty_r0$"aha_cs15hq_r0$dist" / smtpqty_r0$"aa_r0$dist", smtpqty_r0$"aa_r0$dist", 25)
+pqrow <- (mean(trenddata$avgseries)-1)*100
+trenddata <- ams(smtpqty_r10$"aha_cs15hq_r10$dist" / smtpqty_r10$"aa_r10$dist", smtpqty_r10$"aa_r10$dist", 25)
+pqrow <- c(pqrow, (mean(trenddata$avgseries)-1)*100)
+trenddata <- ams(smtpqty_r20$"aha_cs15hq_r20$dist" / smtpqty_r20$"aa_r20$dist", smtpqty_r20$"aa_r20$dist", 25)
+pqrow <- c(pqrow, (mean(trenddata$avgseries)-1)*100)
+trenddata <- ams(smtpqty_r30$"aha_cs15hq_r30$dist" / smtpqty_r30$"aa_r30$dist", smtpqty_r30$"aa_r30$dist", 25)
+pqrow <- c(pqrow, (mean(trenddata$avgseries)-1)*100)
+trenddata <- ams(smtpqty_r40$"aha_cs15hq_r40$dist" / smtpqty_r40$"aa_r40$dist", smtpqty_r40$"aa_r40$dist", 25)
+pqrow <- c(pqrow, (mean(trenddata$avgseries)-1)*100)
+trenddata <- ams(smtpqty_r50$"aha_cs15hq_r50$dist" / smtpqty_r50$"aa_r50$dist", smtpqty_r50$"aa_r50$dist", 25)
+smtpqrowhq <- c(pqrow, (mean(trenddata$avgseries)-1)*100)
 
-#pqty_r50sst <- as.data.frame(pqty_r50[pqty_r50$"aa_r50$size" == 1 & (pqty_r50$"aa_r50$caps" == 4 | pqty_r50$"aa_r50$caps" == 64),c(2,8,3,4)])
-#names(pqty_r50sst) <- c("aadist", "ahadist", "caps", "size") ### no data
-pqty_r50smt <- as.data.frame(pqty_r50[pqty_r50$"aa_r50$size" == 1 & pqty_r50$"aa_r50$caps" == 68,c(2,8, 3, 4)])
-names(pqty_r50smt) <- c("aadist", "ahadist", "caps", "size")
-pqty_r50smt <- pqty_r50smt[pqty_r50smt$aadist < 175,] ## data OK up to 425
-#pqty_r50lst <- pqty_r50[pqty_r50$"aa_r50$size" == 2 & (pqty_r50$"aa_r50$caps" == 4 | pqty_r50$"aa_r50$caps" == 64),c(2,8, 3, 4)]
-#names(pqty_r50lst) <- c("aadist", "ahadist", "caps", "size")
-pqty_r50lmt <- pqty_r50[pqty_r50$"aa_r50$size" == 2 & pqty_r50$"aa_r50$caps" == 68,c(2,8, 3, 4)]
-names(pqty_r50lmt) <- c("aadist", "ahadist", "caps", "size")
-pqty_r50lmt <- pqty_r50lmt[pqty_r50lmt$aadist < 175,] ## data ok up to 425
+trenddata <- ams(smtpqty_r0$"aha_cs15lq_r0$dist" / smtpqty_r0$"aa_r0$dist", smtpqty_r0$"aa_r0$dist", 25)
+pqrow <- (mean(trenddata$avgseries)-1)*100
+trenddata <- ams(smtpqty_r10$"aha_cs15lq_r10$dist" / smtpqty_r10$"aa_r10$dist", smtpqty_r10$"aa_r10$dist", 25)
+pqrow <- c(pqrow, (mean(trenddata$avgseries)-1)*100)
+trenddata <- ams(smtpqty_r20$"aha_cs15lq_r20$dist" / smtpqty_r20$"aa_r20$dist", smtpqty_r20$"aa_r20$dist", 25)
+pqrow <- c(pqrow, (mean(trenddata$avgseries)-1)*100)
+trenddata <- ams(smtpqty_r30$"aha_cs15lq_r30$dist" / smtpqty_r30$"aa_r30$dist", smtpqty_r30$"aa_r30$dist", 25)
+pqrow <- c(pqrow, (mean(trenddata$avgseries)-1)*100)
+trenddata <- ams(smtpqty_r40$"aha_cs15lq_r40$dist" / smtpqty_r40$"aa_r40$dist", smtpqty_r40$"aa_r40$dist", 25)
+pqrow <- c(pqrow, (mean(trenddata$avgseries)-1)*100)
+trenddata <- ams(smtpqty_r50$"aha_cs15lq_r50$dist" / smtpqty_r50$"aa_r50$dist", smtpqty_r50$"aa_r50$dist", 25)
+smtpqrowlq <- c(pqrow, (mean(trenddata$avgseries)-1)*100)
 
 
-##### PATH QUALITY BREAKDOWNl small agent, large agent, single terrain, multi-terrain #########
-### SST ###
-trenddata <- ams((pqty_r0sst$ahadist - pqty_r0sst$aadist) / pqty_r0sst$aadist, pqty_r0sst$aadist, 25)
-apq_table <-  as.table(mean(trenddata$avgseries)*100)
-trenddata <- ams((pqty_r5sst$ahadist - pqty_r5sst$aadist) / pqty_r5sst$aadist, pqty_r5sst$aadist, 25)
-apq_table <- c(apq_table, mean(trenddata$avgseries)*100)
-trenddata <- ams((pqty_r10sst$ahadist - pqty_r10sst$aadist) / pqty_r10sst$aadist, pqty_r10sst$aadist, 25)
-apq_table <- c(apq_table, mean(trenddata$avgseries)*100)
-#trenddata <- ams((pqty_r25sst$ahadist - pqty_r25sst$aadist) / pqty_r25sst$aadist, pqty_r25sst$aadist, 25)
-#apq_table <- c(apq_table, mean(trenddata$avgseries)*100)
-#trenddata <- ams((pqty_r50sst$ahadist - pqty_r50sst$aadist) / pqty_r50sst$aadist, pqty_r50sst$aadist, 25)
-#apq_table <- c(apq_table, mean(trenddata$avgseries)*100)
-apq_table <- c(apq_table, c(0,0))
-
-## SMT ###
-trenddata <- ams((pqty_r0smt$ahadist - pqty_r0smt$aadist) / pqty_r0smt$aadist, pqty_r0smt$aadist, 25)
-row <- mean(trenddata$avgseries)*100
-trenddata <- ams((pqty_r5smt$ahadist - pqty_r5smt$aadist) / pqty_r5smt$aadist, pqty_r5smt$aadist, 25)
-row <- c(row, mean(trenddata$avgseries)*100)
-trenddata <- ams((pqty_r10smt$ahadist - pqty_r10smt$aadist) / pqty_r10smt$aadist, pqty_r10smt$aadist, 25)
-row <- c(row, mean(trenddata$avgseries)*100)
-trenddata <- ams((pqty_r25smt$ahadist - pqty_r25smt$aadist) / pqty_r25smt$aadist, pqty_r25smt$aadist, 25)
-row <- c(row, mean(trenddata$avgseries)*100)
-trenddata <- ams((pqty_r50smt$ahadist - pqty_r50smt$aadist) / pqty_r50smt$aadist, pqty_r50smt$aadist, 25)
-row <- c(row, mean(trenddata$avgseries)*100)
-apq_table <- rbind(apq_table, row)
-
-### LST ###
-trenddata <- ams((pqty_r0lst$ahadist - pqty_r0lst$aadist) / pqty_r0lst$aadist, pqty_r0lst$aadist, 25)
-row <- mean(trenddata$avgseries)*100
-trenddata <- ams((pqty_r5lst$ahadist - pqty_r5lst$aadist) / pqty_r5lst$aadist, pqty_r5lst$aadist, 25)
-row <- c(row, mean(trenddata$avgseries)*100)
-trenddata <- ams((pqty_r10lst$ahadist - pqty_r10lst$aadist) / pqty_r10lst$aadist, pqty_r10lst$aadist, 25)
-row <- c(row, mean(trenddata$avgseries)*100)
-#trenddata <- ams((pqty_r25lst$ahadist - pqty_r25lst$aadist) / pqty_r25lst$aadist, pqty_r25lst$aadist, 25)
-#row <- c(row, mean(trenddata$avgseries)*100)
-#trenddata <- ams((pqty_r50lst$ahadist - pqty_r50lst$aadist) / pqty_r50lst$aadist, pqty_r50lst$aadist, 25)
-#row <- c(row, mean(trenddata$avgseries)*100)
-row <- c(row, c(0,0))
-apq_table <- rbind(apq_table, row)
-
-## LMT ###
-trenddata <- ams((pqty_r0lmt$ahadist - pqty_r0lmt$aadist) / pqty_r0lmt$aadist, pqty_r0lmt$aadist, 25)
-row <- mean(trenddata$avgseries)*100
-trenddata <- ams((pqty_r5lmt$ahadist - pqty_r5lmt$aadist) / pqty_r5lmt$aadist, pqty_r5lmt$aadist, 25)
-row <- c(row, mean(trenddata$avgseries)*100)
-trenddata <- ams((pqty_r10lmt$ahadist - pqty_r10lmt$aadist) / pqty_r10lmt$aadist, pqty_r10lmt$aadist, 25)
-row <- c(row, mean(trenddata$avgseries)*100)
-trenddata <- ams((pqty_r25lmt$ahadist - pqty_r25lmt$aadist) / pqty_r25lmt$aadist, pqty_r25lmt$aadist, 25)
-row <- c(row, mean(trenddata$avgseries)*100)
-trenddata <- ams((pqty_r50lmt$ahadist - pqty_r50lmt$aadist) / pqty_r50lmt$aadist, pqty_r50lmt$aadist, 25)
-row <- c(row, mean(trenddata$avgseries)*100)
-apq_table <- rbind(apq_table, row)
-
-dimnames(apq_table) <- list(c("SST", "SMT", "LST", "LMT"), c("0% SO", "5% SO", "10% SO","25% SO", "50% SO"))
-
+plot(smtpqrowhq ~ seq(0,50,by=10), type="o", ylim=range(0,15), main="(c) Path Quality vs. Agent Size (CS15, Multi-Terrain Capability)", ylab="% error", xlab="% soft obstacles", pch=1)
+lines(smtpqrowlq ~ seq(0,50,by=10), type="o", pch=2, lty=2)
+lines(lmtpqrowhq ~ seq(0,50,by=10), type="o", pch=5)
+lines(lmtpqrowlq ~ seq(0,50,by=10), type="o", pch=6, lty=2)
+legend("topright", c("Size=1 HQ", "Size=1 LQ", "Size=2 HQ", "Size=2 LQ"), pch=c(1,2,5,6), lty=c(1,2,1,2))
