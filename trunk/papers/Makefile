@@ -28,30 +28,12 @@ RERUNBIB = "No file.*\.bbl|Citation.*undefined"
 .PHONY: all clean
 
 
-all: ahastar references.bbl
+all: references.bbl ahastar
 
 ahastar: ahastar.pdf *.tex
 
-ahastar.pdf : ahastar.ps
-	$(PS2PDF) $(PS2PDF_OPTS) $^
-
-ahastar.ps: ahastar.dvi
-	$(DVIPS) $(DVIPS_OPTS) $^
-
-ahastar.dvi: ahastar.tex $(wildcard *.tex)
-	$(LATEX) $(LATEX_OPTS) ahastar.tex
-	
-	@if(grep "There were undefined references" ahastar.log > /dev/null);\
-	then \
-		$(BIBTEX) ahastar; \
-		$(LATEX) $(LATEX_OPTS) ahastar.tex; \
-	fi
-	
-	@if(grep "Rerun" ahastar.log > /dev/null);\
-	then \
-		$(LATEX) $(LATEX_OPTS) ahastar.tex;\
-	fi
-	rm -f ahastar.log
+ahastar.pdf :
+	$(LATEX) $(LATEX_OPTS) $^
 
 references.bbl: references.bib
 	if [ -n ahastar.aux ]; \
