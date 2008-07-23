@@ -12,12 +12,12 @@ An \emph{agent} is any entity attempting to move across a grid environment.
 Every agent is square in shape and has a size $s \geq 1 : s \in S$ where $S$ is the set of finite sizes agents traversing across the gridmap may take.
 While stationary or moving, each agent occupies $s^2$ octiles which together correspond to its current location. 
 \par \indent
-Every agent has a terrain traversal \emph{capability}, $c \in C$, where $c$ comprises a non-empty subset of terrains.
-An agent can never occupy a tile whose terrain type is not included in its capability.
-\par \indent 
 Agents can move in any of the four cardinal directions. 
 Diagonal moves are allowed only if there exists an equivalent two-step move using the cardinal directions.
 \par \indent
+Every agent has a terrain traversal \emph{capability}, $c \in C$, where $c$ comprises a non-empty subset of terrains.
+An agent can never occupy a tile whose terrain type is not included in its capability.
+\par \indent 
 A \emph{soft obstacle} is a tile which is not traversable by a specific agent because it lacks the correct capability or its size is larger than the associated clearance value of the tile, as defined below. 
 \par \indent
 A \emph{clearance value} is an obstacle-distance metric associated with a particular tile in the grid environment. 

@@ -8,16 +8,15 @@ Figure \ref{aha-fig:clustersandentrances}(a) shows the result of this decomposit
 \par \indent
 In the original work \emph{entrances} are defined as obstacle-free transition areas of maximal size that exist along the border between two adjacent clusters.
 Each entrance has one or two transition points (depending on its size) which are represented in the abstract graph by a pair of nodes connected with an undirected \emph{inter-edge} of weight 1.0. 
-Figure \ref{aha-fig:clustersandentrances} demonstrates this idea; the highlighted region represents the entrance area and the connected tiles the transition point.
-We use a similar approach but require as a parameter $C$, the set of all capabilities, and attempt to identify entrances $\forall c \in C$. 
+We use a similar approach but require as a parameter $C$, the set of all capabilities, and thus attempt to identify entrances $\forall c \in C$. 
 \begin{figure}[htbp]
-	\vspace{-20pt}
+	\vspace{-17pt}
         \caption{\emph{Building clusters and identifying entrances} }
         \begin{center}
                         \includegraphics[scale=0.30, trim = 20mm 12mm 20mm 5mm]{diagrams/identifying_entrances.png}
         \end{center}
         \label{aha-fig:clustersandentrances}
-	\vspace{-5pt}
+	\vspace{-6pt}
 \end{figure}
 \par \indent
 We start at the first pair of traversable tiles along the adjacent border area and extend each entrance until one of three termination conditions occurs: the end of the border area is reached, an obstacle is detected or the clearance value of nodes along the border area in either cluster begins to increase. 

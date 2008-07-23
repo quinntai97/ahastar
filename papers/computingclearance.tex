@@ -35,7 +35,7 @@ $$|CV| = (|V| - |V_{HO}|)\times \frac{2^{r-1}}{2}$$
 
 \begin{proof}
 For a node to be traversable for some capability, the capability must include the node's terrain type. 
-There are $2^r$ capabilities but the maximum number of capabilities that include a node's terrain type is $\frac{2^{r-1}}{2}$. 
+There are $2^{r-1}$ capabilities but the maximum number of capabilities that include a node's terrain type is $\frac{2^{r-1}}{2}$. 
 There are $|V|$ nodes in total to represent the envrionment, and we avoid storing any clearance values for all nodes in $V_{HO}$. 
 \end{proof}
 
