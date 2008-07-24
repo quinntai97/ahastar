@@ -4,7 +4,7 @@ We look at the effect of increasing the amount of soft obstacles (SO) from 0\% (
 We also contrast high and low quality abstractions (denoted HQ and LQ) on a range of cluster sizes $\lbrace 10, 15, 20 \rbrace$ (denoted CS10, CS15 and CS20).
 \begin{figure}[htbp]
 	\vspace{-12pt}
-       \caption{\small{\emph{Nodes and edges in abstract graph with respect to original graph. }}}
+       \caption{\small{\emph{Percentage of nodes and edges in abstract graph with respect to original graph. }}}
        \begin{center}
                        \includegraphics[scale=0.35, trim = 20mm 14mm 20mm 5mm]{diagrams/graphsize.pdf}
        \end{center}
@@ -55,7 +55,7 @@ Interestingly, the error associated with both HQ and LQ abstractions reaches a m
 To better understand this phenomenon we present in Figure \ref{aha-fig:pathquality}(b) the performance of both small and large agents on HQ and LQ graphs using a fixed cluster-size of 15.
 Notice that the performance of small agents continues to improve beyond SO 20\% while large agents begin to degrade.
 The observed rise in error stems from the decreasing size of entrances on the problem sets featuring denser clusters. 
-As previously shown in Figures \ref{aha-fig:graphsize}(a) and \ref{aha-fig:graphsize}(c), maps with more soft obstacles result in a greater number of smaller entrances. 
+As previously shown in Figure \ref{aha-fig:graphsize}, maps with more soft obstacles result in a greater number of smaller entrances. 
 This situation is beneficial for smaller agents (there are more transitions to choose from) but is disadvantageous for larger agents.
 As the average entrance size shrinks fewer inter-edges exist with clearance $>$ 1 and the location of such edges along the border area between clusters may be quite varied; sometimes we find an entrance toward the beginning of the border area, other times in the middle and sometimes toward the end.
 Consequently, cluster traversal by large agents is often not in a straight line; the abstract paths produced frequently feature a zig-zagging effect that is responsible for the observed error and is most pronounced on SO 50\%.
