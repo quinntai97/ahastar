@@ -1,21 +1,21 @@
 \section{Results}
-In Figure \ref{aha-fig:graphsize}(a)-(d) we present the size of the abstract graph in nodes and edges relative to the size of the original graphs which featured an average 4469 nodes and 16420 edges. 
+In Figure \ref{aha-fig:graphsize} we present the size of the abstract graphs relative to the size of the original graphs which featured an average 4469 nodes and 16420 edges. 
 We look at the effect of increasing the amount of soft obstacles (SO) from 0\% (the original test maps with only one traversable terrain) to 50\%.
 We also contrast high and low quality abstractions (denoted HQ and LQ) on a range of cluster sizes $\lbrace 10, 15, 20 \rbrace$ (denoted CS10, CS15 and CS20).
 \begin{figure}[htbp]
 	\vspace{-12pt}
-       \caption{\small{\emph{Nodes and edges in abstract graph (HQ vs LQ). }}}
+       \caption{\small{\emph{Nodes and edges in abstract graph with respect to original graph. }}}
        \begin{center}
                        \includegraphics[scale=0.35, trim = 20mm 14mm 20mm 5mm]{diagrams/graphsize.pdf}
        \end{center}
        \label{aha-fig:graphsize}
-	\vspace{-5pt}
+	\vspace{-4pt}
 \end{figure}
 \par \indent
 The first thing to notice is that in all cases the abstract graph is only a fraction the size of the original graph.
 As expected, larger clusters generate smaller graphs; the smallest abstractions are observed on the SO 0\% problem set using CS20. 
-In this case, using a HQ abstraction results in 4.9\% the number of nodes found in the original graph and 3.2\% edges. 
-LQ abstractions fare even better featuring just 2\% as many nodes and 0.9\% edges.
+In this case, using a HQ abstraction results in 4.0\% the number of nodes found in the original graph and 5.0\% edges. 
+LQ abstractions fare even better featuring just 2.0\% as many nodes and 0.9\% edges.
 \par \indent
 The total space complexity associated with storing a graph is given by the total amount of space required to store both nodes and edges.
 If we assume each non-abstract node and edge require one byte of memory to store, then our smallest abstract graph, which contains 2 annotations per edge (capability and clearance, together requiring 1 additional byte), will have a space complexity 8.7\% the size of the original graph using a HQ abstraction and just 1.8\% using an LQ abstraction.
