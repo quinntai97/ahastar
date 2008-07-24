@@ -57,7 +57,7 @@ Given an annotated grid map, any instance of a large-agent search problem can be
 A tile $t$ is only traversable by an agent $a$ if $t$ has a clearance value $cv_{t}$ associated with the agent's capability $c_{a}$ which is at least as large as the size of the agent, $s_{a}$. 
 \begin{equation}
 \label{aha-equation:traversenode}
-t(c_{a}) = cv_{t} \geq s_{a} : terrain(t) \in c_{a} \in C, s_{a} \in S
+t(c_{a}) = cv_{t} \geq s_{a} : terrain(t) \subseteq c_{a} \in C, s_{a} \in S
 \end{equation}
 If equation \ref{aha-equation:traversenode} holds, it must be the case that the terrain type of every tile in the clearance square used to compute $cv_{t}$ is included in $c_{a}$ and hence traversable for the agent. 
 Thus, a large agent is able to navigate across a map by only considering the traversal requirements of the top-left node it will occupy.

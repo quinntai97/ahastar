@@ -29,10 +29,10 @@ Thus, we add a new edge to the graph, $e_{inter}$ and annotate it with a single 
 The algorithm repeats $\forall c \in C$ and terminates when all adjacent clusters have been considered. 
 This ensures we identify all possible entrances for each available capability.
 \par \indent
-In figure \ref{aha-fig:clustersandentrances}(b) we present three entrances identified by scanning the border between clusters $C1$ and $C3$.
+In Figure \ref{aha-fig:clustersandentrances}(b) we present three entrances identified by scanning the border between clusters $C1$ and $C3$.
 Entrances \emph{E1} and \emph{E2}, each of which span only part of the border area, are discovered using the $\lbrace Ground \rbrace$ and $\lbrace Trees \rbrace$ capabilities respectively. 
 \emph{E3} meanwhile, which spans the whole border area, is discovered using the $\lbrace Ground \vee Trees \rbrace$ capability. 
-The connected tiles represent the locations of the subsequent transition points; the final result is shown in \ref{aha-fig:clustersandentrances}(c). 
+The connected tiles represent the locations of the subsequent transition points; the final result is shown in Figure \ref{aha-fig:clustersandentrances}(c). 
 Note that \emph{E1} and \emph{E3} are incident on the same pair of nodes in the abstract graph. This is due to our  strategy of actively attempting to re-use any existing nodes from the abstract graph. 
 \par \indent
 The final step in the decomposition involves attempting to add to the abstract graph a set of \emph{intra-edges} for each pair of abstract nodes inside a cluster. 
