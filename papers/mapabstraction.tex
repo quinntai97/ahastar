@@ -8,7 +8,7 @@ Figure \ref{aha-fig:clustersandentrances}(a) shows the result of this decomposit
 \par \indent
 In the original work \emph{entrances} are defined as obstacle-free transition areas of maximal size that exist along the border between two adjacent clusters.
 Each entrance has one or two transition points (depending on its size) which are represented in the abstract graph by a pair of nodes connected with an undirected \emph{inter-edge} of weight 1.0. 
-We use a similar approach but require as a parameter $C$, the set of all capabilities, and thus attempt to identify entrances $\forall c \in C$. 
+We use a similar approach but require as a parameter $C$, the set of all capabilities, and thus attempt to identify entrances for each $c \in C$. 
 \begin{figure}[htbp]
 	\vspace{-17pt}
         \caption{\emph{Building clusters and identifying entrances} }
@@ -26,7 +26,7 @@ By leveraging clearance we are able to reason about the presence of such obstacl
 Once an entrance is found, we choose as the transition point the first pair of adjacent nodes in each cluster which maximise clearance for $c$.
 This latter metric, $cv_{inter}$ is computed by taking the minimum clearance among each pair of adjacent nodes in the entrance area and selecting the largest value from the set. 
 Thus, we add a new edge to the graph, $e_{inter}$ and annotate it with a single capability and corresponding clearance value, $e_{inter}(c) = cv_{inter}$. 
-The algorithm repeats $\forall c \in C$ and terminates when all adjacent clusters have been considered. 
+The algorithm repeats for each $c \in C$ and terminates when all adjacent clusters have been considered. 
 This ensures we identify all possible entrances for each available capability.
 \par \indent
 In Figure \ref{aha-fig:clustersandentrances}(b) we present three entrances identified by scanning the border between clusters $C1$ and $C3$.

@@ -30,17 +30,17 @@ The worst-case space complexity associated with computing clearance values in th
 \begin{lemma}
 \label{aha-lemma:numannotations}
 Let $CV$ be the set of all clearance values required to annotate an octile gridmap with $r$ terrains. Further, let $G = (V, E)$ be a graph representing the gridmap where $V_{HO} \in V$ is the set of hard obstacles. Then, 
-$$|CV| = (|V| - |V_{HO}|)\times \frac{2^{r-1}}{2}$$
+$$|CV| = (|V| - |V_{HO}|)\times \frac{2^{r}-1}{2}$$
 \end{lemma}
 
 \begin{proof}
 For a node to be traversable for some capability, the capability must include the node's terrain type. 
-There are $2^{r-1}$ capabilities but the maximum number of capabilities that include a node's terrain type is $\frac{2^{r-1}}{2}$. 
+There are $2^{r}-1$ capabilities (excluding the null terrain set) but the maximum number of capabilities that include a node's terrain type is $\frac{2^{r}-1}{2}$. 
 There are $|V|$ nodes in total to represent the envrionment, and we avoid storing any clearance values for all nodes in $V_{HO}$. 
 \end{proof}
 
 The result from Lemma \ref{aha-lemma:numannotations} is an upper bound; if no agent has a given capability $c$ there is no need to store the corresponding clearances.
-Despite this observation, the associated exponential growth function suggests that it is impractical to store every clearance value as there are $\Theta(2^{r-1})$ per node.
+Despite this observation, the associated exponential growth function suggests that it is impractical to store every clearance value as there are $\Theta(2^{r})$ per node.
 Fortunately, clearance values can be computed on-demand with little effort. 
 In particular, calculating clearance for any agent $a$ of size $s \in S$ only requires building a clearance square of maximum area $s^2$ octiles. 
 We present such an approach in Algorithm \ref{aha-alg:calculateclearance}. 
@@ -50,7 +50,7 @@ The key advantage of calculating clearance is that we are able to plan for both 
 We achieve this by mapping our extended problem into a classical problem with only two types of tiles (traversable and blocked) and reducing the problem to the case of a small-size agent that occupies the upper-left corner of the area required by the original, large-size agent. 
 \begin{theorem}
 \label{aha-theorem:reducibility}
-Given an annotated grid map, any instance of a large-agent search problem can be reduced into a small-agent search problem, where the size of the small agent is one tile.
+Given an annotated grid map, any search problem involving an agent of arbitary size and capability can be reduced into a small-agent search problem, where the size of the small agent is one tile and the capability of the agent is one terrain.
 \end{theorem}
 
 \begin{proof}
@@ -60,6 +60,7 @@ A tile $t$ is only traversable by an agent $a$ if $t$ has a clearance value $cv_
 t(c_{a}) = cv_{t} \geq s_{a} : terrain(t) \subseteq c_{a} \in C, s_{a} \in S
 \end{equation}
 If equation \ref{aha-equation:traversenode} holds, it must be the case that the terrain type of every tile in the clearance square used to compute $cv_{t}$ is included in $c_{a}$ and hence traversable for the agent. 
-Thus, a large agent is able to navigate across a map by only considering the traversal requirements of the top-left node it will occupy.
+Thus, the agent is able to navigate across a map by only considering the traversal requirements of a single node.
+Since each tile being evaluated is either traversable or not this is equivalent to solving a single-terrain problem.
 \end{proof}
 This is a useful result because it indicates that we can apply abstraction techniques from classical path planning to answer much more complex queries involving a wide range of terrain type and agent-size variables.
