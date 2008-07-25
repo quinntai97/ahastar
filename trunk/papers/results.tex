@@ -4,7 +4,7 @@ We look at the effect of increasing the amount of soft obstacles (SO) from 0\% (
 We also contrast high and low quality abstractions (denoted HQ and LQ) on a range of cluster sizes $\lbrace 10, 15, 20 \rbrace$ (denoted CS10, CS15 and CS20).
 \begin{figure}[htbp]
 	\vspace{-12pt}
-       \caption{\small{\emph{Percentage of nodes and edges in abstract graph with respect to original graph. }}}
+       \caption{\small{\emph{Size of abstract graph with respect to original graph. }}}
        \begin{center}
                        \includegraphics[scale=0.35, trim = 20mm 14mm 20mm 5mm]{diagrams/graphsize.pdf}
        \end{center}
@@ -25,9 +25,9 @@ Moving from CS10 to CS20 reduces the worst-case space complexity of HQ graphs to
 \par \indent
 Interestingly, if we use the number of nodes as an indicator for the number of inter-edges in a graph, we may deduce that most HQ graphs are predominately composed of intra-edges. 
 The exact number depends on the density of soft obstacles in clusters; less dense clusters (as found on SO 20\%) result in more intra-edges as more unique paths (of differing sizes and capabilities) are found between each pair of abstract nodes. 
-This is consistent with our predictions from lemma \ref{aha-lemma:maxnodes} and lemma \ref{aha-lemma:maxedgesincluster} and useful to understanding the worst-case behaviour of HQ abstractions.
+This is consistent with lemma \ref{aha-lemma:maxedgesincluster} and useful to understanding the worst-case behaviour of HQ abstractions.
 \par \indent
-The linear increase in the size of LQ graphs is the result of a greater number of single-terrain entrances found as the number of soft obstacles increases.
+The linear increase in the size of LQ graphs is the result of a greater number of single-terrain entrances found as the number of soft obstacles increases (an observation consistent with lemma \ref{aha-lemma:maxnodes}).
 Increasing the density of soft obstacles in a cluster causes the circuit condition from theorem \ref{aha-theorem:weakdominance} to be less often satisfied and leads to the observed worst-case on SO 50\%.
 \par \indent
 Next we consider the performance of AHA* with respect to path quality. We measure this as:

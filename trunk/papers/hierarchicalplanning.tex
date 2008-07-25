@@ -1,4 +1,4 @@
-\section{Hierarchical planning}
+\section{Hierarchical Planning}
 Given a suitable graph abstraction, we can once more turn our attention back to agent planning. 
 We use a similar process to that described in \cite{botea04} but in our case we substitute A* for AA*.
 We provide a brief overview of the process here; for a more detailed description, we direct the reader to the original work.
@@ -11,6 +11,5 @@ This phase involves $i+j$ searches in total, corresponding to the number of comb
 To compute a high-level plan we again use a variation on A* -- this time to evaluate the annotations of abstract edges before adding a node to the open list.
 Once the search terminates we can take the result, and, if immediate execution is not necessary, we are finished. 
 Otherwise, we refine the plan by performing a number of small searches in the original gridmap between each pair of nodes along the abstract optimal path. 
-We can optionally skip this step if we cache the result of our previous searches while building the abstraction, in another classic case of running-time vs space tradeoff. 
 \par \indent
-This completes the description of our final algorithm: Annotated Hierarchical A* (AHA* for short).
+We term the resultant algorithm Annotated Hierarchical A* (AHA* for short).
