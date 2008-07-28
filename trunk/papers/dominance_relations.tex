@@ -36,8 +36,10 @@ We term the resultant graph in which all strongly dominant edges have been remov
 A further observation made during our analysis of this problem was that in many cases there exist multiple alternative routes to reach a goal location.
 The shortest paths tended to involve the traversal of optimal-length multi-terrain edges however, it was often possible to reach the same destination using slightly longer single-terrain edges.
 This suggests that the abstract graph can be further compacted without affecting the completeness of the representation.
+\par \indent
 A reasonable analogy to highlight our intuition here is to compare the way off-road vehicles opportunistically use roads where possible even if an off-road route of trail exists which has a smaller distance cost.
 We prefer roads because they connect most points of interest, are smoother to drive on and have other benefits such as less wear and tear and better fuel consumption.
+\par \indent
 Figure \ref{aha-fig:abstractgraph}(a) and \ref{aha-fig:abstractgraph}(b) show a typical high quality abstraction while in Figure \ref{aha-fig:abstractgraph}(c) and \ref{aha-fig:abstractgraph}(d) we highlight the desired result after further compacting the graph.
 \begin{figure}[htbp]
 	\vspace{-12pt}
@@ -48,11 +50,13 @@ Figure \ref{aha-fig:abstractgraph}(a) and \ref{aha-fig:abstractgraph}(b) show a 
         \label{aha-fig:abstractgraph}
 	\vspace{-6pt}
 \end{figure}
-\par \indent
 In this example we can see that although edges $E1$ and $E2$ have different traversal requirements any agent of size $s \in S : S = \lbrace 1, 2 \rbrace$ capable of traversing $E2$ can also traverse $E1$ without loss of generality. 
 In such cases we say $E1$ is \emph{weakly dominant} and denote it as $E1 \succsim E2$. 
 Notice also that $E3 \succsim E4$, $E6 \succsim E7$, $E10 \succsim E8$ and $E10 \succsim E9$.
-As before, this relationship is irreflexive and asymmetric; we formalise it as:
+\par \indent
+As with theorem \ref{aha-theorem:strongdominance}, this relationship is irreflexive and asymmetric.
+Unlike strong dominance however, only representational completeness (and not optimality) is retained. 
+We formalise it as:
 \begin{theorem}
 \label{aha-theorem:weakdominance}
 Let $L_{a}$ and $L_{b}$ be two adjacent clusters, and $\lbrace w_{a}, x_{b} \rbrace, \lbrace y_{a}, z_{b} \rbrace \in V_{abs}$ two pairs of abstract nodes, each pair connecting $L_{a}$ and $L_{b}$.
