@@ -16,14 +16,14 @@ Corner clusters, of which there are 4, have 2 neighbours and each contains $2n-1
 \begin{lemma}
 \label{aha-lemma:maxedgesincluster}
 Let $E_{abs}(L) \subset E_{abs}$ represent the set of intra-edges for a cluster $L$ that contains $x$ abstract nodes. Further, let $r$ be the total number of terrains found in the map and $k$ the number of distinct terrain types found inside $L$. Then, the number of intra-edges required to connect all nodes in $L$ is, in the worst case:
- $$|E_{abs}(L)| = |S|\times \frac{2^{k}-1}{2} \times \frac{x(x-1)}{2}$$
+ $$|E_{abs}(L)| = |S|\times 2^{k-1} \times \frac{x(x-1)}{2}$$
  \end{lemma}
 
 \begin{proof}
 For each pair of abstract nodes in a cluster and each size/capability combination, we compute at most one path of optimal length. 
-From lemma \ref{aha-lemma:numannotations} we know each node is traversable at most by $\frac{2^{r}-1}{2}$ capabilities thus there must be at most $|S|\times \frac{2^{r}-1}{2}$ ways of covering 2 nodes. 
+From lemma \ref{aha-lemma:numannotations} we know each node is traversable at most by $2^{r-1}$ capabilities thus there must be at most $|S|\times 2^{r-1}$ ways of covering 2 nodes. 
 However, the number of terrains inside a cluster is governed by its size; only $k \leq r$ terrains may be found. 
-From this, it follows that the upper-bound on the size of the set of edges covering each pair of nodes is in fact $|S| \times \frac{2^{k}-1}{2}$. 
+From this, it follows that the upper-bound on the size of the set of edges covering each pair of nodes is in fact $|S| \times 2^{k-1}$. 
 In the worst case there will be a maximal number of edges between each pair of nodes and there are $\frac{x(x-1)}{2}$ such pairs in total per cluster. 
 \end{proof}
 
