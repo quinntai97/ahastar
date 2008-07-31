@@ -1,0 +1,54 @@
+%\documentclass[a4paper]{article}
+
+\documentclass[letterpaper]{article}
+\usepackage{aaai}
+\usepackage{times}
+\usepackage{helvet}
+\usepackage{courier}
+\usepackage{ifpdf}
+\usepackage{algorithm}
+\usepackage[noend]{algorithmic}
+%\usepackage[german]{babel}
+\usepackage{url}
+
+\ifpdf
+\pdfinfo{
+/Title (Hierarchical path planning for multi-size agents in heterogenous environments)
+/Subject (International Conference on Automated Planning and Scheduling)
+/Author (Daniel, Harabor; Adi, Botea)}
+\fi
+
+\usepackage{graphicx}
+\usepackage{amsmath, amsthm, amssymb}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{definition}[theorem]{Definition}
+
+\title{Hierarchical path planning for multi-size agents in heterogenous environments}
+\author{Daniel Harabor \and Adi Botea \\ National ICT Australia and The Australian National University \\ $\lbrace$ daniel.harabor $|$ adi.botea $\rbrace$ at nicta.com.au}
+
+\begin{document}
+
+\maketitle
+
+\input abstract
+\input introduction
+\input relatedwork
+\input problemdefinition
+\input computingclearance
+\input annotatedastar
+\input mapabstraction
+\input dominance_relations
+\input hierarchicalplanning 
+\input experimentalsetup
+\input results
+\input conclusion
+\input acknowledgements
+
+\bibliographystyle{aaai}
+\bibliography{references}
+
+\end{document}
