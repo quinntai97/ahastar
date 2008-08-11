@@ -28,12 +28,12 @@ RERUNBIB = "No file.*\.bbl|Citation.*undefined"
 .PHONY: all clean
 
 
-all: references.bbl ahastar
+all: ahastar.tex references.bbl again
 
 ahastar: ahastar.pdf *.tex
 
 ahastar.pdf :
-	$(LATEX) $(LATEX_OPTS) $^
+	$(LATEX) $(LATEX_OPTS) ahastar.tex
 
 references.bbl: references.bib
 	if [ -n ahastar.aux ]; \
