@@ -1,14 +1,13 @@
 \section{Cluster-based Map Abstraction}
 \label{aha:mapabstraction}
 AA* is sufficient for low-level planning on the original gridmap but inefficient for large problem sizes; we would prefer to express a better strategy using macro-operators.
-Our result from theorem {\ref{aha-theorem:reducibility} is key to the spatial abstraction described in this section.
+Existing hierarchical path planning approaches, particularly those focused on gridmaps such as \cite{botea04} and \cite{sturtevant05}, achieve this by decomposing the gridmap into discretised adjacent areas. 
+Each pair of neighbouring areas are connected by a single shortest path and each canonical problem is mapped into this much smaller hierarchical representation.
+When we introduce agents of arbitary sizes and capabilities however this approach breaks down because it produces incomplete hierarchical abstractions. 
+In particular, there may be several shortest paths between each pair of adjacent areas, potentially one for each combination of agent size and capability.
+To solve this problem we build on our result from theorem {\ref{aha-theorem:reducibility} which is key to the spatial abstraction described in this section.
 \par \indent
-If the agent size and capability were fixed across a range of problems, 
-we would have only one canonical problem and previous methods for path planning
-on gridmaps, such as the one described in \cite{botea04}, 
-would work with no need for further enhancements.
-To make our system work on a range of arbitrary agent sizes and capabilities,
-we extend the process in \cite{botea04}, which involves dividing a grid map into fixed-size square sections called \emph{clusters}. 
+Our technique extends the process in \cite{botea04} which involves dividing a grid map into fixed-size square sections called \emph{clusters}. 
 Figure \ref{aha-fig:clustersandentrances}(a) shows the result of this decomposition approach; we use clusters of size 5 to split our toy map into 4 adjacent clusters. 
 \par \indent
 In the original work \emph{entrances} are defined as obstacle-free transition areas of maximal size that exist along the border between two adjacent clusters.
@@ -43,13 +42,13 @@ Note that \emph{E1} and \emph{E3} are incident on the same pair of nodes in the 
 \par \indent
 The final step in the decomposition involves attempting to add to the abstract graph a set of \emph{intra-edges} for each pair of abstract nodes inside a cluster. 
 We achieve this by running multiple AA* searches $\forall (c, s) : c \in C, s \in S$.
-Once a path is found we annotate the new edge, $e_{intra}$, with the capability and clearance parameters used by AA* and set its weight equal to the cost of the path. 
+Once a path is found we annotate the new edge, $e_{\textit{intra}}$, with the capability and clearance parameters used by AA* and set its weight equal to the cost of the path. 
 The algorithm terminates when all clusters have been considered. 
 \par \indent
-We thus construct an abstract \emph{multi-graph} in which each edge $e$ is annotated with a single capability $c_{e}$ and associated clearance value $cv_{e}$.
+We thus construct an abstract \emph{multi-graph} in which each edge $e$ is annotated with a single clearance value $cv(e, c_{e})$ where $c_{e} \in C$.
 Each $e \in E_{abs}$ is traversable by an agent $a$ iff:
-$$ e(c_{a}) = cv_{e} \geq s_{a} : c_{e} \subseteq c_{a} \in C, s_{a} \in S$$
-Where $c_{a}$ represents the capability of the agent and $s_{a}$ its size.
+$$ cv(e, c_{a}) \geq s_{a} : c_{e} \subseteq c_{a} \in C, s_{a} \in S$$
+where $c_{a}$ represents the capability of the agent and $s_{a}$ its size.
 We term the resultant abstraction $initial$ and give the following lemmas to characterise its space complexity:
 
 \input abstractionproperties

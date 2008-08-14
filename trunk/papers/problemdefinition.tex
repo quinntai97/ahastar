@@ -16,7 +16,10 @@ An agent occupies $s \times s$ octiles, which together correspond to its current
 Every agent has a terrain traversal \emph{capability}, $c \in C$, where $c$ comprises a non-empty subset of terrains.
 An agent can never occupy an octile whose terrain type is not included in its capability.
 Thus an $s \times s$ location is traversable by an agent of size $s$ and capability $c$ if the terrain types of all location's octiles are included in $c$.
-An agent of size $s$ can move in a cardinal direction between two $s \times s$ locations $l_1$ and $l_2$ if (1) the upper-left octiles of $l_1$ and $l_2$ are adjacent in a cardinal direction and (2) both $s_1$ and $s_2$ are traversable by the agent.
+%
+%% DH: this seems overly complicated ot me. Isn't the fact that the upper-left octiles are adjacent obvious if the move is a single step in a cardinal direction?
+%An agent of size $s$ can move in a cardinal direction between two $s \times s$ locations $l_1$ and $l_2$ if (1) the upper-left octiles of $l_1$ and $l_2$ are adjacent in a cardinal direction and (2) both $s_1$ and $s_2$ are traversable by the agent.
+An agent can move a single step at a time, from one neighbouring octile to another, in any of the four cardinal locations. 
 A diagonal move is allowed only if there exists an equivalent (but longer) two-step move using cardinal directions.
 %
 %\par \indent 
