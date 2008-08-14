@@ -2,7 +2,7 @@
 We evaluated the performance of AA* and AHA* on a set of 120 octile-based maps, ranging in size from 50x50 to 320x320, which we borrowed from a popular roleplaying game.
 The same maps were used by \cite{botea04} in their original study.
 In their default configuration the maps only featured one type of traversable terrain interspersed with hard obstacles. 
-We therefore created five derivative sets (making for a total of 720 maps) where each traversable tile on every map had one of $\lbrace 10\%, 20\%, 30\%, 40\%, 50\% \rbrace$ probability of being converted into a second type of traversable terrain (a soft obstacle). 
+We therefore created five derivative sets (making for a total of 720 maps) where each traversable tile on every map had one of $\lbrace 10\%, 20\%, 30\%, 40\%, 50\% \rbrace$ probability of being converted into a second type of traversable terrain. Octiles with this terrain type are called \emph{soft obstacles}, as they are not traversable by all agents.
 This allowed us to evaluate the algorithms in environments featuring a range of soft and hard obstacles.
 \par \indent
 For each map we generated 100 experiments by randomly creating valid problems between an arbitrarily chosen pairs of locations and some random capability.

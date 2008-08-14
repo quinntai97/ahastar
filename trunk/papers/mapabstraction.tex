@@ -1,13 +1,18 @@
 \section{Cluster-based Map Abstraction}
 \label{aha:mapabstraction}
-AA* is sufficient for low-level planning on the original gridmap but inefficient for large problem sizes; we would prefer to express a more general strategy using macro-operators.
-Our result from theorem {\ref{aha-theorem:reducibility} is key to the spatial abstraction described in this section. 
+AA* is sufficient for low-level planning on the original gridmap but inefficient for large problem sizes; we would prefer to express a better strategy using macro-operators.
+Our result from theorem {\ref{aha-theorem:reducibility} is key to the spatial abstraction described in this section.
 \par \indent
-We extend the process in \cite{botea04} which involves dividing a grid map into fixed-size square sections called \emph{clusters}. 
-Figure \ref{aha-fig:clustersandentrances}(a) shows the result of this decomposition approach; we use clusters of size 5 to split our toy map into 4 adjacent sections. 
+If the agent size and capability were fixed across a range of problems, 
+we would have only one canonical problem and previous methods for path planning
+on gridmaps, such as the one described in \cite{botea04}, 
+would work with no need for further enhancements.
+To make our system work on a range of arbitrary agent sizes and capabilities,
+we extend the process in \cite{botea04}, which involves dividing a grid map into fixed-size square sections called \emph{clusters}. 
+Figure \ref{aha-fig:clustersandentrances}(a) shows the result of this decomposition approach; we use clusters of size 5 to split our toy map into 4 adjacent clusters. 
 \par \indent
 In the original work \emph{entrances} are defined as obstacle-free transition areas of maximal size that exist along the border between two adjacent clusters.
-Each entrance has one or two transition points (depending on its size) which are represented in the abstract graph by a pair of nodes connected with an undirected \emph{inter-edge} of weight 1.0. 
+Each entrance has one or two transition points (depending on its size) which are represented in an abstract search graph by a pair of nodes connected with an undirected \emph{inter-edge} of weight 1.0. 
 We use a similar approach but require as a parameter $C$, the set of all capabilities, and thus attempt to identify entrances for each $c \in C$. 
 \begin{figure}[htbp]
 	\vspace{-9pt}
@@ -24,14 +29,15 @@ The last condition is important to preserve representational completeness for la
 By leveraging clearance we are able to reason about the presence of such obstacles and build a new entrance each time we detect the amount of traversable space inside either cluster is increasing.
 \par \indent
 Once an entrance is found, we choose as the transition point the first pair of adjacent nodes in each cluster which maximise clearance for $c$.
-This latter metric, $cv_{inter}$ is computed by taking the minimum clearance among each pair of adjacent nodes in the entrance area and selecting the largest value from the set. 
-Thus, we add a new edge to the graph, $e_{inter}$ and annotate it with a single capability and corresponding clearance value, $e_{inter}(c) = cv_{inter}$. 
+The clearance of a pair of adjacent nodes $(n_1, n_2)$ for a given capability $c$ is defined
+as $\textit{cv}(n_1, n_2, c) = \min (\textit{cv}(n_1, c), \textit{cv}(n_2, c))$.
+Thus, we add to the graph a new edge between the two nodes, $e_{\textit{inter}}$, and annotate it with the corresponding capability and clearance value. 
 The algorithm repeats for each $c \in C$ and terminates when all adjacent clusters have been considered. 
 This ensures we identify all possible entrances for each available capability.
 \par \indent
 In Figure \ref{aha-fig:clustersandentrances}(b) we present three entrances identified by scanning the border between clusters $C1$ and $C3$.
-Entrances \emph{E1} and \emph{E2}, each of which span only part of the border area, are discovered using the $\lbrace Ground \rbrace$ and $\lbrace Trees \rbrace$ capabilities respectively. 
-\emph{E3} meanwhile, which spans the whole border area, is discovered using the $\lbrace Ground \vee Trees \rbrace$ capability. 
+Entrances \emph{E1} and \emph{E2}, each of which span only part of the border area, are discovered using the $\lbrace \textit{Ground} \rbrace$ and $\lbrace \textit{Trees} \rbrace$ capabilities respectively. 
+\emph{E3} meanwhile, which spans the whole border area, is discovered using the $\lbrace \textit{Ground} \vee \textit{Trees} \rbrace$ capability. 
 The connected tiles represent the locations of the subsequent transition points; the final result is shown in Figure \ref{aha-fig:clustersandentrances}(c). 
 Note that \emph{E1} and \emph{E3} are incident on the same pair of nodes in the abstract graph. This is due to our  strategy of actively attempting to re-use any existing nodes from the abstract graph. 
 \par \indent
