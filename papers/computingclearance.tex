@@ -1,8 +1,9 @@
 \section{Computing Clearance Value Annotations}
 \label{aha:planningwithannotations}
 A \emph{clearance value} is a distance-to-obstacle metric associated with an octile $t$ and a capability $c$.
-It represents the maximal length (or width) of a square whose upper-left octile is $t$ and whose octiles contain only terrain types included in $c$.
-Note that an octile can have several clearance values associated with it, one for each capability. 
+It represents the maximal length (or width) of a square whose upper-left octile is $t$ and which contains only octiles whose terrain types are included in $c$.
+An octile can have several clearance values associated with it, one for each capability. 
+%Note that an octile can have several clearance values associated with it, one for each capability. 
 %On a grid map, a clearance value is perhaps best explained as representing the length or width of a square that begins at some octile being evaluated and is expanded symmetrically to the right and down until it intersects an obstacle.     
 
 To make our ideas easier to follow, we will use as a running example a simple environment featuring two terrain types: Ground (represented as white tiles) and Trees (represented as grey tiles). 
@@ -20,7 +21,7 @@ Similarly, Figure \ref{aha-fig:annotations}(f) and Figure \ref{aha-fig:annotatio
 
 \begin{figure}[htbp]
 	\vspace{-9pt}
-       \caption{\emph{(a)-(d) Computing clearance. (e)-(g) Clearance values for different capabilities.}}
+       \caption{\emph{(a)-(d) Computing clearance; we expand the square until a hard obstacle is encountered. (e)-(g) Clearance values for different capabilities.}}
        \begin{center}
                        \includegraphics[scale=0.20, trim = 20mm 9mm 20mm 0mm]{diagrams/annotations.png}
        \end{center}
@@ -53,7 +54,8 @@ We present such an approach in Algorithm \ref{aha-alg:calculateclearance}.
 The key advantage of calculating clearance is that we are able to
 %plan for both large and small agents using a fixed size grid. 
 %We achieve this by 
-map our extended problem into a classical problem, called the \emph{canonical problem}, with only two types of tiles (traversable and blocked) and only atomic-size agents. The next theorem formalizes this result.
+map our extended problem into a classical problem, called the \emph{canonical problem}, with only two types of tiles (traversable and blocked) and only atomic-size agents. We formalise this as:
+%The next theorem formalizes this result.
 \begin{theorem}
 \label{aha-theorem:reducibility}
 Given an annotated gridmap and an agent of arbitrary size and capability, any path planning problem can be reduced to a classical path planning problem, where the size of the agent is one octile and the capability of the agent is one terrain.
@@ -65,15 +67,15 @@ Consider further a location $l$ of size $s_a \times s_a$, its upper-left octile 
 and the clearance value $\textit{cv}(\textit{ul}, c_a)$ associated with the octile $\textit{ul}$ and the capability $c_a$.
 It is easy to observe that the location $l$ is traversable by the agent $a$
 if and only if $\textit{cv}(\textit{ul}, c_a) \geq s_a$.
-This observation allows us to map the original problem into a classical path planning problem
-on gridmaps as follows:
-The agent $a$, which currently occupies an $s_a \times s_a$ location $l$, is mapped into an atomic-size agent whose location is the upper-left octile of $l$.
-An octile $t$ on the new gridmap is traversable only if $\textit{cv}(t, c_a) \geq s_a$.
-All other octiles are marked as blocked.
+This allows us to map the original problem into a classical path planning problem as follows:
+The agent $a$, which currently occupies an $s_a \times s_a$ location $l$, is mapped into an atomic-size agent whose location is $ul$. 
+When searching for a path, any octile $t$ is traversable by the atomic-size agent only if $\textit{cv}(t, c_a) \geq s_a$.
+All other octiles are regarded as blocked.
 %Thus, the agent is able to navigate across a map by only considering the traversal requirements of a single octile.
 %Since each tile being evaluated is either traversable or not this is equivalent to solving a single-terrain problem.
 \end{proof}
-This is a useful result because it indicates that we can apply abstraction techniques from classical path planning to answer much more complex queries involving a wide range of terrain type and agent-size variables. In particular, if topological abstraction that partitions a gridmap into disjoint clusters is applied directly to a problem with arbitrary-size agents, a large agent can be in several clusters at a time. This raises a number of challenges which we found difficult to handle. The theorem above elegantly eliminates this problem, since an atomic-size agent can be in only one cluster at a time.
-
-
-
+This is a useful result because it indicates that we can apply abstraction techniques from classical path planning to answer much more complex queries involving a wide range of terrain type and agent-size variables. 
+%% DH: Do we need to state this? I know it was a problem but we elegantly side-step it via theorem 1. Given that we don't need to solve it (explicitly), do we still need to mention it?
+%% if so, would this comment not be better made when we introduce cluster-based abstraction rather than here?
+%
+%In particular, if topological abstraction that partitions a gridmap into disjoint clusters is applied directly to a problem with arbitrary-size agents, a large agent can be in several clusters at a time. This raises a number of challenges which we found difficult to handle. The theorem above elegantly eliminates this problem, since an atomic-size agent can be in only one cluster at a time.
