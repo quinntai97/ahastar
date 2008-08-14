@@ -1,27 +1,27 @@
 \section{Problem Definition}
-A \emph{gridmap} is a structure composed of square cells, of unit size, each of which represent a unique area in the environment. 
-Each grid cell is an \emph{octile}, connected to $k$ neighbours, where  $0 \leq k \leq 8$. 
-\par \indent
-Each octile, $t$, is associated with a particular terrain type, $terrain(t) \in T$ where $T$ is the set of all possible terrains and there are $r = |T| : r \geq 1$ possible terrains.
+A \emph{gridmap} is a structure composed of atomic square cells.
+%, each of which represent a unique area in the environment. 
+Each grid cell is called an \emph{octile}, being connected to $k$ neighbours, where  $0 \leq k \leq 8$. 
+%\par \indent
 Each octile is either blocked or traversable. 
 Blocked octiles are called \emph{hard obstacles}, since no agent can occupy them.
+Each traversable octile, $t$, is associated with a particular terrain type, $terrain(t) \in T$ where $T$ is the set of all possible terrains and there are $r = |T| : r \geq 1$ possible terrains.
+%\par \indent
+A gridmap is representable as a graph, $G = (V, E)$ where each traversable octile generates one node $v \in V$ and each octile adjacency is represented by an edge $e \in E$.
 \par \indent
-Each gridmap is representable as a graph, $G = (V, E)$ where each traversable tile generates one node $v \in V$ and each cell adjacency is represented by an edge $e \in E$.
-\par \indent
-An \emph{agent} is any entity attempting to move across a grid environment. 
-Every agent is square in shape and has a size $s \geq 1 : s \in S$ where $S$ is the set of finite sizes agents traversing across the gridmap may take.
-While stationary or moving, each agent occupies $s^2$ octiles which together correspond to its current location. 
-\par \indent
-Agents can move in any of the four cardinal directions. 
-Diagonal moves are allowed only if there exists an equivalent two-step move using the cardinal directions.
-\par \indent
+An \emph{agent} is any entity attempting to move across a gridmap. 
+Every agent is square in shape and has a size $s \geq 1 : s \in S$ where $S$ is the finite set of all agent sizes defined for a problem.
+An agent occupies $s \times s$ octiles, which together correspond to its current location. 
+%\par \indent
 Every agent has a terrain traversal \emph{capability}, $c \in C$, where $c$ comprises a non-empty subset of terrains.
-An agent can never occupy a tile whose terrain type is not included in its capability.
-\par \indent 
-A \emph{soft obstacle} is a tile which is not traversable by a specific agent because it lacks the correct capability or its size is larger than the associated clearance value of the tile, as defined below. 
+An agent can never occupy an octile whose terrain type is not included in its capability.
+Thus an $s \times s$ location is traversable by an agent of size $s$ and capability $c$ if the terrain types of all location's octiles are included in $c$.
+An agent of size $s$ can move in a cardinal direction between two $s \times s$ locations $l_1$ and $l_2$ if (1) the upper-left octiles of $l_1$ and $l_2$ are adjacent in a cardinal direction and (2) both $s_1$ and $s_2$ are traversable by the agent.
+A diagonal move is allowed only if there exists an equivalent (but longer) two-step move using cardinal directions.
+%
+%\par \indent 
+%%% TO CHECK LATER WHETHER DEFINITION SHOULD BE CHANGED
+%A \emph{soft obstacle} is an octile which is not traversable by a specific agent because it lacks the correct capability or its size is larger than the associated clearance value of the octile, as defined below.
+%
 \par \indent
-A \emph{clearance value} is an obstacle-distance metric associated with a particular tile in the grid environment. 
-Each clearance value measures the maximal size of an agent at a given location without intersecting any obstacle in the environment. 
-A tile can have several clearance values associated with it, one for each capability. 
-\par \indent
-A \emph{problem instance} is defined as a pair of locations, a start and goal, associated with an agent. A problem is valid if at least one path exists between the locations comprising only tiles traversable by the agent. 
+A \emph{problem instance} is defined as a pair of locations, a start and goal, associated with an agent. A problem is valid if at least one path exists between the locations comprising only octiles traversable by the agent. 
