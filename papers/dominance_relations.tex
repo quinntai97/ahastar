@@ -26,24 +26,21 @@ We term the resultant graph in which all strongly dominant edges have been remov
 
 \begin{figure}[htbp]
 	\vspace{-9pt}
-        \caption{\emph{Strong edge dominance} }
+        \caption{\emph{(a) A cluster in an initial abstraction. (b) The same cluster once strong edge dominance is applied.} \vspace{0.5em} }
         \begin{center}
-                        \includegraphics[scale=0.3, trim = 20mm 10mm 20mm 0mm]{diagrams/intraedges_initial.png}
+                        \includegraphics[scale=0.33, trim = 20mm 5mm 20mm 0mm]{diagrams/intraedges_initial.png}
         \end{center}
         \label{aha-fig:strongdominance}
-	\vspace{-6pt}
+	\vspace{-9pt}
 \end{figure}
 A further observation made during our analysis of this problem was that in many cases there exist multiple alternative routes to reach a goal location.
 The shortest paths tended to involve the traversal of optimal-length multi-terrain edges however, it was often possible to reach the same destination using slightly longer single-terrain edges.
 This suggests that the abstract graph can be further compacted without affecting the completeness of the representation.
 \par \indent
-A reasonable analogy to highlight our intuition here is to compare the way off-road vehicles opportunistically use roads where possible even if an off-road route of trail exists which has a smaller distance cost.
-We prefer roads because they connect most points of interest, are smoother to drive on and have other benefits such as less wear and tear and better fuel consumption.
-\par \indent
 Figure \ref{aha-fig:abstractgraph}(a) and \ref{aha-fig:abstractgraph}(b) show a typical high quality abstraction while in Figure \ref{aha-fig:abstractgraph}(c) and \ref{aha-fig:abstractgraph}(d) we highlight the desired result after further compacting the graph.
 \begin{figure}[htbp]
 	\vspace{-9pt}
-        \caption{\emph{High and low quality abstraction results} }
+        \caption{\emph{(a) A high quality abstraction of our toy map; note that some edges overlap and are not uniquely visible. (b) Inter-edges associated with the high quality graph. (c) The resultant graph after applying weak dominance. (d) Inter-edges associated with the low-quality graph.}  \vspace{0.5em} }
         \begin{center}
                         \includegraphics[scale=0.25, trim = 20mm 12mm 20mm 0mm]{diagrams/abstraction_result.png}
         \end{center}
@@ -89,7 +86,11 @@ Leveraging the fact that $max(s) \in S$ is known, we can maximise the number of 
 $$
 \forall e \in E_{abs} (cv(e, c_{e}) > max(s) \Rightarrow cv(e, c_{e}) = max(s)) 
 $$
+%% DH: probably not required anymore? it's nice, but reads like filler.
+%A reasonable analogy to highlight our intuition here is to compare the way off-road vehicles opportunistically use roads where possible even if an off-road route of trail exists which has a smaller distance cost.
+%We prefer roads because they connect most points of interest, are smoother to drive on and have other benefits such as less wear and tear and better fuel consumption.
+%\par \indent
 Of course, opting for a low-quality abstraction in this way does affect the quality of computed solutions. 
-In the worst case, a one-step transition of cost 1.0 in a high quality graph may be as long as $f(n) = 4n + f(n-2) : f(2) = 3, f(3) = 13$, where $n \geq 2$ is the length of a cluster in a low-quality approximation.
+In the worst case, a one-step transition of cost 1.0 in a high quality graph may be as long as $f(n) = 4n + f(n-2) : f(2) = 3, f(3) = 13$, where $n \geq 2$ is the length of a $n \times n$ cluster.
 This is a pathological case however; as we will show the differences in real-world scenarios are much smaller and still near-optimal. 
 The choice of which quality abstraction technique to employ will depend on the requirements of the specific application; it is a classic tradeoff between run-time performance vs space.
