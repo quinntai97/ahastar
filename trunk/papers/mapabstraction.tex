@@ -15,12 +15,12 @@ Each entrance has one or two transition points (depending on its size) which are
 We use a similar approach but require as a parameter $C$, the set of all capabilities, and thus attempt to identify entrances for each $c \in C$. 
 \begin{figure}[htbp]
 	\vspace{-9pt}
-        \caption{\emph{Building clusters and identifying entrances} }
+        \caption{\emph{(a) Decomposing the grid map into $5 \times 5$ clusters. (b) 3 entrances are identified between clusters $C1$ and $C3$. (c) Transition points between clusters $C1$ and $C3$.} \vspace{0.5em} }
         \begin{center}
-                        \includegraphics[scale=0.30, trim = 20mm 15mm 20mm 0mm]{diagrams/identifying_entrances.png}
+                        \includegraphics[scale=0.30, trim = 20mm 0mm 20mm 0mm]{diagrams/identifying_entrances.png}
         \end{center}
         \label{aha-fig:clustersandentrances}
-	\vspace{-6pt}
+	\vspace{-9pt}
 \end{figure}
 \par \indent
 We start at the first pair of traversable tiles along the adjacent border area and extend each entrance until one of three termination conditions occurs: the end of the border area is reached, an obstacle is detected or the clearance value of nodes along the border area in either cluster begins to increase. 

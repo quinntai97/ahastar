@@ -3,7 +3,7 @@ A very effective method for the efficient computation of path planning solutions
 \par
 \indent Two recent hierarchial path planners relevant to our work are described in \cite{botea04} and \cite{sturtevant05}. The first of these, HPA*, builds an  abstract search graph by dividing the environment into square clusters connected by entrances. Planning involves inserting the low-level start and goal nodes into the abstract graph and finding the shortest path between them. \\
 The second algorithm, PRA*, builds a multi-level search-space by abstracting cliques of nodes; the result is to narrow the search space in the original problem to a ``window" of nodes along the optimal shortest-path.
-Both HPA* and PRA* are focused on solving planning problems for homogenous agents in homogenous-terrain environments and hence are not complete when either of these variables change. 
+Both HPA* and PRA* are focused on solving planning problems for homogeneous agents in homogeneous-terrain environments and hence are not complete when either of these variables change. 
 Our technique is similar to HPA* but we extend that work to solve a wider range of problems. 
 \par 
 \indent In robotics, force potentials help autonomous robots find collision-free paths through an environment. The basic intution is that a robot is attracted to the far-away goal and repulsed away from obstacles as it nears them. A well known method for potential-based path planning is the Brushfire algorithm \cite{latombe91}, which proceeds by annotating each tile in a grid-map with the distance to the nearest obstacle. This embedded information allows the robot to calculate repulsive potentials and makes it possible to plan using a gradient descent strategy. 
@@ -27,5 +27,5 @@ TRA* is an extension of this approach that abstracts the triangle mesh into a st
 Like our method, both TA* and TRA* are able to answer path queries for multi-size agents. 
 The abstraction approaches used by TA* and TRA* however are very distinctly different from our work. 
 Where we use a simple division of the environment into square clusters, their approach aims to maximise triangle size. 
-We also handle additional terrain requirements while both TA* and TRA* assume a homogenous environment.
+We also handle additional terrain requirements while both TA* and TRA* assume a homogeneous environment.
 

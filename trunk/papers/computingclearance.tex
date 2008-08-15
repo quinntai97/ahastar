@@ -1,4 +1,4 @@
-\section{Computing Clearance Value Annotations}
+ussection{Computing Clearance Value Annotations}
 \label{aha:planningwithannotations}
 A \emph{clearance value} is a distance-to-obstacle metric associated with an octile $t$ and a capability $c$.
 It represents the maximal length (or width) of a square whose upper-left octile is $t$ and which contains only octiles whose terrain types are included in $c$.
@@ -21,7 +21,7 @@ Similarly, Figure \ref{aha-fig:annotations}(f) and Figure \ref{aha-fig:annotatio
 
 \begin{figure}[htbp]
 	\vspace{-9pt}
-       \caption{\emph{(a)-(d) Computing clearance; we expand the square until a hard obstacle is encountered. (e)-(g) Clearance values for different capabilities.}}
+       \caption{\emph{(a)-(d) Computing clearance; we expand the square until a hard obstacle is encountered. (e)-(g) Clearance values for different capabilities.} \vspace{0.5em}}
        \begin{center}
                        \includegraphics[scale=0.20, trim = 20mm 9mm 20mm 0mm]{diagrams/annotations.png}
        \end{center}
@@ -34,7 +34,7 @@ The algorithm terminates when all octiles $t \in gridmap$ have been considered.
 The worst-case space complexity associated with computing clearance values in this fashion is thus characterised by: 
 \begin{lemma}
 \label{aha-lemma:numannotations}
-Let $CV$ be the set of all clearance values required to annotate an octile gridmap with $r$ terrains. Further, let $G = (V, E)$ be a graph representing the gridmap where $V_{HO} \subset V$ is the set of hard obstacles. Then, 
+Let $CV$ be the set of all clearance values required to annotate an octile gridmap with $r$ terrains. Further, let $G = (V, E)$ be a graph representing the gridmap where $V_{HO} \subseteq V$ is the set of hard obstacles. Then, 
 $$|CV| = (|V| - |V_{HO}|)\times 2^{r-1}$$
 \end{lemma}
 
