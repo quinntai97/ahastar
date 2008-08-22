@@ -64,12 +64,12 @@ Given an annotated gridmap and an agent of arbitrary size and capability, any pa
 \begin{proof}
 Consider an agent $a$ of size $s_a$ and capability $c_a$.
 Consider further a location $l$ of size $s_a \times s_a$, its upper-left octile $\textit{ul}$,
-and the clearance value $\textit{cv}(\textit{ul}, c_a)$ associated with the octile $\textit{ul}$ and the capability $c_a$.
+and the clearance value ${cv}(\textit{ul}, c_a)$ associated with the octile $\textit{ul}$ and the capability $c_a$.
 It is easy to observe that the location $l$ is traversable by the agent $a$
-if and only if $\textit{cv}(\textit{ul}, c_a) \geq s_a$.
+if and only if ${cv}(\textit{ul}, c_a) \geq s_a$.
 This allows us to map the original problem into a classical path planning problem as follows:
 The agent $a$, which currently occupies an $s_a \times s_a$ location $l$, is mapped into an atomic-size agent whose location is $ul$. 
-When searching for a path, any octile $t$ is traversable by the atomic-size agent only if $\textit{cv}(t, c_a) \geq s_a$.
+When searching for a path, any octile $t$ is traversable by the atomic-size agent only if ${cv}(t, c_a) \geq s_a$.
 All other octiles are regarded as blocked.
 %Thus, the agent is able to navigate across a map by only considering the traversal requirements of a single octile.
 %Since each tile being evaluated is either traversable or not this is equivalent to solving a single-terrain problem.
@@ -77,5 +77,5 @@ All other octiles are regarded as blocked.
 This is a useful result because it indicates that we can apply abstraction techniques from classical path planning to answer much more complex queries involving a wide range of terrain type and agent-size variables. 
 %% DH: Do we need to state this? I know it was a problem but we elegantly side-step it via theorem 1. Given that we don't need to solve it (explicitly), do we still need to mention it?
 %% if so, would this comment not be better made when we introduce cluster-based abstraction rather than here?
-%
-%In particular, if topological abstraction that partitions a gridmap into disjoint clusters is applied directly to a problem with arbitrary-size agents, a large agent can be in several clusters at a time. This raises a number of challenges which we found difficult to handle. The theorem above elegantly eliminates this problem, since an atomic-size agent can be in only one cluster at a time.
+% AB: I think it helps make the claim above stronger.
+In particular, if topological abstraction that partitions a gridmap into disjoint clusters were applied directly to a problem with arbitrary-size agents, a large agent could be in several clusters at a time. This raises a number of challenges which we found difficult to handle. The theorem above elegantly eliminates this problem, since an atomic-size agent can be in only one cluster at a time.
