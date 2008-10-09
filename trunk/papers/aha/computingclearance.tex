@@ -40,7 +40,7 @@ $$|CV| = (|V| - |V_{HO}|)\times 2^{r-1}$$
 
 \begin{proof}
 For a node to be traversable for some capability, the capability must include the node's terrain type. 
-There are $2^{r}$ capabilities but a fixed terrain type is included in only $2^{r-1}$ of these. 
+There are $2^{r}$ combinations of terrains (and hence capabilities) but a fixed terrain type will appear at most in $2^{r-1}$ capabilities. 
 There are $|V|$ nodes in total to represent the environment, and we avoid storing any clearance values for all nodes in $V_{HO}$. 
 \end{proof}
 

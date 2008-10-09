@@ -13,17 +13,10 @@ An \emph{agent} is any entity attempting to move across a gridmap.
 Every agent is square in shape and has a size $s \geq 1 : s \in S$ where $S$ is the finite set of all agent sizes defined for a problem.
 An agent occupies $s \times s$ octiles, which together correspond to its current location. 
 %\par \indent
-Every agent has a terrain traversal \emph{capability}, $c \in C$, where $c$ comprises a non-empty subset of terrains.
+Every agent has a terrain traversal \emph{capability}, $c \in C$, where $c$ comprises a combination of one or more terrains such that $c \subseteq T$.
 An agent can never occupy an octile whose terrain type is not included in its capability.
 Thus an $s \times s$ location is traversable by an agent of size $s$ and capability $c$ if the terrain types of all location's octiles are included in $c$.
 An agent can move in a cardinal direction between two $s \times s$ locations $l_1$ and $l_2$ if (1) both $l_1$ and $l_2$ are traversable by the agent and (2) the total displacement between $l_1$ and $l_2$ is limited to the length or width of a single octile. 
-% DH: maybe prefer the shorter definition below?
-%An agent can move a single step at a time in any of the four cardinal directions provided its displacement after each timestep is not greater than than the length or width of a single octile.
 A diagonal move is allowed only if there exists an equivalent (but longer) two-step move using cardinal directions.
-%
-%\par \indent 
-%%% TO CHECK LATER WHETHER DEFINITION SHOULD BE CHANGED
-%A \emph{soft obstacle} is an octile which is not traversable by a specific agent because it lacks the correct capability or its size is larger than the associated clearance value of the octile, as defined below.
-%
 \par \indent
 A \emph{problem instance} is defined as a pair of locations, a start and goal, associated with an agent. A problem is valid if at least one path exists between the locations comprising only octiles traversable by the agent. 

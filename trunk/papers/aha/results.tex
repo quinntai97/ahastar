@@ -79,3 +79,5 @@ The insertion effort required to connect start and goal to each abstract node in
 We can see the gap between CS20 and the smaller cluster sizes decrease as the problem size grows.
 % but our benchmark set of experiments are not hard enough for such coarse-grain map decompositions to be advantageous. 
 By comparison, in Figure \ref{aha-fig:searcheffort}(b) we see that the difference is less pronounced using LQ graphs (there are less abstract nodes per cluster). However, it appears CS10 or CS15 are more suitable choices for problems up to our maximum length, 450.
+The average time required to compute a solution was observed to have very similar trends to those shown in Figure \ref{aha-fig:searcheffort}; on this particular dataset AHA* averaged 6.3ms and 3.7ms using HQ and LQ graphs respectively.
+This further reiterates the applicability of our technique to real-world applications such as games, where computational resources available for path planning are highly constrained. 

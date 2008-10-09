@@ -1,7 +1,7 @@
 \section{Related Work}
 A very effective method for the efficient computation of path planning solutions is to make the original problem more tractable by creating and searching within a smaller approximate abstract space. Abstraction factors a search problem into many smaller problems and thus allows agents to reason about path planning strategies in terms of macro operations. This is known as hierarchical path planning. 
 \par
-\indent Two recent hierarchial path planners relevant to our work are described in \cite{botea04} and \cite{sturtevant05}. The first of these, HPA*, builds an  abstract search graph by dividing the environment into square clusters connected by entrances. Planning involves inserting the low-level start and goal nodes into the abstract graph and finding the shortest path between them. \\
+\indent Two recent hierarchial path planners relevant to our work are described in \cite{botea04} and \cite{sturtevant05}\cite{bulitko07}. The first of these, HPA*, builds an  abstract search graph by dividing the environment into square clusters connected by entrances. Planning involves inserting the low-level start and goal nodes into the abstract graph and finding the shortest path between them. \\
 The second algorithm, PRA*, builds a multi-level search-space by abstracting cliques of nodes; the result is to narrow the search space in the original problem to a ``window" of nodes along the optimal shortest-path.
 Both HPA* and PRA* are focused on solving planning problems for homogeneous agents in homogeneous-terrain environments and hence are not complete when either of these variables change. 
 Our technique is similar to HPA* but we extend that work to solve a wider range of problems. 
