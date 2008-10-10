@@ -7,6 +7,8 @@ Some introduction.
 Fringe search seems to be optimal. Their main claim is that fringe search is faster than A* by 10-40 percent. The number of expanded nodes is roughly the same. We should aim at beating A* by a larger margin.
 
 D* focuses on only one goal location. D* is optimal in some sense (to check the paper again).
+It seems to compute the optimal distance to the goal, according to the current map information,
+in a lot of tiles on the map.
 
 It would be good to have a simple example where A* (with unlucky tie breaking) visits all locations on the map even if the heuristic is perfect or almost perfect. An empty map with the start and target placed on two diagonal corners will do. Basically, we want to show here that a good heuristic is not everything we need for a fast A* search. As shown by Malte and Roger in AAAI-08, even almost perfect heuristics can result in poor performance. Therefore, reducing the search space, as we do in this work, is a good direction for research.
 
