@@ -1,0 +1,836 @@
+\documentclass{article}
+\usepackage{ijcai07}
+\usepackage{times} 
+\usepackage{latexsym}
+
+\usepackage{url}
+\usepackage[dvips]{graphicx}
+
+\Large
+\normalsize
+
+\renewcommand{\dbltopfraction}{0.9}	% fit big float above 2-col. text
+\renewcommand{\textfraction}{0.07}	% allow minimal text w. figs
+%   Parameters for FLOAT pages (not text pages):
+\renewcommand{\floatpagefraction}{0.9}	% require fuller float pages
+% N.B.: floatpagefraction MUST be less than topfraction !!
+\renewcommand{\dblfloatpagefraction}{0.9}	% require fuller float pages
+
+%don't want date printed
+\date{}
+\def\lorel{Lorel}
+
+\begin{document}
+
+\title{Fast Planning with Iterative Macros}
+\author{
+Adi Botea\\
+National ICT Australia\\
+Australian National University\\
+Canberra, ACT\\
+adi.botea@nicta.com.au
+\And
+Martin M\"uller\\
+Dept. of Computing Science\\
+University of Alberta\\
+Edmonton, Canada\\
+mmueller@cs.ualberta.ca
+\And
+Jonathan Schaeffer\\
+Dept. of Computing Science\\
+University of Alberta\\
+Edmonton, Canada\\
+jonathan@cs.ualberta.ca
+}
+\maketitle
+
+\begin{abstract}
+Research on macro-operators has a long history in planning and
+other search applications.
+There has been a revival of interest in this topic, leading to systems
+that successfully combine macro-operators with current state-of-the-art
+planning approaches based on heuristic search.
+However, research is still necessary to make macros become a standard,
+widely-used enhancement of search algorithms.
+This article introduces
+sequences of macro-actions, called iterative macros.
+Iterative macros exhibit both the potential advantages
+(e.g., travel fast towards goal)
+and the potential limitations (e.g., utility problem) of classical macros,
+only on a much larger scale.
+A family of techniques  are introduced to balance
+this trade-off in favor of faster planning.
+Experiments on a collection of planning benchmarks show that, when
+compared to low-level search and even to search with classical macro-operators,
+iterative macros can achieve an impressive speed-up in search.
+\end{abstract}
+
+\section{Introduction}
+
+Research on macro-operators has a long history in planning and
+other search applications.
+Recent years have shown a revival of this topic, leading to systems
+that successfully combine macro-operators with current state-of-the-art
+planning approaches based on heuristic search.
+However, macros have significant capabilities yet to be exploited.
+There is a need to continue the previous efforts on this topic, 
+aiming to reach a point where macros would be considered to be a
+standard performance enhancement
+(e.g., such as hash tables for fast detection of duplicate nodes).
+
+\begin{figure}
+\begin{center}
+\includegraphics[width=.25\textwidth]{fig1.eps}
+\caption{State expansion with atomic actions (left), atomic actions + macros (center),
+and atomic actions + iterative macros (right). Each short line is an atomic action.
+Each curved arrow is a macro-action.}
+\label{fig1}
+\end{center}
+\end{figure}
+
+In this article, we introduce sequences of macro-actions called iterative macros.
+Figure \ref{fig1} illustrates the differences between low-level search,
+search with classical macros, and search with iterative macros. 
+First, consider low-level search versus search with classical macros.
+Macros add the ability to travel towards a goal with big steps,
+with few intermediate nodes expanded or evaluated heuristically.
+However, macros increase the branching factor, and often also
+the processing cost per node.
+Inappropriate macros guide the search in a wrong direction,
+which increases the total search time while solution quality decreases.
+Addressing this \emph{performance trade-off} 
+is the key to making macros work.
+
+\emph{Iterative macros} are macros of macro-actions.
+They have similar potential benefits and limitations as classical macros,
+only on a much larger scale.
+Iterative macros progress much faster down a branch of the search,
+with exponentially larger possible savings.
+On the downside, there can be exponentially more instantiations of
+iterative macros, with many of them leading to dead ends.
+An iterative macro is more expensive to compute, being the sum 
+of instantiating each contained macro.
+Tuning the performance trade-off 
+is more challenging than for classical macros.
+
+The model discussed in this paper extends the approach in 
+\citeauthor{Botea:05}~\citeyear{Botea:05}, which offers
+a framework for generating, filtering, and using macros at runtime.
+The contributions of this paper are:
+\begin{enumerate}
+\item
+\emph{Iterative macros}, a runtime combination of macros to enhance program performance,
+\item
+New techniques to address the performance trade-offs for iterative macros:
+algorithms for offline filtering, 
+dynamic composition (i.e., instantiating an iterative macro at runtime),
+and dynamic filtering (i.e., pruning instantiations of an iterative macro at runtime);
+and
+\item
+Experiments using standard planning benchmarks 
+that show orders of magnitude speed up in several standard domains,
+when compared to low-level search and even to a search enhanced with classical macros.
+\end{enumerate}
+
+Section \ref{related} briefly reviews related work on macros.
+Section \ref{background} introduces the necessary definitions.
+Section \ref{iterative macros} introduces iterative macros and the
+algorithms for offline filtering, dynamic composition, and dynamic filtering.
+Experimental results are given in Section \ref{experimental results}.
+Section \ref{conclusion} contains conclusions and ideas for future work.
+
+\section{Related Work}
+\label{related}
+Related work on macros in planning dates back to the {\sc Strips} planner \cite{Fikes:71}.
+Subsequent contributions include off-line filtering of a set of macros~\cite{Minton:85},
+partial ordering of a macro's steps~\cite{Mooney:88}, and generating macros able
+to escape local minima in a heuristic search space~\cite{Iba:89}.
+In a problem representation with multi-valued variables,
+\citeauthor{McCluskey:97}~\shortcite{McCluskey:97} use macros to
+change the assignment of a variable to a given value in one step.
+
+Several recent contributions successfully integrate macros  
+ with state-of-the-art heuristic search planners such as
+{\sc FF} \cite{Hoffmann:01a}.
+\citeauthor{Vidal:04}~\shortcite{Vidal:04} composes macros at runtime by
+applying steps of the relaxed plan in the original problem.
+% with no structure of the steps imposed a priori.
+\citeauthor{Botea:05}~\shortcite{Botea:05} prune instantiations of 
+macros based on their similarity with a relaxed plan.
+\citeauthor{Coles:05}~\shortcite{Coles:05} generate macros
+as plateau-escaping sequences.
+\citeauthor{Newton:05}~\shortcite{Newton:05} use genetic algorithms
+to generate macros.
+The contributions of \citeauthor{Vidal:04}~\shortcite{Vidal:04}
+and \citeauthor{Botea:05}~\shortcite{Botea:05} are the most closely
+related, since all three approaches
+exploit the similarity between a macro and a relaxed plan.
+
+Application-specific macros have
+been applied to domains such as the sliding tile puzzle \cite{Korf:85},
+Rubik's Cube \cite{Korf:83,Hernadvolgyi:01},
+and Sokoban \cite{Junghanns:01}.
+While interesting, a detailed discussion and comparison
+of all these approaches is beyond the scope of this paper.
+
+\section{Framework and Basic Definitions}
+\label{background}
+
+The basic framework of this work is planning as forward heuristic search.
+To guide the search, a relaxed plan that ignores all delete effects
+of actions is computed for each evaluated state \cite{Hoffmann:01a}.
+Search is enhanced with iterative macros as illustrated in 
+Figure~\ref{fig1} (right) and detailed in Section~\ref{iterative macros}.
+The strategy for using iterative macros consists of
+three steps: 
+(1) extract macro-operators from solutions of training problems,
+(2) statically filter the set of macro-operators, and
+(3) use the selected macro-operators to compose iterative macros at runtime.
+Steps 1 and 2 deal only with classical macro-operators.
+Only step 3 involves the new iterative macros.
+The model of \citeauthor{Botea:05}~\citeyear{Botea:05}
+serves as a starting point for implementing the first two steps.
+It provides a framework for generating, filtering,
+and using classical macro-operators at runtime in planning.
+However, experiments with iterative macros showed that
+more powerful filtering capabilities were needed. The new enhanced method for
+filtering in step 2 is described in Section \ref{static filtering}.
+
+The rest of this section contains definitions of concepts
+used in the following sections.
+For simplicity, totally ordered macros are assumed
+(all definitions can be generalized to partial-order macros).
+The macro extraction phase builds macros 
+with partial ordering of the steps.
+However, to save computation time, only one possible ordering
+is selected at runtime.
+
+Let $\cal{O}$ be the set of all domain operators
+and $\cal{A}$ the set of all ground actions of a planning problem.
+A \emph{macro-operator} (macro-schema) is a sequence of 
+domain operators $\textit{ms}[i] \in \cal{O}$
+together with a parameter binding $\sigma$:
+$\textit{ms} = ((\textit{ms}[1], \textit{ms}[2], \dots, \textit{ms}[l]), \sigma)$.
+
+Partially instantiating a macro can be defined in two equivalent ways as either
+(1) replacing some variables with constant objects or (2) replacing some operators
+with ground actions. The second definition is more appropriate for this work,
+since macros reuse actions from a relaxed plan 
+and hence action-wise instantiation is needed.
+% A partial instantiation of a macro $mi$
+% has zero or more steps instantiated (ground actions) 
+% and one or more steps uninstantiated (domain operators).
+% Let $I_U$ contain the indices of uninstantiated steps (operators) and 
+% $I_I$ contain the indices of instantiated steps (ground actions).
+A partial instantiation of a macro is 
+$\textit{mi} = ((\textit{mi}[1], \textit{mi}[2], \dots, \textit{mi}[l]), \sigma)$, 
+where $(\forall i \in \{1, \dots, l\}): (\textit{mi}[i] \in {\cal{A}} \vee \textit{mi}[i] \in {\cal{O}})$.
+% $I_I$ and $I_U$ form a partition of $\{1,..,l\}$,
+% $(\forall i \in I_I): \textit{mi}[i] \in {\cal{A}}$ 
+% and $(\forall j \in I_U): \textit{mi}[j] \in {\cal{O}}$.
+
+A total macro-instantiation (shorter, macro-instantiation) has
+all steps instantiated 
+($\forall i : \textit{mi}[i] \in {\cal{A}}$).
+Macro-operators and macro-instantiations are the extreme cases 
+of partial macro-instantiations.
+When the distinction is clear from the context, the term ``macro'' can refer
+to any of these.
+
+When instantiating one more step in a partial instantiation $\textit{mi}$,
+it is important to ensure that the new action is consistent
+with all the constraints already existing in $\textit{mi}$.
+More precisely, 
+given a partial instantiation $\textit{mi}$, a position $i$ and a state $s$
+from which $\textit{mi}$ is being built,
+define the \emph{consistency set} $\mbox{Cons}(\textit{mi}, i, s)$
+as containing all actions $a \in {\cal{A}}$ such that:
+(1) $a$ corresponds to the operator on the $i$-th position of $\textit{mi}$,
+(2) $a$ does not break the parameter bindings of $\textit{mi}$, and
+(3) if either $i=1$ or the first $i-1$ steps are instantiated, then adding $a$ on the $i$-th
+position makes this $i$-step sequence applicable to $s$.
+Only actions from $\mbox{Cons}(\textit{mi}, i, s)$ can be used to instantiate
+the $i$-th step of $\textit{mi}$. 
+Obviously, instantiating a new step can introduce additional binding constraints.
+Instantiating steps in a macro can be done in any order. When step $i$ is instantiated,
+its bindings have to be consistent with all previously instantiated steps, including positions
+larger than $i$.
+
+Finally, let $\gamma(s, a_1 \dots a_k)$ be the state obtained by 
+applying the action sequence $a_1 \dots a_k$ to state $s$.
+For the empty sequence $\epsilon$, $\gamma(s, \epsilon) = s$.
+If $\exists i \leq k$ such that $a_i$ cannot be applied to
+$\gamma(s, a_1 \dots a_{i-1})$, then $\gamma(s, a_1 \dots a_k)$ is undefined.
+
+\section{Iterative Macros}
+\label{iterative macros}
+
+This section describes a technique for speeding up planning
+using iterative macros.
+Section \ref{static filtering} presents a method for
+statically filtering a set of macro-operators to identify candidates
+that can be composed to form iterative macros.
+Section \ref{search}  focuses on integrating iterative macros into a search algorithm.
+Methods that effectively address the challenging tasks of instantiation and pruning
+are described.
+% Finally, Section \ref{discussion} compares our approach
+% with recent contributions that we consider to be the closest
+% related work.
+
+\subsection{Static Filtering}
+\label{static filtering}
+
+The model introduced by \citeauthor{Botea:05}~\shortcite{Botea:05}
+was implemented and enhanced.
+\citeauthor{Botea:05} analyze solutions to a set of test problem instances
+to extract a potentially useful set of macro-operators.
+The macros are then ranked by favoring those that
+1) appear frequently in solutions, and
+2) significantly reduce the search effort required for each application.
+Two important limitations of this ranking model are that it ignores the interactions
+of macros when used together, and that it provides no automatic way to 
+decide the number of selected macros.
+
+Our enhancement first selects the top $K$ macros (where $K$ is a parameter)
+returned by the original procedure and then tries to filter this down to a subset
+that solves the training set most efficiently in terms of expanded nodes.
+Since enumerating all subsets of a set with $K$ elements is exponentially hard, 
+we use an approximation method whose complexity is only linear in $K$.
+For each $i$ from $1$ to $K$,
+the training set is solved with macro $m_i$ in use.
+Macros are reordered according to the search effort.
+More precisely, $m_i$ is better than $m_j$ if $N_i < N_j$, 
+where $N_l$ is the total effort (expanded nodes)
+to solve the training set using macro $m_l$.
+Ties are broken according to the original ranking.
+
+Based on the new ordering, the training set is solved using the top $i$ macros,
+$1 \leq i \leq K$. Assume $N$ is the total number of nodes expanded to solve
+the training set with no macros in use, $N^{T}_{i}$ the total effort to solve the training
+set with the top $i$ macros, and 
+\[ b = \mbox{arg}\min_{1 \leq i \leq K} N^{T}_{i}.\]
+If $N^{T}_{b} < N$, then the learning procedure returns the top $b$ macros.
+Otherwise, no macros are learned for that domain.
+
+In the experiments described in Section~\ref{experimental results},
+small training instances are used, to keep the learning time low.
+$K$ is set to 5, since the number of useful macros in those domains
+is typically less than 5.
+For larger domains, where more macros could be beneficial, 
+a larger value of $K$ might produce better results at the price
+of longer training time.
+
+\subsection{Iterative Macros in Search}
+\label{search}
+
+Integrating iterative macros into a search algorithm raises two 
+major challenges: instantiation and pruning.
+In the most general case, the total number of iterative macros
+applicable to a state is in the order of $B^D$,
+where $B$ is the number of classical macro instantiations
+applicable to a state, and $D$ is the number of macros
+contained in an iterative macro.
+Each instantiation can be expensive to compute, since its cost is
+the total cost of instantiating all the contained macros.
+
+If instantiation and pruning were performed separately,
+a large effort could be spent on building elements that
+would be rejected later.
+Therefore a combined algorithm tries,
+for a given state, to build only one iterative macro which
+shows promise to take the search closer to a goal state.
+The guidance in building this iterative macro is given
+by the relaxed plan of the state being expanded.
+Building a macro instantiation is founded on two 
+simple, yet powerful ideas.
+First, when deciding how to instantiate a given step,
+heuristics are used to select an action that will allow
+a large number of relaxed steps to be subsequently inserted.
+Second, for the steps not filled with relaxed plan actions,
+other actions are used that preserve the correctness
+and the variable bindings of the iterative macro.
+This completion is an important feature of the algorithm, 
+since a relaxed plan often 
+misses steps that have to be part of the unrelaxed solution.
+
+\def\myif{{\bf if}}
+\def\myelse{{\bf else}}
+\def\mydo{{\bf do}}
+\def\while{{\bf while}}
+\def\continue{{\bf continue}}
+\def\for{{\bf for}}
+\def\return{{\bf return}}
+\def\int{{\bf int}}
+\def\bool{{\bf bool}}
+\def\const{{\bf const}}
+\def\void{{\bf void}}
+\def\true{{\bf true}}
+\def\false{{\bf false}}
+\def\break{{\bf break}}
+
+\begin{figure}[t]
+\begin{center}
+\begin{minipage}[c]{\textwidth}
+\footnotesize{
+\begin{tabbing}
+\hspace{0.0em} \= ComposeIterativeMacro($\textit{MS}, s, \textit{RP}$) \\ %\{ \\
+\> \quad \= $ U \leftarrow \emptyset; \textit{itm} \leftarrow \mbox{empty sequence}$; \\
+\> \> \while \ (true) \\ % \{ \\ 
+\> \> \quad \= \for \ (each $\textit{ms} \in \textit{MS}$) \\ %\{ \\
+\> \> \> \quad \= $\textit{mi} \leftarrow \mbox{Instantiate}(\textit{ms}, \gamma(s, \textit{itm}), \textit{RP} \setminus U)$; \\
+\> \> \> \quad \= \myif \ (instantiating $\textit{mi}$ succeeded) \\ %\{ \\
+\> \> \> \> \quad \=  $U \leftarrow U \cup [\textit{mi} \cap \textit{RP}]$; // mark used steps \\
+\> \> \> \> \> $\textit{itm} \leftarrow \textit{itm} + \textit{mi}$; // concatenate \\
+\> \> \> \> \> \break; // restart outer loop \\
+\> \> \> \myif \ (no iteration of last for loop instantiated a macro) \\
+\> \> \> \> \return \ $\textit{itm}$; %\\
+\end{tabbing}
+}
+\end{minipage}
+\end{center}
+\caption{Composing an iterative macro at runtime.}
+\label{fig:composition}
+\end{figure}
+
+Figure \ref{fig:composition} shows the procedure for building
+an iterative macro in pseudo-code.
+It takes as input a global list of macro-schemas ($\textit{MS}$),
+a current search state ($s$),
+and the relaxed plan computed for that state ($\textit{RP}$).
+Each iteration of the main loop tries to append one more macro to the iterative macro.
+The inner loop iterates through the global list of macro-schemas.
+As soon as instantiating such a macro-schema succeeds, 
+the algorithm greedily commits to adding it to the iterative macro
+and a new iteration of the outer loop starts.
+This procedure automatically determines
+the length of an iterative macro (the number of contained macros).
+
+In the code, $U$ is the set of all relaxed plan steps already inserted in the iterative macro.
+During subsequent iterations, the used relaxed steps will be ignored
+when the \emph{matching} of a macro instantiation
+with a relaxed plan is computed.
+Intuitively, the Matching procedure tries to maximize the number of
+relaxed steps used in a macro-instantiation.
+More formal details on matching are provided later.
+
+\begin{figure}[t]
+\begin{center}
+\begin{minipage}[c]{\textwidth}
+\footnotesize{
+\begin{tabbing}
+\hspace{0.0em} \= Instantiate($\textit{ms}, s, \textit{RS}$) \\ %\{ \\
+\> \quad \= \for \ (each $a \in \mbox{Cons}(\textit{ms}, 1, s)$) \\ %\{ \\
+\> \> \quad \= $\textit{mi} \leftarrow \mbox{Matching}(a, \textit{ms}, s, \textit{RS})$; \\
+\> \> \quad \= \myif \ ($|\textit{mi} \cap \textit{RS}| \geq \mbox{threshold}$) \\ %\{ \\
+\> \> \> \quad \= fill remaining gaps in $\textit{mi}$; \\
+\> \> \> \> \myif \ (all steps of $\textit{mi}$ are instantiated) \\
+\> \> \> \> \quad \= \return \ $\textit{mi}$; \\
+\> \>  \return \ failure; %\\
+\end{tabbing}
+}
+\end{minipage}
+\end{center}
+\caption{Instantiating one macro-action.}
+\label{fig:instantiation}
+\end{figure}
+
+Figure \ref{fig:instantiation} presents the Instantiate procedure
+that instantiates one macro-action as part of an iterative macro.
+The input parameters are a macro-schema ($\textit{ms}$), a search state ($s$),
+and a set of relaxed steps
+(i.e., the original relaxed plan minus the already used steps).
+The main loop iterates through all actions that could be used as 
+the first step of the macro $\textit{ms}$
+(i.e., are applicable to $s$ and are instantiations of the first macro's operator).
+% These elements are returned with function $\mbox{Cons}(ms, 1, s)$.
+
+For each action $a \in \mbox{Cons}(\textit{ms}, 1, s)$,
+the method $\mbox{Matching}(a, \textit{ms}, s, \textit{RS})$ creates a partial instantiation
+of $\textit{ms}$ with first step $a$, followed by
+zero or more steps instantiated with elements from $\textit{RS}$,
+and zero or more uninstantiated steps
+(see Figure~\ref{fig:matching} and a discussion later).
+If the number of relaxed steps is below a given threshold, 
+the corresponding partial instantiation is abandoned.
+Otherwise, an attempt is made to fill the remaining gaps (uninstantiated steps)
+with \emph{any} consistent actions.
+% For each gap, the first consistent action that is found is greedily added to the macro,
+% without exploring other alternatives.
+As soon as a complete instantiation is built, the method returns
+without considering any other possible outcomes.
+For simplicity, the pseudo-code skips the details of how the 
+threshold is computed.
+An effective heuristic is to set the threshold to the largest matching
+encountered when the $\textit{ms}$ macro-schema is used as a parameter,
+regardless of the values of the other parameters $a$, $s$ and $\textit{RS}$.
+% Before the main loop shown in Figure \ref{fig:instantiation},
+% \[\max_{a \in \mbox{Cons}(ms, 1, s)}\mbox{Matching}(a, ms, s, RS)\]
+% is computed and the threshold is updated if a new maximum is found.
+
+% The matching is an important heuristic of our method, since it allows an
+% iterative macro instantiation to follow the guidance given by a relaxed plan.
+The matching attempts to use as 
+many elements from $\textit{RS}$ as possible in a macro instantiation.
+An exact computation of the maximal value can be expensive,
+since it might require enumerating many possible instantiations of $\textit{ms}$
+applicable to a state.
+Instead, the greedy procedure presented in Figure~\ref{fig:matching}
+tries, at step $i, 2 \leq i \leq \mbox{length}(\textit{ms})$,
+to commit to using a
+relaxed step $\textit{rp}$ for instantiating $\textit{mi}[i]$.
+If no such step exists
+(i.e., $\textit{RS} \cap \mbox{Cons}(\textit{mi}, i, s) = \emptyset$), then
+$\textit{mi}[i]$ is left uninstantiated.
+Otherwise, an element from $\textit{RS} \cap \mbox{Cons}(\textit{mi}, i, s)$
+is selected using a heuristic test (see the pseudo-code for details).
+In practice, the number of consistent actions quickly
+decreases as new steps are instantiated, since each new step
+can introduce additional binding constraints.
+
+% It can be proven that  the algorithm
+% shown in Figures~\ref{fig:composition}--\ref{fig:matching}
+% terminates when a threshold %$T$
+% is initialized to a value no smaller than 1.
+% The idea is quite simple: since each instantiation of a macro consumes
+% at least one action from the initial relaxed plan, eventually no relaxed
+% steps will be left for new instantiations.
+% We will include a more formal proof in a longer report on this work.
+% 
+% A more formal proof sketch is the following.
+% At each iteration of the main loop in Figure~\ref{fig:composition},
+% two things can happen:
+% either no macro instantiation succeeds and the algorithm exits, 
+% or one instantiation succeeds and the loop restarts.
+% In the latter case, $|RS|$ strictly decreases from one iteration to the next.
+% Indeed, a macro instantiation succeeds only if the number $r$ of steps 
+% instantiated from $RS$ satisfies
+% $|RS| \geq r \geq T \geq 1$.
+% In this case, $r$ elements from $RS$ are added to the new instantiation,
+% and are marked as used.
+% Hence, at the next iteration $RS$ has $r$ fewer elements.
+% Assuming that the algorithm never terminates, 
+% there would come a time when $1 > |RS| \geq T \geq 1$,
+% which is a contradition.
+
+\begin{figure}[t]
+\begin{center}
+\begin{minipage}[c]{\textwidth}
+\footnotesize{
+\begin{tabbing}
+\hspace{0.0em} \= Matching($a, \textit{ms}, s, \textit{RS}$) \\% \{ \\
+\> \quad \= $\textit{mi} \leftarrow \textit{ms}$; // create local partial instantiation \\
+\> \> $\textit{mi}[1] \leftarrow a$; \\
+\> \quad \= \for \ ($i = 2 \mbox{ to length}(\textit{ms})$) \\ %\{ \\
+\> \> \quad \= \myif \ ($\mbox{Cons}(\textit{mi}, i, s) \cap \textit{RS} = \emptyset$) \\ %\{ \\
+\> \> \> \quad \= \continue; // leave $\textit{mi}[i]$ uninstantiated \\
+\> \> \quad \= \for \ (each $\textit{rp} \in \mbox{Cons}(\textit{mi}, i, s) \cap \textit{RS}$) \\ %\{ \\
+\> \> \> \quad \= undo the instantiation of $\textit{mi}[i]$, if any; \\
+\> \> \> \quad \= $\textit{mi}[i] \leftarrow \textit{rp}$; \\
+\> \> \> \quad \= count how many subsequent positions $j$ \\
+\> \> \> \> \quad \= can be filled with elements from $\mbox{Cons}(\textit{mi}, j, s) \cap \textit{RS}$;\\
+\> \> \> select the element $\textit{rp}$ with the highest count value; \\
+\> \> \> undo the instantiation of $\textit{mi}[i]$; \\
+\> \> \> $\textit{mi}[i] \leftarrow \textit{rp}$; \\
+\> \> \return \ $\textit{mi}$; %\\
+\end{tabbing}
+}
+\end{minipage}
+\end{center}
+\caption{Matching a macro instantiation with a relaxed plan.}
+\label{fig:matching}
+\end{figure}
+
+\section{Experimental Results}
+\label{experimental results}
+
+\begin{figure*}
+\begin{center}
+\includegraphics[width=.33\textwidth]{satellitenodes.ps}
+\includegraphics[width=.33\textwidth]{blocksnodes.ps}
+\includegraphics[width=.33\textwidth]{roversnodes.ps}
+\includegraphics[width=.33\textwidth]{opticalnodes.ps}
+\includegraphics[width=.33\textwidth]{philosophersnodes.ps}
+\includegraphics[width=.33\textwidth]{depotsnodes.ps} 
+\includegraphics[width=.33\textwidth]{airportnodes.ps} 
+\includegraphics[width=.33\textwidth]{zenonodes.ps}
+\includegraphics[width=.33\textwidth]{driverslognodes.ps} 
+\includegraphics[width=.33\textwidth]{freecellnodes.ps}
+\includegraphics[width=.33\textwidth]{pipesnnnodes.ps}
+\caption{Search effort as expanded nodes.
+Problem sets are ordered so that the ``No Macros'' curve
+is monotonically increasing.}
+\label{fig:searchnodes}
+\end{center}
+\end{figure*}
+
+Classic and iterative macros were implemented on top of {\sc FF} \cite{Hoffmann:01a}.
+{\sc FF~3.4} handles both STRIPS and ADL domains,
+but not numeric variables, axioms, or temporal planning.
+
+This research was tested on a large set of benchmarks from
+previous international planning competitions.
+Both STRIPS (Satellite, Blocksworld, Rovers, Depots, Zeno Travel, DriverLog,
+Freecell,  Pipesworld No Tankage Nontemporal,
+Pipesworld Tankage Nontemporal)
+and ADL (Promela Dining Philosophers, Promela Optical Telegraph,
+Airport, Power Supply Restoration Middle Compiled---PSR)
+representations were used.
+
+Experiments were run on a 3.2GHz machine,
+with a CPU limit of 5 minutes and a memory limit of 1GB for each problem instance.
+Planning with iterative macros, planning with classical macros,
+and planning with no macros were compared.
+To plan with classical macros,
+the length of an iterative macro was limited to one macro instantiation.
+Results are shown for 11 of the 13 domains. 
+In the two remaining domains, PSR and Pipes Tankage, no macros were learned,
+since their performance on the training set was worse than low-level search
+(see Section~\ref{static filtering} for details).
+
+Figure \ref{fig:searchnodes} shows the number of expanded nodes in each domain
+on a logarithmic scale for each of no macros, classical macros and iterative macros.
+Note that some lines are missing a data point---this represents a problem instance
+that was not solved by that planner.
+
+When analyzing the expanded nodes performance,
+the tested application domains can roughly be split into two categories.
+In the first category of eight benchmarks
+(all $11$, less DriverLog, Freecell and Pipesworld),
+planning with macros is much better than low-level search.
+Iterative macros are better than classical macros, with the notable exception
+of Philosophers, where both kinds of macros perform similarly.
+In this application domain, classical macros are enough to achieve impressive savings,
+and there is little room for further improvement.
+In Zeno Travel, the savings in the search tree size
+come at the price of a relatively large increase in solution length.
+See Figure~\ref{fig:sol-and-cpn} and a discussion later.
+When comparing iterative macros vs classical macros,
+in domains Satellite, Blocksworld, Rovers, Depots, and Airport
+a reduction in the number of expanded nodes by at least an order of magnitude
+is seen for the hard problem instances.
+
+In the second category, the benefits of macros are more limited.
+In DriverLog, macros are usually faster, 
+but there are a few exceptions such as data point 7 on the horizontal axis,
+where classical macros fail and iterative macros are much slower than low-level search.
+In Freecell, classical macros and iterative macros have similar performance in all
+instances.
+For many Freecell problems, planning with macros is similar to planning with no macros.
+When differences are encountered, 
+the savings are more frequent and much larger as compared to
+cases where macros are slower than low-level search.
+Finally, in Pipesworld No Tankage the performance of macros
+compared to low-level search varies significantly in both directions.
+Iterative macros are faster than classical macros,
+but the latter solve one more problem.
+No clear conclusion is drawn for this domain.
+Further analysis of these three domains is left as future work.
+
+Macros often lead to solving more problems than low-level search.
+Given a domain, assume $P_{\textit{im}}$, $P_{\textit{cm}}$ and $P$
+are the numbers of problems solved with iterative macros,
+classical macros, and no macros respectively.
+For our data sets and time constraints,
+the value of $(P_{\textit{im}} - P, P_{\textit{cm}} - P)$ is $(1,1)$ in Satellite, $(3,2)$ in Blocksworld,
+$(37,34)$ in Optical, $(36,36)$ in Philosophers, $(5,5)$ in Zeno Travel, 
+$(3,2)$ in DriverLog, and $(1,1)$ in Freecell, and $(0,1)$ in Pipesworld.
+
+\begin{figure}
+\begin{center}
+\includegraphics[width=.45\textwidth]{solquality.ps}
+\includegraphics[width=.45\textwidth]{costpernode.ps}
+\caption{Effects of macros on solution quality (top) and cost per node in search (bottom).
+The two-point clusters correspond in order to (1) Satellite, (2) Optical,
+(3) Philosophers, (4) Rovers, (5) Depots, (6) Airport, (7) Blocksworld,
+(8) Zeno Travel, (9) DriverLog, (10) Freecell, and (11) Pipesworld.}
+\label{fig:sol-and-cpn}
+\end{center}
+\end{figure}
+
+Figure \ref{fig:sol-and-cpn} illustrates how macros affect the quality of solutions and 
+the cost per node in search. Each chart has 11 two-point clusters, one for each domain.
+First, consider the top chart.
+Given a problem instance, assume $L_{\textit{im}}$, $L_{\textit{cm}}$, 
+and $L$ are the lengths of solutions 
+when iterative macros, classical macros, and no macros are used respectively,
+$R_{\textit{im}} = L_{\textit{im}}/L$ and $R_{\textit{cm}} = L_{\textit{cm}}/L$.
+The leftmost data point of a cluster shows the average, minimum,
+and maximum value of $R_{\textit{im}}$
+over the problem set of the corresponding domain.
+The rightmost data point shows similar statistics for $R_{\textit{cm}}$.
+Macros slightly improve the average solution length in Freecell
+and leave it unchanged in Optical and Philosophers.
+In all domains but Zeno Travel, the average overhead is at most 20\% for
+iterative macros and at most 12\% for classical macros.
+
+The bottom chart in Figure \ref{fig:sol-and-cpn} presents similar statistics for 
+the cost per node $C = \frac{\mbox{search time}}{\mbox{expanded nodes}}$
+instead of solution length $L$.
+To include a problem instance into the statistics, it has to be solved by
+both the corresponding type of macros and the low-level search within a time
+larger than $0.05$ seconds.
+We included the time threshold for better accuracy of the statistics.
+There always is a small noise in the reported CPU time and,
+if the total time is in the same order as the noise, the cost per node measurement
+becomes unreliable. 
+No statistics could be collected for Philosophers (both kinds of macros)
+and for Blocksworld (iterative macros), where macros solve problems very fast.
+
+% JS -- Next paragraph says time overhead is a "small factor".
+% In Depots, that "small factor" is 7! Not small by most people's standards.
+
+Processing a node in low-level search includes computing a relaxed plan
+and checking whether that node has been visited before.
+Macros add the overhead of their instantiation.
+% The cost per node increases only by a small factor,
+% whereas Figure~\ref{fig:searchnodes} often shows
+% exponential savings in terms of expanded nodes.
+Even if much smaller than the expanded nodes savings shown 
+in Figure~\ref{fig:searchnodes},
+the overhead can be surprisingly high.
+Profiling tests have shown that the main bottleneck in the current
+implementation of macros is attempting to fill
+gaps in a partial instantiation 
+(Figure~\ref{fig:instantiation}, line~5).
+Fortunately, this step can be implemented much more efficiently.
+When looking for a consistent action to fill a gap,
+the corresponding operator schema is known from the structure
+of the macro.
+Often, the values of all variables are already set by the previously instantiated steps.
+This would be enough to determine the corresponding instantiated
+action.
+However, to the best of our knowledge, no mapping
+from an operator together with a list of instantiated arguments to the resulting
+ground action is available in {\sc FF} at search time.
+Instead, our current implementation generates states along a macro instantiation
+and calls {\sc FF}'s move generator when a gap has to be filled.
+If an applicable action exists that is consistent with the current partial instantiation,
+it is used to instantiate the given step in the macro.
+
+% The overhead to instantiate an iterative macro is 
+% linear in the number of instantiated macros 
+% (factor 1, see the outer loop in Figure~\ref{fig:composition}),
+% linear in the number of macro-schemas
+% (factor 2, see the inner loop in Figure~\ref{fig:composition}),
+% and cubic in the length of one
+% macro-instantiation included in an iterative macro (factor 3, 
+% see Figure~\ref{fig:instantiation}).
+% The effect of factor 1 is that 
+% iterative macros often have a larger cost than classical macros.
+% Factor 2 keeps the cost rate relatively small in Freecell and Pipesworld, where
+% only one macro-schema is learned.
+% The cost per node can be reduced with a more efficient implementation.
+% For example, as soon as all variables of a partial macro instantiation
+% have been replaced by constant arguments, all steps of the macro are known.
+% and operations such as computing the matching and filling positions become trivial.
+
+\section{Conclusion}
+\label{conclusion}
+This paper describes how macros of macro-actions, called iterative macros,
+can be used to speed up domain independent planning.
+Techniques for static filtering, dynamic composition and pruning of iterative macros
+have been introduced to turn the trade-off between the benefits and the limitations
+of iterative macros in favor of the former.
+Experiments in several standard benchmarks demonstrate 
+impressive savings that iterative macros can achieve as compared to
+low-level search and even to a search enhanced with classical macros.
+Worst-case behavior and solution quality remain acceptable.
+
+Future work includes faster processing per node when searching with macros.
+% Static filtering can be extended
+% to consider the impact of macros not only on the expanded nodes,
+% but also on the quality of solutions.
+Another avenue of research is to investigate how iterative macros and relaxed plans
+interact with each other, and how macros can be used to improve the
+accuracy of the heuristic state evaluation.
+Based on macros' success in classical planning, 
+research should be done on using macros in areas
+such as temporal planning and planning with uncertainty.
+
+\begin{thebibliography}{}
+
+\bibitem[\protect\citeauthoryear{Botea \bgroup \em et al.\egroup
+  }{2005}]{Botea:05}
+A.~Botea, M.~M\"{u}ller, and J.~Schaeffer.
+\newblock {Learning Partial-Order Macros From Solutions}.
+\newblock In {\em ICAPS-05}, pages 231--240, 2005.
+
+\bibitem[\protect\citeauthoryear{Coles and Smith}{2005}]{Coles:05}
+A.~Coles and A.~Smith.
+\newblock {On the Inference and Management of Macro-Actions in Forward-Chaining
+  Planning}.
+\newblock In {\em UK Planning and Scheduling SIG}, 2005.
+
+\bibitem[\protect\citeauthoryear{Fikes and Nilsson}{1971}]{Fikes:71}
+R.~Fikes and N.~Nilsson.
+\newblock {STRIPS}: {A} {N}ew {A}pproach to the {A}pplication of {T}heorem
+  {P}roving to {P}roblem {S}olving.
+\newblock {\em Artificial Intelligence}, 5(2):189--208, 1971.
+
+\bibitem[\protect\citeauthoryear{Hern{\'{a}}dv\"{o}lgyi}{2001}]{Hernadvolgyi:0%
+1}
+I.~Hern{\'{a}}dv\"{o}lgyi.
+\newblock {S}earching for {M}acro-operators with {A}utomatically {G}enerated
+  {H}euristics.
+\newblock In {\em Canadian Conference on AI}, pages 194--203, 2001.
+
+\bibitem[\protect\citeauthoryear{Hoffmann and Nebel}{2001}]{Hoffmann:01a}
+J.~Hoffmann and B.~Nebel.
+\newblock {T}he {FF} {P}lanning {S}ystem: {F}ast {P}lan {G}eneration {T}hrough
+  {H}euristic {S}earch.
+\newblock {\em JAIR}, 14:253--302, 2001.
+
+\bibitem[\protect\citeauthoryear{Iba}{1989}]{Iba:89}
+G.~Iba.
+\newblock {A Heuristic Approach to the Discovery of Macro-Operators}.
+\newblock {\em Machine Learning}, 3(4):285--317, 1989.
+
+\bibitem[\protect\citeauthoryear{Junghanns and Schaeffer}{2001}]{Junghanns:01}
+A.~Junghanns and J.~Schaeffer.
+\newblock {S}okoban: {E}nhancing {S}ingle-{A}gent {S}earch {U}sing {D}omain
+  {K}nowledge.
+\newblock {\em Artificial Intelligence}, 129(1--2):219--251, 2001.
+
+\bibitem[\protect\citeauthoryear{Korf}{1983}]{Korf:83}
+R.~Korf.
+\newblock {\em {Learning to Solve Problems by Searching for Macro-Operators}}.
+\newblock PhD thesis, Carnegie-Mellon University, 1983.
+
+\bibitem[\protect\citeauthoryear{Korf}{1985}]{Korf:85}
+R.~Korf.
+\newblock {{Macro-Operators: A Weak Method for Learning}}.
+\newblock {\em Artificial Intelligence}, 26(1):35--77, 1985.
+
+\bibitem[\protect\citeauthoryear{McCluskey and Porteous}{1997}]{McCluskey:97}
+T.~L. McCluskey and J.~Porteous.
+\newblock {Engineering and Compiling Planning Domain Models to Promote Validity
+  and Efficiency}.
+\newblock {\em {Artificial Intelligence}}, 95:{1--65}, 1997.
+
+\bibitem[\protect\citeauthoryear{Minton}{1985}]{Minton:85}
+S.~Minton.
+\newblock {S}electively {G}eneralizing {P}lans for {P}roblem-{S}olving.
+\newblock In {\em IJCAI-85}, pages 596--599, 1985.
+
+\bibitem[\protect\citeauthoryear{Mooney}{1988}]{Mooney:88}
+R.~Mooney.
+\newblock {Generalizing the Order of Operators in Macro-Operators}.
+\newblock In {\em ICML}, pages 270--283, 1988.
+
+\bibitem[\protect\citeauthoryear{Newton \bgroup \em et al.\egroup
+  }{2005}]{Newton:05}
+M.~Newton, J.~Levine, and M.~Fox.
+\newblock {Genetically Evolved Macro-Actions in AI Planning}.
+\newblock In {\em UK Planning and Scheduling SIG}, 2005.
+
+\bibitem[\protect\citeauthoryear{Vidal}{2004}]{Vidal:04}
+V.~Vidal.
+\newblock {A} {L}ookahead {S}trategy for {H}euristic {S}earch {P}lanning.
+\newblock In {\em ICAPS-04}, pages 150--159, 2004.
+
+\end{thebibliography}
+
+% \bibliography{ref}
+% \bibliographystyle{named}
+
+\end{document}
