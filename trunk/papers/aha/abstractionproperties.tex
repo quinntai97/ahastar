@@ -1,14 +1,14 @@
 \begin{lemma}
 \label{aha-lemma:maxnodes}
 Let $V_{abs}$ represent the set of nodes in an abstract graph of a gridmap which is perfectly divisible into $c \times c$ clusters, each of size $n \times n$. Then, in the worst case, the total number of nodes is given by:
-$$|V_{abs}| = 4(2n-1) + (4c - 4)(3n-2) + (c-1)^2(4n-4)$$
+$$|V_{abs}| = 4(2n-1) + (4c - 8)(3n-2) + (c-2)^2(4n-4)$$
 \end{lemma}
 
 \begin{proof}
 Each transition point results in two nodes in the abstract graph. 
 If there are no hard obstacles and every pair of nodes along the adjacent border between two clusters has different terrain type then there will be a maximal number of transition points. 
-In this scenario, clusters in the middle of the map, of which there are $(c-1)^2$, have 4 neighbours and each one contains $4n-4$ nodes. 
-Clusters on the perimeter of the map (excluding corners), of which there are $4c-4$, have 3 neighbours and $3n-2$ nodes. 
+In this scenario, clusters in the middle of the map, of which there are $(c-2)^2$, have 4 neighbours and each one contains $4n-4$ nodes. 
+Clusters on the perimeter of the map (excluding corners), of which there are $4c-8$, have 3 neighbours and $3n-2$ nodes. 
 Corner clusters, of which there are 4, have 2 neighbours and each contains $2n-1$ nodes.
 \end{proof}
 

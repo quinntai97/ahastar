@@ -17,7 +17,7 @@ PS2PDF=ps2pdf14
 BIBTEX=bibtex
 
 LATEX_OPTS=-interaction=nonstopmode -halt-on-error
-DVIPS_OPTS=-Ppdf -t letter -G0
+DVIPS_OPTS=-Ppdf -t letter
 PS2PDF_OPTS=-dPDFSETTINGS=/prepress -dSubsetFonts=true -dEmbedAllFonts=true
 NUM=""
 
@@ -28,7 +28,7 @@ RERUNBIB = "No file.*\.bbl|Citation.*undefined"
 .PHONY: all clean
 
 
-all: ahastar.tex references.bbl again
+all: ahastar.tex references.bbl again embeded
 
 ahastar: ahastar.pdf *.tex
 
@@ -49,3 +49,5 @@ again:
 clean:
 	+rm -fv ahastar.{dvi,ps,pdf,aux,log,bbl,blg}
 
+embeded:
+	 ps2pdf -dCompatibilityLevel=1.4 -dPDFSETTINGS=/prepress ahastar.pdf embeded-ahastar.pdf
