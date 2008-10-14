@@ -7,7 +7,7 @@ An octile can have several clearance values associated with it, one for each cap
 %On a grid map, a clearance value is perhaps best explained as representing the length or width of a square that begins at some octile being evaluated and is expanded symmetrically to the right and down until it intersects an obstacle.     
 
 To make our ideas easier to follow, we will use as a running example a simple environment featuring two terrain types: Ground (represented as white tiles) and Trees (represented as grey tiles). 
-To distinguish traversable tiles from non-traversable tiles we will colour hard obstacles black. 
+To distinguish traversable tiles from non-traversable tiles (hard obstacles) we will colour the latter in black. 
 The set of capabilities, $C$, required to traverse such a map is thus defined as $C = \lbrace \lbrace \textit{Ground} \rbrace, \lbrace \textit{Trees} \rbrace, \lbrace \textit{Ground} \vee \textit{Trees} \rbrace \rbrace$. 
 We will work with agents of two sizes traversing across this environment and thus let $S = \lbrace 1, 2 \rbrace$.
 \par \indent
@@ -30,7 +30,7 @@ Similarly, Figure \ref{aha-fig:annotations}(f) and Figure \ref{aha-fig:annotatio
 \end{figure}
 
 Once a clearance value is derived we store it in memory and repeat the entire procedure for each capability $c \in C$.  
-The algorithm terminates when all octiles $t \in gridmap$ have been considered. 
+The algorithm terminates when all octiles on the gridmap have been considered. 
 The worst-case space complexity associated with computing clearance values in this fashion is thus characterised by: 
 \begin{lemma}
 \label{aha-lemma:numannotations}
