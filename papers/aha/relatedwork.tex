@@ -7,15 +7,15 @@ Both HPA* and PRA* are focused on solving planning problems for homogeneous agen
 Our technique is similar to HPA* but we extend that work to solve a wider range of problems. 
 \par 
 \indent In robotics, force potentials help autonomous robots find collision-free paths through an environment. The basic intution is that a robot is attracted to the far-away goal and repulsed away from obstacles as it nears them. A well known method for potential-based path planning is the Brushfire algorithm \cite{latombe91}, which proceeds by annotating each tile on a gridmap with the distance to the nearest obstacle. This embedded information allows the robot to calculate repulsive potentials and makes it possible to plan using a gradient descent strategy. 
-Brushfire is similar to AHA* in that the annotations it produces allow an agent to know something about its proximity to a nearby obstacle. 
-AHA* differs by explicitly calculating the maximal size of traversable space at each location on the map. 
-Furthermore, unlike Brushfire, AHA* does not suffer from incompleteness which can occur when repulsive forces cancel each other out and lead the robot into a local minimum. 
+Brushfire is similar to HAA* in that the annotations it produces allow an agent to know something about its proximity to a nearby obstacle. 
+HAA* differs by explicitly calculating the maximal size of traversable space at each location on the map. 
+Furthermore, unlike Brushfire, HAA* does not suffer from incompleteness which can occur when repulsive forces cancel each other out and lead the robot into a local minimum. 
 \par
 \indent The Corridor Map Method (CMM) \cite{geraerts07} is a recently introduced path planner able to answer queries for multi-size agents by using a \emph{probabilistic roadmap} to represent map connectivity. 
 The roadmap (or backbone path) is comprised of nodes which are annotated with clearance information that indicates the radius of a maximally sized bounding sphere before an obstacle is encountered. 
 Nodes are placed on the roadmap by creating Voronoi regions to split the map and identify locations that maximise local distance from fixed obstacles. 
 %\par \indent
-Like CMM, AHA* calculates the amount of traversable space at a given location but our approach is adapted to grid environments, which are simpler to create than roadmaps and more commonly found in a range of applications. 
+Like CMM, HAA* calculates the amount of traversable space at a given location but our approach is adapted to grid environments, which are simpler to create than roadmaps and more commonly found in a range of applications. 
 Another key difference is that we allow fine-grain control over the size of the abstract graph; CMM abstractions have a fixed size.
 Finally, we deal with multi-terrain cases making our method more information rich. 
 \par \indent 
