@@ -46,10 +46,9 @@ We achieve this by running multiple AA* searches $\forall (c, s) : c \in C, s \i
 Once a path is found we annotate the new edge, $e_{\textit{intra}}$, with the capability and clearance parameters used by AA* and set its weight equal to the cost of the path. 
 The algorithm terminates when all clusters have been considered. 
 \par \indent
-We thus construct an abstract \emph{multi-graph} in which each edge $e$ is annotated with a single clearance value $cv(e, c_{e})$ where $c_{e} \in C$.
-Each $e \in E_{abs}$ is traversable by an agent $a$ iff:
-$$ cv(e, c_{a}) \geq s_{a} : c_{e} \subseteq c_{a} \in C, s_{a} \in S$$
-where $c_{a}$ represents the capability of the agent and $s_{a}$ its size.
+We thus construct an abstract \emph{multi-graph} in which each edge $e$ is annotated with a capability $c_e$ and a clearance value $cv(e, c_{e})$.
+Each $e \in E_{abs}$ is traversable by an agent $a$ of size $s_{a}$ and capability $c_{a}$ iff
+$ c_{e} \subseteq c_{a} \wedge cv(e, c_{e}) \geq s_{a}$.
 We term the resultant abstraction $initial$ and give the following lemmas to characterise its space complexity:
 
 \input abstractionproperties

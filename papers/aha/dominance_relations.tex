@@ -11,16 +11,16 @@ In such cases we say that $E3$ and $E4$ are \emph{strongly dominant}, which we d
 This is an irreflexive and asymmetrical relationship between edges which we formalise with the following theorem: 
 \begin{theorem}
 \label{aha-theorem:strongdominance}
-Let $\lbrace e_{a}, e_{b} \rbrace \in E_{abs}$ be two edges which connect the same pair of abstract nodes and are annotated with capabilities $c_{a} \subseteq c_{b} \in C$ such that: 
+Let $\lbrace e_{a}, e_{b} \rbrace \in E_{abs}$ be two distinct edges which connect the same pair of abstract nodes and are annotated with capabilities $c_{a} \subseteq c_{b}$ such that: 
 % AB: I removed the 1 \geq condition below
-%$$ 1 \geq cv(e_{a}, c_{b}) \geq cv(e_{b}, c_{b}) \wedge weight(e_{a}) = weight(e_{b})$$
-$$ cv(e_{a}, c_{b}) \geq cv(e_{b}, c_{b}) \wedge weight(e_{a}) = weight(e_{b})$$
+%$$ 1 \geq cv(e_{a}, c_{a}) \geq cv(e_{b}, c_{b}) \wedge weight(e_{a}) = weight(e_{b})$$
+$$ cv(e_{a}, c_{a}) \geq cv(e_{b}, c_{b}) \wedge weight(e_{a}) = weight(e_{b})$$
 Then $e_{a} \succ e_{b}$ and we may remove $e_{b}$ from $E_{abs}$ without loss of generality or optimality.
 \end{theorem}
 \begin{proof}
 % need extra stuff to explain why e_{b} can never be longer thab e_{a} if capability dominance holds?
 Since $c_{a} \subseteq c_{b}$, it must be the case that any agent with the correct capability to traverse $e_{b}$ must be likewise able to traverse $e_{a}$.
-Further, if $cv(e_{a}, c_{b}) \geq cv(e_{b}, c_{b})$ holds, it must also be the case that any agent large enough to traverse $e_{b}$ is also large enough to traverse $e_{a}$.
+Further, if $cv(e_{a}, c_{a}) \geq cv(e_{b}, c_{b})$ holds, it must also be the case that any agent large enough to traverse $e_{b}$ is also large enough to traverse $e_{a}$.
 These conditions are sufficient to preserve generality.
 Finally, since $e_{a}$ is equal in weight to $e_{b}$, we cannot lose optimality by removing $e_{b}$.
 \end{proof}
@@ -53,8 +53,9 @@ In this example we can see that, although edges $E1$ and $E2$ have different tra
 In such cases we say $E1$ is \emph{weakly dominant} and denote it as $E1 \succsim E2$. 
 Notice also that $E3 \succsim E4$, $E6 \succsim E7$, $E10 \succsim E8$ and $E10 \succsim E9$.
 \par \indent
-As with theorem \ref{aha-theorem:strongdominance}, this relationship is irreflexive and asymmetric.
-Unlike strong dominance however, only representational completeness (and not optimality) is retained. 
+%AB: I remove the next sentence as E6 and E7 seem to be in a symmetric relationship of weak domm.
+%As with theorem \ref{aha-theorem:strongdominance}, this relationship is irreflexive and asymmetric.
+Unlike the case of strong dominance, only representational completeness (and not optimality) is retained. 
 We formalise it as:
 \begin{theorem}
 \label{aha-theorem:weakdominance}
@@ -63,8 +64,9 @@ Denote the inter-edges associated with these node pairs as $\lbrace e_{wx}, e_{y
 %Further, assume there exists an intra edge $e_{wy} \in E_{abs}$ connecting nodes $w_{a}, y_{a}$ and another intra-edge $e_{xz} \in E_{abs}$ connecting $x_{a}, y_{a}$.
  In this scenario, $e_{wx} \succsim e_{yz}$ iff the following conditions are met:
 \begin{enumerate}
-\item{The capability dominance condition: $cv(e_{wx}, c_{yz}) \geq cv(e_{yz}, c_{yz})$}.
-\item{The circuit condition: $\exists e_{wy}, e_{xz} \in E_{abs}$ which connect $\lbrace w_{a}, y_{a} \rbrace$ and $\lbrace x_{b}, z_{b} \rbrace$ such that $cv(e_{wy}, c_{yz}) \geq cv(e_{yz}, c_{yz})$ and $cv(e_{xz}, c_{yz}) \geq cv(e_{yz}, c_{yz})$.}
+\item{The clearance dominance condition: $cv(e_{wx}, c_{wx}) \geq cv(e_{yz}, c_{yz})$}.
+\item{The circuit condition: $\exists e_{wy}, e_{xz} \in E_{abs}$, annotated with the capabilities $c_{wy} \subseteq c_{yz}$ and $c_{xz} \subseteq c_{yz}$,
+which connect $\lbrace w_{a}, y_{a} \rbrace$ and $\lbrace x_{b}, z_{b} \rbrace$ such that $cv(e_{wy}, c_{wy}) \geq cv(e_{yz}, c_{yz})$ and $cv(e_{xz}, c_{xz}) \geq cv(e_{yz}, c_{yz})$.}
 \end{enumerate}
 Then, any location which can be reached by traversing $e_{yz}$ can also be reached via $e_{wx}$.
 \end{theorem}
@@ -78,12 +80,12 @@ Thus, any destination an agent can reach via $e_{yz}$ can also be reached via $e
 If $e_{wx} \succsim e_{yz}$, then $y_{a}$ and $z_{b}$ and are also dominated and can be removed, unless required by another (non-dominated) inter-edge. 
 \end{corollary}
 \begin{proof}
-If $y_{a}$ and $z_{b}$ are required by a non-dominated inter-edge, we cannot remove them without violating the capability dominance condition which is required to retain representational completeness. 
+If $y_{a}$ and $z_{b}$ are required by a non-dominated inter-edge, we cannot remove them without violating the clearance dominance condition which is required to retain representational completeness. 
 If this is not the case however, we know by the circuit condition that any node reachable by an intra-edge via $y_{a}$ or $z_{b}$ is also reachable via the endpoints of $e_{wx}$. 
 Thus, both nodes and any associated intra-edges dependent on them can be safely removed.
 \end{proof}
 In many situations, multi-terrain inter-edges tend to be associated with very large clearances; much larger than the size of our largest agent.
-This unnecessarily limits the applicability of the capability dominance condition from theorem \ref{aha-theorem:weakdominance}. 
+This unnecessarily limits the applicability of the clearance dominance condition from theorem \ref{aha-theorem:weakdominance}. 
 Leveraging the fact that $s_M = \max_{s \in S} s$ is known, we can maximise the number of edges which are weakly dominated by applying the following truncation condition to $E_{abs}$ before theorem \ref{aha-theorem:weakdominance}:
 $$
 \forall e \in E_{abs} (cv(e, c_{e}) > s_M \Rightarrow cv(e, c_{e}) \leftarrow s_M) 
