@@ -17,7 +17,7 @@ PS2PDF=ps2pdf14
 BIBTEX=bibtex
 
 LATEX_OPTS=-interaction=nonstopmode -halt-on-error
-DVIPS_OPTS=-Ppdf -t letter
+DVIPS_OPTS=-Ppdf -t letter -G0
 PS2PDF_OPTS=-dPDFSETTINGS=/prepress -dSubsetFonts=true -dEmbedAllFonts=true
 NUM=""
 

@@ -23,14 +23,15 @@ We use a similar approach but require as a parameter $C$, the set of all capabil
 	\vspace{-9pt}
 \end{figure}
 \par \indent
-We start at the first pair of traversable tiles along the adjacent border area and extend each entrance until one of three termination conditions occurs: the end of the border area is reached, an obstacle is detected, or the clearance value of nodes along the border area in either cluster begins to increase. 
+Given a capability $c$,
+we start at the first pair of traversable tiles (i.e., tiles whose terrain type is in $c$) along the adjacent border area and extend each entrance until one of three termination conditions occurs: the end of the border area is reached, an obstacle (i.e., either a hard obstacle or a traversable tile whose type is not in $c$) is detected, or the clearance value of nodes along the border area in either cluster begins to increase. 
 The last condition is important to preserve representational completeness for large agents in cases where a cluster is partially divided by an obstacle (such as a wall) near the border.
 By leveraging clearance we are able to reason about the presence of such obstacles and build a new entrance each time we detect the amount of traversable space inside either cluster is increasing.
 \par \indent
 Once an entrance is found, we choose as the transition point the first pair of adjacent nodes in each cluster which maximise clearance for $c$.
 The clearance of a pair of adjacent nodes $(n_1, n_2)$ for a given capability $c$ is defined
 as ${cv}(n_1, n_2, c) = \min ({cv}(n_1, c), {cv}(n_2, c))$.
-Thus, we add to the graph a new edge between the two nodes, $e_{\textit{inter}}$, and annotate it with the corresponding capability and clearance value. 
+Thus, we add to the abstract graph a new edge between the two nodes, $e_{\textit{inter}}$, and annotate it with the corresponding capability and clearance value. 
 The algorithm repeats for each $c \in C$ and terminates when all adjacent clusters have been considered. 
 This ensures we identify all possible entrances for each available capability.
 \par \indent

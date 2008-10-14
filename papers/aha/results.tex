@@ -16,7 +16,7 @@ We also contrast high and low quality abstractions (denoted HQ and LQ) on a rang
 The first thing to notice is that in all cases the abstract graph is only a fraction the size of the original graph.
 As expected, larger clusters generate smaller graphs; the smallest abstractions are observed on the SO 0\% problem set using CS20. 
 In this case, using a HQ abstraction results in 4.0\% the number of nodes found in the original graph and 5.0\% edges. 
-LQ abstractions fare even better featuring just 2.0\% as many nodes and 0.9\% edges.
+LQ abstractions are even better featuring just 2.0\% as many nodes and 0.9\% edges.
 \par \indent
 The total space complexity associated with storing a graph is given by the total amount of space required to store both nodes and edges.
 If we assume each non-abstract node and edge require one byte of memory to store, then our smallest abstract graph, which contains 2 annotations per edge (capability and clearance, together requiring 1 additional byte), will have a space complexity 8.7\% the size of the original graph using a HQ abstraction and just 1.8\% using an LQ abstraction.
