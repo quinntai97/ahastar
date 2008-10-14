@@ -31,11 +31,11 @@ This is consistent with lemma \ref{aha-lemma:maxedgesincluster} and useful to un
 The linear increase in the size of LQ graphs is the result of a greater number of single-terrain entrances found as the number of soft obstacles increases (an observation consistent with lemma \ref{aha-lemma:maxnodes}).
 Increasing the density of soft obstacles in a cluster causes the circuit condition from theorem \ref{aha-theorem:weakdominance} to be less often satisfied and leads to the observed worst-case on SO~50\%.
 \par \indent
-Next we consider the performance of AHA* with respect to path quality. We measure this as:
-$$ \%error = \frac{apl - opl}{opl} \times 100 $$ where $opl$ is the length of the optimal path as calculated by AA* and $apl$ the length of the abstract path used by AHA*.
+Next we consider the performance of HAA* with respect to path quality. We measure this as:
+$$ \%error = \frac{apl - opl}{opl} \times 100 $$ where $opl$ is the length of the optimal path as calculated by AA* and $apl$ the length of the abstract path used by HAA*.
 \begin{figure}[htbp]
 	\vspace{-15pt}
-	\caption{\small{\emph{AHA* performance (HQ vs LQ abstraction)}}}
+	\caption{\small{\emph{HAA* performance (HQ vs LQ abstraction)}}}
 	\begin{center}
 		       \includegraphics[scale=0.25, trim = 20mm 17mm 20mm 5mm]{diagrams/pathquality.pdf}
 	\end{center}
@@ -43,14 +43,14 @@ $$ \%error = \frac{apl - opl}{opl} \times 100 $$ where $opl$ is the length of th
 	\vspace{-7pt}
 \end{figure}
 \par \indent
-Figure \ref{aha-fig:pathquality}(a) shows the average performance of AHA* with respect to cluster size and soft obstacles.  
+Figure \ref{aha-fig:pathquality}(a) shows the average performance of HAA* with respect to cluster size and soft obstacles.  
 Notice that HQ graphs yield a very low error; in most cases between 3-6\%. 
-Perhaps most encouraging however are the results for LQ abstractions, where in most cases AHA* performs within 6-10\% of optimal. 
+Perhaps most encouraging however are the results for LQ abstractions, where in most cases HAA* performs within 6-10\% of optimal. 
 The highest observed error in both cases occurs on SO 0\% and is due to our inter-edge placement strategy.
 In all situations the pair of nodes with maximal clearance in an entrance, which we choose as our transition point, tends to be towards the beginning of the entrance area which is not an optimal placement.
 On maps that produce low-complexity clusters of predominantly one terrain, this results in long entrances that are poorly represented by a single inter-edge.
 Increasing the amount of soft obstacles produces shorter entrances and generates more transition points, leading to a significant reduction in error. 
-It appears AHA* is so optimised for complex cases that it suffers some minor performance degradation on simpler problems. 
+It appears HAA* is so optimised for complex cases that it suffers some minor performance degradation on simpler problems. 
 \par \indent
 Interestingly, the error associated with both HQ and LQ abstractions reaches a minimum on SO 20\% before gradually increasing toward SO 50\%. 
 To better understand this phenomenon we present in Figure \ref{aha-fig:pathquality}(b) the performance of both small and large agents on HQ and LQ graphs using a fixed cluster-size of 15.
@@ -62,7 +62,7 @@ As the average entrance size shrinks, fewer inter-edges exist with clearance $>1
 Consequently, cluster traversal by large agents is often not in a straight line; the abstract paths produced frequently feature a zig-zagging effect that is responsible for the observed error and is most pronounced on SO 50\%.
 \begin{figure}[htbp]
 	\vspace{-12pt}
-	\caption{\small{\emph{AHA* total search effort (nodes expanded).}}}
+	\caption{\small{\emph{HAA* total search effort (nodes expanded).}}}
 	\begin{center}
 		       \includegraphics[scale=0.35, trim = 20mm 18mm 20mm 0mm]{diagrams/searcheffort.pdf}
 	\end{center}
@@ -71,14 +71,14 @@ Consequently, cluster traversal by large agents is often not in a straight line;
 \end{figure}
 %\input setable.tex
 \par \indent
-Finally, we turn our attention to Figure \ref{aha-fig:searcheffort}, where we evaluate AHA* using a search effort metric.
-Here we contrast the total number of nodes expanded by AHA* (during insertion, hierarchical search and refinement phases) with AA* on both HQ and LQ graphs.
+Finally, we turn our attention to Figure \ref{aha-fig:searcheffort}, where we evaluate HAA* using a search effort metric.
+Here we contrast the total number of nodes expanded by HAA* (during insertion, hierarchical search and refinement phases) with AA* on both HQ and LQ graphs.
 We focus on the SO 20\% problem set in order to analyse the effect on search effort as path length increases but note that similar trends hold for the other problem sets.
 \par \indent
 Looking at Figure \ref{aha-fig:searcheffort}(a) we observe that agents using HQ graphs featuring large cluster-sizes are disadvantaged in this test. 
-The insertion effort required to connect start and goal to each abstract node in their local clusters heavily dominates the total effort causing AHA* CS20 to trail AA* for problems up to length 250.
+The insertion effort required to connect start and goal to each abstract node in their local clusters heavily dominates the total effort causing HAA* CS20 to trail AA* for problems up to length 250.
 We can see the gap between CS20 and the smaller cluster sizes decrease as the problem size grows.
 % but our benchmark set of experiments are not hard enough for such coarse-grain map decompositions to be advantageous. 
 By comparison, in Figure \ref{aha-fig:searcheffort}(b) we see that the difference is less pronounced using LQ graphs (there are less abstract nodes per cluster). However, it appears CS10 or CS15 are more suitable choices for problems up to our maximum length, 450.
-The average time required to compute a solution was observed to have very similar trends to those shown in Figure \ref{aha-fig:searcheffort}; on this particular dataset AHA* averaged 6.3ms and 3.7ms using HQ and LQ graphs respectively.
+The average time required to compute a solution was observed to have very similar trends to those shown in Figure \ref{aha-fig:searcheffort}; on this particular dataset HAA* averaged 6.3ms and 3.7ms using HQ and LQ graphs respectively.
 This further reiterates the applicability of our technique to real-world applications such as games, where computational resources available for path planning are highly constrained. 
