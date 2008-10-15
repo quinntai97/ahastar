@@ -26,10 +26,10 @@ Moving from CS10 to CS20 reduces the worst-case space complexity of HQ graphs to
 \par \indent
 Interestingly, if we use the number of nodes as an indicator for the number of inter-edges in a graph, we may deduce that most HQ graphs are predominately composed of intra-edges. 
 The exact number depends on the density of soft obstacles in clusters; less dense clusters (as found on SO 20\%) result in more intra-edges as more unique paths (of differing sizes and capabilities) are found between each pair of abstract nodes. 
-This is consistent with lemma \ref{aha-lemma:maxedgesincluster} and useful to understanding the worst-case behaviour of HQ abstractions.
+This is consistent with Lemma \ref{aha-lemma:maxedgesincluster} and useful to understanding the worst-case behaviour of HQ abstractions.
 \par \indent
-The linear increase in the size of LQ graphs is the result of a greater number of single-terrain entrances found as the number of soft obstacles increases (an observation consistent with lemma \ref{aha-lemma:maxnodes}).
-Increasing the density of soft obstacles in a cluster causes the circuit condition from theorem \ref{aha-theorem:weakdominance} to be less often satisfied and leads to the observed worst-case on SO~50\%.
+The linear increase in the size of LQ graphs is the result of a greater number of single-terrain entrances found as the number of soft obstacles increases (an observation consistent with Lemma \ref{aha-lemma:maxnodes}).
+Increasing the density of soft obstacles in a cluster causes the circuit condition from Theorem \ref{aha-theorem:weakdominance} to be less often satisfied and leads to the observed worst-case on SO~50\%.
 \par \indent
 Next we consider the performance of HAA* with respect to path quality. We measure this as:
 $$ \%error = \frac{apl - opl}{opl} \times 100 $$ where $opl$ is the length of the optimal path as calculated by AA* and $apl$ the length of the abstract path used by HAA*.
@@ -80,5 +80,5 @@ The insertion effort required to connect start and goal to each abstract node in
 We can see the gap between CS20 and the smaller cluster sizes decrease as the problem size grows.
 % but our benchmark set of experiments are not hard enough for such coarse-grain map decompositions to be advantageous. 
 By comparison, in Figure \ref{aha-fig:searcheffort}(b) we see that the difference is less pronounced using LQ graphs (there are less abstract nodes per cluster). However, it appears CS10 or CS15 are more suitable choices for problems up to our maximum length, 450.
-The average time required to compute a solution was observed to have very similar trends to those shown in Figure \ref{aha-fig:searcheffort}; on this particular dataset HAA* averaged 6.3ms and 3.7ms using HQ and LQ graphs respectively.
+The average time required to compute a solution was observed to have very similar trends to those shown in Figure \ref{aha-fig:searcheffort}; on this particular dataset HAA* averaged 6.3ms and 3.7ms per query using HQ and LQ graphs respectively.
 This further reiterates the applicability of our technique to real-world applications such as games, where computational resources available for path planning are highly constrained. 

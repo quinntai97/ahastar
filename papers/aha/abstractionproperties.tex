@@ -20,7 +20,7 @@ Let $E_{abs}(L) \subset E_{abs}$ represent the set of intra-edges for a cluster 
 
 \begin{proof}
 For each pair of abstract nodes in a cluster and each size/capability combination, we compute at most one path of optimal length. 
-From lemma \ref{aha-lemma:numannotations} we know each node is traversable at most by $2^{r-1}$ capabilities thus there must be at most $|S|\times 2^{r-1}$ ways of covering 2 nodes. 
+From Lemma \ref{aha-lemma:numannotations} we know each node is traversable at most by $2^{r-1}$ capabilities thus there must be at most $|S|\times 2^{r-1}$ ways of covering 2 nodes. 
 However, the number of terrains inside a cluster is governed by its size; only $k \leq r$ terrains may be found. 
 From this, it follows that the upper-bound on the size of the set of edges covering each pair of nodes is in fact $|S| \times 2^{k-1}$. 
 In the worst case, there will be a maximal number of edges between each pair of nodes and there are $\frac{x(x-1)}{2}$ such pairs in total per cluster. 
@@ -33,7 +33,7 @@ $$|E_{inter}| = (2c^2 - 2c)\times \frac{n(n-1)}{2}$$
 \end{lemma}
 
 \begin{proof}
-We know from the proof of lemma \ref{aha-lemma:maxnodes} that in the worst case each tile along the border between two adjacent clusters is represented by a node in the abstract graph. 
+We know from the proof of Lemma \ref{aha-lemma:maxnodes} that in the worst case each tile along the border between two adjacent clusters is represented by a node in the abstract graph. 
 If we count the number of adjacencies, avoiding duplication, we find there are $2c^2 - 2c$ in total.
 \par \indent
 Each transition results in an inter-edge and there are $n$ single-terrain transitions with clearance 1 per adjacency and some number of inter-edges to represent multi-terrain transitions with larger clearances. 
@@ -42,8 +42,8 @@ This recurrence relation holds for the general sequence counting formula $\frac{
 \end{proof}
 
 The above results are interesting for several reasons. 
-Firstly, lemma \ref{aha-lemma:maxnodes} shows that the number of nodes in the graph is a function of cluster-size. This suggests that by varying the dimensions of clusters we can trade a little performance (the time it takes to traverse a cluster) for memory (less abstraction overhead).
-The results in lemma \ref{aha-lemma:maxedgesincluster} and \ref{aha-lemma:maxtransitions} seem to support this hypothesis. 
+Firstly, Lemma \ref{aha-lemma:maxnodes} shows that the number of nodes in the graph is a function of cluster-size. This suggests that by varying the dimensions of clusters we can trade a little performance (the time it takes to traverse a cluster) for memory (less abstraction overhead).
+The results in Lemma \ref{aha-lemma:maxedgesincluster} and \ref{aha-lemma:maxtransitions} seem to support this hypothesis. 
 We see that the number of edges between nodes in the graph is mostly dependent on the complexity of the clusters in which they reside rather than exponential in the number of capabilities. 
 This is important because it means that, despite having an exponential abstract edge growth function, we can directly control the size of the exponent.
 The cluster-based decomposition technique allows us to include as much or as little complexity in each cluster as we require.

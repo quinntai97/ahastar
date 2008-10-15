@@ -8,7 +8,7 @@ Consider the initial abstraction in Figure \ref{aha-fig:strongdominance}(a) and 
 $\lbrace E3, E5 \rbrace$ represent the same path between nodes $w$ and $y$ but are annotated with different clearance values. 
 The same is true  for $\lbrace E4, E6 \rbrace$ which both cover nodes $u$ and $y$. 
 In such cases we say that $E3$ and $E4$ are \emph{strongly dominant}, which we denote $E3 \succ E5$ and $E4 \succ E6$. 
-This is an irreflexive and asymmetrical relationship between edges which we formalise with the following theorem: 
+This is an irreflexive and asymmetrical relationship between edges which we formalise as: 
 \begin{theorem}
 \label{aha-theorem:strongdominance}
 Let $\lbrace e_{a}, e_{b} \rbrace \in E_{abs}$ be two distinct edges which connect the same pair of abstract nodes and are annotated with capabilities $c_{a} \subseteq c_{b}$ such that: 
@@ -85,8 +85,8 @@ If this is not the case however, we know by the circuit condition that any node 
 Thus, both nodes and any associated intra-edges dependent on them can be safely removed.
 \end{proof}
 In many situations, multi-terrain inter-edges tend to be associated with very large clearances; much larger than the size of our largest agent.
-This unnecessarily limits the applicability of the clearance dominance condition from theorem \ref{aha-theorem:weakdominance}. 
-Leveraging the fact that $s_M = \max_{s \in S} s$ is known, we can maximise the number of edges which are weakly dominated by applying the following truncation condition to $E_{abs}$ before theorem \ref{aha-theorem:weakdominance}:
+This unnecessarily limits the applicability of the clearance dominance condition from Theorem \ref{aha-theorem:weakdominance}. 
+Leveraging the fact that $s_M = \max_{s \in S} s$ is known, we can maximise the number of edges which are weakly dominated by applying the following truncation condition to $E_{abs}$ before Theorem \ref{aha-theorem:weakdominance}:
 $$
 \forall e \in E_{abs} (cv(e, c_{e}) > s_M \Rightarrow cv(e, c_{e}) \leftarrow s_M) 
 $$
