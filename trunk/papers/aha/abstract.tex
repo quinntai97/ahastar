@@ -1,13 +1,6 @@
 \begin{abstract}
-Path planning is a central topic in games and other research areas, such as robotics.
-Despite an impressive attention given to path planning in the past,
-very little research addresses problems with multiple terrain types and
-agents with multiple sizes and terrain traversal capabilities.
-
-In this paper we present new techniques for the automated construction of state space representations of complex multi-terrain grid maps with minimal information loss. Our approach involves the use of graph annotations to record the amount of maximal traversable space at each location on a map. 
-We couple this with a cluster-based hierarchical abstraction to build highly compact yet complete representations of the original problem. 
-We further outline the design of a new planner, Hierarchical Annotated A* (HAA*), and demonstrate how a single abstract graph can be used to plan for many different agents, including different sizes and terrain traversal capabilities.
-
-Our experimental analysis shows that HAA* is able to generate near-optimal solutions to a wide range of problems while maintaining an exponential reduction in comparative effort over low-level search. 
-Meanwhile, our abstraction technique is able to generate approximate representations of large problem-spaces with complex topographies using just a fraction of the storage space required by the original grid map.
+Path planning is a central topic in games and other research areas, such as robotics. 
+Despite this, very little research addresses problems involving agents with multiple sizes and terrain traversal capabilities.
+In this paper we present a new planner, Hierarchical Annotated A* (HAA*), and demonstrate how a single abstract graph can be used to plan for agents with heterogeneous sizes and terrain traversal capabilities.
+Through theoretical analysis and experimental evaluation we show that HAA* is able to generate near-optimal solutions to a wide range of problems while maintaining an exponential reduction in effort over low-level search. HAA* is also shown to require just a fraction of the storage space needed by the original grid map.
 \end{abstract}
