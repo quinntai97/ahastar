@@ -15,3 +15,10 @@ It would be good to have a simple example where A* (with unlucky tie breaking) v
 Sanders and Schultes have a method called Highway Hierarchies (HH). It computes optimal solutions. 
 HH seems to be designed for the topology of road networks. Unclear how it would do on grid maps, but I suspect it doesn't do well in some cases. E.g., would it work well on an empty grid map? HH is also memory intensive.
 
+Angelic Hierarchical A* (AHA*) is an optimal hierarchical planning algorithm.
+It requires a human expert to provide a series of abstract actions and their refinements.
+In contrast, we build a hierarchy automatically.
+AHA* seems to search in a space of partially refined plans. 
+In contrast, our high-level search space is a (natural) abstraction of the original search space.
+As a side effect, we introduce a more generic algorithm for optimal search when the exact costs of the edges are not known, but we know a lower and an upper bound for each edge.
+(Small comment: they say on pp226 that their pruning can be quite expensive, so they don't do all the pruning that might be done.)
