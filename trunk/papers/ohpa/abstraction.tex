@@ -1,0 +1,13 @@
+\section{Interval-based Abstraction}
+Something about out decomposition technique. 
+Need to point out major differences between our approach and the HPA* method. 
+Most significantly, I believe we discard inter and intra nodes by choosing to represent each entrance as a node (need to discuss this detail; we could still use inter and intra edges if we limit ourselves to gridmaps with 4-direction movement).
+\par
+Computing intervals between two entrances involves running multiple searches between all pairs of entrances in the same cluster. 
+Given an two entrances $E_{1}$ and $E_{2}$ the aim is to compute the weight of the shortest path between all nodes $n \in E_{1}$ to all $m \in E_{2}$. 
+From this set of weights, we choose the lowest and the highest values to form an interval $<w, W>$ wherere $w$ is the lower-bound cost on reaching $E_{1}$ from $E_{2}$ (also vice versa) and $W$ is the upper-bound.
+We add two nodes to the abstract graph to represent the two entrances and connect them with an edge annotated with the aforementioned interval.
+We repeat this process for all clusters in order to construct the abstract graph.
+
+
+
