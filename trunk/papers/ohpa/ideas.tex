@@ -19,8 +19,8 @@ The refinement process involves several steps:
 Note that this operation may return a set of nodes if multiple paths of minimum length exist.
 Once identified, the start position is then connected to each such node in $n_{1}$.}
 \item{Again using a lookahead, we identify which nodes in $n_{2}$ and $n_{3}$ minimise distance between the two entrances (call these endpoints $y \in n_{2}$ and $z \in n_{3}$);}
-\item{It remains to calculate the cost of the minimum length path between $w$ and $z$; we calculate this as $cost(\Pi_{wy}) = cost(\Pi_{wx}) + h(x, y)$ where $cost(\Pi_{wx})$ is a lowerbound cost on traversing between $n_{1}$ and $n_{2}$ and $h$ is a manhattan heuristic which perfectly estimates the distance between two nodes in an entrance.  }
-\item{Proceed in this way to extract the cost of an optimal path between $n_{3}$ and $n_{4}$ (etc. all the way to the entrance to the goal cluster).}
+\item{It remains to calculate the cost of the minimum length path between $x$ and $y$; we can use the manhattan heuristic for this which perfectly estimates the distance between two nodes in an entrance.}
+\item{Proceed in this way to incrementally extract the costs of subpaths on the optimal path all the way to the entrance to the goal cluster.} 
 \item{Connect the goal to the transition point in $n_{4}$ that minimise distance to $n_{3}$ and use the manhattan heuristic to compute the length of the path between this node and the transition point in the previous step. }
 \end{itemize}
 In some situations (such as on an empty map) there may be several transition points from the start/goal cluster that minimise distance to the next entrance on the hierarchical path. 
