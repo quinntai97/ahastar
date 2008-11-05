@@ -25,7 +25,19 @@ The dead-end heuristic identifies and prunes from the search space any node that
 Meanwhile, the gateway heuristic proceeds by computing an optimal length path between all gateways; this helps reduce the search space as the algorithm only considers gateways that lie along a path to the goal room.  
 In both cases, search consists of running a low-level A* on the reduced search space, so optimality is preserved.
 Need to check exactly what kind of performance Yngvi was getting; from memory however his approach was much better than standard A* (similar to a hierarchical planner I believe).
+
+In terms of expanded nodes, the best reported speed up is by a factor of 5.
+Speed ups by a factor of 2 or 3 are common as well.
+Time-wise the savings are smaller, since the gateway heuristic is more expensive to compute.
+Interestingly, even though the accuracy of the gateway heuristic is really good,
+the savings are not as impressive (even though they are significant).
+This seems to be consistent with the observation that almost perfect heuristic
+can still require visiting lots of nodes.
+
+The gateway heuristic has similarities with our idea of using the sum of the lower bounds on the abstract path as a heuristic.
+
 \par
 HAA* is similar to this work in that the abstraction constructed in that paper is also concerned with identifying multiple paths between two entrances in a cluster-based decomposition (from memory, we were discussing the details of this technique when we first began discussing the possibility of using intervals). In that paper however the focus is on identifying optimal length routes for agents with different capabilities; here we aim to prune the search space. 
 \par 
 Need to mention HPA* also (obviously).
+
