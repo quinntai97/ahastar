@@ -15,7 +15,7 @@ Next, update the `HOGHOME` variable found in `tests/TestConstants.h`. This shoul
 
 Finally, compile and run the `testsimulation` target (again, usually in Debug mode).
 
-= Running HOG =
+= Launching HOG =
 
 The `sample` binary takes several command line arguments:
 {{{
