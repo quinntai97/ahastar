@@ -2,7 +2,7 @@
 
 = Introduction =
 
-On OSX/\*nix machines, simply run `make` in the top-level folder (usually `ahastar`).
+On OSX/`*`nix machines, simply run `make` in the top-level folder (usually `ahastar`).
 This will compile HOG and create a new application, `bin/sample` which will invoke the HOG gui.
 
 = Unit Tests =
