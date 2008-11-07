@@ -32,3 +32,22 @@ The `sample` binary takes several command line arguments:
 -clustersize : -clustersize [num]
      Size of clusters to split up map into. Larger clusters are faster to create but less accurate. Default = 10.
 }}}
+
+By default, in GUI mode the map will be displayed and an overlay showing the position of HAA* clusters and entrances. Shortest paths between each pair of entrances inside a cluster are also overlaid. Currently, this overlay is hardcoded and cannot be turned off without modifying the `AnnotatedClusterAbstraction::openGLDraw`function.
+
+An additional overlay, showing clearance values for various terrain types, can be enabled by modifying the `AnnotatedMapAbstraction::openGLDraw` function.
+
+== Running experiments interactively ==
+Single agents may be deployed interactively if HOG is launched in GUI mode. 
+The following keyboard commands are available:
+{{{
+a: Launch an A* agent with a randomly selected start and goal location.
+Shift-a: Launch an HAA* agent with randomly selected start and goal location.
+p: Pause/resume the simulation.
+}}}
+
+Alternatively, entire scenario files may be run interactively or without a GUI, depending on how HOG was launched.
+Example usage:
+{{{
+bin/sample -scenario experiments/scenarios/softobs_20pct/newAR0315SR.scenario
+}}}
