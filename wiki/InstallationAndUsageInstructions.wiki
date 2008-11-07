@@ -1,11 +1,11 @@
-#summary Overview of how to get started with HOG.
+#summary Getting started with HOG and HAA*
 
-= Introduction =
+= Installing =
 
 On OSX/`*`nix machines, simply run `make` in the top-level folder (usually `ahastar`).
 This will compile HOG and create a new application, `bin/sample` which will invoke the HOG gui.
 
-= Unit Tests =
+== Unit Tests ==
 There are a large number of unit tests to verify the correct operation of the HAA* algorithm. To run these tests you will need the CPPUnit framework and MockPP library. 
 
 The easiest way to run the tests is via Xcode on OSX. Load the project via the pre-made hog.xcodeproj project file included in the top-level directory of the source distribution. First, compile the `hog` target (usually in Debug mode) 
