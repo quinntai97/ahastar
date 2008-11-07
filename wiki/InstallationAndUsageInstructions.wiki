@@ -11,7 +11,7 @@ On OSX, HOG is configured to link to a CPPUnit installation in `/opt/local` and 
 
 The easiest way to run the tests is via Xcode on OSX. Load the project via the pre-made hog.xcodeproj project file included in the top-level directory of the source distribution. First, compile the `hog` target (usually in Debug mode). 
 
-Next, update the `HOGHOME` variable found in `tests/TestConstants.h`. This should be an absolute path to the directory where the HOG source distribution is installed on the local machine. For example, on my mac I set HOGHOME to `/Users/dharabor/src/ahastar`. This step is important as the unit tests make use of test maps on which the algorithm is exercised; the location of these maps will depend on where you extracted the source.
+Next, update the `HOGHOME` variable found in `tests/TestConstants.h`. This should be an absolute path to the directory where the HOG source distribution is installed on the local machine. For example, on my mac I set `HOGHOME` to `/Users/dharabor/src/ahastar`. This step is important as the unit tests make use of test maps on which the algorithm is exercised; the location of these maps will depend on where you extracted the source.
 
 Finally, compile and run the `testsimulation` target (again, usually in Debug mode).
 
