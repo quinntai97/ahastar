@@ -33,7 +33,7 @@ The `sample` binary takes several command line arguments:
      Size of clusters to split up map into. Larger clusters are faster to create but less accurate. Default = 10.
 }}}
 
-By default, in GUI mode the map will be displayed and an overlay showing the position of HAA`*` clusters and entrances. Shortest paths between each pair of entrances inside a cluster are also overlaid. Currently, this overlay is hardcoded and cannot be turned off without modifying the `AnnotatedClusterAbstraction::openGLDraw`function.
+By default, in GUI mode the map will be displayed and an overlay showing the position of HAA`*` clusters and entrances. Shortest paths between each pair of entrances inside a cluster are also overlaid. Currently, this overlay is hardcoded and cannot be turned off without modifying the `AnnotatedClusterAbstraction::openGLDraw` function.
 
 An additional overlay, showing clearance values for various terrain types, can be enabled by modifying the `AnnotatedMapAbstraction::openGLDraw` function.
 
