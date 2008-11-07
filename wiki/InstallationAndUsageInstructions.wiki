@@ -51,3 +51,8 @@ Example usage:
 {{{
 bin/sample -scenario experiments/scenarios/softobs_20pct/newAR0315SR.scenario
 }}}
+
+By default, each scenario file is executed by two agents, one using the standard A`*` algorithm and the other using the HAA`*` algorithm.
+
+== Experimental results ==
+Things go here.
