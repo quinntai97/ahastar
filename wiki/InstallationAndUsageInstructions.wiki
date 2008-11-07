@@ -17,7 +17,7 @@ Finally, compile and run the `testsimulation` target (again, usually in Debug mo
 = Running HOG =
 
 The `sample` binary takes several command line arguments:
-
+{{{
 -map : -map filename
      Selects the default map to be loaded. A large number of maps are available in the `maps` subdirectory.
 -genscenarios : -genscenarios \[.map filename\] \[number of scenarios\] \[clearance\]
@@ -30,3 +30,4 @@ The `sample` binary takes several command line arguments:
      Type of cluster abstraction to create (high results in better quality solutions but costs more memory & takes longer to set up). Default = high
 -clustersize : -clustersize [num]
      Size of clusters to split up map into. Larger clusters are faster to create but less accurate. Default = 10.
+}}}
