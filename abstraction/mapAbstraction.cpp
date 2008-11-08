@@ -27,6 +27,8 @@
 
 #include "mapAbstraction.h"
 #include "constants.h"
+#include "NodeFactory.h"
+#include "EdgeFactory.h"
 
 mapAbstraction::~mapAbstraction()
 { 
@@ -314,6 +316,14 @@ double mapAbstraction::octileDistance(double x1, double y1, double x2, double y2
 
 graph *getMapGraph(Map *m)
 {
+	NodeFactory nf;
+	EdgeFactory ef;
+	
+	return getMapGraph(m, &nf, &ef);
+}
+
+graph* getMapGraph(Map* m, INodeFactory* nf, IEdgeFactory* ef)
+{
 	// printf("Getting graph representation of world\n");
 	char name[32];
 	graph *g = new graph();
@@ -331,7 +341,7 @@ graph *getMapGraph(Map *m)
 				if (m->getTerrainType(x, y) == kOutOfBounds)
 					continue;
 				sprintf(name, "(%d, %d)", x, y);
-				currTile.tile1.node = g->addNode(n = /*nfty->newNode(name)*/ new node(name));
+				currTile.tile1.node = g->addNode(n = nf->newNode(name));
 				n->setLabelL(kAbstractionLevel, 0); // level in abstraction tree
 				n->setLabelL(kNumAbstractedNodes, 1); // number of abstracted nodes
 				n->setLabelL(kParent, -1); // parent of this node in abstraction hierarchy
@@ -345,7 +355,7 @@ graph *getMapGraph(Map *m)
 				if (m->getTerrainType(x, y, kLeftEdge) != kOutOfBounds)
 				{
 					sprintf(name, "(%d/%d)", x, y);
-					currTile.tile1.node = g->addNode(n = /*nfty->newNode(name)*/ new node(name));
+					currTile.tile1.node = g->addNode(n = nf->newNode(name));
 					n->setLabelL(kAbstractionLevel, 0); // level in abstraction tree
 					n->setLabelL(kNumAbstractedNodes, 1); // number of abstracted nodes
 					n->setLabelL(kParent, -1); // parent of this node in abstraction hierarchy
@@ -362,7 +372,7 @@ graph *getMapGraph(Map *m)
 				if (m->getTerrainType(x, y, kRightEdge) != kOutOfBounds)
 				{
 					sprintf(name, "(%d\\%d)", x, y);
-					currTile.tile2.node = g->addNode(n = /*nfty->newNode(name)*/ new node(name));
+					currTile.tile2.node = g->addNode(n = nf->newNode(name));
 					n->setLabelL(kAbstractionLevel, 0); // level in abstraction tree
 					n->setLabelL(kNumAbstractedNodes, 1); // number of abstracted nodes
 					n->setLabelL(kParent, -1); // parent of this node in abstraction hierarchy
@@ -383,7 +393,7 @@ graph *getMapGraph(Map *m)
 		for (int x = 0; x < m->getMapWidth(); x++)
 		{
 			//cout << "Trying (x, y) = (" << x << ", " << y << ")" << endl;
-			addMapEdges(m, g, x, y);
+			addMapEdges(m, g, ef, x, y);
 			//			if (!g->verifyGraph())
 			//			{
 			//				cerr << "Broken at (x, y) = (" << x << ", " << y << ")" << endl;
@@ -429,7 +439,7 @@ graph *getMapGraph(Map *m)
 static const int gEdgeProb = 100;
 static const int gStraightEdgeProb = 100;
 
-void addMapEdges(Map *m, graph *g, int x, int y)
+void addMapEdges(Map *m, graph *g, IEdgeFactory* ef, int x, int y)
 {
 	// check 4 surrounding edges
 	// when we get two of them, we add the corresponding diagonal edge(?)...not yet
@@ -444,7 +454,7 @@ void addMapEdges(Map *m, graph *g, int x, int y)
 		{
 			if ((random()%100) < gStraightEdgeProb)
 			{
-				e = new edge(m->getTile(x, y).tile1.node, m->getTile(x-1, y).tile1.node, 1);
+				e = ef->newEdge(m->getTile(x, y).tile1.node, m->getTile(x-1, y).tile1.node, 1);
 				g->addEdge(e);
 			}
 		}
@@ -452,7 +462,7 @@ void addMapEdges(Map *m, graph *g, int x, int y)
 		{
 			if ((random()%100) < gStraightEdgeProb)
 			{
-				e = new edge(m->getTile(x, y).tile1.node, m->getTile(x-1, y).tile2.node, 1);
+				e = ef->newEdge(m->getTile(x, y).tile1.node, m->getTile(x-1, y).tile2.node, 1);
 				g->addEdge(e);
 			}
 		}
@@ -473,7 +483,7 @@ void addMapEdges(Map *m, graph *g, int x, int y)
 					{
 						if ((random()%100) < gStraightEdgeProb)
 						{
-							e = new edge(m->getTile(x, y).tile1.node, m->getTile(x, y-1).tile1.node, 1);
+							e = ef->newEdge(m->getTile(x, y).tile1.node, m->getTile(x, y-1).tile1.node, 1);
 							g->addEdge(e);
 						}
 					}
@@ -482,7 +492,7 @@ void addMapEdges(Map *m, graph *g, int x, int y)
 				{
 					if ((random()%100) < gStraightEdgeProb)
 					{
-						e = new edge(m->getTile(x, y).tile1.node, m->getTile(x, y-1).tile2.node, 1);
+						e = ef->newEdge(m->getTile(x, y).tile1.node, m->getTile(x, y-1).tile2.node, 1);
 						g->addEdge(e);
 					}
 				}
@@ -495,7 +505,7 @@ void addMapEdges(Map *m, graph *g, int x, int y)
 				{
 					if ((random()%100) < gStraightEdgeProb)
 					{
-						e = new edge(m->getTile(x, y).tile2.node, m->getTile(x, y-1).tile1.node, 1);
+						e = ef->newEdge(m->getTile(x, y).tile2.node, m->getTile(x, y-1).tile1.node, 1);
 						g->addEdge(e);
 					}
 				}
@@ -504,7 +514,7 @@ void addMapEdges(Map *m, graph *g, int x, int y)
 			{
 				if ((random()%100) < gStraightEdgeProb)
 				{
-					e = new edge(m->getTile(x, y).tile2.node, m->getTile(x, y-1).tile2.node, 1);
+					e = ef->newEdge(m->getTile(x, y).tile2.node, m->getTile(x, y-1).tile2.node, 1);
 					g->addEdge(e);
 				}
 			}
@@ -532,7 +542,7 @@ void addMapEdges(Map *m, graph *g, int x, int y)
 				{
 					if ((random()%100) < gEdgeProb)
 					{
-						e = new edge(m->getTile(x, y).tile1.node, m->getTile(x-1, y-1).tile1.node, ROOT_TWO);
+						e = ef->newEdge(m->getTile(x, y).tile1.node, m->getTile(x-1, y-1).tile1.node, ROOT_TWO);
 						g->addEdge(e);
 					}
 				}
@@ -541,7 +551,7 @@ void addMapEdges(Map *m, graph *g, int x, int y)
 			{
 				if ((random()%100) < gEdgeProb)
 				{
-					e = new edge(m->getTile(x, y).tile1.node, m->getTile(x-1, y-1).tile2.node, ROOT_TWO);
+					e = ef->newEdge(m->getTile(x, y).tile1.node, m->getTile(x-1, y-1).tile2.node, ROOT_TWO);
 					g->addEdge(e);
 				}
 			}
@@ -569,7 +579,7 @@ void addMapEdges(Map *m, graph *g, int x, int y)
 				{
 					if ((random()%100) < gEdgeProb)
 					{
-						e = new edge(m->getTile(x, y).tile1.node, m->getTile(x+1, y-1).tile1.node, ROOT_TWO);
+						e = ef->newEdge(m->getTile(x, y).tile1.node, m->getTile(x+1, y-1).tile1.node, ROOT_TWO);
 						g->addEdge(e);
 					}
 				}
@@ -578,7 +588,7 @@ void addMapEdges(Map *m, graph *g, int x, int y)
 			{
 				if ((random()%100) < gEdgeProb)
 				{
-					e = new edge(m->getTile(x, y).tile2.node, m->getTile(x+1, y-1).tile1.node, ROOT_TWO);
+					e = ef->newEdge(m->getTile(x, y).tile2.node, m->getTile(x+1, y-1).tile1.node, ROOT_TWO);
 					g->addEdge(e);
 				}
 			}

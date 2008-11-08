@@ -38,6 +38,9 @@
  * to support a few extra functionalities that mapabstractions should have.
  */
 
+class INodeFactory;
+class IEdgeFactory;
+
 class mapAbstraction : public graphAbstraction {
 public:
 	mapAbstraction(Map *_m) :m(_m), levelDraw(0) {}
@@ -71,7 +74,8 @@ private:
 	unsigned long levelDraw;
 };
 
+graph* getMapGraph(Map* m, INodeFactory* nf, IEdgeFactory* ef);
 graph *getMapGraph(Map *m);
-void addMapEdges(Map *m, graph *g, int x, int y);
+void addMapEdges(Map *m, graph *g, IEdgeFactory* ef, int x, int y);
 
 #endif
