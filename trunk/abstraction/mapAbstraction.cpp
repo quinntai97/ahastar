@@ -311,6 +311,7 @@ double mapAbstraction::octileDistance(double x1, double y1, double x2, double y2
  * function should not be called multiple times on the same map, because
  * the original graph map lose it's association with the map.
  */
+
 graph *getMapGraph(Map *m)
 {
 	// printf("Getting graph representation of world\n");
@@ -330,7 +331,7 @@ graph *getMapGraph(Map *m)
 				if (m->getTerrainType(x, y) == kOutOfBounds)
 					continue;
 				sprintf(name, "(%d, %d)", x, y);
-				currTile.tile1.node = g->addNode(n = new node(name));
+				currTile.tile1.node = g->addNode(n = /*nfty->newNode(name)*/ new node(name));
 				n->setLabelL(kAbstractionLevel, 0); // level in abstraction tree
 				n->setLabelL(kNumAbstractedNodes, 1); // number of abstracted nodes
 				n->setLabelL(kParent, -1); // parent of this node in abstraction hierarchy
@@ -344,7 +345,7 @@ graph *getMapGraph(Map *m)
 				if (m->getTerrainType(x, y, kLeftEdge) != kOutOfBounds)
 				{
 					sprintf(name, "(%d/%d)", x, y);
-					currTile.tile1.node = g->addNode(n = new node(name));
+					currTile.tile1.node = g->addNode(n = /*nfty->newNode(name)*/ new node(name));
 					n->setLabelL(kAbstractionLevel, 0); // level in abstraction tree
 					n->setLabelL(kNumAbstractedNodes, 1); // number of abstracted nodes
 					n->setLabelL(kParent, -1); // parent of this node in abstraction hierarchy
@@ -361,7 +362,7 @@ graph *getMapGraph(Map *m)
 				if (m->getTerrainType(x, y, kRightEdge) != kOutOfBounds)
 				{
 					sprintf(name, "(%d\\%d)", x, y);
-					currTile.tile2.node = g->addNode(n = new node(name));
+					currTile.tile2.node = g->addNode(n = /*nfty->newNode(name)*/ new node(name));
 					n->setLabelL(kAbstractionLevel, 0); // level in abstraction tree
 					n->setLabelL(kNumAbstractedNodes, 1); // number of abstracted nodes
 					n->setLabelL(kParent, -1); // parent of this node in abstraction hierarchy

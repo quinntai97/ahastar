@@ -12,7 +12,7 @@
 #ifndef INODEFACTORY_H
 #define INODEFACTORY_H
 
-#include "graph.h"
+class node;
 
 class INodeFactory
 {
