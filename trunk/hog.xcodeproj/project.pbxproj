@@ -33,6 +33,9 @@
 		625DEFBA0EC5420E00EADFFB /* EdgeFactory.h in Headers */ = {isa = PBXBuildFile; fileRef = 625DEFB80EC5420E00EADFFB /* EdgeFactory.h */; };
 		625DEFBB0EC5420E00EADFFB /* EdgeFactory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 625DEFB90EC5420E00EADFFB /* EdgeFactory.cpp */; };
 		625DEFCD0EC543F200EADFFB /* EdgeFactoryTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 625DEFCC0EC543F200EADFFB /* EdgeFactoryTest.cpp */; };
+		625DF0190EC5488D00EADFFB /* MapAbstractionTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 625DF0180EC5488D00EADFFB /* MapAbstractionTest.cpp */; };
+		625DF04B0EC5C20800EADFFB /* NodeFactoryMock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 625DF04A0EC5C20800EADFFB /* NodeFactoryMock.cpp */; };
+		625DF0D30EC5CC1C00EADFFB /* EdgeFactoryMock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 625DF0D20EC5CC1C00EADFFB /* EdgeFactoryMock.cpp */; };
 		6288562A0EC5199F007DEC7F /* AnnotatedAStarTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 628856160EC5199F007DEC7F /* AnnotatedAStarTest.cpp */; };
 		6288562B0EC5199F007DEC7F /* AnnotatedClusterAbstractionTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 628856180EC5199F007DEC7F /* AnnotatedClusterAbstractionTest.cpp */; };
 		6288562C0EC5199F007DEC7F /* AnnotatedClusterFactoryTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6288561A0EC5199F007DEC7F /* AnnotatedClusterFactoryTest.cpp */; };
@@ -211,6 +214,12 @@
 		625DEFB90EC5420E00EADFFB /* EdgeFactory.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EdgeFactory.cpp; sourceTree = "<group>"; };
 		625DEFCB0EC543F200EADFFB /* EdgeFactoryTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EdgeFactoryTest.h; sourceTree = "<group>"; };
 		625DEFCC0EC543F200EADFFB /* EdgeFactoryTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EdgeFactoryTest.cpp; sourceTree = "<group>"; };
+		625DF0170EC5488D00EADFFB /* MapAbstractionTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapAbstractionTest.h; sourceTree = "<group>"; };
+		625DF0180EC5488D00EADFFB /* MapAbstractionTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MapAbstractionTest.cpp; sourceTree = "<group>"; };
+		625DF0490EC5C20800EADFFB /* NodeFactoryMock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NodeFactoryMock.h; sourceTree = "<group>"; };
+		625DF04A0EC5C20800EADFFB /* NodeFactoryMock.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NodeFactoryMock.cpp; sourceTree = "<group>"; };
+		625DF0D10EC5CC1C00EADFFB /* EdgeFactoryMock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EdgeFactoryMock.h; sourceTree = "<group>"; };
+		625DF0D20EC5CC1C00EADFFB /* EdgeFactoryMock.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EdgeFactoryMock.cpp; sourceTree = "<group>"; };
 		628856160EC5199F007DEC7F /* AnnotatedAStarTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = AnnotatedAStarTest.cpp; path = tests/aha/AnnotatedAStarTest.cpp; sourceTree = SOURCE_ROOT; };
 		628856170EC5199F007DEC7F /* AnnotatedAStarTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AnnotatedAStarTest.h; path = tests/aha/AnnotatedAStarTest.h; sourceTree = SOURCE_ROOT; };
 		628856180EC5199F007DEC7F /* AnnotatedClusterAbstractionTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = AnnotatedClusterAbstractionTest.cpp; path = tests/aha/AnnotatedClusterAbstractionTest.cpp; sourceTree = SOURCE_ROOT; };
@@ -471,6 +480,16 @@
 			path = iastar;
 			sourceTree = "<group>";
 		};
+		625DF0160EC5486400EADFFB /* abstraction */ = {
+			isa = PBXGroup;
+			children = (
+				625DF0170EC5488D00EADFFB /* MapAbstractionTest.h */,
+				625DF0180EC5488D00EADFFB /* MapAbstractionTest.cpp */,
+			);
+			name = abstraction;
+			path = tests/abstraction;
+			sourceTree = "<group>";
+		};
 		6279042F0D40EED400D4BD09 /* util */ = {
 			isa = PBXGroup;
 			children = (
@@ -516,6 +535,8 @@
 		628856760EC51D41007DEC7F /* util */ = {
 			isa = PBXGroup;
 			children = (
+				625DF0490EC5C20800EADFFB /* NodeFactoryMock.h */,
+				625DF04A0EC5C20800EADFFB /* NodeFactoryMock.cpp */,
 				625DEF320EC534A100EADFFB /* NodeFactoryTest.h */,
 				625DEF330EC534A100EADFFB /* NodeFactoryTest.cpp */,
 				628856770EC51D41007DEC7F /* EdgeTest.cpp */,
@@ -526,6 +547,8 @@
 				6288567C0EC51D41007DEC7F /* TestNode.h */,
 				625DEFCB0EC543F200EADFFB /* EdgeFactoryTest.h */,
 				625DEFCC0EC543F200EADFFB /* EdgeFactoryTest.cpp */,
+				625DF0D10EC5CC1C00EADFFB /* EdgeFactoryMock.h */,
+				625DF0D20EC5CC1C00EADFFB /* EdgeFactoryMock.cpp */,
 			);
 			name = util;
 			path = tests/util;
@@ -725,6 +748,7 @@
 		62E915890CFD59CB00AA46AB /* tests */ = {
 			isa = PBXGroup;
 			children = (
+				625DF0160EC5486400EADFFB /* abstraction */,
 				628855C90EC5172B007DEC7F /* aha */,
 				628856760EC51D41007DEC7F /* util */,
 			);
@@ -1041,6 +1065,9 @@
 				625DEEE20EC52D0900EADFFB /* AnnotatedNode.cpp in Sources */,
 				625DEF340EC534A100EADFFB /* NodeFactoryTest.cpp in Sources */,
 				625DEFCD0EC543F200EADFFB /* EdgeFactoryTest.cpp in Sources */,
+				625DF0190EC5488D00EADFFB /* MapAbstractionTest.cpp in Sources */,
+				625DF04B0EC5C20800EADFFB /* NodeFactoryMock.cpp in Sources */,
+				625DF0D30EC5CC1C00EADFFB /* EdgeFactoryMock.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
