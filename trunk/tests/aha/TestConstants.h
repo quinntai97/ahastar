@@ -18,7 +18,7 @@ using namespace std;
 
 
 const int TESTCLUSTERSIZE=5;
-const string HOGHOME = "/Users/alinaharabor/src/ahastar/";
+const string HOGHOME = "/Users/dharabor/src/ahastar/";
 const string maplocation = HOGHOME+"maps/local/demo.map"; // testmap
 const string acmap = HOGHOME+"tests/testmaps/annotatedcluster.map";
 const string tslocation = "test.scenario"; // test scenario file
