@@ -19,6 +19,7 @@
 			62651CE10DBC7E2800ED1CE9 /* searchUnit.cpp:191 */,
 			62651CED0DBC7EE500ED1CE9 /* searchUnit.cpp:123 */,
 			62651CF80DBC7F7200ED1CE9 /* searchUnit.cpp:172 */,
+			625DF2FC0EC6B29800EADFFB /* AnnotatedClusterAbstractionTest.cpp:148 */,
 		);
 		codeSenseManager = 62E910C50CFD49B200AA46AB /* Code sense */;
 		executables = (
@@ -764,6 +765,38 @@
 			625DF2D20EC6AB0400EADFFB /* PBXTextBookmark */ = 625DF2D20EC6AB0400EADFFB /* PBXTextBookmark */;
 			625DF2D30EC6AB0400EADFFB /* PBXTextBookmark */ = 625DF2D30EC6AB0400EADFFB /* PBXTextBookmark */;
 			625DF2D40EC6AB0400EADFFB /* PBXTextBookmark */ = 625DF2D40EC6AB0400EADFFB /* PBXTextBookmark */;
+			625DF2E70EC6AFC100EADFFB /* PBXTextBookmark */ = 625DF2E70EC6AFC100EADFFB /* PBXTextBookmark */;
+			625DF2E80EC6AFC100EADFFB /* PBXTextBookmark */ = 625DF2E80EC6AFC100EADFFB /* PBXTextBookmark */;
+			625DF2E90EC6AFC100EADFFB /* PBXTextBookmark */ = 625DF2E90EC6AFC100EADFFB /* PBXTextBookmark */;
+			625DF2EA0EC6AFC100EADFFB /* PBXTextBookmark */ = 625DF2EA0EC6AFC100EADFFB /* PBXTextBookmark */;
+			625DF2EB0EC6AFC100EADFFB /* PBXTextBookmark */ = 625DF2EB0EC6AFC100EADFFB /* PBXTextBookmark */;
+			625DF2EC0EC6AFC100EADFFB /* PBXTextBookmark */ = 625DF2EC0EC6AFC100EADFFB /* PBXTextBookmark */;
+			625DF2ED0EC6AFC100EADFFB /* PBXTextBookmark */ = 625DF2ED0EC6AFC100EADFFB /* PBXTextBookmark */;
+			625DF2EE0EC6AFC800EADFFB /* PBXTextBookmark */ = 625DF2EE0EC6AFC800EADFFB /* PBXTextBookmark */;
+			625DF2EF0EC6AFC800EADFFB /* PBXTextBookmark */ = 625DF2EF0EC6AFC800EADFFB /* PBXTextBookmark */;
+			625DF2F00EC6AFCB00EADFFB /* PBXTextBookmark */ = 625DF2F00EC6AFCB00EADFFB /* PBXTextBookmark */;
+			625DF2F10EC6AFCB00EADFFB /* PBXTextBookmark */ = 625DF2F10EC6AFCB00EADFFB /* PBXTextBookmark */;
+			625DF2FD0EC6B54100EADFFB /* PBXTextBookmark */ = 625DF2FD0EC6B54100EADFFB /* PBXTextBookmark */;
+			625DF2FE0EC6B54100EADFFB /* PBXTextBookmark */ = 625DF2FE0EC6B54100EADFFB /* PBXTextBookmark */;
+			625DF2FF0EC6B54E00EADFFB /* PBXTextBookmark */ = 625DF2FF0EC6B54E00EADFFB /* PBXTextBookmark */;
+			625DF3000EC6B54E00EADFFB /* PBXTextBookmark */ = 625DF3000EC6B54E00EADFFB /* PBXTextBookmark */;
+			625DF3050EC6B67400EADFFB /* PBXTextBookmark */ = 625DF3050EC6B67400EADFFB /* PBXTextBookmark */;
+			625DF3060EC6B67400EADFFB /* PBXTextBookmark */ = 625DF3060EC6B67400EADFFB /* PBXTextBookmark */;
+			625DF3070EC6B67400EADFFB /* PBXTextBookmark */ = 625DF3070EC6B67400EADFFB /* PBXTextBookmark */;
+			625DF3080EC6B67400EADFFB /* PBXTextBookmark */ = 625DF3080EC6B67400EADFFB /* PBXTextBookmark */;
+			625DF3090EC6B67400EADFFB /* PBXTextBookmark */ = 625DF3090EC6B67400EADFFB /* PBXTextBookmark */;
+			625DF30A0EC6B67400EADFFB /* PBXTextBookmark */ = 625DF30A0EC6B67400EADFFB /* PBXTextBookmark */;
+			625DF30D0EC6B67400EADFFB /* PBXTextBookmark */ = 625DF30D0EC6B67400EADFFB /* PBXTextBookmark */;
+			625DF30E0EC6B67400EADFFB /* PBXTextBookmark */ = 625DF30E0EC6B67400EADFFB /* PBXTextBookmark */;
+			625DF3110EC6B67400EADFFB /* PBXTextBookmark */ = 625DF3110EC6B67400EADFFB /* PBXTextBookmark */;
+			625DF3120EC6B67400EADFFB /* PBXTextBookmark */ = 625DF3120EC6B67400EADFFB /* PBXTextBookmark */;
+			625DF3150EC6B67400EADFFB /* PBXTextBookmark */ = 625DF3150EC6B67400EADFFB /* PBXTextBookmark */;
+			625DF3160EC6B67400EADFFB /* PBXTextBookmark */ = 625DF3160EC6B67400EADFFB /* PBXTextBookmark */;
+			625DF3170EC6B67400EADFFB /* PBXTextBookmark */ = 625DF3170EC6B67400EADFFB /* PBXTextBookmark */;
+			625DF3180EC6B67400EADFFB /* PBXTextBookmark */ = 625DF3180EC6B67400EADFFB /* PBXTextBookmark */;
+			625DF3190EC6B67400EADFFB /* PBXTextBookmark */ = 625DF3190EC6B67400EADFFB /* PBXTextBookmark */;
+			625DF31A0EC6B67400EADFFB /* PBXTextBookmark */ = 625DF31A0EC6B67400EADFFB /* PBXTextBookmark */;
+			625DF31B0EC6B67400EADFFB /* PBXTextBookmark */ = 625DF31B0EC6B67400EADFFB /* PBXTextBookmark */;
 			625FFE760D6D822F0089E6E8 = 625FFE760D6D822F0089E6E8 /* PBXTextBookmark */;
 			625FFE790D6D822F0089E6E8 = 625FFE790D6D822F0089E6E8 /* PBXTextBookmark */;
 			626443730DAF92C900148735 = 626443730DAF92C900148735 /* PBXTextBookmark */;
@@ -928,7 +961,7 @@
 		ignoreCount = 0;
 		lineNumber = 35;
 		location = simulation;
-		modificationTime = 247895740.311471;
+		modificationTime = 247902630.883233;
 		state = 2;
 	};
 	620BE0B70DBB82920092B475 /* PBXTextBookmark */ = {
@@ -1110,8 +1143,9 @@
 	};
 	621C072B0D7F8432000C424F /* AnnotatedCluster.cpp */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1502, 7280}}";
-			sepNavSelRange = "{4796, 0}";
+			sepNavIntBoundsRect = "{{0, 0}, {932, 7280}}";
+			sepNavSelRange = "{7066, 0}";
+			sepNavVisRange = "{12364, 993}";
 			sepNavVisRect = "{{0, 6075}, {817, 296}}";
 			sepNavWindowFrame = "{{22, 24}, {975, 713}}";
 		};
@@ -1306,16 +1340,16 @@
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {1046, 1610}}";
 			sepNavSelRange = "{3702, 0}";
-			sepNavVisRange = "{563, 1920}";
+			sepNavVisRange = "{489, 1784}";
 			sepNavVisRect = "{{0, 895}, {576, 127}}";
 			sepNavWindowFrame = "{{16, 7}, {946, 737}}";
 		};
 	};
 	625D21340D6EAE2400211E90 /* AnnotatedClusterAbstraction.cpp */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {716, 8540}}";
-			sepNavSelRange = "{8281, 0}";
-			sepNavVisRange = "{8217, 337}";
+			sepNavIntBoundsRect = "{{0, 0}, {926, 8694}}";
+			sepNavSelRange = "{2395, 0}";
+			sepNavVisRange = "{2122, 480}";
 			sepNavVisRect = "{{0, 1004}, {901, 608}}";
 			sepNavWindowFrame = "{{13, 7}, {946, 737}}";
 		};
@@ -1335,7 +1369,7 @@
 		fRef = 62E91A740D068E4300AA46AB /* AnnotatedMapAbstraction.h */;
 		name = "{ delete searchalg; }";
 		rLen = 0;
-		rLoc = 611;
+		rLoc = 698;
 		rType = 0;
 		vrLen = 466;
 		vrLoc = 602;
@@ -3779,7 +3813,7 @@
 		isa = PBXTextBookmark;
 		fRef = 62E91A750D068E4300AA46AB /* AnnotatedMapAbstraction.cpp */;
 		rLen = 0;
-		rLoc = 2147483647;
+		rLoc = 2147483868;
 		rType = 0;
 	};
 	625DF0870EC5C8E200EADFFB /* PBXTextBookmark */ = {
@@ -3787,7 +3821,7 @@
 		fRef = 62E91A750D068E4300AA46AB /* AnnotatedMapAbstraction.cpp */;
 		name = "AnnotatedMapAbstraction.cpp: 41";
 		rLen = 0;
-		rLoc = 1330;
+		rLoc = 1417;
 		rType = 0;
 		vrLen = 1067;
 		vrLoc = 1063;
@@ -3797,7 +3831,7 @@
 		fRef = 62E91A740D068E4300AA46AB /* AnnotatedMapAbstraction.h */;
 		name = "AnnotatedMapAbstraction.h: 25";
 		rLen = 0;
-		rLoc = 611;
+		rLoc = 698;
 		rType = 0;
 		vrLen = 1453;
 		vrLoc = 167;
@@ -3887,7 +3921,7 @@
 		fRef = 62E91A750D068E4300AA46AB /* AnnotatedMapAbstraction.cpp */;
 		name = "AnnotatedMapAbstraction.cpp: 41";
 		rLen = 0;
-		rLoc = 1330;
+		rLoc = 1417;
 		rType = 0;
 		vrLen = 1067;
 		vrLoc = 1063;
@@ -3897,7 +3931,7 @@
 		fRef = 62E91A740D068E4300AA46AB /* AnnotatedMapAbstraction.h */;
 		name = "AnnotatedMapAbstraction.h: 25";
 		rLen = 0;
-		rLoc = 611;
+		rLoc = 698;
 		rType = 0;
 		vrLen = 1453;
 		vrLoc = 167;
@@ -3987,7 +4021,7 @@
 		fRef = 62E91A750D068E4300AA46AB /* AnnotatedMapAbstraction.cpp */;
 		name = "AnnotatedMapAbstraction.cpp: 41";
 		rLen = 0;
-		rLoc = 1330;
+		rLoc = 1417;
 		rType = 0;
 		vrLen = 1067;
 		vrLoc = 1063;
@@ -3997,7 +4031,7 @@
 		fRef = 62E91A740D068E4300AA46AB /* AnnotatedMapAbstraction.h */;
 		name = "AnnotatedMapAbstraction.h: 25";
 		rLen = 0;
-		rLoc = 611;
+		rLoc = 698;
 		rType = 0;
 		vrLen = 1453;
 		vrLoc = 167;
@@ -4195,7 +4229,7 @@
 		fRef = 62E91A750D068E4300AA46AB /* AnnotatedMapAbstraction.cpp */;
 		name = "AnnotatedMapAbstraction.cpp: 41";
 		rLen = 0;
-		rLoc = 1330;
+		rLoc = 1417;
 		rType = 0;
 		vrLen = 1067;
 		vrLoc = 1063;
@@ -4205,7 +4239,7 @@
 		fRef = 62E91A740D068E4300AA46AB /* AnnotatedMapAbstraction.h */;
 		name = "AnnotatedMapAbstraction.h: 25";
 		rLen = 0;
-		rLoc = 611;
+		rLoc = 698;
 		rType = 0;
 		vrLen = 1453;
 		vrLoc = 167;
@@ -4343,7 +4377,7 @@
 		fRef = 62E91A750D068E4300AA46AB /* AnnotatedMapAbstraction.cpp */;
 		name = "AnnotatedMapAbstraction.cpp: 41";
 		rLen = 0;
-		rLoc = 1330;
+		rLoc = 1417;
 		rType = 0;
 		vrLen = 1067;
 		vrLoc = 1063;
@@ -4353,7 +4387,7 @@
 		fRef = 62E91A740D068E4300AA46AB /* AnnotatedMapAbstraction.h */;
 		name = "AnnotatedMapAbstraction.h: 25";
 		rLen = 0;
-		rLoc = 611;
+		rLoc = 698;
 		rType = 0;
 		vrLen = 1453;
 		vrLoc = 167;
@@ -4604,7 +4638,7 @@
 		fRef = 62E91A750D068E4300AA46AB /* AnnotatedMapAbstraction.cpp */;
 		name = "AnnotatedMapAbstraction.cpp: 41";
 		rLen = 0;
-		rLoc = 1330;
+		rLoc = 1417;
 		rType = 0;
 		vrLen = 1067;
 		vrLoc = 1063;
@@ -4614,7 +4648,7 @@
 		fRef = 62E91A740D068E4300AA46AB /* AnnotatedMapAbstraction.h */;
 		name = "AnnotatedMapAbstraction.h: 25";
 		rLen = 0;
-		rLoc = 611;
+		rLoc = 698;
 		rType = 0;
 		vrLen = 1453;
 		vrLoc = 167;
@@ -4722,7 +4756,7 @@
 		fRef = 62E91A750D068E4300AA46AB /* AnnotatedMapAbstraction.cpp */;
 		name = "AnnotatedMapAbstraction.cpp: 41";
 		rLen = 0;
-		rLoc = 1330;
+		rLoc = 1417;
 		rType = 0;
 		vrLen = 1067;
 		vrLoc = 1063;
@@ -4732,7 +4766,7 @@
 		fRef = 62E91A740D068E4300AA46AB /* AnnotatedMapAbstraction.h */;
 		name = "AnnotatedMapAbstraction.h: 25";
 		rLen = 0;
-		rLoc = 611;
+		rLoc = 698;
 		rType = 0;
 		vrLen = 1453;
 		vrLoc = 167;
@@ -4910,7 +4944,7 @@
 		fRef = 62E91A750D068E4300AA46AB /* AnnotatedMapAbstraction.cpp */;
 		name = "AnnotatedMapAbstraction.cpp: 41";
 		rLen = 0;
-		rLoc = 1330;
+		rLoc = 1417;
 		rType = 0;
 		vrLen = 1067;
 		vrLoc = 1063;
@@ -4920,7 +4954,7 @@
 		fRef = 62E91A740D068E4300AA46AB /* AnnotatedMapAbstraction.h */;
 		name = "AnnotatedMapAbstraction.h: 25";
 		rLen = 0;
-		rLoc = 611;
+		rLoc = 698;
 		rType = 0;
 		vrLen = 1453;
 		vrLoc = 167;
@@ -5045,7 +5079,7 @@
 		fRef = 62E91A750D068E4300AA46AB /* AnnotatedMapAbstraction.cpp */;
 		name = "AnnotatedMapAbstraction.cpp: 41";
 		rLen = 0;
-		rLoc = 1330;
+		rLoc = 1417;
 		rType = 0;
 		vrLen = 1067;
 		vrLoc = 1063;
@@ -5055,7 +5089,7 @@
 		fRef = 62E91A740D068E4300AA46AB /* AnnotatedMapAbstraction.h */;
 		name = "AnnotatedMapAbstraction.h: 25";
 		rLen = 0;
-		rLoc = 611;
+		rLoc = 698;
 		rType = 0;
 		vrLen = 1453;
 		vrLoc = 167;
@@ -5267,7 +5301,7 @@
 		fRef = 62E91A750D068E4300AA46AB /* AnnotatedMapAbstraction.cpp */;
 		name = "AnnotatedMapAbstraction.cpp: 41";
 		rLen = 0;
-		rLoc = 1330;
+		rLoc = 1417;
 		rType = 0;
 		vrLen = 1060;
 		vrLoc = 1063;
@@ -5277,7 +5311,7 @@
 		fRef = 62E91A740D068E4300AA46AB /* AnnotatedMapAbstraction.h */;
 		name = "AnnotatedMapAbstraction.h: 25";
 		rLen = 0;
-		rLoc = 611;
+		rLoc = 698;
 		rType = 0;
 		vrLen = 1316;
 		vrLoc = 167;
@@ -5347,7 +5381,7 @@
 		fRef = 62E91A750D068E4300AA46AB /* AnnotatedMapAbstraction.cpp */;
 		name = "AnnotatedMapAbstraction.cpp: 41";
 		rLen = 0;
-		rLoc = 1330;
+		rLoc = 1417;
 		rType = 0;
 		vrLen = 1060;
 		vrLoc = 1063;
@@ -5357,7 +5391,7 @@
 		fRef = 62E91A740D068E4300AA46AB /* AnnotatedMapAbstraction.h */;
 		name = "AnnotatedMapAbstraction.h: 25";
 		rLen = 0;
-		rLoc = 611;
+		rLoc = 698;
 		rType = 0;
 		vrLen = 1316;
 		vrLoc = 167;
@@ -5427,7 +5461,7 @@
 		fRef = 62E91A750D068E4300AA46AB /* AnnotatedMapAbstraction.cpp */;
 		name = "AnnotatedMapAbstraction.cpp: 41";
 		rLen = 0;
-		rLoc = 1330;
+		rLoc = 1417;
 		rType = 0;
 		vrLen = 1060;
 		vrLoc = 1063;
@@ -5437,7 +5471,7 @@
 		fRef = 62E91A740D068E4300AA46AB /* AnnotatedMapAbstraction.h */;
 		name = "AnnotatedMapAbstraction.h: 25";
 		rLen = 0;
-		rLoc = 611;
+		rLoc = 698;
 		rType = 0;
 		vrLen = 1316;
 		vrLoc = 167;
@@ -5507,7 +5541,7 @@
 		fRef = 62E91A750D068E4300AA46AB /* AnnotatedMapAbstraction.cpp */;
 		name = "AnnotatedMapAbstraction.cpp: 41";
 		rLen = 0;
-		rLoc = 1330;
+		rLoc = 1417;
 		rType = 0;
 		vrLen = 1060;
 		vrLoc = 1063;
@@ -5517,7 +5551,7 @@
 		fRef = 62E91A740D068E4300AA46AB /* AnnotatedMapAbstraction.h */;
 		name = "AnnotatedMapAbstraction.h: 25";
 		rLen = 0;
-		rLoc = 611;
+		rLoc = 698;
 		rType = 0;
 		vrLen = 1316;
 		vrLoc = 167;
@@ -5601,7 +5635,7 @@
 		fRef = 62E91A750D068E4300AA46AB /* AnnotatedMapAbstraction.cpp */;
 		name = "AnnotatedMapAbstraction.cpp: 41";
 		rLen = 0;
-		rLoc = 1330;
+		rLoc = 1417;
 		rType = 0;
 		vrLen = 1060;
 		vrLoc = 1063;
@@ -5611,7 +5645,7 @@
 		fRef = 62E91A740D068E4300AA46AB /* AnnotatedMapAbstraction.h */;
 		name = "AnnotatedMapAbstraction.h: 25";
 		rLen = 0;
-		rLoc = 611;
+		rLoc = 698;
 		rType = 0;
 		vrLen = 1316;
 		vrLoc = 167;
@@ -5691,7 +5725,7 @@
 		fRef = 62E91A750D068E4300AA46AB /* AnnotatedMapAbstraction.cpp */;
 		name = "AnnotatedMapAbstraction.cpp: 41";
 		rLen = 0;
-		rLoc = 1330;
+		rLoc = 1417;
 		rType = 0;
 		vrLen = 1067;
 		vrLoc = 1063;
@@ -5701,7 +5735,7 @@
 		fRef = 62E91A740D068E4300AA46AB /* AnnotatedMapAbstraction.h */;
 		name = "AnnotatedMapAbstraction.h: 25";
 		rLen = 0;
-		rLoc = 611;
+		rLoc = 698;
 		rType = 0;
 		vrLen = 1453;
 		vrLoc = 167;
@@ -6282,7 +6316,7 @@
 		fRef = 62E91A750D068E4300AA46AB /* AnnotatedMapAbstraction.cpp */;
 		name = "AnnotatedMapAbstraction.cpp: 41";
 		rLen = 0;
-		rLoc = 1330;
+		rLoc = 1417;
 		rType = 0;
 		vrLen = 1067;
 		vrLoc = 1063;
@@ -6292,7 +6326,7 @@
 		fRef = 62E91A740D068E4300AA46AB /* AnnotatedMapAbstraction.h */;
 		name = "AnnotatedMapAbstraction.h: 25";
 		rLen = 0;
-		rLoc = 611;
+		rLoc = 698;
 		rType = 0;
 		vrLen = 1453;
 		vrLoc = 167;
@@ -6404,15 +6438,16 @@
 	625DF2220EC6A1CC00EADFFB /* AnnotatedNodeFactoryTest.h */ = {
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {1006, 532}}";
-			sepNavSelRange = "{672, 0}";
+			sepNavSelRange = "{0, 724}";
 			sepNavVisRange = "{45, 679}";
+			sepNavWindowFrame = "{{84, 113}, {1065, 597}}";
 		};
 	};
 	625DF2230EC6A1CC00EADFFB /* AnnotatedNodeFactoryTest.cpp */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {876, 462}}";
-			sepNavSelRange = "{614, 0}";
-			sepNavVisRange = "{258, 490}";
+			sepNavIntBoundsRect = "{{0, 0}, {1006, 469}}";
+			sepNavSelRange = "{0, 748}";
+			sepNavVisRange = "{0, 748}";
 			sepNavWindowFrame = "{{107, 92}, {1065, 597}}";
 		};
 	};
@@ -7432,6 +7467,367 @@
 		vrLen = 679;
 		vrLoc = 45;
 	};
+	625DF2DD0EC6AE8800EADFFB /* AnnotatedEdgeFactory.h */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1006, 469}}";
+			sepNavSelRange = "{294, 76}";
+			sepNavVisRange = "{0, 382}";
+		};
+	};
+	625DF2DE0EC6AE8800EADFFB /* AnnotatedEdgeFactory.cpp */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {876, 293}}";
+			sepNavSelRange = "{297, 45}";
+			sepNavVisRange = "{0, 344}";
+			sepNavWindowFrame = "{{199, 8}, {1065, 597}}";
+		};
+	};
+	625DF2E70EC6AFC100EADFFB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 625DF2460EC6A3F000EADFFB /* AnnotatedEdge.h */;
+		name = "AnnotatedEdge.h: 22";
+		rLen = 0;
+		rLoc = 457;
+		rType = 0;
+		vrLen = 457;
+		vrLoc = 0;
+	};
+	625DF2E80EC6AFC100EADFFB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62E91A740D068E4300AA46AB /* AnnotatedMapAbstraction.h */;
+		name = "AnnotatedMapAbstraction.h: 22";
+		rLen = 0;
+		rLoc = 587;
+		rType = 0;
+		vrLen = 716;
+		vrLoc = 463;
+	};
+	625DF2E90EC6AFC100EADFFB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		comments = "error: expected type-specifier before 'AnnotatedEdge'";
+		fRef = 625DF2DE0EC6AE8800EADFFB /* AnnotatedEdgeFactory.cpp */;
+		rLen = 1;
+		rLoc = 14;
+		rType = 1;
+	};
+	625DF2EA0EC6AFC100EADFFB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 625DF2460EC6A3F000EADFFB /* AnnotatedEdge.h */;
+		name = "AnnotatedEdge.h: 22";
+		rLen = 0;
+		rLoc = 457;
+		rType = 0;
+		vrLen = 457;
+		vrLoc = 0;
+	};
+	625DF2EB0EC6AFC100EADFFB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62E91A740D068E4300AA46AB /* AnnotatedMapAbstraction.h */;
+		name = "AnnotatedMapAbstraction.h: 22";
+		rLen = 0;
+		rLoc = 587;
+		rType = 0;
+		vrLen = 716;
+		vrLoc = 463;
+	};
+	625DF2EC0EC6AFC100EADFFB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 625DF2DE0EC6AE8800EADFFB /* AnnotatedEdgeFactory.cpp */;
+		name = "AnnotatedEdgeFactory.cpp: 15";
+		rLen = 45;
+		rLoc = 297;
+		rType = 0;
+		vrLen = 344;
+		vrLoc = 0;
+	};
+	625DF2ED0EC6AFC100EADFFB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62E914690CFD4FBB00AA46AB /* mapAbstraction.cpp */;
+		name = "mapAbstraction.cpp: 317";
+		rLen = 11;
+		rLoc = 9339;
+		rType = 0;
+		vrLen = 389;
+		vrLoc = 9044;
+	};
+	625DF2EE0EC6AFC800EADFFB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 625DF2DE0EC6AE8800EADFFB /* AnnotatedEdgeFactory.cpp */;
+		name = "AnnotatedEdgeFactory.cpp: 15";
+		rLen = 45;
+		rLoc = 297;
+		rType = 0;
+		vrLen = 344;
+		vrLoc = 0;
+	};
+	625DF2EF0EC6AFC800EADFFB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62E914690CFD4FBB00AA46AB /* mapAbstraction.cpp */;
+		name = "mapAbstraction.cpp: 317";
+		rLen = 11;
+		rLoc = 9339;
+		rType = 0;
+		vrLen = 389;
+		vrLoc = 9044;
+	};
+	625DF2F00EC6AFCB00EADFFB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 625DF2DE0EC6AE8800EADFFB /* AnnotatedEdgeFactory.cpp */;
+		name = "AnnotatedEdgeFactory.cpp: 15";
+		rLen = 45;
+		rLoc = 297;
+		rType = 0;
+		vrLen = 344;
+		vrLoc = 0;
+	};
+	625DF2F10EC6AFCB00EADFFB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62E914690CFD4FBB00AA46AB /* mapAbstraction.cpp */;
+		name = "mapAbstraction.cpp: 317";
+		rLen = 11;
+		rLoc = 9339;
+		rType = 0;
+		vrLen = 389;
+		vrLoc = 9044;
+	};
+	625DF2FC0EC6B29800EADFFB /* AnnotatedClusterAbstractionTest.cpp:148 */ = {
+		isa = PBXFileBreakpoint;
+		actions = (
+		);
+		breakpointStyle = 0;
+		continueAfterActions = 0;
+		countType = 0;
+		delayBeforeContinue = 0;
+		fileReference = 628856180EC5199F007DEC7F /* AnnotatedClusterAbstractionTest.cpp */;
+		functionName = "AnnotatedClusterAbstractionTest::buildEntrancesShouldCreateCorrectNumberOfTransitionsBetweenClustersAndAddTransitionsToAbstractGraph()";
+		hitCount = 1;
+		ignoreCount = 0;
+		lineNumber = 148;
+		location = testsimulation;
+		modificationTime = 247903215.963382;
+		state = 1;
+	};
+	625DF2FD0EC6B54100EADFFB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 625DF2DE0EC6AE8800EADFFB /* AnnotatedEdgeFactory.cpp */;
+		name = "AnnotatedEdgeFactory.cpp: 15";
+		rLen = 45;
+		rLoc = 297;
+		rType = 0;
+		vrLen = 344;
+		vrLoc = 0;
+	};
+	625DF2FE0EC6B54100EADFFB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62E914690CFD4FBB00AA46AB /* mapAbstraction.cpp */;
+		name = "mapAbstraction.cpp: 317";
+		rLen = 11;
+		rLoc = 9339;
+		rType = 0;
+		vrLen = 389;
+		vrLoc = 9044;
+	};
+	625DF2FF0EC6B54E00EADFFB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 625DF2DE0EC6AE8800EADFFB /* AnnotatedEdgeFactory.cpp */;
+		name = "AnnotatedEdgeFactory.cpp: 15";
+		rLen = 45;
+		rLoc = 297;
+		rType = 0;
+		vrLen = 344;
+		vrLoc = 0;
+	};
+	625DF3000EC6B54E00EADFFB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62E914690CFD4FBB00AA46AB /* mapAbstraction.cpp */;
+		name = "mapAbstraction.cpp: 317";
+		rLen = 11;
+		rLoc = 9339;
+		rType = 0;
+		vrLen = 389;
+		vrLoc = 9044;
+	};
+	625DF3050EC6B67400EADFFB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 625DF2BF0EC6AAE700EADFFB /* AnnotatedEdgeTest.cpp */;
+		name = "AnnotatedEdgeTest.cpp: 1";
+		rLen = 0;
+		rLoc = 0;
+		rType = 0;
+		vrLen = 180;
+		vrLoc = 0;
+	};
+	625DF3060EC6B67400EADFFB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 625D21340D6EAE2400211E90 /* AnnotatedClusterAbstraction.cpp */;
+		name = "AnnotatedClusterAbstraction.cpp: 304";
+		rLen = 0;
+		rLoc = 8281;
+		rType = 0;
+		vrLen = 337;
+		vrLoc = 8217;
+	};
+	625DF3070EC6B67400EADFFB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 625DF2DD0EC6AE8800EADFFB /* AnnotatedEdgeFactory.h */;
+		rLen = 0;
+		rLoc = 2147483885;
+		rType = 0;
+	};
+	625DF3080EC6B67400EADFFB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 625DF2BF0EC6AAE700EADFFB /* AnnotatedEdgeTest.cpp */;
+		name = "AnnotatedEdgeTest.cpp: 1";
+		rLen = 0;
+		rLoc = 0;
+		rType = 0;
+		vrLen = 180;
+		vrLoc = 0;
+	};
+	625DF3090EC6B67400EADFFB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 625D21340D6EAE2400211E90 /* AnnotatedClusterAbstraction.cpp */;
+		name = "AnnotatedClusterAbstraction.cpp: 304";
+		rLen = 0;
+		rLoc = 8281;
+		rType = 0;
+		vrLen = 337;
+		vrLoc = 8217;
+	};
+	625DF30A0EC6B67400EADFFB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 625DF2DD0EC6AE8800EADFFB /* AnnotatedEdgeFactory.h */;
+		name = "AnnotatedEdgeFactory.h: 1";
+		rLen = 0;
+		rLoc = 0;
+		rType = 0;
+		vrLen = 175;
+		vrLoc = 0;
+	};
+	625DF30D0EC6B67400EADFFB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62E91A750D068E4300AA46AB /* AnnotatedMapAbstraction.cpp */;
+		name = "AnnotatedMapAbstraction.cpp: 47";
+		rLen = 0;
+		rLoc = 1489;
+		rType = 0;
+		vrLen = 977;
+		vrLoc = 878;
+	};
+	625DF30E0EC6B67400EADFFB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62E91A750D068E4300AA46AB /* AnnotatedMapAbstraction.cpp */;
+		name = "AnnotatedMapAbstraction.cpp: 50";
+		rLen = 0;
+		rLoc = 1617;
+		rType = 0;
+		vrLen = 1031;
+		vrLoc = 993;
+	};
+	625DF3110EC6B67400EADFFB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62E91A740D068E4300AA46AB /* AnnotatedMapAbstraction.h */;
+		name = "AnnotatedMapAbstraction.h: 51";
+		rLen = 0;
+		rLoc = 1644;
+		rType = 0;
+		vrLen = 1433;
+		vrLoc = 464;
+	};
+	625DF3120EC6B67400EADFFB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62E91A740D068E4300AA46AB /* AnnotatedMapAbstraction.h */;
+		name = "AnnotatedMapAbstraction.h: 51";
+		rLen = 0;
+		rLoc = 1644;
+		rType = 0;
+		vrLen = 1433;
+		vrLoc = 464;
+	};
+	625DF3150EC6B67400EADFFB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 625DF2DD0EC6AE8800EADFFB /* AnnotatedEdgeFactory.h */;
+		name = "AnnotatedEdgeFactory.h: 18";
+		rLen = 76;
+		rLoc = 294;
+		rType = 0;
+		vrLen = 382;
+		vrLoc = 0;
+	};
+	625DF3160EC6B67400EADFFB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 625DF2DD0EC6AE8800EADFFB /* AnnotatedEdgeFactory.h */;
+		name = "AnnotatedEdgeFactory.h: 18";
+		rLen = 76;
+		rLoc = 294;
+		rType = 0;
+		vrLen = 382;
+		vrLoc = 0;
+	};
+	625DF3170EC6B67400EADFFB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 625DF2470EC6A3F000EADFFB /* AnnotatedEdge.cpp */;
+		name = "AnnotatedEdge.cpp: 24";
+		rLen = 0;
+		rLoc = 449;
+		rType = 0;
+		vrLen = 663;
+		vrLoc = 25;
+	};
+	625DF3180EC6B67400EADFFB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62E914EE0CFD4FDB00AA46AB /* graph.cpp */;
+		name = "graph.cpp: 655";
+		rLen = 534;
+		rLoc = 15341;
+		rType = 0;
+		vrLen = 868;
+		vrLoc = 10627;
+	};
+	625DF3190EC6B67400EADFFB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 625DF2460EC6A3F000EADFFB /* AnnotatedEdge.h */;
+		name = "AnnotatedEdge.h: 19";
+		rLen = 0;
+		rLoc = 414;
+		rType = 0;
+		vrLen = 614;
+		vrLoc = 0;
+	};
+	625DF31A0EC6B67400EADFFB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62E914EF0CFD4FDB00AA46AB /* graph.h */;
+		name = "graph.h: 136";
+		rLen = 0;
+		rLoc = 3867;
+		rType = 0;
+		vrLen = 1131;
+		vrLoc = 4045;
+	};
+	625DF31B0EC6B67400EADFFB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 625DF2220EC6A1CC00EADFFB /* AnnotatedNodeFactoryTest.h */;
+		name = "AnnotatedNodeFactoryTest.h: 31";
+		rLen = 0;
+		rLoc = 672;
+		rType = 0;
+		vrLen = 679;
+		vrLoc = 45;
+	};
+	625DF31C0EC6B6D600EADFFB /* AnnotatedEdgeFactoryTest.h */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1006, 532}}";
+			sepNavSelRange = "{204, 0}";
+			sepNavVisRange = "{45, 679}";
+		};
+	};
+	625DF31D0EC6B6D600EADFFB /* AnnotatedEdgeFactoryTest.cpp */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1006, 469}}";
+			sepNavSelRange = "{0, 0}";
+			sepNavVisRange = "{0, 189}";
+		};
+	};
 	625FFE760D6D822F0089E6E8 /* PBXTextBookmark */ = {
 		isa = PBXTextBookmark;
 		fRef = 62E914450CFD4F9300AA46AB /* unit.h */;
@@ -7516,7 +7912,7 @@
 		ignoreCount = 0;
 		lineNumber = 581;
 		location = simulation;
-		modificationTime = 247895740.311477;
+		modificationTime = 247902630.883238;
 		state = 2;
 	};
 	62651C8A0DBBF52800ED1CE9 /* unitSimulation.cpp:425 */ = {
@@ -7533,7 +7929,7 @@
 		ignoreCount = 0;
 		lineNumber = 425;
 		location = hog;
-		modificationTime = 247895740.311482;
+		modificationTime = 247902630.883244;
 		state = 1;
 	};
 	62651CD00DBC098900ED1CE9 /* AnnotatedAStar.cpp:31 */ = {
@@ -7550,7 +7946,7 @@
 		ignoreCount = 0;
 		lineNumber = 31;
 		location = simulation;
-		modificationTime = 247895740.311487;
+		modificationTime = 247902630.883259;
 		state = 2;
 	};
 	62651CE10DBC7E2800ED1CE9 /* searchUnit.cpp:191 */ = {
@@ -7567,7 +7963,7 @@
 		ignoreCount = 0;
 		lineNumber = 191;
 		location = hog;
-		modificationTime = 247895740.311575;
+		modificationTime = 247902630.883271;
 		state = 2;
 	};
 	62651CED0DBC7EE500ED1CE9 /* searchUnit.cpp:123 */ = {
@@ -7584,7 +7980,7 @@
 		ignoreCount = 0;
 		lineNumber = 123;
 		location = hog;
-		modificationTime = 247895740.311585;
+		modificationTime = 247902630.883288;
 		state = 2;
 	};
 	62651CF80DBC7F7200ED1CE9 /* searchUnit.cpp:172 */ = {
@@ -7601,7 +7997,7 @@
 		ignoreCount = 0;
 		lineNumber = 172;
 		location = hog;
-		modificationTime = 247895740.311596;
+		modificationTime = 247902630.883302;
 		state = 1;
 	};
 	6281EBFF0D7FFA8D0074AE59 /* PBXTextBookmark */ = {
@@ -7662,9 +8058,9 @@
 	};
 	628856180EC5199F007DEC7F /* AnnotatedClusterAbstractionTest.cpp */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {908, 21042}}";
-			sepNavSelRange = "{10853, 8}";
-			sepNavVisRange = "{10593, 273}";
+			sepNavIntBoundsRect = "{{0, 0}, {992, 21084}}";
+			sepNavSelRange = "{5115, 0}";
+			sepNavVisRange = "{4468, 728}";
 			sepNavWindowFrame = "{{84, 113}, {1065, 597}}";
 		};
 	};
@@ -7971,7 +8367,7 @@
 		fRef = 62E91A740D068E4300AA46AB /* AnnotatedMapAbstraction.h */;
 		name = "AnnotatedMapAbstraction.h: 25";
 		rLen = 0;
-		rLoc = 611;
+		rLoc = 698;
 		rType = 0;
 		vrLen = 466;
 		vrLoc = 602;
@@ -8145,7 +8541,7 @@
 		fRef = 62E91A740D068E4300AA46AB /* AnnotatedMapAbstraction.h */;
 		name = "AnnotatedMapAbstraction.h: 25";
 		rLen = 0;
-		rLoc = 611;
+		rLoc = 698;
 		rType = 0;
 		vrLen = 466;
 		vrLoc = 602;
@@ -8283,7 +8679,7 @@
 		hitCount = 0;
 		ignoreCount = 0;
 		lineNumber = 106;
-		modificationTime = 247895979.136663;
+		modificationTime = 247903552.558993;
 		state = 1;
 	};
 	6289C1B10DBA16B600F06BD5 /* PBXTextBookmark */ = {
@@ -8369,7 +8765,7 @@
 		hitCount = 0;
 		ignoreCount = 0;
 		lineNumber = 383;
-		modificationTime = 247895979.13668;
+		modificationTime = 247903552.55901;
 		state = 1;
 	};
 	6289C5040DBA48AF00F06BD5 /* PBXTextBookmark */ = {
@@ -9240,7 +9636,7 @@
 	};
 	62E914690CFD4FBB00AA46AB /* mapAbstraction.cpp */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {758, 8512}}";
+			sepNavIntBoundsRect = "{{0, 0}, {720, 8554}}";
 			sepNavSelRange = "{9339, 11}";
 			sepNavVisRange = "{9044, 389}";
 			sepNavVisRect = "{{0, 3440}, {894, 567}}";
@@ -9497,7 +9893,7 @@
 	};
 	62E914EE0CFD4FDB00AA46AB /* graph.cpp */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {880, 14420}}";
+			sepNavIntBoundsRect = "{{0, 0}, {880, 14882}}";
 			sepNavSelRange = "{15341, 534}";
 			sepNavVisRange = "{10627, 868}";
 			sepNavVisRect = "{{0, 5374}, {817, 326}}";
@@ -9506,7 +9902,7 @@
 	};
 	62E914EF0CFD4FDB00AA46AB /* graph.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {880, 3920}}";
+			sepNavIntBoundsRect = "{{0, 0}, {880, 3906}}";
 			sepNavSelRange = "{3867, 0}";
 			sepNavVisRange = "{4045, 1131}";
 			sepNavVisRect = "{{0, 2461}, {817, 274}}";
@@ -9857,18 +10253,18 @@
 	};
 	62E91A740D068E4300AA46AB /* AnnotatedMapAbstraction.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {880, 1078}}";
-			sepNavSelRange = "{611, 0}";
-			sepNavVisRange = "{167, 1453}";
+			sepNavIntBoundsRect = "{{0, 0}, {880, 1190}}";
+			sepNavSelRange = "{1644, 0}";
+			sepNavVisRange = "{464, 1433}";
 			sepNavVisRect = "{{0, 99}, {894, 567}}";
 			sepNavWindowFrame = "{{39, 50}, {939, 696}}";
 		};
 	};
 	62E91A750D068E4300AA46AB /* AnnotatedMapAbstraction.cpp */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {920, 3402}}";
-			sepNavSelRange = "{1330, 0}";
-			sepNavVisRange = "{1063, 1067}";
+			sepNavIntBoundsRect = "{{0, 0}, {920, 3416}}";
+			sepNavSelRange = "{1617, 0}";
+			sepNavVisRange = "{993, 1031}";
 			sepNavVisRect = "{{0, 1684}, {894, 567}}";
 			sepNavWindowFrame = "{{16, 48}, {939, 696}}";
 		};

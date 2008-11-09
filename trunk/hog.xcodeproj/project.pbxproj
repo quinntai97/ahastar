@@ -46,6 +46,10 @@
 		625DF2C40EC6AAE700EADFFB /* AnnotatedNodeTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 625DF2C10EC6AAE700EADFFB /* AnnotatedNodeTest.cpp */; };
 		625DF2C50EC6AAE700EADFFB /* AnnotatedEdgeTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 625DF2BF0EC6AAE700EADFFB /* AnnotatedEdgeTest.cpp */; };
 		625DF2C60EC6AAE700EADFFB /* AnnotatedNodeTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 625DF2C10EC6AAE700EADFFB /* AnnotatedNodeTest.cpp */; };
+		625DF2DF0EC6AE8800EADFFB /* AnnotatedEdgeFactory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 625DF2DE0EC6AE8800EADFFB /* AnnotatedEdgeFactory.cpp */; };
+		625DF2E00EC6AE8800EADFFB /* AnnotatedEdgeFactory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 625DF2DE0EC6AE8800EADFFB /* AnnotatedEdgeFactory.cpp */; };
+		625DF31E0EC6B6D600EADFFB /* AnnotatedEdgeFactoryTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 625DF31D0EC6B6D600EADFFB /* AnnotatedEdgeFactoryTest.cpp */; };
+		625DF31F0EC6B6D600EADFFB /* AnnotatedEdgeFactoryTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 625DF31D0EC6B6D600EADFFB /* AnnotatedEdgeFactoryTest.cpp */; };
 		6288562A0EC5199F007DEC7F /* AnnotatedAStarTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 628856160EC5199F007DEC7F /* AnnotatedAStarTest.cpp */; };
 		6288562B0EC5199F007DEC7F /* AnnotatedClusterAbstractionTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 628856180EC5199F007DEC7F /* AnnotatedClusterAbstractionTest.cpp */; };
 		6288562C0EC5199F007DEC7F /* AnnotatedClusterFactoryTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6288561A0EC5199F007DEC7F /* AnnotatedClusterFactoryTest.cpp */; };
@@ -238,6 +242,10 @@
 		625DF2C00EC6AAE700EADFFB /* AnnotatedEdgeTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AnnotatedEdgeTest.h; path = tests/aha/AnnotatedEdgeTest.h; sourceTree = SOURCE_ROOT; };
 		625DF2C10EC6AAE700EADFFB /* AnnotatedNodeTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = AnnotatedNodeTest.cpp; path = tests/aha/AnnotatedNodeTest.cpp; sourceTree = SOURCE_ROOT; };
 		625DF2C20EC6AAE700EADFFB /* AnnotatedNodeTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AnnotatedNodeTest.h; path = tests/aha/AnnotatedNodeTest.h; sourceTree = SOURCE_ROOT; };
+		625DF2DD0EC6AE8800EADFFB /* AnnotatedEdgeFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AnnotatedEdgeFactory.h; path = aha/AnnotatedEdgeFactory.h; sourceTree = "<group>"; };
+		625DF2DE0EC6AE8800EADFFB /* AnnotatedEdgeFactory.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = AnnotatedEdgeFactory.cpp; path = aha/AnnotatedEdgeFactory.cpp; sourceTree = "<group>"; };
+		625DF31C0EC6B6D600EADFFB /* AnnotatedEdgeFactoryTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AnnotatedEdgeFactoryTest.h; path = tests/aha/AnnotatedEdgeFactoryTest.h; sourceTree = SOURCE_ROOT; };
+		625DF31D0EC6B6D600EADFFB /* AnnotatedEdgeFactoryTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = AnnotatedEdgeFactoryTest.cpp; path = tests/aha/AnnotatedEdgeFactoryTest.cpp; sourceTree = SOURCE_ROOT; };
 		628856160EC5199F007DEC7F /* AnnotatedAStarTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = AnnotatedAStarTest.cpp; path = tests/aha/AnnotatedAStarTest.cpp; sourceTree = SOURCE_ROOT; };
 		628856170EC5199F007DEC7F /* AnnotatedAStarTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AnnotatedAStarTest.h; path = tests/aha/AnnotatedAStarTest.h; sourceTree = SOURCE_ROOT; };
 		628856180EC5199F007DEC7F /* AnnotatedClusterAbstractionTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = AnnotatedClusterAbstractionTest.cpp; path = tests/aha/AnnotatedClusterAbstractionTest.cpp; sourceTree = SOURCE_ROOT; };
@@ -548,6 +556,8 @@
 				628856290EC5199F007DEC7F /* ScenarioManagerTest.h */,
 				625DF2220EC6A1CC00EADFFB /* AnnotatedNodeFactoryTest.h */,
 				625DF2230EC6A1CC00EADFFB /* AnnotatedNodeFactoryTest.cpp */,
+				625DF31C0EC6B6D600EADFFB /* AnnotatedEdgeFactoryTest.h */,
+				625DF31D0EC6B6D600EADFFB /* AnnotatedEdgeFactoryTest.cpp */,
 			);
 			path = aha;
 			sourceTree = "<group>";
@@ -797,6 +807,8 @@
 				625DF21E0EC6A04F00EADFFB /* AnnotatedNodeFactory.cpp */,
 				625DF2460EC6A3F000EADFFB /* AnnotatedEdge.h */,
 				625DF2470EC6A3F000EADFFB /* AnnotatedEdge.cpp */,
+				625DF2DD0EC6AE8800EADFFB /* AnnotatedEdgeFactory.h */,
+				625DF2DE0EC6AE8800EADFFB /* AnnotatedEdgeFactory.cpp */,
 			);
 			name = aha;
 			sourceTree = "<group>";
@@ -1052,6 +1064,8 @@
 				625DF2490EC6A3F000EADFFB /* AnnotatedEdge.cpp in Sources */,
 				625DF2C50EC6AAE700EADFFB /* AnnotatedEdgeTest.cpp in Sources */,
 				625DF2C60EC6AAE700EADFFB /* AnnotatedNodeTest.cpp in Sources */,
+				625DF2E00EC6AE8800EADFFB /* AnnotatedEdgeFactory.cpp in Sources */,
+				625DF31F0EC6B6D600EADFFB /* AnnotatedEdgeFactoryTest.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1096,6 +1110,8 @@
 				625DF2480EC6A3F000EADFFB /* AnnotatedEdge.cpp in Sources */,
 				625DF2C30EC6AAE700EADFFB /* AnnotatedEdgeTest.cpp in Sources */,
 				625DF2C40EC6AAE700EADFFB /* AnnotatedNodeTest.cpp in Sources */,
+				625DF2DF0EC6AE8800EADFFB /* AnnotatedEdgeFactory.cpp in Sources */,
+				625DF31E0EC6B6D600EADFFB /* AnnotatedEdgeFactoryTest.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

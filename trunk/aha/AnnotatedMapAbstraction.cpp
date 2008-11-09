@@ -24,9 +24,6 @@
  *
  */
 
-#include "AnnotatedMapAbstraction.h"
-#include "AnnotatedAStar.h"
-#include "AHAConstants.h"
 #ifdef OS_MAC
 	#include "GLUT/glut.h"
 	#include <OpenGL/gl.h>
@@ -35,12 +32,21 @@
 	#include <GL/gl.h>
 #endif
 
+#include "AnnotatedMapAbstraction.h"
+#include "AnnotatedAStar.h"
+#include "AHAConstants.h"
+#include "AnnotatedNodeFactory.h"
+#include "AnnotatedEdgeFactory.h"
+#include "graph.h"
 
 using namespace std;
 
 AbstractAnnotatedMapAbstraction::AbstractAnnotatedMapAbstraction(Map* m, AbstractAnnotatedAStar* alg) : mapAbstraction(m)
 {
-	abstractions.push_back(getMapGraph(m));	
+	this->anf = new AnnotatedNodeFactory();
+	this->aef = new AnnotatedEdgeFactory();
+//	abstractions.push_back(getMapGraph(m, anf, aef));
+	abstractions.push_back(getMapGraph(m));
 	this->searchalg = alg;
 	addMissingEdges();
 }
