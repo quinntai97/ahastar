@@ -1,5 +1,5 @@
 /*
- *  TestNode.h
+ *  AnnotatedNodeTest.h
  *  hog
  *
  *	Tests for HOG's "Node" class. Focus:
@@ -11,20 +11,21 @@
  *
  */
 
-#ifndef TESTNODE_H
-#define TESTNODE_H
+#ifndef ANNOTATEDNODETEST_H
+#define ANNOTATEDNODETEST_H
 
 #include <cppunit/TestFixture.h>
 #include <cppunit/extensions/HelperMacros.h>
 
-#include "graph.h"
-#include "map.h"
-
 using namespace CppUnit;
 
-class TestNode : public CPPUNIT_NS::TestFixture
+class AnnotatedNode;
+class graph;
+class edge;
+
+class AnnotatedNodeTest : public CPPUNIT_NS::TestFixture
 {
-  CPPUNIT_TEST_SUITE( TestNode );
+  CPPUNIT_TEST_SUITE( AnnotatedNodeTest );
   CPPUNIT_TEST( TerrainAnnotationsTest );
   CPPUNIT_TEST( setClearanceFailsWhenNodeTerrainNotValid );
   CPPUNIT_TEST( setParentClusterFailsWhenClusterIdLessThanZero );
@@ -84,8 +85,8 @@ public:
 private:
 	/* test data */
 	graph* g;
-	node *n;
-	node *from, *to;
+	AnnotatedNode *n;
+	AnnotatedNode *from, *to;
 	edge* e;
 	int terrains[3];
 	int clval[4];

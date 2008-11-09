@@ -600,6 +600,14 @@ edge::edge(unsigned int f, unsigned int t, double w)
 	clearance=0;
 }
 
+
+edge::edge(const edge* e)
+{
+	this->from = e->from;
+	this->to = e->to;
+	this->setLabelF(kEdgeWeight, e->getLabelF(kEdgeWeight));
+}
+
 graph_object* edge::clone() const
 {	
 	edge *eclone = new edge(from, to, getLabelF(kEdgeWeight)); 
@@ -685,8 +693,36 @@ node::node(const char *n)
 	clusterid = -1; // no parent cluster set
 	terraintype=0; // no default terraintype assumed (untraversable node)
 	for(int i=0;i<3;i++) 	// init clvals. everything is zero unless otherwise specified.
-		clearance[i]=0;
-	
+		clearance[i]=0;	
+}
+
+/* NB: this copy constructor returns a node which is not connected to anything. ie. not a true deep copy constructor */
+node::node(const node* n)
+{
+	strncpy(name, n->getName(), 30);
+	for (unsigned int x = 0; x < n->label.size(); x++) 
+		label.push_back(n->label[x]);
+
+	keyLabel = n->keyLabel;
+	nodeNum = n->nodeNum;
+	width = n->width;
+}
+
+// clones all labels, all annotations, nodeNum, weight etc. DOES NOT clone edges or parentclusterid
+graph_object *node::clone() const
+{
+  node *n = new node(name);
+  for (unsigned int x = 0; x < label.size(); x++) n->label.push_back(label[x]);
+  
+  n->setParentCluster(-1); // cloned node is not assigned to any cluster intially
+  n->setTerrainType(terraintype);
+  for(int i=0; i<3;i++) n->clearance[i] = clearance[i];
+
+  n->keyLabel = keyLabel;
+  n->nodeNum = nodeNum;
+  n->width = width;
+  
+  return n;
 }
 
 /* setClearance
@@ -793,7 +829,7 @@ void node::setParentCluster(int clusterid)
 
 
 // clones all labels, all annotations, nodeNum, weight etc. DOES NOT clone edges or parentclusterid
-graph_object *node::clone() const
+/*graph_object *node::clone() const
 {
   node *n = new node(name);
   for (unsigned int x = 0; x < label.size(); x++) n->label.push_back(label[x]);
@@ -807,7 +843,7 @@ graph_object *node::clone() const
   n->width = width;
   
   return n;
-}
+}*/
 
 void node::addEdge(edge *e)
 {

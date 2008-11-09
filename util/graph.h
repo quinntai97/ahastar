@@ -76,8 +76,8 @@ class graph : public graph_object {
 public:
   graph();
   ~graph();
-  graph_object *clone() const; // clones just the nodes
-  graph *cloneAll() const;     // clones everything
+  virtual graph_object *clone() const; // clones just the nodes
+  virtual graph *cloneAll() const;     // clones everything
 
   int addNode(node *);
   node *getNode(unsigned int num);
@@ -133,7 +133,8 @@ enum {
 class edge : public graph_object {
  public:
 	edge(unsigned int, unsigned int, double);
-	graph_object *clone() const; 
+	edge(const edge* e);
+	virtual graph_object *clone() const; 
 
 	// set/get various labels for each node
 	void setLabelF(unsigned int index, double val);
@@ -180,7 +181,8 @@ class edge : public graph_object {
 class node : public graph_object {
 public:
   node(const char *);
-  graph_object *clone() const;
+  node(const node* n);
+  virtual graph_object *clone() const;
 
   const char *getName() const { return name; }
   unsigned int getNum() const { return nodeNum; }
@@ -246,6 +248,7 @@ public:
   void setParentCluster(int clusterid);
   int getParentCluster(); 
   edge* findAnnotatedEdge(node* to, int capability, int clearance, double dist);
+
   
 private:
   friend class graph;

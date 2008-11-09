@@ -1,5 +1,5 @@
 /*
- *  EdgeTest.h
+ *  AnnotatedEdgeTest.h
  *  hog
  *
  *  Created by Daniel Harabor on 4/12/07.
@@ -7,23 +7,19 @@
  *
  */
 
-#ifndef EDGETEST_H
-#define EDGETEST_H
+#ifndef ANNOTATEDEDGETEST_H
+#define ANNOTATEDEDGETEST_H
 
 #include <cppunit/TestFixture.h>
 #include <cppunit/extensions/HelperMacros.h>
 
-#include "graph.h"
-#include "map.h"
-
 using namespace CppUnit;
 
-class edge;
-class EdgeTest : public CPPUNIT_NS::TestFixture
+class AnnotatedEdge;
+class AnnotatedEdgeTest : public CPPUNIT_NS::TestFixture
 {
-	CPPUNIT_TEST_SUITE( EdgeTest );
+	CPPUNIT_TEST_SUITE( AnnotatedEdgeTest );
 	CPPUNIT_TEST( setClearanceShouldStoreAGivenCapabilityAndItsCorrespondingClearanceValue );
-//	CPPUNIT_TEST( setClearanceShouldDoNothingWhenCapabilityIsNotValid );
 	CPPUNIT_TEST( constructorShouldInitialiseClearanceAndCapabilityValuesToZero );
 	CPPUNIT_TEST( setClearanceShouldDoNothingWhenClearanceValueIsLessThanOrEqualToZero );
 	CPPUNIT_TEST( getClearanceShouldReturnZeroGivenACapabilityThatDoesNotMatchTheStoredCapability );
@@ -44,7 +40,7 @@ class EdgeTest : public CPPUNIT_NS::TestFixture
 		void cloneShouldDeepCopyEdgeAnnotations();
 	
 	private:
-		edge* e;
+		AnnotatedEdge* e;
 
 
 };

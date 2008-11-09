@@ -1,5 +1,5 @@
 /*
- *  TestNode.cpp
+ *  AnnotatedNodeTest.cpp
  *  hog
  *
  *  Created by Daniel Harabor on 28/11/07.
@@ -7,17 +7,20 @@
  *
  */
 
-#include "TestNode.h"
+#include "AnnotatedNodeTest.h"
 #include "constants.h"
 #include <cppunit/Message.h>
 #include <string>
+#include "graph.h"
+#include "AnnotatedNode.h"
+#include "map.h"
 
 using namespace std;
 //using namespace CppUnit;
 
-CPPUNIT_TEST_SUITE_REGISTRATION( TestNode );
+CPPUNIT_TEST_SUITE_REGISTRATION( AnnotatedNodeTest );
 
-void TestNode::setUp()
+void AnnotatedNodeTest::setUp()
 {
 	terrains[0] = kGround;
 	terrains[1] = kTrees;
@@ -28,17 +31,17 @@ void TestNode::setUp()
 		clval[i] = i;
 	}
 	
-	n = new node("");
+	n = new AnnotatedNode("");
 
 	g = new graph();
-	from = new node("");
-	to = new node("");
+	from = new AnnotatedNode("");
+	to = new AnnotatedNode("");
 	g->addNode(from);
 	g->addNode(to);
 
 }
 
-void TestNode::tearDown()
+void AnnotatedNodeTest::tearDown()
 {
 	delete n;
 	delete g;
@@ -46,9 +49,9 @@ void TestNode::tearDown()
 
 /* TerrainAnnotationsTest
 	@desc:		 
-		This test assumes a simple map with only two basic terrains; each node thus has a max of 3 annotations. 
+		This test assumes a simple map with only two basic terrains; each AnnotatedNode thus has a max of 3 annotations. 
 */
-void TestNode::TerrainAnnotationsTest()
+void AnnotatedNodeTest::TerrainAnnotationsTest()
 {
 	
 	// check that the terrain types are only of the defined types
@@ -77,39 +80,39 @@ void TestNode::TerrainAnnotationsTest()
 	return;
 }
 
-void TestNode::setClearanceFailsWhenNodeTerrainNotValid()
+void AnnotatedNodeTest::setClearanceFailsWhenNodeTerrainNotValid()
 {
 	n->setTerrainType(kWater);
 	n->setClearance(kGround, 1);
-	CPPUNIT_ASSERT_EQUAL_MESSAGE("managed to set clearance > 0 for node with invalid terrain (kWater)", 0, n->getClearance(kGround));
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("managed to set clearance > 0 for AnnotatedNode with invalid terrain (kWater)", 0, n->getClearance(kGround));
 }
 
-void TestNode::setParentClusterFailsWhenClusterIdLessThanZero()
+void AnnotatedNodeTest::setParentClusterFailsWhenClusterIdLessThanZero()
 {
 	int cid = -2;
 	n->setParentCluster(cid);
 	CPPUNIT_ASSERT_EQUAL(-1, n->getParentCluster());
 }
 
-void TestNode::setParentClusterStoresClusterIdWhenClusterIdMoreThanZero()
+void AnnotatedNodeTest::setParentClusterStoresClusterIdWhenClusterIdMoreThanZero()
 {
 	int cid = 2;
 	n->setParentCluster(cid);
 	CPPUNIT_ASSERT_EQUAL(cid, n->getParentCluster());	
 }
 
-void TestNode::setParentClusterStoresClusterIdWhenClusterIdEqualsZero()
+void AnnotatedNodeTest::setParentClusterStoresClusterIdWhenClusterIdEqualsZero()
 {
 	int cid = 0;
 	n->setParentCluster(cid);
 	CPPUNIT_ASSERT_EQUAL(cid, n->getParentCluster());	
 }
 
-void TestNode::cloneShouldDeepCopyNodeAndAllAnnotationsExceptParentClusterId()
+void AnnotatedNodeTest::cloneShouldDeepCopyNodeAndAllAnnotationsExceptParentClusterId()
 {
 
-	/* create and annotate some nodes to use as test data */
-	node* tn1 = new node("");
+	/* create and annotate some AnnotatedNodes to use as test data */
+	AnnotatedNode* tn1 = new AnnotatedNode("");
 	
 	tn1->setLabelL(kAbstractionLevel, 0);
 	tn1->setParentCluster(0);
@@ -120,33 +123,33 @@ void TestNode::cloneShouldDeepCopyNodeAndAllAnnotationsExceptParentClusterId()
 	tn1->setClearance(kTrees, 1);
 	tn1->setClearance(kGround|kTrees, 2);
 
-	node* tn1clone = dynamic_cast<node*>(tn1->clone());
-	CPPUNIT_ASSERT_MESSAGE("clone returned original node! failed to copy!", tn1 != tn1clone);
-	CPPUNIT_ASSERT_EQUAL_MESSAGE("cloned node has different terrain type", tn1->getTerrainType(), tn1clone->getTerrainType());
-	CPPUNIT_ASSERT_EQUAL_MESSAGE("cloned node is incorrectly assigned to a cluster", -1, tn1clone->getParentCluster());
-	CPPUNIT_ASSERT_EQUAL_MESSAGE("cloned node has different clearance value for kTrees capability", tn1->getClearance(kTrees), tn1clone->getClearance(kTrees));
-	CPPUNIT_ASSERT_EQUAL_MESSAGE("cloned node has different clearance value for kTrees capability", tn1->getClearance(kTrees), tn1clone->getClearance(kTrees));
-	CPPUNIT_ASSERT_EQUAL_MESSAGE("cloned node has different clearance value for (kGround|kTrees) capability", tn1->getClearance((kGround|kTrees)), tn1clone->getClearance((kGround|kTrees)));
-	CPPUNIT_ASSERT_EQUAL_MESSAGE("cloned node has incorrect kAbstractionLevel label", tn1->getLabelL(kAbstractionLevel), tn1clone->getLabelL(kAbstractionLevel));
-	CPPUNIT_ASSERT_EQUAL_MESSAGE("cloned node has incorrect x-coordinate label", tn1->getLabelL(kFirstData), tn1clone->getLabelL(kFirstData));	
-	CPPUNIT_ASSERT_EQUAL_MESSAGE("cloned node has incorrect y-coordinate label", tn1->getLabelL(kFirstData+1), tn1clone->getLabelL(kFirstData+1));
+	AnnotatedNode* tn1clone = dynamic_cast<AnnotatedNode*>(tn1->clone());
+	CPPUNIT_ASSERT_MESSAGE("clone returned original AnnotatedNode! failed to copy!", tn1 != tn1clone);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("cloned AnnotatedNode has different terrain type", tn1->getTerrainType(), tn1clone->getTerrainType());
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("cloned AnnotatedNode is incorrectly assigned to a cluster", -1, tn1clone->getParentCluster());
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("cloned AnnotatedNode has different clearance value for kTrees capability", tn1->getClearance(kTrees), tn1clone->getClearance(kTrees));
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("cloned AnnotatedNode has different clearance value for kTrees capability", tn1->getClearance(kTrees), tn1clone->getClearance(kTrees));
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("cloned AnnotatedNode has different clearance value for (kGround|kTrees) capability", tn1->getClearance((kGround|kTrees)), tn1clone->getClearance((kGround|kTrees)));
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("cloned AnnotatedNode has incorrect kAbstractionLevel label", tn1->getLabelL(kAbstractionLevel), tn1clone->getLabelL(kAbstractionLevel));
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("cloned AnnotatedNode has incorrect x-coordinate label", tn1->getLabelL(kFirstData), tn1clone->getLabelL(kFirstData));	
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("cloned AnnotatedNode has incorrect y-coordinate label", tn1->getLabelL(kFirstData+1), tn1clone->getLabelL(kFirstData+1));
 	
 	delete tn1;
 	delete tn1clone;
 
 }
 
-void TestNode::cloneShouldNotDeepCopyEdges()
+void AnnotatedNodeTest::cloneShouldNotDeepCopyEdges()
 {
-	node* n1 = new node("n1");
-	node* n2 = new node("n2");
+	AnnotatedNode* n1 = new AnnotatedNode("n1");
+	AnnotatedNode* n2 = new AnnotatedNode("n2");
 	graph* g = new graph();
 	g->addNode(n1);
 	g->addNode(n2);
 	edge* e = new edge(n1->getNum(), n2->getNum(), 1);
 	g->addEdge(e);
 		
-	node* clone = dynamic_cast<node*>(n1->clone());
+	AnnotatedNode* clone = dynamic_cast<AnnotatedNode*>(n1->clone());
 	
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("clone copied some edges when it shouldn't have", 0, clone->getNumEdges());
 	
@@ -154,7 +157,7 @@ void TestNode::cloneShouldNotDeepCopyEdges()
 }
 
 
-void TestNode::addEdgeToNode(int caps, int clearance, double weight)
+void AnnotatedNodeTest::addEdgeToNode(int caps, int clearance, double weight)
 {
 	e = new edge(from->getNum(), to->getNum(), weight);
 	e->setClearance(caps,clearance);
@@ -163,7 +166,7 @@ void TestNode::addEdgeToNode(int caps, int clearance, double weight)
 
 
 
-void TestNode::findAnnotatedEdgeShouldReturnAnExistingEdgeIfOneExistsWhichIsIdenticalToWhatParametersAskFor()
+void AnnotatedNodeTest::findAnnotatedEdgeShouldReturnAnExistingEdgeIfOneExistsWhichIsIdenticalToWhatParametersAskFor()
 {
 	double weight = 1.0;
 	int targetClearance = 2;
@@ -178,7 +181,7 @@ void TestNode::findAnnotatedEdgeShouldReturnAnExistingEdgeIfOneExistsWhichIsIden
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("failed to find existing annotated edge using capability superset", e, expectedEdge);
 }
 
-void TestNode::findAnnotatedEdgeShouldReturnAnExistingEdgeIfOneExistsWhichIsShorterButOtherwiseIdenticalToWhatParametersAskFor()
+void AnnotatedNodeTest::findAnnotatedEdgeShouldReturnAnExistingEdgeIfOneExistsWhichIsShorterButOtherwiseIdenticalToWhatParametersAskFor()
 {
 	double weight = 3.0;
 	int targetClearance = 2;
@@ -193,7 +196,7 @@ void TestNode::findAnnotatedEdgeShouldReturnAnExistingEdgeIfOneExistsWhichIsShor
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("failed to find existing annotated edge using capability superset", e, expectedEdge);
 }
 
-void TestNode::findAnnotatedEdgeShouldReturnAnExistingEdgeIfOneExistsWhichIsWiderAndShorterThanWhatParametersAskFor()
+void AnnotatedNodeTest::findAnnotatedEdgeShouldReturnAnExistingEdgeIfOneExistsWhichIsWiderAndShorterThanWhatParametersAskFor()
 {
 	double weight = 3.0;
 	int targetClearance = 2;
@@ -208,7 +211,7 @@ void TestNode::findAnnotatedEdgeShouldReturnAnExistingEdgeIfOneExistsWhichIsWide
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("failed to find existing annotated edge using capability superset", e, expectedEdge);	
 }
 
-void TestNode::findAnnotatedEdgeShouldReturnAnExistingEdgeIfOneExistsWhichIsWiderButOtherwiseIdenticalToWhatParametersAskFor()
+void AnnotatedNodeTest::findAnnotatedEdgeShouldReturnAnExistingEdgeIfOneExistsWhichIsWiderButOtherwiseIdenticalToWhatParametersAskFor()
 {
 	double weight = 3.0;
 	int targetClearance = 2;
@@ -223,7 +226,7 @@ void TestNode::findAnnotatedEdgeShouldReturnAnExistingEdgeIfOneExistsWhichIsWide
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("failed to find existing annotated edge using capability superset", e, expectedEdge);	
 }
 
-void TestNode::findAnnotatedEdgeShouldReturnZeroWhenNoEdgeExistsBetweenParameterEndpoints()
+void AnnotatedNodeTest::findAnnotatedEdgeShouldReturnZeroWhenNoEdgeExistsBetweenParameterEndpoints()
 {
 	double weight = 3.0;
 	int targetClearance = 2;
@@ -235,7 +238,7 @@ void TestNode::findAnnotatedEdgeShouldReturnZeroWhenNoEdgeExistsBetweenParameter
 
 // NB: if capability values are identical, this method returning zero is a warning sign something is probably wrong with cluster annotation 
 // ie. we're querying about an edge connecting two endpoints which represents a shorter path with larger clearance. why didn't we find it before?
-void TestNode::findAnnotatedEdgeShouldReturnZeroWhenExistingEdgeIsShorterAndMoreNarrowThanWhatParametersAskFor()
+void AnnotatedNodeTest::findAnnotatedEdgeShouldReturnZeroWhenExistingEdgeIsShorterAndMoreNarrowThanWhatParametersAskFor()
 {
 	double weight = 3.0;
 	int targetClearance = 2;
@@ -250,7 +253,7 @@ void TestNode::findAnnotatedEdgeShouldReturnZeroWhenExistingEdgeIsShorterAndMore
 	CPPUNIT_ASSERT_MESSAGE("failed to return zero using capability superset", expectedEdge == 0);	
 }
 
-void TestNode::findAnnotatedEdgeShouldReturnZeroWhenExistingEdgeIsOfTheSameLengthButMoreNarrowThanWhatParametersAskFor()
+void AnnotatedNodeTest::findAnnotatedEdgeShouldReturnZeroWhenExistingEdgeIsOfTheSameLengthButMoreNarrowThanWhatParametersAskFor()
 {
 	double weight = 3.0;
 	int targetClearance = 2;
@@ -265,7 +268,7 @@ void TestNode::findAnnotatedEdgeShouldReturnZeroWhenExistingEdgeIsOfTheSameLengt
 	CPPUNIT_ASSERT_MESSAGE("failed to return zero using capability superset", expectedEdge == 0);	
 }
 
-void TestNode::findAnnotatedEdgeShouldReturnZeroWhenExistingEdgeIsLongerAndMoreNarrowThanWhatParametersAskedFor()
+void AnnotatedNodeTest::findAnnotatedEdgeShouldReturnZeroWhenExistingEdgeIsLongerAndMoreNarrowThanWhatParametersAskedFor()
 {
 	double weight = 3.0;
 	int targetClearance = 2;
@@ -281,7 +284,7 @@ void TestNode::findAnnotatedEdgeShouldReturnZeroWhenExistingEdgeIsLongerAndMoreN
 }
 
 // NB: another warning method. we're querying about an edge which is more optimal than the current connection between the two endpoints
-void TestNode::findAnnotatedEdgeShouldReturnZeroWhenExistingEdgeIsLongerButOtherwiseIdenticalToWhatParametersAskFor()
+void AnnotatedNodeTest::findAnnotatedEdgeShouldReturnZeroWhenExistingEdgeIsLongerButOtherwiseIdenticalToWhatParametersAskFor()
 {
 	double weight = 3.0;
 	int targetClearance = 2;
@@ -296,7 +299,7 @@ void TestNode::findAnnotatedEdgeShouldReturnZeroWhenExistingEdgeIsLongerButOther
 	CPPUNIT_ASSERT_MESSAGE("failed to return zero using capability superset", expectedEdge == 0);
 }
 
-void TestNode::findAnnotatedEdgeShouldReturnZeroWhenExistingEdgeIsLongerAndWiderThanWhatParametersAskedFor()
+void AnnotatedNodeTest::findAnnotatedEdgeShouldReturnZeroWhenExistingEdgeIsLongerAndWiderThanWhatParametersAskedFor()
 {
 	double weight = 3.0;
 	int targetClearance = 2;
@@ -311,7 +314,7 @@ void TestNode::findAnnotatedEdgeShouldReturnZeroWhenExistingEdgeIsLongerAndWider
 	CPPUNIT_ASSERT_MESSAGE("failed to return zero using capability superset", expectedEdge == 0);	
 }
 
-void TestNode::findAnnotatedEdgeShouldReturnZeroWhenEndpointParametersAreNull()
+void AnnotatedNodeTest::findAnnotatedEdgeShouldReturnZeroWhenEndpointParametersAreNull()
 {
 	double weight = 3.0;
 	int targetClearance = 2;
@@ -321,7 +324,7 @@ void TestNode::findAnnotatedEdgeShouldReturnZeroWhenEndpointParametersAreNull()
 	CPPUNIT_ASSERT_MESSAGE("failed to return zero when to is NULL", expectedEdge == 0);	
 }
 
-void TestNode::findAnnotatedEdgeShouldReturnTheShortestEdgeIfSeveralCandidateEdgesExistThatMatchWhatParametersAskedFor()
+void AnnotatedNodeTest::findAnnotatedEdgeShouldReturnTheShortestEdgeIfSeveralCandidateEdgesExistThatMatchWhatParametersAskedFor()
 {
 	addEdgeToNode(kGround, 2, 5);
 	addEdgeToNode(kGround, 1, 4.5);
