@@ -18,13 +18,18 @@
 
 #include "mapAbstraction.h"
 #include "AnnotatedAStar.h"
-#include "graph.h"
+#include "AnnotatedNodeFactory.h"
+#include "AnnotatedEdgeFactory.h"
+
+class graph;
+class node;
+class edge;
 
 class AbstractAnnotatedMapAbstraction : public mapAbstraction
 {
 	public:
 		AbstractAnnotatedMapAbstraction(Map *m, AbstractAnnotatedAStar* searchalg); 
-		virtual ~AbstractAnnotatedMapAbstraction() { delete searchalg; }
+		virtual ~AbstractAnnotatedMapAbstraction() { delete searchalg; delete anf; delete aef; }
 		
 		virtual void annotateMap()=0; // add annotation info
 		virtual void openGLDraw()=0; // display function
@@ -34,11 +39,16 @@ class AbstractAnnotatedMapAbstraction : public mapAbstraction
 		bool getDebugInfo() { return this->debuginfo; }
 		virtual AbstractAnnotatedAStar* getSearchAlgorithm() { return searchalg; }
 		virtual void setSearchAlgorithm(AbstractAnnotatedAStar* alg) { this->searchalg = alg; }
+		
+		AnnotatedNodeFactory *getNodeFactory() { return anf; }
+		AnnotatedEdgeFactory *getEdgeFactory() { return aef; }
 	
 	private:
 		void addMissingEdges();
 		bool debuginfo;
 		AbstractAnnotatedAStar* searchalg;
+		AnnotatedNodeFactory* anf;
+		AnnotatedEdgeFactory* aef;
 
 };
 
