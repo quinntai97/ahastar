@@ -36,8 +36,8 @@ void MapAbstractionTest::tearDown()
 void MapAbstractionTest::getMapGraphShouldReturnANewGraphObjectGivenAValidMapAndANodeAndEdgeFactoryParameters()
 {
 	graph* g=0;
-	int expectedNodes = 400;
-	int expectedEdges = 1482;
+	int expectedNodes = 100;
+	int expectedEdges = 342;
 	
 	g = getMapGraph(m, nf, ef);
 
