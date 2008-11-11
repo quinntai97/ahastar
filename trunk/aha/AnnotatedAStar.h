@@ -32,8 +32,6 @@ namespace AAStarUtil {
 
 class statCollection;
 
-// TODO: get rid of overridden getPath methods with capability & size params. these are set using accessor methods. if not, the search 
-// returns null anyway (0 default values for both).
 class AbstractAnnotatedAStar : public aStarOld
 {
 	public:	

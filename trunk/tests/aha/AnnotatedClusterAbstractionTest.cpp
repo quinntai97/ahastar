@@ -678,7 +678,7 @@ void AnnotatedClusterAbstractionTest::distanceShouldCalculateTheWeightOfTheShort
 	
 	aastar.setCapability(kGround);
 	aastar.setClearance(1);
-	path* p = aastar.getPath(ama, start, goal);
+	path* p = aastar.getPath(ama, start, goal); 
 	double expectedDist = (int(ama->distance(p)*100+0.5))/100.0;
 	double actualDist = (int(aca->distance(p)*100+0.5))/100.0;
 	

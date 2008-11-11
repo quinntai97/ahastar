@@ -56,7 +56,7 @@ class AnnotatedClusterAbstraction : public AnnotatedMapAbstraction
 		virtual int getClusterSize() { return clustersize; } 
 		virtual int getNumClusters() { return clusters.size(); } 
 		virtual AnnotatedCluster* getCluster(int cid);
-		virtual double distance(path* p); 
+		virtual double distance(path* p); //TODO: move into path.h (also needs to be removed from graphAbstraction)
 		
 		int getNodesExpanded() { return nodesExpanded; }
 		void setNodesExpanded(int num) {  nodesExpanded = num; }
