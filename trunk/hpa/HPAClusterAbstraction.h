@@ -16,6 +16,7 @@
 
 #include "mapAbstraction.h"
 #include "HPAUtil.h"
+#include <stdexcept>
 
 class IHPAClusterFactory;
 class INodeFactory;
@@ -39,6 +40,10 @@ class HPAClusterAbstraction : public mapAbstraction
 		virtual void buildEntrances();
 		virtual void buildClusters();
 		
+		/* insert and remove start/goal */
+		virtual void insertStartAndGoalNodesIntoAbstractGraph(node*, node*) throw(std::invalid_argument);
+		void removeStartAndGoalNodesFromAbstractGraph() throw(std::runtime_error);
+		
 		/* cluster getters and iterator functions */
 		cluster_iterator getClusterIter() const { return clusters.begin(); }
 		HPACluster* clusterIterNext(cluster_iterator&) const;
@@ -59,6 +64,7 @@ class HPAClusterAbstraction : public mapAbstraction
 		/* path caching for quick refinement */
 		void addPathToCache(edge* e, path* p);
 		path* getPathFromCache(edge* e);
+		int getPathCacheSize() { return pathCache.size(); }
 
 		/* drawing and overlay methods */
 		virtual void openGLDraw(); 
