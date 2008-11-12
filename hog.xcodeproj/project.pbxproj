@@ -82,6 +82,7 @@
 		62D10DF30EC93682004D63CC /* HPACluster.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 62D10DF20EC93682004D63CC /* HPACluster.cpp */; };
 		62D10DF40EC93682004D63CC /* HPACluster.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 62D10DF20EC93682004D63CC /* HPACluster.cpp */; };
 		62D10E880EC943D2004D63CC /* HPAClusterTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 62D10E870EC943D2004D63CC /* HPAClusterTest.cpp */; };
+		62D111550ECAA0C5004D63CC /* HPAClusterMock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 62D111540ECAA0C5004D63CC /* HPAClusterMock.cpp */; };
 		62E914040CFD4D5100AA46AB /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 62E911770CFD4B3000AA46AB /* OpenGL.framework */; };
 		62E914050CFD4D5100AA46AB /* GLUT.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 62E911730CFD4B1B00AA46AB /* GLUT.framework */; };
 		62E914060CFD4D5100AA46AB /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 20286C33FDCF999611CA2CEA /* Carbon.framework */; };
@@ -311,6 +312,8 @@
 		62D10E860EC943D2004D63CC /* HPAClusterTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPAClusterTest.h; sourceTree = "<group>"; };
 		62D10E870EC943D2004D63CC /* HPAClusterTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = HPAClusterTest.cpp; sourceTree = "<group>"; };
 		62D10EC90EC950F9004D63CC /* HPAUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPAUtil.h; sourceTree = "<group>"; };
+		62D111530ECAA0C5004D63CC /* HPAClusterMock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPAClusterMock.h; sourceTree = "<group>"; };
+		62D111540ECAA0C5004D63CC /* HPAClusterMock.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = HPAClusterMock.cpp; sourceTree = "<group>"; };
 		62D8B96E0D17FC0400CDEE75 /* AHAConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AHAConstants.h; path = aha/AHAConstants.h; sourceTree = "<group>"; };
 		62E911730CFD4B1B00AA46AB /* GLUT.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLUT.framework; path = /System/Library/Frameworks/GLUT.framework; sourceTree = "<absolute>"; };
 		62E911770CFD4B3000AA46AB /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = /System/Library/Frameworks/OpenGL.framework; sourceTree = "<absolute>"; };
@@ -660,6 +663,8 @@
 			children = (
 				62D10C8D0EC907A9004D63CC /* MockClusterFactory.h */,
 				62D10C8E0EC907A9004D63CC /* MockClusterFactory.cpp */,
+				62D111530ECAA0C5004D63CC /* HPAClusterMock.h */,
+				62D111540ECAA0C5004D63CC /* HPAClusterMock.cpp */,
 			);
 			name = mock;
 			sourceTree = "<group>";
@@ -1192,6 +1197,7 @@
 				62D10C8F0EC907A9004D63CC /* MockClusterFactory.cpp in Sources */,
 				62D10DF30EC93682004D63CC /* HPACluster.cpp in Sources */,
 				62D10E880EC943D2004D63CC /* HPAClusterTest.cpp in Sources */,
+				62D111550ECAA0C5004D63CC /* HPAClusterMock.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

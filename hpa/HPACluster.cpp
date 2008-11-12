@@ -45,19 +45,22 @@ void HPACluster::addNode(node* mynode) throw(std::invalid_argument)
 		throw std::invalid_argument(oss.str().c_str());
 	}
 	
-	if(mynode->getParentCluster() != -1)
+	if(mynode->getLabelL(kParent) != -1)
 	{
 		std::ostringstream oss;
 		oss << "node @ "<< nx <<","<< ny <<" is already assigned to cluster "<<mynode->getParentCluster();
 		throw std::invalid_argument(oss.str().c_str());
 	}
 			
-	mynode->setParentCluster(this->getClusterId());
+	mynode->setLabelL(kParent, this->getClusterId());
 	nodes[mynode->getUniqueID()] = mynode;
 }
 
 void HPACluster::addParent(node* parentnode, HPAClusterAbstraction* aca)
 {
+	parentnode->setLabelL(kParent, this->getClusterId());
+	nodes[parentnode->getUniqueID()] = parentnode;
+	
 /*	if(parentnode->getParentCluster() != -1)
 	{
 		if(parentnode->getParentCluster() != this->getClusterId())
@@ -76,6 +79,32 @@ void HPACluster::addParent(node* parentnode, HPAClusterAbstraction* aca)
 */
 }
 
+void HPACluster::removeParent(int clusterId)
+{
+	node* n = nodes[clusterId];
+	if(n != 0)
+	{
+		nodes.erase(clusterId); // only removed from parents hashmap
+	}	
+}
+
+bool HPACluster::hasaParent(node* n)
+{
+	int nx = n->getLabelL(kFirstData);
+	int ny = n->getLabelL(kFirstData+1);
+
+	HPAUtil::nodeTable::iterator it = parents.begin();	
+	while(it != parents.end())
+	{
+		node* p = (*it).second;
+		if(p->getLabelL(kFirstData) == nx && p->getLabelL(kFirstData+1) == ny)
+			return true;
+		it++;	
+	}
+	
+	return false;
+}
+
 /* add all traversable nodes in the cluster area to the cluster */
 void HPACluster::addNodesToCluster(HPAClusterAbstraction* aMap) throw(std::invalid_argument)
 {
@@ -89,3 +118,9 @@ void HPACluster::addNodesToCluster(HPAClusterAbstraction* aMap) throw(std::inval
 			addNode(aMap->getNodeFromMap(x,y));
 		}
 }
+
+void HPACluster::buildEntrances(HPAClusterAbstraction* hpacaMap)
+{
+
+}
+

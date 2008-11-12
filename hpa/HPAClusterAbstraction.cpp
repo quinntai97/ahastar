@@ -16,6 +16,8 @@
 #include "NodeFactory.h"
 #include "EdgeFactory.h"
 #include "path.h"
+#include <stdexcept>
+#include <sstream>
 
 
 // TODO: throw an exception if anything of the parameter pointers are NULL.
@@ -114,6 +116,107 @@ HPACluster* HPAClusterAbstraction::clusterIterNext(cluster_iterator &iter) const
 	}
   return 0;
 }
+
+/* Remove any nodes we added into the abstract graph to facilitate some search query. */		
+void HPAClusterAbstraction::removeStartAndGoalNodesFromAbstractGraph() throw(std::runtime_error)
+{
+	if(startid == -1 || goalid == -1)
+		return;
+
+	graph* g = abstractions[1];
+	node* start = NULL;
+	node* goal = NULL;
+
+	start = g->getNode(startid);
+	goal = g->getNode(goalid);
+	
+	if(start == NULL || goal == NULL)
+		throw std::runtime_error("Invalid startid or goalid while trying to remove from abstract graph");
+		
+	//	std::cout << "\n erasing start..";
+	if(start)
+	{		
+		edge_iterator ei = start->getEdgeIter();
+		edge* e = start->edgeIterNext(ei);
+		while(e)
+		{
+			delete pathCache[e->getUniqueID()];
+			pathCache.erase(e->getUniqueID());
+			g->removeEdge(e);
+			delete e;
+			ei = start->getEdgeIter();
+			e = start->edgeIterNext(ei);
+		}
+		
+		HPACluster* startCluster = clusters[start->getLabelL(kParent)];
+		startCluster->removeParent(startid); 
+		g->removeNode(startid); 
+		
+		startid = -1;
+		node* originalStart = getNodeFromMap(start->getLabelL(kFirstData), start->getLabelL(kFirstData+1));
+		originalStart->setLabelL(kParent, startid);
+		delete start;
+	}
+
+	//	std::cout << " erasing goal...";
+	if(goal)
+	{		
+		edge_iterator ei = goal->getEdgeIter();
+		edge* e = goal->edgeIterNext(ei);
+		while(e)
+		{
+			g->removeEdge(e);
+			delete pathCache[e->getUniqueID()];
+			pathCache.erase(e->getUniqueID());
+			delete e;
+			ei = goal->getEdgeIter();
+			e = goal->edgeIterNext(ei);
+		}
+		
+		HPACluster* goalCluster = clusters[goal->getLabelL(kParent)];
+		goalCluster->removeParent(goalid);
+		g->removeNode(goal->getNum()); 
+
+		goalid = -1;
+		node* originalGoal = getNodeFromMap(goal->getLabelL(kFirstData), goal->getLabelL(kFirstData+1));
+		originalGoal->setLabelL(kParent, startid);
+		delete goal;
+	}
+}
+
+void HPAClusterAbstraction::insertStartAndGoalNodesIntoAbstractGraph(node* start, node* goal) throw(std::invalid_argument)
+{
+	if(start == NULL || goal == NULL)
+		throw std::invalid_argument("insertion error: null start or goal");
+		
+	if(start->getLabelL(kAbstractionLevel) != 0 || goal->getLabelL(kAbstractionLevel) != 0)
+		throw std::invalid_argument("insertion error: start or goal is an abstract node (only non-abstract nodes can be inserted into the abstract graph)");
+
+	nodesExpanded = nodesTouched = peakMemory = 0;
+	searchTime = 0;
+
+	node *absstart, *absgoal;
+	HPACluster* startCluster = clusters[start->getLabelL(kParent)];
+	HPACluster* goalCluster = clusters[goal->getLabelL(kParent)];
+	if(!startCluster->hasaParent(start)) // only add nodes that don't already exist in the abstract graph
+	{	
+		absstart = dynamic_cast<node*>(start->clone());
+		absstart->setLabelL(kAbstractionLevel, start->getLabelL(kAbstractionLevel)+1);
+		abstractions[1]->addNode(absstart);
+		startid = absstart->getNum();
+		
+		startCluster->addParent(absstart, this);
+	}
+	if(!goalCluster->hasaParent(goal))
+	{
+		absgoal = dynamic_cast<node*>(goal->clone());
+		absgoal->setLabelL(kAbstractionLevel, goal->getLabelL(kAbstractionLevel)+1);
+		abstractions[1]->addNode(absgoal);
+		goalid = absgoal->getNum();
+		goalCluster->addParent(absgoal, this);
+	}
+}
+
 
 void HPAClusterAbstraction::openGLDraw()
 {
