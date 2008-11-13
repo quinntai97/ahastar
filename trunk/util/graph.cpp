@@ -685,8 +685,9 @@ node::node(const char *n)
 {
 	// fixme: unsafe, 30?
 	strncpy(name, n, 30);
-	//	for (int x = 0; x < MAXLABELS; x++)
-	//		label[x] = MAXINT;
+//	for (int x = 0; x < label.size(); x++)
+//		label[x].lval = MAXINT;
+		
 	keyLabel = 0;
 	markedEdge = 0;
 
@@ -709,6 +710,7 @@ node::node(const node* n)
 }
 
 // clones all labels, all annotations, nodeNum, weight etc. DOES NOT clone edges or parentclusterid
+// TODO: remove annotations stuff. call copy constructor
 graph_object *node::clone() const
 {
   node *n = new node(name);

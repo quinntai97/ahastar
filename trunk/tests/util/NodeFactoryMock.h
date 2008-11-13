@@ -16,7 +16,8 @@ class NodeFactoryMock : public INodeFactory
 {
 	public:
 		NodeFactoryMock() : count(0) {}
-		virtual node* newNode(const char* name);
+		virtual node* newNode(const char* name) throw(std::invalid_argument);
+		virtual node* newNode(const node* n) throw(std::invalid_argument);
 		int count;
 };
 

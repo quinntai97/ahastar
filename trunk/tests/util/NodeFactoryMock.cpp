@@ -10,8 +10,14 @@
 #include "NodeFactoryMock.h"
 #include "graph.h"
 
-node* NodeFactoryMock::newNode(const char* name)
+node* NodeFactoryMock::newNode(const char* name) throw(std::invalid_argument)
 {
 	count++;
 	return new node(name);
+}
+
+node* NodeFactoryMock::newNode(const node* n) throw(std::invalid_argument)
+{
+	count++;
+	return new node(n);	
 }

@@ -9,6 +9,7 @@
 
 #include "HPACluster.h"
 #include "HPAClusterAbstraction.h"
+#include "ClusterNode.h"
 #include "graph.h"
 #include "HPAUtil.h"
 #include <stdexcept>
@@ -22,8 +23,9 @@ HPACluster::HPACluster(const int x, const int y, const int _width, const int _he
 	this->clusterId = ++uniqueClusterIdCnt;
 }
 
-void HPACluster::addNode(node* mynode) throw(std::invalid_argument)
+void HPACluster::addNode(node* _mynode) throw(std::invalid_argument)
 {
+	ClusterNode* mynode = dynamic_cast<ClusterNode*>(_mynode);
 	if(mynode == NULL)
 	{
 		std::ostringstream oss;
@@ -45,20 +47,21 @@ void HPACluster::addNode(node* mynode) throw(std::invalid_argument)
 		throw std::invalid_argument(oss.str().c_str());
 	}
 	
-	if(mynode->getLabelL(kParent) != -1)
+	if(mynode->getParentClusterId() != -1)
 	{
 		std::ostringstream oss;
 		oss << "node @ "<< nx <<","<< ny <<" is already assigned to cluster "<<mynode->getParentCluster();
 		throw std::invalid_argument(oss.str().c_str());
 	}
 			
-	mynode->setLabelL(kParent, this->getClusterId());
+	mynode->setParentClusterId(this->getClusterId());
 	nodes[mynode->getUniqueID()] = mynode;
 }
 
-void HPACluster::addParent(node* parentnode, HPAClusterAbstraction* aca)
+void HPACluster::addParent(node* _parentnode, HPAClusterAbstraction* aca)
 {
-	parentnode->setLabelL(kParent, this->getClusterId());
+	ClusterNode* parentnode = dynamic_cast<ClusterNode*>(_parentnode);
+	parentnode->setParentClusterId(this->getClusterId());
 	nodes[parentnode->getUniqueID()] = parentnode;
 	
 /*	if(parentnode->getParentCluster() != -1)
