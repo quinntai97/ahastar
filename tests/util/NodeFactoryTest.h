@@ -22,12 +22,14 @@ class NodeFactoryTest : public CPPUNIT_NS::TestFixture
 {
 	CPPUNIT_TEST_SUITE( NodeFactoryTest );
 	CPPUNIT_TEST( newNodeShouldConstructANewNodeObject );
+	CPPUNIT_TEST( newNodeShouldConstructANewNodeObjectGivenAnotherNodeAsAParameter );
 	CPPUNIT_TEST_SUITE_END();
 
 	public:
 		void setUp();
 		void tearDown();
 		void newNodeShouldConstructANewNodeObject();
+		void newNodeShouldConstructANewNodeObjectGivenAnotherNodeAsAParameter();
 		
 	private:
 		NodeFactory* nf;

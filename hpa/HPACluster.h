@@ -30,6 +30,7 @@ class HPACluster
 		virtual void addParent(node *, HPAClusterAbstraction*);
 		virtual void removeParent(int nodeId);
 		virtual void addNodesToCluster(HPAClusterAbstraction*) throw(std::invalid_argument);
+		virtual bool hasaParent(node* n);
 				
 		int getVOrigin() { return starty; }
 		int getHOrigin() { return startx; }
@@ -39,8 +40,7 @@ class HPACluster
 		int getClusterId() { return clusterId; }
 		void setClusterId(const int newid) { clusterId = newid; }
 		int getNumParents() { return nodes.size(); }
-		node* getParent(int parentId) { return nodes[parentId]; }
-		bool hasaParent(node* n);
+//		node* getParent(int parentId) { return nodes[parentId]; }
 
 	protected:
 		void addNode(node* mynode) throw(std::invalid_argument);

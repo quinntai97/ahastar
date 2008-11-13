@@ -16,10 +16,14 @@
 
 using namespace CppUnit;
 
+class ClusterNodeFactory;
+class HPAClusterFactory;
+class EdgeFactory;
 class HPAClusterAbstractionTest : public CPPUNIT_NS::TestFixture
 {
 	CPPUNIT_TEST_SUITE( HPAClusterAbstractionTest );
 	CPPUNIT_TEST( constructorShouldCreateANewGraphObject );
+	CPPUNIT_TEST_EXCEPTION( constructorThrowsExceptionGivenAnIncompatibleNodeFactoryParameter, std::invalid_argument );
 	
 	CPPUNIT_TEST( buildClustersShouldSplitTheMapAreaIntoCorrectNumberOfClusters );
 	CPPUNIT_TEST( buildClustersShouldCalculateCorrectClusterSize );
@@ -41,12 +45,9 @@ class HPAClusterAbstractionTest : public CPPUNIT_NS::TestFixture
 	CPPUNIT_TEST_EXCEPTION( insertStartAndGoalIntoAbstractGraphShouldThrowExceptionGivenANullGoalParameter, std::invalid_argument );
 	CPPUNIT_TEST_EXCEPTION( insertStartAndGoalIntoAbstractGraphShouldThrowExceptionGivenAnAbstractStartParameter, std::invalid_argument );
 	CPPUNIT_TEST_EXCEPTION( insertStartAndGoalIntoAbstractGraphShouldThrowExceptionGivenAnAbstractGoalParameter, std::invalid_argument );
-/*	CPPUNIT_TEST( insertStartAndGoalNodesIntoAbstractGraphShouldAddTwoNewNodesIntoTheAbstractGraphAndParentClusters );
+	CPPUNIT_TEST( insertStartAndGoalNodesIntoAbstractGraphShouldAddTwoNewNodesIntoTheAbstractGraphAndParentClusters );
 	CPPUNIT_TEST( insertStartAndGoalNodesIntoAbstractGraphShouldNotCreateNewAbstractNodesIfASuitableNodeAlreadyExistsInTheAbstractGraph );
-	CPPUNIT_TEST( insertStartAndGoalIntoAbstractGraphShouldSet_kAbstractionLevel_LabelOfNewNodesToPointToTheCorrectAbstractGraph );
 	CPPUNIT_TEST( insertStartAndGoalIntoAbstractGraphShouldRecordStatisticsToMeasureInsertionEffort );
-	CPPUNIT_TEST( insertStartAndGoalIntoAbstractGraphShouldAddToCacheAPathForEachNewlyCreatedEdge );
-*/
 	
 /*	CPPUNIT_TEST( hShouldProduceIdenticalResultsToOverriddenMethodInMapAbstractionGivenTwoValidNodeParameters );
 	CPPUNIT_TEST_EXCEPTION( hShouldThrowExceptionGivenANullNodeParameter, NodeIsNullException );
@@ -59,11 +60,13 @@ class HPAClusterAbstractionTest : public CPPUNIT_NS::TestFixture
 		void setUp();
 		void tearDown();
 		
+		void constructorShouldCreateANewGraphObject();
+		void constructorThrowsExceptionGivenAnIncompatibleNodeFactoryParameter();
+		
 		void buildClustersShouldSplitTheMapAreaIntoCorrectNumberOfClusters();
 		void buildClustersShouldCalculateCorrectClusterSize();
 		
-		void getClusterSizeShouldReturnSameValueAsConstructorParameter();
-		void constructorShouldCreateANewGraphObject();
+		void getClusterSizeShouldReturnSameValueAsConstructorParameter();		
 		void getClusterShouldReturnZeroWhenIdParameterIsLessThanZero();
 		void getClusterShouldReturnZeroWhenIdParameterIsGreaterThanNumberOfClusters();
 		void getClusterShouldReturnRequestedClusterGivenAValidClusterId();
@@ -79,11 +82,16 @@ class HPAClusterAbstractionTest : public CPPUNIT_NS::TestFixture
 		void insertStartAndGoalIntoAbstractGraphShouldThrowExceptionGivenANullGoalParameter() throw(std::invalid_argument);
 		void insertStartAndGoalIntoAbstractGraphShouldThrowExceptionGivenAnAbstractStartParameter() throw(std::invalid_argument);
 		void insertStartAndGoalIntoAbstractGraphShouldThrowExceptionGivenAnAbstractGoalParameter() throw(std::invalid_argument);
+		void insertStartAndGoalNodesIntoAbstractGraphShouldAddTwoNewNodesIntoTheAbstractGraphAndParentClusters();
+		void insertStartAndGoalNodesIntoAbstractGraphShouldNotCreateNewAbstractNodesIfASuitableNodeAlreadyExistsInTheAbstractGraph();
+		void insertStartAndGoalIntoAbstractGraphShouldRecordStatisticsToMeasureInsertionEffort();
 		
 		
 
 	private:
-//		HPAClusterAbstraction* hpacaMap;
+		ClusterNodeFactory *nf;
+		EdgeFactory *ef;
+		HPAClusterFactory *cf;
 };
 
 #endif

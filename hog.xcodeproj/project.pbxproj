@@ -52,6 +52,14 @@
 		625DF2E00EC6AE8800EADFFB /* AnnotatedEdgeFactory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 625DF2DE0EC6AE8800EADFFB /* AnnotatedEdgeFactory.cpp */; };
 		625DF31E0EC6B6D600EADFFB /* AnnotatedEdgeFactoryTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 625DF31D0EC6B6D600EADFFB /* AnnotatedEdgeFactoryTest.cpp */; };
 		625DF31F0EC6B6D600EADFFB /* AnnotatedEdgeFactoryTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 625DF31D0EC6B6D600EADFFB /* AnnotatedEdgeFactoryTest.cpp */; };
+		626A5E4D0ECBAB4E0071F68B /* NodeMock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 626A5E4C0ECBAB4E0071F68B /* NodeMock.cpp */; };
+		626A5E790ECBAFC30071F68B /* NodeTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 626A5E780ECBAFC30071F68B /* NodeTest.cpp */; };
+		626A60400ECBEFFF0071F68B /* ClusterNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 626A603F0ECBEFFF0071F68B /* ClusterNode.cpp */; };
+		626A60410ECBEFFF0071F68B /* ClusterNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 626A603F0ECBEFFF0071F68B /* ClusterNode.cpp */; };
+		626A60570ECBF2A60071F68B /* ClusterNodeFactory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 626A60560ECBF2A60071F68B /* ClusterNodeFactory.cpp */; };
+		626A60580ECBF2A60071F68B /* ClusterNodeFactory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 626A60560ECBF2A60071F68B /* ClusterNodeFactory.cpp */; };
+		626A60750ECBF6F50071F68B /* ClusterNodeTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 626A60740ECBF6F50071F68B /* ClusterNodeTest.cpp */; };
+		626A60FE0ECC02290071F68B /* ClusterNodeMock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 626A60FD0ECC02290071F68B /* ClusterNodeMock.cpp */; };
 		6288562A0EC5199F007DEC7F /* AnnotatedAStarTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 628856160EC5199F007DEC7F /* AnnotatedAStarTest.cpp */; };
 		6288562B0EC5199F007DEC7F /* AnnotatedClusterAbstractionTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 628856180EC5199F007DEC7F /* AnnotatedClusterAbstractionTest.cpp */; };
 		6288562C0EC5199F007DEC7F /* AnnotatedClusterFactoryTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6288561A0EC5199F007DEC7F /* AnnotatedClusterFactoryTest.cpp */; };
@@ -260,6 +268,18 @@
 		625DF2DE0EC6AE8800EADFFB /* AnnotatedEdgeFactory.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = AnnotatedEdgeFactory.cpp; path = aha/AnnotatedEdgeFactory.cpp; sourceTree = "<group>"; };
 		625DF31C0EC6B6D600EADFFB /* AnnotatedEdgeFactoryTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AnnotatedEdgeFactoryTest.h; path = tests/aha/AnnotatedEdgeFactoryTest.h; sourceTree = SOURCE_ROOT; };
 		625DF31D0EC6B6D600EADFFB /* AnnotatedEdgeFactoryTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = AnnotatedEdgeFactoryTest.cpp; path = tests/aha/AnnotatedEdgeFactoryTest.cpp; sourceTree = SOURCE_ROOT; };
+		626A5E4B0ECBAB4E0071F68B /* NodeMock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NodeMock.h; sourceTree = "<group>"; };
+		626A5E4C0ECBAB4E0071F68B /* NodeMock.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NodeMock.cpp; sourceTree = "<group>"; };
+		626A5E770ECBAFC30071F68B /* NodeTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NodeTest.h; sourceTree = "<group>"; };
+		626A5E780ECBAFC30071F68B /* NodeTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NodeTest.cpp; sourceTree = "<group>"; };
+		626A603E0ECBEFFF0071F68B /* ClusterNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClusterNode.h; sourceTree = "<group>"; };
+		626A603F0ECBEFFF0071F68B /* ClusterNode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ClusterNode.cpp; sourceTree = "<group>"; };
+		626A60550ECBF2A60071F68B /* ClusterNodeFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClusterNodeFactory.h; sourceTree = "<group>"; };
+		626A60560ECBF2A60071F68B /* ClusterNodeFactory.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ClusterNodeFactory.cpp; sourceTree = "<group>"; };
+		626A60730ECBF6F50071F68B /* ClusterNodeTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClusterNodeTest.h; sourceTree = "<group>"; };
+		626A60740ECBF6F50071F68B /* ClusterNodeTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ClusterNodeTest.cpp; sourceTree = "<group>"; };
+		626A60FC0ECC02290071F68B /* ClusterNodeMock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClusterNodeMock.h; sourceTree = "<group>"; };
+		626A60FD0ECC02290071F68B /* ClusterNodeMock.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ClusterNodeMock.cpp; sourceTree = "<group>"; };
 		628856160EC5199F007DEC7F /* AnnotatedAStarTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = AnnotatedAStarTest.cpp; path = tests/aha/AnnotatedAStarTest.cpp; sourceTree = SOURCE_ROOT; };
 		628856170EC5199F007DEC7F /* AnnotatedAStarTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AnnotatedAStarTest.h; path = tests/aha/AnnotatedAStarTest.h; sourceTree = SOURCE_ROOT; };
 		628856180EC5199F007DEC7F /* AnnotatedClusterAbstractionTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = AnnotatedClusterAbstractionTest.cpp; path = tests/aha/AnnotatedClusterAbstractionTest.cpp; sourceTree = SOURCE_ROOT; };
@@ -540,6 +560,8 @@
 				62D10C720EC9065C004D63CC /* HPAClusterFactoryTest.cpp */,
 				62D10E860EC943D2004D63CC /* HPAClusterTest.h */,
 				62D10E870EC943D2004D63CC /* HPAClusterTest.cpp */,
+				626A60730ECBF6F50071F68B /* ClusterNodeTest.h */,
+				626A60740ECBF6F50071F68B /* ClusterNodeTest.cpp */,
 			);
 			name = hpa;
 			path = tests/hpa;
@@ -556,6 +578,10 @@
 				62D10DF20EC93682004D63CC /* HPACluster.cpp */,
 				62D10DFC0EC93A1C004D63CC /* IHPAClusterFactory.h */,
 				62D10EC90EC950F9004D63CC /* HPAUtil.h */,
+				626A603E0ECBEFFF0071F68B /* ClusterNode.h */,
+				626A603F0ECBEFFF0071F68B /* ClusterNode.cpp */,
+				626A60550ECBF2A60071F68B /* ClusterNodeFactory.h */,
+				626A60560ECBF2A60071F68B /* ClusterNodeFactory.cpp */,
 			);
 			path = hpa;
 			sourceTree = "<group>";
@@ -636,6 +662,10 @@
 				625DEFCC0EC543F200EADFFB /* EdgeFactoryTest.cpp */,
 				625DF0D10EC5CC1C00EADFFB /* EdgeFactoryMock.h */,
 				625DF0D20EC5CC1C00EADFFB /* EdgeFactoryMock.cpp */,
+				626A5E4B0ECBAB4E0071F68B /* NodeMock.h */,
+				626A5E4C0ECBAB4E0071F68B /* NodeMock.cpp */,
+				626A5E770ECBAFC30071F68B /* NodeTest.h */,
+				626A5E780ECBAFC30071F68B /* NodeTest.cpp */,
 			);
 			name = util;
 			path = tests/util;
@@ -665,6 +695,8 @@
 				62D10C8E0EC907A9004D63CC /* MockClusterFactory.cpp */,
 				62D111530ECAA0C5004D63CC /* HPAClusterMock.h */,
 				62D111540ECAA0C5004D63CC /* HPAClusterMock.cpp */,
+				626A60FC0ECC02290071F68B /* ClusterNodeMock.h */,
+				626A60FD0ECC02290071F68B /* ClusterNodeMock.cpp */,
 			);
 			name = mock;
 			sourceTree = "<group>";
@@ -1146,6 +1178,8 @@
 				62D10C740EC9065C004D63CC /* HPAClusterFactoryTest.cpp in Sources */,
 				62D10C900EC907A9004D63CC /* MockClusterFactory.cpp in Sources */,
 				62D10DF40EC93682004D63CC /* HPACluster.cpp in Sources */,
+				626A60410ECBEFFF0071F68B /* ClusterNode.cpp in Sources */,
+				626A60580ECBF2A60071F68B /* ClusterNodeFactory.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1198,6 +1232,12 @@
 				62D10DF30EC93682004D63CC /* HPACluster.cpp in Sources */,
 				62D10E880EC943D2004D63CC /* HPAClusterTest.cpp in Sources */,
 				62D111550ECAA0C5004D63CC /* HPAClusterMock.cpp in Sources */,
+				626A5E4D0ECBAB4E0071F68B /* NodeMock.cpp in Sources */,
+				626A5E790ECBAFC30071F68B /* NodeTest.cpp in Sources */,
+				626A60400ECBEFFF0071F68B /* ClusterNode.cpp in Sources */,
+				626A60570ECBF2A60071F68B /* ClusterNodeFactory.cpp in Sources */,
+				626A60750ECBF6F50071F68B /* ClusterNodeTest.cpp in Sources */,
+				626A60FE0ECC02290071F68B /* ClusterNodeMock.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

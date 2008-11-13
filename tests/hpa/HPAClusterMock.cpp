@@ -8,6 +8,7 @@
  */
 
 #include "HPAClusterMock.h"
+#include <stdexcept>
 
 void HPAClusterMock::buildEntrances(HPAClusterAbstraction* hpacaMap) 
 {
@@ -21,11 +22,20 @@ void HPAClusterMock::addNodesToCluster(HPAClusterAbstraction* hpacaMap) throw(st
 
 void HPAClusterMock::addParent(node* n, HPAClusterAbstraction* hpacaMap)
 {
-	this->addParentMocker.forward(n, hpacaMap);// (n);
-	//HPACluster::addParent(n, hpacaMap);
+	if(!(n == this->n && hpacaMap == this->hpac))
+		throw std::invalid_argument("addParent called with unexpected arguments");
+	this->addParentInvocationCountActual++;
+	//this->addParentMocker.forward(n, hpacaMap);// (n);
 }
 
 void HPAClusterMock::removeParent(int nodeId)
 {
 	this->removeParentMocker.forward(nodeId);
+}
+
+void HPAClusterMock::verify() 
+{ 
+	if(this->addParentInvocationCountActual != addParentInvocationCount)
+		throw std::invalid_argument("addParent called wrong number of times");
+	ChainableMockObject::verify();
 }
