@@ -29,18 +29,30 @@
 #include <stdexcept>
 
 class HPAClusterAbstraction;
+class AbstractClusterAStar;
 
 class HPAClusterMock : public HPACluster, public MOCKPP_NS::ChainableMockObject
 {
 	public:
-		HPAClusterMock(int startx, int starty, int width, int height) 
-		:	HPACluster(startx, starty, width, height)
+		HPAClusterMock(int x, int y, int _width, int _height, AbstractClusterAStar* _alg) 
+		:	HPACluster(x, y, _width, _height, _alg)
 			, MOCKPP_NS::ChainableMockObject(MOCKPP_PCHAR("HPAClusterMock"), 0)
 			, buildEntrancesMocker("buildEntrances", this)
 			, addNodesToClusterMocker("addNodesToCluster", this) 
 			//, addParentMocker("addParent", this)
 			, removeParentMocker("removeParent", this)
 		{ addParentInvocationCount=0; addParentInvocationCountActual=0;	}
+		HPAClusterMock(int x, int y, int _width, int _height) 
+		:	HPACluster(x, y, _width, _height)
+			, MOCKPP_NS::ChainableMockObject(MOCKPP_PCHAR("HPAClusterMock"), 0)
+			, buildEntrancesMocker("buildEntrances", this)
+			, addNodesToClusterMocker("addNodesToCluster", this) 
+			//, addParentMocker("addParent", this)
+			, removeParentMocker("removeParent", this)
+		{ addParentInvocationCount=0; addParentInvocationCountActual=0;	}
+
+
+		virtual ~HPAClusterMock() {}
 		
 		virtual void buildEntrances(HPAClusterAbstraction*);
 		virtual void addNodesToCluster(HPAClusterAbstraction*) throw(std::invalid_argument);

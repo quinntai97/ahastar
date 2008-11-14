@@ -23,7 +23,7 @@ class INodeFactory;
 class IEdgeFactory;
 class HPACluster;
 class Map;
-class searchAlgorithm;
+class IClusterAStarFactory;
 class path;
 
 typedef HPAUtil::clusterTable::const_iterator cluster_iterator;
@@ -34,7 +34,7 @@ class HPAClusterAbstraction : public mapAbstraction
 	#endif
 
 	public:
-		HPAClusterAbstraction(Map* m, searchAlgorithm* alg, IHPAClusterFactory* cf, INodeFactory* nf, IEdgeFactory* ef, unsigned int clustersize) throw(std::invalid_argument);
+		HPAClusterAbstraction(Map* m, IClusterAStarFactory* caf, IHPAClusterFactory* cf, INodeFactory* nf, IEdgeFactory* ef, unsigned int clustersize) throw(std::invalid_argument);
 		virtual ~HPAClusterAbstraction();
 		
 		virtual void buildEntrances();
@@ -52,11 +52,11 @@ class HPAClusterAbstraction : public mapAbstraction
 		int getNumClusters() { return clusters.size(); } 
 
 		/* measure insertion effort */
-		int getNodesExpanded() { return nodesExpanded; }
+		long getNodesExpanded() { return nodesExpanded; }
 		void setNodesExpanded(int num) {  nodesExpanded = num; }
-		int getNodesTouched() { return nodesTouched; }
+		long getNodesTouched() { return nodesTouched; }
 		void setNodesTouched(int num) {  nodesTouched = num; }
-		int getPeakMemory() { return peakMemory; }
+		long getPeakMemory() { return peakMemory; }
 		void setPeakMemory(int num) {  peakMemory = num; }
 		double getSearchTime() { return searchTime; }
 		void setSearchTime(double newtime) { searchTime = newtime; }
@@ -89,7 +89,7 @@ class HPAClusterAbstraction : public mapAbstraction
 		IHPAClusterFactory* cf;
 		INodeFactory* nf;
 		IEdgeFactory* ef;
-		searchAlgorithm* alg;
+		IClusterAStarFactory* caf;
 
 		HPAUtil::clusterTable clusters;
 		HPAUtil::pathTable pathCache;
@@ -98,10 +98,10 @@ class HPAClusterAbstraction : public mapAbstraction
 		int startid, goalid; // for use during insertion
 		bool drawClusters; 
 
-		int nodesExpanded; 
-		int nodesTouched; 
+		long nodesExpanded; 
+		long nodesTouched; 
 		double searchTime;
-		int peakMemory;
+		long peakMemory;
 };
 
 #endif

@@ -17,8 +17,8 @@
 class HPAClusterTest : public CPPUNIT_NS::TestFixture
 {
 	CPPUNIT_TEST_SUITE( HPAClusterTest );
-	CPPUNIT_TEST( hasaParentReturnsTrueGivenANodeWithTheSameCoordinatesAsTheParameterNode );
-	CPPUNIT_TEST( hasaParentReturnsFalseGivenANodeWithDifferentCoordinatesFromTheParameterNode );
+//	CPPUNIT_TEST( hasaParentReturnsTrueGivenANodeWithTheSameCoordinatesAsTheParameterNode );
+//	CPPUNIT_TEST( hasaParentReturnsFalseGivenANodeWithDifferentCoordinatesFromTheParameterNode );
 	//	CPPUNIT_TEST( insertStartAndGoalIntoAbstractGraphShouldAddToCacheAPathForEachNewlyCreatedEdge );
 	CPPUNIT_TEST_SUITE_END();
 

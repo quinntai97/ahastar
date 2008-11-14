@@ -33,10 +33,10 @@
 #include "heap.h"
 
 /** Corridor AStar builds a a* path between two nodes, restricting itself to
-a particular corridor, if defined. The corridor must be set before every search
-if it is to be used properly. After each getPath call the corridor is reset. If
-no corridor is defined, it will explore all nodes.
-*/
+ a particular corridor, if defined. The corridor must be set before every search
+ if it is to be used properly. After each getPath call the corridor is reset. If
+ no corridor is defined, it will explore all nodes.
+ */
 
 class corridorAStar : public searchAlgorithm {
 public:
@@ -44,20 +44,20 @@ public:
 	virtual ~corridorAStar() {}
 	path *getPath(graphAbstraction *aMap, node *from, node *to, reservationProvider *rp = 0);
 	/** get the best path from FROM to TO. Use hGoal as the heuristic goal. If TO is not on
-		* the same level as from path will be returned that ends inside the child of TO. */
+	 * the same level as from path will be returned that ends inside the child of TO. */
 	path *getBestPath(graphAbstraction *aMap, node *from, node *to, node *hGoal, reservationProvider *rp = 0);
 	/** get the best path from aFROM to aTO. Use an insertion edge cost from the original from/to. */
 	path *getBestPath(graphAbstraction *aMap, node *afrom, node *ato, node *from, node *to, reservationProvider *rp = 0);
 	void setCorridor(const std::vector<node *> *);
 	virtual const char *getName() { return "corridorAStar"; }
 private:
-		void relaxEdge(heap *nodeHeap, graph *g, graphAbstraction *aMap,
-									 edge *e, node *from, node *to, node *dest);
+	void relaxEdge(heap *nodeHeap, graph *g, graphAbstraction *aMap,
+				   edge *e, node *from, node *to, node *dest);
 	void relaxFirstEdge(heap *nodeHeap, graph *g, graphAbstraction *aMap,
-											edge *e, node *from, node *afrom, node *ato, node *dest);
-
+						edge *e, node *from, node *afrom, node *ato, node *dest);
+	
 	void relaxFinalEdge(heap *nodeHeap, graph *g, graphAbstraction *aMap,
-											edge *e, node *from, node *to, node *realDest);
+						edge *e, node *from, node *to, node *realDest);
 	path *extractBestPath(graph *g, unsigned int current);
 	const std::vector<node *> *corridor;
 	std::vector<node *> emptyCorridor;

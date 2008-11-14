@@ -39,7 +39,7 @@
 
 class searchAlgorithm {
 public:
-	searchAlgorithm() { nodesExpanded = nodesTouched = 0; }
+	searchAlgorithm() { nodesExpanded = nodesTouched = 0;}
 	virtual ~searchAlgorithm() {}
 	virtual const char *getName() = 0;
 	virtual path *getPath(graphAbstraction *aMap, node *from, node *to, reservationProvider *rp = 0) = 0;

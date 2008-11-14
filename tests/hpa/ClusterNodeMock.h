@@ -8,7 +8,7 @@
  */
 
 /*
- *  nodeMock.h
+ *  ClusterNodeMock.h
  *  hog
  *
  *  Created by Daniel Harabor on 30/03/08.
@@ -33,19 +33,16 @@
 #include <mockpp/chaining/ChainableMockObject.h> 
 #include <mockpp/chaining/CountedChainableMethod.h>
 #include <mockpp/chaining/ChainingMockObjectSupport.h>
-#include "graph.h"
+#include "ClusterNode.h"
 
-class nodeAbstraction;
-
-class nodeMock : public node, public MOCKPP_NS::ChainableMockObject
+class ClusterNodeMock : public ClusterNode, public MOCKPP_NS::ChainableMockObject
 {
 	public:
-		nodeMock(const char* name) 
-		:	node(name)
-			, MOCKPP_NS::ChainableMockObject(MOCKPP_PCHAR("nodeMock"), 0)
+		ClusterNodeMock(const char* name) 
+		:	ClusterNode(name)
+			, MOCKPP_NS::ChainableMockObject(MOCKPP_PCHAR("ClusterNodeMock"), 0)
 			, cloneMocker("clone", this)
 		{ }
-		virtual ~nodeMock() {}
 		
 		virtual graph_object *clone() const; 
 		

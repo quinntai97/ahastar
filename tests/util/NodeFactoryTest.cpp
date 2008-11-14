@@ -30,6 +30,7 @@ void NodeFactoryTest::newNodeShouldConstructANewNodeObject()
 	node* n = nf->newNode(name);
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("failed to create new node", true, n != 0);
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("created node has wrong name", 0, strcmp(n->getName(), name));
+	delete n;
 }
 
 void NodeFactoryTest::newNodeShouldConstructANewNodeObjectGivenAnotherNodeAsAParameter()
@@ -38,5 +39,6 @@ void NodeFactoryTest::newNodeShouldConstructANewNodeObjectGivenAnotherNodeAsAPar
 	node* testme = nf->newNode(&n);
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("failed to create new node", true, testme != 0);
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("created node has wrong name", 0, strcmp(n.getName(), testme->getName()));
+	delete testme;
 
 }
