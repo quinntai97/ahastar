@@ -68,14 +68,13 @@ path* ClusterAStar::getPath(graphAbstraction *aMap, node *_from, node* _to, rese
 		if(from->getParentClusterId() != to->getParentClusterId())
 		{
 			stringstream ss;
-			ss << "ClusterAStar failed; useCorridor set but start/from nodes have different clusterIds. ";
+			ss << "WARNING: useCorridor set but start/from nodes have different clusterIds. Using clusterid of \"from\" node. ";
 			ss << " from @ "<<from->getLabelL(kFirstData)<<" ," <<from->getLabelL(kFirstData+1) <<" absLevel: "<<from->getLabelL(kAbstractionLevel);
 			ss << " to @ "<<to->getLabelL(kFirstData)<<" ," <<to->getLabelL(kFirstData+1) <<" absLevel: "<<from->getLabelL(kAbstractionLevel);			
-			std::cerr << ss.str();
+			std::cerr << ss.str() << std::endl;
 		}
 		this->corridorClusterId = from->getParentClusterId();
 	}
-	
 	
 	//TODO: need a test to check that we've set the fCost value of the start node.
 	// label start node cost 0 
@@ -167,105 +166,16 @@ path* ClusterAStar::getPath(graphAbstraction *aMap, node *_from, node* _to, rese
 /* evaluate()
 	check if it is possible to move from the current location to an adjacent target location.
 	things we look for:
-		- if the traversal involves a diagonal move, is there an equivalent 2-step move using the cardinal directions?
-		
-		NB: we assume that an edge exists between the current and target node parameters. Could check this explicitly but HOG's 
-		implementation for this stuff is expensive (iteratres over all neighbours). We also only call this from getPath which ensures that
-		we only evaluate pairs of connected nodes. 
-								
-		Other stuff: 
-			* need to move this into abstract implementation; if edge weight > 1.0 (ie. we're looking at an edge part of an abstract graph) then
+		- both nodes are non null
+		- both nodes are inside the corridor (if useCorridor is set)
 */
 bool ClusterAStar::evaluate(node* current, node* target)
 {
 	if(!current || !target)
 		return false;
 				
-	int tx, ty;
-	tx = target->getLabelL(kFirstData);
-	ty = target->getLabelL(kFirstData+1);
-
 	if(useCorridor && !isInCorridor(target))
 		return false;
-
-	/* check if we're moving in a cardinal direction */
-	tDirection dir = getDirection(current, target);
-	if(dir == kStay)
-		return false;
-		
-	if(dir == kN || dir == kS || dir == kE || dir == kW)
-		return true;
-		
-	/* check diagonal move is equivalent to 2-step cardinal move */
-	int curx = current->getLabelL(kFirstData);
-	int cury = current->getLabelL(kFirstData+1);
-
-	mapAbstraction* map = dynamic_cast<mapAbstraction*>(this->getGraphAbstraction());
-	switch(dir) // nb: use of abstractannotatedmapabstraction implies edge exists between each pair of nodes
-	{
-		case kNW:
-			if(evaluate(current, map->getNodeFromMap(curx-1,cury)) || evaluate(current, map->getNodeFromMap(curx, cury-1)))
-				return true;
-			break;
-		case kNE: 
-			if(evaluate(current, map->getNodeFromMap(curx+1,cury)) || evaluate(current, map->getNodeFromMap(curx, cury-1)))
-				return true;
-			break;
-		case kSE:
-			if(evaluate(current, map->getNodeFromMap(curx+1,cury)) || evaluate(current, map->getNodeFromMap(curx, cury+1)))
-				return true;
-			break;
-		case kSW:
-			if(evaluate(current, map->getNodeFromMap(curx-1,cury)) || evaluate(current, map->getNodeFromMap(curx, cury+1)))
-				return true;
-			break;
-		default:
-			cerr << "\nfatal: edge weight > 1 but move direction is not diagonal!\n ";
-			break;
-	}
-	
-	return false;
-}
-
-/* given two adjacent locations, the current position and a target position, figure out which of the eight compass directions the move
-is equivalent to (n,ne,e,se,s,sw,w,nw) 
-TODO: there's alot of duplication; this method has an equivalent addPathToCache in almost every Unit class. Should merge into a static.
-*/
-tDirection ClusterAStar::getDirection(node* current, node* target)
-{
-		int deltax = current->getLabelL(kFirstData) - target->getLabelL(kFirstData);
-		int deltay = current->getLabelL(kFirstData+1) - target->getLabelL(kFirstData+1);
-		
-		int dir = kStay;
-		switch(deltax)
-		{
-			case 1: // add westerly component
-				dir = kW;
-				break;
-			case -1: // add easterly component
-				dir = kE;
-				break;
-			case 0:
-				break;
-			default: // not moving along x-axis
-				return kStay;
-		};
-		
-		switch(deltay)
-		{
-			case 1: // add northerly component
-				dir = dir|kN;
-				break;
-			case -1: // add southerly component
-				dir = dir|kS;
-				break;
-			case 0:
-				break;
-			default: // not moving along y-axis
-				return kStay;
-		}
-		
-		return (tDirection)dir;
 }
 
 void ClusterAStar::logFinalStats(statCollection *stats)
