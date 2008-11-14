@@ -30,4 +30,5 @@ void AnnotatedNodeFactoryTest::newNodeShouldConstructANewAnnotatedNodeObject()
 	AnnotatedNode* n = 0;
 	n = dynamic_cast<AnnotatedNode*>(anf->newNode(name));
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("failed to create new AnnotatedNode", true, n != 0);
+	delete n;
 }

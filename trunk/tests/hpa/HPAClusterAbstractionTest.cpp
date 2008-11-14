@@ -10,15 +10,17 @@
 #include "HPAClusterAbstractionTest.h"
 #include "HPAClusterAbstraction.h"
 #include "TestConstants.h"
+
 #include "HPAClusterFactory.h"
 #include "ClusterNodeFactory.h"
+#include "ClusterAStarFactory.h"
 #include "EdgeFactory.h"
 #include "NodeFactory.h"
 #include "EdgeFactory.h"
-#include "aStar3.h"
 
 #include "HPAClusterMock.h"
 #include "ClusterNodeMock.h"
+#include "ClusterAStarMock.h"
 #include "NodeMock.h"
 #include <mockpp/chaining/ChainingMockObjectSupport.h>
 
@@ -29,6 +31,7 @@ void HPAClusterAbstractionTest::setUp()
 	this->nf = new ClusterNodeFactory();
 	this->ef = new EdgeFactory();
 	this->cf = new HPAClusterFactory();
+	this->caf = new ClusterAStarFactory();
 }
 
 void HPAClusterAbstractionTest::tearDown()
@@ -37,7 +40,7 @@ void HPAClusterAbstractionTest::tearDown()
 
 void HPAClusterAbstractionTest::buildClustersShouldSplitTheMapAreaIntoCorrectNumberOfClusters()
 {		
-	HPAClusterAbstraction hpacaMap(new Map(emptymap.c_str()), new aStarOld(), cf, nf, ef, TESTCLUSTERSIZE);
+	HPAClusterAbstraction hpacaMap(new Map(emptymap.c_str()), caf, cf, nf, ef, TESTCLUSTERSIZE);
 	int totalExpectedClusters = 4;
 
 	/* check for the correct # of clusters */
@@ -47,7 +50,7 @@ void HPAClusterAbstractionTest::buildClustersShouldSplitTheMapAreaIntoCorrectNum
 
 void HPAClusterAbstractionTest::buildClustersShouldCalculateCorrectClusterSize()
 {
-	HPAClusterAbstraction hpacaMap(new Map(acmap.c_str()), new aStarOld(), cf, nf, ef, TESTCLUSTERSIZE);
+	HPAClusterAbstraction hpacaMap(new Map(acmap.c_str()), caf, cf, nf, ef, TESTCLUSTERSIZE);
 
 	int clusterWidths[4] = {5,5,4,4};
 	int clusterHeights[4] = {5,1,5,1};
@@ -64,26 +67,26 @@ void HPAClusterAbstractionTest::buildClustersShouldCalculateCorrectClusterSize()
 
 void HPAClusterAbstractionTest::getClusterSizeShouldReturnSameValueAsConstructorParameter()
 {
-	HPAClusterAbstraction hpacaMap(new Map(acmap.c_str()), new aStarOld(), cf, nf, ef, TESTCLUSTERSIZE);
+	HPAClusterAbstraction hpacaMap(new Map(acmap.c_str()), caf, cf, nf, ef, TESTCLUSTERSIZE);
 	CPPUNIT_ASSERT_EQUAL(TESTCLUSTERSIZE, hpacaMap.getClusterSize());
 }
 
 void HPAClusterAbstractionTest::constructorShouldCreateANewGraphObject()
 {	
-	HPAClusterAbstraction hpacaMap(new Map(acmap.c_str()), new aStarOld(), cf, nf, ef, TESTCLUSTERSIZE);
+	HPAClusterAbstraction hpacaMap(new Map(acmap.c_str()), caf, cf, nf, ef, TESTCLUSTERSIZE);
 	int numGraphsExpected = 2;	
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("actual graph count does not match expected count", numGraphsExpected, hpacaMap.getNumberOfAbstractionLevels());
 }
 
 void HPAClusterAbstractionTest::constructorThrowsExceptionGivenAnIncompatibleNodeFactoryParameter()
 {
-	HPAClusterAbstraction hpacaMap(new Map(acmap.c_str()), new aStarOld(), cf, new NodeFactory(), ef, TESTCLUSTERSIZE);
+	HPAClusterAbstraction hpacaMap(new Map(acmap.c_str()), caf, cf, new NodeFactory(), ef, TESTCLUSTERSIZE);
 }
 
 
 void HPAClusterAbstractionTest::getClusterShouldReturnZeroWhenIdParameterIsLessThanZero()
 {
-	HPAClusterAbstraction hpacaMap(new Map(acmap.c_str()), new aStarOld(), cf, nf, ef, TESTCLUSTERSIZE);
+	HPAClusterAbstraction hpacaMap(new Map(acmap.c_str()), caf, cf, nf, ef, TESTCLUSTERSIZE);
 	int expectedValue = 0;
 	int clusterid=-1;
 	HPACluster* result = hpacaMap.getCluster(clusterid);
@@ -92,7 +95,7 @@ void HPAClusterAbstractionTest::getClusterShouldReturnZeroWhenIdParameterIsLessT
 
 void HPAClusterAbstractionTest::getClusterShouldReturnZeroWhenIdParameterIsGreaterThanNumberOfClusters()
 {
-	HPAClusterAbstraction hpacaMap(new Map(acmap.c_str()), new aStarOld(), cf, nf, ef, TESTCLUSTERSIZE);
+	HPAClusterAbstraction hpacaMap(new Map(acmap.c_str()), caf, cf, nf, ef, TESTCLUSTERSIZE);
 	int expectedValue = 0;
 	int clusterid=hpacaMap.getNumClusters()+1;
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("Non-zero return value when clusterid >= numclusters", expectedValue, (int)hpacaMap.getCluster(clusterid));
@@ -100,7 +103,7 @@ void HPAClusterAbstractionTest::getClusterShouldReturnZeroWhenIdParameterIsGreat
 
 void HPAClusterAbstractionTest::getClusterShouldReturnRequestedClusterGivenAValidClusterId()
 {
-	HPAClusterAbstraction hpacaMap(new Map(acmap.c_str()), new aStarOld(), cf, nf, ef, TESTCLUSTERSIZE);
+	HPAClusterAbstraction hpacaMap(new Map(acmap.c_str()), caf, cf, nf, ef, TESTCLUSTERSIZE);
 	HPACluster *cluster = new HPACluster(0,0,5,5);
 	int clusterId = 0;
 	cluster->setClusterId(clusterId);
@@ -113,7 +116,7 @@ void HPAClusterAbstractionTest::getClusterShouldReturnRequestedClusterGivenAVali
 
 void HPAClusterAbstractionTest::addPathToCacheShouldStoreAPathGivenAnEdge()
 {
-	HPAClusterAbstraction hpacaMap(new Map(acmap.c_str()), new aStarOld(), cf, nf, ef, TESTCLUSTERSIZE);
+	HPAClusterAbstraction hpacaMap(new Map(acmap.c_str()), caf, cf, nf, ef, TESTCLUSTERSIZE);
 	graph* g = new graph();
 	node* n1 = nf->newNode("");
 	node* n2 = nf->newNode("");
@@ -133,7 +136,7 @@ void HPAClusterAbstractionTest::addPathToCacheShouldStoreAPathGivenAnEdge()
 
 void HPAClusterAbstractionTest::addPathToCacheShouldDoNothingIfEdgeOrPathParametersAreNull()
 {
-	HPAClusterAbstraction hpacaMap(new Map(acmap.c_str()), new aStarOld(), cf, nf, ef, TESTCLUSTERSIZE);
+	HPAClusterAbstraction hpacaMap(new Map(acmap.c_str()), caf, cf, nf, ef, TESTCLUSTERSIZE);
 	path* p = new path(NULL, NULL);
 	edge* e = new edge(0, 1, 1);
 	
@@ -149,7 +152,7 @@ void HPAClusterAbstractionTest::addPathToCacheShouldDoNothingIfEdgeOrPathParamet
 
 void HPAClusterAbstractionTest::getPathFromCacheShouldReturnAPathGivenAValidEdge()
 {
-	HPAClusterAbstraction hpacaMap(new Map(acmap.c_str()), new aStarOld(), cf, nf, ef, TESTCLUSTERSIZE);
+	HPAClusterAbstraction hpacaMap(new Map(acmap.c_str()), caf, cf, nf, ef, TESTCLUSTERSIZE);
 	node* n = nf->newNode("");
 	path* p = new path(n, NULL);
 	edge* e = new edge(0,1,1);
@@ -165,7 +168,7 @@ void HPAClusterAbstractionTest::getPathFromCacheShouldReturnAPathGivenAValidEdge
 
 void HPAClusterAbstractionTest::getPathFromCacheShouldReturnZeroGivenAnInvalidEdge()
 {
-	HPAClusterAbstraction hpacaMap(new Map(acmap.c_str()), new aStarOld(), cf, nf, ef, TESTCLUSTERSIZE);
+	HPAClusterAbstraction hpacaMap(new Map(acmap.c_str()), caf, cf, nf, ef, TESTCLUSTERSIZE);
 	
 	node* n = nf->newNode("");
 	path* p = new path(n, NULL);
@@ -182,7 +185,7 @@ void HPAClusterAbstractionTest::getPathFromCacheShouldReturnZeroGivenAnInvalidEd
 
 void HPAClusterAbstractionTest::getPathFromCacheShouldReturnZeroGivenAnEdgeThatHasNoCorrespondingPathInCache()
 {
-	HPAClusterAbstraction hpacaMap(new Map(acmap.c_str()), new aStarOld(), cf, nf, ef, TESTCLUSTERSIZE);
+	HPAClusterAbstraction hpacaMap(new Map(acmap.c_str()), caf, cf, nf, ef, TESTCLUSTERSIZE);
 
 	node* n = nf->newNode("");
 	path* p = new path(n, NULL);
@@ -207,7 +210,7 @@ void HPAClusterAbstractionTest::getPathFromCacheShouldReturnZeroGivenAnEdgeThatH
 void HPAClusterAbstractionTest::removeStartAndGoalNodesFromAbstractGraphShouldDeleteAllNodesAndEdgesAddedByInsertionMethodFromAbstractGraph()
 {
 	/* setup test data */
-	HPAClusterAbstraction hpacaMap(new Map(acmap.c_str()), new aStarOld(), cf, nf, ef, TESTCLUSTERSIZE);
+	HPAClusterAbstraction hpacaMap(new Map(acmap.c_str()), caf, cf, nf, ef, TESTCLUSTERSIZE);
 	
 	/* add two clusters to store the start and goal */
 	HPAClusterMock* startCluster = new HPAClusterMock(0,0,5,5);
@@ -283,7 +286,7 @@ void HPAClusterAbstractionTest::removeStartAndGoalNodesFromAbstractGraphShouldDe
 
 void HPAClusterAbstractionTest::insertStartAndGoalIntoAbstractGraphShouldThrowExceptionGivenANullStartParameter() throw(std::invalid_argument)
 {
-	HPAClusterAbstraction hpacaMap(new Map(acmap.c_str()), new aStarOld(), cf, nf, ef, TESTCLUSTERSIZE);
+	HPAClusterAbstraction hpacaMap(new Map(acmap.c_str()), caf, cf, nf, ef, TESTCLUSTERSIZE);
 	node* start = NULL;
 	node* goal = hpacaMap.getNodeFromMap(5,3);	
 	hpacaMap.insertStartAndGoalNodesIntoAbstractGraph(start, goal);	
@@ -291,7 +294,7 @@ void HPAClusterAbstractionTest::insertStartAndGoalIntoAbstractGraphShouldThrowEx
 
 void HPAClusterAbstractionTest::insertStartAndGoalIntoAbstractGraphShouldThrowExceptionGivenANullGoalParameter() throw(std::invalid_argument)
 {
-	HPAClusterAbstraction hpacaMap(new Map(acmap.c_str()), new aStarOld(), cf, nf, ef, TESTCLUSTERSIZE);
+	HPAClusterAbstraction hpacaMap(new Map(acmap.c_str()), caf, cf, nf, ef, TESTCLUSTERSIZE);
 	node* goal = NULL;
 	node* start = hpacaMap.getNodeFromMap(5,3);	
 	hpacaMap.insertStartAndGoalNodesIntoAbstractGraph(start, goal);	
@@ -300,7 +303,7 @@ void HPAClusterAbstractionTest::insertStartAndGoalIntoAbstractGraphShouldThrowEx
 
 void HPAClusterAbstractionTest::insertStartAndGoalIntoAbstractGraphShouldThrowExceptionGivenAnAbstractStartParameter() throw(std::invalid_argument)
 {
-	HPAClusterAbstraction hpacaMap(new Map(acmap.c_str()), new aStarOld(), cf, nf, ef, TESTCLUSTERSIZE);
+	HPAClusterAbstraction hpacaMap(new Map(acmap.c_str()), caf, cf, nf, ef, TESTCLUSTERSIZE);
 	node* start = hpacaMap.getNodeFromMap(2,1);
 	node* goal = hpacaMap.getNodeFromMap(5,3);
 	start->setLabelL(kAbstractionLevel, 1);
@@ -310,7 +313,7 @@ void HPAClusterAbstractionTest::insertStartAndGoalIntoAbstractGraphShouldThrowEx
 
 void HPAClusterAbstractionTest::insertStartAndGoalIntoAbstractGraphShouldThrowExceptionGivenAnAbstractGoalParameter() throw(std::invalid_argument)
 {
-	HPAClusterAbstraction hpacaMap(new Map(acmap.c_str()), new aStarOld(), cf, nf, ef, TESTCLUSTERSIZE);
+	HPAClusterAbstraction hpacaMap(new Map(acmap.c_str()), caf, cf, nf, ef, TESTCLUSTERSIZE);
 	node* start = hpacaMap.getNodeFromMap(2,1);
 	node* goal = hpacaMap.getNodeFromMap(5,3);
 	goal->setLabelL(kAbstractionLevel, 1);
@@ -321,7 +324,7 @@ void HPAClusterAbstractionTest::insertStartAndGoalIntoAbstractGraphShouldThrowEx
 /* integration test; TODO: add proper support for mock clusters here */
 void HPAClusterAbstractionTest::insertStartAndGoalNodesIntoAbstractGraphShouldAddTwoNewNodesIntoTheAbstractGraphAndParentClusters()
 {
-	HPAClusterAbstraction hpacaMap(new Map(acmap.c_str()), new aStarOld(), cf, nf, ef, TESTCLUSTERSIZE);
+	HPAClusterAbstraction hpacaMap(new Map(acmap.c_str()), caf, cf, nf, ef, TESTCLUSTERSIZE);
 
 	/* create the parent clusters for the start & goal nodes */
 	int startClusterId = 0;
@@ -385,7 +388,7 @@ void HPAClusterAbstractionTest::insertStartAndGoalNodesIntoAbstractGraphShouldAd
 
 void HPAClusterAbstractionTest::insertStartAndGoalNodesIntoAbstractGraphShouldNotCreateNewAbstractNodesIfASuitableNodeAlreadyExistsInTheAbstractGraph()
 {
-	HPAClusterAbstraction hpacaMap(new Map(acmap.c_str()), new aStarOld(), cf, nf, ef, TESTCLUSTERSIZE);
+	HPAClusterAbstraction hpacaMap(new Map(acmap.c_str()), caf, cf, nf, ef, TESTCLUSTERSIZE);
 
 	// create the parent clusters for the start & goal nodes 
 	int startClusterId = 0;
@@ -433,5 +436,75 @@ void HPAClusterAbstractionTest::insertStartAndGoalNodesIntoAbstractGraphShouldNo
 
 void HPAClusterAbstractionTest::insertStartAndGoalIntoAbstractGraphShouldRecordStatisticsToMeasureInsertionEffort()
 {
+	long expectedNodesExpanded = 10;
+	long expectedNodesTouched = 100;
+	long expectedPeakMemory = 25;
+	double expectedSearchtime = 0.10;
+	
+	/* setup expected metrics */
+	ClusterAStarMock* astarStart = new ClusterAStarMock();
+	astarStart->setNodesExpanded(expectedNodesExpanded);
+	astarStart->setNodesTouched(expectedNodesTouched);
+	astarStart->setPeakMemory(expectedPeakMemory);
+	astarStart->setSearchTime(expectedSearchtime);
 
+	ClusterAStarMock* astarGoal = new ClusterAStarMock();
+	astarGoal->setNodesExpanded(expectedNodesExpanded);
+	astarGoal->setNodesTouched(expectedNodesTouched);
+	astarGoal->setPeakMemory(expectedPeakMemory);
+	astarGoal->setSearchTime(expectedSearchtime);
+
+	HPAClusterAbstraction hpacaMap(new Map(acmap.c_str()), caf, cf, nf, ef, TESTCLUSTERSIZE);
+
+	/* create the parent clusters for the start & goal nodes */
+	int startClusterId = 0;
+	int goalClusterId = 1;
+	HPAClusterMock* startCluster = new HPAClusterMock(0,0,TESTCLUSTERSIZE,TESTCLUSTERSIZE, astarStart);
+	HPAClusterMock* goalCluster = new HPAClusterMock(5,5,TESTCLUSTERSIZE,TESTCLUSTERSIZE, astarGoal);
+	
+	startCluster->setClusterId(startClusterId);
+	goalCluster->setClusterId(goalClusterId);
+	hpacaMap.clusters[startClusterId] = dynamic_cast<HPACluster*>(startCluster);
+	hpacaMap.clusters[goalClusterId] = dynamic_cast<HPACluster*>(goalCluster);
+	
+	/* create the starr & goal nodes & their abstract counterparts that will be inserted into the abstract graph */
+	ClusterNodeMock* start = new ClusterNodeMock("start");
+	ClusterNodeMock* startClone = new ClusterNodeMock("startClone");
+	ClusterNodeMock* goal = new ClusterNodeMock("goal");
+	ClusterNodeMock* goalClone = new ClusterNodeMock("goalClone");
+	start->setLabelL(kAbstractionLevel, 0);
+	start->setParentClusterId( startClusterId);	
+	goal->setLabelL(kAbstractionLevel, 0);
+	goal->setParentClusterId( goalClusterId);
+	
+	/* setup mock object expectations */
+	start->cloneMocker.expects(MOCKPP_NS::once()).will(MOCKPP_NS::returnValue<graph_object*>(startClone));	
+	goal->cloneMocker.expects(MOCKPP_NS::once()).will(MOCKPP_NS::returnValue<graph_object*>(goalClone));	
+
+	startCluster->setExpectedAddParentParameters(startClone, &hpacaMap);
+	startCluster->setExpectedOccurencesForAddParent(1);
+	goalCluster->setExpectedAddParentParameters(goalClone, &hpacaMap);
+	goalCluster->setExpectedOccurencesForAddParent(1);
+//	startCluster->addParentMocker.expects(MOCKPP_NS::once()).with(MOCKPP_NS::same<node*>(startClone), MOCKPP_NS::same<HPAClusterAbstraction*>(&hpacaMap));
+//	goalCluster->addParentMocker.expects(MOCKPP_NS::once()).with(MOCKPP_NS::same<node*>(goalClone), MOCKPP_NS::same<HPAClusterAbstraction*>(&hpacaMap));
+
+	graph* absg = hpacaMap.getAbstractGraph(1);
+	int numAbstractNodes = absg->getNumNodes();
+	
+	hpacaMap.insertStartAndGoalNodesIntoAbstractGraph(start, goal);
+	
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("nodesExpanded count wrong", expectedNodesExpanded*2, hpacaMap.getNodesExpanded());
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("nodesTouched count wrong", expectedNodesTouched*2, hpacaMap.getNodesTouched());
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("Peakmemory count wrong", expectedPeakMemory*2, hpacaMap.getPeakMemory());
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("searchtime count wrong", expectedSearchtime*2, hpacaMap.getSearchTime());
+		
+	startCluster->verify();
+	goalCluster->verify();
+	start->verify();
+	goal->verify();
+	startClone->verify();
+	goalClone->verify();
+	
+	delete start;
+	delete goal;
 }

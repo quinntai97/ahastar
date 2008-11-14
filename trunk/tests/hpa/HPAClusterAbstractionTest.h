@@ -16,6 +16,7 @@
 
 using namespace CppUnit;
 
+class ClusterAStarFactory;
 class ClusterNodeFactory;
 class HPAClusterFactory;
 class EdgeFactory;
@@ -92,6 +93,7 @@ class HPAClusterAbstractionTest : public CPPUNIT_NS::TestFixture
 		ClusterNodeFactory *nf;
 		EdgeFactory *ef;
 		HPAClusterFactory *cf;
+		ClusterAStarFactory *caf;
 };
 
 #endif

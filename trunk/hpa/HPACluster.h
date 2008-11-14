@@ -14,7 +14,9 @@
 #include <stdexcept>
 
 class node;
+class searchAlgorithm;
 class HPAClusterAbstraction;
+class AbstractClusterAStar;
 
 class HPACluster
 {
@@ -24,14 +26,18 @@ class HPACluster
 	#endif
 	
 	public:
+		HPACluster(const int x, const int y, const int _width, const int _height, AbstractClusterAStar* alg);
 		HPACluster(const int x, const int y, const int _width, const int _height);
+		virtual ~HPACluster();
 
 		virtual void buildEntrances(HPAClusterAbstraction*);
 		virtual void addParent(node *, HPAClusterAbstraction*);
 		virtual void removeParent(int nodeId);
 		virtual void addNodesToCluster(HPAClusterAbstraction*) throw(std::invalid_argument);
 		virtual bool hasaParent(node* n);
-				
+		
+		void setSearchAlgorithm(AbstractClusterAStar* _alg) { alg = _alg; }
+		AbstractClusterAStar* getSearchAlgorithm() { return alg; }
 		int getVOrigin() { return starty; }
 		int getHOrigin() { return startx; }
 		int getWidth() { return width; }
@@ -45,11 +51,14 @@ class HPACluster
 	protected:
 		void addNode(node* mynode) throw(std::invalid_argument);
 	
-	private:	
+	private:
+		void init(const int x, const int y, const int _width, const int _height, AbstractClusterAStar* _alg);
+			
 		int clusterId;
 		int startx, starty, width, height;
 		HPAUtil::nodeTable nodes;
 		HPAUtil::nodeTable parents; // transition points
+		AbstractClusterAStar* alg;
 		
 		static unsigned int uniqueClusterIdCnt;
 };

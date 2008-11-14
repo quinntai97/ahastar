@@ -32,4 +32,5 @@ void AnnotatedEdgeFactoryTest::newEdgeShouldConstructANewAnnotatedEdgeObject()
 	AnnotatedEdge* n = 0;
 	n = dynamic_cast<AnnotatedEdge*>(aef->newEdge(from, to, weight));
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("failed to create new AnnotatedEdge", true, n != 0);
+	delete n;
 }

@@ -42,6 +42,7 @@ class aStarOld : public searchAlgorithm {
 	
 public:
 	aStarOld(double _w = 1.0, bool _doPathDraw = true);
+	virtual ~aStarOld() {}
 	virtual path *getPath(graphAbstraction *aMap, node *from, node *to, reservationProvider *rp = 0);
 	virtual const char *getName() { return aStarName; }
 	void drawPath(bool _doPathDraw) { doPathDraw = _doPathDraw; }

@@ -12,8 +12,9 @@
 #include "HPAClusterFactory.h"
 #include "ClusterNode.h"
 #include "ClusterNodeFactory.h"
+#include "ClusterAStar.h"
 
-#include "searchAlgorithm.h"
+#include "IClusterAStarFactory.h"
 #include "map.h"
 #include "NodeFactory.h"
 #include "EdgeFactory.h"
@@ -24,8 +25,8 @@
 
 // TODO: throw an exception if anything of the parameter pointers are NULL.
 // TODO add search algorithm parameter
-HPAClusterAbstraction::HPAClusterAbstraction(Map* m, searchAlgorithm* _alg, IHPAClusterFactory* _cf, INodeFactory* _nf, IEdgeFactory* _ef, unsigned int _clustersize) throw(std::invalid_argument)
-	: mapAbstraction(m), alg(_alg), cf(_cf), nf(_nf), ef(_ef), clustersize(_clustersize) 
+HPAClusterAbstraction::HPAClusterAbstraction(Map* m, IClusterAStarFactory* _caf, IHPAClusterFactory* _cf, INodeFactory* _nf, IEdgeFactory* _ef, unsigned int _clustersize) throw(std::invalid_argument)
+	: mapAbstraction(m), caf(_caf), cf(_cf), nf(_nf), ef(_ef), clustersize(_clustersize) 
 {	
 	
 	if(!dynamic_cast<ClusterNodeFactory*>(nf))
@@ -45,7 +46,7 @@ HPAClusterAbstraction::~HPAClusterAbstraction()
 	delete ef;
 	delete cf;
 	delete nf;
-	delete alg;
+	delete caf;
 	
 	for(HPAUtil::pathTable::iterator it = pathCache.begin(); it != pathCache.end(); it++)
 		delete (*it).second;
@@ -83,7 +84,7 @@ void HPAClusterAbstraction::buildClusters()
 			if(y+cheight > mapheight)
 				cheight = mapheight - y;
 				
-			HPACluster *cluster = cf->createCluster(x,y,cwidth,cheight);
+			HPACluster *cluster = cf->createCluster(x,y,cwidth,cheight, this->caf->newClusterAStar());
 			addCluster( cluster ); // nb: also assigns a new id to cluster
 			cluster->addNodesToCluster(this);
 		}
@@ -209,6 +210,10 @@ void HPAClusterAbstraction::insertStartAndGoalNodesIntoAbstractGraph(node* _star
 		startCluster->addParent(absstart, this);
 		start->setLabelL(kParent, startid);
 		this->startid = startid;
+		nodesExpanded+= startCluster->getSearchAlgorithm()->getNodesExpanded();
+		nodesTouched+= startCluster->getSearchAlgorithm()->getNodesTouched();
+		peakMemory+= startCluster->getSearchAlgorithm()->getPeakMemory();
+		searchTime+= startCluster->getSearchAlgorithm()->getSearchTime();
 	}
 	if(goal->getLabelL(kParent) == -1)
 	{
@@ -222,6 +227,11 @@ void HPAClusterAbstraction::insertStartAndGoalNodesIntoAbstractGraph(node* _star
 		goalCluster->addParent(absgoal, this);
 		goal->setLabelL(kParent, goalid);
 		this->goalid = goalid;
+		
+		nodesExpanded+= goalCluster->getSearchAlgorithm()->getNodesExpanded();
+		nodesTouched+= goalCluster->getSearchAlgorithm()->getNodesTouched();
+		peakMemory+= goalCluster->getSearchAlgorithm()->getPeakMemory();
+		searchTime+= goalCluster->getSearchAlgorithm()->getSearchTime();
 	}
 }
 

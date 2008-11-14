@@ -35,4 +35,5 @@ void EdgeFactoryTest::newEdgeShouldConstructANewEdgeObject()
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("created Edge has wrong fromId", fromId, e->getFrom());
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("created Edge has wrong toId", toId, e->getTo());
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("created Edge has wrong weight", weight, e->getWeight());
+	delete e;
 }

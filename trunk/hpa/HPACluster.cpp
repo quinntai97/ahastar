@@ -10,18 +10,43 @@
 #include "HPACluster.h"
 #include "HPAClusterAbstraction.h"
 #include "ClusterNode.h"
-#include "graph.h"
 #include "HPAUtil.h"
+
+#include "ClusterAStar.h"
+#include "graph.h"
+
 #include <stdexcept>
 #include <sstream>
 #include <string>
 
 unsigned HPACluster::uniqueClusterIdCnt = 0;
 
-HPACluster::HPACluster(const int x, const int y, const int _width, const int _height) : startx(x), starty(y), width(_width), height(_height)
+HPACluster::HPACluster(const int x, const int y, const int _width, const int _height, AbstractClusterAStar* _alg)
+{
+	init(x, y, _width, _height, _alg);
+}
+
+HPACluster::HPACluster(const int x, const int y, const int _width, const int _height) 
+{
+	init(x, y, _width, _height, new ClusterAStar());
+
+}
+
+void HPACluster::init(const int x, const int y, const int _width, const int _height, AbstractClusterAStar* _alg)
 {
 	this->clusterId = ++uniqueClusterIdCnt;
+	startx = x;
+	starty = y;
+	width = _width;
+	height = _height;
+	alg = _alg;
 }
+
+HPACluster::~HPACluster()
+{
+	delete alg;
+}
+
 
 void HPACluster::addNode(node* _mynode) throw(std::invalid_argument)
 {

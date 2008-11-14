@@ -8,6 +8,8 @@
  */
 
 #include "HPAClusterFactoryTest.h"
+#include "ClusterAStar.h"
+
 CPPUNIT_TEST_SUITE_REGISTRATION( HPAClusterFactoryTest );
 
 void HPAClusterFactoryTest::setUp()
@@ -23,6 +25,7 @@ void HPAClusterFactoryTest::tearDown()
 void HPAClusterFactoryTest::createHPAClusterShouldReturnANewInstanceOfHPACluster()
 {	
 	int x=0, y=0, cheight=5, cwidth=5;	
-	HPACluster* ac = dynamic_cast<HPACluster*>(cf->createCluster(x, y, cwidth, cheight));
+	HPACluster* ac = dynamic_cast<HPACluster*>(cf->createCluster(x, y, cwidth, cheight, new ClusterAStar()));
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("factory failed to return an instance of HPACluster", true, ac!=0);
+	delete ac;
 }
