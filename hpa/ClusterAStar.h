@@ -66,15 +66,14 @@ class AbstractClusterAStar : public aStarOld
 class ClusterAStar : public AbstractClusterAStar
 {
 	public:
-/*		#ifdef UNITTEST
-			friend class ClusterAStarTest; // TODO: replace these stupid friends with an inheritance-based solution
+		#ifdef UNITTEST
+			friend class ClusterAStarTest; 
 		#endif
-*/		
+		
 		ClusterAStar() : AbstractClusterAStar() { e = NULL; }
 		virtual ~ClusterAStar() {}
 		virtual path *getPath(graphAbstraction *aMap, node *from, node *to, reservationProvider *rp = 0);
 		virtual const char* getName() { return "ClusterAStar"; }
-		static tDirection getDirection(node* current, node* target); // TODO: move this to a common AStar base class
 		virtual void logFinalStats(statCollection *stats);
 
 	protected:
