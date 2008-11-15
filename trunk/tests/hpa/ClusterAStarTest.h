@@ -26,12 +26,11 @@ class ClusterAStarTest : public CPPUNIT_NS::TestFixture
 	CPPUNIT_TEST( getPathReturnNullWhenStartOrGoalNull );
 	CPPUNIT_TEST( getPathReturnNullWhenStartAndGoalSameLocation );
 	CPPUNIT_TEST( getPathReturnNullWhenStartAndGoalNodesIdentical );
-	CPPUNIT_TEST( getPathReturnNullWhenNonHPAClusterAbstractionParameter );
 	CPPUNIT_TEST( getPathReturnNullWhenMapAbstractionParameterNull );
 	CPPUNIT_TEST( getPathInitialisesFCostValueOfStartToHeuristicGoalDistance );
 	CPPUNIT_TEST( getPathEachNodeInReturnedPathHasAnEdgeToItsPredecessor );
 	CPPUNIT_TEST( getPathFailsToReturnASoltuionWhenNoneExistsWithinTheCorridorBounds );
-	CPPUNIT_TEST( getPathReturnsTheShortestPathWithinCorridorBounds );
+	CPPUNIT_TEST( getPathReturnsTheShortestPath );
 	CPPUNIT_TEST( logStatsShouldRecordAllMetricsToStatsCollection );
 
 	CPPUNIT_TEST_SUITE_END();
@@ -49,7 +48,7 @@ class ClusterAStarTest : public CPPUNIT_NS::TestFixture
 		void getPathInitialisesFCostValueOfStartToHeuristicGoalDistance();
 		void getPathEachNodeInReturnedPathHasAnEdgeToItsPredecessor();
 		void getPathFailsToReturnASoltuionWhenNoneExistsWithinTheCorridorBounds();
-		void getPathReturnsTheShortestPathWithinCorridorBounds();
+		void getPathReturnsTheShortestPath();
 		void logStatsShouldRecordAllMetricsToStatsCollection();
 		
 	private:

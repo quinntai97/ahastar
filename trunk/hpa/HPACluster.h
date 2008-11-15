@@ -46,6 +46,7 @@ class HPACluster
 		int getClusterId() { return clusterId; }
 		void setClusterId(const int newid) { clusterId = newid; }
 		int getNumParents() { return nodes.size(); }
+		HPAUtil::nodeTable* getNodes() { return &nodes; }
 //		node* getParent(int parentId) { return nodes[parentId]; }
 
 	protected:

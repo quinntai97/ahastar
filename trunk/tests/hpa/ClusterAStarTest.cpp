@@ -92,18 +92,6 @@ void ClusterAStarTest::getPathReturnNullWhenStartAndGoalNodesIdentical()
 	CPPUNIT_ASSERT_EQUAL_MESSAGE(errmsg.c_str(), int(p), NULL);
 }
 
-void ClusterAStarTest::getPathReturnNullWhenNonHPAClusterAbstractionParameter()
-{
-	mapFlatAbstraction mfa(new Map(maplocation.c_str()));
-	ClusterAStar castar;
-	node* pos = mfa.getNodeFromMap(1,2);
-	node* n = mfa.getNodeFromMap(22,1);
-	
-	p = castar.getPath(&mfa, pos, n);
-	CPPUNIT_ASSERT_EQUAL_MESSAGE("getPath() failed to return false when called with non-annotated map parameter", NULL, (int)p); 
-}
-
-
 void ClusterAStarTest::getPathReturnNullWhenMapAbstractionParameterNull()
 {
 	mapFlatAbstraction mfa(new Map(maplocation.c_str()));
@@ -141,7 +129,8 @@ void ClusterAStarTest::getPathEachNodeInReturnedPathHasAnEdgeToItsPredecessor()
 	ClusterAStar castar;
 	castar.setGraphAbstraction(&hpamap);
 	ClusterNode* start = getNode(4,8, hpamap);
-	ClusterNode* goal = getNode(1,1, hpamap);
+//	ClusterNode* goal = getNode(1,1, hpamap);
+	ClusterNode* goal = getNode(2,2, hpamap);
 	
 	p = castar.getPath(&hpamap, start, goal);
 
@@ -165,16 +154,18 @@ void ClusterAStarTest::getPathFailsToReturnASoltuionWhenNoneExistsWithinTheCorri
 	hpamap.buildClusters();
 	ClusterAStar castar;
 	castar.setGraphAbstraction(&hpamap);
-	ClusterNode* start = getNode(4,4, hpamap);
+	ClusterNode* start = getNode(4,4, hpamap);	
 	ClusterNode* goal = getNode(5,1, hpamap);
-
-	castar.limitSearchToClusterCorridor(true);
+	HPACluster* startCluster = hpamap.getCluster(start->getParentClusterId());
+	
+	HPAUtil::nodeTable* clusterNodes = startCluster->getNodes();
+	castar.setCorridorNodes(clusterNodes);
 
 	p = castar.getPath(&hpamap, start, goal);
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("found a path that shouldn't exist inside corridor", true, p == NULL);	
 }
 
-void ClusterAStarTest::getPathReturnsTheShortestPathWithinCorridorBounds()
+void ClusterAStarTest::getPathReturnsTheShortestPath()
 {
 	HPAClusterAbstraction hpamap(new Map(acmap.c_str()), new ClusterAStarFactory(), new HPAClusterFactory(), 
 		new ClusterNodeFactory(), new EdgeFactory(), TESTCLUSTERSIZE);
@@ -183,8 +174,6 @@ void ClusterAStarTest::getPathReturnsTheShortestPathWithinCorridorBounds()
 	castar.setGraphAbstraction(&hpamap);
 	ClusterNode* start = getNode(4,4, hpamap);
 	ClusterNode* goal = getNode(1,4, hpamap);
-
-	castar.limitSearchToClusterCorridor(true);
 	
 	p = castar.getPath(&hpamap, start, goal);
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("failed to find a path inside corridor", true, p != NULL);	
