@@ -10,7 +10,7 @@
 #ifndef HPAUTIL_H
 #define HPAUTIL_H
 
-#include <ext/hash_map>
+#include <map>
 
 class node;
 class path;
@@ -18,9 +18,9 @@ class HPACluster;
 
 namespace HPAUtil
 {
-	typedef __gnu_cxx::hash_map<int, path*> pathTable;
-	typedef __gnu_cxx::hash_map<int, node*> nodeTable;
-	typedef __gnu_cxx::hash_map<int, HPACluster*> clusterTable;
+	typedef std::map<int, path*> pathTable;
+	typedef std::map<int, node*> nodeTable;
+	typedef std::map<int, HPACluster*> clusterTable;
 }
 
 #endif

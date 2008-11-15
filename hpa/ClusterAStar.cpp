@@ -16,6 +16,9 @@
 #include "ClusterNode.h"
 #include "mapAbstraction.h"
 #include "timer.h"
+#include "heap.h"
+#include "graph.h"
+
 #include <sstream>
 
 using namespace std;
@@ -23,10 +26,18 @@ using namespace std;
 
 bool AbstractClusterAStar::isInCorridor(node* _n)
 {
-	ClusterNode* n = dynamic_cast<ClusterNode*>(_n);
+/*	ClusterNode* n = dynamic_cast<ClusterNode*>(_n);
 	if(n->getParentClusterId() != corridorClusterId) 
 		return false; 
-	return true; 
+	return true; */
+	
+	if(corridorNodes == NULL) // corridor not set. every node should be considered.
+		return true;
+	
+	if((*corridorNodes)[_n->getUniqueID()] != NULL) // already added
+		return true;
+
+	return false;
 }
 
 /*
@@ -42,18 +53,16 @@ bool AbstractClusterAStar::isInCorridor(node* _n)
 	5. if openlist is null return failure, else, goto 1
 	6. return path
 */
-path* ClusterAStar::getPath(graphAbstraction *aMap, node *_from, node* _to, reservationProvider *rp)
+path* ClusterAStar::getPath(graphAbstraction *aMap, node* from, node* to, reservationProvider *rp)
 {
 	nodesExpanded=0;
 	nodesTouched=0;
 	peakmemory = 0;
 	searchtime =0;
-	
-	ClusterNode *from = dynamic_cast<ClusterNode*>(_from);
-	ClusterNode *to = dynamic_cast<ClusterNode*>(_to);
 		
-	setGraphAbstraction(aMap);
-		
+	if(aMap == NULL)
+		return NULL;
+				
 	if(!from || !to)
 		return NULL;
 
@@ -62,21 +71,9 @@ path* ClusterAStar::getPath(graphAbstraction *aMap, node *_from, node* _to, rese
 		
 	if(from->getLabelL(kFirstData) == to->getLabelL(kFirstData) && from->getLabelL(kFirstData+1) == to->getLabelL(kFirstData+1))
 		return NULL;
-		
-	if(useCorridor)
-	{
-		if(from->getParentClusterId() != to->getParentClusterId())
-		{
-			stringstream ss;
-			ss << "WARNING: useCorridor set but start/from nodes have different clusterIds. Using clusterid of \"from\" node. ";
-			ss << " from @ "<<from->getLabelL(kFirstData)<<" ," <<from->getLabelL(kFirstData+1) <<" absLevel: "<<from->getLabelL(kAbstractionLevel);
-			ss << " to @ "<<to->getLabelL(kFirstData)<<" ," <<to->getLabelL(kFirstData+1) <<" absLevel: "<<from->getLabelL(kAbstractionLevel);			
-			std::cerr << ss.str() << std::endl;
-		}
-		this->corridorClusterId = from->getParentClusterId();
-	}
 	
-	//TODO: need a test to check that we've set the fCost value of the start node.
+	this->setGraphAbstraction(aMap);
+	
 	// label start node cost 0 
 	from->setLabelF(kTemporaryLabel, 1*aMap->h(from, to));
 	from->markEdge(0);
@@ -84,18 +81,12 @@ path* ClusterAStar::getPath(graphAbstraction *aMap, node *_from, node* _to, rese
 	/* initialise the search params */
 	graph *g = aMap->getAbstractGraph(from->getLabelL(kAbstractionLevel));
 	heap* openList = new heap(30);
-	CAStarUtil::NodeMap closedList;
+	std::map<int, bool> closedList;
+	
 	openList->add(from);
 	path *p = NULL;
 	
 	Timer t;
-			
-/*	int fromx = from->getLabelL(kFirstData);
-	int fromy = from->getLabelL(kFirstData+1);
-	int tox = to->getLabelL(kFirstData);
-	int toy = to->getLabelL(kFirstData+1);
-*/
-	
 	t.startTimer();
 	while(1) 
 	{
@@ -113,22 +104,22 @@ path* ClusterAStar::getPath(graphAbstraction *aMap, node *_from, node* _to, rese
 		
 		/* evaluate each neighbour of the newly opened node */
 		edge_iterator ei = current->getEdgeIter();
-		e = current->edgeIterNext(ei);
+		edge* e = current->edgeIterNext(ei);
 		while(e)
 		{
 			// TODO: fix HOG's graph stuff; nodes identified using position in array instead of uniqueid. graph should just store a hash_map
 			int neighbourid = e->getFrom()==current->getNum()?e->getTo():e->getFrom();
 			node* neighbour = g->getNode(neighbourid);
-			/*int nx = neighbour->getLabelL(kFirstData);
-			int ny = neighbour->getLabelL(kFirstData+1);
-			double weight = e->getWeight();*/
+			//int nx = neighbour->getLabelL(kFirstData);
+			//int ny = neighbour->getLabelL(kFirstData+1);
+			//double weight = e->getWeight();
 
 			if(!closedList[neighbour->getUniqueID()]) // skip nodes we've already closed
 			{
 				// if a node on the openlist is reachable via this new edge, relax the edge (see cormen et al)
 				if(openList->isIn(neighbour)) 
 				{	
-					if(evaluate(current, neighbour)) 
+					if(evaluate(current, neighbour, e)) 
 					{
 						relaxEdge(openList, g, e, current->getNum(), neighbourid, to); 
 						nodesTouched++;
@@ -136,7 +127,7 @@ path* ClusterAStar::getPath(graphAbstraction *aMap, node *_from, node* _to, rese
 				}
 				else
 				{
-					if(evaluate(current, neighbour)) 
+					if(evaluate(current, neighbour, e)) 
 					{
 						neighbour->setLabelF(kTemporaryLabel, MAXINT); // initial fCost = inifinity
 						neighbour->setKeyLabel(kTemporaryLabel); // an initial key value for prioritisation in the openlist
@@ -164,18 +155,20 @@ path* ClusterAStar::getPath(graphAbstraction *aMap, node *_from, node* _to, rese
 }
 
 /* evaluate()
-	check if it is possible to move from the current location to an adjacent target location.
+	check if it is possible to move from the current location to an adjacent target location via some edge.
 	things we look for:
 		- both nodes are non null
 		- both nodes are inside the corridor (if useCorridor is set)
 */
-bool ClusterAStar::evaluate(node* current, node* target)
+bool ClusterAStar::evaluate(node* current, node* target, edge* e)
 {
 	if(!current || !target)
 		return false;
 				
-	if(useCorridor && !isInCorridor(target))
+	if(!isInCorridor(target))
 		return false;
+
+	return true;
 }
 
 void ClusterAStar::logFinalStats(statCollection *stats)
