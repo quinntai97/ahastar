@@ -18,6 +18,13 @@
 class HPAClusterTest : public CPPUNIT_NS::TestFixture
 {
 	CPPUNIT_TEST_SUITE( HPAClusterTest );
+	
+		CPPUNIT_TEST_EXCEPTION( constructorShouldThrowExceptionWhenWidthDimensionParameterIsInvalid, std::invalid_argument );
+		CPPUNIT_TEST_EXCEPTION( constructorShouldThrowExceptionWhenHeightDimensionParameterIsInvalid, std::invalid_argument );
+		CPPUNIT_TEST_EXCEPTION( constructorShouldThrowExceptionWhenXOriginParameterIsInvalid, std::invalid_argument );
+		CPPUNIT_TEST_EXCEPTION( constructorShouldThrowExceptionWhenYOriginParameterIsInvalid, std::invalid_argument );
+		CPPUNIT_TEST_EXCEPTION( constructorShouldThrowExceptionWhenAlgorithmParameterIsNULL, std::invalid_argument );
+	
 		CPPUNIT_TEST_EXCEPTION( addParentThrowsExceptionGivenANULLNodeParameter, std::invalid_argument );
 		CPPUNIT_TEST_EXCEPTION( addParentThrowsExceptionGivenANULL_HPAClusterAbstraction_Parameter, std::invalid_argument );
 		CPPUNIT_TEST_EXCEPTION( addParentThrowsExceptionGivenANodeParameterThatIsNotOfType_ClusterNode, std::invalid_argument );
@@ -36,10 +43,6 @@ class HPAClusterTest : public CPPUNIT_NS::TestFixture
 		CPPUNIT_TEST_EXCEPTION( addNodesToClusterShouldThrowExceptionWhenMapAbstractionParameterIsNull, std::invalid_argument );
 		CPPUNIT_TEST( addNodesToClusterShouldAssignAllNodesInAreaMarkedByHeightAndWidthDimensions );
 
-
-
-		
-	//	CPPUNIT_TEST( insertStartAndGoalIntoAbstractGraphShouldAddToCacheAPathForEachNewlyCreatedEdge );
 	CPPUNIT_TEST_SUITE_END();
 
 	public:
@@ -63,6 +66,12 @@ class HPAClusterTest : public CPPUNIT_NS::TestFixture
 		
 		void addNodesToClusterShouldThrowExceptionWhenMapAbstractionParameterIsNull();
 		void addNodesToClusterShouldAssignAllNodesInAreaMarkedByHeightAndWidthDimensions();
+		
+		void constructorShouldThrowExceptionWhenWidthDimensionParameterIsInvalid();
+		void constructorShouldThrowExceptionWhenHeightDimensionParameterIsInvalid();
+		void constructorShouldThrowExceptionWhenXOriginParameterIsInvalid();
+		void constructorShouldThrowExceptionWhenYOriginParameterIsInvalid();
+		void constructorShouldThrowExceptionWhenAlgorithmParameterIsNULL();
 };
 
 #endif
