@@ -11,7 +11,7 @@
 		);
 		breakpoints = (
 			62D3641F0ECE76E8000F27F9 /* ClusterAStarTest.cpp:135 */,
-			62D365360ECF246A000F27F9 /* HPAClusterTest.cpp:158 */,
+			62D3661E0ECFE106000F27F9 /* HPAClusterTest.cpp:240 */,
 		);
 		codeSenseManager = 62E910C50CFD49B200AA46AB /* Code sense */;
 		executables = (
@@ -737,6 +737,43 @@
 			62D366000ECFDBC8000F27F9 /* PBXTextBookmark */ = 62D366000ECFDBC8000F27F9 /* PBXTextBookmark */;
 			62D366010ECFDBC8000F27F9 /* PBXTextBookmark */ = 62D366010ECFDBC8000F27F9 /* PBXTextBookmark */;
 			62D366020ECFDBC8000F27F9 /* PBXTextBookmark */ = 62D366020ECFDBC8000F27F9 /* PBXTextBookmark */;
+			62D366120ECFE0A5000F27F9 /* PBXTextBookmark */ = 62D366120ECFE0A5000F27F9 /* PBXTextBookmark */;
+			62D366130ECFE0A5000F27F9 /* PBXTextBookmark */ = 62D366130ECFE0A5000F27F9 /* PBXTextBookmark */;
+			62D366140ECFE0A5000F27F9 /* PBXTextBookmark */ = 62D366140ECFE0A5000F27F9 /* PBXTextBookmark */;
+			62D366150ECFE0A5000F27F9 /* PBXTextBookmark */ = 62D366150ECFE0A5000F27F9 /* PBXTextBookmark */;
+			62D366160ECFE0A5000F27F9 /* PBXTextBookmark */ = 62D366160ECFE0A5000F27F9 /* PBXTextBookmark */;
+			62D366170ECFE0A5000F27F9 /* PBXTextBookmark */ = 62D366170ECFE0A5000F27F9 /* PBXTextBookmark */;
+			62D366180ECFE0A5000F27F9 /* PBXTextBookmark */ = 62D366180ECFE0A5000F27F9 /* PBXTextBookmark */;
+			62D366190ECFE0A5000F27F9 /* PBXTextBookmark */ = 62D366190ECFE0A5000F27F9 /* PBXTextBookmark */;
+			62D3661A0ECFE0A5000F27F9 /* PBXTextBookmark */ = 62D3661A0ECFE0A5000F27F9 /* PBXTextBookmark */;
+			62D366210ECFE16E000F27F9 /* PBXTextBookmark */ = 62D366210ECFE16E000F27F9 /* PBXTextBookmark */;
+			62D366220ECFE16E000F27F9 /* PBXTextBookmark */ = 62D366220ECFE16E000F27F9 /* PBXTextBookmark */;
+			62D366260ECFE1B6000F27F9 /* PBXTextBookmark */ = 62D366260ECFE1B6000F27F9 /* PBXTextBookmark */;
+			62D366270ECFE1B6000F27F9 /* PBXTextBookmark */ = 62D366270ECFE1B6000F27F9 /* PBXTextBookmark */;
+			62D366280ECFE1B6000F27F9 /* PBXTextBookmark */ = 62D366280ECFE1B6000F27F9 /* PBXTextBookmark */;
+			62D366290ECFE1B6000F27F9 /* PBXTextBookmark */ = 62D366290ECFE1B6000F27F9 /* PBXTextBookmark */;
+			62D3662A0ECFE1B6000F27F9 /* PBXTextBookmark */ = 62D3662A0ECFE1B6000F27F9 /* PBXTextBookmark */;
+			62D366390ECFE324000F27F9 /* PBXTextBookmark */ = 62D366390ECFE324000F27F9 /* PBXTextBookmark */;
+			62D3663A0ECFE324000F27F9 /* PBXTextBookmark */ = 62D3663A0ECFE324000F27F9 /* PBXTextBookmark */;
+			62D3663B0ECFE324000F27F9 /* PBXTextBookmark */ = 62D3663B0ECFE324000F27F9 /* PBXTextBookmark */;
+			62D3663C0ECFE328000F27F9 /* PBXTextBookmark */ = 62D3663C0ECFE328000F27F9 /* PBXTextBookmark */;
+			62D3663D0ECFE328000F27F9 /* PBXTextBookmark */ = 62D3663D0ECFE328000F27F9 /* PBXTextBookmark */;
+			62D3663E0ECFE328000F27F9 /* PBXTextBookmark */ = 62D3663E0ECFE328000F27F9 /* PBXTextBookmark */;
+			62D3663F0ECFE328000F27F9 /* PBXTextBookmark */ = 62D3663F0ECFE328000F27F9 /* PBXTextBookmark */;
+			62D366400ECFE328000F27F9 /* PBXTextBookmark */ = 62D366400ECFE328000F27F9 /* PBXTextBookmark */;
+			62D366410ECFE328000F27F9 /* PBXTextBookmark */ = 62D366410ECFE328000F27F9 /* PBXTextBookmark */;
+			62D366420ECFE328000F27F9 /* PBXTextBookmark */ = 62D366420ECFE328000F27F9 /* PBXTextBookmark */;
+			62D366430ECFE328000F27F9 /* PBXTextBookmark */ = 62D366430ECFE328000F27F9 /* PBXTextBookmark */;
+			62D366440ECFE328000F27F9 /* PBXTextBookmark */ = 62D366440ECFE328000F27F9 /* PBXTextBookmark */;
+			62D366450ECFE365000F27F9 /* PBXBookmark */ = 62D366450ECFE365000F27F9 /* PBXBookmark */;
+			62D366460ECFE370000F27F9 /* PBXTextBookmark */ = 62D366460ECFE370000F27F9 /* PBXTextBookmark */;
+			62D366490ECFE370000F27F9 /* PBXTextBookmark */ = 62D366490ECFE370000F27F9 /* PBXTextBookmark */;
+			62D3664A0ECFE370000F27F9 /* PBXTextBookmark */ = 62D3664A0ECFE370000F27F9 /* PBXTextBookmark */;
+			62D3664B0ECFE370000F27F9 /* PBXTextBookmark */ = 62D3664B0ECFE370000F27F9 /* PBXTextBookmark */;
+			62D3664C0ECFE370000F27F9 /* PBXTextBookmark */ = 62D3664C0ECFE370000F27F9 /* PBXTextBookmark */;
+			62D3664D0ECFE370000F27F9 /* PBXTextBookmark */ = 62D3664D0ECFE370000F27F9 /* PBXTextBookmark */;
+			62D3664E0ECFE370000F27F9 /* PBXTextBookmark */ = 62D3664E0ECFE370000F27F9 /* PBXTextBookmark */;
+			62D3664F0ECFE370000F27F9 /* PBXTextBookmark */ = 62D3664F0ECFE370000F27F9 /* PBXTextBookmark */;
 			62DC995D0DB0F98C00023BEC = 62DC995D0DB0F98C00023BEC /* PBXTextBookmark */;
 			62DEFF6D0DAA31BD00D7CA7B = 62DEFF6D0DAA31BD00D7CA7B /* PBXTextBookmark */;
 			62DEFF700DAA31BD00D7CA7B = 62DEFF700DAA31BD00D7CA7B /* PBXTextBookmark */;
@@ -2213,9 +2250,9 @@
 	};
 	626A637F0ECD00180071F68B /* ClusterAStar.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {876, 1078}}";
-			sepNavSelRange = "{1490, 82}";
-			sepNavVisRange = "{1085, 656}";
+			sepNavIntBoundsRect = "{{0, 0}, {1101, 1078}}";
+			sepNavSelRange = "{1912, 0}";
+			sepNavVisRange = "{1744, 542}";
 			sepNavWindowFrame = "{{153, 50}, {1065, 597}}";
 		};
 	};
@@ -3159,7 +3196,7 @@
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {720, 3178}}";
 			sepNavSelRange = "{5689, 0}";
-			sepNavVisRange = "{5935, 447}";
+			sepNavVisRange = "{5935, 537}";
 			sepNavWindowFrame = "{{163, 26}, {1065, 597}}";
 		};
 	};
@@ -3168,7 +3205,7 @@
 		fRef = 62D10DF10EC93682004D63CC /* HPACluster.h */;
 		name = "HPACluster.h: 48";
 		rLen = 0;
-		rLoc = 1381;
+		rLoc = 1439;
 		rType = 0;
 		vrLen = 467;
 		vrLoc = 706;
@@ -3178,7 +3215,7 @@
 		fRef = 62D10DF10EC93682004D63CC /* HPACluster.h */;
 		name = "HPACluster.h: 48";
 		rLen = 0;
-		rLoc = 1381;
+		rLoc = 1439;
 		rType = 0;
 		vrLen = 467;
 		vrLoc = 706;
@@ -3597,9 +3634,9 @@
 	};
 	6288561D0EC5199F007DEC7F /* AnnotatedClusterTest.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {686, 5586}}";
-			sepNavSelRange = "{2173, 110}";
-			sepNavVisRange = "{1911, 707}";
+			sepNavIntBoundsRect = "{{0, 0}, {1006, 5418}}";
+			sepNavSelRange = "{2284, 0}";
+			sepNavVisRange = "{1409, 2675}";
 			sepNavWindowFrame = "{{15, 175}, {1065, 597}}";
 		};
 	};
@@ -4481,18 +4518,18 @@
 	};
 	62D10DF10EC93682004D63CC /* HPACluster.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {876, 952}}";
-			sepNavSelRange = "{1541, 59}";
-			sepNavVisRange = "{459, 964}";
+			sepNavIntBoundsRect = "{{0, 0}, {1006, 952}}";
+			sepNavSelRange = "{1801, 0}";
+			sepNavVisRange = "{743, 1308}";
 			sepNavWindowFrame = "{{15, 175}, {1065, 597}}";
 		};
 	};
 	62D10DF20EC93682004D63CC /* HPACluster.cpp */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1214, 2898}}";
-			sepNavSelRange = "{1048, 0}";
-			sepNavVisRange = "{1060, 1233}";
-			sepNavWindowFrame = "{{49, 29}, {1065, 597}}";
+			sepNavIntBoundsRect = "{{0, 0}, {1006, 2968}}";
+			sepNavSelRange = "{1258, 0}";
+			sepNavVisRange = "{394, 1118}";
+			sepNavWindowFrame = "{{216, 81}, {1065, 597}}";
 		};
 	};
 	62D10DFC0EC93A1C004D63CC /* IHPAClusterFactory.h */ = {
@@ -4585,17 +4622,17 @@
 	};
 	62D10E860EC943D2004D63CC /* HPAClusterTest.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1006, 952}}";
-			sepNavSelRange = "{3186, 70}";
-			sepNavVisRange = "{164, 1973}";
+			sepNavIntBoundsRect = "{{0, 0}, {1006, 1078}}";
+			sepNavSelRange = "{4194, 0}";
+			sepNavVisRange = "{2207, 1918}";
 			sepNavWindowFrame = "{{15, 176}, {1065, 597}}";
 		};
 	};
 	62D10E870EC943D2004D63CC /* HPAClusterTest.cpp */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1006, 4242}}";
-			sepNavSelRange = "{7517, 0}";
-			sepNavVisRange = "{6453, 1069}";
+			sepNavIntBoundsRect = "{{0, 0}, {1006, 4816}}";
+			sepNavSelRange = "{8561, 0}";
+			sepNavVisRange = "{7909, 678}";
 			sepNavWindowFrame = "{{38, 155}, {1065, 597}}";
 		};
 	};
@@ -4779,9 +4816,9 @@
 	};
 	62D111530ECAA0C5004D63CC /* HPAClusterMock.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1006, 1092}}";
-			sepNavSelRange = "{1836, 0}";
-			sepNavVisRange = "{224, 1137}";
+			sepNavIntBoundsRect = "{{0, 0}, {1006, 1246}}";
+			sepNavSelRange = "{794, 0}";
+			sepNavVisRange = "{294, 1309}";
 			sepNavWindowFrame = "{{15, 175}, {1065, 597}}";
 		};
 	};
@@ -5372,7 +5409,7 @@
 		fRef = 62D10DF10EC93682004D63CC /* HPACluster.h */;
 		name = "HPACluster.h: 48";
 		rLen = 0;
-		rLoc = 1381;
+		rLoc = 1439;
 		rType = 0;
 		vrLen = 467;
 		vrLoc = 706;
@@ -5520,7 +5557,7 @@
 		fRef = 62D10DF10EC93682004D63CC /* HPACluster.h */;
 		name = "HPACluster.h: 48";
 		rLen = 0;
-		rLoc = 1381;
+		rLoc = 1439;
 		rType = 0;
 		vrLen = 467;
 		vrLoc = 706;
@@ -5660,7 +5697,7 @@
 		fRef = 62D10DF10EC93682004D63CC /* HPACluster.h */;
 		name = "HPACluster.h: 48";
 		rLen = 0;
-		rLoc = 1381;
+		rLoc = 1439;
 		rType = 0;
 		vrLen = 467;
 		vrLoc = 706;
@@ -5769,7 +5806,7 @@
 		ignoreCount = 0;
 		lineNumber = 135;
 		location = testsimulation;
-		modificationTime = 248500203.038936;
+		modificationTime = 248504584.134206;
 		state = 1;
 	};
 	62D364230ECE780B000F27F9 /* PBXTextBookmark */ = {
@@ -5777,7 +5814,7 @@
 		fRef = 62D10DF10EC93682004D63CC /* HPACluster.h */;
 		name = "HPACluster.h: 48";
 		rLen = 0;
-		rLoc = 1381;
+		rLoc = 1439;
 		rType = 0;
 		vrLen = 432;
 		vrLoc = 706;
@@ -5921,7 +5958,7 @@
 		fRef = 62D10DF10EC93682004D63CC /* HPACluster.h */;
 		name = "HPACluster.h: 48";
 		rLen = 0;
-		rLoc = 1381;
+		rLoc = 1439;
 		rType = 0;
 		vrLen = 467;
 		vrLoc = 706;
@@ -5961,7 +5998,7 @@
 		fRef = 62D10DF10EC93682004D63CC /* HPACluster.h */;
 		name = "HPACluster.h: 48";
 		rLen = 0;
-		rLoc = 1381;
+		rLoc = 1439;
 		rType = 0;
 		vrLen = 467;
 		vrLoc = 706;
@@ -6573,7 +6610,7 @@
 		fRef = 62D10E860EC943D2004D63CC /* HPAClusterTest.h */;
 		name = "HPAClusterTest.h: 21";
 		rLen = 0;
-		rLoc = 505;
+		rLoc = 1088;
 		rType = 0;
 		vrLen = 549;
 		vrLoc = 134;
@@ -6611,7 +6648,7 @@
 		fRef = 62D10E860EC943D2004D63CC /* HPAClusterTest.h */;
 		name = "HPAClusterTest.h: 21";
 		rLen = 0;
-		rLoc = 505;
+		rLoc = 1088;
 		rType = 0;
 		vrLen = 549;
 		vrLoc = 134;
@@ -6621,7 +6658,7 @@
 		fRef = 62D10E870EC943D2004D63CC /* HPAClusterTest.cpp */;
 		name = "HPAClusterTest.cpp: 141";
 		rLen = 0;
-		rLoc = 4914;
+		rLoc = 5055;
 		rType = 0;
 		vrLen = 782;
 		vrLoc = 3706;
@@ -6780,23 +6817,6 @@
 		isa = PBXBookmark;
 		fRef = 623C9C180EC7DD2800A007F0 /* HPAClusterAbstraction.h */;
 	};
-	62D365360ECF246A000F27F9 /* HPAClusterTest.cpp:158 */ = {
-		isa = PBXFileBreakpoint;
-		actions = (
-		);
-		breakpointStyle = 0;
-		continueAfterActions = 0;
-		countType = 0;
-		delayBeforeContinue = 0;
-		fileReference = 62D10E870EC943D2004D63CC /* HPAClusterTest.cpp */;
-		functionName = "HPAClusterTest::addParentShouldCreateEdgesToRepresentAllValidPathsBetweenNewNodeAndExistingClusterEndpoints()";
-		hitCount = 0;
-		ignoreCount = 0;
-		lineNumber = 158;
-		location = testsimulation;
-		modificationTime = 248500203.039694;
-		state = 1;
-	};
 	62D3653A0ECF24E0000F27F9 /* PBXTextBookmark */ = {
 		isa = PBXTextBookmark;
 		comments = "error: request for member 'getPathMocker' in 'castar', which is of non-class type 'ClusterAStarMock*'";
@@ -6880,7 +6900,7 @@
 		comments = "error: 'nodeIterator' was not declared in this scope";
 		fRef = 62D10DF20EC93682004D63CC /* HPACluster.cpp */;
 		rLen = 1;
-		rLoc = 158;
+		rLoc = 165;
 		rType = 1;
 	};
 	62D3655D0ECFC7CB000F27F9 /* PBXTextBookmark */ = {
@@ -6898,7 +6918,7 @@
 		fRef = 62D10DF20EC93682004D63CC /* HPACluster.cpp */;
 		name = "HPACluster.cpp: 168";
 		rLen = 0;
-		rLoc = 4946;
+		rLoc = 5399;
 		rType = 0;
 		vrLen = 742;
 		vrLoc = 4554;
@@ -6918,7 +6938,7 @@
 		fRef = 62D10DF20EC93682004D63CC /* HPACluster.cpp */;
 		name = "HPACluster.cpp: 172";
 		rLen = 33;
-		rLoc = 5035;
+		rLoc = 5488;
 		rType = 0;
 		vrLen = 749;
 		vrLoc = 4468;
@@ -6938,7 +6958,7 @@
 		fRef = 62D10DF20EC93682004D63CC /* HPACluster.cpp */;
 		name = "HPACluster.cpp: 167";
 		rLen = 0;
-		rLoc = 4948;
+		rLoc = 5401;
 		rType = 0;
 		vrLen = 760;
 		vrLoc = 4534;
@@ -6958,7 +6978,7 @@
 		fRef = 62D10DF20EC93682004D63CC /* HPACluster.cpp */;
 		name = "HPACluster.cpp: 167";
 		rLen = 0;
-		rLoc = 4948;
+		rLoc = 5401;
 		rType = 0;
 		vrLen = 760;
 		vrLoc = 4534;
@@ -7018,7 +7038,7 @@
 		fRef = 62D10DF10EC93682004D63CC /* HPACluster.h */;
 		name = "HPACluster.h: 48";
 		rLen = 0;
-		rLoc = 1381;
+		rLoc = 1439;
 		rType = 0;
 		vrLen = 368;
 		vrLoc = 834;
@@ -7058,7 +7078,7 @@
 		fRef = 62D10DF10EC93682004D63CC /* HPACluster.h */;
 		name = "HPACluster.h: 48";
 		rLen = 0;
-		rLoc = 1381;
+		rLoc = 1439;
 		rType = 0;
 		vrLen = 467;
 		vrLoc = 706;
@@ -7108,7 +7128,7 @@
 		fRef = 62D10DF10EC93682004D63CC /* HPACluster.h */;
 		name = "HPACluster.h: 48";
 		rLen = 0;
-		rLoc = 1381;
+		rLoc = 1439;
 		rType = 0;
 		vrLen = 368;
 		vrLoc = 834;
@@ -7158,7 +7178,7 @@
 		fRef = 62D10DF20EC93682004D63CC /* HPACluster.cpp */;
 		name = "HPACluster.cpp: 165";
 		rLen = 0;
-		rLoc = 4852;
+		rLoc = 5305;
 		rType = 0;
 		vrLen = 1332;
 		vrLoc = 4551;
@@ -7168,7 +7188,7 @@
 		fRef = 62D10DF20EC93682004D63CC /* HPACluster.cpp */;
 		name = "HPACluster.cpp: 161";
 		rLen = 0;
-		rLoc = 4666;
+		rLoc = 5119;
 		rType = 0;
 		vrLen = 966;
 		vrLoc = 3997;
@@ -7235,7 +7255,7 @@
 		fRef = 62D10E860EC943D2004D63CC /* HPAClusterTest.h */;
 		name = "HPAClusterTest.h: 40";
 		rLen = 0;
-		rLoc = 3259;
+		rLoc = 3736;
 		rType = 0;
 		vrLen = 1486;
 		vrLoc = 138;
@@ -7245,7 +7265,7 @@
 		fRef = 62D10E860EC943D2004D63CC /* HPAClusterTest.h */;
 		name = "HPAClusterTest.h: 42";
 		rLen = 0;
-		rLoc = 3259;
+		rLoc = 3736;
 		rType = 0;
 		vrLen = 1672;
 		vrLoc = 164;
@@ -7325,7 +7345,7 @@
 		fRef = 62D10DF20EC93682004D63CC /* HPACluster.cpp */;
 		name = "HPACluster.cpp: 126";
 		rLen = 0;
-		rLoc = 4130;
+		rLoc = 4583;
 		rType = 0;
 		vrLen = 934;
 		vrLoc = 3539;
@@ -7335,7 +7355,7 @@
 		fRef = 62D10DF20EC93682004D63CC /* HPACluster.cpp */;
 		name = "HPACluster.cpp: 118";
 		rLen = 0;
-		rLoc = 3816;
+		rLoc = 4269;
 		rType = 0;
 		vrLen = 1370;
 		vrLoc = 2510;
@@ -7385,7 +7405,7 @@
 		fRef = 62D10E860EC943D2004D63CC /* HPAClusterTest.h */;
 		name = "HPAClusterTest.h: 42";
 		rLen = 0;
-		rLoc = 3259;
+		rLoc = 3736;
 		rType = 0;
 		vrLen = 1672;
 		vrLoc = 164;
@@ -7395,7 +7415,7 @@
 		fRef = 62D10E860EC943D2004D63CC /* HPAClusterTest.h */;
 		name = "HPAClusterTest.h: 43";
 		rLen = 0;
-		rLoc = 2579;
+		rLoc = 3056;
 		rType = 0;
 		vrLen = 1750;
 		vrLoc = 313;
@@ -7415,7 +7435,7 @@
 		fRef = 62D10E870EC943D2004D63CC /* HPAClusterTest.cpp */;
 		name = "HPAClusterTest.cpp: 180";
 		rLen = 0;
-		rLoc = 5221;
+		rLoc = 5480;
 		rType = 0;
 		vrLen = 1035;
 		vrLoc = 4146;
@@ -7425,7 +7445,7 @@
 		fRef = 62D10DF20EC93682004D63CC /* HPACluster.cpp */;
 		name = "HPACluster.cpp: 118";
 		rLen = 0;
-		rLoc = 3816;
+		rLoc = 4269;
 		rType = 0;
 		vrLen = 777;
 		vrLoc = 348;
@@ -7435,7 +7455,7 @@
 		fRef = 62D10DF20EC93682004D63CC /* HPACluster.cpp */;
 		name = "HPACluster.cpp: 49";
 		rLen = 0;
-		rLoc = 1048;
+		rLoc = 1501;
 		rType = 0;
 		vrLen = 844;
 		vrLoc = 348;
@@ -7485,7 +7505,7 @@
 		fRef = 62D10E860EC943D2004D63CC /* HPAClusterTest.h */;
 		name = "HPAClusterTest.h: 43";
 		rLen = 0;
-		rLoc = 2579;
+		rLoc = 3056;
 		rType = 0;
 		vrLen = 1777;
 		vrLoc = 292;
@@ -7505,7 +7525,7 @@
 		fRef = 62D10E860EC943D2004D63CC /* HPAClusterTest.h */;
 		name = "HPAClusterTest.h: 43";
 		rLen = 0;
-		rLoc = 2579;
+		rLoc = 3056;
 		rType = 0;
 		vrLen = 1777;
 		vrLoc = 292;
@@ -7515,7 +7535,7 @@
 		fRef = 62D10E860EC943D2004D63CC /* HPAClusterTest.h */;
 		name = "HPAClusterTest.h: 29";
 		rLen = 0;
-		rLoc = 2003;
+		rLoc = 2585;
 		rType = 0;
 		vrLen = 1777;
 		vrLoc = 292;
@@ -7535,7 +7555,7 @@
 		fRef = 62D10DF20EC93682004D63CC /* HPACluster.cpp */;
 		name = "HPACluster.cpp: 49";
 		rLen = 0;
-		rLoc = 1048;
+		rLoc = 1501;
 		rType = 0;
 		vrLen = 844;
 		vrLoc = 348;
@@ -7585,7 +7605,7 @@
 		fRef = 62D10DF20EC93682004D63CC /* HPACluster.cpp */;
 		name = "HPACluster.cpp: 160";
 		rLen = 0;
-		rLoc = 4948;
+		rLoc = 5401;
 		rType = 0;
 		vrLen = 891;
 		vrLoc = 4949;
@@ -7595,7 +7615,7 @@
 		fRef = 62D10E870EC943D2004D63CC /* HPAClusterTest.cpp */;
 		name = "HPAClusterTest.cpp: 180";
 		rLen = 22;
-		rLoc = 5460;
+		rLoc = 5719;
 		rType = 0;
 		vrLen = 753;
 		vrLoc = 4715;
@@ -7613,7 +7633,7 @@
 		fRef = 62D10DF20EC93682004D63CC /* HPACluster.cpp */;
 		name = "HPACluster.cpp: 160";
 		rLen = 0;
-		rLoc = 4948;
+		rLoc = 5401;
 		rType = 0;
 		vrLen = 891;
 		vrLoc = 4949;
@@ -7623,7 +7643,7 @@
 		fRef = 62D10DF10EC93682004D63CC /* HPACluster.h */;
 		name = "HPACluster.h: 53";
 		rLen = 59;
-		rLoc = 1541;
+		rLoc = 1599;
 		rType = 0;
 		vrLen = 751;
 		vrLoc = 1165;
@@ -7633,7 +7653,7 @@
 		fRef = 62D10E870EC943D2004D63CC /* HPAClusterTest.cpp */;
 		name = "HPAClusterTest.cpp: 180";
 		rLen = 22;
-		rLoc = 5460;
+		rLoc = 5719;
 		rType = 0;
 		vrLen = 753;
 		vrLoc = 4715;
@@ -7643,7 +7663,7 @@
 		fRef = 62D10DF10EC93682004D63CC /* HPACluster.h */;
 		name = "HPACluster.h: 53";
 		rLen = 59;
-		rLoc = 1541;
+		rLoc = 1599;
 		rType = 0;
 		vrLen = 917;
 		vrLoc = 459;
@@ -7663,7 +7683,7 @@
 		fRef = 62D10DF10EC93682004D63CC /* HPACluster.h */;
 		name = "HPACluster.h: 53";
 		rLen = 59;
-		rLoc = 1541;
+		rLoc = 1599;
 		rType = 0;
 		vrLen = 917;
 		vrLoc = 459;
@@ -7737,7 +7757,7 @@
 		fRef = 62D10E860EC943D2004D63CC /* HPAClusterTest.h */;
 		name = "HPAClusterTest.h: 64";
 		rLen = 70;
-		rLoc = 3186;
+		rLoc = 3663;
 		rType = 0;
 		vrLen = 1660;
 		vrLoc = 1690;
@@ -7747,7 +7767,7 @@
 		fRef = 62D10E860EC943D2004D63CC /* HPAClusterTest.h */;
 		name = "HPAClusterTest.h: 64";
 		rLen = 70;
-		rLoc = 3186;
+		rLoc = 3663;
 		rType = 0;
 		vrLen = 1973;
 		vrLoc = 164;
@@ -7757,7 +7777,7 @@
 		fRef = 62D10E870EC943D2004D63CC /* HPAClusterTest.cpp */;
 		name = "HPAClusterTest.cpp: 243";
 		rLen = 0;
-		rLoc = 7522;
+		rLoc = 8587;
 		rType = 0;
 		vrLen = 921;
 		vrLoc = 6210;
@@ -7767,7 +7787,7 @@
 		fRef = 62D10E870EC943D2004D63CC /* HPAClusterTest.cpp */;
 		name = "HPAClusterTest.cpp: 251";
 		rLen = 0;
-		rLoc = 7517;
+		rLoc = 7776;
 		rType = 0;
 		vrLen = 1069;
 		vrLoc = 6453;
@@ -7777,7 +7797,7 @@
 		fRef = 62D10DF20EC93682004D63CC /* HPACluster.cpp */;
 		name = "HPACluster.cpp: 49";
 		rLen = 0;
-		rLoc = 1048;
+		rLoc = 1501;
 		rType = 0;
 		vrLen = 844;
 		vrLoc = 348;
@@ -7787,7 +7807,7 @@
 		fRef = 62D10DF20EC93682004D63CC /* HPACluster.cpp */;
 		name = "HPACluster.cpp: 49";
 		rLen = 0;
-		rLoc = 1048;
+		rLoc = 1501;
 		rType = 0;
 		vrLen = 1233;
 		vrLoc = 1060;
@@ -7823,6 +7843,381 @@
 		vrLoc = 0;
 	};
 	62D366020ECFDBC8000F27F9 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 626A60FC0ECC02290071F68B /* ClusterNodeMock.h */;
+		name = "ClusterNodeMock.h: 40";
+		rLen = 178;
+		rLoc = 718;
+		rType = 0;
+		vrLen = 734;
+		vrLoc = 279;
+	};
+	62D366120ECFE0A5000F27F9 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62D10DF10EC93682004D63CC /* HPACluster.h */;
+		name = "HPACluster.h: 53";
+		rLen = 59;
+		rLoc = 1599;
+		rType = 0;
+		vrLen = 964;
+		vrLoc = 459;
+	};
+	62D366130ECFE0A5000F27F9 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62D10E860EC943D2004D63CC /* HPAClusterTest.h */;
+		name = "HPAClusterTest.h: 31";
+		rLen = 0;
+		rLoc = 1996;
+		rType = 0;
+		vrLen = 968;
+		vrLoc = 1521;
+	};
+	62D366140ECFE0A5000F27F9 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62D10E870EC943D2004D63CC /* HPAClusterTest.cpp */;
+		name = "HPAClusterTest.cpp: 165";
+		rLen = 0;
+		rLoc = 5041;
+		rType = 0;
+		vrLen = 920;
+		vrLoc = 4747;
+	};
+	62D366150ECFE0A5000F27F9 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		comments = "error: expected `;' before 'this'";
+		fRef = 62D10DF20EC93682004D63CC /* HPACluster.cpp */;
+		rLen = 1;
+		rLoc = 43;
+		rType = 1;
+	};
+	62D366160ECFE0A5000F27F9 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62D10DF10EC93682004D63CC /* HPACluster.h */;
+		name = "HPACluster.h: 53";
+		rLen = 59;
+		rLoc = 1599;
+		rType = 0;
+		vrLen = 964;
+		vrLoc = 459;
+	};
+	62D366170ECFE0A5000F27F9 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62D10E860EC943D2004D63CC /* HPAClusterTest.h */;
+		name = "HPAClusterTest.h: 31";
+		rLen = 0;
+		rLoc = 1996;
+		rType = 0;
+		vrLen = 968;
+		vrLoc = 1521;
+	};
+	62D366180ECFE0A5000F27F9 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62D10E870EC943D2004D63CC /* HPAClusterTest.cpp */;
+		name = "HPAClusterTest.cpp: 165";
+		rLen = 0;
+		rLoc = 5041;
+		rType = 0;
+		vrLen = 920;
+		vrLoc = 4747;
+	};
+	62D366190ECFE0A5000F27F9 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62D10DF20EC93682004D63CC /* HPACluster.cpp */;
+		name = "HPACluster.cpp: 38";
+		rLen = 0;
+		rLoc = 1023;
+		rType = 0;
+		vrLen = 490;
+		vrLoc = 693;
+	};
+	62D3661A0ECFE0A5000F27F9 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 626A65C60ECD54AF0071F68B /* ClusterAStarTest.cpp */;
+		name = "ClusterAStarTest.cpp: 161";
+		rLen = 0;
+		rLoc = 5689;
+		rType = 0;
+		vrLen = 447;
+		vrLoc = 5935;
+	};
+	62D3661E0ECFE106000F27F9 /* HPAClusterTest.cpp:240 */ = {
+		isa = PBXFileBreakpoint;
+		actions = (
+		);
+		breakpointStyle = 0;
+		continueAfterActions = 0;
+		countType = 0;
+		delayBeforeContinue = 0;
+		fileReference = 62D10E870EC943D2004D63CC /* HPAClusterTest.cpp */;
+		functionName = "HPAClusterTest::addNodesToClusterShouldAssignAllNodesInAreaMarkedByHeightAndWidthDimensions()";
+		hitCount = 1;
+		ignoreCount = 0;
+		lineNumber = 240;
+		location = testsimulation;
+		modificationTime = 248504607.676344;
+		state = 1;
+	};
+	62D366210ECFE16E000F27F9 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62D10DF20EC93682004D63CC /* HPACluster.cpp */;
+		name = "HPACluster.cpp: 38";
+		rLen = 0;
+		rLoc = 1023;
+		rType = 0;
+		vrLen = 534;
+		vrLoc = 693;
+	};
+	62D366220ECFE16E000F27F9 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 626A65C60ECD54AF0071F68B /* ClusterAStarTest.cpp */;
+		name = "ClusterAStarTest.cpp: 161";
+		rLen = 0;
+		rLoc = 5689;
+		rType = 0;
+		vrLen = 537;
+		vrLoc = 5935;
+	};
+	62D366260ECFE1B6000F27F9 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62D10DF20EC93682004D63CC /* HPACluster.cpp */;
+		name = "HPACluster.cpp: 38";
+		rLen = 0;
+		rLoc = 1023;
+		rType = 0;
+		vrLen = 534;
+		vrLoc = 693;
+	};
+	62D366270ECFE1B6000F27F9 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		comments = "error: expected ';' before '}' token";
+		fRef = 62D10E860EC943D2004D63CC /* HPAClusterTest.h */;
+		rLen = 1;
+		rLoc = 74;
+		rType = 1;
+	};
+	62D366280ECFE1B6000F27F9 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62D10DF20EC93682004D63CC /* HPACluster.cpp */;
+		name = "HPACluster.cpp: 38";
+		rLen = 0;
+		rLoc = 1023;
+		rType = 0;
+		vrLen = 534;
+		vrLoc = 693;
+	};
+	62D366290ECFE1B6000F27F9 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62D10E860EC943D2004D63CC /* HPAClusterTest.h */;
+		name = "HPAClusterTest.h: 70";
+		rLen = 0;
+		rLoc = 4194;
+		rType = 0;
+		vrLen = 1199;
+		vrLoc = 2620;
+	};
+	62D3662A0ECFE1B6000F27F9 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 626A65C60ECD54AF0071F68B /* ClusterAStarTest.cpp */;
+		name = "ClusterAStarTest.cpp: 161";
+		rLen = 0;
+		rLoc = 5689;
+		rType = 0;
+		vrLen = 537;
+		vrLoc = 5935;
+	};
+	62D366390ECFE324000F27F9 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		comments = "error: expected `;' before 'context'";
+		fRef = 62D10E860EC943D2004D63CC /* HPAClusterTest.h */;
+		rLen = 1;
+		rLoc = 27;
+		rType = 1;
+	};
+	62D3663A0ECFE324000F27F9 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62D10E860EC943D2004D63CC /* HPAClusterTest.h */;
+		name = "HPAClusterTest.h: 26";
+		rLen = 0;
+		rLoc = 989;
+		rType = 0;
+		vrLen = 1933;
+		vrLoc = 652;
+	};
+	62D3663B0ECFE324000F27F9 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 626A65C60ECD54AF0071F68B /* ClusterAStarTest.cpp */;
+		name = "ClusterAStarTest.cpp: 161";
+		rLen = 0;
+		rLoc = 5689;
+		rType = 0;
+		vrLen = 537;
+		vrLoc = 5935;
+	};
+	62D3663C0ECFE328000F27F9 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 6288561D0EC5199F007DEC7F /* AnnotatedClusterTest.h */;
+		name = "AnnotatedClusterTest.h: 61";
+		rLen = 110;
+		rLoc = 2173;
+		rType = 0;
+		vrLen = 707;
+		vrLoc = 1911;
+	};
+	62D3663D0ECFE328000F27F9 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62D10E870EC943D2004D63CC /* HPAClusterTest.cpp */;
+		name = "HPAClusterTest.cpp: 288";
+		rLen = 0;
+		rLoc = 8402;
+		rType = 0;
+		vrLen = 681;
+		vrLoc = 7743;
+	};
+	62D3663E0ECFE328000F27F9 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62D10E870EC943D2004D63CC /* HPAClusterTest.cpp */;
+		name = "HPAClusterTest.cpp: 296";
+		rLen = 0;
+		rLoc = 8561;
+		rType = 0;
+		vrLen = 678;
+		vrLoc = 7909;
+	};
+	62D3663F0ECFE328000F27F9 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62D10E860EC943D2004D63CC /* HPAClusterTest.h */;
+		name = "HPAClusterTest.h: 73";
+		rLen = 0;
+		rLoc = 4194;
+		rType = 0;
+		vrLen = 1768;
+		vrLoc = 2296;
+	};
+	62D366400ECFE328000F27F9 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62D10E860EC943D2004D63CC /* HPAClusterTest.h */;
+		name = "HPAClusterTest.h: 74";
+		rLen = 0;
+		rLoc = 4194;
+		rType = 0;
+		vrLen = 1918;
+		vrLoc = 2207;
+	};
+	62D366410ECFE328000F27F9 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 623C9C180EC7DD2800A007F0 /* HPAClusterAbstraction.h */;
+		name = "HPAClusterAbstraction.h: 37";
+		rLen = 150;
+		rLoc = 703;
+		rType = 0;
+		vrLen = 854;
+		vrLoc = 107;
+	};
+	62D366420ECFE328000F27F9 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 626A60740ECBF6F50071F68B /* ClusterNodeTest.cpp */;
+		name = "ClusterNodeTest.cpp: 49";
+		rLen = 0;
+		rLoc = 1254;
+		rType = 0;
+		vrLen = 1050;
+		vrLoc = 231;
+	};
+	62D366430ECFE328000F27F9 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 626A60730ECBF6F50071F68B /* ClusterNodeTest.h */;
+		name = "ClusterNodeTest.h: 31";
+		rLen = 0;
+		rLoc = 781;
+		rType = 0;
+		vrLen = 792;
+		vrLoc = 0;
+	};
+	62D366440ECFE328000F27F9 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 626A60FC0ECC02290071F68B /* ClusterNodeMock.h */;
+		name = "ClusterNodeMock.h: 40";
+		rLen = 178;
+		rLoc = 718;
+		rType = 0;
+		vrLen = 734;
+		vrLoc = 279;
+	};
+	62D366450ECFE365000F27F9 /* PBXBookmark */ = {
+		isa = PBXBookmark;
+		fRef = 6288561D0EC5199F007DEC7F /* AnnotatedClusterTest.h */;
+	};
+	62D366460ECFE370000F27F9 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 6288561D0EC5199F007DEC7F /* AnnotatedClusterTest.h */;
+		name = "AnnotatedClusterTest.h: 61";
+		rLen = 110;
+		rLoc = 2173;
+		rType = 0;
+		vrLen = 707;
+		vrLoc = 1911;
+	};
+	62D366490ECFE370000F27F9 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 6288561D0EC5199F007DEC7F /* AnnotatedClusterTest.h */;
+		name = "AnnotatedClusterTest.h: 62";
+		rLen = 0;
+		rLoc = 2284;
+		rType = 0;
+		vrLen = 2675;
+		vrLoc = 1409;
+	};
+	62D3664A0ECFE370000F27F9 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62D10E870EC943D2004D63CC /* HPAClusterTest.cpp */;
+		name = "HPAClusterTest.cpp: 296";
+		rLen = 0;
+		rLoc = 8561;
+		rType = 0;
+		vrLen = 678;
+		vrLoc = 7909;
+	};
+	62D3664B0ECFE370000F27F9 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62D10E860EC943D2004D63CC /* HPAClusterTest.h */;
+		name = "HPAClusterTest.h: 74";
+		rLen = 0;
+		rLoc = 4194;
+		rType = 0;
+		vrLen = 1918;
+		vrLoc = 2207;
+	};
+	62D3664C0ECFE370000F27F9 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 623C9C180EC7DD2800A007F0 /* HPAClusterAbstraction.h */;
+		name = "HPAClusterAbstraction.h: 37";
+		rLen = 150;
+		rLoc = 703;
+		rType = 0;
+		vrLen = 854;
+		vrLoc = 107;
+	};
+	62D3664D0ECFE370000F27F9 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 626A60740ECBF6F50071F68B /* ClusterNodeTest.cpp */;
+		name = "ClusterNodeTest.cpp: 49";
+		rLen = 0;
+		rLoc = 1254;
+		rType = 0;
+		vrLen = 1050;
+		vrLoc = 231;
+	};
+	62D3664E0ECFE370000F27F9 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 626A60730ECBF6F50071F68B /* ClusterNodeTest.h */;
+		name = "ClusterNodeTest.h: 31";
+		rLen = 0;
+		rLoc = 781;
+		rType = 0;
+		vrLen = 792;
+		vrLoc = 0;
+	};
+	62D3664F0ECFE370000F27F9 /* PBXTextBookmark */ = {
 		isa = PBXTextBookmark;
 		fRef = 626A60FC0ECC02290071F68B /* ClusterNodeMock.h */;
 		name = "ClusterNodeMock.h: 40";
@@ -8296,9 +8691,9 @@
 	};
 	62E914EE0CFD4FDB00AA46AB /* graph.cpp */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {680, 15162}}";
-			sepNavSelRange = "{2798, 9}";
-			sepNavVisRange = "{2764, 173}";
+			sepNavIntBoundsRect = "{{0, 0}, {1101, 15372}}";
+			sepNavSelRange = "{1498, 0}";
+			sepNavVisRange = "{1310, 288}";
 			sepNavVisRect = "{{0, 5374}, {817, 326}}";
 			sepNavWindowFrame = "{{15, 175}, {1065, 597}}";
 		};

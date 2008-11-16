@@ -21,19 +21,26 @@
 
 unsigned HPACluster::uniqueClusterIdCnt = 0;
 
-HPACluster::HPACluster(const int x, const int y, const int _width, const int _height, AbstractClusterAStar* _alg)
+HPACluster::HPACluster(const int x, const int y, const int _width, const int _height, AbstractClusterAStar* _alg) throw(std::invalid_argument)
 {
 	init(x, y, _width, _height, _alg);
 }
 
-HPACluster::HPACluster(const int x, const int y, const int _width, const int _height) 
+HPACluster::HPACluster(const int x, const int y, const int _width, const int _height) throw(std::invalid_argument)
 {
 	init(x, y, _width, _height, new ClusterAStar());
 
 }
 
-void HPACluster::init(const int x, const int y, const int _width, const int _height, AbstractClusterAStar* _alg)
+void HPACluster::init(const int x, const int y, const int _width, const int _height, AbstractClusterAStar* _alg) throw(std::invalid_argument)
 {
+	if(_width <= 0 || _height <= 0)
+		throw std::invalid_argument("HPACluster::HPACluster: cluster height and width cannot be <= 0");
+	if(x < 0 || y < 0)
+		throw std::invalid_argument("HPACluster::HPACluster: cluster (x,y) coordinates must be >= 0");
+	if(_alg == NULL)
+		throw std::invalid_argument("HPACluster::HPACluster: search algorithm parameter cannot be null");
+
 	this->clusterId = ++uniqueClusterIdCnt;
 	startx = x;
 	starty = y;

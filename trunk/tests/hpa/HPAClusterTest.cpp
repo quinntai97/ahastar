@@ -38,7 +38,7 @@ void HPAClusterTest::tearDown()
 
 void HPAClusterTest::addParentThrowsExceptionGivenANULLNodeParameter()
 {
-	HPACluster cluster(0,0,0,0);
+	HPACluster cluster(0,0,5,5);
 	HPAClusterAbstraction hpamap(new Map(acmap.c_str()), new ClusterAStarFactory(), new HPAClusterFactory(), 
 		new ClusterNodeFactory(), new EdgeFactory(), TESTCLUSTERSIZE);
 
@@ -47,7 +47,7 @@ void HPAClusterTest::addParentThrowsExceptionGivenANULLNodeParameter()
 
 void HPAClusterTest::addParentThrowsExceptionGivenANULL_HPAClusterAbstraction_Parameter()
 {
-	HPACluster cluster(0,0,0,0);
+	HPACluster cluster(0,0,5,5);
 	node n("test");
 	cluster.addParent(&n, NULL);
 }
@@ -55,7 +55,7 @@ void HPAClusterTest::addParentThrowsExceptionGivenANULL_HPAClusterAbstraction_Pa
 
 void HPAClusterTest::addParentThrowsExceptionGivenANodeParameterThatIsNotOfType_ClusterNode()
 {
-	HPACluster cluster(0,0,0,0);
+	HPACluster cluster(0,0,5,5);
 
 	node n("test");
 	HPAClusterAbstraction hpamap(new Map(acmap.c_str()), new ClusterAStarFactory(), new HPAClusterFactory(), 
@@ -66,7 +66,7 @@ void HPAClusterTest::addParentThrowsExceptionGivenANodeParameterThatIsNotOfType_
 
 void HPAClusterTest::addParentThrowsExceptionGivenANodeParameterThatIsAlreadyAssignedToAnotherCluster()
 {
-	HPACluster cluster(0,0,0,0);
+	HPACluster cluster(0,0,5,5);
 
 	ClusterNode n("test");
 	HPAClusterAbstraction hpamap(new Map(acmap.c_str()), new ClusterAStarFactory(), new HPAClusterFactory(), 
@@ -79,7 +79,7 @@ void HPAClusterTest::addParentThrowsExceptionGivenANodeParameterThatIsAlreadyAss
 
 void HPAClusterTest::addParentThrowsExceptionGivenANodeParameterThatHasNotBeenAddedToTheAbstractGraph()
 {
-	HPACluster cluster(0,0,0,0);
+	HPACluster cluster(0,0,5,5);
 
 	ClusterNode n("test");
 	HPAClusterAbstraction hpamap(new Map(acmap.c_str()), new ClusterAStarFactory(), new HPAClusterFactory(), 
@@ -92,7 +92,7 @@ void HPAClusterTest::addParentThrowsExceptionGivenANodeParameterThatHasNotBeenAd
 
 void HPAClusterTest::addParentUpdatesParentClusterIdOfNodeParameterToIdOfCluster()
 {
-	HPACluster cluster(0,0,0,0);
+	HPACluster cluster(0,0,5,5);
 
 	ClusterNode *n = new ClusterNode("test");
 	HPAClusterAbstraction hpamap(new Map(acmap.c_str()), new ClusterAStarFactory(), new HPAClusterFactory(), 
@@ -108,7 +108,7 @@ void HPAClusterTest::addParentUpdatesParentClusterIdOfNodeParameterToIdOfCluster
 
 void HPAClusterTest::addParentAddsNodeToParentsCollection()
 {
-	HPACluster cluster(0,0,0,0);
+	HPACluster cluster(0,0,5,5);
 
 	ClusterNode *n = new ClusterNode("test");
 	HPAClusterAbstraction hpamap(new Map(acmap.c_str()), new ClusterAStarFactory(), new HPAClusterFactory(), 
@@ -158,21 +158,26 @@ void HPAClusterTest::addParentShouldCreateEdgesToRepresentAllValidPathsBetweenNe
 	cluster->addParent(n, hpamap);
 	int numExpectedGraphEdges=1;
 	int numExpectedGraphNodes=2;
+	int numExpectedPathsInCache=1;
 			
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("edge count wrong", numExpectedGraphEdges, g->getNumEdges()); 
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("node count wrong", numExpectedGraphNodes, g->getNumNodes()); 
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("pathCache count wrong", numExpectedPathsInCache, hpamap->getPathCacheSize());
 
 	edge* e = g->getRandomEdge();
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("could not match edge fromId to known node", true, e->getFrom() == n->getNum() || e->getFrom() == other->getNum());
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("could not match edge toId to known node", true, e->getTo() == n->getNum() || e->getTo() == other->getNum());
 	
+	path* p = hpamap->getPathFromCache(e);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("wrong path added to cache", true, p != NULL);
+
 	delete cluster;
 	delete hpamap;
 }
 
 void HPAClusterTest::addNodeShouldThrowExceptionWhenParameterNodeIsAssignedToAnotherCluster()
 {
-	HPACluster cluster(0,0,0,0);
+	HPACluster cluster(0,0,5,5);
 
 	ClusterNode n("test");
 	n.setParentClusterId(0);
@@ -251,3 +256,42 @@ void HPAClusterTest::addNodesToClusterShouldThrowExceptionWhenMapAbstractionPara
 	cluster->addNodesToCluster(NULL);
 }
 
+void HPAClusterTest::constructorShouldThrowExceptionWhenWidthDimensionParameterIsInvalid()
+{
+	int width = 0;
+	int height = 5;
+	
+	HPACluster(0,0, width, height);
+}
+
+void HPAClusterTest::constructorShouldThrowExceptionWhenHeightDimensionParameterIsInvalid()
+{
+	int width = 5;
+	int height = 0;
+	
+	HPACluster(0,0, width, height);
+}
+
+void HPAClusterTest::constructorShouldThrowExceptionWhenXOriginParameterIsInvalid()
+{
+	int width = 5;
+	int height = 5;
+	
+	HPACluster(-1,0, width, height);
+}
+
+void HPAClusterTest::constructorShouldThrowExceptionWhenYOriginParameterIsInvalid()
+{
+	int width = 5;
+	int height = 5;
+	
+	HPACluster(0,-1, width, height);
+}
+
+void HPAClusterTest::constructorShouldThrowExceptionWhenAlgorithmParameterIsNULL()
+{
+	int width = 5;
+	int height = 5;
+	
+	HPACluster(0,0, width, height, NULL);	
+}

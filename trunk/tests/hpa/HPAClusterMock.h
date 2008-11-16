@@ -34,7 +34,7 @@ class AbstractClusterAStar;
 class HPAClusterMock : public HPACluster, public MOCKPP_NS::ChainableMockObject
 {
 	public:
-		HPAClusterMock(int x, int y, int _width, int _height, AbstractClusterAStar* _alg) 
+		HPAClusterMock(int x, int y, int _width, int _height, AbstractClusterAStar* _alg) throw(std::invalid_argument)
 		:	HPACluster(x, y, _width, _height, _alg)
 			, MOCKPP_NS::ChainableMockObject(MOCKPP_PCHAR("HPAClusterMock"), 0)
 			, buildEntrancesMocker("buildEntrances", this)

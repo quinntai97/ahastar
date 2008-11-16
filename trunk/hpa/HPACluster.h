@@ -27,8 +27,8 @@ class HPACluster
 	#endif
 	
 	public:
-		HPACluster(const int x, const int y, const int _width, const int _height, AbstractClusterAStar* alg);
-		HPACluster(const int x, const int y, const int _width, const int _height);
+		HPACluster(const int x, const int y, const int _width, const int _height, AbstractClusterAStar* alg) throw(std::invalid_argument);
+		HPACluster(const int x, const int y, const int _width, const int _height) throw(std::invalid_argument);
 		virtual ~HPACluster();
 
 		virtual void buildEntrances(HPAClusterAbstraction*);
@@ -53,7 +53,7 @@ class HPACluster
 		void addNode(node* mynode) throw(std::invalid_argument);
 	
 	private:
-		void init(const int x, const int y, const int _width, const int _height, AbstractClusterAStar* _alg);
+		void init(const int x, const int y, const int _width, const int _height, AbstractClusterAStar* _alg) throw(std::invalid_argument);
 		void insertParent(node*, HPAClusterAbstraction*);
 			
 		int clusterId;
