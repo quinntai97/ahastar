@@ -34,6 +34,7 @@ class ClusterAStarMock : public ClusterAStar, public MOCKPP_NS::ChainableMockObj
 			, getNodesTouchedMocker("getNodesExpanded", this)
 			, getPeakMemoryMocker("getNodesExpanded", this)
 			, getSearchTimeMocker("getSearchTime", this)
+			, getPathMocker("getPath", this)
 		{ }
 		
 		void setNodesExpanded(long ne) { this->nodesExpanded = ne; }
@@ -41,10 +42,13 @@ class ClusterAStarMock : public ClusterAStar, public MOCKPP_NS::ChainableMockObj
 		void setPeakMemory(long pm) { this->peakmemory = pm;}
 		void setSearchTime(double time) { this->searchtime = time; }
 		
+		virtual path* getPath(graphAbstraction *aMap, node *from, node *to, reservationProvider *rp = 0);
+		
 		MOCKPP_NS::ChainableMockMethod<long> getNodesExpandedMocker;
 		MOCKPP_NS::ChainableMockMethod<long> getNodesTouchedMocker;
 		MOCKPP_NS::ChainableMockMethod<long> getPeakMemoryMocker;
 		MOCKPP_NS::ChainableMockMethod<double> getSearchTimeMocker;
+		MOCKPP_NS::ChainableMockMethod<path*, graphAbstraction*, node*, node*> getPathMocker;
 
 
 
