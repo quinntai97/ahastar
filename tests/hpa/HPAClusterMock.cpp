@@ -20,7 +20,7 @@ void HPAClusterMock::addNodesToCluster(HPAClusterAbstraction* hpacaMap) throw(st
 	this->addNodesToClusterMocker.forward(hpacaMap);	
 }
 
-void HPAClusterMock::addParent(node* n, HPAClusterAbstraction* hpacaMap)
+void HPAClusterMock::addParent(node* n, HPAClusterAbstraction* hpacaMap) throw(std::invalid_argument)
 {
 	if(!(n == this->n && hpacaMap == this->hpac))
 		throw std::invalid_argument("addParent called with unexpected arguments");

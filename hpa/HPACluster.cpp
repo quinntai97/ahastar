@@ -45,6 +45,8 @@ void HPACluster::init(const int x, const int y, const int _width, const int _hei
 HPACluster::~HPACluster()
 {
 	delete alg;
+	nodes.erase(nodes.begin(), nodes.end());
+	parents.erase(parents.begin(), parents.end());
 }
 
 
@@ -83,16 +85,25 @@ void HPACluster::addNode(node* _mynode) throw(std::invalid_argument)
 	nodes[mynode->getUniqueID()] = mynode;
 }
 
-void HPACluster::addParent(node* _parentnode, HPAClusterAbstraction* aca)
+void HPACluster::addParent(node* _parentnode, HPAClusterAbstraction* hpamap) throw(std::invalid_argument)
 {
+	if(hpamap == NULL || _parentnode == NULL)
+		throw std::invalid_argument("HPACluster::addParent called with NULL arguments");
+
 	ClusterNode* parentnode = dynamic_cast<ClusterNode*>(_parentnode);
-	parentnode->setParentClusterId(this->getClusterId());
-	nodes[parentnode->getUniqueID()] = parentnode;
-	
-/*	if(parentnode->getParentCluster() != -1)
+
+	if(parentnode == NULL)
+		throw std::invalid_argument("HPACluster::addParent; failed trying to cast node parameter to type ClusterNode");
+		
+	if(parentnode->getParentClusterId() != -1)
 	{
-		if(parentnode->getParentCluster() != this->getClusterId())
-			throw NodeIsAlreadyAssignedToClusterException(parentnode, this);
+		if(parentnode->getParentClusterId() != this->getClusterId())
+		{
+			std::stringstream ss;
+			ss << "HPACluster::addParent: Tried to add to cluster "<<this->getClusterId() << " node @ (" <<parentnode->getLabelL(kFirstData)<<
+				","<<parentnode->getLabelL(kFirstData+1)<< ") but this node is already assigned to cluster "<<parentnode->getParentClusterId()<<std::endl;
+			throw std::invalid_argument(ss.str());
+		}
 		else
 		{
 			std::cout << "\nWARNING: skipping parent node @ ("<<parentnode->getLabelL(kFirstData)<<","<<parentnode->getLabelL(kFirstData+1)<<"); already belongs to cluster "<<getClusterId()<<std::endl;
@@ -100,11 +111,18 @@ void HPACluster::addParent(node* _parentnode, HPAClusterAbstraction* aca)
 		}
 	}
 	else
-		parentnode->setParentCluster(this->getClusterId());
-		
-	this->connectEntranceEndpoints(parentnode,aca);	
-	Cluster::addParent(parentnode);
-*/
+		parentnode->setParentClusterId(this->getClusterId());
+
+	if(hpamap->getAbstractGraph(1)->getNode(parentnode->getNum()) == NULL)
+	{
+			std::stringstream ss;
+			ss << "HPACluster::addParent: Tried to add to cluster "<<this->getClusterId() << " node @ (" <<parentnode->getLabelL(kFirstData)<<
+				","<<parentnode->getLabelL(kFirstData+1)<< ") but this node is not in the abstract graph "<<std::endl;
+			throw std::invalid_argument(ss.str());
+	}
+	
+	this->insertParent(parentnode,hpamap);	
+	parents[parentnode->getUniqueID()] = parentnode;
 }
 
 void HPACluster::removeParent(int clusterId)
@@ -114,23 +132,6 @@ void HPACluster::removeParent(int clusterId)
 	{
 		nodes.erase(clusterId); // only removed from parents hashmap
 	}	
-}
-
-bool HPACluster::hasaParent(node* n)
-{
-	int nx = n->getLabelL(kFirstData);
-	int ny = n->getLabelL(kFirstData+1);
-
-	HPAUtil::nodeTable::iterator it = parents.begin();	
-	while(it != parents.end())
-	{
-		node* p = (*it).second;
-		if(p->getLabelL(kFirstData) == nx && p->getLabelL(kFirstData+1) == ny)
-			return true;
-		it++;	
-	}
-	
-	return false;
 }
 
 /* add all traversable nodes in the cluster area to the cluster */
@@ -147,8 +148,40 @@ void HPACluster::addNodesToCluster(HPAClusterAbstraction* aMap) throw(std::inval
 		}
 }
 
-void HPACluster::buildEntrances(HPAClusterAbstraction* hpacaMap)
+void HPACluster::buildEntrances(HPAClusterAbstraction* hpamap)
 {
 
+}
+
+// inserts a new parent node into the abstract graph by connecting it to all other parents in the cluster
+void HPACluster::insertParent(node* absStart, HPAClusterAbstraction* hpamap)
+{	
+	for(nodeTable::iterator nodeIter = parents.begin(); nodeIter != parents.end(); nodeIter++)
+	{
+		node* absGoal = (*nodeIter).second;
+		graph* absg = hpamap->getAbstractGraph(1);
+		
+		alg->setCorridorNodes(&nodes);
+
+		// get low-level nodes
+		node* from = hpamap->getNodeFromMap(absStart->getLabelL(kFirstData),absStart->getLabelL(kFirstData+1)); 
+		node* to = hpamap->getNodeFromMap(absGoal->getLabelL(kFirstData),absGoal->getLabelL(kFirstData+1)); 
+
+		path* solution = alg->getPath(hpamap, from, to);
+		if(solution != 0)
+		{
+			double dist = hpamap->distance(solution);
+			edge* e = new edge(from->getNum(), to->getNum(), dist);
+			absg->addEdge(e);
+			hpamap->addPathToCache(e, solution);				
+			//std::cout << "\n adding way cool edege for cluster "<<getClusterId();
+		}
+		
+		/* record some metrics about the operation */
+		hpamap->setNodesExpanded(hpamap->getNodesExpanded() + alg->getNodesExpanded());
+		hpamap->setNodesTouched(hpamap->getNodesTouched() + alg->getNodesTouched());
+		hpamap->setPeakMemory(alg->getPeakMemory()>hpamap->getPeakMemory()?alg->getPeakMemory():hpamap->getPeakMemory());
+		hpamap->setSearchTime(hpamap->getSearchTime() + alg->getSearchTime());
+	}
 }
 

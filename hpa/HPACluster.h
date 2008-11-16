@@ -10,14 +10,15 @@
 #ifndef HPACLUSTER_H
 #define HPACLUSTER_H
 
-#include "HPAUtil.h"
 #include <stdexcept>
+#include <map>
 
 class node;
 class searchAlgorithm;
 class HPAClusterAbstraction;
 class AbstractClusterAStar;
 
+typedef std::map<int, node*> nodeTable;
 class HPACluster
 {
 	#ifdef UNITTEST
@@ -31,10 +32,9 @@ class HPACluster
 		virtual ~HPACluster();
 
 		virtual void buildEntrances(HPAClusterAbstraction*);
-		virtual void addParent(node *, HPAClusterAbstraction*);
+		virtual void addParent(node *, HPAClusterAbstraction*) throw(std::invalid_argument);
 		virtual void removeParent(int nodeId);
 		virtual void addNodesToCluster(HPAClusterAbstraction*) throw(std::invalid_argument);
-		virtual bool hasaParent(node* n);
 		
 		void setSearchAlgorithm(AbstractClusterAStar* _alg) { alg = _alg; }
 		AbstractClusterAStar* getSearchAlgorithm() { return alg; }
@@ -46,7 +46,7 @@ class HPACluster
 		int getClusterId() { return clusterId; }
 		void setClusterId(const int newid) { clusterId = newid; }
 		int getNumParents() { return nodes.size(); }
-		HPAUtil::nodeTable* getNodes() { return &nodes; }
+		nodeTable* getNodes() { return &nodes; }
 //		node* getParent(int parentId) { return nodes[parentId]; }
 
 	protected:
@@ -54,11 +54,12 @@ class HPACluster
 	
 	private:
 		void init(const int x, const int y, const int _width, const int _height, AbstractClusterAStar* _alg);
+		void insertParent(node*, HPAClusterAbstraction*);
 			
 		int clusterId;
 		int startx, starty, width, height;
-		HPAUtil::nodeTable nodes;
-		HPAUtil::nodeTable parents; // transition points
+		nodeTable nodes;
+		nodeTable parents; // transition points
 		AbstractClusterAStar* alg;
 		
 		static unsigned int uniqueClusterIdCnt;
