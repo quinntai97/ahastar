@@ -24,12 +24,8 @@ Find an abstract path and refine it using the path cache
 path* HPAStar2::getPath(graphAbstraction* aMap, node* _from, node* _to, reservationProvider *rp)
 {
 	resetMetrics();
-	if(!_from || !_to || !aMap)
-	{
-		std::cerr << "HPAStar2::getPath failed. from, to & mapAbstraction parameters cannot be NULL"<<std::endl;
+	if(!checkParameters(aMap, _from, _to))
 		return NULL;
-	}
-
 	if(_from->getLabelL(kAbstractionLevel) > 0 || _to->getLabelL(kAbstractionLevel) > 0)
 	{
 		std::cerr << "HPAStar2::getPath failed. from/to nodes must be non-abstract nodes"<<std::endl;

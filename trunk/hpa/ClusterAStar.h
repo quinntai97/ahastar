@@ -70,6 +70,7 @@ class ClusterAStar : public AbstractClusterAStar
 
 	protected:
 		virtual bool evaluate(node* current, node* target, edge* e);
+		bool checkParameters(graphAbstraction* aMap, node* from, node* to);
 };
 
 #endif
