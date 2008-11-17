@@ -15,7 +15,7 @@
 #include "AnnotatedAStarMock.h"
 #include "AnnotatedMapAbstractionMock.h"
 
-CPPUNIT_TEST_SUITE_REGISTRATION( AnnotatedClusterTest );
+//CPPUNIT_TEST_SUITE_REGISTRATION( AnnotatedClusterTest );
 
 TestEntrance::TestEntrance(int fromx, int fromy, int tox, int toy, int capability, int clearance, int fromClusterId, int toClusterId)
 {

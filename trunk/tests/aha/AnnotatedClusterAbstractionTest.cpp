@@ -22,7 +22,7 @@
 #include <mockpp/chaining/ChainingMockObjectSupport.h>
 
 
-CPPUNIT_TEST_SUITE_REGISTRATION( AnnotatedClusterAbstractionTest );
+//CPPUNIT_TEST_SUITE_REGISTRATION( AnnotatedClusterAbstractionTest );
 
 using namespace std;
 USING_NAMESPACE_MOCKPP

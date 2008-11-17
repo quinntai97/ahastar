@@ -18,7 +18,7 @@
 #include "aStar3.h"
 
 
-CPPUNIT_TEST_SUITE_REGISTRATION( AnnotatedMapAbstractionTest );
+//CPPUNIT_TEST_SUITE_REGISTRATION( AnnotatedMapAbstractionTest );
 
 using namespace std;
 using namespace ExpMgrUtil;
