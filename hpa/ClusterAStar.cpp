@@ -59,17 +59,8 @@ path* ClusterAStar::getPath(graphAbstraction *aMap, node* from, node* to, reserv
 	nodesTouched=0;
 	peakmemory = 0;
 	searchtime =0;
-		
-	if(aMap == NULL)
-		return NULL;
-				
-	if(!from || !to)
-		return NULL;
-
-	if(from->getUniqueID() == to->getUniqueID())
-		return NULL;
-		
-	if(from->getLabelL(kFirstData) == to->getLabelL(kFirstData) && from->getLabelL(kFirstData+1) == to->getLabelL(kFirstData+1))
+	
+	if(!checkParameters(aMap, from, to))
 		return NULL;
 	
 	this->setGraphAbstraction(aMap);
@@ -177,4 +168,21 @@ void ClusterAStar::logFinalStats(statCollection *stats)
 	stats->addStat("nodesTouched",getName(),getNodesTouched());
 	stats->addStat("peakMemory",getName(),getPeakMemory());
 	stats->addStat("searchTime",getName(),getSearchTime());
+}
+
+bool ClusterAStar::checkParameters(graphAbstraction* aMap, node* from, node* to)
+{
+	if(aMap == NULL)
+		return false;
+				
+	if(!from || !to)
+		return false;
+
+	if(from->getUniqueID() == to->getUniqueID())
+		return false;
+		
+	if(from->getLabelL(kFirstData) == to->getLabelL(kFirstData) && from->getLabelL(kFirstData+1) == to->getLabelL(kFirstData+1))
+		return false;
+
+	return true;
 }
