@@ -11,6 +11,7 @@
 #include "HPAClusterAbstraction.h"
 #include "ClusterNode.h"
 #include "HPAUtil.h"
+#include "IEdgeFactory.h"
 
 #include "ClusterAStar.h"
 #include "graph.h"
@@ -101,21 +102,16 @@ void HPACluster::addParent(node* _parentnode, HPAClusterAbstraction* hpamap) thr
 
 	if(parentnode == NULL)
 		throw std::invalid_argument("HPACluster::addParent; failed trying to cast node parameter to type ClusterNode");
-		
-	if(parentnode->getParentClusterId() != -1)
+
+	if(parents.find(parentnode->getUniqueID()) != parents.end())
+		return; // node already in parents collection
+	
+	if(parentnode->getParentClusterId() != -1 && parentnode->getParentClusterId() != this->getClusterId())
 	{
-		if(parentnode->getParentClusterId() != this->getClusterId())
-		{
 			std::stringstream ss;
 			ss << "HPACluster::addParent: Tried to add to cluster "<<this->getClusterId() << " node @ (" <<parentnode->getLabelL(kFirstData)<<
 				","<<parentnode->getLabelL(kFirstData+1)<< ") but this node is already assigned to cluster "<<parentnode->getParentClusterId()<<std::endl;
 			throw std::invalid_argument(ss.str());
-		}
-		else
-		{
-			std::cout << "\nWARNING: skipping parent node @ ("<<parentnode->getLabelL(kFirstData)<<","<<parentnode->getLabelL(kFirstData+1)<<"); already belongs to cluster "<<getClusterId()<<std::endl;
-			return;
-		}
 	}
 	else
 		parentnode->setParentClusterId(this->getClusterId());
@@ -128,7 +124,7 @@ void HPACluster::addParent(node* _parentnode, HPAClusterAbstraction* hpamap) thr
 			throw std::invalid_argument(ss.str());
 	}
 	
-	this->insertParent(parentnode,hpamap);	
+	this->connectParent(parentnode,hpamap);	
 	parents[parentnode->getUniqueID()] = parentnode;
 }
 
@@ -150,18 +146,17 @@ void HPACluster::addNodesToCluster(HPAClusterAbstraction* aMap) throw(std::inval
 		
 	for(int x=this->getHOrigin(); x<getHOrigin()+getWidth(); x++)
 		for(int y=this->getVOrigin(); y<getVOrigin()+getHeight(); y++)
-		{
-			addNode(aMap->getNodeFromMap(x,y));
+		{	
+			node* n = aMap->getNodeFromMap(x,y);
+			if(n)
+				addNode(aMap->getNodeFromMap(x,y));
 		}
 }
 
-void HPACluster::buildEntrances(HPAClusterAbstraction* hpamap)
-{
 
-}
-
-// inserts a new parent node into the abstract graph by connecting it to all other parents in the cluster
-void HPACluster::insertParent(node* absStart, HPAClusterAbstraction* hpamap)
+// Connects a new parent node with every other other parent node in the cluster by using A*. 
+// Each successful search results in a new edge being added to the abstract graph.
+void HPACluster::connectParent(node* absStart, HPAClusterAbstraction* hpamap)
 {	
 	for(nodeTable::iterator nodeIter = parents.begin(); nodeIter != parents.end(); nodeIter++)
 	{
@@ -178,12 +173,12 @@ void HPACluster::insertParent(node* absStart, HPAClusterAbstraction* hpamap)
 		if(solution != 0)
 		{
 			double dist = hpamap->distance(solution);
-			edge* e = new edge(from->getNum(), to->getNum(), dist);
+			edge* e = new edge(absStart->getNum(), absGoal->getNum(), dist);
 			absg->addEdge(e);
 			hpamap->addPathToCache(e, solution);				
 			//std::cout << "\n adding way cool edege for cluster "<<getClusterId();
 		}
-		
+
 		/* record some metrics about the operation */
 		hpamap->setNodesExpanded(hpamap->getNodesExpanded() + alg->getNodesExpanded());
 		hpamap->setNodesTouched(hpamap->getNodesTouched() + alg->getNodesTouched());
@@ -192,3 +187,124 @@ void HPACluster::insertParent(node* absStart, HPAClusterAbstraction* hpamap)
 	}
 }
 
+void HPACluster::buildEntrances(HPAClusterAbstraction* hpamap) throw(std::invalid_argument)
+{
+	if(hpamap == NULL)
+		throw std::invalid_argument("HPACluster::buildEntrances: HPAClusterAbstraction parameter cannot be null");
+	
+	buildHorizontalEntrances(hpamap);
+	buildVerticalEntrances(hpamap);
+}
+
+// Each cluster only considers veritcal entrances along the length of its eastern border. 
+// A naive method would duplicate the creation of some entrances 
+void HPACluster::buildVerticalEntrances(HPAClusterAbstraction* hpamap)
+{	
+	int mapwidth = hpamap->getMap()->getMapWidth();
+	int x = this->getHOrigin()+this->getWidth();
+	if(x == mapwidth)
+		return; 
+
+	// scan for vertical entrances along the eastern border 
+	int y = this->getVOrigin();
+	while(y < this->getVOrigin()+this->getHeight())
+	{
+		int length = findVerticalEntranceLength(x,y, hpamap);
+	
+		// build transition points; long entrances have 2, short entrances have 1.
+		if(length == 0)
+			y++;
+		else
+		{
+			if(length >= MAX_SINGLE_TRANSITION_ENTRANCE_SIZE) 
+			{
+				// place one transition point at each end of the entrance area
+				node* endpoint1 = hpamap->getNodeFromMap(x, y); // NB: (x,y) is inside eastern neighbour
+				node* endpoint2 = hpamap->getNodeFromMap(x-1, y);
+				this->addTransitionPoint(endpoint1, endpoint2, hpamap);
+
+				endpoint1 = hpamap->getNodeFromMap(x, y+length-1); 
+				endpoint2 = hpamap->getNodeFromMap(x-1, y+length-1);
+				this->addTransitionPoint(endpoint1, endpoint2, hpamap);			
+			}
+			else
+			{
+				// place a transition point in the middle of the entrance area 
+				int ty = y + (length/2);
+				int tx = x;
+				node* endpoint1 = hpamap->getNodeFromMap(tx, ty); 
+				node* endpoint2 = hpamap->getNodeFromMap(tx-1, ty);
+				this->addTransitionPoint(endpoint1, endpoint2, hpamap);
+			}
+			y += length;
+		}
+	}
+}
+
+int HPACluster::findVerticalEntranceLength(int x, int y, HPAClusterAbstraction* hpamap)
+{
+	int length = 0;
+	while(y < this->getVOrigin()+this->getHeight())
+	{
+		if(hpamap->getNodeFromMap(x, y) == NULL || hpamap->getNodeFromMap(x-1, y) == NULL)
+			break;
+		y++;
+		length++;
+	}
+	
+	return length;
+}
+
+void HPACluster::buildHorizontalEntrances(HPAClusterAbstraction* hpamap)
+{
+
+}
+
+int HPACluster::findHorizontalEntranceLength(int x, int y, HPAClusterAbstraction* hpamap)
+{
+	int length = 0;
+	while(x < this->getHOrigin()+this->getWidth())
+	{
+		if(hpamap->getNodeFromMap(x, y) == NULL || hpamap->getNodeFromMap(x, y-1) == NULL)
+			return length;
+		length++;
+	}
+	
+}
+
+// A transition point is composed of two adjacent nodes in separate clusters.
+// Creating a new transition point requires the insertion of two nodes from the original map into the abstract graph.
+// These nodes are connected to each other via an inter-edge and to every other node within their respective clusters (if reachable) by intra-edges.
+void HPACluster::addTransitionPoint(node* from, node* to, HPAClusterAbstraction* hpamap)
+{
+	// add internodes; first try to reuse existing nodes from the abstract graph, else create new ones.
+	int abstractionLevel = 1;
+	graph *g = hpamap->getAbstractGraph(abstractionLevel);
+	ClusterNode* absfrom = dynamic_cast<ClusterNode*>(g->getNode(from->getLabelL(kParent)));
+	ClusterNode* absto = dynamic_cast<ClusterNode*>(g->getNode(to->getLabelL(kParent)));
+	
+	if(absfrom == NULL)
+	{
+		absfrom = dynamic_cast<ClusterNode*>(from->clone());
+		absfrom->setLabelL(kAbstractionLevel, abstractionLevel);
+		g->addNode(absfrom);
+		
+		HPACluster* parentCluster = hpamap->getCluster(absfrom->getParentClusterId());
+		parentCluster->addParent(absfrom, hpamap); // also creates intra-edges
+		from->setLabelL(kParent, absfrom->getNum());
+	}
+	if(absto == NULL)
+	{	
+		absto = dynamic_cast<ClusterNode*>(to->clone());
+		absto->setLabelL(kAbstractionLevel, abstractionLevel);
+		g->addNode(absto);
+		
+		HPACluster* parentCluster = hpamap->getCluster(absto->getParentClusterId());
+		parentCluster->addParent(absto, hpamap);
+		to->setLabelL(kParent, absto->getNum());
+	}
+	
+	// add inter-edge
+	edge* e = hpamap->getEdgeFactory()->newEdge(absfrom->getNum(), absto->getNum(), 1.0);
+	g->addEdge(e);
+}

@@ -115,9 +115,23 @@ void HPAClusterTest::addParentAddsNodeToParentsCollection()
 		new ClusterNodeFactory(), new EdgeFactory(), TESTCLUSTERSIZE);
 	hpamap.getAbstractGraph(1)->addNode(n);
 
-	int expectedClusterId = 0;
 	int numExpectedParentNodes=1;
-	cluster.setClusterId(expectedClusterId);
+	cluster.addParent(n, &hpamap);
+	
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("not not added to parents collection", numExpectedParentNodes, (int)cluster.parents.size()); 
+}
+
+void HPAClusterTest::addParentShouldIgnoreNodesAlreadyInTheParentsCollection()
+{
+	HPACluster cluster(0,0,5,5);
+
+	ClusterNode *n = new ClusterNode("test");
+	HPAClusterAbstraction hpamap(new Map(acmap.c_str()), new ClusterAStarFactory(), new HPAClusterFactory(), 
+		new ClusterNodeFactory(), new EdgeFactory(), TESTCLUSTERSIZE);
+	
+	cluster.parents[n->getUniqueID()] = n;
+
+	int numExpectedParentNodes=1;
 	cluster.addParent(n, &hpamap);
 	
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("not not added to parents collection", numExpectedParentNodes, (int)cluster.parents.size()); 
@@ -294,4 +308,128 @@ void HPAClusterTest::constructorShouldThrowExceptionWhenAlgorithmParameterIsNULL
 	int height = 5;
 	
 	HPACluster(0,0, width, height, NULL);	
+}
+
+void HPAClusterTest::buildVerticalEntrancesShouldCreateOneTransitionPointForAnEntranceOfLengthLessThan_MAX_SINGLE_TRANSITION_ENTRANCE_SIZE()
+{
+	HPAClusterAbstraction hpamap(new Map(hpaentrancetest.c_str()), new ClusterAStarFactory(), new HPAClusterFactory(), 
+		new ClusterNodeFactory(), new EdgeFactory(), MAX_SINGLE_TRANSITION_ENTRANCE_SIZE-1);
+	hpamap.buildClusters();
+
+	int stx = 4; // expected x coordinate marking start of transition point
+	int sty = 2; // expected y coordinate marking start of transition point
+	int etx = 5; // expected x coordinate marking end of transition point
+	int ety = 2; // expected y coordinate marking end of transition point	
+	ClusterNode* stn = dynamic_cast<ClusterNode*>(hpamap.getNodeFromMap(stx, sty)); // lowlevel node representing start of transition point
+	ClusterNode* etn = dynamic_cast<ClusterNode*>(hpamap.getNodeFromMap(etx, ety)); // end of transition point
+	HPACluster *sc = hpamap.getCluster(stn->getParentClusterId()); // start cluster
+	HPACluster *ec = hpamap.getCluster(etn->getParentClusterId()); // end cluster
+
+	int numExpectedAbstractNodes = 2;
+	int numExpectedAbstractEdges = 1;
+	int numExpectedParents = 1;
+
+	sc->buildVerticalEntrances(&hpamap);
+
+	graph* g = hpamap.getAbstractGraph(1);
+
+	/* check that the entrances were created in the expected locations */		
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("abstract node count wrong", numExpectedAbstractNodes, g->getNumNodes());
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("abstract edge count wrong", numExpectedAbstractEdges, g->getNumEdges());
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("parent count wrong in cluster where the transition point starts", numExpectedParents, sc->getNumParents());
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("parent count wrong in cluster where the transition point ends", numExpectedParents, ec->getNumParents());
+
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("no node in abstract graph representing the start of the transition point", true, g->getNode(stn->getLabelL(kParent)) != NULL);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("no node in abstract graph representing the end of the transition point", true, g->getNode(etn->getLabelL(kParent)) != NULL);	
+}
+
+void HPAClusterTest::buildVerticalEntrancesShouldCreateTwoTransitionPointsForAnEntranceOfLengthGreaterThanOrEqualTo_MAX_SINGLE_TRANSITION_ENTRANCE_SIZE()
+{
+	HPAClusterAbstraction hpamap(new Map(hpaentrancetest.c_str()), new ClusterAStarFactory(), new HPAClusterFactory(), 
+		new ClusterNodeFactory(), new EdgeFactory(), MAX_SINGLE_TRANSITION_ENTRANCE_SIZE);
+	hpamap.buildClusters();
+
+	int stx1 = 5; // expected x coordinate marking start of first transition point
+	int sty1 = 0; // expected y coordinate marking start of first transition point
+	int etx1 = 6; // expected x coordinate marking end of first transition point
+	int ety1 = 0; // expected y coordinate marking end of first transition point	
+
+	int stx2 = 5; // expected x coordinate marking start of second transition point
+	int sty2 = 5; // expected y coordinate marking start of second transition point
+	int etx2 = 6; // expected x coordinate marking end of second transition point
+	int ety2 = 5; // expected y coordinate marking end of second transition point	
+
+	ClusterNode* stn1 = dynamic_cast<ClusterNode*>(hpamap.getNodeFromMap(stx1, sty1)); // lowlevel node representing start of transition point
+	ClusterNode* etn1 = dynamic_cast<ClusterNode*>(hpamap.getNodeFromMap(etx1, ety1)); // end of transition point
+	ClusterNode* stn2 = dynamic_cast<ClusterNode*>(hpamap.getNodeFromMap(stx2, sty2)); // lowlevel node representing start of transition point
+	ClusterNode* etn2 = dynamic_cast<ClusterNode*>(hpamap.getNodeFromMap(etx2, ety2)); // end of transition point
+
+	HPACluster *sc = hpamap.getCluster(stn1->getParentClusterId()); // start cluster
+	HPACluster *ec = hpamap.getCluster(etn1->getParentClusterId()); // end cluster
+
+	int numExpectedAbstractNodes = 4;
+	int numExpectedAbstractEdges = 4;
+	int numExpectedParents = 2;
+
+	sc->buildVerticalEntrances(&hpamap);
+
+	graph* g = hpamap.getAbstractGraph(1);
+
+	/* check that the entrances were created in the expected locations */		
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("abstract node count wrong", numExpectedAbstractNodes, g->getNumNodes());
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("abstract edge count wrong", numExpectedAbstractEdges, g->getNumEdges());
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("parent count wrong in cluster where the transition point starts", numExpectedParents, sc->getNumParents());
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("parent count wrong in cluster where the transition point ends", numExpectedParents, ec->getNumParents());
+
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("no node in abstract graph representing the start of the first transition point", true, g->getNode(stn1->getLabelL(kParent)) != NULL);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("no node in abstract graph representing the end of the first transition point", true, g->getNode(etn1->getLabelL(kParent)) != NULL);	
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("no node in abstract graph representing the start of the second transition point", true, g->getNode(stn2->getLabelL(kParent)) != NULL);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("no node in abstract graph representing the end of the second transition point", true, g->getNode(etn2->getLabelL(kParent)) != NULL);	
+}
+
+void HPAClusterTest::buildVerticalEntrancesShouldCreateAnEntranceOnEachSideOfAnObstacleAlongTheEntranceArea()
+{
+	HPAClusterAbstraction hpamap(new Map(hpaentrancetest.c_str()), new ClusterAStarFactory(), new HPAClusterFactory(), 
+		new ClusterNodeFactory(), new EdgeFactory(), TESTCLUSTERSIZE);
+	hpamap.buildClusters();
+
+
+	// obstacle @ (4,7). two small entrances result: one from (4,5)-(4,6) and the other (4,8)-(4-9). 
+	// set coordinates of resultant transition points
+	int stx1 = 4; // expected x coordinate marking start of first transition point
+	int sty1 = 6; // expected y coordinate marking start of first transition point
+	int etx1 = 5; // expected x coordinate marking end of first transition point
+	int ety1 = 6; // expected y coordinate marking end of first transition point	
+
+	int stx2 = 4; // expected x coordinate marking start of second transition point
+	int sty2 = 9; // expected y coordinate marking start of second transition point
+	int etx2 = 5; // expected x coordinate marking end of second transition point
+	int ety2 = 9; // expected y coordinate marking end of second transition point	
+
+	ClusterNode* stn1 = dynamic_cast<ClusterNode*>(hpamap.getNodeFromMap(stx1, sty1)); // lowlevel node representing start of transition point
+	ClusterNode* etn1 = dynamic_cast<ClusterNode*>(hpamap.getNodeFromMap(etx1, ety1)); // end of transition point
+	ClusterNode* stn2 = dynamic_cast<ClusterNode*>(hpamap.getNodeFromMap(stx2, sty2)); // lowlevel node representing start of transition point
+	ClusterNode* etn2 = dynamic_cast<ClusterNode*>(hpamap.getNodeFromMap(etx2, ety2)); // end of transition point
+
+	HPACluster *sc = hpamap.getCluster(stn1->getParentClusterId()); // start cluster
+	HPACluster *ec = hpamap.getCluster(etn1->getParentClusterId()); // end cluster
+
+	int numExpectedAbstractNodes = 4;
+	int numExpectedAbstractEdges = 4;
+	int numExpectedParents = 2;
+
+	sc->buildVerticalEntrances(&hpamap);
+
+	graph* g = hpamap.getAbstractGraph(1);
+
+	/* check that the entrances were created in the expected locations */		
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("abstract node count wrong", numExpectedAbstractNodes, g->getNumNodes());
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("abstract edge count wrong", numExpectedAbstractEdges, g->getNumEdges());
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("parent count wrong in cluster where the transition point starts", numExpectedParents, sc->getNumParents());
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("parent count wrong in cluster where the transition point ends", numExpectedParents, ec->getNumParents());
+
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("no node in abstract graph representing the start of the first transition point", true, g->getNode(stn1->getLabelL(kParent)) != NULL);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("no node in abstract graph representing the end of the first transition point", true, g->getNode(etn1->getLabelL(kParent)) != NULL);	
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("no node in abstract graph representing the start of the second transition point", true, g->getNode(stn2->getLabelL(kParent)) != NULL);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("no node in abstract graph representing the end of the second transition point", true, g->getNode(etn2->getLabelL(kParent)) != NULL);
 }

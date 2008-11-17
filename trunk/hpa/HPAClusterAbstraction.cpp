@@ -59,7 +59,11 @@ HPAClusterAbstraction::~HPAClusterAbstraction()
 
 HPACluster* HPAClusterAbstraction::getCluster(int cid)
 {		
-	return clusters[cid];
+	HPAUtil::clusterTable::iterator it = clusters.find(cid);
+	if(it != clusters.end())
+		return (*it).second;
+	
+	return 0;
 }
 
 void HPAClusterAbstraction::addCluster(HPACluster* cluster) 
@@ -109,8 +113,11 @@ path* HPAClusterAbstraction::getPathFromCache(edge* e)
 	if(e == NULL)
 		return 0;
 
-	path* p = pathCache[e->getUniqueID()];
-	return p;	
+	HPAUtil::pathTable::iterator it = pathCache.find(e->getUniqueID());
+	if(it != pathCache.end())
+		return (*it).second;
+	
+	return 0;
 }
 
 HPACluster* HPAClusterAbstraction::clusterIterNext(cluster_iterator &iter) const
@@ -210,10 +217,11 @@ void HPAClusterAbstraction::insertStartAndGoalNodesIntoAbstractGraph(node* _star
 		startCluster->addParent(absstart, this);
 		start->setLabelL(kParent, startid);
 		this->startid = startid;
-		nodesExpanded+= startCluster->getSearchAlgorithm()->getNodesExpanded();
-		nodesTouched+= startCluster->getSearchAlgorithm()->getNodesTouched();
-		peakMemory+= startCluster->getSearchAlgorithm()->getPeakMemory();
-		searchTime+= startCluster->getSearchAlgorithm()->getSearchTime();
+
+//		nodesExpanded+= startCluster->getSearchAlgorithm()->getNodesExpanded();
+//		nodesTouched+= startCluster->getSearchAlgorithm()->getNodesTouched();
+//		peakMemory+= startCluster->getSearchAlgorithm()->getPeakMemory();
+//		searchTime+= startCluster->getSearchAlgorithm()->getSearchTime();
 	}
 	if(goal->getLabelL(kParent) == -1)
 	{
@@ -228,10 +236,10 @@ void HPAClusterAbstraction::insertStartAndGoalNodesIntoAbstractGraph(node* _star
 		goal->setLabelL(kParent, goalid);
 		this->goalid = goalid;
 		
-		nodesExpanded+= goalCluster->getSearchAlgorithm()->getNodesExpanded();
-		nodesTouched+= goalCluster->getSearchAlgorithm()->getNodesTouched();
-		peakMemory+= goalCluster->getSearchAlgorithm()->getPeakMemory();
-		searchTime+= goalCluster->getSearchAlgorithm()->getSearchTime();
+		//nodesExpanded+= goalCluster->getSearchAlgorithm()->getNodesExpanded();
+		//nodesTouched+= goalCluster->getSearchAlgorithm()->getNodesTouched();
+		//peakMemory+= goalCluster->getSearchAlgorithm()->getPeakMemory();
+		//searchTime+= goalCluster->getSearchAlgorithm()->getSearchTime();
 	}
 }
 

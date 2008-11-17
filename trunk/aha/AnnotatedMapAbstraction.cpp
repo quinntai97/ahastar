@@ -43,6 +43,8 @@ using namespace std;
 
 AbstractAnnotatedMapAbstraction::AbstractAnnotatedMapAbstraction(Map* m, AbstractAnnotatedAStar* alg) : mapAbstraction(m)
 {
+	std::cerr << "HAA* is currently broken. See http://code.google.com/p/ahastar/issues/detail?id=12 for more details";
+	exit(-1);
 	this->anf = new AnnotatedNodeFactory();
 	this->aef = new AnnotatedEdgeFactory();
 //	abstractions.push_back(getMapGraph(m, anf, aef));

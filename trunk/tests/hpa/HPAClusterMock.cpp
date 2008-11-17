@@ -10,7 +10,7 @@
 #include "HPAClusterMock.h"
 #include <stdexcept>
 
-void HPAClusterMock::buildEntrances(HPAClusterAbstraction* hpacaMap) 
+void HPAClusterMock::buildEntrances(HPAClusterAbstraction* hpacaMap) throw(std::invalid_argument)
 {
 	this->buildEntrancesMocker.forward(hpacaMap);
 }
