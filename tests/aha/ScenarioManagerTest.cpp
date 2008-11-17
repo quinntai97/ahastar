@@ -20,7 +20,7 @@
 
 using namespace ExpMgrUtil;
 
-CPPUNIT_TEST_SUITE_REGISTRATION( ScenarioManagerTest );
+//CPPUNIT_TEST_SUITE_REGISTRATION( ScenarioManagerTest );
 
 void ScenarioManagerTest::setUp()
 {	

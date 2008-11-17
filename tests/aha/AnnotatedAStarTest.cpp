@@ -19,7 +19,7 @@
 #include "statCollection.h"
 
 
-CPPUNIT_TEST_SUITE_REGISTRATION( AnnotatedAStarTest );
+//CPPUNIT_TEST_SUITE_REGISTRATION( AnnotatedAStarTest );
 
 using namespace ExpMgrUtil;
 

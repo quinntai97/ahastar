@@ -16,7 +16,7 @@
 #include "TestConstants.h"
 #include "statCollection.h"
 
-CPPUNIT_TEST_SUITE_REGISTRATION( AnnotatedHierarchicalAStarTest );
+//CPPUNIT_TEST_SUITE_REGISTRATION( AnnotatedHierarchicalAStarTest );
 
 void AnnotatedHierarchicalAStarTest::setUp()
 {

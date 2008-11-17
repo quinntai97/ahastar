@@ -148,6 +148,7 @@ enum tMapType {
  */
 
 class Map {
+
 public:
   Map(long width, long height);
   Map(const char *filename);
@@ -155,6 +156,7 @@ public:
 	Map(FILE *);
   Map(std::istringstream &data);
   ~Map();
+  
   void load(const char *filename);
   void load(FILE *f);
 	void setSizeMultipler(int _sizeMultiplier)
