@@ -12,7 +12,11 @@
 
 void HPAClusterMock::buildEntrances(HPAClusterAbstraction* hpacaMap) throw(std::invalid_argument)
 {
-	this->buildEntrancesMocker.forward(hpacaMap);
+	if(!(hpacaMap == this->hpac))
+		throw std::invalid_argument("buildEntrances called with unexpected arguments");	
+	buildEntranceInvocationCountActual++;
+	
+//	this->buildEntrancesMocker.forward(hpacaMap);
 }
 
 void HPAClusterMock::addNodesToCluster(HPAClusterAbstraction* hpacaMap) throw(std::invalid_argument)
@@ -37,5 +41,8 @@ void HPAClusterMock::verify()
 { 
 	if(this->addParentInvocationCountActual != addParentInvocationCount)
 		throw std::invalid_argument("addParent called wrong number of times");
+	if(this->buildEntranceInvocationCountActual != buildEntranceInvocationCount)
+		throw std::invalid_argument("buildEntrances called wrong number of times");
+
 	ChainableMockObject::verify();
 }

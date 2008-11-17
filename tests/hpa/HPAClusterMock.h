@@ -49,7 +49,7 @@ class HPAClusterMock : public HPACluster, public MOCKPP_NS::ChainableMockObject
 			, addNodesToClusterMocker("addNodesToCluster", this) 
 			//, addParentMocker("addParent", this)
 			, removeParentMocker("removeParent", this)
-		{ addParentInvocationCount=0; addParentInvocationCountActual=0;	}
+		{ addParentInvocationCount=0; addParentInvocationCountActual=0; buildEntranceInvocationCount=0; buildEntranceInvocationCountActual=0;}
 
 
 		virtual ~HPAClusterMock() {}
@@ -58,6 +58,9 @@ class HPAClusterMock : public HPACluster, public MOCKPP_NS::ChainableMockObject
 		virtual void addNodesToCluster(HPAClusterAbstraction*) throw(std::invalid_argument);
 		virtual void addParent(node*, HPAClusterAbstraction*) throw(std::invalid_argument);
 		virtual void removeParent(int);
+		
+		void setExpectedBuildEntrancesParameters(HPAClusterAbstraction* hpac) { this->hpac = hpac; }
+		void setExpectedOccurencesForBuildEntrances(int i)  { buildEntranceInvocationCount = i; } 
 		
 		void setExpectedAddParentParameters(node* n, HPAClusterAbstraction* hpac) { this->n = n; this->hpac = hpac; }
 		void setExpectedOccurencesForAddParent(int i) { addParentInvocationCount = i;}
@@ -73,6 +76,10 @@ class HPAClusterMock : public HPACluster, public MOCKPP_NS::ChainableMockObject
 			int addParentInvocationCountActual;
 			node* n;
 			HPAClusterAbstraction* hpac;
+			
+			int buildEntranceInvocationCount;
+			int buildEntranceInvocationCountActual;
+
 };
 
 #endif

@@ -96,6 +96,13 @@ void HPAClusterAbstraction::buildClusters()
 
 void HPAClusterAbstraction::buildEntrances()
 {
+	cluster_iterator it = this->getClusterIter();
+	HPACluster* cluster = this->clusterIterNext(it);
+	while(cluster)
+	{
+		cluster->buildEntrances(this);
+		cluster = this->clusterIterNext(it);
+	}
 }
 
 /* paths are cached in the direction of the edge (from, to) */

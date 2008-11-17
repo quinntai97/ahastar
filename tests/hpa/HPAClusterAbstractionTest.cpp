@@ -508,3 +508,29 @@ void HPAClusterAbstractionTest::insertStartAndGoalIntoAbstractGraphShouldRecordS
 	delete start;
 	delete goal;
 }
+
+
+void HPAClusterAbstractionTest::buildEntrancesCallsBuildEntranceMethodOnEachCluster()
+{
+	HPAClusterAbstraction hpacaMap(new Map(hpaentrancetest.c_str()), caf, cf, nf, ef, TESTCLUSTERSIZE);
+
+	int c1Id = 0;
+	int c2Id = 1;
+	HPAClusterMock* c1 = new HPAClusterMock(0,0,TESTCLUSTERSIZE,TESTCLUSTERSIZE);
+	HPAClusterMock* c2 = new HPAClusterMock(5,5,TESTCLUSTERSIZE,TESTCLUSTERSIZE);
+	
+	c1->setClusterId(c1Id);
+	c2->setClusterId(c2Id);
+	hpacaMap.clusters[c1Id] = dynamic_cast<HPACluster*>(c1);
+	hpacaMap.clusters[c2Id] = dynamic_cast<HPACluster*>(c2);
+
+	c1->setExpectedOccurencesForBuildEntrances(1);
+	c1->setExpectedBuildEntrancesParameters(&hpacaMap);
+	c2->setExpectedOccurencesForBuildEntrances(1);
+	c2->setExpectedBuildEntrancesParameters(&hpacaMap);
+
+	hpacaMap.buildEntrances();
+
+	c1->verify();
+	c2->verify();
+}

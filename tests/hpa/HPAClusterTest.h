@@ -51,9 +51,10 @@ class HPAClusterTest : public CPPUNIT_NS::TestFixture
 		CPPUNIT_TEST( buildHorizontalEntrancesShouldCreateOneTransitionPointForAnEntranceOfLengthLessThan_MAX_SINGLE_TRANSITION_ENTRANCE_SIZE );
 		CPPUNIT_TEST( buildHorizontalEntrancesShouldCreateTwoTransitionPointsForAnEntranceOfLengthGreaterThanOrEqualTo_MAX_SINGLE_TRANSITION_ENTRANCE_SIZE );
 		CPPUNIT_TEST( buildHorizontalEntrancesShouldCreateAnEntranceOnEachSideOfAnObstacleAlongTheEntranceArea );
-		
-//		CPPUNIT_TEST( builEntrancesShouldCreateCorrectNumberOfVerticalAndHorizontalTransitionsToOtherClusters );
-//		CPPUNIT_TEST( buildEntrancesShouldThrowExceptionGivenAnInvalidACAParameter );
+
+		CPPUNIT_TEST_EXCEPTION( buildEntrancesShouldThrowExceptionGivenA_NULL_ACAParameter, std::invalid_argument );		
+		CPPUNIT_TEST( builEntrancesShouldCreateCorrectNumberOfVerticalAndHorizontalTransitionsToOtherClusters );
+
 
 
 	CPPUNIT_TEST_SUITE_END();
@@ -94,7 +95,9 @@ class HPAClusterTest : public CPPUNIT_NS::TestFixture
 		void buildHorizontalEntrancesShouldCreateOneTransitionPointForAnEntranceOfLengthLessThan_MAX_SINGLE_TRANSITION_ENTRANCE_SIZE();
 		void buildHorizontalEntrancesShouldCreateTwoTransitionPointsForAnEntranceOfLengthGreaterThanOrEqualTo_MAX_SINGLE_TRANSITION_ENTRANCE_SIZE();
 		void buildHorizontalEntrancesShouldCreateAnEntranceOnEachSideOfAnObstacleAlongTheEntranceArea();
-
+		
+		void buildEntrancesShouldThrowExceptionGivenA_NULL_ACAParameter();
+		void builEntrancesShouldCreateCorrectNumberOfVerticalAndHorizontalTransitionsToOtherClusters();
 
 };
 

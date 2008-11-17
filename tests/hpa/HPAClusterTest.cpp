@@ -558,4 +558,31 @@ void HPAClusterTest::buildHorizontalEntrancesShouldCreateAnEntranceOnEachSideOfA
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("no node in abstract graph representing the end of the second transition point", true, g->getNode(etn2->getLabelL(kParent)) != NULL);
 }
 
+void HPAClusterTest::buildEntrancesShouldThrowExceptionGivenA_NULL_ACAParameter()
+{
+	HPACluster cluster(0,0,5,5);
+	cluster.buildEntrances(NULL);
+}
+
+void HPAClusterTest::builEntrancesShouldCreateCorrectNumberOfVerticalAndHorizontalTransitionsToOtherClusters()
+{
+	HPAClusterAbstraction hpamap(new Map(hpaentrancetest.c_str()), new ClusterAStarFactory(), new HPAClusterFactory(), 
+		new ClusterNodeFactory(), new EdgeFactory(), TESTCLUSTERSIZE);
+	hpamap.buildClusters();
+	
+
+	ClusterNode* origin = dynamic_cast<ClusterNode*>(hpamap.getNodeFromMap(0,0));
+	HPACluster* cluster = hpamap.getCluster(origin->getParentClusterId());	
+	cluster->buildEntrances(&hpamap);
+	
+	
+	graph* g = hpamap.getAbstractGraph(1);
+	int numExpectedAbstractNodes = 4;
+	int numExpectedAbstractEdges = 3;
+	int numExpectedParents = 2;
+
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("wrong # of parent nodes in cluster", numExpectedParents, cluster->getNumParents());	
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("abstract node count wrong", numExpectedAbstractNodes, g->getNumNodes());
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("abstract edge count wrong", numExpectedAbstractEdges, g->getNumEdges());	
+}
 
