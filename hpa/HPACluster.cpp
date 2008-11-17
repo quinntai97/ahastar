@@ -257,7 +257,45 @@ int HPACluster::findVerticalEntranceLength(int x, int y, HPAClusterAbstraction* 
 
 void HPACluster::buildHorizontalEntrances(HPAClusterAbstraction* hpamap)
 {
+	int mapheight = hpamap->getMap()->getMapHeight();
+	int y = this->getVOrigin()+this->getHeight();
+	if(y == mapheight)
+		return; 
 
+	// scan for vertical entrances along the eastern border 
+	int x = this->getHOrigin();
+	while(x < this->getHOrigin()+this->getWidth())
+	{
+		int length = findHorizontalEntranceLength(x,y, hpamap);
+	
+		// build transition points; long entrances have 2, short entrances have 1.
+		if(length == 0)
+			x++;
+		else
+		{
+			if(length >= MAX_SINGLE_TRANSITION_ENTRANCE_SIZE) 
+			{
+				// place one transition point at each end of the entrance area
+				node* endpoint1 = hpamap->getNodeFromMap(x, y); // NB: (x,y) is inside eastern neighbour
+				node* endpoint2 = hpamap->getNodeFromMap(x, y-1);
+				this->addTransitionPoint(endpoint1, endpoint2, hpamap);
+
+				endpoint1 = hpamap->getNodeFromMap(x+length-1, y); 
+				endpoint2 = hpamap->getNodeFromMap(x+length-1, y-1);
+				this->addTransitionPoint(endpoint1, endpoint2, hpamap);			
+			}
+			else
+			{
+				// place a transition point in the middle of the entrance area 
+				int tx = x + (length/2);
+				int ty = y;
+				node* endpoint1 = hpamap->getNodeFromMap(tx, ty); 
+				node* endpoint2 = hpamap->getNodeFromMap(tx, ty-1);
+				this->addTransitionPoint(endpoint1, endpoint2, hpamap);
+			}
+			x += length;
+		}
+	}
 }
 
 int HPACluster::findHorizontalEntranceLength(int x, int y, HPAClusterAbstraction* hpamap)
@@ -266,10 +304,12 @@ int HPACluster::findHorizontalEntranceLength(int x, int y, HPAClusterAbstraction
 	while(x < this->getHOrigin()+this->getWidth())
 	{
 		if(hpamap->getNodeFromMap(x, y) == NULL || hpamap->getNodeFromMap(x, y-1) == NULL)
-			return length;
+			break;
+		x++;
 		length++;
 	}
 	
+	return length;
 }
 
 // A transition point is composed of two adjacent nodes in separate clusters.
