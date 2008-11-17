@@ -225,10 +225,10 @@ void HPAClusterAbstraction::insertStartAndGoalNodesIntoAbstractGraph(node* _star
 		start->setLabelL(kParent, startid);
 		this->startid = startid;
 
-//		nodesExpanded+= startCluster->getSearchAlgorithm()->getNodesExpanded();
-//		nodesTouched+= startCluster->getSearchAlgorithm()->getNodesTouched();
-//		peakMemory+= startCluster->getSearchAlgorithm()->getPeakMemory();
-//		searchTime+= startCluster->getSearchAlgorithm()->getSearchTime();
+//		nodesExpanded = startCluster->getSearchAlgorithm()->getNodesExpanded();
+//		nodesTouched = startCluster->getSearchAlgorithm()->getNodesTouched();
+//		peakMemory = startCluster->getSearchAlgorithm()->getPeakMemory();
+//		searchTime = startCluster->getSearchAlgorithm()->getSearchTime();
 	}
 	if(goal->getLabelL(kParent) == -1)
 	{

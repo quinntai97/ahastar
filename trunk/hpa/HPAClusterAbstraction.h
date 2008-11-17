@@ -42,7 +42,9 @@ class HPAClusterAbstraction : public mapAbstraction
 		
 		/* insert and remove start/goal */
 		virtual void insertStartAndGoalNodesIntoAbstractGraph(node*, node*) throw(std::invalid_argument);
-		void removeStartAndGoalNodesFromAbstractGraph() throw(std::runtime_error);
+		virtual void removeStartAndGoalNodesFromAbstractGraph() throw(std::runtime_error);
+		int getStartId() { return startid; }
+		int getGoalId() { return goalid; }
 		
 		/* cluster getters and iterator functions */
 		cluster_iterator getClusterIter() const { return clusters.begin(); }
