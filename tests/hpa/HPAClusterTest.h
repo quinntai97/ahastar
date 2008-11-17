@@ -32,6 +32,7 @@ class HPAClusterTest : public CPPUNIT_NS::TestFixture
 		CPPUNIT_TEST_EXCEPTION( addParentThrowsExceptionGivenANodeParameterThatHasNotBeenAddedToTheAbstractGraph, std::invalid_argument );
 		CPPUNIT_TEST( addParentUpdatesParentClusterIdOfNodeParameterToIdOfCluster );
 		CPPUNIT_TEST( addParentAddsNodeToParentsCollection );
+		CPPUNIT_TEST( addParentShouldIgnoreNodesAlreadyInTheParentsCollection );
 		CPPUNIT_TEST( addParentShouldCreateEdgesToRepresentAllValidPathsBetweenNewNodeAndExistingClusterEndpoints );
 		
 		CPPUNIT_TEST_EXCEPTION( addNodeShouldThrowExceptionWhenParameterNodeIsAssignedToAnotherCluster, std::invalid_argument );
@@ -42,6 +43,20 @@ class HPAClusterTest : public CPPUNIT_NS::TestFixture
 
 		CPPUNIT_TEST_EXCEPTION( addNodesToClusterShouldThrowExceptionWhenMapAbstractionParameterIsNull, std::invalid_argument );
 		CPPUNIT_TEST( addNodesToClusterShouldAssignAllNodesInAreaMarkedByHeightAndWidthDimensions );
+		
+		CPPUNIT_TEST( buildVerticalEntrancesShouldCreateOneTransitionPointForAnEntranceOfLengthLessThan_MAX_SINGLE_TRANSITION_ENTRANCE_SIZE );
+		CPPUNIT_TEST( buildVerticalEntrancesShouldCreateTwoTransitionPointsForAnEntranceOfLengthGreaterThanOrEqualTo_MAX_SINGLE_TRANSITION_ENTRANCE_SIZE );
+		CPPUNIT_TEST( buildVerticalEntrancesShouldCreateAnEntranceOnEachSideOfAnObstacleAlongTheEntranceArea );
+			
+//		CPPUNIT_TEST( buildHorizontalEntrancesShouldCreateOneMaximallySizedEntrancePerContiguousAreaAlongTheHorizontalBorderBetweenTwoClusters );
+//		CPPUNIT_TEST( buildHorizontalEntrancesShouldThrowExceptionGivenAnInvalidACAParameter );
+//		CPPUNIT_TEST( buildHorizontalEntrancesShouldNotAddAnyEntrancesGivenAnInvalidCapabilityParameter );
+//		CPPUNIT_TEST( buildHorizontalEntrancesShouldSkipClustersWhichHaveNoNeighboursAlongSouthernBorder );
+//		CPPUNIT_TEST( buildHorizontalEntrancesShouldCreateOneTransitionForEachLocalMaximaOfAnEntranceArea );
+		
+//		CPPUNIT_TEST( builEntrancesShouldCreateCorrectNumberOfVerticalAndHorizontalTransitionsToOtherClusters );
+//		CPPUNIT_TEST( buildEntrancesShouldThrowExceptionGivenAnInvalidACAParameter );
+
 
 	CPPUNIT_TEST_SUITE_END();
 
@@ -56,6 +71,7 @@ class HPAClusterTest : public CPPUNIT_NS::TestFixture
 		void addParentThrowsExceptionGivenANodeParameterThatHasNotBeenAddedToTheAbstractGraph();
 		void addParentUpdatesParentClusterIdOfNodeParameterToIdOfCluster();
 		void addParentAddsNodeToParentsCollection();
+		void addParentShouldIgnoreNodesAlreadyInTheParentsCollection();
 		void addParentShouldCreateEdgesToRepresentAllValidPathsBetweenNewNodeAndExistingClusterEndpoints();
 		
 		void addNodeShouldThrowExceptionWhenParameterNodeIsAssignedToAnotherCluster();
@@ -72,6 +88,10 @@ class HPAClusterTest : public CPPUNIT_NS::TestFixture
 		void constructorShouldThrowExceptionWhenXOriginParameterIsInvalid();
 		void constructorShouldThrowExceptionWhenYOriginParameterIsInvalid();
 		void constructorShouldThrowExceptionWhenAlgorithmParameterIsNULL();
+		
+		void buildVerticalEntrancesShouldCreateOneTransitionPointForAnEntranceOfLengthLessThan_MAX_SINGLE_TRANSITION_ENTRANCE_SIZE();
+		void buildVerticalEntrancesShouldCreateTwoTransitionPointsForAnEntranceOfLengthGreaterThanOrEqualTo_MAX_SINGLE_TRANSITION_ENTRANCE_SIZE();
+		void buildVerticalEntrancesShouldCreateAnEntranceOnEachSideOfAnObstacleAlongTheEntranceArea();
 };
 
 #endif

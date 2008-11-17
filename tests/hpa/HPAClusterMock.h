@@ -54,7 +54,7 @@ class HPAClusterMock : public HPACluster, public MOCKPP_NS::ChainableMockObject
 
 		virtual ~HPAClusterMock() {}
 		
-		virtual void buildEntrances(HPAClusterAbstraction*);
+		virtual void buildEntrances(HPAClusterAbstraction*) throw(std::invalid_argument);
 		virtual void addNodesToCluster(HPAClusterAbstraction*) throw(std::invalid_argument);
 		virtual void addParent(node*, HPAClusterAbstraction*) throw(std::invalid_argument);
 		virtual void removeParent(int);

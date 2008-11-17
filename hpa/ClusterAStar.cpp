@@ -34,7 +34,7 @@ bool AbstractClusterAStar::isInCorridor(node* _n)
 	if(corridorNodes == NULL) // corridor not set. every node should be considered.
 		return true;
 	
-	if((*corridorNodes)[_n->getUniqueID()] != NULL) // already added
+	if(corridorNodes->find(_n->getUniqueID()) != corridorNodes->end()) // already added
 		return true;
 
 	return false;
@@ -114,7 +114,7 @@ path* ClusterAStar::getPath(graphAbstraction *aMap, node* from, node* to, reserv
 			//int ny = neighbour->getLabelL(kFirstData+1);
 			//double weight = e->getWeight();
 
-			if(!closedList[neighbour->getUniqueID()]) // skip nodes we've already closed
+			if(closedList.find(neighbour->getUniqueID()) == closedList.end()) // ignore nodes on the closed list
 			{
 				// if a node on the openlist is reachable via this new edge, relax the edge (see cormen et al)
 				if(openList->isIn(neighbour)) 

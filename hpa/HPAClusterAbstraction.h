@@ -81,6 +81,9 @@ class HPAClusterAbstraction : public mapAbstraction
 		virtual void repairAbstraction() {}
 		virtual mapAbstraction* clone(Map *) { return NULL; }
 	
+		IEdgeFactory* getEdgeFactory() { return ef; }
+		INodeFactory* getNodeFactory() { return nf; }
+		
 	protected:
 		void addCluster(HPACluster* cluster);
 		int getNumberOfAbstractionLevels() { return abstractions.size(); }
