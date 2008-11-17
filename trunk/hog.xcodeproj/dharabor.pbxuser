@@ -626,17 +626,17 @@
 	};
 	623C9C180EC7DD2800A007F0 /* HPAClusterAbstraction.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1088, 1512}}";
-			sepNavSelRange = "{1225, 71}";
-			sepNavVisRange = "{679, 1510}";
+			sepNavIntBoundsRect = "{{0, 0}, {1088, 1526}}";
+			sepNavSelRange = "{1310, 15}";
+			sepNavVisRange = "{998, 634}";
 			sepNavWindowFrame = "{{153, 50}, {1065, 597}}";
 		};
 	};
 	623C9C190EC7DD2800A007F0 /* HPAClusterAbstraction.cpp */ = {
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {1202, 4956}}";
-			sepNavSelRange = "{3378, 0}";
-			sepNavVisRange = "{2775, 869}";
+			sepNavSelRange = "{2959, 0}";
+			sepNavVisRange = "{2409, 884}";
 			sepNavWindowFrame = "{{15, 175}, {1065, 597}}";
 		};
 	};
@@ -1169,11 +1169,11 @@
 		delayBeforeContinue = 0;
 		fileReference = 62D10E870EC943D2004D63CC /* HPAClusterTest.cpp */;
 		functionName = "HPAClusterTest::builEntrancesShouldCreateCorrectNumberOfVerticalAndHorizontalTransitionsToOtherClusters()";
-		hitCount = 1;
+		hitCount = 0;
 		ignoreCount = 0;
 		lineNumber = 576;
 		location = testsimulation;
-		modificationTime = 248590112.394497;
+		modificationTime = 248591452.45465;
 		state = 1;
 	};
 	625154C00ED12F4200E4DEF3 /* PBXTextBookmark */ = {
@@ -1606,7 +1606,7 @@
 		fRef = 623C9C190EC7DD2800A007F0 /* HPAClusterAbstraction.cpp */;
 		name = "HPAClusterAbstraction.cpp: 161";
 		rLen = 10;
-		rLoc = 4520;
+		rLoc = 4711;
 		rType = 0;
 		vrLen = 305;
 		vrLoc = 3967;
@@ -1646,7 +1646,7 @@
 		fRef = 623C9C190EC7DD2800A007F0 /* HPAClusterAbstraction.cpp */;
 		name = "HPAClusterAbstraction.cpp: 161";
 		rLen = 10;
-		rLoc = 4520;
+		rLoc = 4711;
 		rType = 0;
 		vrLen = 305;
 		vrLoc = 3967;
@@ -2636,7 +2636,7 @@
 		fRef = 62D10C620EC90209004D63CC /* HPAClusterAbstractionTest.h */;
 		name = "HPAClusterAbstractionTest.h: 97";
 		rLen = 0;
-		rLoc = 4957;
+		rLoc = 5091;
 		rType = 0;
 		vrLen = 729;
 		vrLoc = 634;
@@ -3347,17 +3347,17 @@
 	};
 	62D10C620EC90209004D63CC /* HPAClusterAbstractionTest.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1006, 1302}}";
-			sepNavSelRange = "{3009, 0}";
-			sepNavVisRange = "{2951, 1891}";
+			sepNavIntBoundsRect = "{{0, 0}, {1006, 1428}}";
+			sepNavSelRange = "{2814, 0}";
+			sepNavVisRange = "{3232, 1863}";
 			sepNavWindowFrame = "{{15, 175}, {1065, 597}}";
 		};
 	};
 	62D10C630EC90209004D63CC /* HPAClusterAbstractionTest.cpp */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1010, 7126}}";
-			sepNavSelRange = "{15744, 0}";
-			sepNavVisRange = "{14001, 2305}";
+			sepNavIntBoundsRect = "{{0, 0}, {1010, 7210}}";
+			sepNavSelRange = "{1650, 15}";
+			sepNavVisRange = "{1441, 358}";
 			sepNavWindowFrame = "{{15, 175}, {1065, 597}}";
 		};
 	};
@@ -3679,9 +3679,9 @@
 	};
 	62D10DF20EC93682004D63CC /* HPACluster.cpp */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1006, 4858}}";
-			sepNavSelRange = "{6717, 0}";
-			sepNavVisRange = "{5840, 1406}";
+			sepNavIntBoundsRect = "{{0, 0}, {1101, 4998}}";
+			sepNavSelRange = "{6551, 0}";
+			sepNavVisRange = "{8518, 523}";
 			sepNavWindowFrame = "{{216, 81}, {1065, 597}}";
 		};
 	};
@@ -3765,17 +3765,17 @@
 	};
 	62D10E860EC943D2004D63CC /* HPAClusterTest.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1006, 1414}}";
-			sepNavSelRange = "{5970, 0}";
-			sepNavVisRange = "{4123, 1958}";
+			sepNavIntBoundsRect = "{{0, 0}, {1006, 1456}}";
+			sepNavSelRange = "{6266, 0}";
+			sepNavVisRange = "{4151, 2121}";
 			sepNavWindowFrame = "{{15, 176}, {1065, 597}}";
 		};
 	};
 	62D10E870EC943D2004D63CC /* HPAClusterTest.cpp */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1016, 7910}}";
-			sepNavSelRange = "{27002, 0}";
-			sepNavVisRange = "{25710, 1297}";
+			sepNavIntBoundsRect = "{{0, 0}, {876, 9758}}";
+			sepNavSelRange = "{0, 0}";
+			sepNavVisRange = "{0, 423}";
 			sepNavWindowFrame = "{{38, 155}, {1065, 597}}";
 		};
 	};
@@ -3929,17 +3929,17 @@
 	};
 	62D111530ECAA0C5004D63CC /* HPAClusterMock.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {876, 1050}}";
-			sepNavSelRange = "{1720, 0}";
-			sepNavVisRange = "{1230, 1009}";
+			sepNavIntBoundsRect = "{{0, 0}, {1006, 1190}}";
+			sepNavSelRange = "{1669, 0}";
+			sepNavVisRange = "{1446, 1509}";
 			sepNavWindowFrame = "{{15, 175}, {1065, 597}}";
 		};
 	};
 	62D111540ECAA0C5004D63CC /* HPAClusterMock.cpp */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {876, 644}}";
-			sepNavSelRange = "{270, 0}";
-			sepNavVisRange = "{26, 472}";
+			sepNavIntBoundsRect = "{{0, 0}, {1006, 686}}";
+			sepNavSelRange = "{1375, 0}";
+			sepNavVisRange = "{322, 1121}";
 			sepNavWindowFrame = "{{15, 175}, {1065, 597}}";
 		};
 	};
@@ -4187,7 +4187,7 @@
 		ignoreCount = 0;
 		lineNumber = 46;
 		location = testsimulation;
-		modificationTime = 248590108.893395;
+		modificationTime = 248591452.454629;
 		state = 1;
 	};
 	62D368090ED0EB4A000F27F9 /* PBXTextBookmark */ = {
@@ -4550,6 +4550,13 @@
 			sepNavVisRange = "{2947, 695}";
 		};
 	};
+	62E914790CFD4FBB00AA46AB /* width.cpp */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {720, 3710}}";
+			sepNavSelRange = "{1175, 12}";
+			sepNavVisRange = "{1067, 268}";
+		};
+	};
 	62E914970CFD4FCC00AA46AB /* aStar.cpp */ = {
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {880, 3794}}";
@@ -4639,8 +4646,9 @@
 	};
 	62E914A20CFD4FCC00AA46AB /* hpaStar.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {901, 1246}}";
+			sepNavIntBoundsRect = "{{0, 0}, {887, 1372}}";
 			sepNavSelRange = "{0, 0}";
+			sepNavVisRange = "{0, 710}";
 			sepNavVisRect = "{{0, 638}, {901, 608}}";
 			sepNavWindowFrame = "{{15, 4}, {946, 737}}";
 		};
