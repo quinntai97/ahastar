@@ -11,6 +11,7 @@
 		);
 		breakpoints = (
 			62D367FC0ED0EA6C000F27F9 /* AnnotatedMapAbstraction.cpp:46 */,
+			625154BF0ED12ED700E4DEF3 /* HPAClusterTest.cpp:576 */,
 		);
 		codeSenseManager = 62E910C50CFD49B200AA46AB /* Code sense */;
 		executables = (
@@ -190,6 +191,8 @@
 			625154A20ED128EA00E4DEF3 /* PBXTextBookmark */ = 625154A20ED128EA00E4DEF3 /* PBXTextBookmark */;
 			625154A30ED128EA00E4DEF3 /* PBXTextBookmark */ = 625154A30ED128EA00E4DEF3 /* PBXTextBookmark */;
 			625154A40ED128EA00E4DEF3 /* PBXTextBookmark */ = 625154A40ED128EA00E4DEF3 /* PBXTextBookmark */;
+			625154C00ED12F4200E4DEF3 /* PBXTextBookmark */ = 625154C00ED12F4200E4DEF3 /* PBXTextBookmark */;
+			625154C10ED12F4200E4DEF3 /* PBXTextBookmark */ = 625154C10ED12F4200E4DEF3 /* PBXTextBookmark */;
 			625D21A10D6EB2AA00211E90 = 625D21A10D6EB2AA00211E90 /* PBXTextBookmark */;
 			625D21A30D6EB2AA00211E90 = 625D21A30D6EB2AA00211E90 /* PBXTextBookmark */;
 			625FE13F0ED107C800DBFA00 = 625FE13F0ED107C800DBFA00 /* PBXTextBookmark */;
@@ -623,17 +626,17 @@
 	};
 	623C9C180EC7DD2800A007F0 /* HPAClusterAbstraction.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1088, 1554}}";
-			sepNavSelRange = "{483, 0}";
-			sepNavVisRange = "{1352, 1332}";
+			sepNavIntBoundsRect = "{{0, 0}, {1088, 1512}}";
+			sepNavSelRange = "{1225, 71}";
+			sepNavVisRange = "{679, 1510}";
 			sepNavWindowFrame = "{{153, 50}, {1065, 597}}";
 		};
 	};
 	623C9C190EC7DD2800A007F0 /* HPAClusterAbstraction.cpp */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1202, 4914}}";
-			sepNavSelRange = "{2033, 0}";
-			sepNavVisRange = "{1873, 902}";
+			sepNavIntBoundsRect = "{{0, 0}, {1202, 4956}}";
+			sepNavSelRange = "{3378, 0}";
+			sepNavVisRange = "{2775, 869}";
 			sepNavWindowFrame = "{{15, 175}, {1065, 597}}";
 		};
 	};
@@ -1044,7 +1047,7 @@
 		fRef = 62D10E860EC943D2004D63CC /* HPAClusterTest.h */;
 		name = "HPAClusterTest.h: 94";
 		rLen = 0;
-		rLoc = 5695;
+		rLoc = 5723;
 		rType = 0;
 		vrLen = 2011;
 		vrLoc = 3839;
@@ -1114,7 +1117,7 @@
 		fRef = 62D10E860EC943D2004D63CC /* HPAClusterTest.h */;
 		name = "HPAClusterTest.h: 96";
 		rLen = 0;
-		rLoc = 5970;
+		rLoc = 5998;
 		rType = 0;
 		vrLen = 1958;
 		vrLoc = 4123;
@@ -1155,6 +1158,41 @@
 		rType = 0;
 		vrLen = 1047;
 		vrLoc = 1165;
+	};
+	625154BF0ED12ED700E4DEF3 /* HPAClusterTest.cpp:576 */ = {
+		isa = PBXFileBreakpoint;
+		actions = (
+		);
+		breakpointStyle = 0;
+		continueAfterActions = 0;
+		countType = 0;
+		delayBeforeContinue = 0;
+		fileReference = 62D10E870EC943D2004D63CC /* HPAClusterTest.cpp */;
+		functionName = "HPAClusterTest::builEntrancesShouldCreateCorrectNumberOfVerticalAndHorizontalTransitionsToOtherClusters()";
+		hitCount = 1;
+		ignoreCount = 0;
+		lineNumber = 576;
+		location = testsimulation;
+		modificationTime = 248590112.394497;
+		state = 1;
+	};
+	625154C00ED12F4200E4DEF3 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		comments = "error: no matching function for call to 'HPACluster::buildEntrances(HPAClusterAbstraction&)'";
+		fRef = 62D10E870EC943D2004D63CC /* HPAClusterTest.cpp */;
+		rLen = 0;
+		rLoc = 585;
+		rType = 1;
+	};
+	625154C10ED12F4200E4DEF3 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 62D10E870EC943D2004D63CC /* HPAClusterTest.cpp */;
+		name = "HPAClusterTest.cpp: 1";
+		rLen = 0;
+		rLoc = 0;
+		rType = 0;
+		vrLen = 448;
+		vrLoc = 0;
 	};
 	625BF8A40D13D79E0028A447 /* ScenarioManager.cpp */ = {
 		uiCtxt = {
@@ -1488,7 +1526,7 @@
 		fRef = 62D10E860EC943D2004D63CC /* HPAClusterTest.h */;
 		name = "HPAClusterTest.h: 92";
 		rLen = 0;
-		rLoc = 5695;
+		rLoc = 5723;
 		rType = 0;
 		vrLen = 504;
 		vrLoc = 4858;
@@ -1538,7 +1576,7 @@
 		fRef = 62D10E860EC943D2004D63CC /* HPAClusterTest.h */;
 		name = "HPAClusterTest.h: 92";
 		rLen = 0;
-		rLoc = 5695;
+		rLoc = 5723;
 		rType = 0;
 		vrLen = 504;
 		vrLoc = 4858;
@@ -1638,7 +1676,7 @@
 		fRef = 62D10E860EC943D2004D63CC /* HPAClusterTest.h */;
 		name = "HPAClusterTest.h: 97";
 		rLen = 0;
-		rLoc = 5695;
+		rLoc = 5723;
 		rType = 0;
 		vrLen = 1924;
 		vrLoc = 3871;
@@ -2571,9 +2609,9 @@
 	};
 	626A65C60ECD54AF0071F68B /* ClusterAStarTest.cpp */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {698, 3248}}";
-			sepNavSelRange = "{5695, 0}";
-			sepNavVisRange = "{5788, 377}";
+			sepNavIntBoundsRect = "{{0, 0}, {1006, 3318}}";
+			sepNavSelRange = "{2833, 55}";
+			sepNavVisRange = "{2209, 1708}";
 			sepNavWindowFrame = "{{163, 26}, {1065, 597}}";
 		};
 	};
@@ -3317,9 +3355,9 @@
 	};
 	62D10C630EC90209004D63CC /* HPAClusterAbstractionTest.cpp */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1010, 7056}}";
-			sepNavSelRange = "{14747, 65}";
-			sepNavVisRange = "{14812, 701}";
+			sepNavIntBoundsRect = "{{0, 0}, {1010, 7126}}";
+			sepNavSelRange = "{15744, 0}";
+			sepNavVisRange = "{14001, 2305}";
 			sepNavWindowFrame = "{{15, 175}, {1065, 597}}";
 		};
 	};
@@ -3633,17 +3671,17 @@
 	};
 	62D10DF10EC93682004D63CC /* HPACluster.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {836, 1092}}";
+			sepNavIntBoundsRect = "{{0, 0}, {1006, 1064}}";
 			sepNavSelRange = "{1522, 0}";
-			sepNavVisRange = "{886, 425}";
+			sepNavVisRange = "{400, 1474}";
 			sepNavWindowFrame = "{{15, 175}, {1065, 597}}";
 		};
 	};
 	62D10DF20EC93682004D63CC /* HPACluster.cpp */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1006, 4970}}";
-			sepNavSelRange = "{8853, 0}";
-			sepNavVisRange = "{8264, 868}";
+			sepNavIntBoundsRect = "{{0, 0}, {1006, 4858}}";
+			sepNavSelRange = "{6717, 0}";
+			sepNavVisRange = "{5840, 1406}";
 			sepNavWindowFrame = "{{216, 81}, {1065, 597}}";
 		};
 	};
@@ -3735,9 +3773,9 @@
 	};
 	62D10E870EC943D2004D63CC /* HPAClusterTest.cpp */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1016, 6916}}";
-			sepNavSelRange = "{23741, 0}";
-			sepNavVisRange = "{22810, 1847}";
+			sepNavIntBoundsRect = "{{0, 0}, {1016, 7910}}";
+			sepNavSelRange = "{27002, 0}";
+			sepNavVisRange = "{25710, 1297}";
 			sepNavWindowFrame = "{{38, 155}, {1065, 597}}";
 		};
 	};
@@ -4149,7 +4187,7 @@
 		ignoreCount = 0;
 		lineNumber = 46;
 		location = testsimulation;
-		modificationTime = 248588351.870266;
+		modificationTime = 248590108.893395;
 		state = 1;
 	};
 	62D368090ED0EB4A000F27F9 /* PBXTextBookmark */ = {
