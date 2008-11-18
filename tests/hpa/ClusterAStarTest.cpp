@@ -9,7 +9,6 @@
 
 #include "ClusterAStarTest.h"
 #include "ClusterAStar.h"
-//#include "HPAClusterAbstractionMock.h"
 #include "HPAClusterAbstraction.h"
 #include "ClusterAStarFactory.h"
 #include "HPAClusterFactory.h"
@@ -17,18 +16,16 @@
 #include "EdgeFactory.h"
 #include "ClusterNode.h"
 
-#include "ExperimentManager.h"
 #include "TestConstants.h"
-
+#include "heap.h"
 #include "path.h"
 #include "mapFlatAbstraction.h"
 #include "TestConstants.h"
 #include "statCollection.h"
 
+#include <map>
 
 CPPUNIT_TEST_SUITE_REGISTRATION( ClusterAStarTest );
-
-using namespace ExpMgrUtil;
 
 void ClusterAStarTest::setUp()
 {
@@ -222,3 +219,50 @@ void ClusterAStarTest::logStatsShouldRecordAllMetricsToStatsCollection()
 
 }
 
+
+void ClusterAStarTest::expandDoesNotReopenNodesOnTheClosedList()
+{
+	HPAClusterAbstraction hpamap(new Map(acmap.c_str()), new ClusterAStarFactory(), new HPAClusterFactory(), 
+		new ClusterNodeFactory(), new EdgeFactory(), TESTCLUSTERSIZE);
+	ClusterAStar castar;
+	castar.setGraphAbstraction(&hpamap);
+
+	heap openList;
+	std::map<int, node*> closedList;
+	
+	graph g;
+	node* target = new node("target");
+	target->setLabelL(kFirstData, 0);
+	target->setLabelL(kFirstData, 1);
+	node* neighbour1 = new node("neighbour1");
+	neighbour1->setLabelL(kFirstData, 1);
+	neighbour1->setLabelL(kFirstData, 0);
+	node* neighbour2 = new node("neighbour2");
+	neighbour2->setLabelL(kFirstData, 1);
+	neighbour2->setLabelL(kFirstData, 1);
+	
+	
+	g.addNode(target);
+	g.addNode(neighbour1);
+	g.addNode(neighbour2);
+	
+	edge* e = new edge(target->getNum(), neighbour1->getNum(), 1.0);
+	g.addEdge(e);
+	e = new edge(target->getNum(), neighbour2->getNum(), 1.0);
+	g.addEdge(e);
+	
+	closedList[neighbour1->getUniqueID()] = neighbour1;
+	castar.expand(target, NULL, &openList, closedList, &g);
+	
+	int expectedSizeOfOpenList = 1;
+	int expectedSizeOfClosedList = 2;
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("open list size is wrong", expectedSizeOfOpenList, (int)openList.size());
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("closed list unexpectedly modified!", expectedSizeOfClosedList, (int)closedList.size());
+
+	openList.remove();
+	castar.expand(neighbour2, NULL, &openList, closedList, &g);
+	expectedSizeOfOpenList = 0;
+	expectedSizeOfClosedList = 3;
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("open list size is wrong", expectedSizeOfOpenList, (int)openList.size());
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("closed list unexpectedly modified!", expectedSizeOfClosedList, (int)closedList.size());
+}

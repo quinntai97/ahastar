@@ -27,6 +27,18 @@ class HPAStar2Test : public CPPUNIT_NS::TestFixture
 		CPPUNIT_TEST( getPathReturnNullWhenStartAndGoalNodesIdentical );
 		CPPUNIT_TEST( getPathReturnNullWhenMapAbstractionParameterNull );
 		CPPUNIT_TEST( getPathReturnNullWhenStartOrGoalHave_kAbstractionLevel_GreaterThanZero );
+		CPPUNIT_TEST( getPathShouldReturnTheShortestPathBetweenTwoLowLevelNodes );
+		CPPUNIT_TEST( getPathShouldRemoveAllInsertedNodesAndEdgesFromTheAbstractPathAndPathCacheIfTheSearchFailsToFindASolution );
+//		CPPUNIT_TEST( getPathShouldFindASolutionEvenWhenCacheReturnsAPathInReverseOrderToRequirements );
+		CPPUNIT_TEST( getPathShouldFindASolutionWithoutInsertingIntoTheAbstractGraphIfBothStartAndGoalAreInTheSameCluster );
+		CPPUNIT_TEST( getPathShouldAddInsertionEffortToPerformanceMetrics );
+//		CPPUNIT_TEST( logStatsShouldRecordAllMetricsToStatsCollection );
+// intra-edge refinement limited to corridor
+// abstract path search can be limited to a corridor
+// calls insert and remove
+// refine from cache or via search
+// skip refinement
+
 	CPPUNIT_TEST_SUITE_END();
 
 	public:
@@ -38,6 +50,11 @@ class HPAStar2Test : public CPPUNIT_NS::TestFixture
 		void getPathReturnNullWhenStartAndGoalNodesIdentical();
 		void getPathReturnNullWhenMapAbstractionParameterNull();
 		void getPathReturnNullWhenStartOrGoalHave_kAbstractionLevel_GreaterThanZero();
+		
+		void getPathShouldReturnTheShortestPathBetweenTwoLowLevelNodes();
+		void getPathShouldRemoveAllInsertedNodesAndEdgesFromTheAbstractPathAndPathCacheIfTheSearchFailsToFindASolution();
+		void getPathShouldFindASolutionWithoutInsertingIntoTheAbstractGraphIfBothStartAndGoalAreInTheSameCluster();
+		void getPathShouldAddInsertionEffortToPerformanceMetrics();
 
 	private:
 		ClusterNode* getNode(int x, int y, HPAClusterAbstraction& hpamap);

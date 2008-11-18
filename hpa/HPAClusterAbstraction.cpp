@@ -349,3 +349,16 @@ void HPAClusterAbstraction::openGLDraw()
 		HPAMapAbstraction::openGLDraw();
 	*/
 }
+
+
+// debugging method
+void HPAClusterAbstraction::printUniqueIdsOfAllNodesInGraph(graph *g)
+{
+	node_iterator it = g->getNodeIter();
+	node* n = (*it);
+	while(n)
+	{
+		std::cout << "addr: "<<&(*n) << "uid: "<< n->getUniqueID() <<" ("<< n->getLabelL(kFirstData)<<","<< n->getLabelL(kFirstData+1)<<")"<<std::endl;
+		n = g->nodeIterNext(it);
+	}
+}

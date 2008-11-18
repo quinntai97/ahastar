@@ -51,6 +51,8 @@ class HPACluster
 		int getNumNodes() { return nodes.size(); }
 		nodeTable* getNodes() { return &nodes; }
 		nodeTable* getParents() { return &parents; }
+		
+		void printParents();
 
 	protected:
 		virtual void addNode(node* mynode) throw(std::invalid_argument);
