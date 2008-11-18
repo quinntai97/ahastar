@@ -63,8 +63,11 @@ path* HPAStar2::getPath(graphAbstraction* aMap, node* _from, node* _to, reservat
 		graph *absg = hpamap->getAbstractGraph(1); 
 		node* absstart = absg->getNode(from->getLabelL(kParent));
 		node* absgoal = absg->getNode(to->getLabelL(kParent));
+		castar.setCorridorNodes(this->corridorNodes);
 		path* abspath = castar.getPath(aMap, absstart, absgoal);
 		updateMetrics(castar);
+		//std::cout << "abspath: "<<std::endl;
+		//this->printPath(abspath);
 		
 		// refine the path
 		if(abspath && refineAbstractPath)
@@ -75,6 +78,8 @@ path* HPAStar2::getPath(graphAbstraction* aMap, node* _from, node* _to, reservat
 	}
 		
 	//std::cout << "\n thepath distance: "<<aMap->distance(thepath);
+	//std::cout << "the path: "<<std::endl;
+	//printPath(thepath);
 	return thepath;
 }
 
@@ -98,10 +103,21 @@ path* HPAStar2::refinePath(path* abspath, HPAClusterAbstraction* hpamap, Cluster
 		}
 		else
 		{
-			node* llstart = hpamap->getNodeFromMap(abspath->n->getLabelL(kFirstData), abspath->n->getLabelL(kFirstData+1));
-			node* llgoal = hpamap->getNodeFromMap(abspath->next->n->getLabelL(kFirstData), abspath->next->n->getLabelL(kFirstData+1));
+			ClusterNode* llstart = dynamic_cast<ClusterNode*>(hpamap->getNodeFromMap(abspath->n->getLabelL(kFirstData), abspath->n->getLabelL(kFirstData+1)));
+			ClusterNode* llgoal = dynamic_cast<ClusterNode*>(hpamap->getNodeFromMap(abspath->next->n->getLabelL(kFirstData), abspath->next->n->getLabelL(kFirstData+1)));
+			if(llstart->getParentClusterId() == llgoal->getParentClusterId()) // intra-edge refinement limited to a single cluster.
+			{ 
+				HPACluster* cluster = hpamap->getCluster(llstart->getParentClusterId());
+				castar.setCorridorNodes(cluster->getNodes());
+			}
+			else
+				castar.setCorridorNodes(NULL); 
+				
 			segment = castar.getPath(hpamap,llstart, llgoal); 
 			updateMetrics(castar);
+			std::cout << "segment: "<<std::endl;
+			//printPath(segment);
+
 		}
 		
 		// append segment to refined path
@@ -115,6 +131,8 @@ path* HPAStar2::refinePath(path* abspath, HPAClusterAbstraction* hpamap, Cluster
 		
 		abspath = abspath->next;
 	}
+	
+	return thepath;
 }
 
 
@@ -140,11 +158,10 @@ void HPAStar2::logFinalStats(statCollection* stats)
 // debugging function
 void HPAStar2::printPath(path* p)
 {
-	std::cout << "\n abstract path: ";
 	while(p)
 	{
 		node* n = p->n;
-		std::cout << "\n id: "<<n->getUniqueID()<<" node @ "<<n->getLabelL(kFirstData) << ","<<n->getLabelL(kFirstData+1);
+		std::cout << "id: "<<n->getUniqueID()<<" node @ "<<n->getLabelL(kFirstData) << ","<<n->getLabelL(kFirstData+1)<<std::endl;
 		p = p->next;
 	}		
 }
