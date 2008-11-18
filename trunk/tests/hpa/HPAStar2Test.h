@@ -26,18 +26,17 @@ class HPAStar2Test : public CPPUNIT_NS::TestFixture
 		CPPUNIT_TEST( getPathReturnNullWhenStartAndGoalSameLocation );
 		CPPUNIT_TEST( getPathReturnNullWhenStartAndGoalNodesIdentical );
 		CPPUNIT_TEST( getPathReturnNullWhenMapAbstractionParameterNull );
-		CPPUNIT_TEST( getPathReturnNullWhenStartOrGoalHave_kAbstractionLevel_GreaterThanZero );
+		CPPUNIT_TEST_EXCEPTION( getPathReturnNullWhenStartOrGoalHave_kAbstractionLevel_GreaterThanZero, std::invalid_argument );
 		CPPUNIT_TEST( getPathShouldReturnTheShortestPathBetweenTwoLowLevelNodes );
 		CPPUNIT_TEST( getPathShouldRemoveAllInsertedNodesAndEdgesFromTheAbstractPathAndPathCacheIfTheSearchFailsToFindASolution );
-//		CPPUNIT_TEST( getPathShouldFindASolutionEvenWhenCacheReturnsAPathInReverseOrderToRequirements );
 		CPPUNIT_TEST( getPathShouldFindASolutionWithoutInsertingIntoTheAbstractGraphIfBothStartAndGoalAreInTheSameCluster );
 		CPPUNIT_TEST( getPathShouldAddInsertionEffortToPerformanceMetrics );
-//		CPPUNIT_TEST( logStatsShouldRecordAllMetricsToStatsCollection );
-// intra-edge refinement limited to corridor
-// abstract path search can be limited to a corridor
-// calls insert and remove
-// refine from cache or via search
-// skip refinement
+		CPPUNIT_TEST( logStatsShouldRecordAllMetricsToStatsCollection );
+		CPPUNIT_TEST(getPathShouldReturnANonRefinedPathIfRefinementFlagIsNotSet );
+		CPPUNIT_TEST(getPathShouldReturnAShortestPathBetweenTwoLowLevelNodesIfFastRefinementFlagIsSet );
+		// TODO: intra-edge refinement limited to corridor (requires working mocks)
+		// TODO: abstract path search can be limited to a corridor (requires a working ClusterAStarMock + some changes to HPAStar2 to pass in mock)
+		// TODO: refine from cache or via search
 
 	CPPUNIT_TEST_SUITE_END();
 
@@ -55,6 +54,9 @@ class HPAStar2Test : public CPPUNIT_NS::TestFixture
 		void getPathShouldRemoveAllInsertedNodesAndEdgesFromTheAbstractPathAndPathCacheIfTheSearchFailsToFindASolution();
 		void getPathShouldFindASolutionWithoutInsertingIntoTheAbstractGraphIfBothStartAndGoalAreInTheSameCluster();
 		void getPathShouldAddInsertionEffortToPerformanceMetrics();
+		void logStatsShouldRecordAllMetricsToStatsCollection();
+		void getPathShouldReturnANonRefinedPathIfRefinementFlagIsNotSet();
+		void getPathShouldReturnAShortestPathBetweenTwoLowLevelNodesIfFastRefinementFlagIsSet(); // pretty crappy tes. see TODO above for fix. needs mocks.
 
 	private:
 		ClusterNode* getNode(int x, int y, HPAClusterAbstraction& hpamap);

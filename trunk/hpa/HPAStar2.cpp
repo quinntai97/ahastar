@@ -28,8 +28,7 @@ path* HPAStar2::getPath(graphAbstraction* aMap, node* _from, node* _to, reservat
 		return NULL;
 	if(_from->getLabelL(kAbstractionLevel) > 0 || _to->getLabelL(kAbstractionLevel) > 0)
 	{
-		std::cerr << "HPAStar2::getPath failed. from/to nodes must be non-abstract nodes"<<std::endl;
-		return NULL; 
+		throw std::invalid_argument("HPAStar2::getPath failed. from/to nodes must be non-abstract nodes");
 	}
 		
 	HPAClusterAbstraction* hpamap = dynamic_cast<HPAClusterAbstraction*>(aMap);
@@ -66,20 +65,32 @@ path* HPAStar2::getPath(graphAbstraction* aMap, node* _from, node* _to, reservat
 		castar.setCorridorNodes(this->corridorNodes);
 		path* abspath = castar.getPath(aMap, absstart, absgoal);
 		updateMetrics(castar);
-		//std::cout << "abspath: "<<std::endl;
-		//this->printPath(abspath);
 		
 		// refine the path
-		if(abspath && refineAbstractPath)
-			thepath = refinePath(abspath, hpamap, castar);
+		if(abspath) 
+		{
+			if(refineAbstractPath)
+			{
+				thepath = refinePath(abspath, hpamap, castar);
+				delete abspath;
+			}
+			else
+			{
+				abspath->tail()->n = to;
+				abspath->n = from;
+				thepath = abspath;			
+			}
+			if(verbose) {std::cout << "solution: \n"; printPath(thepath);}
+		}
+		else
+			if(verbose) std::cout << "no solution found!" <<std::endl;
+
 
 		hpamap->removeStartAndGoalNodesFromAbstractGraph();
 		insertNodesExpanded = hpamap->getNodesExpanded(); // record insertion separately also.
 		insertNodesTouched = hpamap->getNodesTouched();
 		insertPeakMemory = hpamap->getPeakMemory();
 		insertSearchTime = hpamap->getSearchTime();
-
-		delete abspath;
 	}
 		
 	//std::cout << "\n thepath distance: "<<aMap->distance(thepath);
@@ -120,8 +131,7 @@ path* HPAStar2::refinePath(path* abspath, HPAClusterAbstraction* hpamap, Cluster
 				
 			segment = castar.getPath(hpamap,llstart, llgoal); 
 			updateMetrics(castar);
-			//std::cout << "segment: "<<std::endl;
-			//printPath(segment);
+			if(verbose) { std::cout << "refined segment: "<<std::endl; printPath(segment); std::cout << " distance: "<<hpamap->distance(segment)<<std::endl; }
 
 		}
 		
