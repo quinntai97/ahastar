@@ -89,6 +89,7 @@ class HPAClusterAbstraction : public mapAbstraction
 	protected:
 		void addCluster(HPACluster* cluster);
 		int getNumberOfAbstractionLevels() { return abstractions.size(); }
+		void printUniqueIdsOfAllNodesInGraph(graph *g);
 	
 	private:
 		IHPAClusterFactory* cf;

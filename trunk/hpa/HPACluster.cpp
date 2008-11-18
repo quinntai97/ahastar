@@ -348,3 +348,16 @@ void HPACluster::addTransitionPoint(node* from, node* to, HPAClusterAbstraction*
 	edge* e = hpamap->getEdgeFactory()->newEdge(absfrom->getNum(), absto->getNum(), 1.0);
 	g->addEdge(e);
 }
+
+// debug method
+void HPACluster::printParents()
+{
+	nodeTable::iterator it;
+	it = parents.begin();
+	while(it != parents.end())
+	{
+		node* n = (*it).second;
+		std::cout << "parent node: " <<"addr: "<<&(*n)<<" num: "<<n->getUniqueID() <<" ("<<n->getLabelL(kFirstData)<<","<<n->getLabelL(kFirstData+1)<<")"<<std::endl;
+		it++;
+	}
+}

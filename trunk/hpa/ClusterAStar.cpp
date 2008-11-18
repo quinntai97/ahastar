@@ -55,6 +55,7 @@ bool AbstractClusterAStar::isInCorridor(node* _n)
 */
 path* ClusterAStar::getPath(graphAbstraction *aMap, node* from, node* to, reservationProvider *rp)
 {
+	if(verbose) std::cout << "getPath()"<<std::endl;
 	nodesExpanded=0;
 	nodesTouched=0;
 	peakmemory = 0;
@@ -71,8 +72,9 @@ path* ClusterAStar::getPath(graphAbstraction *aMap, node* from, node* to, reserv
 	
 	/* initialise the search params */
 	graph *g = aMap->getAbstractGraph(from->getLabelL(kAbstractionLevel));
+	
 	heap* openList = new heap(30);
-	std::map<int, bool> closedList;
+	std::map<int, node*> closedList;
 	
 	openList->add(from);
 	path *p = NULL;
@@ -84,15 +86,34 @@ path* ClusterAStar::getPath(graphAbstraction *aMap, node* from, node* to, reserv
 		/* get the current node on the open list and check if it contains the goal */
 		peakmemory = openList->size()>peakmemory?openList->size():peakmemory;
 		node* current = ((node*)openList->remove()); 
-		//int cx = current->getLabelL(kFirstData);
-		//int cy = current->getLabelL(kFirstData+1);
-		nodesExpanded++;
+
 		if(current == to)
 		{
+			if(verbose) printNode(string("goal found! "), current);
 			p = extractBestPath(g, current->getNum());
 			break;
 		}
 		
+		expand(current, to, openList, closedList, g);
+				
+		/* check if there is anything left to search; fail if not */
+		if(openList->empty())
+		{
+			if(verbose) std::cout << "search failed. ";
+			break;
+		}
+	}
+	searchtime = t.endTimer();
+	delete openList; 
+	closedList.clear();
+	return p;	
+}
+
+void ClusterAStar::expand(node* current, node* to, heap* openList, std::map<int, node*>& closedList, graph* g)
+{
+		if(verbose) printNode(string("expanding... "), current);
+		nodesExpanded++;
+
 		/* evaluate each neighbour of the newly opened node */
 		edge_iterator ei = current->getEdgeIter();
 		edge* e = current->edgeIterNext(ei);
@@ -101,17 +122,16 @@ path* ClusterAStar::getPath(graphAbstraction *aMap, node* from, node* to, reserv
 			// TODO: fix HOG's graph stuff; nodes identified using position in array instead of uniqueid. graph should just store a hash_map
 			int neighbourid = e->getFrom()==current->getNum()?e->getTo():e->getFrom();
 			node* neighbour = g->getNode(neighbourid);
-			//int nx = neighbour->getLabelL(kFirstData);
-			//int ny = neighbour->getLabelL(kFirstData+1);
-			//double weight = e->getWeight();
-
+			
+			if(verbose) printNode(string("\tneighbour... "), neighbour);
 			if(closedList.find(neighbour->getUniqueID()) == closedList.end()) // ignore nodes on the closed list
 			{
 				// if a node on the openlist is reachable via this new edge, relax the edge (see cormen et al)
 				if(openList->isIn(neighbour)) 
 				{	
 					if(evaluate(current, neighbour, e)) 
-					{
+					{		
+						if(verbose) std::cout << "\t\trelaxing"<<std::endl;
 						relaxEdge(openList, g, e, current->getNum(), neighbourid, to); 
 						nodesTouched++;
 					}
@@ -120,6 +140,7 @@ path* ClusterAStar::getPath(graphAbstraction *aMap, node* from, node* to, reserv
 				{
 					if(evaluate(current, neighbour, e)) 
 					{
+						if(verbose) std::cout << "\t\tadding to open list"<<std::endl;
 						neighbour->setLabelF(kTemporaryLabel, MAXINT); // initial fCost = inifinity
 						neighbour->setKeyLabel(kTemporaryLabel); // an initial key value for prioritisation in the openlist
 						neighbour->markEdge(0);  // reset any marked edges (we use marked edges to backtrack over optimal path when goal is found)
@@ -130,19 +151,13 @@ path* ClusterAStar::getPath(graphAbstraction *aMap, node* from, node* to, reserv
 				}
 				
 			}
+			else
+				if(verbose) std::cout << "\t\tclosed!"<<std::endl;
 			e = current->edgeIterNext(ei);
 		}
-
-		closedList[current->getUniqueID()] = true;
 		
-		/* check if there is anything left to search; fail if not */
-		if(openList->empty())
-			break;
-	}
-	searchtime = t.endTimer();
-	delete openList; 
-	closedList.clear();
-	return p;	
+	if(verbose) printNode(string("closing... "), current);
+	closedList[current->getUniqueID()] = current;	
 }
 
 /* evaluate()
@@ -185,4 +200,9 @@ bool ClusterAStar::checkParameters(graphAbstraction* aMap, node* from, node* to)
 		return false;
 
 	return true;
+}
+
+void ClusterAStar::printNode(string msg, node* n)
+{	
+		std::cout << msg <<"addr: "<<&(*n)<<" num: "<<n->getUniqueID() <<" ("<<n->getLabelL(kFirstData)<<","<<n->getLabelL(kFirstData+1)<<")"<<std::endl;
 }

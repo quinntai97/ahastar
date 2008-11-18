@@ -32,6 +32,8 @@ class ClusterAStarTest : public CPPUNIT_NS::TestFixture
 	CPPUNIT_TEST( getPathFailsToReturnASoltuionWhenNoneExistsWithinTheCorridorBounds );
 	CPPUNIT_TEST( getPathReturnsTheShortestPath );
 	CPPUNIT_TEST( logStatsShouldRecordAllMetricsToStatsCollection );
+	
+	CPPUNIT_TEST( expandDoesNotReopenNodesOnTheClosedList );
 
 	CPPUNIT_TEST_SUITE_END();
 	
@@ -50,6 +52,8 @@ class ClusterAStarTest : public CPPUNIT_NS::TestFixture
 		void getPathFailsToReturnASoltuionWhenNoneExistsWithinTheCorridorBounds();
 		void getPathReturnsTheShortestPath();
 		void logStatsShouldRecordAllMetricsToStatsCollection();
+		
+		void expandDoesNotReopenNodesOnTheClosedList();
 		
 	private:
 		ClusterNode* getNode(int x, int y, HPAClusterAbstraction&);

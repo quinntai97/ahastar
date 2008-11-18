@@ -23,6 +23,7 @@
 #ifndef CLUSTERASTAR_H
 #define CLUSTERASTAR_H
 
+#include <string>
 #include <map>
 #include "aStar3.h"
 
@@ -43,7 +44,11 @@ class AbstractClusterAStar : public aStarOld
 		
 		long getPeakMemory() { return peakmemory; }
 		double getSearchTime() { return searchtime; }
-		void setCorridorNodes(std::map<int, node*>* _nodes) { corridorNodes = _nodes; }
+		void setCorridorNodes(std::map<int, node*>* _nodes) 
+		{ 
+			corridorNodes = _nodes; 
+			assert(corridorNodes == _nodes); 
+		}
 		
 	protected:
 		bool isInCorridor(node* n);
@@ -62,15 +67,22 @@ class ClusterAStar : public AbstractClusterAStar
 			friend class ClusterAStarTest; 
 		#endif
 		
-		ClusterAStar() : AbstractClusterAStar() { }
+		ClusterAStar() : AbstractClusterAStar() { verbose = false; }
 		virtual ~ClusterAStar() {}
 		virtual path *getPath(graphAbstraction *aMap, node *from, node *to, reservationProvider *rp = 0);
 		virtual const char* getName() { return "ClusterAStar"; }
 		virtual void logFinalStats(statCollection *stats);
 
+		bool verbose;
 	protected:
+		virtual void expand(node* current, node* to, heap* openList, std::map<int, node*>& closedList, graph* g);
 		virtual bool evaluate(node* current, node* target, edge* e);
 		bool checkParameters(graphAbstraction* aMap, node* from, node* to);
+		
+	private:
+		void printNode(std::string msg, node* n);
+
+
 };
 
 #endif

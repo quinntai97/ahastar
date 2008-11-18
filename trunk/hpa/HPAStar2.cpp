@@ -74,6 +74,11 @@ path* HPAStar2::getPath(graphAbstraction* aMap, node* _from, node* _to, reservat
 			thepath = refinePath(abspath, hpamap, castar);
 
 		hpamap->removeStartAndGoalNodesFromAbstractGraph();
+		insertNodesExpanded = hpamap->getNodesExpanded(); // record insertion separately also.
+		insertNodesTouched = hpamap->getNodesTouched();
+		insertPeakMemory = hpamap->getPeakMemory();
+		insertSearchTime = hpamap->getSearchTime();
+
 		delete abspath;
 	}
 		
@@ -115,7 +120,7 @@ path* HPAStar2::refinePath(path* abspath, HPAClusterAbstraction* hpamap, Cluster
 				
 			segment = castar.getPath(hpamap,llstart, llgoal); 
 			updateMetrics(castar);
-			std::cout << "segment: "<<std::endl;
+			//std::cout << "segment: "<<std::endl;
 			//printPath(segment);
 
 		}

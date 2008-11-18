@@ -24,5 +24,6 @@ const string tslocation = "test.scenario"; // test scenario file
 const string badmap = HOGHOME+"maps/local/demo.map";
 const string emptymap = HOGHOME+"tests/testmaps/emptymap.map";
 const string hpaentrancetest = HOGHOME+"tests/testmaps/hpaentrancetest.map";
+const string hpastartest = HOGHOME+"tests/testmaps/hpastartest.map";
 
 #endif
