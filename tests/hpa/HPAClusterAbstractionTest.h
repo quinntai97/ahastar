@@ -48,7 +48,6 @@ class HPAClusterAbstractionTest : public CPPUNIT_NS::TestFixture
 	CPPUNIT_TEST_EXCEPTION( insertStartAndGoalIntoAbstractGraphShouldThrowExceptionGivenAnAbstractGoalParameter, std::invalid_argument );
 	CPPUNIT_TEST( insertStartAndGoalNodesIntoAbstractGraphShouldAddTwoNewNodesIntoTheAbstractGraphAndParentClusters );
 	CPPUNIT_TEST( insertStartAndGoalNodesIntoAbstractGraphShouldNotCreateNewAbstractNodesIfASuitableNodeAlreadyExistsInTheAbstractGraph );
-	CPPUNIT_TEST( insertStartAndGoalIntoAbstractGraphShouldRecordStatisticsToMeasureInsertionEffort );
 	
 	CPPUNIT_TEST( buildEntrancesCallsBuildEntranceMethodOnEachCluster );
 	
@@ -87,7 +86,6 @@ class HPAClusterAbstractionTest : public CPPUNIT_NS::TestFixture
 		void insertStartAndGoalIntoAbstractGraphShouldThrowExceptionGivenAnAbstractGoalParameter() throw(std::invalid_argument);
 		void insertStartAndGoalNodesIntoAbstractGraphShouldAddTwoNewNodesIntoTheAbstractGraphAndParentClusters();
 		void insertStartAndGoalNodesIntoAbstractGraphShouldNotCreateNewAbstractNodesIfASuitableNodeAlreadyExistsInTheAbstractGraph();
-		void insertStartAndGoalIntoAbstractGraphShouldRecordStatisticsToMeasureInsertionEffort();
 		
 		void buildEntrancesCallsBuildEntranceMethodOnEachCluster();
 		
