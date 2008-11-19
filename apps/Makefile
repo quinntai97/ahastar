@@ -5,7 +5,7 @@ VCC = $(CC)
 VCFLG = $(CFLAGS)
 DLR = $
 
-APPS := $(filter-out %~ CVS Makefile %.mk libs,$(wildcard *))
+APPS := $(filter-out %~ CVS Makefile %.mk tests libs,$(wildcard *))
 
 TARGS = $(foreach x, $(APPS), $(addsuffix .mk, $(x)))
 
@@ -70,7 +70,9 @@ apps.mk : $(TARGS) Makefile
 	@echo 'SIMULATION_SRC = $(value DLR)(wildcard ../simulation/*.cpp)' >> $(@)
 	@echo 'UTIL_SRC = $(value DLR)(wildcard ../util/*.cpp)' >> $(@)
 	@echo 'AHASTAR_SRC = $(value DLR)(wildcard ../aha/*.cpp)' >> $(@)
-
+	@echo 'AHASTARTESTS_SRC = $(value DLR)(wildcard ../tests/aha/*.cpp)' >> $(@)
+	@echo 'HPASTAR_SRC = $(value DLR)(wildcard ../hpa/*.cpp)' >> $(@)
+	@echo 'HPASTARTESTS_SRC = $(value DLR)(wildcard ../tests/hpa/*.cpp)' >> $(@)
 
 clean:
 	@-$(RM) apps.mk $(wildcard $(addsuffix /objs/*,$(APPS)/objs/*.o)) $(TARGS)
