@@ -58,10 +58,10 @@ Interestingly, the error associated with both HQ and LQ abstractions reaches a m
 To better understand this phenomenon we present in Figure \ref{aha-fig:pathquality}(b) the performance of both small and large agents on HQ and LQ graphs using a fixed cluster-size of 15.
 Notice that the performance of small agents continues to improve beyond SO 20\% while large agents begin to degrade.
 The observed rise in error stems from the decreasing size of entrances on the problem sets featuring denser clusters. 
-As previously shown in Table \ref{aha-table:graphsize}, maps with more soft obstacles result in a greater number of smaller entrances. 
-This situation is beneficial for smaller agents (there are more transitions to choose from) but is disadvantageous for larger agents.
-As the average entrance size shrinks, fewer inter-edges exist with clearance $>1$ and the location of such edges along the border area between clusters may be quite varied; sometimes we find an entrance toward the beginning of the border area, other times in the middle and sometimes toward the end.
-Consequently, cluster traversal by large agents is often not in a straight line; the abstract paths produced frequently feature a zig-zagging effect that is responsible for the observed error and is most pronounced on SO 50\%.
+As previously shown in Table \ref{aha-table:graphsize}, maps with more soft obstacles result in a greater number of smaller single-terrain entrances. 
+This situation is beneficial for small-size agents (there are more transitions to choose from) but is disadvantageous for large-size agents who must more and more often traverse from one cluster to another via a single transition point: the one which results from a long multi-terrain entrance that spans the length of the border area between two clusters. 
+Each such traversal is usually suboptimal and degrades the quality of the path. 
+The worst case is observed on the SO 50\% dataset where the performance of HAA* begins to approach that seen on the SO 0\% dataset.
 \begin{figure}[htbp]
 	\vspace{-8pt}
 	\begin{center}
