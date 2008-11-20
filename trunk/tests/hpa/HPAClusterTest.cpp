@@ -264,10 +264,9 @@ void HPAClusterTest::addNodesToClusterShouldAssignAllNodesInAreaMarkedByHeightAn
 void HPAClusterTest::addNodesToClusterShouldThrowExceptionWhenMapAbstractionParameterIsNull()
 {
 	int clusterId = 0;
-	HPACluster *cluster = new HPACluster(0,0,5,5);
-	cluster->setClusterId(clusterId);
-	
-	cluster->addNodesToCluster(NULL);
+	HPACluster cluster(0,0,5,5);
+	cluster.setClusterId(clusterId);
+	cluster.addNodesToCluster(NULL);
 }
 
 void HPAClusterTest::constructorShouldThrowExceptionWhenWidthDimensionParameterIsInvalid()

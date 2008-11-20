@@ -143,7 +143,7 @@ void AnnotatedNodeTest::cloneShouldNotDeepCopyEdges()
 {
 	AnnotatedNode* n1 = new AnnotatedNode("n1");
 	AnnotatedNode* n2 = new AnnotatedNode("n2");
-	graph* g = new graph();
+
 	g->addNode(n1);
 	g->addNode(n2);
 	edge* e = new edge(n1->getNum(), n2->getNum(), 1);
@@ -154,6 +154,7 @@ void AnnotatedNodeTest::cloneShouldNotDeepCopyEdges()
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("clone copied some edges when it shouldn't have", 0, clone->getNumEdges());
 	
 	delete g;
+	delete clone;
 }
 
 

@@ -116,6 +116,8 @@ void ClusterAStarTest::getPathInitialisesFCostValueOfStartToHeuristicGoalDistanc
 
 	p = castar.getPath(&hpamap, start, goal);
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("fCost of start node != h(start, goal)", start->getLabelF(kTemporaryLabel), hpamap.h(start, goal));		
+	delete p;
+	p=NULL;
 }
 
 // check that the path contains only connected nodes 
@@ -142,6 +144,8 @@ void ClusterAStarTest::getPathEachNodeInReturnedPathHasAnEdgeToItsPredecessor()
 		
 		p = p->next;
 	} while(p->next);
+	
+	delete p2;
 }
 
 void ClusterAStarTest::getPathFailsToReturnASoltuionWhenNoneExistsWithinTheCorridorBounds()
@@ -190,7 +194,7 @@ void ClusterAStarTest::logStatsShouldRecordAllMetricsToStatsCollection()
 	ClusterAStar castar;
 
 	statCollection sc;
-	path* p = castar.getPath(&hpamap, hpamap.getNodeFromMap(2,1), hpamap.getNodeFromMap(4,5));
+	p = castar.getPath(&hpamap, hpamap.getNodeFromMap(2,1), hpamap.getNodeFromMap(4,5));
 	double expectedPathDist = abs(hpamap.distance(p));
 	castar.logFinalStats(&sc);
 	
