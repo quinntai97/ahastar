@@ -14,11 +14,11 @@ In the original work, \emph{entrances} are defined as obstacle-free transition a
 Each entrance has one or two transition points (depending on its size), which are represented in an abstract search graph by a pair of nodes connected with an undirected \emph{inter-edge} of weight 1.0. 
 We use a similar approach but require as a parameter $C$, the set of all capabilities, and thus attempt to identify entrances for each $c \in C$. 
 \begin{figure}[htbp]
-	\vspace{-9pt}
-        \caption{\emph{(a) Decomposing the grid map into $5 \times 5$ clusters. (b) 3 entrances are identified between clusters $C1$ and $C3$. (c) Transition points between clusters $C1$ and $C3$.} \vspace{0.5em} }
+	\vspace{-3pt}
         \begin{center}
-                        \includegraphics[scale=0.30, trim = 20mm 0mm 20mm 0mm]{diagrams/identifying_entrances.png}
+                        \includegraphics[scale=0.30, trim = 20mm 20mm 20mm 0mm]{diagrams/identifying_entrances.png}
         \end{center}
+        \caption{(a) Decomposing the grid map into $5 \times 5$ clusters. (b) 3 entrances are identified between clusters $C1$ and $C3$. (c) Transition points between clusters $C1$ and $C3$. \vspace{0.5em} }
         \label{aha-fig:clustersandentrances}
 	\vspace{-9pt}
 \end{figure}

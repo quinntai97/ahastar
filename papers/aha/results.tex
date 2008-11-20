@@ -1,17 +1,19 @@
 \section{Results}
 \label{aha:results}
-In Figure \ref{aha-fig:graphsize} we present the size of the abstract graphs relative to the size of the original graphs which featured an average 4469 nodes and 16420 edges. 
+In Table \ref{aha-table:graphsize} we present the size of the abstract graphs relative to the size of the original graphs which featured an average 4469 nodes and 16420 edges. 
 We look at the effect of increasing the amount of soft obstacles (SO) from 0\% (the original test maps with only one traversable terrain) to 50\%.
 We also contrast high and low quality abstractions (denoted HQ and LQ) on a range of cluster sizes $\lbrace 10, 15, 20 \rbrace$ (denoted CS10, CS15 and CS20).
-\begin{figure}[htbp]
-	\vspace{-12pt}
-       \caption{\small{\emph{Size of abstract graph with respect to original graph. }}}
+\begin{table}[htbp]
+%\begin{figure}[htbp]
+       \caption{Size of abstract graph with respect to original graph. }
+	\vspace{-15pt}
        \begin{center}
                        \includegraphics[scale=0.35, trim = 20mm 14mm 20mm 0mm]{diagrams/graphsize.pdf}
        \end{center}
-       \label{aha-fig:graphsize}
-	\vspace{-4pt}
-\end{figure}
+       \label{aha-table:graphsize}
+%	\vspace{-4pt}
+%\end{figure}
+\end{table}
 \par \indent
 The first thing to notice is that in all cases the abstract graph is only a fraction the size of the original graph.
 As expected, larger clusters generate smaller graphs; the smallest abstractions are observed on the SO 0\% problem set using CS20. 
@@ -34,13 +36,13 @@ Increasing the density of soft obstacles in a cluster causes the circuit conditi
 Next we consider the performance of HAA* with respect to path quality. We measure this as:
 $$ \%error = \frac{apl - opl}{opl} \times 100 $$ where $opl$ is the length of the optimal path as calculated by AA* and $apl$ the length of the abstract path used by HAA*.
 \begin{figure}[htbp]
-	\vspace{-15pt}
-	\caption{\small{\emph{HAA* performance (HQ vs LQ abstraction)}}}
+	\vspace{-2pt}
 	\begin{center}
 		       \includegraphics[scale=0.25, trim = 20mm 17mm 20mm 5mm]{diagrams/pathquality.pdf}
 	\end{center}
+	\caption{HAA* performance (HQ vs LQ abstraction)}
 	\label{aha-fig:pathquality}
-	\vspace{-7pt}
+	%\vspace{-12pt}
 \end{figure}
 \par \indent
 Figure \ref{aha-fig:pathquality}(a) shows the average performance of HAA* with respect to cluster size and soft obstacles.  
@@ -56,16 +58,16 @@ Interestingly, the error associated with both HQ and LQ abstractions reaches a m
 To better understand this phenomenon we present in Figure \ref{aha-fig:pathquality}(b) the performance of both small and large agents on HQ and LQ graphs using a fixed cluster-size of 15.
 Notice that the performance of small agents continues to improve beyond SO 20\% while large agents begin to degrade.
 The observed rise in error stems from the decreasing size of entrances on the problem sets featuring denser clusters. 
-As previously shown in Figure \ref{aha-fig:graphsize}, maps with more soft obstacles result in a greater number of smaller entrances. 
+As previously shown in Table \ref{aha-table:graphsize}, maps with more soft obstacles result in a greater number of smaller entrances. 
 This situation is beneficial for smaller agents (there are more transitions to choose from) but is disadvantageous for larger agents.
 As the average entrance size shrinks, fewer inter-edges exist with clearance $>1$ and the location of such edges along the border area between clusters may be quite varied; sometimes we find an entrance toward the beginning of the border area, other times in the middle and sometimes toward the end.
 Consequently, cluster traversal by large agents is often not in a straight line; the abstract paths produced frequently feature a zig-zagging effect that is responsible for the observed error and is most pronounced on SO 50\%.
 \begin{figure}[htbp]
-	\vspace{-12pt}
-	\caption{\small{\emph{HAA* total search effort (nodes expanded).}}}
+	\vspace{-8pt}
 	\begin{center}
 		       \includegraphics[scale=0.35, trim = 20mm 18mm 20mm 0mm]{diagrams/searcheffort.pdf}
 	\end{center}
+	\caption{HAA* total search effort (nodes expanded).}
 	\label{aha-fig:searcheffort}
 	\vspace{-2pt}
 \end{figure}
