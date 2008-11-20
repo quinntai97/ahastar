@@ -27,13 +27,14 @@ Finally, since $e_{a}$ is equal in weight to $e_{b}$, we cannot lose optimality 
 We term the resultant graph in which all strongly dominant edges have been removed a \emph{high-quality} abstraction.  
 
 \begin{figure}[htbp]
-	\vspace{-9pt}
-        \caption{\emph{(a) A cluster in an initial abstraction. (b) The same cluster once strong edge dominance is applied.} \vspace{0.5em} }
+	\vspace{-4pt}
         \begin{center}
                         \includegraphics[scale=0.33, trim = 20mm 5mm 20mm 0mm]{diagrams/intraedges_initial.png}
         \end{center}
+	\vspace{-7pt}
+        \caption{(a) A cluster in an initial abstraction. (b) The same cluster once strong edge dominance is applied. \vspace{0.5em} }
         \label{aha-fig:strongdominance}
-	\vspace{-9pt}
+	\vspace{-7pt}
 \end{figure}
 A further observation made during our analysis of this problem was that in many cases there exist multiple alternative routes to reach a goal location.
 The shortest paths tended to involve the traversal of optimal-length multi-terrain edges. However, it was often possible to reach the same destination using slightly longer single-terrain edges.
@@ -41,13 +42,14 @@ This suggests that the abstract graph can be further compacted without affecting
 \par \indent
 In Figure \ref{aha-fig:abstractgraph}(a) and \ref{aha-fig:abstractgraph}(b) we show a typical high quality abstraction while in Figure \ref{aha-fig:abstractgraph}(c) and \ref{aha-fig:abstractgraph}(d) we highlight the desired result after further compacting the graph.
 \begin{figure}[htbp]
-	\vspace{-9pt}
-        \caption{\emph{(a) A high quality abstraction of our toy map; note that some edges overlap and are not uniquely visible. (b) Inter-edges associated with the high quality graph. (c) The resultant graph after applying weak dominance. (d) Inter-edges associated with the low-quality graph.}  \vspace{0.5em} }
+	\vspace{-3pt}
         \begin{center}
                         \includegraphics[scale=0.25, trim = 20mm 12mm 20mm 0mm]{diagrams/abstraction_result.png}
         \end{center}
+	\vspace{-4pt}
+        \caption{(a) A high quality abstraction of our toy map; note that some edges overlap and are not uniquely visible. (b) Inter-edges associated with the high quality graph. (c) The resultant graph after applying weak dominance. (d) Inter-edges associated with the low-quality graph.  \vspace{0.5em} }
         \label{aha-fig:abstractgraph}
-	\vspace{-10pt}
+	\vspace{-7pt}
 \end{figure}
 In this example we can see that, although edges $E1$ and $E2$ have different traversal requirements, any agent of size $s \in \lbrace 1, 2 \rbrace$ capable of traversing $E2$ can also traverse $E1$ without loss of generality. 
 In such cases we say $E1$ is \emph{weakly dominant} and denote it as $E1 \succsim E2$. 
