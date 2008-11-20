@@ -100,6 +100,8 @@ void processStats(statCollection* stat, const char* unitname)
 		expId--;
 
 	ss << "_"<<unitname;
+	//std::cout << "exp: "<<expId<<" ";
+	//std::cout << unitname;
 	FILE *f = fopen(ss.str().c_str(), "a+");
 
 	ne = nt = pm = absne = absnt = abspm = insne = insnt = inspm = 0;
@@ -166,6 +168,8 @@ void processStats(statCollection* stat, const char* unitname)
 
 	}
 	
+	//stat->lookupStat("distanceMoved", unitname, val);
+	//std::cout << "dist: "<<val.fval<<std::endl;
 	if(!hog_gui)
 	{
 		exists = stat->lookupStat("distanceMoved", unitname, val);
@@ -226,8 +230,19 @@ void createSimulation(unitSimulation * &unitSim)
 	
 	std::cout << "\noriginal map: nodes: "<<g->getNumNodes()<<" edges: "<<g->getNumEdges();
 	std::cout << "\n map: "<<gDefaultMap<< "absnodes: "<<absg->getNumNodes()<<" absedges: "<<absg->getNumEdges();
-
 	edge_iterator ei = absg->getEdgeIter();
+	 
+	// debugging
+/*	edge* e = absg->edgeIterNext(ei);
+	while(e)
+	{
+		node* f = absg->getNode(e->getFrom());
+		node* t = absg->getNode(e->getTo());
+		std::cout << "\n edge connects "<<f->getLabelL(kFirstData)<<","<<f->getLabelL(kFirstData+1)<< " and "<<t->getLabelL(kFirstData)<<","<<t->getLabelL(kFirstData+1);
+		std::cout <<"(weight: "<<e->getWeight()<<" caps: "<<e->getCapability() << " clearance: "<<e->getClearance(e->getCapability())<<")";
+		e = absg->edgeIterNext(ei);
+	}
+*/
 	
 	if(hog_gui)
 	{
@@ -599,7 +614,7 @@ bool myClickHandler(unitSimulation *unitSim, int, int, point3d loc, tButtonType 
 }
 
 void runNextExperiment(unitSimulation *unitSim)
-{
+{	
 	if(expnum == scenariomgr.getNumExperiments()) 
 	{
 		processStats(unitSim->getStats());
