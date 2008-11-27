@@ -91,7 +91,6 @@
 		628856490EC51A61007DEC7F /* AnnotatedClusterMockFactory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 628856430EC51A61007DEC7F /* AnnotatedClusterMockFactory.cpp */; };
 		6288564A0EC51A61007DEC7F /* ExperimentManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 628856450EC51A61007DEC7F /* ExperimentManager.cpp */; };
 		6288564B0EC51A61007DEC7F /* TestConstants.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 628856470EC51A61007DEC7F /* TestConstants.cpp */; };
-		628856510EC51A82007DEC7F /* RunTests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6288564C0EC51A82007DEC7F /* RunTests.cpp */; };
 		62A5ED2A0D9D2505007A8073 /* AnnotatedClusterFactory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 62A5ED280D9D2505007A8073 /* AnnotatedClusterFactory.cpp */; };
 		62B2FE7D0D6AD3AE006A12F8 /* CapabilityUnit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 62B2FE7B0D6AD3AE006A12F8 /* CapabilityUnit.cpp */; };
 		62D0A9BC0D1262830022B351 /* AnnotatedAStar.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 62D0A9BA0D1262830022B351 /* AnnotatedAStar.cpp */; };
@@ -107,6 +106,7 @@
 		62D10DF40EC93682004D63CC /* HPACluster.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 62D10DF20EC93682004D63CC /* HPACluster.cpp */; };
 		62D10E880EC943D2004D63CC /* HPAClusterTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 62D10E870EC943D2004D63CC /* HPAClusterTest.cpp */; };
 		62D111550ECAA0C5004D63CC /* HPAClusterMock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 62D111540ECAA0C5004D63CC /* HPAClusterMock.cpp */; };
+		62D73BB60ED4ECB500BE77C4 /* RunTests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 62D73BB50ED4ECB500BE77C4 /* RunTests.cpp */; };
 		62E914040CFD4D5100AA46AB /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 62E911770CFD4B3000AA46AB /* OpenGL.framework */; };
 		62E914050CFD4D5100AA46AB /* GLUT.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 62E911730CFD4B1B00AA46AB /* GLUT.framework */; };
 		62E914060CFD4D5100AA46AB /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 20286C33FDCF999611CA2CEA /* Carbon.framework */; };
@@ -344,7 +344,6 @@
 		628856460EC51A61007DEC7F /* ExperimentManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ExperimentManager.h; path = tests/aha/ExperimentManager.h; sourceTree = "<group>"; };
 		628856470EC51A61007DEC7F /* TestConstants.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestConstants.cpp; path = tests/aha/TestConstants.cpp; sourceTree = "<group>"; };
 		628856480EC51A61007DEC7F /* TestConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TestConstants.h; path = tests/aha/TestConstants.h; sourceTree = "<group>"; };
-		6288564C0EC51A82007DEC7F /* RunTests.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = RunTests.cpp; path = tests/aha/RunTests.cpp; sourceTree = SOURCE_ROOT; };
 		62A5ED270D9D2505007A8073 /* AnnotatedClusterFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AnnotatedClusterFactory.h; path = aha/AnnotatedClusterFactory.h; sourceTree = "<group>"; };
 		62A5ED280D9D2505007A8073 /* AnnotatedClusterFactory.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = AnnotatedClusterFactory.cpp; path = aha/AnnotatedClusterFactory.cpp; sourceTree = "<group>"; };
 		62B2FE7A0D6AD3AE006A12F8 /* CapabilityUnit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CapabilityUnit.h; path = aha/CapabilityUnit.h; sourceTree = "<group>"; };
@@ -367,6 +366,7 @@
 		62D10EC90EC950F9004D63CC /* HPAUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPAUtil.h; sourceTree = "<group>"; };
 		62D111530ECAA0C5004D63CC /* HPAClusterMock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPAClusterMock.h; sourceTree = "<group>"; };
 		62D111540ECAA0C5004D63CC /* HPAClusterMock.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = HPAClusterMock.cpp; sourceTree = "<group>"; };
+		62D73BB50ED4ECB500BE77C4 /* RunTests.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = RunTests.cpp; path = apps/tests/RunTests.cpp; sourceTree = "<group>"; };
 		62D8B96E0D17FC0400CDEE75 /* AHAConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AHAConstants.h; path = aha/AHAConstants.h; sourceTree = "<group>"; };
 		62E911730CFD4B1B00AA46AB /* GLUT.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLUT.framework; path = /System/Library/Frameworks/GLUT.framework; sourceTree = "<absolute>"; };
 		62E911770CFD4B3000AA46AB /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = /System/Library/Frameworks/OpenGL.framework; sourceTree = "<absolute>"; };
@@ -668,7 +668,6 @@
 			children = (
 				6279042F0D40EED400D4BD09 /* util */,
 				62B18AE60D360DBA0061AE72 /* mock */,
-				6288564C0EC51A82007DEC7F /* RunTests.cpp */,
 				625DF2BF0EC6AAE700EADFFB /* AnnotatedEdgeTest.cpp */,
 				625DF2C00EC6AAE700EADFFB /* AnnotatedEdgeTest.h */,
 				625DF2C10EC6AAE700EADFFB /* AnnotatedNodeTest.cpp */,
@@ -928,6 +927,7 @@
 		62E915890CFD59CB00AA46AB /* tests */ = {
 			isa = PBXGroup;
 			children = (
+				62D73BB50ED4ECB500BE77C4 /* RunTests.cpp */,
 				623C9C150EC7DCDE00A007F0 /* hpa */,
 				623C9C140EC7DCB300A007F0 /* iastar */,
 				625DF0160EC5486400EADFFB /* abstraction */,
@@ -1268,7 +1268,6 @@
 				628856490EC51A61007DEC7F /* AnnotatedClusterMockFactory.cpp in Sources */,
 				6288564A0EC51A61007DEC7F /* ExperimentManager.cpp in Sources */,
 				6288564B0EC51A61007DEC7F /* TestConstants.cpp in Sources */,
-				628856510EC51A82007DEC7F /* RunTests.cpp in Sources */,
 				625DEF340EC534A100EADFFB /* NodeFactoryTest.cpp in Sources */,
 				625DEFCD0EC543F200EADFFB /* EdgeFactoryTest.cpp in Sources */,
 				625DF0190EC5488D00EADFFB /* MapAbstractionTest.cpp in Sources */,
@@ -1304,6 +1303,7 @@
 				626A65F40ECDAB380071F68B /* HPAClusterAbstractionMock.cpp in Sources */,
 				625154E00ED1690400E4DEF3 /* HPAStar2.cpp in Sources */,
 				6251555A0ED1AD8000E4DEF3 /* HPAStar2Test.cpp in Sources */,
+				62D73BB60ED4ECB500BE77C4 /* RunTests.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1321,7 +1321,7 @@
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				GCC_MODEL_TUNING = G5;
-				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_OPTIMIZATION_LEVEL = 1;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/Carbon.framework/Headers/Carbon.h";
 				INFOPLIST_FILE = "hog-Info.plist";
@@ -1373,7 +1373,7 @@
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				GCC_MODEL_TUNING = G5;
-				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_OPTIMIZATION_LEVEL = 1;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/Carbon.framework/Headers/Carbon.h";
 				INFOPLIST_FILE = "simulation-Info.plist";
@@ -1429,7 +1429,7 @@
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				GCC_MODEL_TUNING = G5;
-				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_OPTIMIZATION_LEVEL = 1;
 				HEADER_SEARCH_PATHS = (
 					hpa,
 					simulation,
@@ -1478,18 +1478,29 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_INPUT_FILETYPE = sourcecode.cpp.cpp;
-				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_OPTIMIZATION_LEVEL = 1;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					OS_MAC,
 					UNITTEST,
 				);
+				GCC_TREAT_IMPLICIT_FUNCTION_DECLARATIONS_AS_ERRORS = YES;
 				GCC_UNROLL_LOOPS = YES;
-				GCC_WARN_ABOUT_MISSING_PROTOTYPES = NO;
-				GCC_WARN_ABOUT_RETURN_TYPE = NO;
+				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_CHECK_SWITCH_STATEMENTS = NO;
 				GCC_WARN_EFFECTIVE_CPLUSPLUS_VIOLATIONS = NO;
-				GCC_WARN_HIDDEN_VIRTUAL_FUNCTIONS = NO;
-				GCC_WARN_NON_VIRTUAL_DESTRUCTOR = NO;
+				GCC_WARN_HIDDEN_VIRTUAL_FUNCTIONS = YES;
+				GCC_WARN_MISSING_PARENTHESES = NO;
+				GCC_WARN_NON_VIRTUAL_DESTRUCTOR = YES;
 				GCC_WARN_TYPECHECK_CALLS_TO_PRINTF = NO;
+				GCC_WARN_UNINITIALIZED_AUTOS = NO;
+				GCC_WARN_UNKNOWN_PRAGMAS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_LABEL = YES;
+				GCC_WARN_UNUSED_PARAMETER = NO;
+				GCC_WARN_UNUSED_VALUE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = (
 					hpa,
 					simulation,

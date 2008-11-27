@@ -25,8 +25,6 @@ using namespace ExpMgrUtil;
 
 void AnnotatedAStarTest::setUp()
 {
-	int capability = kGround;
-	int clearance=2;
 	amamock = new AnnotatedMapAbstractionMock(new Map(maplocation.c_str()), new AnnotatedAStarMock());
 	aastar = new AnnotatedAStar();
 	aastar->setGraphAbstraction(amamock);
@@ -133,7 +131,7 @@ void AnnotatedAStarTest::getPathReturnNullWhenStartOrGoalNull()
 	n = getNode(0,0,4);
 	int capability = kGround;
 	int clearance = 2;
-	aastar->setCapability(kGround);
+	aastar->setCapability(capability);
 	aastar->setClearance(clearance);
 	path* p = aastar->getPath(amamock, pos, n); 
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("getPath() failed to return null when start node is null", int(p), NULL);
@@ -433,7 +431,6 @@ void AnnotatedAStarTest::logStatsShouldRecordAllMetricsToStatsCollection()
 	aastar->setClearance(1);
 	aastar->setCapability(kGround);
 	path* p = aastar->getPath(amamock, amamock->getNodeFromMap(2,1), amamock->getNodeFromMap(4,5));
-	double expectedPathDist = abs(amamock->distance(p));
 	aastar->logFinalStats(&sc);
 	
 	assert(p != 0);
@@ -466,9 +463,4 @@ void AnnotatedAStarTest::logStatsShouldRecordAllMetricsToStatsCollection()
 	lookupResult = sc.lookupStat("agentCapability", aastar->getName() , result);
 	CPPUNIT_ASSERT_MESSAGE("couldn't find agentCapability metric in statsCollection", lookupResult == true);
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("agentSize metric in statsCollection doesn't match expected result", aastar->getCapability(), (int)result.lval);
-
-/*	lookupResult = sc.lookupStat("pathDistance", aastar->getName() , result);
-	CPPUNIT_ASSERT_MESSAGE("couldn't find pathDistance metric in statsCollection", lookupResult == true);
-	CPPUNIT_ASSERT_EQUAL_MESSAGE("pathDistance metric in statsCollection doesn't match expected result", expectedPathDist, (double)result.fval);
-*/
 }

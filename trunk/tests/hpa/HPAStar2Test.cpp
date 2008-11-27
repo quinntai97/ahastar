@@ -127,7 +127,7 @@ void HPAStar2Test::getPathShouldReturnTheShortestPathBetweenTwoLowLevelNodes()
 	node *start = hpamap.getNodeFromMap(2,1);
 	node* goal = hpamap.getNodeFromMap(4,5);
 	HPAStar2 hpastar;
-	path* p = hpastar.getPath(&hpamap, start,goal);	
+	p = hpastar.getPath(&hpamap, start,goal);	
 	
 	int expectedLength = 8;	
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("path length wrong", expectedLength, (int)p->length());	
@@ -158,8 +158,6 @@ void HPAStar2Test::getPathShouldReturnTheShortestPathBetweenTwoLowLevelNodes()
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("node count in abstract graph is wrong", numNodesExpected, absg->getNumNodes());
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("edge count in abstract graph is wrong", numEdgesExpected, absg->getNumEdges());
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("path cache size is wrong", numCachedPathsExpected, hpamap.getPathCacheSize());
-	
-	delete p;
 }
 
 void HPAStar2Test::getPathShouldRemoveAllInsertedNodesAndEdgesFromTheAbstractPathAndPathCacheIfTheSearchFailsToFindASolution()
@@ -178,17 +176,14 @@ void HPAStar2Test::getPathShouldRemoveAllInsertedNodesAndEdgesFromTheAbstractPat
 
 	node *start = hpamap.getNodeFromMap(2,1);
 	node* goal = hpamap.getNodeFromMap(8,0);
-	HPACluster* cluster = hpamap.getCluster(dynamic_cast<ClusterNode*>(goal)->getParentClusterId());
 	
 	HPAStar2 hpastar;
-	path* p = hpastar.getPath(&hpamap, start,goal);	
+	p = hpastar.getPath(&hpamap, start,goal);	
 	
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("failed to return a null path for an invalid problem", true, p == NULL);	
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("node count in abstract graph is wrong", numNodesExpected, absg->getNumNodes());
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("edge count in abstract graph is wrong", numEdgesExpected, absg->getNumEdges());
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("path cache size is wrong", numCachedPathsExpected, hpamap.getPathCacheSize());
-	
-	delete p;
 }
 
 void HPAStar2Test::getPathShouldFindASolutionWithoutInsertingIntoTheAbstractGraphIfBothStartAndGoalAreInTheSameCluster()
@@ -203,15 +198,13 @@ void HPAStar2Test::getPathShouldFindASolutionWithoutInsertingIntoTheAbstractGrap
 	node* goal = hpamap.getNodeFromMap(7,2);
 
 	HPAStar2 hpastar;
-	path* p = hpastar.getPath(&hpamap, start,goal);	
+	p = hpastar.getPath(&hpamap, start,goal);	
 	
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("no solution found when one exists", true, p!=0);
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("insNodesExpanded metric unexpectedly non-zero", (long)0, hpastar.getInsertNodesExpanded());
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("insNodesTouched metric unexpectedly non-zero", (long)0, hpastar.getInsertNodesTouched());
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("insSearchTime metric unexpectedly non-zero", (double)0, hpastar.getInsertSearchTime());
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("insPeakMemory metric unexpectedly non-zero", (long)0, hpastar.getInsertPeakMemory());
-		
-	delete p;
 }
 
 void HPAStar2Test::getPathShouldAddInsertionEffortToPerformanceMetrics()
@@ -233,7 +226,7 @@ void HPAStar2Test::getPathShouldAddInsertionEffortToPerformanceMetrics()
 	HPACluster* startCluster = hpamap.getCluster(dynamic_cast<ClusterNode*>(start)->getParentClusterId());
 	ClusterAStar castar;
 	castar.setCorridorNodes(startCluster->getNodes());
-	path* p = castar.getPath(&hpamap, start, tp1);
+	p = castar.getPath(&hpamap, start, tp1);
 	if(p) delete p;
 		
 	long ne = castar.getNodesExpanded();
@@ -243,6 +236,7 @@ void HPAStar2Test::getPathShouldAddInsertionEffortToPerformanceMetrics()
 
 	p = castar.getPath(&hpamap, start, tp2);
 	if(p) delete p;
+	
 	ne += castar.getNodesExpanded();
 	nt += castar.getNodesTouched();
 	pm = pm<castar.getPeakMemory()?castar.getPeakMemory():pm;
@@ -250,15 +244,14 @@ void HPAStar2Test::getPathShouldAddInsertionEffortToPerformanceMetrics()
 
 	p = castar.getPath(&hpamap, start, tp3);
 	if(p) delete p;
+	
 	ne += castar.getNodesExpanded();
 	nt += castar.getNodesTouched();
 	pm = pm<castar.getPeakMemory()?castar.getPeakMemory():pm;
 	st += castar.getSearchTime();
 
-
 	HPAStar2 hpastar;
 	p = hpastar.getPath(&hpamap, start, goal);	
-	delete p;
 	
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("insertion nodes expanded is wrong", ne, hpastar.getInsertNodesExpanded());
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("insertion nodes touched is wrong", nt, hpastar.getInsertNodesTouched());
@@ -279,7 +272,7 @@ void HPAStar2Test::logStatsShouldRecordAllMetricsToStatsCollection()
 	node* goal = hpamap.getNodeFromMap(4,5);
 	
 	HPAStar2 hpastar;
-	path* p = hpastar.getPath(&hpamap, start, goal);
+	p = hpastar.getPath(&hpamap, start, goal);
 	assert(p != 0);
 	
 	hpastar.logFinalStats(&sc);
@@ -332,7 +325,6 @@ void HPAStar2Test::getPathShouldReturnANonRefinedPathIfRefinementFlagIsNotSet()
 	int numEdgesExpected = absg->getNumEdges();
 	int numCachedPathsExpected = hpamap.getPathCacheSize();
 	
-	graph* g = hpamap.getAbstractGraph(1);
 	node *start = hpamap.getNodeFromMap(2,1);
 	node* goal = hpamap.getNodeFromMap(4,5);
 	HPAStar2 hpastar;
@@ -345,16 +337,14 @@ void HPAStar2Test::getPathShouldReturnANonRefinedPathIfRefinementFlagIsNotSet()
 	CPPUNIT_ASSERT_MESSAGE("failed to find a valid path when one exists", p != 0);
 	CPPUNIT_ASSERT_MESSAGE("start of path is wrong", start == p->n);
 	path* cur = p->next;
-	CPPUNIT_ASSERT_MESSAGE("node @ start+1 in path is wrong", g->getNode(hpamap.getNodeFromMap(1,4)->getLabelL(kParent)) == cur->n);
+	CPPUNIT_ASSERT_MESSAGE("node @ start+1 in path is wrong", hpamap.getNodeFromMap(1,4) == cur->n);
 	cur = cur->next;
-	CPPUNIT_ASSERT_MESSAGE("node @ start+4 in path is wrong", g->getNode(hpamap.getNodeFromMap(1,5)->getLabelL(kParent)) == cur->n);
+	CPPUNIT_ASSERT_MESSAGE("node @ start+4 in path is wrong", hpamap.getNodeFromMap(1,5) == cur->n);
 	CPPUNIT_ASSERT_MESSAGE("end of path is wrong", goal == p->tail()->n);
 		
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("node count in abstract graph is wrong", numNodesExpected, absg->getNumNodes());
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("edge count in abstract graph is wrong", numEdgesExpected, absg->getNumEdges());
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("path cache size is wrong", numCachedPathsExpected, hpamap.getPathCacheSize());
-	
-	delete p;
 }
 
 void HPAStar2Test::getPathShouldReturnAShortestPathBetweenTwoLowLevelNodesIfFastRefinementFlagIsSet()
@@ -376,7 +366,7 @@ void HPAStar2Test::getPathShouldReturnAShortestPathBetweenTwoLowLevelNodesIfFast
 	node* goal = hpamap.getNodeFromMap(4,5);
 	HPAStar2 hpastar;
 	hpastar.setFastRefinement(true);
-	path* p = hpastar.getPath(&hpamap, start,goal);	
+	p = hpastar.getPath(&hpamap, start,goal);	
 	
 	int expectedLength = 8;	
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("path length wrong", expectedLength, (int)p->length());	
@@ -403,10 +393,7 @@ void HPAStar2Test::getPathShouldReturnAShortestPathBetweenTwoLowLevelNodesIfFast
 	dist = ((int)(dist*100+0.5))/100.0;
 
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("path distance wrong", expectedDist, dist);
-	
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("node count in abstract graph is wrong", numNodesExpected, absg->getNumNodes());
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("edge count in abstract graph is wrong", numEdgesExpected, absg->getNumEdges());
-	CPPUNIT_ASSERT_EQUAL_MESSAGE("path cache size is wrong", numCachedPathsExpected, hpamap.getPathCacheSize());
-	
-	delete p;
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("path cache size is wrong", numCachedPathsExpected, hpamap.getPathCacheSize());	
 }

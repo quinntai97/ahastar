@@ -46,7 +46,7 @@ typedef union { double fval; long lval; } labelValue;
  */
 class graph_object {
 public:
-  graph_object():key(0) { debuginfo = false; 	uniqueID = uniqueIDCounter++; }
+  graph_object():key(0), debuginfo(false), uniqueID(uniqueIDCounter++) { }
   virtual ~graph_object() {}
   int getUniqueID() const { return uniqueID; }
   virtual double getKey() { return 0; }

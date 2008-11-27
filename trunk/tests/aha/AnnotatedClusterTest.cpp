@@ -149,7 +149,6 @@ void AnnotatedClusterTest::addNodeShouldIncrementByOneTotalNodesInCluster()
 
 void AnnotatedClusterTest::addNodeShouldSetTheParameterNodeParentClusterIdEqualToTheCurrentClusterId()
 {
-	int expectedTotalNodes = 1;
 	node* targetnode = aca_mock->getNodeFromMap(0,0);
 	ac->addNode(targetnode);
 	
@@ -213,7 +212,6 @@ void AnnotatedClusterTest::addNodeShouldThrowExceptionWhenClusterIsFull()
 
 void AnnotatedClusterTest::addNodeShouldThrowExceptionWhenNodeParameterIsNull()
 {
-	int expectedTotalNodes = cwidth*cheight;
 	bool exceptionThrown = false;
 
 	try
@@ -230,7 +228,6 @@ void AnnotatedClusterTest::addNodeShouldThrowExceptionWhenNodeParameterIsNull()
 
 void AnnotatedClusterTest::addNodesToClusterShouldThrowExceptionWhenMapAbstractionParameterIsNull()
 {
-	int expectedTotalNodes = cwidth*cheight;
 	bool exceptionThrown = false;
 
 	try
@@ -429,7 +426,6 @@ void AnnotatedClusterTest::buildVerticalEntrancesShouldNotAddAnyEntrancesGivenAn
 	int numEdgesInAbstractGraphBefore = absg->getNumEdges();
 	int numNodesInClusterBefore = ac->getParents().size();
 	AnnotatedCluster* adjacentCluster = aca_mock->getCluster(1);
-	int numNodesInClusterAdjacentBefore = adjacentCluster->getParents().size();
 	
 	int capability = kWater;
 	ac->buildVerticalEntrances(capability, aca_mock);
@@ -485,8 +481,6 @@ void AnnotatedClusterTest::buildHorizontalEntrancesShouldCreateOneTransitionForE
 	aca.buildClusters(&acf);
 
 	graph* absg = aca.getAbstractGraph(1);	
-	int numNodesBefore=absg->getNumNodes();
-	int numEdgesBefore=absg->getNumEdges();
 
 	AnnotatedCluster* targetcluster = aca.getCluster(0);
 	targetcluster->buildHorizontalEntrances(kGround, &aca);
@@ -583,7 +577,6 @@ void AnnotatedClusterTest::buildHorizontalEntrancesShouldSkipClustersWhichHaveNo
 	int clusterxorigin = 0;
 	int clusteryorigin = 5;
 	int capability = kGround; 
-	int clearance = 1;
 	int expectedNumClusterNodes = 0;
 	int expectedNumAbstractGraphNodes = 0;
 	int expectedNumAbstractGraphEdges = 0;
@@ -605,7 +598,6 @@ void AnnotatedClusterTest::buildVerticalEntrancesShouldSkipClustersWhichHaveNoNe
 	int clusterxorigin = 5;
 	int clusteryorigin = 5;
 	int capability = kGround; 
-	int clearance = 1;
 	int expectedNumClusterNodes = 0;
 	int expectedNumAbstractGraphNodes = 0;
 	int expectedNumAbstractGraphEdges = 0;
@@ -639,7 +631,6 @@ void AnnotatedClusterTest::buildHorizontalEntrancesShouldNotAddAnyEntrancesGiven
 	int numEdgesInAbstractGraphBefore = absg->getNumEdges();
 	int numNodesInClusterBefore = ac->getParents().size();
 	AnnotatedCluster* adjacentCluster = aca_mock->getCluster(1);
-	int numNodesInClusterAdjacentBefore = adjacentCluster->getParents().size();
 	
 	int capability = kWater;
 	ac->buildHorizontalEntrances(capability, aca_mock);
@@ -703,7 +694,6 @@ void AnnotatedClusterTest::addEndpointsToAbstractGraphShouldAddTwoNewAbstractNod
 {
 	createEntranceNodes();
 	int expectedNodesInAbstractGraph=2;
-	int expetedAbstractNodesInCluster=1;
 
 	ac->addEndpointsToAbstractGraph(e1_n1, e1_n2, aca_mock);
 
@@ -931,8 +921,6 @@ void AnnotatedClusterTest::addParentShouldNotAddAnyNodesAlreadyMarkedAsBelonging
 void AnnotatedClusterTest::connectEntranceEndpointsShouldCalculateTheShortestPathBetweenEachPairOfParentNodesForEachEligibleCapabilityGivenAHighQualityAbstraction()
 {
 	createEntranceNodes();
-	int capability1 = kGround;
-	int capability2 = (kGround|kTrees);	
 	
 	aca_mock->buildClusters();
 
@@ -968,8 +956,6 @@ In this test, for clearance 1, we should reuse a path with kGround capability in
 void AnnotatedClusterTest::connectEntranceEndpointsShouldCalculateFirstTheSetOfShortestPathsWithLargestClearanceGivenALowQualityAbstraction()
 {
 	createEntranceNodes();
-	int capability1 = kGround;
-	int capability2 = (kGround|kTrees);	
 	
 	aca_mock->setGraphQualityParameter(ACAUtil::kLowQualityAbstraction);
 	aca_mock->buildClusters();
@@ -1019,8 +1005,6 @@ void AnnotatedClusterTest::connectEntranceEndpointsShouldCalculateFirstTheSetOfS
 void AnnotatedClusterTest::connectEntranceEndpointsShouldAddAPathToTheAnnotatedClusterAbstractionCacheEachTimeTwoEndpointsAreConnected()
 {
 	createEntranceNodes();
-	int capability1 = kGround;
-	int capability2 = (kGround|kTrees);	
 	
 	aca_mock->buildClusters();
 
@@ -1056,8 +1040,6 @@ void AnnotatedClusterTest::connectEntranceEndpointsShouldAddAPathToTheAnnotatedC
 void AnnotatedClusterTest::addParentsShouldCreateEdgesToRepresentAllValidPathsBetweenNewNodeAndExistingClusterEndpoints()
 {
 	createEntranceNodes();
-	int capability1 = kGround;
-	int capability2 = (kGround|kTrees);	
 	
 	node* from = dynamic_cast<node*>(e1_n1->clone());
 	from->setParentCluster(e1_n1->getParentCluster());
@@ -1088,8 +1070,6 @@ void AnnotatedClusterTest::buildVerticalEntrancesShouldCreateOneTransitionForEac
 	aca.buildClusters(&acf);
 
 	graph* absg = aca.getAbstractGraph(1);	
-	int numNodesBefore=absg->getNumNodes();
-	int numEdgesBefore=absg->getNumEdges();
 
 	AnnotatedCluster* targetcluster = aca.getCluster(0);
 	targetcluster->buildVerticalEntrances(kGround, &aca);

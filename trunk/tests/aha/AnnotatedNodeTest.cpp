@@ -76,7 +76,6 @@ void AnnotatedNodeTest::TerrainAnnotationsTest()
 	n->setClearance(terrains[0], -1);
 	CPPUNIT_ASSERT_MESSAGE("clearance value < 0", n->getClearance(terrains[0])  >= 0);
 	
-	int i =0;
 	return;
 }
 
@@ -153,7 +152,6 @@ void AnnotatedNodeTest::cloneShouldNotDeepCopyEdges()
 	
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("clone copied some edges when it shouldn't have", 0, clone->getNumEdges());
 	
-	delete g;
 	delete clone;
 }
 

@@ -278,7 +278,6 @@ void AnnotatedHierarchicalAStarTest::getPathShouldFindASolutionEvenWhenCacheRetu
 	aca->buildClusters(acfactory);
 	aca->buildEntrances();
 
-	graph* absmap = aca->getAbstractGraph(1);
 	node *start = aca->getNodeFromMap(1,5);
 	node* goal = aca->getNodeFromMap(16,8);
 	
@@ -288,11 +287,7 @@ void AnnotatedHierarchicalAStarTest::getPathShouldFindASolutionEvenWhenCacheRetu
 	ahastar->setGraphAbstraction(aca);
 	ahastar->setClearance(size);
 	ahastar->setCapability(capability);
-	
-	int numExpectedNodes = absmap->getNumNodes();
-	int numExpectedEdges = absmap->getNumEdges();
-	int numExpectedPathCacheSize = aca->getPathCacheSize();
-	
+		
 	path* p = ahastar->getPath(aca, start, goal);
 
 	CPPUNIT_ASSERT_MESSAGE("failed to find path which exists (but refinement requires reversing some cache segments)", p != NULL);
@@ -311,7 +306,6 @@ void AnnotatedHierarchicalAStarTest::getPathShouldAddInsertionEffortToPerformanc
 	aca->buildClusters(acfactory);
 	aca->buildEntrances();
 
-	graph* absmap = aca->getAbstractGraph(1);
 	node *start = aca->getNodeFromMap(1,5);
 	node* goal = aca->getNodeFromMap(16,8);
 	
@@ -347,7 +341,6 @@ void AnnotatedHierarchicalAStarTest::logStatsShouldRecordAllMetricsToStatsCollec
 	aca->buildClusters(acfactory);
 	aca->buildEntrances();
 
-	graph* absmap = aca->getAbstractGraph(1);
 	node *start = aca->getNodeFromMap(1,5);
 	node* goal = aca->getNodeFromMap(16,8);
 	
@@ -405,11 +398,6 @@ void AnnotatedHierarchicalAStarTest::getPathShouldFindASolutionWithoutInsertingI
 	AnnotatedClusterFactory* acfactory = new AnnotatedClusterFactory();
 	aca->buildClusters(acfactory);
 	aca->buildEntrances();
-
-	graph  *absg = aca->getAbstractGraph(1);
-	int numNodesExpected = absg->getNumNodes();
-	int numEdgesExpected = absg->getNumEdges();
-	int numCachedPathsExpected = aca->getPathCacheSize();
 	
 	node *start = aca->getNodeFromMap(2,1);
 	node* goal = aca->getNodeFromMap(3,0);

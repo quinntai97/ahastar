@@ -15,6 +15,7 @@
 class AnnotatedEdgeFactory : public IEdgeFactory
 {
 	public:
+		virtual ~AnnotatedEdgeFactory() {}
 		virtual edge* newEdge(unsigned int from, unsigned int to, double weight);
 
 };

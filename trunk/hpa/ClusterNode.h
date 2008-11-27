@@ -20,7 +20,7 @@ class ClusterNode : public node
 		ClusterNode(const ClusterNode* n);
 		virtual graph_object* clone() const { return new ClusterNode(this); }
 		int getParentClusterId() { return parentClusterId; }
-		int setParentClusterId(int _id) { parentClusterId = _id; }
+		void setParentClusterId(int _id) { parentClusterId = _id; }
 
 	private:
 		void init();
