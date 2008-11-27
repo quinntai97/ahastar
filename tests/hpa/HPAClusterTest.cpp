@@ -221,7 +221,6 @@ void HPAClusterTest::addNodeShouldThrowExceptionWhenParameterNodeHasCoordinatesO
 	n.setLabelL(kFirstData, 6);
 	n.setLabelL(kFirstData+1, 6);
 
-	int numExpectedNodesInCluster = 1;
 	cluster.addNode(&n);
 }
 

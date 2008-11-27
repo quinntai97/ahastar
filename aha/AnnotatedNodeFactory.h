@@ -17,6 +17,7 @@ class node;
 class AnnotatedNodeFactory : public INodeFactory
 {
 	public:
+		virtual ~AnnotatedNodeFactory() {}
 		virtual node* newNode(const char* name) throw(std::invalid_argument);
 		virtual node* newNode(const node* name) throw(std::invalid_argument);
 };

@@ -218,7 +218,6 @@ void AnnotatedClusterAbstractionTest::buildEntrancesShouldCreateCorrectNumberOfT
 	mynode = absg->getNode(aca->getNodeFromMap(4,5)->getLabelL(kParent));
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("wrong # of edges for node @ (4,5)", 3, mynode->getNumEdges());
 
-	int label = aca->getNodeFromMap(5,5)->getLabelL(kParent);
 	mynode = absg->getNode(aca->getNodeFromMap(5,5)->getLabelL(kParent));
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("wrong # of edges for node @ (5,5)", 2, mynode->getNumEdges());
 	
@@ -264,7 +263,7 @@ void AnnotatedClusterAbstractionTest::buildEntrancesShouldAskEachClusterToCreate
 	/* run test */
 	aca->buildEntrances();
 	
-	for(int i=0;i<4;i++)
+	for(int i=0;i<numExpectedClusters;i++)
 	{
 		AnnotatedClusterMock* acm = dynamic_cast<AnnotatedClusterMock*>(aca->getCluster(i));
 		acm->verify();
@@ -321,7 +320,6 @@ void AnnotatedClusterAbstractionTest::insertStartAndGoalNodesIntoAbstractGraphSh
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("unexpectedly set startid value to something non-default", true, aca->startid == -1); // no new node created
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("failed to store id of newly inserted goal node", true, aca->goalid != -1); // new goal node created
 	
-	node* absstart = absg->getNode(start->getLabelL(kParent));
 	node* absgoal = absg->getNode(aca->goalid);
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("failed to add goal node to abstract graph", true, goal->getLabelL(kFirstData) == absgoal->getLabelL(kFirstData) && goal->getLabelL(kFirstData+1) == absgoal->getLabelL(kFirstData+1));
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("wrong number of nodes added to abstract graph", numExpectedAbstractNodes, absg->getNumNodes());
@@ -554,7 +552,6 @@ void AnnotatedClusterAbstractionTest::removeStartAndGoalNodesFromAbstractGraphSh
 	AnnotatedClusterFactory* acfactory = new AnnotatedClusterFactory();
 	node* start = aca->getNodeFromMap(2,1); 
 	node* goal = aca->getNodeFromMap(3,5);
-	graph* absg = aca->getAbstractGraph(1);	
 
 	aca->buildClusters(acfactory);
 	aca->buildEntrances();
@@ -584,7 +581,6 @@ void AnnotatedClusterAbstractionTest::insertStartAndGoalIntoAbstractGraphShouldS
 	node* start = aca->getNodeFromMap(0,0);	
 	node* goal = aca->getNodeFromMap(3,5);
 	graph* absg = aca->getAbstractGraph(1);
-	int numAbstractNodes = absg->getNumNodes();
 	
 	AnnotatedClusterFactory* acfactory = new AnnotatedClusterFactory();
 	aca->buildClusters(acfactory);
@@ -613,7 +609,6 @@ void AnnotatedClusterAbstractionTest::removeStartAndGoalNodesFromAbstractGraphSh
 	AnnotatedClusterFactory* acfactory = new AnnotatedClusterFactory();
 	node* start = aca->getNodeFromMap(2,1); 
 	node* goal = aca->getNodeFromMap(6,5);
-	graph* absg = aca->getAbstractGraph(1);	
 
 	aca->buildClusters(acfactory);
 	aca->buildEntrances();
@@ -643,7 +638,6 @@ void AnnotatedClusterAbstractionTest::insertStartAndGoalIntoAbstractGraphShouldS
 	node* start = aca->getNodeFromMap(0,0);	
 	node* goal = aca->getNodeFromMap(3,5);
 	graph* absg = aca->getAbstractGraph(1);
-	int numAbstractNodes = absg->getNumNodes();
 	
 	AnnotatedClusterFactory* acfactory = new AnnotatedClusterFactory();
 	aca->buildClusters(acfactory);
@@ -696,8 +690,6 @@ void AnnotatedClusterAbstractionTest::insertStartAndGoalIntoAbstractGraphShouldR
 
 	node* start = aca->getNodeFromMap(0,0);	
 	node* goal = aca->getNodeFromMap(3,5);
-	graph* absg = aca->getAbstractGraph(1);
-	int numAbstractNodes = absg->getNumNodes();
 	
 	AnnotatedClusterFactory* acfactory = new AnnotatedClusterFactory();
 	aca->buildClusters(acfactory);
@@ -766,7 +758,6 @@ void AnnotatedClusterAbstractionTest::insertStartAndGoalIntoAbstractGraphShouldA
 	node* goal = aca->getNodeFromMap(6,5);
 	graph* absg = aca->getAbstractGraph(1);
 	
-	int numAbstractNodes = absg->getNumNodes();	
 	AnnotatedClusterFactory* acfactory = new AnnotatedClusterFactory();
 	aca->buildClusters(acfactory);
 	aca->buildEntrances();
@@ -789,7 +780,6 @@ void AnnotatedClusterAbstractionTest::removeStartAndGoalNodesFromAbstractGraphSh
 	AnnotatedClusterFactory* acfactory = new AnnotatedClusterFactory();
 	node* start = aca->getNodeFromMap(2,1); 
 	node* goal = aca->getNodeFromMap(3,5);
-	graph* absg = aca->getAbstractGraph(1);	
 
 	aca->buildClusters(acfactory);
 	aca->buildEntrances();
@@ -865,10 +855,10 @@ void AnnotatedClusterAbstractionTest::hShouldProduceIdenticalResultsToOverridden
 	node* a = aca->getNodeFromMap(14,7);
 	node* b = aca->getNodeFromMap(12,7);
 	
-	double expectedResult = 2;
+	double expectedResult = aca->mapAbstraction::h(a,b);
 	double result = aca->h(a,b);
 	
-	CPPUNIT_ASSERT_EQUAL_MESSAGE("1. h failed to produce result identical to mapAbstraction", aca->mapAbstraction::h(a,b), result);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("1. h failed to produce result identical to mapAbstraction", expectedResult, result);
 
 /*	a = aca->getNodeFromMap(15,7);
 	b = aca->getNodeFromMap(12,7);
@@ -975,7 +965,6 @@ void AnnotatedClusterAbstractionTest::findAndMarkDominatedTransitionShouldNotMar
 	int dmCapability = kGround;
 	int dtCapability = (kGround|kTrees);
 	setupDominanceRelationshipTestData(dmCapability, dmClearance, dtCapability, dtClearance);
-	graph* absg = aca->getAbstractGraph(1);
 	
 	/* test1; param order e1, e2 */
 	aca->findAndMarkDominatedTransition(e1, e2);
@@ -1031,7 +1020,6 @@ void AnnotatedClusterAbstractionTest::findAndMarkDominatedTransitionShouldNotMar
 	int dmCapability = kGround;
 	int dtCapability = (kGround|kTrees);
 	setupDominanceRelationshipTestData(dmCapability, dmClearance, dtCapability, dtClearance);
-	graph* absg = aca->getAbstractGraph(1);
 	
 	n1->setParentCluster(0);
 	n2->setParentCluster(1);
@@ -1084,7 +1072,6 @@ void AnnotatedClusterAbstractionTest::findAndMarkDominatedTransitionShouldNotUnm
 	int dmCapability = kGround;
 	int dtCapability = (kGround|kTrees);
 	setupDominanceRelationshipTestData(dmCapability, dmClearance, dtCapability, dtClearance);
-	graph* absg = aca->getAbstractGraph(1);
 
 	e2->setMarked(true);
 	aca->findAndMarkDominatedTransition(e1, e2);
@@ -1133,7 +1120,6 @@ void AnnotatedClusterAbstractionTest::findAndMarkDominatedTransitionShouldNotMar
 	int dmCapability = kGround;
 	int dtCapability = (kGround|kTrees);
 	setupDominanceRelationshipTestData(dmCapability, dmClearance, dtCapability, dtClearance);
-	graph* absg = aca->getAbstractGraph(1);
 
 	/* test1; intra-edge in cluster1 is too narrow to be traversed by all agents able to traverse the dominated transition (circuit is invalid) */
 	intra1->setClearance(dtCapability, dtClearance-1);
@@ -1168,7 +1154,6 @@ void AnnotatedClusterAbstractionTest::findAndMarkDominatedTransitionShouldNotMar
 	int dmCapability = kGround;
 	int dtCapability = (kGround|kTrees);
 	setupDominanceRelationshipTestData(dmCapability, dmClearance, dtCapability, dtClearance);
-	graph* absg = aca->getAbstractGraph(1);
 	
 	/* test1; intra-edge in cluster1 is not traversable by all agents able to traverse the dominated transition (circuit is invalid) */
 	intra1->setClearance(kWater, dtClearance);
@@ -1203,7 +1188,6 @@ void AnnotatedClusterAbstractionTest::findAndMarkDominatedTransitionShouldNotMar
 	int dmCapability = kGround;
 	int dtCapability = (kGround|kTrees);
 	setupDominanceRelationshipTestData(dmCapability, dmClearance, dtCapability, dtClearance);
-	graph* absg = aca->getAbstractGraph(1);
 
 	n1->setParentCluster(0);
 	n2->setParentCluster(0);
@@ -1231,8 +1215,7 @@ void AnnotatedClusterAbstractionTest::findAndMarkDominatedTransitionShouldNotMar
 	int dmCapability = kGround;
 	int dtCapability = (kGround|kTrees);
 	setupDominanceRelationshipTestData(dmCapability, dmClearance, dtCapability, dtClearance);
-	graph* absg = aca->getAbstractGraph(1);
-
+	
 	n1->setParentCluster(0);
 	n2->setParentCluster(0);
 	n3->setParentCluster(0);
@@ -1432,10 +1415,7 @@ void AnnotatedClusterAbstractionTest::removeDominatedEdgesAndEndpointsShouldRemo
 	int dtClearance=3;
 	int dmCapability = kGround;
 	int dtCapability = (kGround|kTrees);
-	int numExpectedEdges = 4;
-	int numExpectedNodes = 4;
 	setupDominanceRelationshipTestData(dmCapability, dmClearance, dtCapability, dtClearance);
-	graph* absg = aca->getAbstractGraph(1);
 
 	node* n1ll = aca->getNodeFromMap(n1->getLabelL(kFirstData), n1->getLabelL(kFirstData+1));
 	node* n2ll = aca->getNodeFromMap(n2->getLabelL(kFirstData), n2->getLabelL(kFirstData+1));
@@ -1460,7 +1440,6 @@ void AnnotatedClusterAbstractionTest::removeDominatedEdgesAndEndpointsShouldRepa
 	int dmCapability = kGround;
 	int dtCapability = (kGround|kTrees);
 	setupDominanceRelationshipTestData(dtCapability, dtClearance, dmCapability, dmClearance); // endpoints of dominated edge first in nodes array
-	graph* absg = aca->getAbstractGraph(1);
 
 	/* test that low-level nodes which are abstracted by the endpoints of the dominant edge have their kParent labels updated to reflect changes
 	in abstract graph  */

@@ -136,16 +136,14 @@ void ClusterAStarTest::getPathEachNodeInReturnedPathHasAnEdgeToItsPredecessor()
 	path* p2 = p;
 	do {
 		node *curnode, *nextnode;
-		curnode = p->n;
-		nextnode = p->next->n;
+		curnode = p2->n;
+		nextnode = p2->next->n;
 		edge* medge = nextnode->getMarkedEdge();		
 		CPPUNIT_ASSERT_EQUAL(true, medge->getFrom() == curnode->getNum() || medge->getTo() == curnode->getNum());
 		CPPUNIT_ASSERT_EQUAL(true, medge->getFrom() == nextnode->getNum() || medge->getTo() == nextnode->getNum());
 		
-		p = p->next;
-	} while(p->next);
-	
-	delete p2;
+		p2 = p2->next;
+	} while(p2->next);	
 }
 
 void ClusterAStarTest::getPathFailsToReturnASoltuionWhenNoneExistsWithinTheCorridorBounds()
@@ -195,7 +193,6 @@ void ClusterAStarTest::logStatsShouldRecordAllMetricsToStatsCollection()
 
 	statCollection sc;
 	p = castar.getPath(&hpamap, hpamap.getNodeFromMap(2,1), hpamap.getNodeFromMap(4,5));
-	double expectedPathDist = abs(hpamap.distance(p));
 	castar.logFinalStats(&sc);
 	
 	assert(p != 0);

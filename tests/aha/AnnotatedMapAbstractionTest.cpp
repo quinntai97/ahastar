@@ -255,9 +255,7 @@ void AnnotatedMapAbstractionTest::checkNodeAnnotationsAgainstExpectations()
 		for(int x=0; x<ama->getMap()->getMapWidth(); x++)
 			for(int y=0; y<ama->getMap()->getMapHeight(); y++)
 			{
-				node* current = ama->getNodeFromMap(x,y);
-				int val = clearance[y][x];
-				int stuff = 011;	
+				node* current = ama->getNodeFromMap(x,y);	
 				int kGroundClearance = clearance[y][x]/100;
 				int kTreesAndGroundClearance = clearance[y][x]%10;
 				int kTreesClearance = (clearance[y][x]-kGroundClearance*100-kTreesAndGroundClearance)/10;

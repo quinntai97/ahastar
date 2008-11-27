@@ -77,3 +77,4 @@ apps.mk : $(TARGS) Makefile
 clean:
 	@-$(RM) apps.mk $(wildcard $(addsuffix /objs/*,$(APPS)/objs/*.o)) $(TARGS)
 	@-$(RM) $(addsuffix .a,$(addprefix libs/lib,$(APPS)))
+	@-$(RM) libs/libtests.a

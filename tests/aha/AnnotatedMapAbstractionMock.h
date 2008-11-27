@@ -30,7 +30,7 @@ class AnnotatedMapAbstractionMock : public AbstractAnnotatedMapAbstraction
 		void addNode(node*) {}
 		void addEdge(edge*, unsigned int) { /* need to  implement to add missing edges?? */ }
 		void repairAbstraction() {}
-		mapAbstraction *clone(Map *) {}
+		mapAbstraction *clone(Map *) { return 0; }
 		void openGLDraw() { }
 		
 		void setCurrentTestExperiment(ExpMgrUtil::TestExperiment* exp);

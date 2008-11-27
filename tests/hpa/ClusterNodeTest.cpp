@@ -10,6 +10,9 @@
 #include "ClusterNodeTest.h"
 #include "constants.h"
 
+
+CPPUNIT_TEST_SUITE_REGISTRATION( ClusterNodeTest );
+
 void ClusterNodeTest::setUp()
 {
 

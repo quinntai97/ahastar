@@ -16,9 +16,30 @@
 #include <cppunit/BriefTestProgressListener.h>
 
 #include "graph.h"
+#include "HPAClusterAbstraction.h"
+#include "HPAClusterAbstraction.h"
+#include "TestConstants.h"
+
+#include "HPAClusterFactory.h"
+#include "ClusterNodeFactory.h"
+#include "ClusterAStarFactory.h"
+#include "EdgeFactory.h"
+#include "NodeFactory.h"
+#include "EdgeFactory.h"
+
+#include <iostream>
+
+int runtests(void);
 
 int main (int argc, char* argv[])
 {
+	runtests();	
+	return 0;
+}
+
+int runtests()
+{
+
     // informs test-listener about testresults
     CPPUNIT_NS :: TestResult testresult;
 
@@ -28,7 +49,7 @@ int main (int argc, char* argv[])
 
     // register listener for per-test progress output
     CPPUNIT_NS :: BriefTestProgressListener progress;
-//    testresult.addListener (&progress);
+    //testresult.addListener (&progress);
 
     // insert test-suite at test-runner by registry
     CPPUNIT_NS :: TestRunner testrunner;
@@ -42,4 +63,3 @@ int main (int argc, char* argv[])
     // return 0 if tests were successful
     return collectedresults.wasSuccessful () ? 0 : 1;
 }
-

@@ -15,6 +15,7 @@ class edge;
 class IEdgeFactory
 {
 	public:
+		virtual ~IEdgeFactory() {}
 		virtual edge* newEdge(unsigned int fromId, unsigned int toId, double weight) = 0;
 };
 

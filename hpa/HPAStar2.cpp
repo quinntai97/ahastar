@@ -76,9 +76,13 @@ path* HPAStar2::getPath(graphAbstraction* aMap, node* _from, node* _to, reservat
 			}
 			else
 			{
-				abspath->tail()->n = to;
-				abspath->n = from;
-				thepath = abspath;			
+				/* return a non-refined path consisting only of non-abstract nodes */
+				thepath = abspath; 
+				while(abspath)
+				{
+					abspath->n = hpamap->getNodeFromMap(abspath->n->getLabelL(kFirstData), abspath->n->getLabelL(kFirstData+1));
+					abspath = abspath->next;
+				}
 			}
 			if(verbose) {std::cout << "solution: \n"; printPath(thepath);}
 		}

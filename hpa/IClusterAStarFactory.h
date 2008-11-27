@@ -14,6 +14,7 @@ class AbstractClusterAStar;
 class IClusterAStarFactory
 {
 	public:
+		virtual ~IClusterAStarFactory() {}
 		virtual AbstractClusterAStar* newClusterAStar() = 0;
 };
 

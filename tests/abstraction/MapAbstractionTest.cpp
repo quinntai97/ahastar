@@ -15,7 +15,7 @@
 #include "mapAbstraction.h"
 #include "graph.h";
 
-CPPUNIT_TEST_SUITE_REGISTRATION( MapAbstractionTest );
+//CPPUNIT_TEST_SUITE_REGISTRATION( MapAbstractionTest );
 
 void MapAbstractionTest::setUp()
 {

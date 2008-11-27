@@ -19,6 +19,7 @@ class node;
 class INodeFactory
 {
 	public:
+		virtual ~INodeFactory() {}
 		virtual node* newNode(const char* name) throw(std::invalid_argument) = 0;
 		virtual node* newNode(const node* n) throw(std::invalid_argument) = 0;
 };
