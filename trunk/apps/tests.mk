@@ -9,7 +9,7 @@ CFLAGS += -I../hpa -I../tests/aha -I../tests/hpa -I/usr/local/include -I/opt/loc
 
 tests_OBJS = RunTests.o
 
-libtests.a : $(tests_OBJS)
+libtests.a : $(clean) $(tests_OBJS)
 	@if (! -d libs) mkdir libs
 	@ar -crs libs/$(@) tests/objs/*.o
 
@@ -18,3 +18,5 @@ $(tests_OBJS)  : %.o : %.cpp $(HPASTARTESTS_SRC:.cpp=.h) $(HPASTAR_SRC:.cpp=.h) 
 	@-$(RM) libs/libtests.a
 	$(CC) $(CFLAGS) -c -o tests/objs/$(notdir $(@)) tests/$(patsubst %.o,%.cpp,$(@))
 
+clean: 
+	rm -f libs/libtests.a tests/objs/*.o

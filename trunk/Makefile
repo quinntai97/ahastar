@@ -89,7 +89,7 @@ tests : libtests.a $(UTIL_OBJ) $(SIMULATION_OBJ) $(ABSTRACTION_OBJ) $(SHARED_OBJ
 		$(addprefix objs/,$(UTILTESTS_OBJ)) \
 		-l$(@)
 libtests.a :
-	@cd apps; $(MAKE); $(MAKE) -f tests.mk OPENGL=$(OPENGL) $(@); cd ..
+	@cd apps; $(MAKE); $(MAKE) -f tests.mk clean; $(MAKE) -f tests.mk OPENGL=$(OPENGL) $(@); cd ..
 
 all : $(TARGETS) tests
 
@@ -151,3 +151,6 @@ clean:
 	@-$(RM) bin/*
 	@cd apps; $(MAKE) clean; cd ..
 
+.PHONY: tags
+tags:
+	ctags -R .

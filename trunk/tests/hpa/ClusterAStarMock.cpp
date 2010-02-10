@@ -11,5 +11,5 @@
 
 path* ClusterAStarMock::getPath(graphAbstraction *aMap, node *from, node *to, reservationProvider *rp)
 {
-	this->getPathMocker.forward(aMap, from, to);
+	return this->getPathMocker.forward(aMap, from, to);
 }

@@ -24,9 +24,10 @@
 
 
 // TODO: throw an exception if anything of the parameter pointers are NULL.
-// TODO add search algorithm parameter
-HPAClusterAbstraction::HPAClusterAbstraction(Map* m, IClusterAStarFactory* _caf, IHPAClusterFactory* _cf, INodeFactory* _nf, IEdgeFactory* _ef, unsigned int _clustersize) throw(std::invalid_argument)
-	: mapAbstraction(m), caf(_caf), cf(_cf), nf(_nf), ef(_ef), clustersize(_clustersize) 
+HPAClusterAbstraction::HPAClusterAbstraction(Map* m, IHPAClusterFactory* _cf, 
+	INodeFactory* _nf, IEdgeFactory* _ef, unsigned int _clustersize) 
+	throw(std::invalid_argument)
+	: mapAbstraction(m), cf(_cf), nf(_nf), ef(_ef), clustersize(_clustersize) 
 {	
 	
 	if(!dynamic_cast<ClusterNodeFactory*>(nf))
@@ -46,7 +47,6 @@ HPAClusterAbstraction::~HPAClusterAbstraction()
 	delete ef;
 	delete cf;
 	delete nf;
-	delete caf;
 	
 	for(HPAUtil::pathTable::iterator it = pathCache.begin(); it != pathCache.end(); it++)
 		delete (*it).second;
@@ -88,7 +88,8 @@ void HPAClusterAbstraction::buildClusters()
 			if(y+cheight > mapheight)
 				cheight = mapheight - y;
 				
-			HPACluster *cluster = cf->createCluster(x,y,cwidth,cheight, this->caf->newClusterAStar());
+			HPACluster *cluster = cf->createCluster(x,y,cwidth,cheight, 
+					new ClusterAStar());
 			addCluster( cluster ); // nb: also assigns a new id to cluster
 			cluster->addNodesToCluster(this);
 		}

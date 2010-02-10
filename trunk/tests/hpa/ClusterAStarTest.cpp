@@ -46,7 +46,7 @@ ClusterNode* ClusterAStarTest::getNode(int x, int y, HPAClusterAbstraction& hpam
 
 void ClusterAStarTest::getPathReturnNullWhenStartOrGoalNull()
 {	
-	HPAClusterAbstraction hpamap(new Map(maplocation.c_str()), new ClusterAStarFactory(), new HPAClusterFactory(), 
+	HPAClusterAbstraction hpamap(new Map(maplocation.c_str()), new HPAClusterFactory(), 
 		new ClusterNodeFactory(), new EdgeFactory(), TESTCLUSTERSIZE);
 	ClusterAStar castar;
 	castar.setGraphAbstraction(&hpamap);
@@ -62,7 +62,7 @@ void ClusterAStarTest::getPathReturnNullWhenStartOrGoalNull()
 
 void ClusterAStarTest::getPathReturnNullWhenStartAndGoalSameLocation()
 {
-	HPAClusterAbstraction hpamap(new Map(maplocation.c_str()), new ClusterAStarFactory(), new HPAClusterFactory(), 
+	HPAClusterAbstraction hpamap(new Map(maplocation.c_str()), new HPAClusterFactory(), 
 		new ClusterNodeFactory(), new EdgeFactory(), TESTCLUSTERSIZE);
 	ClusterAStar castar;
 	castar.setGraphAbstraction(&hpamap);
@@ -78,7 +78,7 @@ void ClusterAStarTest::getPathReturnNullWhenStartAndGoalSameLocation()
 void ClusterAStarTest::getPathReturnNullWhenStartAndGoalNodesIdentical()
 {
 	string errmsg("getPath() failed to return null when start and goal nodes are identical");
-	HPAClusterAbstraction hpamap(new Map(maplocation.c_str()), new ClusterAStarFactory(), new HPAClusterFactory(), 
+	HPAClusterAbstraction hpamap(new Map(maplocation.c_str()), new HPAClusterFactory(), 
 		new ClusterNodeFactory(), new EdgeFactory(), TESTCLUSTERSIZE);
 	ClusterAStar castar;
 	castar.setGraphAbstraction(&hpamap);
@@ -107,7 +107,7 @@ relaxing edges the gcost is re-derived by substracting h cost from fcost. Becaus
 see aStarOld::relaxEdge() for a better idea of wtf is going on here */
 void ClusterAStarTest::getPathInitialisesFCostValueOfStartToHeuristicGoalDistance()
 {
-	HPAClusterAbstraction hpamap(new Map(maplocation.c_str()), new ClusterAStarFactory(), new HPAClusterFactory(), 
+	HPAClusterAbstraction hpamap(new Map(maplocation.c_str()), new HPAClusterFactory(), 
 		new ClusterNodeFactory(), new EdgeFactory(), TESTCLUSTERSIZE);
 	ClusterAStar castar;
 	castar.setGraphAbstraction(&hpamap);
@@ -123,7 +123,7 @@ void ClusterAStarTest::getPathInitialisesFCostValueOfStartToHeuristicGoalDistanc
 // check that the path contains only connected nodes 
 void ClusterAStarTest::getPathEachNodeInReturnedPathHasAnEdgeToItsPredecessor()
 {
-	HPAClusterAbstraction hpamap(new Map(maplocation.c_str()), new ClusterAStarFactory(), new HPAClusterFactory(), 
+	HPAClusterAbstraction hpamap(new Map(maplocation.c_str()), new HPAClusterFactory(), 
 		new ClusterNodeFactory(), new EdgeFactory(), TESTCLUSTERSIZE);
 	ClusterAStar castar;
 	castar.setGraphAbstraction(&hpamap);
@@ -148,7 +148,7 @@ void ClusterAStarTest::getPathEachNodeInReturnedPathHasAnEdgeToItsPredecessor()
 
 void ClusterAStarTest::getPathFailsToReturnASoltuionWhenNoneExistsWithinTheCorridorBounds()
 {
-	HPAClusterAbstraction hpamap(new Map(acmap.c_str()), new ClusterAStarFactory(), new HPAClusterFactory(), 
+	HPAClusterAbstraction hpamap(new Map(acmap.c_str()), new HPAClusterFactory(), 
 		new ClusterNodeFactory(), new EdgeFactory(), TESTCLUSTERSIZE);
 	hpamap.buildClusters();
 	ClusterAStar castar;
@@ -166,7 +166,7 @@ void ClusterAStarTest::getPathFailsToReturnASoltuionWhenNoneExistsWithinTheCorri
 
 void ClusterAStarTest::getPathReturnsTheShortestPath()
 {
-	HPAClusterAbstraction hpamap(new Map(acmap.c_str()), new ClusterAStarFactory(), new HPAClusterFactory(), 
+	HPAClusterAbstraction hpamap(new Map(acmap.c_str()), new HPAClusterFactory(), 
 		new ClusterNodeFactory(), new EdgeFactory(), TESTCLUSTERSIZE);
 	hpamap.buildClusters();
 	ClusterAStar castar;
@@ -186,7 +186,7 @@ void ClusterAStarTest::getPathReturnsTheShortestPath()
 
 void ClusterAStarTest::logStatsShouldRecordAllMetricsToStatsCollection()
 {	
-	HPAClusterAbstraction hpamap(new Map(acmap.c_str()), new ClusterAStarFactory(), new HPAClusterFactory(), 
+	HPAClusterAbstraction hpamap(new Map(acmap.c_str()), new HPAClusterFactory(), 
 		new ClusterNodeFactory(), new EdgeFactory(), TESTCLUSTERSIZE);
 	hpamap.buildClusters();
 	ClusterAStar castar;
@@ -223,7 +223,7 @@ void ClusterAStarTest::logStatsShouldRecordAllMetricsToStatsCollection()
 
 void ClusterAStarTest::expandDoesNotReopenNodesOnTheClosedList()
 {
-	HPAClusterAbstraction hpamap(new Map(acmap.c_str()), new ClusterAStarFactory(), new HPAClusterFactory(), 
+	HPAClusterAbstraction hpamap(new Map(acmap.c_str()), new HPAClusterFactory(), 
 		new ClusterNodeFactory(), new EdgeFactory(), TESTCLUSTERSIZE);
 	ClusterAStar castar;
 	castar.setGraphAbstraction(&hpamap);
