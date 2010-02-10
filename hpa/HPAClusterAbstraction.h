@@ -34,7 +34,7 @@ class HPAClusterAbstraction : public mapAbstraction
 	#endif
 
 	public:
-		HPAClusterAbstraction(Map* m, IClusterAStarFactory* caf, IHPAClusterFactory* cf, INodeFactory* nf, IEdgeFactory* ef, unsigned int clustersize) throw(std::invalid_argument);
+		HPAClusterAbstraction(Map* m, IHPAClusterFactory* cf, INodeFactory* nf, IEdgeFactory* ef, unsigned int clustersize) throw(std::invalid_argument);
 		virtual ~HPAClusterAbstraction();
 		
 		virtual void buildEntrances();
@@ -95,7 +95,6 @@ class HPAClusterAbstraction : public mapAbstraction
 		IHPAClusterFactory* cf;
 		INodeFactory* nf;
 		IEdgeFactory* ef;
-		IClusterAStarFactory* caf;
 
 		HPAUtil::clusterTable clusters;
 		HPAUtil::pathTable pathCache;

@@ -39,7 +39,7 @@ void HPAClusterTest::tearDown()
 void HPAClusterTest::addParentThrowsExceptionGivenANULLNodeParameter()
 {
 	HPACluster cluster(0,0,5,5);
-	HPAClusterAbstraction hpamap(new Map(acmap.c_str()), new ClusterAStarFactory(), new HPAClusterFactory(), 
+	HPAClusterAbstraction hpamap(new Map(acmap.c_str()), new HPAClusterFactory(), 
 		new ClusterNodeFactory(), new EdgeFactory(), TESTCLUSTERSIZE);
 
 	cluster.addParent(NULL, &hpamap);
@@ -58,7 +58,7 @@ void HPAClusterTest::addParentThrowsExceptionGivenANodeParameterThatIsNotOfType_
 	HPACluster cluster(0,0,5,5);
 
 	node n("test");
-	HPAClusterAbstraction hpamap(new Map(acmap.c_str()), new ClusterAStarFactory(), new HPAClusterFactory(), 
+	HPAClusterAbstraction hpamap(new Map(acmap.c_str()), new HPAClusterFactory(), 
 		new ClusterNodeFactory(), new EdgeFactory(), TESTCLUSTERSIZE);
 
 	cluster.addParent(&n, &hpamap);
@@ -69,7 +69,7 @@ void HPAClusterTest::addParentThrowsExceptionGivenANodeParameterThatIsAlreadyAss
 	HPACluster cluster(0,0,5,5);
 
 	ClusterNode n("test");
-	HPAClusterAbstraction hpamap(new Map(acmap.c_str()), new ClusterAStarFactory(), new HPAClusterFactory(), 
+	HPAClusterAbstraction hpamap(new Map(acmap.c_str()), new HPAClusterFactory(), 
 		new ClusterNodeFactory(), new EdgeFactory(), TESTCLUSTERSIZE);
 
 	n.setParentClusterId(0);
@@ -82,7 +82,7 @@ void HPAClusterTest::addParentThrowsExceptionGivenANodeParameterThatHasNotBeenAd
 	HPACluster cluster(0,0,5,5);
 
 	ClusterNode n("test");
-	HPAClusterAbstraction hpamap(new Map(acmap.c_str()), new ClusterAStarFactory(), new HPAClusterFactory(), 
+	HPAClusterAbstraction hpamap(new Map(acmap.c_str()), new HPAClusterFactory(), 
 		new ClusterNodeFactory(), new EdgeFactory(), TESTCLUSTERSIZE);
 
 	int expectedClusterId = 0;
@@ -95,7 +95,7 @@ void HPAClusterTest::addParentUpdatesParentClusterIdOfNodeParameterToIdOfCluster
 	HPACluster cluster(0,0,5,5);
 
 	ClusterNode *n = new ClusterNode("test");
-	HPAClusterAbstraction hpamap(new Map(acmap.c_str()), new ClusterAStarFactory(), new HPAClusterFactory(), 
+	HPAClusterAbstraction hpamap(new Map(acmap.c_str()), new HPAClusterFactory(), 
 		new ClusterNodeFactory(), new EdgeFactory(), TESTCLUSTERSIZE);
 	hpamap.getAbstractGraph(1)->addNode(n);
 
@@ -111,7 +111,7 @@ void HPAClusterTest::addParentAddsNodeToParentsCollection()
 	HPACluster cluster(0,0,5,5);
 
 	ClusterNode *n = new ClusterNode("test");
-	HPAClusterAbstraction hpamap(new Map(acmap.c_str()), new ClusterAStarFactory(), new HPAClusterFactory(), 
+	HPAClusterAbstraction hpamap(new Map(acmap.c_str()), new HPAClusterFactory(), 
 		new ClusterNodeFactory(), new EdgeFactory(), TESTCLUSTERSIZE);
 	hpamap.getAbstractGraph(1)->addNode(n);
 
@@ -126,7 +126,7 @@ void HPAClusterTest::addParentShouldIgnoreNodesAlreadyInTheParentsCollection()
 	HPACluster cluster(0,0,5,5);
 
 	ClusterNode *n = new ClusterNode("test");
-	HPAClusterAbstraction hpamap(new Map(acmap.c_str()), new ClusterAStarFactory(), new HPAClusterFactory(), 
+	HPAClusterAbstraction hpamap(new Map(acmap.c_str()), new HPAClusterFactory(), 
 		new ClusterNodeFactory(), new EdgeFactory(), TESTCLUSTERSIZE);
 	
 	cluster.parents[n->getUniqueID()] = n;
@@ -139,7 +139,7 @@ void HPAClusterTest::addParentShouldIgnoreNodesAlreadyInTheParentsCollection()
 
 void HPAClusterTest::addParentShouldCreateEdgesToRepresentAllValidPathsBetweenNewNodeAndExistingClusterEndpoints()
 {
-	HPAClusterAbstraction *hpamap = new HPAClusterAbstraction(new Map(acmap.c_str()), new ClusterAStarFactory(), new HPAClusterFactory(), 
+	HPAClusterAbstraction *hpamap = new HPAClusterAbstraction(new Map(acmap.c_str()), new HPAClusterFactory(), 
 		new ClusterNodeFactory(), new EdgeFactory(), TESTCLUSTERSIZE);
 
 	int clusterId = 0;
@@ -246,7 +246,7 @@ void HPAClusterTest::addNodeShouldSetTheParameterNodeParentClusterIdEqualToTheCu
 
 void HPAClusterTest::addNodesToClusterShouldAssignAllNodesInAreaMarkedByHeightAndWidthDimensions()
 {
-	HPAClusterAbstraction *hpamap = new HPAClusterAbstraction(new Map(acmap.c_str()), new ClusterAStarFactory(), new HPAClusterFactory(), 
+	HPAClusterAbstraction *hpamap = new HPAClusterAbstraction(new Map(acmap.c_str()), new HPAClusterFactory(), 
 		new ClusterNodeFactory(), new EdgeFactory(), TESTCLUSTERSIZE);
 
 	int clusterId = 0;
@@ -310,7 +310,7 @@ void HPAClusterTest::constructorShouldThrowExceptionWhenAlgorithmParameterIsNULL
 
 void HPAClusterTest::buildVerticalEntrancesShouldCreateOneTransitionPointForAnEntranceOfLengthLessThan_MAX_SINGLE_TRANSITION_ENTRANCE_SIZE()
 {
-	HPAClusterAbstraction hpamap(new Map(hpaentrancetest.c_str()), new ClusterAStarFactory(), new HPAClusterFactory(), 
+	HPAClusterAbstraction hpamap(new Map(hpaentrancetest.c_str()), new HPAClusterFactory(), 
 		new ClusterNodeFactory(), new EdgeFactory(), MAX_SINGLE_TRANSITION_ENTRANCE_SIZE-1);
 	hpamap.buildClusters();
 
@@ -343,7 +343,7 @@ void HPAClusterTest::buildVerticalEntrancesShouldCreateOneTransitionPointForAnEn
 
 void HPAClusterTest::buildVerticalEntrancesShouldCreateTwoTransitionPointsForAnEntranceOfLengthGreaterThanOrEqualTo_MAX_SINGLE_TRANSITION_ENTRANCE_SIZE()
 {
-	HPAClusterAbstraction hpamap(new Map(hpaentrancetest.c_str()), new ClusterAStarFactory(), new HPAClusterFactory(), 
+	HPAClusterAbstraction hpamap(new Map(hpaentrancetest.c_str()), new HPAClusterFactory(), 
 		new ClusterNodeFactory(), new EdgeFactory(), MAX_SINGLE_TRANSITION_ENTRANCE_SIZE);
 	hpamap.buildClusters();
 
@@ -387,7 +387,7 @@ void HPAClusterTest::buildVerticalEntrancesShouldCreateTwoTransitionPointsForAnE
 
 void HPAClusterTest::buildVerticalEntrancesShouldCreateAnEntranceOnEachSideOfAnObstacleAlongTheEntranceArea()
 {
-	HPAClusterAbstraction hpamap(new Map(hpaentrancetest.c_str()), new ClusterAStarFactory(), new HPAClusterFactory(), 
+	HPAClusterAbstraction hpamap(new Map(hpaentrancetest.c_str()), new HPAClusterFactory(), 
 		new ClusterNodeFactory(), new EdgeFactory(), TESTCLUSTERSIZE);
 	hpamap.buildClusters();
 
@@ -434,7 +434,7 @@ void HPAClusterTest::buildVerticalEntrancesShouldCreateAnEntranceOnEachSideOfAnO
 
 void HPAClusterTest::buildHorizontalEntrancesShouldCreateOneTransitionPointForAnEntranceOfLengthLessThan_MAX_SINGLE_TRANSITION_ENTRANCE_SIZE()
 {
-	HPAClusterAbstraction hpamap(new Map(hpaentrancetest.c_str()), new ClusterAStarFactory(), new HPAClusterFactory(), 
+	HPAClusterAbstraction hpamap(new Map(hpaentrancetest.c_str()), new HPAClusterFactory(), 
 		new ClusterNodeFactory(), new EdgeFactory(), MAX_SINGLE_TRANSITION_ENTRANCE_SIZE-1);
 	hpamap.buildClusters();
 
@@ -467,7 +467,7 @@ void HPAClusterTest::buildHorizontalEntrancesShouldCreateOneTransitionPointForAn
 
 void HPAClusterTest::buildHorizontalEntrancesShouldCreateTwoTransitionPointsForAnEntranceOfLengthGreaterThanOrEqualTo_MAX_SINGLE_TRANSITION_ENTRANCE_SIZE()
 {
-	HPAClusterAbstraction hpamap(new Map(hpaentrancetest.c_str()), new ClusterAStarFactory(), new HPAClusterFactory(), 
+	HPAClusterAbstraction hpamap(new Map(hpaentrancetest.c_str()), new HPAClusterFactory(), 
 		new ClusterNodeFactory(), new EdgeFactory(), MAX_SINGLE_TRANSITION_ENTRANCE_SIZE);
 	hpamap.buildClusters();
 
@@ -511,7 +511,7 @@ void HPAClusterTest::buildHorizontalEntrancesShouldCreateTwoTransitionPointsForA
 
 void HPAClusterTest::buildHorizontalEntrancesShouldCreateAnEntranceOnEachSideOfAnObstacleAlongTheEntranceArea()
 {
-	HPAClusterAbstraction hpamap(new Map(hpaentrancetest.c_str()), new ClusterAStarFactory(), new HPAClusterFactory(), 
+	HPAClusterAbstraction hpamap(new Map(hpaentrancetest.c_str()), new HPAClusterFactory(), 
 		new ClusterNodeFactory(), new EdgeFactory(), TESTCLUSTERSIZE);
 	hpamap.buildClusters();
 
@@ -564,7 +564,7 @@ void HPAClusterTest::buildEntrancesShouldThrowExceptionGivenA_NULL_ACAParameter(
 
 void HPAClusterTest::builEntrancesShouldCreateCorrectNumberOfVerticalAndHorizontalTransitionsToOtherClusters()
 {
-	HPAClusterAbstraction hpamap(new Map(hpaentrancetest.c_str()), new ClusterAStarFactory(), new HPAClusterFactory(), 
+	HPAClusterAbstraction hpamap(new Map(hpaentrancetest.c_str()), new HPAClusterFactory(), 
 		new ClusterNodeFactory(), new EdgeFactory(), TESTCLUSTERSIZE);
 	hpamap.buildClusters();
 	

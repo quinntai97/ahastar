@@ -31,7 +31,6 @@ void HPAClusterAbstractionTest::setUp()
 	this->nf = new ClusterNodeFactory();
 	this->ef = new EdgeFactory();
 	this->cf = new HPAClusterFactory();
-	this->caf = new ClusterAStarFactory();
 }
 
 void HPAClusterAbstractionTest::tearDown()
@@ -40,7 +39,7 @@ void HPAClusterAbstractionTest::tearDown()
 
 void HPAClusterAbstractionTest::buildClustersShouldSplitTheMapAreaIntoCorrectNumberOfClusters()
 {		
-	HPAClusterAbstraction hpacaMap(new Map(emptymap.c_str()), caf, cf, nf, ef, TESTCLUSTERSIZE);
+	HPAClusterAbstraction hpacaMap(new Map(emptymap.c_str()), cf, nf, ef, TESTCLUSTERSIZE);
 	int totalExpectedClusters = 4;
 
 	/* check for the correct # of clusters */
@@ -50,7 +49,7 @@ void HPAClusterAbstractionTest::buildClustersShouldSplitTheMapAreaIntoCorrectNum
 
 void HPAClusterAbstractionTest::buildClustersShouldCalculateCorrectClusterSize()
 {
-	HPAClusterAbstraction hpacaMap(new Map(acmap.c_str()), caf, cf, nf, ef, TESTCLUSTERSIZE);
+	HPAClusterAbstraction hpacaMap(new Map(acmap.c_str()),  cf, nf, ef, TESTCLUSTERSIZE);
 
 	int clusterWidths[4] = {5,5,4,4};
 	int clusterHeights[4] = {5,1,5,1};
@@ -67,13 +66,13 @@ void HPAClusterAbstractionTest::buildClustersShouldCalculateCorrectClusterSize()
 
 void HPAClusterAbstractionTest::getClusterSizeShouldReturnSameValueAsConstructorParameter()
 {
-	HPAClusterAbstraction hpacaMap(new Map(acmap.c_str()), caf, cf, nf, ef, TESTCLUSTERSIZE);
+	HPAClusterAbstraction hpacaMap(new Map(acmap.c_str()),  cf, nf, ef, TESTCLUSTERSIZE);
 	CPPUNIT_ASSERT_EQUAL(TESTCLUSTERSIZE, hpacaMap.getClusterSize());
 }
 
 void HPAClusterAbstractionTest::constructorShouldCreateANewGraphObject()
 {	
-	HPAClusterAbstraction hpacaMap(new Map(acmap.c_str()), caf, cf, nf, ef, TESTCLUSTERSIZE);
+	HPAClusterAbstraction hpacaMap(new Map(acmap.c_str()),  cf, nf, ef, TESTCLUSTERSIZE);
 	int numGraphsExpected = 2;	
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("actual graph count does not match expected count", numGraphsExpected, hpacaMap.getNumberOfAbstractionLevels());
 }
@@ -81,13 +80,13 @@ void HPAClusterAbstractionTest::constructorShouldCreateANewGraphObject()
 void HPAClusterAbstractionTest::constructorThrowsExceptionGivenAnIncompatibleNodeFactoryParameter()
 {
 	NodeFactory *_nf = new NodeFactory();
-	HPAClusterAbstraction hpacaMap(new Map(acmap.c_str()), this->caf, cf, _nf, ef, TESTCLUSTERSIZE);
+	HPAClusterAbstraction hpacaMap(new Map(acmap.c_str()), this-> cf, _nf, ef, TESTCLUSTERSIZE);
 }
 
 
 void HPAClusterAbstractionTest::getClusterShouldReturnZeroWhenIdParameterIsLessThanZero()
 {
-	HPAClusterAbstraction hpacaMap(new Map(acmap.c_str()), caf, cf, nf, ef, TESTCLUSTERSIZE);
+	HPAClusterAbstraction hpacaMap(new Map(acmap.c_str()),  cf, nf, ef, TESTCLUSTERSIZE);
 	int expectedValue = 0;
 	int clusterid=-1;
 	HPACluster* result = hpacaMap.getCluster(clusterid);
@@ -96,7 +95,7 @@ void HPAClusterAbstractionTest::getClusterShouldReturnZeroWhenIdParameterIsLessT
 
 void HPAClusterAbstractionTest::getClusterShouldReturnZeroWhenIdParameterIsGreaterThanNumberOfClusters()
 {
-	HPAClusterAbstraction hpacaMap(new Map(acmap.c_str()), caf, cf, nf, ef, TESTCLUSTERSIZE);
+	HPAClusterAbstraction hpacaMap(new Map(acmap.c_str()),  cf, nf, ef, TESTCLUSTERSIZE);
 	int expectedValue = 0;
 	int clusterid=hpacaMap.getNumClusters()+1;
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("Non-zero return value when clusterid >= numclusters", expectedValue, (int)hpacaMap.getCluster(clusterid));
@@ -104,7 +103,7 @@ void HPAClusterAbstractionTest::getClusterShouldReturnZeroWhenIdParameterIsGreat
 
 void HPAClusterAbstractionTest::getClusterShouldReturnRequestedClusterGivenAValidClusterId()
 {
-	HPAClusterAbstraction hpacaMap(new Map(acmap.c_str()), caf, cf, nf, ef, TESTCLUSTERSIZE);
+	HPAClusterAbstraction hpacaMap(new Map(acmap.c_str()),  cf, nf, ef, TESTCLUSTERSIZE);
 	HPACluster *cluster = new HPACluster(0,0,5,5);
 	int clusterId = 0;
 	cluster->setClusterId(clusterId);
@@ -117,7 +116,7 @@ void HPAClusterAbstractionTest::getClusterShouldReturnRequestedClusterGivenAVali
 
 void HPAClusterAbstractionTest::addPathToCacheShouldStoreAPathGivenAnEdge()
 {
-	HPAClusterAbstraction hpacaMap(new Map(acmap.c_str()), caf, cf, nf, ef, TESTCLUSTERSIZE);
+	HPAClusterAbstraction hpacaMap(new Map(acmap.c_str()),  cf, nf, ef, TESTCLUSTERSIZE);
 	graph* g = new graph();
 	node* n1 = nf->newNode("");
 	node* n2 = nf->newNode("");
@@ -137,7 +136,7 @@ void HPAClusterAbstractionTest::addPathToCacheShouldStoreAPathGivenAnEdge()
 
 void HPAClusterAbstractionTest::addPathToCacheShouldDoNothingIfEdgeOrPathParametersAreNull()
 {
-	HPAClusterAbstraction hpacaMap(new Map(acmap.c_str()), caf, cf, nf, ef, TESTCLUSTERSIZE);
+	HPAClusterAbstraction hpacaMap(new Map(acmap.c_str()),  cf, nf, ef, TESTCLUSTERSIZE);
 	path* p = new path(NULL, NULL);
 	edge* e = new edge(0, 1, 1);
 	
@@ -153,7 +152,7 @@ void HPAClusterAbstractionTest::addPathToCacheShouldDoNothingIfEdgeOrPathParamet
 
 void HPAClusterAbstractionTest::getPathFromCacheShouldReturnAPathGivenAValidEdge()
 {
-	HPAClusterAbstraction hpacaMap(new Map(acmap.c_str()), caf, cf, nf, ef, TESTCLUSTERSIZE);
+	HPAClusterAbstraction hpacaMap(new Map(acmap.c_str()),  cf, nf, ef, TESTCLUSTERSIZE);
 	node* n = nf->newNode("");
 	path* p = new path(n, NULL);
 	edge* e = new edge(0,1,1);
@@ -169,7 +168,7 @@ void HPAClusterAbstractionTest::getPathFromCacheShouldReturnAPathGivenAValidEdge
 
 void HPAClusterAbstractionTest::getPathFromCacheShouldReturnZeroGivenAnInvalidEdge()
 {
-	HPAClusterAbstraction hpacaMap(new Map(acmap.c_str()), caf, cf, nf, ef, TESTCLUSTERSIZE);
+	HPAClusterAbstraction hpacaMap(new Map(acmap.c_str()),  cf, nf, ef, TESTCLUSTERSIZE);
 	
 	node* n = nf->newNode("");
 	path* p = new path(n, NULL);
@@ -186,7 +185,7 @@ void HPAClusterAbstractionTest::getPathFromCacheShouldReturnZeroGivenAnInvalidEd
 
 void HPAClusterAbstractionTest::getPathFromCacheShouldReturnZeroGivenAnEdgeThatHasNoCorrespondingPathInCache()
 {
-	HPAClusterAbstraction hpacaMap(new Map(acmap.c_str()), caf, cf, nf, ef, TESTCLUSTERSIZE);
+	HPAClusterAbstraction hpacaMap(new Map(acmap.c_str()),  cf, nf, ef, TESTCLUSTERSIZE);
 
 	node* n = nf->newNode("");
 	path* p = new path(n, NULL);
@@ -211,7 +210,7 @@ void HPAClusterAbstractionTest::getPathFromCacheShouldReturnZeroGivenAnEdgeThatH
 void HPAClusterAbstractionTest::removeStartAndGoalNodesFromAbstractGraphShouldDeleteAllNodesAndEdgesAddedByInsertionMethodFromAbstractGraph()
 {
 	/* setup test data */
-	HPAClusterAbstraction hpacaMap(new Map(acmap.c_str()), caf, cf, nf, ef, TESTCLUSTERSIZE);
+	HPAClusterAbstraction hpacaMap(new Map(acmap.c_str()),  cf, nf, ef, TESTCLUSTERSIZE);
 	
 	/* add two clusters to store the start and goal */
 	HPAClusterMock* startCluster = new HPAClusterMock(0,0,5,5);
@@ -287,7 +286,7 @@ void HPAClusterAbstractionTest::removeStartAndGoalNodesFromAbstractGraphShouldDe
 
 void HPAClusterAbstractionTest::insertStartAndGoalIntoAbstractGraphShouldThrowExceptionGivenANullStartParameter() throw(std::invalid_argument)
 {
-	HPAClusterAbstraction hpacaMap(new Map(acmap.c_str()), caf, cf, nf, ef, TESTCLUSTERSIZE);
+	HPAClusterAbstraction hpacaMap(new Map(acmap.c_str()),  cf, nf, ef, TESTCLUSTERSIZE);
 	node* start = NULL;
 	node* goal = hpacaMap.getNodeFromMap(5,3);	
 	hpacaMap.insertStartAndGoalNodesIntoAbstractGraph(start, goal);	
@@ -295,7 +294,7 @@ void HPAClusterAbstractionTest::insertStartAndGoalIntoAbstractGraphShouldThrowEx
 
 void HPAClusterAbstractionTest::insertStartAndGoalIntoAbstractGraphShouldThrowExceptionGivenANullGoalParameter() throw(std::invalid_argument)
 {
-	HPAClusterAbstraction hpacaMap(new Map(acmap.c_str()), caf, cf, nf, ef, TESTCLUSTERSIZE);
+	HPAClusterAbstraction hpacaMap(new Map(acmap.c_str()),  cf, nf, ef, TESTCLUSTERSIZE);
 	node* goal = NULL;
 	node* start = hpacaMap.getNodeFromMap(5,3);	
 	hpacaMap.insertStartAndGoalNodesIntoAbstractGraph(start, goal);	
@@ -304,7 +303,7 @@ void HPAClusterAbstractionTest::insertStartAndGoalIntoAbstractGraphShouldThrowEx
 
 void HPAClusterAbstractionTest::insertStartAndGoalIntoAbstractGraphShouldThrowExceptionGivenAnAbstractStartParameter() throw(std::invalid_argument)
 {
-	HPAClusterAbstraction hpacaMap(new Map(acmap.c_str()), caf, cf, nf, ef, TESTCLUSTERSIZE);
+	HPAClusterAbstraction hpacaMap(new Map(acmap.c_str()),  cf, nf, ef, TESTCLUSTERSIZE);
 	node* start = hpacaMap.getNodeFromMap(2,1);
 	node* goal = hpacaMap.getNodeFromMap(5,3);
 	start->setLabelL(kAbstractionLevel, 1);
@@ -314,7 +313,7 @@ void HPAClusterAbstractionTest::insertStartAndGoalIntoAbstractGraphShouldThrowEx
 
 void HPAClusterAbstractionTest::insertStartAndGoalIntoAbstractGraphShouldThrowExceptionGivenAnAbstractGoalParameter() throw(std::invalid_argument)
 {
-	HPAClusterAbstraction hpacaMap(new Map(acmap.c_str()), caf, cf, nf, ef, TESTCLUSTERSIZE);
+	HPAClusterAbstraction hpacaMap(new Map(acmap.c_str()),  cf, nf, ef, TESTCLUSTERSIZE);
 	node* start = hpacaMap.getNodeFromMap(2,1);
 	node* goal = hpacaMap.getNodeFromMap(5,3);
 	goal->setLabelL(kAbstractionLevel, 1);
@@ -325,7 +324,7 @@ void HPAClusterAbstractionTest::insertStartAndGoalIntoAbstractGraphShouldThrowEx
 /* integration test; TODO: add proper support for mock clusters here */
 void HPAClusterAbstractionTest::insertStartAndGoalNodesIntoAbstractGraphShouldAddTwoNewNodesIntoTheAbstractGraphAndParentClusters()
 {
-	HPAClusterAbstraction hpacaMap(new Map(acmap.c_str()), caf, cf, nf, ef, TESTCLUSTERSIZE);
+	HPAClusterAbstraction hpacaMap(new Map(acmap.c_str()),  cf, nf, ef, TESTCLUSTERSIZE);
 
 	/* create the parent clusters for the start & goal nodes */
 	int startClusterId = 0;
@@ -389,7 +388,7 @@ void HPAClusterAbstractionTest::insertStartAndGoalNodesIntoAbstractGraphShouldAd
 
 void HPAClusterAbstractionTest::insertStartAndGoalNodesIntoAbstractGraphShouldNotCreateNewAbstractNodesIfASuitableNodeAlreadyExistsInTheAbstractGraph()
 {
-	HPAClusterAbstraction hpacaMap(new Map(acmap.c_str()), caf, cf, nf, ef, TESTCLUSTERSIZE);
+	HPAClusterAbstraction hpacaMap(new Map(acmap.c_str()),  cf, nf, ef, TESTCLUSTERSIZE);
 
 	// create the parent clusters for the start & goal nodes 
 	int startClusterId = 0;
@@ -438,7 +437,7 @@ void HPAClusterAbstractionTest::insertStartAndGoalNodesIntoAbstractGraphShouldNo
 
 void HPAClusterAbstractionTest::buildEntrancesCallsBuildEntranceMethodOnEachCluster()
 {
-	HPAClusterAbstraction hpacaMap(new Map(hpaentrancetest.c_str()), caf, cf, nf, ef, TESTCLUSTERSIZE);
+	HPAClusterAbstraction hpacaMap(new Map(hpaentrancetest.c_str()),  cf, nf, ef, TESTCLUSTERSIZE);
 
 	int c1Id = 0;
 	int c2Id = 1;
