@@ -43,7 +43,7 @@ class EmptyClusterAbstraction : public HPAClusterAbstraction
 		removeStartAndGoalNodesFromAbstractGraph() 
 			throw(std::runtime_error);
 
-}
+};
 
 #endif
 

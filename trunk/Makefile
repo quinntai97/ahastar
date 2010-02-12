@@ -1,4 +1,4 @@
-VPATH = tests/util/:tests/hpa/:tests/aha/:hpa/:aha/:abstraction/:driver/:shared/:simulation/:util/:objs/:apps/libs:bin/
+VPATH = tests/util/:tests/hpa/:tests/aha/:opthpa/:hpa/:aha/:abstraction/:driver/:shared/:simulation/:util/:objs/:apps/libs:bin/
 
 UTILTESTS_SRC = $(notdir $(wildcard tests/util/*.cpp))
 UTILTESTS_OBJ = $(UTILTESTSTESTS_SRC:.cpp=.o)
@@ -14,6 +14,9 @@ HPASTAR_OBJ = $(HPASTAR_SRC:.cpp=.o)
 
 AHASTAR_SRC = $(notdir $(wildcard aha/*.cpp))
 AHASTAR_OBJ = $(AHASTAR_SRC:.cpp=.o)
+
+OPTHPASTAR_SRC = $(notdir $(wildcard opthpa/*.cpp))
+OPTHPASTAR_OBJ = $(OPTHPASTAR_SRC:.cpp=.o)
 
 ABSTRACTION_SRC = $(notdir $(wildcard abstraction/*.cpp))
 ABSTRACTION_OBJ = $(ABSTRACTION_SRC:.cpp=.o)
@@ -35,7 +38,7 @@ TARGETS = $(filter-out %~ CVS Makefile %.mk tests tests.mk libs,$(notdir $(wildc
 
 .PHONY : $(addprefix lib, $(addsuffix .a, $(TARGETS)))
 
-CFLAGS = -Wall -O3 -g -I./tests/util -I./tests/aha -I./tests/hpa -I./hpa -I./aha -I./abstraction -I./driver -I./shared -I./simulation -I./util
+CFLAGS = -Wall -O3 -g -I./tests/util -I./tests/aha -I./tests/hpa -I./hpa -I./aha -I./opthpa -I./abstraction -I./driver -I./shared -I./simulation -I./util
 
 CC = c++
 #CC = goannac++
@@ -76,8 +79,8 @@ ifeq ("$(CPU)", "G5")
 endif
 
 
-tests : libtests.a $(UTIL_OBJ) $(SIMULATION_OBJ) $(ABSTRACTION_OBJ) $(SHARED_OBJ) $(AHASTAR_OBJ) $(HPASTAR_OBJ) $(UTILTESTS_OBJ) $(HPASTARTESTS_OBJ) $(AHASTARTESTS_OBJ)  
-	$(CC)	$(CFLAGS) $(LIBFLAGS) ${TESTLIBFLAGS} -o $(addprefix bin/,$(@)) \
+#tests : libtests.a $(UTIL_OBJ) $(SIMULATION_OBJ) $(ABSTRACTION_OBJ) $(SHARED_OBJ) $(AHASTAR_OBJ) $(HPASTAR_OBJ) $(UTILTESTS_OBJ) $(HPASTARTESTS_OBJ) $(AHASTARTESTS_OBJ)  
+#	$(CC)	$(CFLAGS) $(LIBFLAGS) ${TESTLIBFLAGS} -o $(addprefix bin/,$(@)) \
 		$(addprefix objs/,$(UTIL_OBJ)) \
 		$(addprefix objs/,$(SIMULATION_OBJ)) \
 		$(addprefix objs/,$(ABSTRACTION_OBJ)) \
@@ -88,12 +91,13 @@ tests : libtests.a $(UTIL_OBJ) $(SIMULATION_OBJ) $(ABSTRACTION_OBJ) $(SHARED_OBJ
 		$(addprefix objs/,$(HPASTARTESTS_OBJ)) \
 		$(addprefix objs/,$(UTILTESTS_OBJ)) \
 		-l$(@)
-libtests.a :
-	@cd apps; $(MAKE); $(MAKE) -f tests.mk clean; $(MAKE) -f tests.mk OPENGL=$(OPENGL) $(@); cd ..
+#libtests.a :
+#	@cd apps; $(MAKE); $(MAKE) -f tests.mk clean; $(MAKE) -f tests.mk OPENGL=$(OPENGL) $(@); cd ..
 
-all : $(TARGETS) tests
+all : $(TARGETS) 
+	#tests
 
-$(TARGETS) : % : lib%.a $(DRIVER_OBJ) $(UTIL_OBJ) $(SIMULATION_OBJ) $(ABSTRACTION_OBJ) $(SHARED_OBJ) $(AHASTAR_OBJ)
+$(TARGETS) : % : lib%.a $(DRIVER_OBJ) $(UTIL_OBJ) $(SIMULATION_OBJ) $(ABSTRACTION_OBJ) $(SHARED_OBJ) $(AHASTAR_OBJ) $(HPASTAR_OBJ) $(OPTHPASTAR_OBJ)
 
 	$(CC)	$(CFLAGS) $(LIBFLAGS) -o $(addprefix bin/,$(@)) \
 		$(addprefix objs/,$(UTIL_OBJ)) \
@@ -101,11 +105,13 @@ $(TARGETS) : % : lib%.a $(DRIVER_OBJ) $(UTIL_OBJ) $(SIMULATION_OBJ) $(ABSTRACTIO
 		$(addprefix objs/,$(ABSTRACTION_OBJ)) \
 		$(addprefix objs/,$(SHARED_OBJ)) \
 		$(addprefix objs/,$(AHASTAR_OBJ)) \
+		$(addprefix objs/,$(HPASTAR_OBJ)) \
+		$(addprefix objs/,$(OPTHPASTAR_OBJ)) \
 		$(addprefix objs/,$(DRIVER_OBJ)) \
 		-l$(@)
 
-$(addprefix lib, $(addsuffix .a, $(TARGETS))) :
-	@cd apps; $(MAKE); $(MAKE) -f $(patsubst lib%,%.mk,$(basename $(@))) OPENGL=$(OPENGL) $(@); cd ..
+#$(addprefix lib, $(addsuffix .a, $(TARGETS))) :
+#	@cd apps; $(MAKE); $(MAKE) -f $(patsubst lib%,%.mk,$(basename $(@))) OPENGL=$(OPENGL) $(@); cd ..
 
 $(UTIL_OBJ) : %.o : %.cpp $(UTIL_SRC:.cpp=.h)
 	$(CC) $(CFLAGS) -c -o $(addprefix objs/,$(@)) \
@@ -130,6 +136,10 @@ $(AHASTAR_OBJ) : %.o : %.cpp $(AHASTAR_SRC:.cpp=.h) $(UTIL_SRC:.cpp=.h) $(SIMULA
 $(HPASTAR_OBJ) : %.o : %.cpp $(HPASTAR_SRC:.cpp=.h) $(UTIL_SRC:.cpp=.h) $(SIMULATION_SRC:.cpp=.h) $(SHARED_SRC:.cpp=.h) $(ABSTRACTION_SRC:.cpp=.h)
 	$(CC) $(CFLAGS) -c -o $(addprefix objs/,$(@)) \
 		$(addprefix hpa/,$(notdir $(@:.o=.cpp)))
+
+$(OPTHPASTAR_OBJ) : %.o : %.cpp $(OPTHPASTAR_SRC:.cpp=.h) $(HPASTAR_SRC:.cpp=.h) $(ABSTRACTION:.cpp=.h) $(UTIL_SRC:.cpp=.h) $(SIMULATION_SRC:.cpp=.h) $(SHARED_SRC:.cpp=.h) 
+	$(CC) $(CFLAGS) -c -o $(addprefix objs/,$(@)) \
+		$(addprefix opthpa/,$(notdir $(@:.o=.cpp)))
 
 $(HPASTARTESTS_OBJ) : %.o : %.cpp $(HPASTARTESTS_SRC:.cpp=.h) $(HPASTAR_SRC:.cpp=.h) $(UTIL_SRC:.cpp=.h) $(SIMULATION_SRC:.cpp=.h) $(SHARED_SRC:.cpp=.h) $(ABSTRACTION_SRC:.cpp=.h)
 	$(CC) $(CFLAGS) -c -o $(addprefix objs/,$(@)) \
