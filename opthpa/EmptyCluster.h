@@ -1,6 +1,14 @@
 #ifndef EMPTYCLUSTER_H
 #define EMPTYCLUSTER_H
 
+#ifdef OS_MAC
+	#include "GLUT/glut.h"
+	#include <OpenGL/gl.h>
+#else
+	#include <GL/glut.h>
+	#include <GL/gl.h>
+#endif
+
 #include "HPACluster.h"
 
 class HPAClusterAbstraction;
@@ -11,10 +19,18 @@ class EmptyCluster : public HPACluster
 		EmptyCluster(const int x, const int y) throw(std::invalid_argument);
 		virtual ~EmptyCluster();
 
-		virtual addNodesToCluster(HPAClusterAbstraction* hpamap);
+		virtual void 
+			addNodesToCluster(HPAClusterAbstraction*) throw(std::invalid_argument);
+		virtual void openGLDraw();
 
 	protected:
-		virtual void extend();
+		virtual void extend(HPAClusterAbstraction*);
+
+	private:
+		void initOpenGLCoordinates(HPAClusterAbstraction*);
+
+		GLdouble glx, gly, glz;  // OpenGL origin coordinates
+		GLdouble glHeight, glWidth;
 };
 
 #endif

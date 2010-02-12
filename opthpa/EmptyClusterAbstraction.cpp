@@ -1,4 +1,7 @@
 #include "EmptyClusterAbstraction.h"
+
+#include "ClusterNode.h"
+#include "EmptyCluster.h"
 #include "IEdgeFactory.h"
 #include "IHPAClusterFactory.h"
 #include "INodeFactory.h"
@@ -26,12 +29,12 @@ void EmptyClusterAbstraction::buildClusters()
 	for(int x=0; x<mapwidth; x++)
 		for(int y=0; y<mapheight; y++)
 		{
-			node* cur = this->getNodeFromMap(x, y);
+			ClusterNode* cur = dynamic_cast<ClusterNode*>(this->getNodeFromMap(x, y));
+			assert(cur != 0);
 			if(cur->getParentClusterId() == -1)
 			{
 				EmptyCluster* cluster = new EmptyCluster(x, y);	
 				addCluster(cluster);
-				cluster->extend();
 			}	
 		}
 }
