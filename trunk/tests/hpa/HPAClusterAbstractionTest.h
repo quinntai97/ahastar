@@ -24,12 +24,12 @@ class HPAClusterAbstractionTest : public CPPUNIT_NS::TestFixture
 {
 	CPPUNIT_TEST_SUITE( HPAClusterAbstractionTest );
 	CPPUNIT_TEST( constructorShouldCreateANewGraphObject );
+	CPPUNIT_TEST( constructorShouldSetDefaultClusterSizeTo10 );
 	CPPUNIT_TEST_EXCEPTION( constructorThrowsExceptionGivenAnIncompatibleNodeFactoryParameter, std::invalid_argument );
 	
 	CPPUNIT_TEST( buildClustersShouldSplitTheMapAreaIntoCorrectNumberOfClusters );
 	CPPUNIT_TEST( buildClustersShouldCalculateCorrectClusterSize );
 	
-	CPPUNIT_TEST( getClusterSizeShouldReturnSameValueAsConstructorParameter );
 	CPPUNIT_TEST( getClusterShouldReturnZeroWhenIdParameterIsLessThanZero );
 	CPPUNIT_TEST( getClusterShouldReturnZeroWhenIdParameterIsGreaterThanNumberOfClusters );
 	CPPUNIT_TEST( getClusterShouldReturnRequestedClusterGivenAValidClusterId );
@@ -63,6 +63,7 @@ class HPAClusterAbstractionTest : public CPPUNIT_NS::TestFixture
 		void tearDown();
 		
 		void constructorShouldCreateANewGraphObject();
+		void constructorShouldSetDefaultClusterSizeTo10();
 		void constructorThrowsExceptionGivenAnIncompatibleNodeFactoryParameter();
 		
 		void buildClustersShouldSplitTheMapAreaIntoCorrectNumberOfClusters();

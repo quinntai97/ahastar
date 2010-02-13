@@ -43,7 +43,9 @@ ClusterNode* HPAStar2Test::getNode(int x, int y, HPAClusterAbstraction& hpamap)
 void HPAStar2Test::getPathReturnNullWhenStartOrGoalNull()
 {	
 	HPAClusterAbstraction hpamap(new Map(maplocation.c_str()), new HPAClusterFactory(), 
-		new ClusterNodeFactory(), new EdgeFactory(), TESTCLUSTERSIZE);
+		new ClusterNodeFactory(), new EdgeFactory());
+	hpamap.setClusterSize(TESTCLUSTERSIZE);
+
 	HPAStar2 hpastar;
 	hpastar.setGraphAbstraction(&hpamap);
 		
@@ -59,7 +61,9 @@ void HPAStar2Test::getPathReturnNullWhenStartOrGoalNull()
 void HPAStar2Test::getPathReturnNullWhenStartAndGoalSameLocation()
 {
 	HPAClusterAbstraction hpamap(new Map(maplocation.c_str()), new HPAClusterFactory(), 
-		new ClusterNodeFactory(), new EdgeFactory(), TESTCLUSTERSIZE);
+		new ClusterNodeFactory(), new EdgeFactory());
+	hpamap.setClusterSize(TESTCLUSTERSIZE);
+
 	HPAStar2 hpastar;
 	hpastar.setGraphAbstraction(&hpamap);
 		
@@ -75,7 +79,9 @@ void HPAStar2Test::getPathReturnNullWhenStartAndGoalNodesIdentical()
 {
 	string errmsg("getPath() failed to return null when start and goal nodes are identical");
 	HPAClusterAbstraction hpamap(new Map(maplocation.c_str()), new HPAClusterFactory(), 
-		new ClusterNodeFactory(), new EdgeFactory(), TESTCLUSTERSIZE);
+		new ClusterNodeFactory(), new EdgeFactory());
+	hpamap.setClusterSize(TESTCLUSTERSIZE);
+
 	HPAStar2 hpastar;
 	hpastar.setGraphAbstraction(&hpamap);
 		
@@ -99,7 +105,9 @@ void HPAStar2Test::getPathReturnNullWhenMapAbstractionParameterNull()
 void HPAStar2Test::getPathReturnNullWhenStartOrGoalHave_kAbstractionLevel_GreaterThanZero()
 {
 	HPAClusterAbstraction hpamap(new Map(hpaentrancetest.c_str()), new HPAClusterFactory(), 
-		new ClusterNodeFactory(), new EdgeFactory(), TESTCLUSTERSIZE);
+		new ClusterNodeFactory(), new EdgeFactory());
+	hpamap.setClusterSize(TESTCLUSTERSIZE);
+
 	HPAStar2 hpastar;
 		
 	ClusterNode* n1 = getNode(0,0,hpamap);
@@ -113,7 +121,9 @@ void HPAStar2Test::getPathReturnNullWhenStartOrGoalHave_kAbstractionLevel_Greate
 void HPAStar2Test::getPathShouldReturnTheShortestPathBetweenTwoLowLevelNodes()
 {
 	HPAClusterAbstraction hpamap(new Map(hpastartest.c_str()), new HPAClusterFactory(), 
-		new ClusterNodeFactory(), new EdgeFactory(), TESTCLUSTERSIZE);
+		new ClusterNodeFactory(), new EdgeFactory());
+	hpamap.setClusterSize(TESTCLUSTERSIZE);
+
 
 	hpamap.buildClusters();
 	hpamap.buildEntrances();
@@ -163,7 +173,9 @@ void HPAStar2Test::getPathShouldReturnTheShortestPathBetweenTwoLowLevelNodes()
 void HPAStar2Test::getPathShouldRemoveAllInsertedNodesAndEdgesFromTheAbstractPathAndPathCacheIfTheSearchFailsToFindASolution()
 {
 	HPAClusterAbstraction hpamap(new Map(hpastartest.c_str()), new HPAClusterFactory(), 
-		new ClusterNodeFactory(), new EdgeFactory(), TESTCLUSTERSIZE);
+		new ClusterNodeFactory(), new EdgeFactory());
+	hpamap.setClusterSize(TESTCLUSTERSIZE);
+
 
 	hpamap.buildClusters();
 	hpamap.buildEntrances();
@@ -189,7 +201,9 @@ void HPAStar2Test::getPathShouldRemoveAllInsertedNodesAndEdgesFromTheAbstractPat
 void HPAStar2Test::getPathShouldFindASolutionWithoutInsertingIntoTheAbstractGraphIfBothStartAndGoalAreInTheSameCluster()
 {
 	HPAClusterAbstraction hpamap(new Map(hpastartest.c_str()), new HPAClusterFactory(), 
-		new ClusterNodeFactory(), new EdgeFactory(), TESTCLUSTERSIZE);
+		new ClusterNodeFactory(), new EdgeFactory());
+	hpamap.setClusterSize(TESTCLUSTERSIZE);
+
 
 	hpamap.buildClusters();
 	hpamap.buildEntrances();
@@ -210,7 +224,9 @@ void HPAStar2Test::getPathShouldFindASolutionWithoutInsertingIntoTheAbstractGrap
 void HPAStar2Test::getPathShouldAddInsertionEffortToPerformanceMetrics()
 {
 	HPAClusterAbstraction hpamap(new Map(hpastartest.c_str()), new HPAClusterFactory(), 
-		new ClusterNodeFactory(), new EdgeFactory(), TESTCLUSTERSIZE);
+		new ClusterNodeFactory(), new EdgeFactory());
+	hpamap.setClusterSize(TESTCLUSTERSIZE);
+
 
 	hpamap.buildClusters();
 	hpamap.buildEntrances();
@@ -263,7 +279,9 @@ void HPAStar2Test::logStatsShouldRecordAllMetricsToStatsCollection()
 {
 	statCollection sc;
 	HPAClusterAbstraction hpamap(new Map(hpastartest.c_str()), new HPAClusterFactory(), 
-		new ClusterNodeFactory(), new EdgeFactory(), TESTCLUSTERSIZE);
+		new ClusterNodeFactory(), new EdgeFactory());
+	hpamap.setClusterSize(TESTCLUSTERSIZE);
+
 
 	hpamap.buildClusters();
 	hpamap.buildEntrances();
@@ -314,7 +332,9 @@ void HPAStar2Test::logStatsShouldRecordAllMetricsToStatsCollection()
 void HPAStar2Test::getPathShouldReturnANonRefinedPathIfRefinementFlagIsNotSet()
 {
 	HPAClusterAbstraction hpamap(new Map(hpastartest.c_str()), new HPAClusterFactory(), 
-		new ClusterNodeFactory(), new EdgeFactory(), TESTCLUSTERSIZE);
+		new ClusterNodeFactory(), new EdgeFactory());
+	hpamap.setClusterSize(TESTCLUSTERSIZE);
+
 
 	hpamap.buildClusters();
 	hpamap.buildEntrances();
@@ -351,7 +371,9 @@ void HPAStar2Test::getPathShouldReturnAShortestPathBetweenTwoLowLevelNodesIfFast
 {
 	return;
 	HPAClusterAbstraction hpamap(new Map(hpastartest.c_str()), new HPAClusterFactory(), 
-		new ClusterNodeFactory(), new EdgeFactory(), TESTCLUSTERSIZE);
+		new ClusterNodeFactory(), new EdgeFactory());
+	hpamap.setClusterSize(TESTCLUSTERSIZE);
+
 
 	hpamap.buildClusters();
 	hpamap.buildEntrances();

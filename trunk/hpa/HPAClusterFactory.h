@@ -16,7 +16,7 @@ class AbstractClusterAStar;
 class HPAClusterFactory : public IHPAClusterFactory
 {
 	public:
-		virtual ~HPAClusterFactory() { }
+		virtual HPACluster* createCluster(int xpos, int ypos);
 		virtual HPACluster* createCluster(int xpos, int ypos, int width, int height, AbstractClusterAStar* castar);	
 };
 

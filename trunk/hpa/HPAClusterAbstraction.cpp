@@ -22,16 +22,20 @@
 #include <stdexcept>
 #include <sstream>
 
+const unsigned int DEFAULTCLUSTERSIZE = 10;
 
 // TODO: throw an exception if anything of the parameter pointers are NULL.
 HPAClusterAbstraction::HPAClusterAbstraction(Map* m, IHPAClusterFactory* _cf, 
-	INodeFactory* _nf, IEdgeFactory* _ef, unsigned int _clustersize) 
+	INodeFactory* _nf, IEdgeFactory* _ef) 
 	throw(std::invalid_argument)
-	: mapAbstraction(m), cf(_cf), nf(_nf), ef(_ef), clustersize(_clustersize) 
+	: mapAbstraction(m), cf(_cf), nf(_nf), ef(_ef), clustersize(DEFAULTCLUSTERSIZE) 
 {	
 	
 	if(!dynamic_cast<ClusterNodeFactory*>(nf))
-		throw std::invalid_argument("HPAClusterAbstraction requires a node factory of type ClusterNodeFactory");
+	{
+		throw std::invalid_argument("HPAClusterAbstraction requires a node factory"
+				"of type ClusterNodeFactory");
+	}
 		
 	abstractions.push_back(getMapGraph(this->getMap(), nf, ef)); 
 	abstractions.push_back(new graph());	
@@ -88,8 +92,9 @@ void HPAClusterAbstraction::buildClusters()
 			if(y+cheight > mapheight)
 				cheight = mapheight - y;
 				
-			HPACluster *cluster = cf->createCluster(x,y,cwidth,cheight, 
-					new ClusterAStar());
+			HPACluster *cluster = cf->createCluster(x,y);
+			cluster->setWidth(cwidth);
+			cluster->setHeight(cheight);
 			addCluster( cluster ); // nb: also assigns a new id to cluster
 			cluster->addNodesToCluster(this);
 		}

@@ -34,7 +34,9 @@ class HPAClusterAbstraction : public mapAbstraction
 	#endif
 
 	public:
-		HPAClusterAbstraction(Map* m, IHPAClusterFactory* cf, INodeFactory* nf, IEdgeFactory* ef, unsigned int clustersize) throw(std::invalid_argument);
+		HPAClusterAbstraction(Map* m, IHPAClusterFactory* cf, INodeFactory* nf, 
+				IEdgeFactory* ef) 
+			throw(std::invalid_argument);
 		virtual ~HPAClusterAbstraction();
 		
 		virtual void buildEntrances();
@@ -50,8 +52,10 @@ class HPAClusterAbstraction : public mapAbstraction
 		cluster_iterator getClusterIter() const { return clusters.begin(); }
 		HPACluster* clusterIterNext(cluster_iterator&) const;
 		HPACluster* getCluster(int cid);
-		int getClusterSize() { return clustersize; } 
 		int getNumClusters() { return clusters.size(); } 
+
+		int getClusterSize() { return clustersize; } 
+		void setClusterSize(unsigned int csz) { clustersize = csz; }
 
 		/* measure insertion effort */
 		long getNodesExpanded() { return nodesExpanded; }
