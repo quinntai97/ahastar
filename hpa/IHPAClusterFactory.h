@@ -17,7 +17,7 @@ class IHPAClusterFactory
 {
 	public:
 		virtual ~IHPAClusterFactory() {}
-		virtual HPACluster* createCluster(int xpos, int ypos, int width, int height, AbstractClusterAStar*) = 0;		
+		virtual HPACluster* createCluster(int xpos, int ypos) = 0;
 };
 
 #endif

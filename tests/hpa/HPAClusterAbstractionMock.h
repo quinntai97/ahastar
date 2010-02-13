@@ -30,8 +30,10 @@
 class HPAClusterAbstractionMock : public HPAClusterAbstraction, public MOCKPP_NS::ChainableMockObject
 {
 	public:
-		HPAClusterAbstractionMock(Map* m, IHPAClusterFactory* cf, INodeFactory* nf, IEdgeFactory* ef, unsigned int clustersize) throw(std::invalid_argument)
-		:	HPAClusterAbstraction(m, cf, nf, ef, clustersize),
+		HPAClusterAbstractionMock(Map* m, IHPAClusterFactory* cf, INodeFactory* nf, 
+				IEdgeFactory* ef) 
+			throw(std::invalid_argument)
+		:	HPAClusterAbstraction(m, cf, nf, ef),
 			 MOCKPP_NS::ChainableMockObject(MOCKPP_PCHAR("HPAClusterAbstractionMock"), 0)
 			//, buildClustersMocker("buildClusters", this)
 			//, getClusterMocker("getCluster", this)

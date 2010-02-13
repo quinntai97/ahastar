@@ -38,19 +38,21 @@ class HPACluster
 		virtual void removeParent(int nodeId);
 		virtual void addNodesToCluster(HPAClusterAbstraction*) throw(std::invalid_argument);
 		
-		void setSearchAlgorithm(AbstractClusterAStar* _alg) { alg = _alg; }
-		AbstractClusterAStar* getSearchAlgorithm() { return alg; }
-		int getVOrigin() { return starty; }
-		int getHOrigin() { return startx; }
-		int getWidth() { return width; }
-		int getHeight() { return height; }
-		int getId() { return clusterId; }
-		int getClusterId() { return clusterId; }
-		void setClusterId(const int newid) { clusterId = newid; }
-		int getNumParents() { return parents.size(); }
-		int getNumNodes() { return nodes.size(); }
-		nodeTable* getNodes() { return &nodes; }
-		nodeTable* getParents() { return &parents; }
+		inline	void setSearchAlgorithm(AbstractClusterAStar* _alg) { alg = _alg; }
+		inline AbstractClusterAStar* getSearchAlgorithm() { return alg; }
+		inline int getVOrigin() { return starty; }
+		inline int getHOrigin() { return startx; }
+		inline int getWidth() { return width; }
+		inline void setWidth(int _width) { width = _width; }
+		inline int getHeight() { return height; }
+		inline void setHeight(int _height) { height = _height; }
+		inline int getId() { return clusterId; }
+		inline int getClusterId() { return clusterId; }
+		inline void setClusterId(const int newid) { clusterId = newid; }
+		inline int getNumParents() { return parents.size(); }
+		inline int getNumNodes() { return nodes.size(); }
+		inline nodeTable* getNodes() { return &nodes; }
+		inline nodeTable* getParents() { return &parents; }
 		
 		void printParents();
 
