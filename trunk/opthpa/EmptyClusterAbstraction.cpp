@@ -21,6 +21,16 @@ EmptyClusterAbstraction::~EmptyClusterAbstraction()
 
 }
 
+// Decomposes the map into a set of empty (obstacle free) clusters.
+// simple flood-fill based decomposition:
+//  1. Start with some node @ (x, y). 
+//  2. Determine the length of a maximal row by extending horizontally 
+//  until an obstacle is encountered or a node assigned to another cluster 
+//  is encountered. 
+//  3. Once the maximal row size is established, try to extend the cluster vertically
+//  by building rows of the same length. 
+//  4. Stop when a full-size row cannot be built due to obstacles or nodes already 
+//  assigned to another cluster.
 void EmptyClusterAbstraction::buildClusters()
 {
 	Map* m = this->getMap();
@@ -33,11 +43,12 @@ void EmptyClusterAbstraction::buildClusters()
 			if(cur && cur->getParentClusterId() == -1)
 			{
 				EmptyCluster* cluster = new EmptyCluster(x, y);	
+				cluster->setVerbose(getVerbose());
+				addCluster(cluster);
+				cluster->addNodesToCluster(this);
 				if(this->getVerbose())
 					std::cout << "new cluster @ ("<<x<<","<<y<<") with "
 						" id: "<< cluster->getId()<< std::endl;
-				cluster->addNodesToCluster(this);
-				addCluster(cluster);
 			}	
 		}
 }

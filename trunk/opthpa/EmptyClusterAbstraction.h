@@ -27,6 +27,10 @@ class node;
 
 class EmptyClusterAbstraction : public HPAClusterAbstraction
 {
+	#ifdef UNITTEST
+		friend class EmptyClusterTest;
+	#endif
+
 	public:
 		EmptyClusterAbstraction(Map* m, IHPAClusterFactory* cf, INodeFactory* nf, IEdgeFactory* ef) 
 			throw(std::invalid_argument);

@@ -1034,10 +1034,10 @@ int node::nodeNeighborNext(neighbor_iterator& ni) const
 void node::Print(ostream& out) const
 {
   out << "\"" << name << "\"" << " (" << nodeNum << ")";
-  for (unsigned int x = 0; x < label.size(); x++)
-	{
-    out << " - " << label[x].lval;
-  }
+//  for (unsigned int x = 0; x < label.size(); x++)
+//	{
+//    out << " - " << label[x].lval;
+//  }
 }
 
 ostream& operator <<(ostream & out, const graph &_Graph)

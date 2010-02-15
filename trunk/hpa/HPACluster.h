@@ -53,6 +53,9 @@ class HPACluster
 		inline int getNumNodes() { return nodes.size(); }
 		inline nodeTable* getNodes() { return &nodes; }
 		inline nodeTable* getParents() { return &parents; }
+
+		inline bool getVerbose() { return verbose; }
+		inline void setVerbose(bool _v) { verbose = _v; }
 		
 		void printParents();
 
@@ -74,6 +77,7 @@ class HPACluster
 		nodeTable nodes;
 		nodeTable parents; // transition points
 		AbstractClusterAStar* alg;
+		bool verbose;
 		
 		static unsigned int uniqueClusterIdCnt;
 };
