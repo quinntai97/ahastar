@@ -17,6 +17,9 @@ class EmptyClusterTest : public CPPUNIT_NS::TestFixture
 	CPPUNIT_TEST( addNodesToClusterFramesEmptyClustersWithHeightEqualTo1 );
 	CPPUNIT_TEST( addNodesToClusterFramesEmptyClusterWhenOriginIsNotOnTheMapBorder );
 
+	CPPUNIT_TEST( buildHorizontalEntrancesCreatesAllPossibleTransitionPoints );
+	CPPUNIT_TEST( buildVerticalEntrancesCreatesAllPossibleTransitionPoints );
+
 	CPPUNIT_TEST_SUITE_END();
 
 
@@ -30,6 +33,9 @@ class EmptyClusterTest : public CPPUNIT_NS::TestFixture
 		void addNodesToClusterFramesEmptyClustersWithHeightEqualTo1();
 		void addNodesToClusterFramesEmptyClustersWithWidthEqualTo1();
 		void addNodesToClusterFramesEmptyClusterWhenOriginIsNotOnTheMapBorder();
+
+		void buildHorizontalEntrancesCreatesAllPossibleTransitionPoints();
+		void buildVerticalEntrancesCreatesAllPossibleTransitionPoints();
 
 };
 

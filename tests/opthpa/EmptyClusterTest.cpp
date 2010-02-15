@@ -224,4 +224,55 @@ void EmptyClusterTest::addNodesToClusterFramesEmptyClusterWhenOriginIsNotOnTheMa
 
 }
 
+void EmptyClusterTest::buildVerticalEntrancesCreatesAllPossibleTransitionPoints()
+{
+	EmptyClusterAbstraction ecmap(new Map(hpastartest.c_str()), new EmptyClusterFactory(), 
+			new ClusterNodeFactory(), new EdgeFactory());
+
+	EmptyCluster *cluster1 = new EmptyCluster(0,0);
+	EmptyCluster *cluster2 = new EmptyCluster(5,1);
+	ecmap.addCluster(cluster1);
+	ecmap.addCluster(cluster2);
+	cluster1->addNodesToCluster(&ecmap);
+	cluster2->addNodesToCluster(&ecmap);
+
+	int abstractionLevel = 1;
+	graph *g = ecmap.getAbstractGraph(abstractionLevel);
+	int expectedNumAbstractNodes = g->getNumNodes(); // before
+	int expectedNumAbstractEdges = g->getNumEdges(); // before
+
+	cluster1->buildVerticalEntrances(&ecmap);
+
+	expectedNumAbstractEdges += 2; // # of transition points added
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("abstract node count is wrong", expectedNumAbstractNodes, 
+			g->getNumNodes());
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("abstract edge count is wrong", expectedNumAbstractEdges, 
+			g->getNumEdges());
+}
+
+void EmptyClusterTest::buildHorizontalEntrancesCreatesAllPossibleTransitionPoints()
+{
+	EmptyClusterAbstraction ecmap(new Map(hpastartest.c_str()), new EmptyClusterFactory(), 
+			new ClusterNodeFactory(), new EdgeFactory());
+
+	EmptyCluster *cluster1 = new EmptyCluster(2,5);
+	EmptyCluster *cluster2 = new EmptyCluster(3,4);
+	ecmap.addCluster(cluster1);
+	ecmap.addCluster(cluster2);
+	cluster1->addNodesToCluster(&ecmap);
+	cluster2->addNodesToCluster(&ecmap);
+
+	int abstractionLevel = 1;
+	graph *g = ecmap.getAbstractGraph(abstractionLevel);
+	int expectedNumAbstractNodes = g->getNumNodes(); // before
+	int expectedNumAbstractEdges = g->getNumEdges(); // before
+
+	cluster2->buildHorizontalEntrances(&ecmap);
+
+	expectedNumAbstractEdges += 5; // # of transition points added
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("abstract node count is wrong", expectedNumAbstractNodes, 
+			g->getNumNodes());
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("abstract edge count is wrong", expectedNumAbstractEdges, 
+			g->getNumEdges());
+}
 

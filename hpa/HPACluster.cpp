@@ -177,7 +177,6 @@ void HPACluster::connectParent(node* absStart, HPAClusterAbstraction* hpamap)
 			edge* e = new edge(absStart->getNum(), absGoal->getNum(), dist);
 			absg->addEdge(e);
 			hpamap->addPathToCache(e, solution);				
-			//std::cout << "\n adding way cool edege for cluster "<<getClusterId();
 		}
 
 		/* record some metrics about the operation */
