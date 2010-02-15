@@ -64,8 +64,164 @@ void EmptyClusterTest::addNodesToClusterSetsTheClusterIdOfEveryNodeInTheClusterA
 
 void EmptyClusterTest::addNodesToClusterFramesTheEmptyClusterWithAbstractNodes()
 {
-	//cluster_iterator first = ecmap.getClusterIter();
-//	EmptyCluster *cluster = ecmap.clusterIterNext(ecmap.getClusterIter());
-//	CPPUNIT_ASSERT_EQUAL_MESSAGE("implement me", true, false);
+	EmptyClusterAbstraction ecmap(new Map(hpastartest.c_str()), new EmptyClusterFactory(), 
+			new ClusterNodeFactory(), new EdgeFactory());
+
+	EmptyCluster *cluster = new EmptyCluster(0, 0);
+	ecmap.addCluster(cluster);
+	cluster->addNodesToCluster(&ecmap);
+
+
+	int abstractionLevel = 1;
+	graph *g = ecmap.getAbstractGraph(abstractionLevel);
+	int expectedNumAbstractNodes = 12;
+	int expectedNumAbstractEdges = 12;
+
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("abstract node count is wrong", expectedNumAbstractNodes, 
+			g->getNumNodes());
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("abstract edge count is wrong", expectedNumAbstractEdges, 
+			g->getNumEdges());
+
+	int x = cluster->getHOrigin();
+	int y = cluster->getVOrigin();
+	for( ; y<cluster->getVOrigin()+cluster->getHeight(); y++)
+	{
+		ClusterNode *cur = dynamic_cast<ClusterNode*>(ecmap.getNodeFromMap(x, y));
+		ClusterNode *parent = dynamic_cast<ClusterNode*>(g->getNode(cur->getLabelL(kParent)));
+		CPPUNIT_ASSERT_EQUAL_MESSAGE("found a node along left border that isn't framed!", false, parent == 0);
+	}
+
+	y = cluster->getVOrigin()+cluster->getHeight()-1;
+	for(x=cluster->getHOrigin(); x<cluster->getHOrigin()+cluster->getWidth(); x++)
+	{
+		ClusterNode *cur = dynamic_cast<ClusterNode*>(ecmap.getNodeFromMap(x, y));
+		ClusterNode *parent = dynamic_cast<ClusterNode*>(g->getNode(cur->getLabelL(kParent)));
+		CPPUNIT_ASSERT_EQUAL_MESSAGE("found a node along bottom border that isn't framed!", false, parent == 0);
+	}
+
+	x = cluster->getHOrigin()+cluster->getWidth()-1;
+	for(y=cluster->getVOrigin()+cluster->getHeight()-1; y>=cluster->getVOrigin(); y--)
+	{
+		ClusterNode *cur = dynamic_cast<ClusterNode*>(ecmap.getNodeFromMap(x, y));
+		ClusterNode *parent = dynamic_cast<ClusterNode*>(g->getNode(cur->getLabelL(kParent)));
+		CPPUNIT_ASSERT_EQUAL_MESSAGE("found a node along right border that isn't framed!", false, parent == 0);
+	}
+
+	y = cluster->getVOrigin();
+	for(x=cluster->getHOrigin()+cluster->getWidth()-1; x>=cluster->getHOrigin(); x--)
+	{
+		ClusterNode *cur = dynamic_cast<ClusterNode*>(ecmap.getNodeFromMap(x, y));
+		ClusterNode *parent = dynamic_cast<ClusterNode*>(g->getNode(cur->getLabelL(kParent)));
+		CPPUNIT_ASSERT_EQUAL_MESSAGE("found a node along top border that isn't framed!", false, parent == 0);
+	}
 }
+void EmptyClusterTest::addNodesToClusterFramesEmptyClustersWithHeightEqualTo1()
+{
+	EmptyClusterAbstraction ecmap(new Map(hpastartest.c_str()), new EmptyClusterFactory(), 
+			new ClusterNodeFactory(), new EdgeFactory());
+
+	EmptyCluster *cluster = new EmptyCluster(0, 3);
+	ecmap.addCluster(cluster);
+	cluster->addNodesToCluster(&ecmap);
+
+
+	int abstractionLevel = 1;
+	graph *g = ecmap.getAbstractGraph(abstractionLevel);
+	int expectedNumAbstractNodes = 3;
+	int expectedNumAbstractEdges = 2;
+
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("abstract node count is wrong", expectedNumAbstractNodes, 
+			g->getNumNodes());
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("abstract edge count is wrong", expectedNumAbstractEdges, 
+			g->getNumEdges());
+
+	int x = cluster->getHOrigin();
+	int y = cluster->getVOrigin();
+	for( ; y<cluster->getVOrigin()+cluster->getHeight(); y++)
+	{
+		ClusterNode *cur = dynamic_cast<ClusterNode*>(ecmap.getNodeFromMap(x, y));
+		ClusterNode *parent = dynamic_cast<ClusterNode*>(g->getNode(cur->getLabelL(kParent)));
+		CPPUNIT_ASSERT_EQUAL_MESSAGE("found a node along left border that isn't framed!", false, parent == 0);
+	}
+
+	y = cluster->getVOrigin()+cluster->getHeight()-1;
+	for(x=cluster->getHOrigin(); x<cluster->getHOrigin()+cluster->getWidth(); x++)
+	{
+		ClusterNode *cur = dynamic_cast<ClusterNode*>(ecmap.getNodeFromMap(x, y));
+		ClusterNode *parent = dynamic_cast<ClusterNode*>(g->getNode(cur->getLabelL(kParent)));
+		CPPUNIT_ASSERT_EQUAL_MESSAGE("found a node along bottom border that isn't framed!", false, parent == 0);
+	}
+}
+
+void EmptyClusterTest::addNodesToClusterFramesEmptyClustersWithWidthEqualTo1()
+{
+	EmptyClusterAbstraction ecmap(new Map(hpastartest.c_str()), new EmptyClusterFactory(), 
+			new ClusterNodeFactory(), new EdgeFactory());
+
+	EmptyCluster *cluster = new EmptyCluster(2, 5);
+	ecmap.addCluster(cluster);
+	cluster->addNodesToCluster(&ecmap);
+
+
+	int abstractionLevel = 1;
+	graph *g = ecmap.getAbstractGraph(abstractionLevel);
+	int expectedNumAbstractNodes = 6;
+	int expectedNumAbstractEdges = 5;
+
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("abstract node count is wrong", expectedNumAbstractNodes, 
+			g->getNumNodes());
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("abstract edge count is wrong", expectedNumAbstractEdges, 
+			g->getNumEdges());
+
+	int x = cluster->getHOrigin();
+	int y = cluster->getVOrigin();
+	for( ; y<cluster->getVOrigin()+cluster->getHeight(); y++)
+	{
+		ClusterNode *cur = dynamic_cast<ClusterNode*>(ecmap.getNodeFromMap(x, y));
+		ClusterNode *parent = dynamic_cast<ClusterNode*>(g->getNode(cur->getLabelL(kParent)));
+		CPPUNIT_ASSERT_EQUAL_MESSAGE("found a node along left border that isn't framed!", false, parent == 0);
+	}
+
+	y = cluster->getVOrigin()+cluster->getHeight()-1;
+	for(x=cluster->getHOrigin(); x<cluster->getHOrigin()+cluster->getWidth(); x++)
+	{
+		ClusterNode *cur = dynamic_cast<ClusterNode*>(ecmap.getNodeFromMap(x, y));
+		ClusterNode *parent = dynamic_cast<ClusterNode*>(g->getNode(cur->getLabelL(kParent)));
+		CPPUNIT_ASSERT_EQUAL_MESSAGE("found a node along bottom border that isn't framed!", false, parent == 0);
+	}
+}
+
+
+void EmptyClusterTest::addNodesToClusterFramesEmptyClusterWhenOriginIsNotOnTheMapBorder()
+{
+	EmptyClusterAbstraction ecmap(new Map(hpastartest.c_str()), new EmptyClusterFactory(), 
+			new ClusterNodeFactory(), new EdgeFactory());
+
+	EmptyCluster *cluster = new EmptyCluster(5,1);
+	ecmap.addCluster(cluster);
+	cluster->addNodesToCluster(&ecmap);
+
+
+	int abstractionLevel = 1;
+	graph *g = ecmap.getAbstractGraph(abstractionLevel);
+	int expectedNumAbstractNodes = 4;
+	int expectedNumAbstractEdges = 4;
+
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("abstract node count is wrong", expectedNumAbstractNodes, 
+			g->getNumNodes());
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("abstract edge count is wrong", expectedNumAbstractEdges, 
+			g->getNumEdges());
+
+	for(int y=cluster->getVOrigin() ; y<cluster->getVOrigin()+cluster->getHeight(); y++)
+	{
+		for(int x = cluster->getHOrigin(); x<cluster->getHOrigin()+cluster->getWidth(); x++)
+		{
+			ClusterNode *cur = dynamic_cast<ClusterNode*>(ecmap.getNodeFromMap(x, y));
+			ClusterNode *parent = dynamic_cast<ClusterNode*>(g->getNode(cur->getLabelL(kParent)));
+			CPPUNIT_ASSERT_EQUAL_MESSAGE("found a node along left border that isn't framed!", false, parent == 0);
+		}
+	}
+
+}
+
 

@@ -13,6 +13,9 @@ class EmptyClusterTest : public CPPUNIT_NS::TestFixture
 	CPPUNIT_TEST( addNodesToClusterGrowsAMaximalSizeEmptyCluster );
 	CPPUNIT_TEST( addNodesToClusterSetsTheClusterIdOfEveryNodeInTheClusterArea );
 	CPPUNIT_TEST( addNodesToClusterFramesTheEmptyClusterWithAbstractNodes );
+	CPPUNIT_TEST( addNodesToClusterFramesEmptyClustersWithWidthEqualTo1 );
+	CPPUNIT_TEST( addNodesToClusterFramesEmptyClustersWithHeightEqualTo1 );
+	CPPUNIT_TEST( addNodesToClusterFramesEmptyClusterWhenOriginIsNotOnTheMapBorder );
 
 	CPPUNIT_TEST_SUITE_END();
 
@@ -24,6 +27,9 @@ class EmptyClusterTest : public CPPUNIT_NS::TestFixture
 		void addNodesToClusterGrowsAMaximalSizeEmptyCluster();
 		void addNodesToClusterSetsTheClusterIdOfEveryNodeInTheClusterArea();
 		void addNodesToClusterFramesTheEmptyClusterWithAbstractNodes();
+		void addNodesToClusterFramesEmptyClustersWithHeightEqualTo1();
+		void addNodesToClusterFramesEmptyClustersWithWidthEqualTo1();
+		void addNodesToClusterFramesEmptyClusterWhenOriginIsNotOnTheMapBorder();
 
 };
 
