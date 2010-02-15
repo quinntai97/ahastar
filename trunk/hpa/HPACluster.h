@@ -59,17 +59,15 @@ class HPACluster
 	protected:
 		virtual void addNode(node* mynode) throw(std::invalid_argument);
 		virtual void addTransitionPoint(node* from, node* to, HPAClusterAbstraction* hpamap);
+		virtual void connectParent(node*, HPAClusterAbstraction*);
+		virtual void buildHorizontalEntrances(HPAClusterAbstraction* hpamap);
+		virtual void buildVerticalEntrances(HPAClusterAbstraction* hpamap);
+		int findVerticalEntranceLength(int x, int y, HPAClusterAbstraction* hpamap);
+		int findHorizontalEntranceLength(int x, int y, HPAClusterAbstraction* hpamap);
 	
 	private:
 		void init(const int x, const int y, const int _width, const int _height, AbstractClusterAStar* _alg) throw(std::invalid_argument);
 		void insertNodeIntoAbstractGraph(node* n);
-		void connectParent(node*, HPAClusterAbstraction*);
-		virtual void buildHorizontalEntrances(HPAClusterAbstraction* hpamap);
-		virtual void buildVerticalEntrances(HPAClusterAbstraction* hpamap);
-
-		int findVerticalEntranceLength(int x, int y, HPAClusterAbstraction* hpamap);
-		int findHorizontalEntranceLength(int x, int y, HPAClusterAbstraction* hpamap);
-		
 			
 		int clusterId;
 		int startx, starty, width, height;

@@ -1,4 +1,6 @@
 #include "EmptyCluster.h"
+
+#include "ClusterNode.h"
 #include "HPAClusterAbstraction.h"
 #include "map.h"
 
@@ -23,40 +25,81 @@ void EmptyCluster::addNodesToCluster(HPAClusterAbstraction* aMap)
 			   	"abstraction parameter is null");
 	extend(aMap);
 
+	for(int x=getHOrigin(); x<getHOrigin()+getWidth(); x++)
+	{
+		for(int y=getVOrigin(); y<getVOrigin()+getHeight(); y++)
+		{
+			ClusterNode* n = dynamic_cast<ClusterNode*>(aMap->getNodeFromMap(x, y));
+			if(n)
+			{
+				addNode(n);
+			}
+			else
+				throw std::invalid_argument("EmptyCluster: tried to add to cluster a node of type other than ClusterNode");
+		}
+	}
+
+	//frameCluster(aMap);
+
+}
+
+// Every node framing the cluster is added to the abstract graph. Also, 
+// every edge between two adjacent framed nodes will appear in the graph.
+// NB: there is a special case where the cluster has size 1x1.
+// In this case the single node will be added to the graph when 
+// buildHorizontalEntrances and buildVerticalEntrances are called
+// rather than by this method
+void EmptyCluster::frameCluster(HPAClusterAbstraction* aMap)
+{
 	// add nodes along left border
+	node* last = 0;
 	int x = this->getHOrigin();
-	for(int y=this->getVOrigin(); y<this->getVOrigin()+this->getWidth(); y++)
+	int y = this->getVOrigin();
+	for( ; y<this->getVOrigin()+this->getWidth(); y++)
 	{
 		node* n = aMap->getNodeFromMap(x,y);
-		if(n)
-			addNode(n);
+		if(n && last && n->getUniqueID() != last->getUniqueID())
+		{
+			addTransitionPoint(n, last, aMap);
+			last = n;
+		}
+		else
+			last = n;
+	}
+
+	// add nodes along bottom border
+	y = this->getVOrigin()+this->getHeight()-1;
+	for(x=this->getHOrigin(); x<this->getHOrigin()+this->getWidth(); x++)
+	{
+		node* n = aMap->getNodeFromMap(x,y);
+		if(n && last && n->getUniqueID() != last->getUniqueID())
+		{
+			addTransitionPoint(n, last, aMap);
+			last = n;
+		}
 	}
 
 	// add nodes along right border
 	x = this->getHOrigin()+this->getWidth()-1;
-	for(int y=this->getVOrigin(); y<this->getVOrigin()+this->getHeight(); y++)
+	for(y=this->getVOrigin(); y<this->getVOrigin()+this->getHeight(); y++)
 	{
 		node* n = aMap->getNodeFromMap(x,y);
-		if(n)
-			addNode(n);
+		if(n && last && n->getUniqueID() != last->getUniqueID())
+		{
+			addTransitionPoint(n, last, aMap);
+			last = n;
+		}
 	}
-	
 	// add nodes along top border
-	int y = this->getVOrigin();
-	for(int x=this->getHOrigin(); x<this->getHOrigin()+this->getWidth(); x++)
+	y = this->getVOrigin();
+	for(x=this->getHOrigin(); x<this->getHOrigin()+this->getWidth(); x++)
 	{
 		node* n = aMap->getNodeFromMap(x,y);
-		if(n)
-			addNode(n);
-	}
-	
-	// add nodes along bottom border
-	y = this->getVOrigin()+this->getHeight()-1;
-	for(int x=this->getHOrigin(); x<this->getHOrigin()+this->getWidth(); x++)
-	{
-		node* n = aMap->getNodeFromMap(x,y);
-		if(n)
-			addNode(n);
+		if(n && last && n->getUniqueID() != last->getUniqueID())
+		{
+			addTransitionPoint(n, last, aMap);
+			last = n;
+		}
 	}
 }
 
@@ -124,3 +167,16 @@ void EmptyCluster::openGLDraw()
 	glVertex3f(glx, gly, glz);
 	glEnd();
 }
+
+void EmptyCluster::connectParent(node*, HPAClusterAbstraction*)
+{
+}
+
+void EmptyCluster::buildHorizontalEntrances(HPAClusterAbstraction* hpamap)
+{
+}
+
+void EmptyCluster::buildVerticalEntrances(HPAClusterAbstraction* hpamap)
+{
+}
+
