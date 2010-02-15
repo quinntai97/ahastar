@@ -33,6 +33,10 @@ void EmptyClusterAbstraction::buildClusters()
 			if(cur && cur->getParentClusterId() == -1)
 			{
 				EmptyCluster* cluster = new EmptyCluster(x, y);	
+				if(this->getVerbose())
+					std::cout << "new cluster @ ("<<x<<","<<y<<") with "
+						" id: "<< cluster->getId()<< std::endl;
+				cluster->addNodesToCluster(this);
 				addCluster(cluster);
 			}	
 		}
@@ -54,4 +58,14 @@ void
 EmptyClusterAbstraction::removeStartAndGoalNodesFromAbstractGraph()
 	throw(std::runtime_error)
 {
+}
+
+EmptyCluster* EmptyClusterAbstraction::clusterIterNext(cluster_iterator& it) const
+{
+	return dynamic_cast<EmptyCluster*>(HPAClusterAbstraction::clusterIterNext(it));
+}
+
+EmptyCluster* EmptyClusterAbstraction::getCluster(int cid)
+{
+	return dynamic_cast<EmptyCluster*>(HPAClusterAbstraction::getCluster(cid));
 }

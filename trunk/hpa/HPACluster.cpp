@@ -85,7 +85,7 @@ void HPACluster::addNode(node* _mynode) throw(std::invalid_argument)
 	if(mynode->getParentClusterId() != -1)
 	{
 		std::ostringstream oss;
-		oss << "node @ "<< nx <<","<< ny <<" is already assigned to cluster "<<mynode->getParentCluster();
+		oss << "node @ "<< nx <<","<< ny <<" is already assigned to cluster "<<mynode->getParentClusterId();
 		throw std::invalid_argument(oss.str().c_str());
 	}
 			

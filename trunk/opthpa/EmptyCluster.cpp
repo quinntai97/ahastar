@@ -113,8 +113,8 @@ void EmptyCluster::extend(HPAClusterAbstraction* aMap)
 	int y = this->getVOrigin();
 	for(int x=this->getHOrigin(); x<themap->getMapWidth(); x++)
 	{
-		node* n = aMap->getNodeFromMap(x,y);
-		if(!n)
+		ClusterNode *n = dynamic_cast<ClusterNode*>(aMap->getNodeFromMap(x,y));
+		if(!n || n->getParentClusterId() != -1)
 			break;
 		hsize++;
 	}
@@ -126,8 +126,8 @@ void EmptyCluster::extend(HPAClusterAbstraction* aMap)
 		bool rowok=true;
 		for(int x=this->getHOrigin(); x<this->getHOrigin()+this->getWidth(); x++)
 		{
-			node* n = aMap->getNodeFromMap(x,y);
-			if(!n)
+			ClusterNode *n = dynamic_cast<ClusterNode*>(aMap->getNodeFromMap(x,y));
+			if(!n || n->getParentClusterId() != -1)
 			{
 				rowok=false;
 			}

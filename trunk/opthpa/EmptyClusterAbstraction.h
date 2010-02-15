@@ -17,6 +17,7 @@
 
 #include "HPAUtil.h"
 #include "HPAClusterAbstraction.h"
+#include "EmptyCluster.h"
 
 class IHPAClusterFactory;
 class INodeFactory;
@@ -33,6 +34,8 @@ class EmptyClusterAbstraction : public HPAClusterAbstraction
 
 		virtual void buildEntrances();
 		virtual void buildClusters();
+		virtual	EmptyCluster* clusterIterNext(cluster_iterator&) const;
+		virtual EmptyCluster* getCluster(int cid);
 		
 		/* insert and remove start/goal */
 		virtual void 

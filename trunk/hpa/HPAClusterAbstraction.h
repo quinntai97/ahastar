@@ -50,8 +50,8 @@ class HPAClusterAbstraction : public mapAbstraction
 		
 		/* cluster getters and iterator functions */
 		cluster_iterator getClusterIter() const { return clusters.begin(); }
-		HPACluster* clusterIterNext(cluster_iterator&) const;
-		HPACluster* getCluster(int cid);
+		virtual	HPACluster* clusterIterNext(cluster_iterator&) const;
+		virtual HPACluster* getCluster(int cid);
 		int getNumClusters() { return clusters.size(); } 
 
 		int getClusterSize() { return clustersize; } 
@@ -89,6 +89,8 @@ class HPAClusterAbstraction : public mapAbstraction
 	
 		IEdgeFactory* getEdgeFactory() { return ef; }
 		INodeFactory* getNodeFactory() { return nf; }
+		inline bool getVerbose() { return verbose; }
+		inline void setVerbose(bool _v) { verbose = _v; }
 		
 	protected:
 		void addCluster(HPACluster* cluster);
@@ -111,6 +113,7 @@ class HPAClusterAbstraction : public mapAbstraction
 		long nodesTouched; 
 		double searchTime;
 		long peakMemory;
+		bool verbose;
 };
 
 #endif
