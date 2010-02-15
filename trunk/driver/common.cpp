@@ -243,7 +243,8 @@ bool handleMouseClick(pRecContext pContextInfo, int x, int y, point3d where,
 void initialConditions(pRecContext pContextInfo)
 {
 #ifdef OS_MAC
-	BlockZero (pContextInfo, sizeof (recContext));
+	// BlockZero (pContextInfo, sizeof (recContext));
+	bzero (pContextInfo, sizeof (recContext));
 #endif
 	resetCamera (&pContextInfo->camera);
 	pContextInfo->fVel[0] = 0.3;

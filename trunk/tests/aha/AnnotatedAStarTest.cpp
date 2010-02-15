@@ -134,10 +134,10 @@ void AnnotatedAStarTest::getPathReturnNullWhenStartOrGoalNull()
 	aastar->setCapability(capability);
 	aastar->setClearance(clearance);
 	path* p = aastar->getPath(amamock, pos, n); 
-	CPPUNIT_ASSERT_EQUAL_MESSAGE("getPath() failed to return null when start node is null", int(p), NULL);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("getPath() failed to return null when start node is null", true, p == 0);
 
 	p = aastar->getPath(amamock, n, pos); 
-	CPPUNIT_ASSERT_EQUAL_MESSAGE("getPath() failed to return null when goal node is null", int(p), NULL);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("getPath() failed to return null when goal node is null", true, p == 0);
 	
 	delete n;
 }
@@ -187,7 +187,7 @@ void AnnotatedAStarTest::getPathReturnNullWhenStartAndGoalNodesIdentical()
 	aastar->setCapability(te->caps);
 	aastar->setClearance(te->size);
 	path *p = aastar->getPath(amamock, pos, pos);
-	CPPUNIT_ASSERT_EQUAL_MESSAGE(errmsg.c_str(), int(p), NULL);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE(errmsg.c_str(), true, p == 0);
 }
 
 void AnnotatedAStarTest::getPathReturnNullOnInvalidCapabilityParam()
@@ -215,7 +215,7 @@ void AnnotatedAStarTest::getPathReturnNullWhenNonAnnotatedMapAbstractionParamete
 	aastar->setCapability(kGround);
 	aastar->setClearance(2);
 	path* p = aastar->getPath(mfa, pos, n);
-	CPPUNIT_ASSERT_EQUAL_MESSAGE("getPath() failed to return false when called with non-annotated map parameter", NULL, (int)p); 
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("getPath() failed to return false when called with non-annotated map parameter", true, p ==0); 
 	
 	delete pos;
 	delete n;
@@ -232,7 +232,7 @@ void AnnotatedAStarTest::getPathReturnNullWhenMapAbstractionParameterNull()
 	aastar->setClearance(te->size);
 	path* p = aastar->getPath(NULL, pos, n);
 	
-	CPPUNIT_ASSERT_EQUAL_MESSAGE("getPath() failed to return false when called with NULL map abstraction parameter", NULL, (int)p); 
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("getPath() failed to return false when called with NULL map abstraction parameter", true, p==0); 
 }
 
 void AnnotatedAStarTest::getPathReturnNullWhenHardObstacleBlocksGoal()
@@ -247,7 +247,7 @@ void AnnotatedAStarTest::getPathReturnNullWhenHardObstacleBlocksGoal()
 	aastar->setCapability(te->caps);
 	aastar->setClearance(te->size);
 	path* p = aastar->getPath(&ama, start, goal);
-	CPPUNIT_ASSERT_EQUAL_MESSAGE(errmsg.c_str(), NULL, (int)p);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE(errmsg.c_str(), true, p==0);
 }
 
 void AnnotatedAStarTest::getPathReturnNullWhenSoftObstacleBlocksGoal()
@@ -262,7 +262,7 @@ void AnnotatedAStarTest::getPathReturnNullWhenSoftObstacleBlocksGoal()
 	aastar->setCapability(te->caps);
 	aastar->setClearance(te->size);
 	path* p = aastar->getPath(&ama, start, goal);
-	CPPUNIT_ASSERT_EQUAL_MESSAGE(errmsg.c_str(), NULL, (int)p);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE(errmsg.c_str(), true, p==0);
 }
 
 void AnnotatedAStarTest::getPathWhenSolutionExistsForGroundCapabilityLST()
@@ -372,7 +372,7 @@ void AnnotatedAStarTest::runGetPathTest(TestExperiment* exp, string &errmsg)
 	aastar->setClearance(exp->size);
 	path *p = aastar->getPath(amamock, pos, n);
 	//if(!exp->pathable)
-		CPPUNIT_ASSERT_EQUAL_MESSAGE(errmsg.c_str(), NULL, (int)p);
+		CPPUNIT_ASSERT_EQUAL_MESSAGE(errmsg.c_str(), true, p==0);
 	// else, check if the returned path is valid
 
 }

@@ -27,7 +27,7 @@ class node;
 class EmptyClusterAbstraction : public HPAClusterAbstraction
 {
 	public:
-		EmptyClusterAbstraction(Map* m, IHPAClusterFactory* cf, INodeFactory* nf, IEdgeFactory* ef, unsigned int clustersize) 
+		EmptyClusterAbstraction(Map* m, IHPAClusterFactory* cf, INodeFactory* nf, IEdgeFactory* ef) 
 			throw(std::invalid_argument);
 		virtual ~EmptyClusterAbstraction();
 

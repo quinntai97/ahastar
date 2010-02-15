@@ -26,7 +26,10 @@ AHASTARTESTS_OBJ = $(subst .cpp,.o,$(addprefix objs/, $(notdir $(AHASTARTESTS_SR
 HPASTARTESTS_OBJ = $(subst .cpp,.o,$(addprefix objs/, $(notdir $(HPASTARTESTS_SRC))))
 OPTHPATESTS_OBJ = $(subst .cpp,.o,$(addprefix objs/, $(notdir $(OPTHPATESTS_SRC))))
 
-CFLAGS = -Wall -O3 -g -I./tests/util -I./tests/aha -I./tests/hpa -I./tests/opthpa -I./hpa -I./aha -I./opthpa -I./abstraction -I./driver -I./shared -I./simulation -I./util
+HOGINCLUDES = -I./hpa -I./aha -I./opthpa -I./abstraction -I./driver -I./shared -I./simulation -I./util
+TESTINCLUDES = -I./tests/util -I./tests/aha -I./tests/hpa -I./tests/opthpa 
+CFLAGS = -Wall -Wno-long-long -g -ggdb -ansi -pedantic $(HOGINCLUDES) $(TESTINCLUDES)
+CFASTFLAGS = -O2 $(HOGINCLUDES) -ansi
 
 CC = c++
 
@@ -43,6 +46,7 @@ CFLAGS += -I/System/Library/Frameworks/OpenGL.framework/Versions/A/Headers/
 CFLAGS += -I/System/Library/Frameworks/AGL.framework/Versions/A/Headers/
 CFLAGS += -I/System/Library/Frameworks/Foundation.framework/Versions/A/Headers/
 CFLAGS += -I/System/Library/Frameworks/AppKit.framework/Versions/A/Headers/
+CFLAGS += -I/System/Library/Frameworks/CarbonCore.framework/Versions/A/Headers/
 endif
 
 else # not darwin

@@ -47,7 +47,7 @@
 namespace ScenarioManagerNS
 {
 	const int MAXTRIES=1000000;
-};
+}
 
 using namespace ScenarioManagerNS;
 

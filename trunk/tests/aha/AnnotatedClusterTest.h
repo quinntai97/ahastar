@@ -40,6 +40,183 @@ class TestEntrance
 		int fromx, fromy, tox, toy, capability, clearance, fromClusterId, toClusterId;
 };
 
+/* templated code for running tests that involve throwing exceptions */
+class exceptionThrownHelper
+{
+	public:
+		exceptionThrownHelper() {}
+		
+		
+		template<class ExceptionType>
+		void checkaddTransitionToAbstractGraphThrowsCorrectException(node* n1, node* n2, int capability, int clearance, double weight)
+		{
+			bool exceptionThrown = false;
+			int numnodes = absg->getNumNodes();
+				
+			try 
+			{
+				ac->addTransitionToAbstractGraph(n1, n2, capability, clearance, weight, aca);
+			}
+			catch(ExceptionType& e)
+			{	
+				exceptionThrown = true;
+			}
+			
+			CPPUNIT_ASSERT_EQUAL_MESSAGE(failmessage.c_str(), true, exceptionThrown);
+			CPPUNIT_ASSERT_EQUAL_MESSAGE("incorrectly added nodes to abstract graph", numnodes, absg->getNumNodes());
+		}
+
+		
+		template<class ExceptionType>
+		void checkaddEndpointsToAbstractGraphThrowsCorrectException(node* n1, node* n2)
+		{
+			bool exceptionThrown = false;
+			int numnodes = absg->getNumNodes();
+				
+			try 
+			{
+				ac->addEndpointsToAbstractGraph(n1, n2, aca);
+			}
+			catch(ExceptionType& e)
+			{	
+				exceptionThrown = true;
+			}
+			
+			CPPUNIT_ASSERT_EQUAL_MESSAGE(failmessage.c_str(), true, exceptionThrown);
+			CPPUNIT_ASSERT_EQUAL_MESSAGE("incorrectly added nodes to abstract graph", numnodes, absg->getNumNodes());
+		}
+
+		template<class ExceptionType>
+		void checkaddEntranceThrowsCorrectException(node* n1, node* n2, int capability, int clearance)
+		{
+			bool exceptionThrown = false;
+			int numnodes = absg->getNumNodes();
+				
+			try 
+			{
+				ac->addEntrance(n1, n2, capability, clearance, aca);
+			}
+			catch(ExceptionType& e)
+			{	
+				exceptionThrown = true;
+			}
+			
+			CPPUNIT_ASSERT_EQUAL_MESSAGE(failmessage.c_str(), true, exceptionThrown);
+			CPPUNIT_ASSERT_EQUAL_MESSAGE("incorrectly added nodes to abstract graph", numnodes, absg->getNumNodes());
+		}
+
+		
+		template<class ExceptionType>
+		void checkBuildVerticalEntrancesThrowsCorrectException(int capability)
+		{
+			bool exceptionThrown = false;
+			try
+			{
+				ac->buildVerticalEntrances(capability, aca);
+			}
+			catch(ExceptionType& e)
+			{
+					exceptionThrown = true;
+			}
+			
+			CPPUNIT_ASSERT_EQUAL_MESSAGE(failmessage.c_str(), true, exceptionThrown);
+		}
+
+		template<class ExceptionType>
+		void checkBuildHorizontalEntrancesThrowsCorrectException(int capability)
+		{
+			bool exceptionThrown = false;
+			try
+			{
+				ac->buildHorizontalEntrances(capability, aca);
+			}
+			catch(ExceptionType& e)
+			{
+					exceptionThrown = true;
+			}
+			
+			CPPUNIT_ASSERT_EQUAL_MESSAGE(failmessage.c_str(), true, exceptionThrown);
+		}
+		
+		template<class ExceptionType>
+		void checkBuildEntrancesThrowsCorrectException()
+		{
+			bool exceptionThrown = false;
+			try
+			{
+				ac->buildEntrances(aca);
+			}
+			catch(ExceptionType& e)
+			{
+					exceptionThrown = true;
+			}
+			
+			CPPUNIT_ASSERT_EQUAL_MESSAGE(failmessage.c_str(), true, exceptionThrown);	
+		}
+		
+		template<class ExceptionType>
+		void checkValidateMapAbstractionThrowsCorrectException()
+		{
+			bool exceptionThrown = false;
+				
+			try 
+			{
+				ac->validateMapAbstraction(aca);
+			}
+			catch(ExceptionType& e)
+			{	
+				exceptionThrown = true;
+			}
+			
+			CPPUNIT_ASSERT_EQUAL_MESSAGE(failmessage.c_str(), true, exceptionThrown);
+		}
+
+		template<class ExceptionType>
+		void checkValidateTransitionEndpointsThrowsCorrectException(node* from, node* to)
+		{
+			bool exceptionThrown = false;
+				
+			try 
+			{
+				ac->validateTransitionEndpoints(from, to);
+			}
+			catch(ExceptionType& e)
+			{	
+				exceptionThrown = true;
+			}
+			
+			CPPUNIT_ASSERT_EQUAL_MESSAGE(failmessage.c_str(), true, exceptionThrown);
+		}
+
+		template<class ExceptionType>
+		void checkAddParentThrowsCorrectException(node* target)
+		{
+			bool exceptionThrown = false;
+				
+			try 
+			{
+				ac->addParent(target, aca);
+			}
+			catch(ExceptionType& e)
+			{	
+				exceptionThrown = true;
+			}
+			
+			CPPUNIT_ASSERT_EQUAL_MESSAGE(failmessage.c_str(), true, exceptionThrown);
+		}
+		
+		void setFailMessage(std::string& msg) { failmessage = msg; } 
+		void setAbstractGraph(graph *g) { this->absg = g; }
+		void setAnnotatedCluster(AnnotatedCluster* ac) { this->ac = ac; }
+		void setAnnotatedClusterAbstraction(AnnotatedClusterAbstraction* aca) { this->aca = aca; }
+	
+	private:
+		std::string failmessage;
+		AnnotatedCluster* ac; 
+		AnnotatedClusterAbstraction* aca;
+		graph* absg;
+};
+
 
 class AnnotatedClusterTest : public CPPUNIT_NS::TestFixture
 {
@@ -220,181 +397,5 @@ class AnnotatedClusterTest : public CPPUNIT_NS::TestFixture
 
 };
 
-/* templated code for running tests that involve throwing exceptions */
-class exceptionThrownHelper
-{
-	public:
-		exceptionThrownHelper() {}
-		
-		
-		template<class ExceptionType>
-		void checkaddTransitionToAbstractGraphThrowsCorrectException(node* n1, node* n2, int capability, int clearance, double weight)
-		{
-			bool exceptionThrown = false;
-			int numnodes = absg->getNumNodes();
-				
-			try 
-			{
-				ac->addTransitionToAbstractGraph(n1, n2, capability, clearance, weight, aca);
-			}
-			catch(ExceptionType& e)
-			{	
-				exceptionThrown = true;
-			}
-			
-			CPPUNIT_ASSERT_EQUAL_MESSAGE(failmessage.c_str(), true, exceptionThrown);
-			CPPUNIT_ASSERT_EQUAL_MESSAGE("incorrectly added nodes to abstract graph", numnodes, absg->getNumNodes());
-		};
-
-		
-		template<class ExceptionType>
-		void checkaddEndpointsToAbstractGraphThrowsCorrectException(node* n1, node* n2)
-		{
-			bool exceptionThrown = false;
-			int numnodes = absg->getNumNodes();
-				
-			try 
-			{
-				ac->addEndpointsToAbstractGraph(n1, n2, aca);
-			}
-			catch(ExceptionType& e)
-			{	
-				exceptionThrown = true;
-			}
-			
-			CPPUNIT_ASSERT_EQUAL_MESSAGE(failmessage.c_str(), true, exceptionThrown);
-			CPPUNIT_ASSERT_EQUAL_MESSAGE("incorrectly added nodes to abstract graph", numnodes, absg->getNumNodes());
-		};
-
-		template<class ExceptionType>
-		void checkaddEntranceThrowsCorrectException(node* n1, node* n2, int capability, int clearance)
-		{
-			bool exceptionThrown = false;
-			int numnodes = absg->getNumNodes();
-				
-			try 
-			{
-				ac->addEntrance(n1, n2, capability, clearance, aca);
-			}
-			catch(ExceptionType& e)
-			{	
-				exceptionThrown = true;
-			}
-			
-			CPPUNIT_ASSERT_EQUAL_MESSAGE(failmessage.c_str(), true, exceptionThrown);
-			CPPUNIT_ASSERT_EQUAL_MESSAGE("incorrectly added nodes to abstract graph", numnodes, absg->getNumNodes());
-		};
-
-		
-		template<class ExceptionType>
-		void checkBuildVerticalEntrancesThrowsCorrectException(int capability)
-		{
-			bool exceptionThrown = false;
-			try
-			{
-				ac->buildVerticalEntrances(capability, aca);
-			}
-			catch(ExceptionType& e)
-			{
-					exceptionThrown = true;
-			}
-			
-			CPPUNIT_ASSERT_EQUAL_MESSAGE(failmessage.c_str(), true, exceptionThrown);
-		}
-
-		template<class ExceptionType>
-		void checkBuildHorizontalEntrancesThrowsCorrectException(int capability)
-		{
-			bool exceptionThrown = false;
-			try
-			{
-				ac->buildHorizontalEntrances(capability, aca);
-			}
-			catch(ExceptionType& e)
-			{
-					exceptionThrown = true;
-			}
-			
-			CPPUNIT_ASSERT_EQUAL_MESSAGE(failmessage.c_str(), true, exceptionThrown);
-		}
-		
-		template<class ExceptionType>
-		void checkBuildEntrancesThrowsCorrectException()
-		{
-			bool exceptionThrown = false;
-			try
-			{
-				ac->buildEntrances(aca);
-			}
-			catch(ExceptionType& e)
-			{
-					exceptionThrown = true;
-			}
-			
-			CPPUNIT_ASSERT_EQUAL_MESSAGE(failmessage.c_str(), true, exceptionThrown);	
-		}
-		
-		template<class ExceptionType>
-		void checkValidateMapAbstractionThrowsCorrectException()
-		{
-			bool exceptionThrown = false;
-				
-			try 
-			{
-				ac->validateMapAbstraction(aca);
-			}
-			catch(ExceptionType& e)
-			{	
-				exceptionThrown = true;
-			}
-			
-			CPPUNIT_ASSERT_EQUAL_MESSAGE(failmessage.c_str(), true, exceptionThrown);
-		};
-
-		template<class ExceptionType>
-		void checkValidateTransitionEndpointsThrowsCorrectException(node* from, node* to)
-		{
-			bool exceptionThrown = false;
-				
-			try 
-			{
-				ac->validateTransitionEndpoints(from, to);
-			}
-			catch(ExceptionType& e)
-			{	
-				exceptionThrown = true;
-			}
-			
-			CPPUNIT_ASSERT_EQUAL_MESSAGE(failmessage.c_str(), true, exceptionThrown);
-		};
-
-		template<class ExceptionType>
-		void checkAddParentThrowsCorrectException(node* target)
-		{
-			bool exceptionThrown = false;
-				
-			try 
-			{
-				ac->addParent(target, aca);
-			}
-			catch(ExceptionType& e)
-			{	
-				exceptionThrown = true;
-			}
-			
-			CPPUNIT_ASSERT_EQUAL_MESSAGE(failmessage.c_str(), true, exceptionThrown);
-		};
-		
-		void setFailMessage(std::string& msg) { failmessage = msg; } 
-		void setAbstractGraph(graph *g) { this->absg = g; }
-		void setAnnotatedCluster(AnnotatedCluster* ac) { this->ac = ac; }
-		void setAnnotatedClusterAbstraction(AnnotatedClusterAbstraction* aca) { this->aca = aca; }
-	
-	private:
-		std::string failmessage;
-		AnnotatedCluster* ac; 
-		AnnotatedClusterAbstraction* aca;
-		graph* absg;
-};
-
 #endif
+

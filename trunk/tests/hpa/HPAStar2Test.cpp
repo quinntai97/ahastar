@@ -52,10 +52,10 @@ void HPAStar2Test::getPathReturnNullWhenStartOrGoalNull()
 	ClusterNode* n = getNode(0,0,hpamap);
 
 	p = hpastar.getPath(&hpamap, NULL, n); 
-	CPPUNIT_ASSERT_EQUAL_MESSAGE("getPath() failed to return null when start node is null", int(p), NULL);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("getPath() failed to return null when start node is null", true, p == 0);
 
 	p = hpastar.getPath(&hpamap, n, NULL); 
-	CPPUNIT_ASSERT_EQUAL_MESSAGE("getPath() failed to return null when goal node is null", int(p), NULL);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("getPath() failed to return null when goal node is null", true, p == 0 );
 }
 
 void HPAStar2Test::getPathReturnNullWhenStartAndGoalSameLocation()
@@ -72,7 +72,7 @@ void HPAStar2Test::getPathReturnNullWhenStartAndGoalSameLocation()
 	n2->setLabelL(kFirstData+1, 0); // both nodes have (0,0) as their coordinates.
 
 	p = hpastar.getPath(&hpamap, n, n2); 
-	CPPUNIT_ASSERT_EQUAL_MESSAGE("getPath() failed to return null when start & goal have same coordinates.", int(p), NULL);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("getPath() failed to return null when start & goal have same coordinates.", true, p == 0);
 }
 
 void HPAStar2Test::getPathReturnNullWhenStartAndGoalNodesIdentical()
@@ -88,7 +88,7 @@ void HPAStar2Test::getPathReturnNullWhenStartAndGoalNodesIdentical()
 	ClusterNode* n = getNode(0,0,hpamap);
 	p = hpastar.getPath(&hpamap, n, n); 
 
-	CPPUNIT_ASSERT_EQUAL_MESSAGE(errmsg.c_str(), int(p), NULL);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE(errmsg.c_str(), true, p == 0);
 }
 
 void HPAStar2Test::getPathReturnNullWhenMapAbstractionParameterNull()
@@ -99,7 +99,7 @@ void HPAStar2Test::getPathReturnNullWhenMapAbstractionParameterNull()
 	node* n = mfa.getNodeFromMap(22,1);
 	
 	p = hpastar.getPath(NULL, pos, n);
-	CPPUNIT_ASSERT_EQUAL_MESSAGE("getPath() failed to return false when called with NULL map abstraction parameter", NULL, (int)p); 
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("getPath() failed to return false when called with NULL map abstraction parameter", true, p == 0); 
 }
 
 void HPAStar2Test::getPathReturnNullWhenStartOrGoalHave_kAbstractionLevel_GreaterThanZero()
