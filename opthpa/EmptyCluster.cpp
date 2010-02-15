@@ -4,9 +4,10 @@
 #include "HPAClusterAbstraction.h"
 #include "map.h"
 
+const int DUMMYDIMENSION = 10; // pass this to keep HPACluster constructor happy
 
 EmptyCluster::EmptyCluster(const int x, const int y) throw(std::invalid_argument)
-	: HPACluster(x, y, 0, 0)
+	: HPACluster(x, y, DUMMYDIMENSION, DUMMYDIMENSION)
 {
 	if(x < 0 || y <0)
 		throw std::invalid_argument("EmptyCluster: x,y coordinates must be >= 0");
@@ -35,7 +36,9 @@ void EmptyCluster::addNodesToCluster(HPAClusterAbstraction* aMap)
 				addNode(n);
 			}
 			else
+			{
 				throw std::invalid_argument("EmptyCluster: tried to add to cluster a node of type other than ClusterNode");
+			}
 		}
 	}
 
@@ -133,6 +136,7 @@ void EmptyCluster::extend(HPAClusterAbstraction* aMap)
 			break;
 		vsize++;
 	}
+	this->setHeight(vsize);
 
 	initOpenGLCoordinates(aMap);
 }
