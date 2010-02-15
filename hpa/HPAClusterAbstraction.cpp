@@ -44,6 +44,7 @@ HPAClusterAbstraction::HPAClusterAbstraction(Map* m, IHPAClusterFactory* _cf,
 	
 	nodesExpanded = nodesTouched = peakMemory = 0;
 	searchTime = 0;
+	verbose = false;
 }
 
 HPAClusterAbstraction::~HPAClusterAbstraction()

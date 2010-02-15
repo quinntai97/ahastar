@@ -23,7 +23,6 @@ void EmptyClusterTest::addNodesToClusterGrowsAMaximalSizeEmptyCluster()
 {
 	EmptyClusterAbstraction ecmap(new Map(hpastartest.c_str()), new EmptyClusterFactory(), 
 			new ClusterNodeFactory(), new EdgeFactory());
-
 	EmptyCluster cluster(0, 0);
 	cluster.addNodesToCluster(&ecmap);
 
@@ -59,7 +58,6 @@ void EmptyClusterTest::addNodesToClusterSetsTheClusterIdOfEveryNodeInTheClusterA
 					cur->getParentClusterId());
 		}
 	}
-
 }
 
 void EmptyClusterTest::addNodesToClusterFramesTheEmptyClusterWithAbstractNodes()
