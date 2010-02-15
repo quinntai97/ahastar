@@ -62,12 +62,17 @@ void
 EmptyClusterAbstraction::insertStartAndGoalNodesIntoAbstractGraph(node* s, node* g)
 	throw(std::invalid_argument)
 {
+	HPAClusterAbstraction::insertStartAndGoalNodesIntoAbstractGraph(s, g);
+	// add an edge w/ manhattan distance weight to every abstract node in the cluster?
+	// or just add macro edges to 4 borders?? yes. this one.
+
 }
 
 void
 EmptyClusterAbstraction::removeStartAndGoalNodesFromAbstractGraph()
 	throw(std::runtime_error)
 {
+	HPAClusterAbstraction::removeStartAndGoalNodesFromAbstractGraph();
 }
 
 EmptyCluster* EmptyClusterAbstraction::clusterIterNext(cluster_iterator& it) const
