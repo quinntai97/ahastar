@@ -42,7 +42,7 @@ void EmptyCluster::addNodesToCluster(HPAClusterAbstraction* aMap)
 		}
 	}
 
-	//frameCluster(aMap);
+	frameCluster(aMap);
 
 }
 
@@ -54,13 +54,16 @@ void EmptyCluster::addNodesToCluster(HPAClusterAbstraction* aMap)
 // rather than by this method
 void EmptyCluster::frameCluster(HPAClusterAbstraction* aMap)
 {
+	if(getVerbose())
+		std::cout << "frameCluster"<<std::endl;
+
 	// add nodes along left border
-	node* last = 0;
+	ClusterNode* last = 0;
 	int x = this->getHOrigin();
 	int y = this->getVOrigin();
-	for( ; y<this->getVOrigin()+this->getWidth(); y++)
+	for( ; y<this->getVOrigin()+this->getHeight(); y++)
 	{
-		node* n = aMap->getNodeFromMap(x,y);
+		ClusterNode* n = dynamic_cast<ClusterNode*>(aMap->getNodeFromMap(x,y));
 		if(n && last && n->getUniqueID() != last->getUniqueID())
 		{
 			addTransitionPoint(n, last, aMap);
@@ -74,7 +77,7 @@ void EmptyCluster::frameCluster(HPAClusterAbstraction* aMap)
 	y = this->getVOrigin()+this->getHeight()-1;
 	for(x=this->getHOrigin(); x<this->getHOrigin()+this->getWidth(); x++)
 	{
-		node* n = aMap->getNodeFromMap(x,y);
+		ClusterNode* n = dynamic_cast<ClusterNode*>(aMap->getNodeFromMap(x,y));
 		if(n && last && n->getUniqueID() != last->getUniqueID())
 		{
 			addTransitionPoint(n, last, aMap);
@@ -82,26 +85,30 @@ void EmptyCluster::frameCluster(HPAClusterAbstraction* aMap)
 		}
 	}
 
-	// add nodes along right border
-	x = this->getHOrigin()+this->getWidth()-1;
-	for(y=this->getVOrigin(); y<this->getVOrigin()+this->getHeight(); y++)
+	// don't try to add edges twice if the cluster has dimension = 1
+	if(getWidth() > 1 && getHeight() > 1)
 	{
-		node* n = aMap->getNodeFromMap(x,y);
-		if(n && last && n->getUniqueID() != last->getUniqueID())
+		// add nodes along right border
+		x = this->getHOrigin()+this->getWidth()-1;
+		for(y=this->getVOrigin()+this->getHeight()-1; y>=this->getVOrigin(); y--)
 		{
-			addTransitionPoint(n, last, aMap);
-			last = n;
+			ClusterNode* n = dynamic_cast<ClusterNode*>(aMap->getNodeFromMap(x,y));
+			if(n && last && n->getUniqueID() != last->getUniqueID())
+			{
+				addTransitionPoint(n, last, aMap);
+				last = n;
+			}
 		}
-	}
-	// add nodes along top border
-	y = this->getVOrigin();
-	for(x=this->getHOrigin(); x<this->getHOrigin()+this->getWidth(); x++)
-	{
-		node* n = aMap->getNodeFromMap(x,y);
-		if(n && last && n->getUniqueID() != last->getUniqueID())
+		// add nodes along top border
+		y = this->getVOrigin();
+		for(x=this->getHOrigin()+this->getWidth()-1; x>=this->getHOrigin(); x--)
 		{
-			addTransitionPoint(n, last, aMap);
-			last = n;
+			ClusterNode* n = dynamic_cast<ClusterNode*>(aMap->getNodeFromMap(x,y));
+			if(n && last && n->getUniqueID() != last->getUniqueID())
+			{
+				addTransitionPoint(n, last, aMap);
+				last = n;
+			}
 		}
 	}
 }

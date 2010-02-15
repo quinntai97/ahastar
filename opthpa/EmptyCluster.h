@@ -23,6 +23,7 @@ class EmptyCluster : public HPACluster
 			addNodesToCluster(HPAClusterAbstraction*) throw(std::invalid_argument);
 		virtual void openGLDraw();
 
+
 	protected:
 		virtual void connectParent(node*, HPAClusterAbstraction*);
 		virtual void buildHorizontalEntrances(HPAClusterAbstraction* hpamap);
@@ -32,7 +33,7 @@ class EmptyCluster : public HPACluster
 		void initOpenGLCoordinates(HPAClusterAbstraction*);
 		void extend(HPAClusterAbstraction*);
 		void frameCluster(HPAClusterAbstraction*);
-
+		
 		GLdouble glx, gly, glz;  // OpenGL origin coordinates
 		GLdouble glHeight, glWidth;
 };

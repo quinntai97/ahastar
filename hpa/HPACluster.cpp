@@ -48,6 +48,7 @@ void HPACluster::init(const int x, const int y, const int _width, const int _hei
 	width = _width;
 	height = _height;
 	alg = _alg;
+	verbose = false;
 }
 
 HPACluster::~HPACluster()
@@ -317,6 +318,14 @@ int HPACluster::findHorizontalEntranceLength(int x, int y, HPAClusterAbstraction
 // These nodes are connected to each other via an inter-edge and to every other node within their respective clusters (if reachable) by intra-edges.
 void HPACluster::addTransitionPoint(node* from, node* to, HPAClusterAbstraction* hpamap)
 {
+	if(getVerbose())
+	{
+		std::cout << "addTransitionPoint: ";
+		from->Print(std::cout);
+		to->Print(std::cout);
+		std::cout << std::endl;
+	}
+
 	// add internodes; first try to reuse existing nodes from the abstract graph, else create new ones.
 	int abstractionLevel = 1;
 	graph *g = hpamap->getAbstractGraph(abstractionLevel);

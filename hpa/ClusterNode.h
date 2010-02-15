@@ -11,6 +11,7 @@
 #define CLUSTERNODE_H
 
 #include "graph.h"
+#include <ostream>
 
 class ClusterNode : public node
 {
