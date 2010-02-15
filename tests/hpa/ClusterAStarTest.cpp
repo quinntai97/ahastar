@@ -56,10 +56,10 @@ void ClusterAStarTest::getPathReturnNullWhenStartOrGoalNull()
 	ClusterNode* n = getNode(0,0,hpamap);
 
 	p = castar.getPath(&hpamap, NULL, n); 
-	CPPUNIT_ASSERT_EQUAL_MESSAGE("getPath() failed to return null when start node is null", int(p), NULL);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("getPath() failed to return null when start node is null", true, p == 0);
 
 	p = castar.getPath(&hpamap, n, NULL); 
-	CPPUNIT_ASSERT_EQUAL_MESSAGE("getPath() failed to return null when goal node is null", int(p), NULL);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("getPath() failed to return null when goal node is null", true, p == 0);
 }
 
 void ClusterAStarTest::getPathReturnNullWhenStartAndGoalSameLocation()
@@ -76,7 +76,7 @@ void ClusterAStarTest::getPathReturnNullWhenStartAndGoalSameLocation()
 	n2->setLabelL(kFirstData+1, 0); // both nodes have (0,0) as their coordinates.
 
 	p = castar.getPath(&hpamap, n, n2); 
-	CPPUNIT_ASSERT_EQUAL_MESSAGE("getPath() failed to return null when start & goal have same coordinates.", int(p), NULL);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("getPath() failed to return null when start & goal have same coordinates.", true, p == 0);
 }
 
 void ClusterAStarTest::getPathReturnNullWhenStartAndGoalNodesIdentical()
@@ -92,7 +92,7 @@ void ClusterAStarTest::getPathReturnNullWhenStartAndGoalNodesIdentical()
 	ClusterNode* n = getNode(0,0,hpamap);
 	p = castar.getPath(&hpamap, n, n); 
 
-	CPPUNIT_ASSERT_EQUAL_MESSAGE(errmsg.c_str(), int(p), NULL);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE(errmsg.c_str(), true, p == 0);
 }
 
 void ClusterAStarTest::getPathReturnNullWhenMapAbstractionParameterNull()
@@ -103,7 +103,7 @@ void ClusterAStarTest::getPathReturnNullWhenMapAbstractionParameterNull()
 	node* n = mfa.getNodeFromMap(22,1);
 	
 	p = castar.getPath(NULL, pos, n);
-	CPPUNIT_ASSERT_EQUAL_MESSAGE("getPath() failed to return false when called with NULL map abstraction parameter", NULL, (int)p); 
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("getPath() failed to return false when called with NULL map abstraction parameter", true, p == 0); 
 }
 
 

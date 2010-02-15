@@ -110,14 +110,14 @@ void AnnotatedClusterAbstractionTest::getClusterShouldReturnZeroWhenIdParameterI
 	int expectedValue = 0;
 	int clusterid=-1;
 	AnnotatedCluster* result = aca->getCluster(clusterid);
-	CPPUNIT_ASSERT_EQUAL_MESSAGE("Non-zero return value when clusterid < 0", expectedValue, (int)result);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("Non-zero return value when clusterid < 0", true, result == 0);
 }
 
 void AnnotatedClusterAbstractionTest::getClusterShouldReturnZeroWhenIdParameterIsGreaterThanNumberOfClusters()
 {
 	int expectedValue = 0;
 	int clusterid=aca->getNumClusters()+1;
-	CPPUNIT_ASSERT_EQUAL_MESSAGE("Non-zero return value when clusterid >= numclusters", expectedValue, (int)aca->getCluster(clusterid));
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("Non-zero return value when clusterid >= numclusters", true, aca->getCluster(clusterid) == 0);
 }
 
 void AnnotatedClusterAbstractionTest::getClusterShouldReturnRequestedClusterGivenAValidClusterId()
