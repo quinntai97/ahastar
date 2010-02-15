@@ -9,6 +9,7 @@ class EmptyClusterAbstractionTest : public CPPUNIT_NS::TestFixture
 	CPPUNIT_TEST_SUITE( EmptyClusterAbstractionTest );
 
 	CPPUNIT_TEST( buildClustersDecomposesTheMapIntoEmptyClusters );
+	CPPUNIT_TEST( buildEntrancesConnectsAllClusters );
 
 	CPPUNIT_TEST_SUITE_END();
 
@@ -18,6 +19,7 @@ class EmptyClusterAbstractionTest : public CPPUNIT_NS::TestFixture
 		void tearDown();
 
 		void buildClustersDecomposesTheMapIntoEmptyClusters();
+		void buildEntrancesConnectsAllClusters();
 
 };
 

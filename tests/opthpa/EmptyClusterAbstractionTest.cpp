@@ -45,3 +45,23 @@ void EmptyClusterAbstractionTest::buildClustersDecomposesTheMapIntoEmptyClusters
 		
 	}
 }
+
+void EmptyClusterAbstractionTest::buildEntrancesConnectsAllClusters()
+{
+	EmptyClusterAbstraction ecmap(new Map(hpastartest.c_str()), new EmptyClusterFactory(), 
+			new ClusterNodeFactory(), new EdgeFactory());
+//	ecmap.setVerbose(true);
+	ecmap.buildClusters();
+
+	int abstractionLevel = 1;
+	graph *g = ecmap.getAbstractGraph(abstractionLevel);
+	int expectedNumAbstractNodes = g->getNumNodes(); // before
+	int expectedNumAbstractEdges = g->getNumEdges(); // before
+
+	ecmap.buildEntrances();
+
+	expectedNumAbstractEdges += 16; // # of transition points across all entrances
+
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("abstract edge count is wrong", expectedNumAbstractEdges, 
+			g->getNumEdges());
+}
