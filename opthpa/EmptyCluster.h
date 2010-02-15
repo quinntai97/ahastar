@@ -24,10 +24,14 @@ class EmptyCluster : public HPACluster
 		virtual void openGLDraw();
 
 	protected:
-		virtual void extend(HPAClusterAbstraction*);
+		virtual void connectParent(node*, HPAClusterAbstraction*);
+		virtual void buildHorizontalEntrances(HPAClusterAbstraction* hpamap);
+		virtual void buildVerticalEntrances(HPAClusterAbstraction* hpamap);
 
 	private:
 		void initOpenGLCoordinates(HPAClusterAbstraction*);
+		void extend(HPAClusterAbstraction*);
+		void frameCluster(HPAClusterAbstraction*);
 
 		GLdouble glx, gly, glz;  // OpenGL origin coordinates
 		GLdouble glHeight, glWidth;
