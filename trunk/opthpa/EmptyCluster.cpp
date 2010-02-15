@@ -185,9 +185,60 @@ void EmptyCluster::connectParent(node*, HPAClusterAbstraction*)
 
 void EmptyCluster::buildHorizontalEntrances(HPAClusterAbstraction* hpamap)
 {
+	int mapheight = hpamap->getMap()->getMapHeight();
+	int y = this->getVOrigin()+this->getHeight();
+	if(y == mapheight)
+		return; 
+
+	// scan for vertical entrances along the eastern border 
+	int x = this->getHOrigin();
+	while(x < this->getHOrigin()+this->getWidth())
+	{
+		int length = findHorizontalEntranceLength(x,y, hpamap);
+	
+		if(length == 0)
+			x++;
+		else
+		{
+			// place a transition point for each pair of nodes in the entrance area 
+			for(int xprime=x; xprime <x+length; xprime++)
+			{	
+				node* endpoint1 = hpamap->getNodeFromMap(xprime, y); 
+				node* endpoint2 = hpamap->getNodeFromMap(xprime, y-1);
+				this->addTransitionPoint(endpoint1, endpoint2, hpamap);
+			}
+			x += length;
+		}
+	}
 }
 
 void EmptyCluster::buildVerticalEntrances(HPAClusterAbstraction* hpamap)
 {
+	int mapwidth = hpamap->getMap()->getMapWidth();
+	int x = this->getHOrigin()+this->getWidth();
+	if(x == mapwidth)
+		return; 
+
+	// scan for vertical entrances along the eastern border 
+	int y = this->getVOrigin();
+	while(y < this->getVOrigin()+this->getHeight())
+	{
+		int length = findVerticalEntranceLength(x,y, hpamap);
+	
+		// build transition points; long entrances have 2, short entrances have 1.
+		if(length == 0)
+			y++;
+		else
+		{
+			// place a transition point for each pair of nodes in the entrance area
+			for(int yprime=y; yprime <y+length; yprime++)
+			{
+				node* endpoint1 = hpamap->getNodeFromMap(x, yprime); 
+				node* endpoint2 = hpamap->getNodeFromMap(x-1, yprime);
+				this->addTransitionPoint(endpoint1, endpoint2, hpamap);
+			}
+			y += length;
+		}
+	}
 }
 
