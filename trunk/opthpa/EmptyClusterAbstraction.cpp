@@ -21,6 +21,11 @@ EmptyClusterAbstraction::~EmptyClusterAbstraction()
 
 }
 
+void EmptyClusterAbstraction::buildEntrances()
+{
+	HPAClusterAbstraction::buildEntrances();
+}
+
 // Decomposes the map into a set of empty (obstacle free) clusters.
 // simple flood-fill based decomposition:
 //  1. Start with some node @ (x, y). 
@@ -51,12 +56,6 @@ void EmptyClusterAbstraction::buildClusters()
 						" id: "<< cluster->getId()<< std::endl;
 			}	
 		}
-}
-
-// TODO: every node in the entrance appears in the abstract graph
-// avoid adding intra-edges since we can calculate these on-demand.
-void EmptyClusterAbstraction::buildEntrances()
-{
 }
 
 void
