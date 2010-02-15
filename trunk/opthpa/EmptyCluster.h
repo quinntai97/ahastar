@@ -15,6 +15,10 @@ class HPAClusterAbstraction;
 
 class EmptyCluster : public HPACluster
 {
+	#ifdef UNITTEST
+		friend class EmptyClusterTest;
+	#endif
+
 	public:
 		EmptyCluster(const int x, const int y) throw(std::invalid_argument);
 		virtual ~EmptyCluster();
