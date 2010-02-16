@@ -1,12 +1,16 @@
 /*	
- *	emptyClusterAbstaction.h
+ *	EmptyClusterAbstaction.h
  *
- * 	Creates a spatial decomposition involving non-regular
- * 	clusters which are completely empty.
- * 	Uses a floodfill approach to create clusters.
+ *  Decomposes a map into non-regular clusters which are obstacle free. 
+ *  This decomposition allows each cluster to be traversed optimally 
+ *  by only expanding nodes along the perimeter of the cluster area 
+ *  (and never any inside).
  *
- * 	Because the clusters are empty we :w
+ *  See [Harabor & Botea 2010]
  *
+ * 	NB: Clusters are extended in size using a floodfill approach.
+ * 	NB2: Every possible transition point is created when an entrance
+ * 	between two adjacent clusters is identified.
  *
  * 	@author: dharabor
  * 	@created: 10/02/2010
