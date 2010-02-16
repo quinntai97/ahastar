@@ -52,6 +52,7 @@ class EmptyCluster : public HPACluster
 		void initOpenGLCoordinates(HPAClusterAbstraction*);
 		void extend(HPAClusterAbstraction*);
 		void frameCluster(HPAClusterAbstraction*);
+		void addMacroEdges(HPAClusterAbstraction *aMap);
 		
 		GLdouble glx, gly, glz;  // OpenGL origin coordinates
 		GLdouble glHeight, glWidth;
