@@ -53,7 +53,7 @@ bool AbstractClusterAStar::isInCorridor(node* _n)
 	5. if openlist is null return failure, else, goto 1
 	6. return path
 */
-path* ClusterAStar::getPath(graphAbstraction *aMap, node* from, node* to, reservationProvider *rp)
+path* AbstractClusterAStar::getPath(graphAbstraction *aMap, node* from, node* to, reservationProvider *rp)
 {
 	if(verbose) std::cout << "getPath()"<<std::endl;
 	nodesExpanded=0;
@@ -109,7 +109,7 @@ path* ClusterAStar::getPath(graphAbstraction *aMap, node* from, node* to, reserv
 	return p;	
 }
 
-void ClusterAStar::expand(node* current, node* to, heap* openList, std::map<int, node*>& closedList, graph* g)
+void AbstractClusterAStar::expand(node* current, node* to, heap* openList, std::map<int, node*>& closedList, graph* g)
 {
 		if(verbose) printNode(string("expanding... "), current);
 		nodesExpanded++;
@@ -202,7 +202,7 @@ bool ClusterAStar::checkParameters(graphAbstraction* aMap, node* from, node* to)
 	return true;
 }
 
-void ClusterAStar::printNode(string msg, node* n)
+void AbstractClusterAStar::printNode(string msg, node* n)
 {	
 		std::cout << msg <<"addr: "<<&(*n)<<" num: "<<n->getUniqueID() <<" ("<<n->getLabelL(kFirstData)<<","<<n->getLabelL(kFirstData+1)<<")"<<std::endl;
 }
