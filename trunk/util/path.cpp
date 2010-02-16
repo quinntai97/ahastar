@@ -25,6 +25,7 @@
  */
 
 #include "path.h"
+#include "constants.h"
 
 // Returns the length of the path -- number of steps
 unsigned path::length()
@@ -62,7 +63,7 @@ void path::print(bool beginning)
 		printf("[");
 	
 	if (n != NULL)
-		printf("%d",n->getNum());
+		printf("[%d](%d, %d)",n->getNum(),n->getLabelL(kFirstData), n->getLabelL(kFirstData+1));
 	else
 		printf("NULL");
 	

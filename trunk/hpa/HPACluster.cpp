@@ -125,6 +125,12 @@ void HPACluster::addParent(node* _parentnode, HPAClusterAbstraction* hpamap) thr
 			throw std::invalid_argument(ss.str());
 	}
 	
+	if(getVerbose())
+	{
+		std::cout << "addParent ";
+		parentnode->Print(std::cout);
+		std::cout << std::endl;
+	}
 	this->connectParent(parentnode,hpamap);	
 	parents[parentnode->getUniqueID()] = parentnode;
 }

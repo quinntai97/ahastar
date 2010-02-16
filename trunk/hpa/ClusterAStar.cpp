@@ -56,22 +56,30 @@ bool AbstractClusterAStar::isInCorridor(node* _n)
 path* ClusterAStar::getPath(graphAbstraction *aMap, node* from, node* to, reservationProvider *rp)
 {
 	if(verbose) std::cout << "getPath()"<<std::endl;
+	if(!checkParameters(aMap, from, to))
+	{
+		nodesExpanded=0;
+		nodesTouched=0;
+		peakmemory = 0;
+		searchtime =0;
+		return NULL;
+	}
+	this->setGraphAbstraction(aMap);
+
+	graph *g = aMap->getAbstractGraph(from->getLabelL(kAbstractionLevel));
+	return search(g, from, to);
+}
+
+path* AbstractClusterAStar::search(graph* g, node* from, node* to)
+{
 	nodesExpanded=0;
 	nodesTouched=0;
 	peakmemory = 0;
 	searchtime =0;
-	
-	if(!checkParameters(aMap, from, to))
-		return NULL;
-	
-	this->setGraphAbstraction(aMap);
-	
+
 	// label start node cost 0 
-	from->setLabelF(kTemporaryLabel, 1*aMap->h(from, to));
+	from->setLabelF(kTemporaryLabel, 1*this->getGraphAbstraction()->h(from, to));
 	from->markEdge(0);
-	
-	/* initialise the search params */
-	graph *g = aMap->getAbstractGraph(from->getLabelL(kAbstractionLevel));
 	
 	heap* openList = new heap(30);
 	std::map<int, node*> closedList;

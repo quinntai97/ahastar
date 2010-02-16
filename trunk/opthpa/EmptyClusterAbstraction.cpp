@@ -94,7 +94,7 @@ void EmptyClusterAbstraction::connectSG(node* absNode)
 	if(absNeighbour == 0)
 		throw std::invalid_argument("cluster not properly framed along top border");
 
-	edge* e = new edge(absNode->getNum(), absNeighbour->getNum(), manhattan(absNode, absNeighbour));
+	edge* e = new edge(absNode->getNum(), absNeighbour->getNum(), h(absNode, absNeighbour));
 	absg->addEdge(e);
 	if(getVerbose())
 		std::cout << "above: ("<<nx<<", "<<ny<<") weight: "<<e->getWeight();
@@ -107,7 +107,7 @@ void EmptyClusterAbstraction::connectSG(node* absNode)
 	if(absNeighbour == 0)
 		throw std::invalid_argument("cluster not properly framed along bottom border");
 
-	e = new edge(absNode->getNum(), absNeighbour->getNum(), manhattan(absNode, absNeighbour));
+	e = new edge(absNode->getNum(), absNeighbour->getNum(), h(absNode, absNeighbour));
 	absg->addEdge(e);
 	if(getVerbose())
 		std::cout << "below: ("<<nx<<", "<<ny<<") weight: "<<e->getWeight();
@@ -120,7 +120,7 @@ void EmptyClusterAbstraction::connectSG(node* absNode)
 	if(absNeighbour == 0)
 		throw std::invalid_argument("cluster not properly framed along left border");
 
-	e = new edge(absNode->getNum(), absNeighbour->getNum(), manhattan(absNode, absNeighbour));
+	e = new edge(absNode->getNum(), absNeighbour->getNum(), h(absNode, absNeighbour));
 	absg->addEdge(e);
 	if(getVerbose())
 		std::cout << "left: ("<<nx<<", "<<ny<<") weight: "<<e->getWeight();
@@ -133,15 +133,15 @@ void EmptyClusterAbstraction::connectSG(node* absNode)
 	if(absNeighbour == 0)
 		throw std::invalid_argument("cluster not properly framed along right border");
 
-	e = new edge(absNode->getNum(), absNeighbour->getNum(), manhattan(absNode, absNeighbour));
+	e = new edge(absNode->getNum(), absNeighbour->getNum(), h(absNode, absNeighbour));
 	absg->addEdge(e);
 	if(getVerbose())
 		std::cout << "right ("<<nx<<", "<<ny<<") weight: "<<e->getWeight() <<std::endl;
 
 }
 
-// manhattan heuristic
-int EmptyClusterAbstraction::manhattan(node* from, node* to)
+// h heuristic
+double EmptyClusterAbstraction::h(node* from, node* to)
 {
 	int fx = from->getLabelL(kFirstData);
 	int fy = from->getLabelL(kFirstData+1);
