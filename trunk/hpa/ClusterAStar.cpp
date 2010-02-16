@@ -53,7 +53,7 @@ bool AbstractClusterAStar::isInCorridor(node* _n)
 	5. if openlist is null return failure, else, goto 1
 	6. return path
 */
-path* AbstractClusterAStar::getPath(graphAbstraction *aMap, node* from, node* to, reservationProvider *rp)
+path* ClusterAStar::getPath(graphAbstraction *aMap, node* from, node* to, reservationProvider *rp)
 {
 	if(verbose) std::cout << "getPath()"<<std::endl;
 	nodesExpanded=0;

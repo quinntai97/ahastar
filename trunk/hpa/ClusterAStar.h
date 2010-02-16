@@ -35,7 +35,7 @@ class AbstractClusterAStar : public aStarOld
 		AbstractClusterAStar() { corridorNodes = NULL; verbose = false;}
 		virtual ~AbstractClusterAStar() {}
 		virtual const char* getName() = 0;
-		virtual path *getPath(graphAbstraction *aMap, node *from, node *to, reservationProvider *rp = 0);
+		virtual path *getPath(graphAbstraction *aMap, node *from, node *to, reservationProvider *rp = 0) = 0;
 		
 		long getPeakMemory() { return peakmemory; }
 		double getSearchTime() { return searchtime; }
@@ -46,19 +46,16 @@ class AbstractClusterAStar : public aStarOld
 		}
 		
 		bool verbose;
-	protected:
-		bool isInCorridor(node* n);
-		void expand(node* current, node* to, heap* openList, std::map<int, node*>& closedList, graph* g);
 
+	protected:
+		void printNode(std::string msg, node* n);
+		bool isInCorridor(node* n);
+		virtual void expand(node* current, node* to, heap* openList, std::map<int, node*>& closedList, graph* g);
 		virtual bool evaluate(node* current, node* target, edge* e) = 0; 
-		virtual bool checkParameters(graphAbstraction* aMap, node* from, node* to) = 0;
 
 		long peakmemory;
 		double searchtime;
 		std::map<int, node*> *corridorNodes;
-
-	private:
-		void printNode(std::string msg, node* n);
 };
 
 class ClusterAStar : public AbstractClusterAStar
@@ -70,6 +67,7 @@ class ClusterAStar : public AbstractClusterAStar
 		
 		ClusterAStar() : AbstractClusterAStar() { }
 		virtual ~ClusterAStar() {}
+		virtual path *getPath(graphAbstraction *aMap, node *from, node *to, reservationProvider *rp = 0);
 		virtual const char* getName() { return "ClusterAStar"; }
 		virtual void logFinalStats(statCollection *stats);
 

@@ -46,7 +46,7 @@ CFLAGS += -I/System/Library/Frameworks/OpenGL.framework/Versions/A/Headers/
 CFLAGS += -I/System/Library/Frameworks/AGL.framework/Versions/A/Headers/
 CFLAGS += -I/System/Library/Frameworks/Foundation.framework/Versions/A/Headers/
 CFLAGS += -I/System/Library/Frameworks/AppKit.framework/Versions/A/Headers/
-CFLAGS += -I/System/Library/Frameworks/CarbonCore.framework/Versions/A/Headers/
+#CFLAGS += -I/System/Library/Frameworks/CarbonCore.framework/Versions/A/Headers/
 endif
 
 else # not darwin
