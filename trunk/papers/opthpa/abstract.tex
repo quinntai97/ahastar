@@ -1,0 +1,13 @@
+\begin{abstract}
+Hierarchical pathfinding algorithms such as HPA* work by decomposing a 
+large map into a much smaller approximation that can be efficiently 
+searched.
+This approach is fast, complete and memory efficient but usually suboptimal.
+In this paper we develop a new variant of HPA* which is guaranteed to return
+optimal solutions on 4-connected gridmap domains.
+Our approach relies on a new abstraction technique that identifies obstacle-free areas 
+(or clusters) which can be optimally traversed by only expanding nodes along their perimeter.
+We give an empirical analysis and demonstrate that this method has similar running-time 
+characteristics to HPA*.
+\end{abstract}
+
