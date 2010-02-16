@@ -52,6 +52,7 @@ class AbstractClusterAStar : public aStarOld
 		bool isInCorridor(node* n);
 		virtual void expand(node* current, node* to, heap* openList, std::map<int, node*>& closedList, graph* g);
 		virtual bool evaluate(node* current, node* target, edge* e) = 0; 
+		virtual path *search(graph* g, node *from, node *to);
 
 		long peakmemory;
 		double searchtime;
@@ -72,7 +73,7 @@ class ClusterAStar : public AbstractClusterAStar
 		virtual void logFinalStats(statCollection *stats);
 
 	protected:
-		virtual bool evaluate(node* current, node* target, edge* e);
+		virtual bool evaluate(node* current, node* target, edge* e=0);
 		bool checkParameters(graphAbstraction* aMap, node* from, node* to);
 		
 

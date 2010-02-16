@@ -26,19 +26,17 @@ class EmptyClusterAbstraction;
 
 class CardinalAStar : public ClusterAStar
 {
+	#ifdef UNITTEST
+		friend class CardinalAStarTest;
+    #endif
+
 	public:
 		CardinalAStar() { }
-		~CardinalAStar() { }
-
+		virtual	~CardinalAStar() { }
 		virtual path *getPath(graphAbstraction *aMap, node *from, node *to, reservationProvider *rp = 0);
 
 	protected:
 		virtual bool evaluate(node* current, node* target, edge* e);
-
-	private:
-		path* refine(path* p);
-
-		EmptyClusterAbstraction* aMap;
 };
 
 #endif

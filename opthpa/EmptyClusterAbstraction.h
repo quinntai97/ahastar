@@ -43,7 +43,7 @@ class EmptyClusterAbstraction : public HPAClusterAbstraction
 		virtual void insertStartAndGoalNodesIntoAbstractGraph(node*, node*) 
 			throw(std::invalid_argument);
 
-		int manhattan(node* from, node* to);
+		virtual double h(node* from, node* to);
 
 	private:
 		void connectSG(node* absNode);

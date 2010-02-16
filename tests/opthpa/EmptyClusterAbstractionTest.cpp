@@ -23,7 +23,7 @@ void EmptyClusterAbstractionTest::buildClustersDecomposesTheMapIntoEmptyClusters
 {
 	EmptyClusterAbstraction ecmap(new Map(hpastartest.c_str()), new EmptyClusterFactory(), 
 			new ClusterNodeFactory(), new EdgeFactory());
-//	ecmap.setVerbose(true);
+	//ecmap.setVerbose(true);
 	ecmap.buildClusters();
 
 	int numExpectedClusters = 9;
@@ -50,7 +50,6 @@ void EmptyClusterAbstractionTest::buildEntrancesConnectsAllClusters()
 {
 	EmptyClusterAbstraction ecmap(new Map(hpastartest.c_str()), new EmptyClusterFactory(), 
 			new ClusterNodeFactory(), new EdgeFactory());
-//	ecmap.setVerbose(true);
 	ecmap.buildClusters();
 
 	int abstractionLevel = 1;
@@ -61,9 +60,13 @@ void EmptyClusterAbstractionTest::buildEntrancesConnectsAllClusters()
 	ecmap.buildEntrances();
 
 	expectedNumAbstractEdges += 16; // # of transition points across all entrances
+	expectedNumAbstractNodes +=1; // single-node cluster @ (7,2)
 
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("abstract edge count is wrong", expectedNumAbstractEdges, 
 			g->getNumEdges());
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("abstract node count changed!", expectedNumAbstractNodes, 
+			g->getNumNodes());
+
 }
 
 void EmptyClusterAbstractionTest::insertStartAndGoalNodesIntoAbstractGraphWorksAsAdvertised()
@@ -114,8 +117,7 @@ void EmptyClusterAbstractionTest::insertStartAndGoalNodesIntoAbstractGraphWorksA
 	int index=0;
 	while(e)
 	{
-		node* borderNode = g->getNode(e->getTo());
-		CPPUNIT_ASSERT_EQUAL_MESSAGE("absStart edge weight != manhattan distance",
+		CPPUNIT_ASSERT_EQUAL_MESSAGE("absStart edge weight != h distance",
 				sEdgeWeights[index], e->getWeight());
 		index++;
 		e = absStart->edgeIterNext(ei);
@@ -127,8 +129,7 @@ void EmptyClusterAbstractionTest::insertStartAndGoalNodesIntoAbstractGraphWorksA
 	index=0;
 	while(e)
 	{
-		node* borderNode = g->getNode(e->getTo());
-		CPPUNIT_ASSERT_EQUAL_MESSAGE("absGoal edge weight != manhattan distance",
+		CPPUNIT_ASSERT_EQUAL_MESSAGE("absGoal edge weight != h distance",
 				gEdgeWeights[index], e->getWeight());
 		index++;
 		e = absGoal->edgeIterNext(ei);
@@ -160,7 +161,7 @@ void EmptyClusterAbstractionTest::insertStartAndGoalNodesIntoAbstractGraphDoesNo
 			expectedNumAbstractEdges, g->getNumEdges());
 }
 
-void EmptyClusterAbstractionTest::manhattanComputesTileDistanceBetweenTwoNodes()
+void EmptyClusterAbstractionTest::hComputesTileDistanceBetweenTwoNodes()
 {
 	EmptyClusterAbstraction ecmap(new Map(hpastartest.c_str()), new EmptyClusterFactory(), 
 			new ClusterNodeFactory(), new EdgeFactory());
@@ -168,9 +169,9 @@ void EmptyClusterAbstractionTest::manhattanComputesTileDistanceBetweenTwoNodes()
 	node* start = ecmap.getNodeFromMap(1, 1);
 	node* goal = ecmap.getNodeFromMap(5, 2);
 
-	int expectedCost = 5;
-	CPPUNIT_ASSERT_EQUAL_MESSAGE("manhattan computes wrong cost", expectedCost, 
-		   ecmap.manhattan(start, goal));	
-	CPPUNIT_ASSERT_EQUAL_MESSAGE("manhattan computes wrong cost", expectedCost, 
-		   ecmap.manhattan(goal, start));	
+	double expectedCost = 5;
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("h computes wrong cost", expectedCost, 
+		   ecmap.h(start, goal));	
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("h computes wrong cost", expectedCost, 
+		   ecmap.h(goal, start));	
 }
