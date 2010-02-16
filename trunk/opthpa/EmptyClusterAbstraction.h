@@ -50,6 +50,12 @@ class EmptyClusterAbstraction : public HPAClusterAbstraction
 		removeStartAndGoalNodesFromAbstractGraph() 
 			throw(std::runtime_error);
 
+		int manhattan(node* from, node* to);
+
+	private:
+		void connectSG(node* absNode);
+
+
 };
 
 #endif

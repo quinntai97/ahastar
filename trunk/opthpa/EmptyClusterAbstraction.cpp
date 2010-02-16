@@ -58,14 +58,88 @@ void EmptyClusterAbstraction::buildClusters()
 		}
 }
 
+// each start/goal node is connected to the nearest abstract node along each border
+// of the cluster. i.e. it has 4 neighbours (one above, below, to the left and right).
 void
 EmptyClusterAbstraction::insertStartAndGoalNodesIntoAbstractGraph(node* s, node* g)
 	throw(std::invalid_argument)
 {
 	HPAClusterAbstraction::insertStartAndGoalNodesIntoAbstractGraph(s, g);
-	// add an edge w/ manhattan distance weight to every abstract node in the cluster?
-	// or just add macro edges to 4 borders?? yes. this one.
 
+	graph* absg = this->getAbstractGraph(1);
+	ClusterNode* absStart = dynamic_cast<ClusterNode*>(absg->getNode(s->getLabelL(kParent)));
+	ClusterNode* absGoal = dynamic_cast<ClusterNode*>(absg->getNode(g->getLabelL(kParent)));
+
+	if(absStart == 0 || absGoal == 0)
+	{
+		throw std::invalid_argument("either start or goal node not inserted into abstract graph");
+	}
+
+	connectSG(absStart);
+	connectSG(absGoal);
+}
+
+void EmptyClusterAbstraction::connectSG(node* absNode)
+{
+	graph* absg = this->getAbstractGraph(1);
+	EmptyCluster* nodeCluster = this->getCluster(dynamic_cast<ClusterNode*>(absNode)->getParentClusterId());
+
+	int x = absNode->getLabelL(kFirstData);
+	int y = absNode->getLabelL(kFirstData+1);
+
+	// connect to neighbour above
+	int ny = nodeCluster->getVOrigin();
+	int nx = x;
+	node* absNeighbour = absg->getNode(this->getNodeFromMap(nx, ny)->getLabelL(kParent));
+	if(absNeighbour == 0)
+		throw std::invalid_argument("cluster not properly framed along top border");
+
+	edge* e = new edge(absNode->getNum(), absNeighbour->getNum(), manhattan(absNode, absNeighbour));
+	absg->addEdge(e);
+
+	// connect to neighbour below
+	ny = nodeCluster->getVOrigin()+nodeCluster->getHeight()-1;
+	nx = x;
+	absNeighbour = absg->getNode(this->getNodeFromMap(nx, ny)->getLabelL(kParent));
+	if(absNeighbour == 0)
+		throw std::invalid_argument("cluster not properly framed along bottom border");
+
+	e = new edge(absNode->getNum(), absNeighbour->getNum(), manhattan(absNode, absNeighbour));
+	absg->addEdge(e);
+
+	// connect to neighbour to the left
+	ny = y; 
+	nx = nodeCluster->getHOrigin();
+	absNeighbour = absg->getNode(this->getNodeFromMap(nx, ny)->getLabelL(kParent));
+	if(absNeighbour == 0)
+		throw std::invalid_argument("cluster not properly framed along left border");
+
+	e = new edge(absNode->getNum(), absNeighbour->getNum(), manhattan(absNode, absNeighbour));
+	absg->addEdge(e);
+
+	// connect to neighbour to the right
+	ny = y; 
+	nx = nodeCluster->getHOrigin()+nodeCluster->getWidth()-1;
+	absNeighbour = absg->getNode(this->getNodeFromMap(nx, ny)->getLabelL(kParent));
+	if(absNeighbour == 0)
+		throw std::invalid_argument("cluster not properly framed along right border");
+
+	e = new edge(absNode->getNum(), absNeighbour->getNum(), manhattan(absNode, absNeighbour));
+	absg->addEdge(e);
+}
+
+// manhattan heuristic
+int EmptyClusterAbstraction::manhattan(node* from, node* to)
+{
+	int fx = from->getLabelL(kFirstData);
+	int fy = from->getLabelL(kFirstData+1);
+	int tx = to->getLabelL(kFirstData);
+	int ty = to->getLabelL(kFirstData+1);
+
+	unsigned int deltax = fx - tx;
+	unsigned int deltay = fy - ty;
+
+	return deltax + deltay;
 }
 
 void
