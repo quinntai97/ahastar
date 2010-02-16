@@ -8,10 +8,6 @@
  *
  *  See [Harabor & Botea 2010]
  *
- * 	NB: Clusters are extended in size using a floodfill approach.
- * 	NB2: Every possible transition point is created when an entrance
- * 	between two adjacent clusters is identified.
- *
  * 	@author: dharabor
  * 	@created: 10/02/2010
  */
