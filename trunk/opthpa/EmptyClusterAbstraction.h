@@ -36,19 +36,12 @@ class EmptyClusterAbstraction : public HPAClusterAbstraction
 			throw(std::invalid_argument);
 		virtual ~EmptyClusterAbstraction();
 
-		virtual void buildEntrances();
 		virtual void buildClusters();
 		virtual	EmptyCluster* clusterIterNext(cluster_iterator&) const;
 		virtual EmptyCluster* getCluster(int cid);
 		
-		/* insert and remove start/goal */
-		virtual void 
-		insertStartAndGoalNodesIntoAbstractGraph(node*, node*) 
+		virtual void insertStartAndGoalNodesIntoAbstractGraph(node*, node*) 
 			throw(std::invalid_argument);
-
-		virtual void 
-		removeStartAndGoalNodesFromAbstractGraph() 
-			throw(std::runtime_error);
 
 		int manhattan(node* from, node* to);
 
