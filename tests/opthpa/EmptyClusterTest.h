@@ -16,9 +16,6 @@ class EmptyClusterTest : public CPPUNIT_NS::TestFixture
 	CPPUNIT_TEST( addNodesToClusterFramesEmptyClustersWithWidthEqualTo1 );
 	CPPUNIT_TEST( addNodesToClusterFramesEmptyClustersWithHeightEqualTo1 );
 	CPPUNIT_TEST( addNodesToClusterFramesEmptyClusterWhenOriginIsNotOnTheMapBorder );
-	CPPUNIT_TEST( addNodesToClusterAddsMacroEdgesToEachFramedCluster );
-	CPPUNIT_TEST( addNodesToClusterAddsNoHorizontalMacroEdgesWhenClusterWidthIs1 );
-	CPPUNIT_TEST( addNodesToClusterAddsNoVerticalMacroEdgesWhenClusterHeightIs1 );
 
 	CPPUNIT_TEST( buildHorizontalEntrancesCreatesAllPossibleTransitionPoints );
 	CPPUNIT_TEST( buildVerticalEntrancesCreatesAllPossibleTransitionPoints );
@@ -36,9 +33,6 @@ class EmptyClusterTest : public CPPUNIT_NS::TestFixture
 		void addNodesToClusterFramesEmptyClustersWithHeightEqualTo1();
 		void addNodesToClusterFramesEmptyClustersWithWidthEqualTo1();
 		void addNodesToClusterFramesEmptyClusterWhenOriginIsNotOnTheMapBorder();
-		void addNodesToClusterAddsMacroEdgesToEachFramedCluster();
-		void addNodesToClusterAddsNoVerticalMacroEdgesWhenClusterHeightIs1();
-		void addNodesToClusterAddsNoHorizontalMacroEdgesWhenClusterWidthIs1();
 
 		void buildHorizontalEntrancesCreatesAllPossibleTransitionPoints();
 		void buildVerticalEntrancesCreatesAllPossibleTransitionPoints();

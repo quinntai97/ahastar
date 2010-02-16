@@ -275,19 +275,3 @@ void EmptyClusterTest::buildHorizontalEntrancesCreatesAllPossibleTransitionPoint
 			g->getNumEdges());
 
 }
-
-void EmptyClusterTest::addNodesToClusterAddsMacroEdgesToEachFramedCluster()
-{
-	CPPUNIT_ASSERT_EQUAL_MESSAGE("implement me", true, false);
-}
-
-void EmptyClusterTest::addNodesToClusterAddsNoVerticalMacroEdgesWhenClusterHeightIs1()
-{
-	CPPUNIT_ASSERT_EQUAL_MESSAGE("implement me", true, false);
-}
-
-void EmptyClusterTest::addNodesToClusterAddsNoHorizontalMacroEdgesWhenClusterWidthIs1()
-{
-	CPPUNIT_ASSERT_EQUAL_MESSAGE("implement me", true, false);
-}
-
