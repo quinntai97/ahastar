@@ -274,5 +274,6 @@ void EmptyClusterTest::buildHorizontalEntrancesCreatesAllPossibleTransitionPoint
 			g->getNumNodes());
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("abstract edge count is wrong", expectedNumAbstractEdges, 
 			g->getNumEdges());
+
 }
 

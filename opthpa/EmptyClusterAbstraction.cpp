@@ -21,11 +21,6 @@ EmptyClusterAbstraction::~EmptyClusterAbstraction()
 
 }
 
-void EmptyClusterAbstraction::buildEntrances()
-{
-	HPAClusterAbstraction::buildEntrances();
-}
-
 // Decomposes the map into a set of empty (obstacle free) clusters.
 // simple flood-fill based decomposition:
 //  1. Start with some node @ (x, y). 
@@ -75,8 +70,11 @@ EmptyClusterAbstraction::insertStartAndGoalNodesIntoAbstractGraph(node* s, node*
 		throw std::invalid_argument("either start or goal node not inserted into abstract graph");
 	}
 
-	connectSG(absStart);
-	connectSG(absGoal);
+	// only connect nodes that do not already exist in the abstract graph 
+	if(this->getStartId() != -1)
+		connectSG(absStart);
+	if(this->getGoalId() != -1)
+		connectSG(absGoal);
 }
 
 void EmptyClusterAbstraction::connectSG(node* absNode)
@@ -86,6 +84,8 @@ void EmptyClusterAbstraction::connectSG(node* absNode)
 
 	int x = absNode->getLabelL(kFirstData);
 	int y = absNode->getLabelL(kFirstData+1);
+	if(getVerbose())
+		std::cout << "inserting node ("<<x<<", "<<y<<") into abstract graph"<<std::endl;
 
 	// connect to neighbour above
 	int ny = nodeCluster->getVOrigin();
@@ -96,6 +96,9 @@ void EmptyClusterAbstraction::connectSG(node* absNode)
 
 	edge* e = new edge(absNode->getNum(), absNeighbour->getNum(), manhattan(absNode, absNeighbour));
 	absg->addEdge(e);
+	if(getVerbose())
+		std::cout << "above: ("<<nx<<", "<<ny<<") weight: "<<e->getWeight();
+
 
 	// connect to neighbour below
 	ny = nodeCluster->getVOrigin()+nodeCluster->getHeight()-1;
@@ -106,6 +109,9 @@ void EmptyClusterAbstraction::connectSG(node* absNode)
 
 	e = new edge(absNode->getNum(), absNeighbour->getNum(), manhattan(absNode, absNeighbour));
 	absg->addEdge(e);
+	if(getVerbose())
+		std::cout << "below: ("<<nx<<", "<<ny<<") weight: "<<e->getWeight();
+
 
 	// connect to neighbour to the left
 	ny = y; 
@@ -116,6 +122,9 @@ void EmptyClusterAbstraction::connectSG(node* absNode)
 
 	e = new edge(absNode->getNum(), absNeighbour->getNum(), manhattan(absNode, absNeighbour));
 	absg->addEdge(e);
+	if(getVerbose())
+		std::cout << "left: ("<<nx<<", "<<ny<<") weight: "<<e->getWeight();
+
 
 	// connect to neighbour to the right
 	ny = y; 
@@ -126,6 +135,9 @@ void EmptyClusterAbstraction::connectSG(node* absNode)
 
 	e = new edge(absNode->getNum(), absNeighbour->getNum(), manhattan(absNode, absNeighbour));
 	absg->addEdge(e);
+	if(getVerbose())
+		std::cout << "right ("<<nx<<", "<<ny<<") weight: "<<e->getWeight() <<std::endl;
+
 }
 
 // manhattan heuristic
@@ -135,18 +147,16 @@ int EmptyClusterAbstraction::manhattan(node* from, node* to)
 	int fy = from->getLabelL(kFirstData+1);
 	int tx = to->getLabelL(kFirstData);
 	int ty = to->getLabelL(kFirstData+1);
+//	std::cout << "from: "<<fx<<","<<fy<<") to: ("<<tx<<","<<ty<<") ";
 
-	unsigned int deltax = fx - tx;
-	unsigned int deltay = fy - ty;
+	int deltax = fx - tx;
+	if(deltax < 0) deltax *=-1;
 
+	int deltay = fy - ty;
+	if(deltay < 0) deltay *=-1;
+
+//	std::cout << "deltax: "<<deltax<<" deltay: "<<deltay<<std::endl;
 	return deltax + deltay;
-}
-
-void
-EmptyClusterAbstraction::removeStartAndGoalNodesFromAbstractGraph()
-	throw(std::runtime_error)
-{
-	HPAClusterAbstraction::removeStartAndGoalNodesFromAbstractGraph();
 }
 
 EmptyCluster* EmptyClusterAbstraction::clusterIterNext(cluster_iterator& it) const
