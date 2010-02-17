@@ -3,6 +3,9 @@
 
 #include "scenarioLoader.h"
 #include <vector>
+#include <fstream>
+#include <iostream>
+
 
 namespace ScenarioManagerNS
 {
@@ -59,6 +62,11 @@ class ScenarioManager : public AbstractScenarioManager
 		throw(TooManyTriesException);
 
 		virtual void loadScenarioFile(const char* filelocation);
+
+	protected:
+		void loadV2ScenarioFile(std::ifstream& infile);
+		void loadV21ScenarioFile(std::ifstream& infile);
+		void loadV3ScenarioFile(std::ifstream& infile);
 };
 
 #endif
