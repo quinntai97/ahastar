@@ -211,6 +211,7 @@ void EmptyCluster::initOpenGLCoordinates(HPAClusterAbstraction* aMap)
 void EmptyCluster::openGLDraw()
 {
 	glColor3f (0.6F, 0.9F, 0.4F);
+	glLineWidth(2.0f);
 	glBegin(GL_LINE_STRIP);
 	glVertex3f(glx, gly, glz);
 	glVertex3f(glx+glWidth, gly, glz);
@@ -218,6 +219,7 @@ void EmptyCluster::openGLDraw()
 	glVertex3f(glx, gly+glHeight, glz);
 	glVertex3f(glx, gly, glz);
 	glEnd();
+	glLineWidth(1.0f);
 }
 
 void EmptyCluster::connectParent(node*, HPAClusterAbstraction*)

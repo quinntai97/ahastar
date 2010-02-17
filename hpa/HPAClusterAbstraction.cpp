@@ -260,101 +260,13 @@ void HPAClusterAbstraction::insertStartAndGoalNodesIntoAbstractGraph(node* _star
 
 void HPAClusterAbstraction::openGLDraw()
 {
-/*	Map* map = this->getMap();
-	graph* g1 = abstractions[1];
-		
-	GLdouble xx, yy, zz,rr;
-	
-	//draw transitions 
-	edge_iterator edgeIter; 
-	edgeIter = g1->getEdgeIter();
-	edge* e = g1->edgeIterNext(edgeIter);
-	while(e)
+	cluster_iterator it = getClusterIter();
+	HPACluster *cluster = clusterIterNext(it);
+	while(cluster)
 	{
-		node *n1, *n2; 		
-		//double x1, x2, y1, y2;
-
-		path* thepath = pathCache[e->getUniqueID()];
-		if(thepath)
-		{
-			//node* efrom = abstractions[1]->getNode(e->getFrom()); 
-			//node* eto = abstractions[1]->getNode(e->getTo());
-			
-			glLineWidth(1.0f);
-			while(thepath->next)
-			{
-				n1 = thepath->n;
-				n2 = thepath->next->n;
-
-				glColor3f (0.7F, 0.5F, 0.5F);
-				
-				glBegin(GL_LINES);
-				
-				map->getOpenGLCoord(n1->getLabelL(kFirstData), n1->getLabelL(kFirstData+1), xx, yy, zz, rr);
-				glVertex3f(xx, yy, zz-rr*0.5);
-				map->getOpenGLCoord(n2->getLabelL(kFirstData), n2->getLabelL(kFirstData+1), xx, yy, zz, rr);
-				glVertex3f(xx, yy, zz-rr*0.5);
-				
-				glEnd();
-				
-				thepath = thepath->next;
-			}
-		}
-		e = g1->edgeIterNext(edgeIter);							
+		cluster->openGLDraw();
+		cluster = clusterIterNext(it);
 	}
-
-	node_iterator nodeIter;
-	nodeIter = g1->getNodeIter();
-	node* absn = g1->nodeIterNext(nodeIter);
-	while(absn)
-	{
-		glLineWidth(3.0f);
-		
-		map->getOpenGLCoord(absn->getLabelL(kFirstData), absn->getLabelL(kFirstData+1), xx, yy, zz, rr);
-		
-		glColor3f (0.6F, 0.4F, 0.4F);
-		glBegin(GL_QUADS);
-		glVertex3f(xx-0.01, yy-0.01, zz-rr*0.5);
-		glVertex3f(xx+0.01, yy-0.01, zz-rr*0.5);
-		glVertex3f(xx+0.01, yy+0.01, zz-rr*0.5);
-		glVertex3f(xx-0.01, yy+0.01, zz-rr*0.5);		
-		glEnd();
-		
-		absn = g1->nodeIterNext(nodeIter);	
-	}
-
-	if(drawClusters)
-	{
-		glLineWidth(2.0f);
-		for(int cindex = 0; cindex<clusters.size(); cindex++)
-		{
-			glColor3f (0.6F, 0.9F, 0.4F);
-			HPACluster* ac = clusters[cindex];
-			glBegin(GL_LINE_STRIP);
-			map->getOpenGLCoord(ac->getHOrig(), ac->getVOrig(), xx, yy, zz, rr);
-			glVertex3f(xx, yy, zz-rr*0.5);
-
-			map->getOpenGLCoord(ac->getHOrig()+ac->getWidth()-1, ac->getVOrig(), xx, yy, zz, rr);
-			glVertex3f(xx, yy, zz-rr*0.5);
-
-			map->getOpenGLCoord(ac->getHOrig()+ac->getWidth()-1, ac->getVOrig()+ac->getHeight()-1, xx, yy, zz, rr);
-			glVertex3f(xx, yy, zz-rr*0.5);
-
-			map->getOpenGLCoord(ac->getHOrig(), ac->getVOrig()+ac->getHeight()-1, xx, yy, zz, rr);
-			glVertex3f(xx, yy, zz-rr*0.5);
-
-			map->getOpenGLCoord(ac->getHOrig(), ac->getVOrig(), xx, yy, zz, rr);
-			glVertex3f(xx, yy, zz-rr*0.5);
-
-			glEnd();
-		}
-	}
-
-	glLineWidth(1.0f);
-	
-	if(drawClearance)
-		HPAMapAbstraction::openGLDraw();
-	*/
 }
 
 

@@ -46,7 +46,7 @@ void HPAStar2Test::getPathReturnNullWhenStartOrGoalNull()
 		new ClusterNodeFactory(), new EdgeFactory());
 	hpamap.setClusterSize(TESTCLUSTERSIZE);
 
-	HPAStar2 hpastar;
+	HPAStar2 hpastar(new ClusterAStarFactory());
 	hpastar.setGraphAbstraction(&hpamap);
 		
 	ClusterNode* n = getNode(0,0,hpamap);
@@ -64,7 +64,7 @@ void HPAStar2Test::getPathReturnNullWhenStartAndGoalSameLocation()
 		new ClusterNodeFactory(), new EdgeFactory());
 	hpamap.setClusterSize(TESTCLUSTERSIZE);
 
-	HPAStar2 hpastar;
+	HPAStar2 hpastar(new ClusterAStarFactory());
 	hpastar.setGraphAbstraction(&hpamap);
 		
 	ClusterNode* n = getNode(0,0,hpamap);
@@ -82,7 +82,7 @@ void HPAStar2Test::getPathReturnNullWhenStartAndGoalNodesIdentical()
 		new ClusterNodeFactory(), new EdgeFactory());
 	hpamap.setClusterSize(TESTCLUSTERSIZE);
 
-	HPAStar2 hpastar;
+	HPAStar2 hpastar(new ClusterAStarFactory());
 	hpastar.setGraphAbstraction(&hpamap);
 		
 	ClusterNode* n = getNode(0,0,hpamap);
@@ -94,7 +94,7 @@ void HPAStar2Test::getPathReturnNullWhenStartAndGoalNodesIdentical()
 void HPAStar2Test::getPathReturnNullWhenMapAbstractionParameterNull()
 {
 	mapFlatAbstraction mfa(new Map(maplocation.c_str()));
-	HPAStar2 hpastar;
+	HPAStar2 hpastar(new ClusterAStarFactory());
 	node* pos = mfa.getNodeFromMap(1,2);
 	node* n = mfa.getNodeFromMap(22,1);
 	
@@ -108,7 +108,7 @@ void HPAStar2Test::getPathReturnNullWhenStartOrGoalHave_kAbstractionLevel_Greate
 		new ClusterNodeFactory(), new EdgeFactory());
 	hpamap.setClusterSize(TESTCLUSTERSIZE);
 
-	HPAStar2 hpastar;
+	HPAStar2 hpastar(new ClusterAStarFactory());
 		
 	ClusterNode* n1 = getNode(0,0,hpamap);
 	ClusterNode* n2 = getNode(2,2,hpamap);
@@ -136,7 +136,7 @@ void HPAStar2Test::getPathShouldReturnTheShortestPathBetweenTwoLowLevelNodes()
 	
 	node *start = hpamap.getNodeFromMap(2,1);
 	node* goal = hpamap.getNodeFromMap(4,5);
-	HPAStar2 hpastar;
+	HPAStar2 hpastar(new ClusterAStarFactory());
 	p = hpastar.getPath(&hpamap, start,goal);	
 	
 	int expectedLength = 8;	
@@ -189,7 +189,7 @@ void HPAStar2Test::getPathShouldRemoveAllInsertedNodesAndEdgesFromTheAbstractPat
 	node *start = hpamap.getNodeFromMap(2,1);
 	node* goal = hpamap.getNodeFromMap(8,0);
 	
-	HPAStar2 hpastar;
+	HPAStar2 hpastar(new ClusterAStarFactory());
 	p = hpastar.getPath(&hpamap, start,goal);	
 	
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("failed to return a null path for an invalid problem", true, p == NULL);	
@@ -211,7 +211,7 @@ void HPAStar2Test::getPathShouldFindASolutionWithoutInsertingIntoTheAbstractGrap
 	node *start = hpamap.getNodeFromMap(5,2);
 	node* goal = hpamap.getNodeFromMap(7,2);
 
-	HPAStar2 hpastar;
+	HPAStar2 hpastar(new ClusterAStarFactory());
 	p = hpastar.getPath(&hpamap, start,goal);	
 	
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("no solution found when one exists", true, p!=0);
@@ -266,7 +266,7 @@ void HPAStar2Test::getPathShouldAddInsertionEffortToPerformanceMetrics()
 	pm = pm<castar.getPeakMemory()?castar.getPeakMemory():pm;
 	st += castar.getSearchTime();
 
-	HPAStar2 hpastar;
+	HPAStar2 hpastar(new ClusterAStarFactory());
 	p = hpastar.getPath(&hpamap, start, goal);	
 	
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("insertion nodes expanded is wrong", ne, hpastar.getInsertNodesExpanded());
@@ -289,7 +289,7 @@ void HPAStar2Test::logStatsShouldRecordAllMetricsToStatsCollection()
 	node *start = hpamap.getNodeFromMap(2,1);
 	node* goal = hpamap.getNodeFromMap(4,5);
 	
-	HPAStar2 hpastar;
+	HPAStar2 hpastar(new ClusterAStarFactory());
 	p = hpastar.getPath(&hpamap, start, goal);
 	assert(p != 0);
 	
@@ -347,7 +347,7 @@ void HPAStar2Test::getPathShouldReturnANonRefinedPathIfRefinementFlagIsNotSet()
 	
 	node *start = hpamap.getNodeFromMap(2,1);
 	node* goal = hpamap.getNodeFromMap(4,5);
-	HPAStar2 hpastar;
+	HPAStar2 hpastar(new ClusterAStarFactory());
 	hpastar.setRefineAbstractPathFlag(false);
 	p = hpastar.getPath(&hpamap, start,goal);
 
@@ -386,7 +386,7 @@ void HPAStar2Test::getPathShouldReturnAShortestPathBetweenTwoLowLevelNodesIfFast
 	
 	node *start = hpamap.getNodeFromMap(2,1);
 	node* goal = hpamap.getNodeFromMap(4,5);
-	HPAStar2 hpastar;
+	HPAStar2 hpastar(new ClusterAStarFactory());
 	hpastar.setFastRefinement(true);
 	p = hpastar.getPath(&hpamap, start,goal);	
 	

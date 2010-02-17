@@ -1,6 +1,7 @@
 #include "CardinalAStarTest.h"
 
 #include "CardinalAStar.h"
+#include "CardinalAStarFactory.h"
 #include "ClusterNode.h"
 #include "ClusterNodeFactory.h"
 #include "EdgeFactory.h"
@@ -81,10 +82,19 @@ void CardinalAStarTest::ItsGoTime()
 	ClusterNode* start = dynamic_cast<ClusterNode*>(ecmap.getNodeFromMap(2,1));	
 	ClusterNode* goal = dynamic_cast<ClusterNode*>(ecmap.getNodeFromMap(3,4));
 
-	HPAStar2 hpa;
+	HPAStar2 hpa(new CardinalAStarFactory());
 	path* p = hpa.getPath(&ecmap, start, goal);
 
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("no path found :(", false, p == 0);
+	p->print(true);
+	delete p;
+	std::cout << std::endl;
+
+	start = dynamic_cast<ClusterNode*>(ecmap.getNodeFromMap(0,0));	
+	goal = dynamic_cast<ClusterNode*>(ecmap.getNodeFromMap(4,2));
+	p = hpa.getPath(&ecmap, start, goal);
+
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("no inter-cluster path found :(", false, p == 0);
 	p->print(true);
 	delete p;
 

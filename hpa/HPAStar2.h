@@ -13,14 +13,15 @@
 #include "ClusterAStar.h"
 
 class HPAClusterAbstraction;
+class IClusterAStarFactory;
 
 class HPAStar2 : public ClusterAStar
 {
 	public:
-		HPAStar2(bool _refine, bool _fastRefinement) : refineAbstractPath(_refine), fastRefinement(_fastRefinement) {}
-		HPAStar2() {  refineAbstractPath = true; fastRefinement = false; }
-		virtual ~HPAStar2() {}
-		virtual const char* getName() { return "HPAStar2"; };
+		HPAStar2(bool _refine, bool _fastRefinement, IClusterAStarFactory* _caf); 
+		HPAStar2(IClusterAStarFactory* caf); 
+		virtual ~HPAStar2();
+		virtual const char* getName() { return "HPAStar2"; }
 		virtual path *getPath(graphAbstraction *aMap, node *from, node *to, reservationProvider *rp = 0);	
 		
 		long getInsertNodesExpanded() { return insertNodesExpanded; }
@@ -37,17 +38,19 @@ class HPAStar2 : public ClusterAStar
 
 		
 	protected:
-		virtual path* refinePath(path* abspath, HPAClusterAbstraction* hpamap, ClusterAStar& castar);
+		virtual path* refinePath(path* abspath, HPAClusterAbstraction* hpamap, AbstractClusterAStar& castar);
 				
 	private:		
+		void init(bool _refine, bool _fastRefinement, IClusterAStarFactory* _caf);
 		long insertNodesExpanded;
 		long insertNodesTouched;
 		long insertPeakMemory;
 		double insertSearchTime;
 		bool refineAbstractPath;
 		bool fastRefinement; // should we use the path cache in HPAClusterAbstraction to speed up refinement?
+		IClusterAStarFactory* caf;
 		
-		void updateMetrics(ClusterAStar& castar);  
+		void updateMetrics(AbstractClusterAStar& castar);  
 		void resetMetrics();
 		void printPath(path* p);
 };
