@@ -56,6 +56,8 @@ class AHAExperiment : public Experiment
 		void setCapability(int newcapability) { capability = newcapability; }
 		int getAgentsize() { return agentsize; }
 		void setAgentsize(int newsize) { agentsize = newsize; }
+
+		virtual void print(std::ostream& out);
 		
 	private:
 		int capability, agentsize;
@@ -72,7 +74,7 @@ class AHAScenarioManager: public AbstractScenarioManager
 		AHAScenarioManager() {};
 		virtual void generateExperiments(mapAbstraction*, int numscenarios, int minagentsize) throw(TooManyTriesException);
 		virtual void loadScenarioFile(const char* filelocation);
-		virtual void writeScenarioFile(const char* filelocation);
+
 	protected:
 		AHAExperiment* generateSingleExperiment(mapAbstraction*, int capability, int minagentsize);
 };

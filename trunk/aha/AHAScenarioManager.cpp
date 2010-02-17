@@ -104,23 +104,11 @@ void AHAScenarioManager::loadScenarioFile(const char* filelocation)
 	infile.close();
 }
 
-void AHAScenarioManager::writeScenarioFile(const char* filelocation)
-{
-	if(experiments.size() == 0) // nothing to write
-		return;
-		
-	float version = 2.0;	
-	ofstream scenariofile;
-	scenariofile.precision(16);
-	scenariofile.open(filelocation, ios::out);
-	scenariofile << version<<std::endl;
 
-	AHAExperiment *cur;
-	for(int i=0; i<experiments.size(); i++)
-	{	
-		cur = ((AHAExperiment*)experiments.at(i));
-		scenariofile << cur->getMapName() <<"\t"<<cur->getStartX() <<"\t"<<cur->getStartY()<<"\t"<<cur->getGoalX()<<"\t"<<cur->getGoalY()<<"\t"<<cur->getCapability() <<"\t"<<cur->getAgentsize()<<"\t"<<cur->getDistance()<<std::endl;
-	}
-	
-	scenariofile.close();		
+void AHAExperiment::print(std::ostream& out)
+{
+	Experiment::print(out);
+	out << this->getCapability() <<"\t";
+	out << this->getAgentsize()<<"\t";
+	out << this->getDistance() << "\t";
 }
