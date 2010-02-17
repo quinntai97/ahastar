@@ -58,6 +58,7 @@ class HPACluster
 		inline void setVerbose(bool _v) { verbose = _v; }
 		
 		void printParents();
+		virtual void openGLDraw() { }
 
 	protected:
 		virtual void addNode(node* mynode) throw(std::invalid_argument);

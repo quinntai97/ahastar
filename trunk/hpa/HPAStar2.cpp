@@ -9,9 +9,29 @@
 
 #include "HPAStar2.h"
 #include "HPAClusterAbstraction.h"
+#include "IClusterAStarFactory.h"
 #include "ClusterNode.h"
 #include "HPACluster.h"
 #include <stdexcept>
+
+HPAStar2::HPAStar2(bool _refine, bool _fastRefinement, IClusterAStarFactory* _caf) 
+{ 
+	init(_refine, _fastRefinement, _caf); 
+}
+
+HPAStar2::HPAStar2(IClusterAStarFactory* caf) 
+{ init(true, false, caf); 
+}
+		
+void HPAStar2::init(bool _refine, bool _fastRefinement, IClusterAStarFactory* _caf) 
+{ 
+	refineAbstractPath = _refine; fastRefinement = _fastRefinement; caf = _caf;
+}
+
+HPAStar2::~HPAStar2() 
+{
+	delete caf; 
+}
 
 /* 
 Find an abstract path and refine it using the path cache
@@ -36,16 +56,16 @@ path* HPAStar2::getPath(graphAbstraction* aMap, node* _from, node* _to, reservat
 	ClusterNode* from = dynamic_cast<ClusterNode*>(_from);
 	ClusterNode* to = dynamic_cast<ClusterNode*>(_to);
 					
-	ClusterAStar castar;
+	AbstractClusterAStar* castar = caf->newClusterAStar();
 	path* thepath=0;
 
 	// if from/goal are in the same cluster, try to find a path directly
 	if(from->getParentClusterId() == to->getParentClusterId())
 	{
 		HPACluster *cluster = hpamap->getCluster(from->getParentClusterId());
-		castar.setCorridorNodes(cluster->getNodes());
-		thepath = castar.getPath(aMap, from, to, rp);
-		updateMetrics(castar);
+		castar->setCorridorNodes(cluster->getNodes());
+		thepath = castar->getPath(aMap, from, to, rp);
+		updateMetrics(*castar);
 	}
 	
 	// no direct path or from/goal not in the same cluster
@@ -62,16 +82,16 @@ path* HPAStar2::getPath(graphAbstraction* aMap, node* _from, node* _to, reservat
 		graph *absg = hpamap->getAbstractGraph(1); 
 		node* absstart = absg->getNode(from->getLabelL(kParent));
 		node* absgoal = absg->getNode(to->getLabelL(kParent));
-		castar.setCorridorNodes(this->corridorNodes);
-		path* abspath = castar.getPath(aMap, absstart, absgoal);
-		updateMetrics(castar);
+		castar->setCorridorNodes(this->corridorNodes);
+		path* abspath = castar->getPath(aMap, absstart, absgoal);
+		updateMetrics(*castar);
 		
 		// refine the path
 		if(abspath) 
 		{
 			if(refineAbstractPath)
 			{
-				thepath = refinePath(abspath, hpamap, castar);
+				thepath = refinePath(abspath, hpamap, *castar);
 				delete abspath;
 			}
 			else
@@ -100,10 +120,11 @@ path* HPAStar2::getPath(graphAbstraction* aMap, node* _from, node* _to, reservat
 	//std::cout << "\n thepath distance: "<<aMap->distance(thepath);
 	//std::cout << "the path: "<<std::endl;
 	//printPath(thepath);
+	delete castar;
 	return thepath;
 }
 
-path* HPAStar2::refinePath(path* abspath, HPAClusterAbstraction* hpamap, ClusterAStar& castar) 
+path* HPAStar2::refinePath(path* abspath, HPAClusterAbstraction* hpamap, AbstractClusterAStar& castar) 
 {
 	graph *absg = hpamap->getAbstractGraph(1); 
 	path* thepath = 0;
@@ -155,7 +176,7 @@ path* HPAStar2::refinePath(path* abspath, HPAClusterAbstraction* hpamap, Cluster
 }
 
 
-void HPAStar2::updateMetrics(ClusterAStar& castar)
+void HPAStar2::updateMetrics(AbstractClusterAStar& castar)
 {	
 	this->nodesExpanded += castar.getNodesExpanded();
 	this->nodesTouched += castar.getNodesTouched();
