@@ -10,6 +10,7 @@ class CardinalAStarTest : public CPPUNIT_NS::TestFixture
 	CPPUNIT_TEST( evaluateReturnsFalseWhenTwoNodesAreConnectedByANonCardinalEdge );
 	CPPUNIT_TEST( evaluateReturnsTrueWhenTwoNodesAreConnectedByACardinalEdge );
 	CPPUNIT_TEST( getPathReturnsAnOptimalLengthSolution );
+	CPPUNIT_TEST( ItsGoTime );
 	CPPUNIT_TEST_SUITE_END();
 
 	public:
@@ -19,6 +20,7 @@ class CardinalAStarTest : public CPPUNIT_NS::TestFixture
 		void evaluateReturnsFalseWhenTwoNodesAreConnectedByANonCardinalEdge();
 		void evaluateReturnsTrueWhenTwoNodesAreConnectedByACardinalEdge();
 		void getPathReturnsAnOptimalLengthSolution();
+		void ItsGoTime();
 };
 
 #endif

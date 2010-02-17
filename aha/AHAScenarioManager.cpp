@@ -1,4 +1,4 @@
-#include "ScenarioManager.h"
+#include "AHAScenarioManager.h"
 #include "map.h"
 #include "graph.h"
 #include "AnnotatedMapAbstraction.h"
@@ -8,20 +8,7 @@
 #include <iostream>
 #include <fstream>
 
-/* 
-TODO: add extra parameter to generatePaths: outputfilename and write the generated stuff directly to file instead of printing to console.
-*/
-
 using namespace std;
-
-AbstractScenarioManager::~AbstractScenarioManager()
-{
-	for(int i=0; i < experiments.size(); i++)
-	{
-		delete experiments[i];
-	}
-	experiments.clear();
-}
 
 /* generate some random set of experiments. 
 	@params:
@@ -30,12 +17,16 @@ AbstractScenarioManager::~AbstractScenarioManager()
 			absMap - the map abstraction we want to generate experiments on
 			
 	NB: AnnotatedA* used to determine if a path exists. With a better map abstraction, a solution using pathable() would be somewhat better;
-		TODO: perhaps pathable could return the length of the path instead of just true/false?? Double processing atm
+
+TODO: perhaps pathable could return the length of the path instead of just true/false?? 
+Double processing atm.
 */			 
-void AHAScenarioManager::generateExperiments(AbstractAnnotatedMapAbstraction* absMap, int numscenarios, int minsize) throw(TooManyTriesException)
+void AHAScenarioManager::generateExperiments(mapAbstraction* absMap, 
+		int numscenarios, int minsize) throw(TooManyTriesException)
 {
 
 	assert(absMap != 0); // need a test here; throw exception if absMap is null
+	assert(dynamic_cast<AbstractAnnotatedMapAbstraction*>(absMap) != 0);
 	
 	int tries=0;
 	int generated=0;
@@ -53,12 +44,11 @@ void AHAScenarioManager::generateExperiments(AbstractAnnotatedMapAbstraction* ab
 		}
 		tries++;
 	}
-
 }
 
-AHAExperiment* AHAScenarioManager::generateSingleExperiment(AbstractAnnotatedMapAbstraction* absMap, int capability, int size)
+AHAExperiment* AHAScenarioManager::generateSingleExperiment(mapAbstraction* absMap, 
+		int capability, int size)
 {
-
 	graph *g = absMap->getAbstractGraph(0);
 	const char* _map = absMap->getMap()->getMapName();
 
@@ -72,7 +62,9 @@ AHAExperiment* AHAScenarioManager::generateSingleExperiment(AbstractAnnotatedMap
 	r2 = g->getRandomNode();
 	if(r1->getClearance(capability) >= size && r2->getClearance(capability) >= size && r1 != r2)
 	{
-		AbstractAnnotatedAStar* searchalg = dynamic_cast<AbstractAnnotatedAStar*>(absMap->getSearchAlgorithm());
+		AbstractAnnotatedAStar* searchalg = dynamic_cast<AbstractAnnotatedAStar*>(
+		   dynamic_cast<AbstractAnnotatedMapAbstraction*>(absMap)->getSearchAlgorithm());
+
 		searchalg->setCapability(capability);
 		searchalg->setClearance(size);
 		p = searchalg->getPath(absMap, r1, r2);

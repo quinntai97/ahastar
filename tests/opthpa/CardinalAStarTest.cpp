@@ -7,6 +7,7 @@
 #include "EmptyClusterAbstraction.h"
 #include "EmptyClusterFactory.h"
 #include "graph.h"
+#include "HPAStar2.h"
 #include "map.h"
 #include "TestConstants.h"
 
@@ -68,4 +69,23 @@ void CardinalAStarTest::getPathReturnsAnOptimalLengthSolution()
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("returned a path of non-optimal length", 
 			expectedLength, ecmap.distance(p));
 	delete p;
+}
+
+void CardinalAStarTest::ItsGoTime()
+{
+	EmptyClusterAbstraction ecmap(new Map(hpastartest.c_str()), new EmptyClusterFactory(), 
+			new ClusterNodeFactory(), new EdgeFactory());
+	ecmap.buildClusters();
+	ecmap.buildEntrances();
+	
+	ClusterNode* start = dynamic_cast<ClusterNode*>(ecmap.getNodeFromMap(2,1));	
+	ClusterNode* goal = dynamic_cast<ClusterNode*>(ecmap.getNodeFromMap(3,4));
+
+	HPAStar2 hpa;
+	path* p = hpa.getPath(&ecmap, start, goal);
+
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("no path found :(", false, p == 0);
+	p->print(true);
+	delete p;
+
 }

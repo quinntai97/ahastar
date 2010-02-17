@@ -11,8 +11,8 @@
 //#include <fstream>
 //#include <stdio.h>
 
-#include "ScenarioManagerTest.h"
-#include "ScenarioManager.h"
+#include "AHAScenarioManagerTest.h"
+#include "AHAScenarioManager.h"
 #include "TestConstants.h"
 #include "ExperimentManager.h"
 #include "AnnotatedAStarMock.h"
@@ -20,9 +20,9 @@
 
 using namespace ExpMgrUtil;
 
-//CPPUNIT_TEST_SUITE_REGISTRATION( ScenarioManagerTest );
+//CPPUNIT_TEST_SUITE_REGISTRATION( AHAScenarioManagerTest );
 
-void ScenarioManagerTest::setUp()
+void AHAScenarioManagerTest::setUp()
 {	
 	aastar_mock = new AnnotatedAStarMock();
 	ama_mock = new AnnotatedMapAbstractionMock(new Map(maplocation.c_str()), aastar_mock);
@@ -37,14 +37,14 @@ void ScenarioManagerTest::setUp()
 	remove(tslocation.c_str()); // kill the data from last time (if any)
 }
 
-void ScenarioManagerTest::tearDown()
+void AHAScenarioManagerTest::tearDown()
 {
 	delete sg;
 	delete expmgr;
 	delete ama_mock; // also deletes its assigned searchalg (here, aastar_mock)
 }
 
-void ScenarioManagerTest::NoExperimentsGeneratedWhenMapIsNotTraversable()
+void AHAScenarioManagerTest::NoExperimentsGeneratedWhenMapIsNotTraversable()
 {
 	string targetmap(HOGHOME);
 	targetmap.append("maps/local/LINE.map"); // no paths for kGround when size > 1
@@ -58,7 +58,7 @@ void ScenarioManagerTest::NoExperimentsGeneratedWhenMapIsNotTraversable()
 	delete ama;
 }
 
-void ScenarioManagerTest::ScenarioFileIsNotCreatedWhenNoExperimentsExist()
+void AHAScenarioManagerTest::ScenarioFileIsNotCreatedWhenNoExperimentsExist()
 {
 	/* target function; no test data added */
 	sg->writeScenarioFile(tslocation.c_str());
@@ -68,7 +68,7 @@ void ScenarioManagerTest::ScenarioFileIsNotCreatedWhenNoExperimentsExist()
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("scenario file exists yet no data available to write", false, testfile.is_open());
 }
 
-void ScenarioManagerTest::ScenarioFileWrittenToDiskAndWellFormatted()
+void AHAScenarioManagerTest::ScenarioFileWrittenToDiskAndWellFormatted()
 {
 	int xs, ys, xg, yg, i=0, capability, agentsize;
 	double dist, ver;
@@ -118,7 +118,7 @@ void ScenarioManagerTest::ScenarioFileWrittenToDiskAndWellFormatted()
 
 }
 
-void ScenarioManagerTest::generateExperimentsProducesCorrectNumberOfExperiments()
+void AHAScenarioManagerTest::generateExperimentsProducesCorrectNumberOfExperiments()
 {	
 	string emptymap(HOGHOME);
 	emptymap.append("tests/testmaps/emptymap.map");
@@ -133,7 +133,7 @@ void ScenarioManagerTest::generateExperimentsProducesCorrectNumberOfExperiments(
 	delete ama;
 }
 
-void ScenarioManagerTest::generateExperimentsProducesExperimentsWithDifferentCapabilityTypes()
+void AHAScenarioManagerTest::generateExperimentsProducesExperimentsWithDifferentCapabilityTypes()
 {
 	string targetmap(HOGHOME);
 	targetmap.append("maps/local/demo.map");
@@ -166,7 +166,7 @@ void ScenarioManagerTest::generateExperimentsProducesExperimentsWithDifferentCap
 }
 
 // TODO: Replace AMA/AA* with mocks. proper mocks.
-void ScenarioManagerTest::generateSingleExperimentReturnsAValidExperimentForTheGivenParameters()
+void AHAScenarioManagerTest::generateSingleExperimentReturnsAValidExperimentForTheGivenParameters()
 {
 	string emptymap(HOGHOME);
 	emptymap.append("tests/testmaps/emptymap.map");
@@ -188,7 +188,7 @@ void ScenarioManagerTest::generateSingleExperimentReturnsAValidExperimentForTheG
 	delete ama;
 }
 
-void ScenarioManagerTest::generateSingleExperimentReturnsNullIfNoPairOfStartAndGoalNodesCouldBeLocatedForTheGivenParameters()
+void AHAScenarioManagerTest::generateSingleExperimentReturnsNullIfNoPairOfStartAndGoalNodesCouldBeLocatedForTheGivenParameters()
 {
 	string targetmap(HOGHOME);
 	targetmap.append("maps/local/pacman.map"); // no paths for kGround when size > 1
@@ -206,7 +206,7 @@ void ScenarioManagerTest::generateSingleExperimentReturnsNullIfNoPairOfStartAndG
 	delete ama;
 }
 
-void ScenarioManagerTest::loadScenarioShouldCreateExperimentObjectsGivenAFileThatDescribesExperimentAttributes()
+void AHAScenarioManagerTest::loadScenarioShouldCreateExperimentObjectsGivenAFileThatDescribesExperimentAttributes()
 {
 	std::string scenariofilelocation(HOGHOME);
 	scenariofilelocation.append("tests/testscenarios/demo.map.scenario");

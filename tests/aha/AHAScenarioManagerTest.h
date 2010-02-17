@@ -21,8 +21,8 @@
  *
  */
 
-#ifndef SCENARIOMANAGERTEST_H
-#define SCENARIOMANAGERTEST_H
+#ifndef AHASCENARIOMANAGERTEST_H
+#define AHASCENARIOMANAGERTEST_H
 
 #include <cppunit/TestFixture.h>
 #include <cppunit/extensions/HelperMacros.h>
@@ -34,9 +34,9 @@ class AnnotatedMapAbstractionMock;
 class ExperimentManager;
 class TooManyTriesException;
 
-class ScenarioManagerTest: public CppUnit::TestFixture
+class AHAScenarioManagerTest: public CppUnit::TestFixture
 {
-	CPPUNIT_TEST_SUITE( ScenarioManagerTest );
+	CPPUNIT_TEST_SUITE( AHAScenarioManagerTest );
 	CPPUNIT_TEST( generateExperimentsProducesCorrectNumberOfExperiments );
 	CPPUNIT_TEST( generateExperimentsProducesExperimentsWithDifferentCapabilityTypes );
 	CPPUNIT_TEST( generateSingleExperimentReturnsAValidExperimentForTheGivenParameters );
