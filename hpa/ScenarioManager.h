@@ -41,7 +41,7 @@ class AbstractScenarioManager
 		
 		virtual void generateExperiments(mapAbstraction* absMap, int numscenarios, int agentsize) throw(TooManyTriesException) = 0;
 		virtual void loadScenarioFile(const char* filelocation) = 0;
-		virtual void writeScenarioFile(const char* filelocation) = 0;
+		void writeScenarioFile(const char* filelocation);
 		void clearExperiments() { experiments.clear(); }
 	
 	protected: 
@@ -56,10 +56,9 @@ class ScenarioManager : public AbstractScenarioManager
 
 		virtual void 
 		generateExperiments(mapAbstraction* absMap, int numscenarios, int agentsize) 
-		throw(TooManyTriesException) = 0;
+		throw(TooManyTriesException);
 
-		virtual void loadScenarioFile(const char* filelocation) = 0;
-		virtual void writeScenarioFile(const char* filelocation) = 0;
+		virtual void loadScenarioFile(const char* filelocation);
 };
 
 #endif

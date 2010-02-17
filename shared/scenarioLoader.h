@@ -37,6 +37,8 @@ public:
   int getXScale(){return scaleX;}
   int getYScale(){return scaleY;}
 
+  virtual  void print(std::ostream& out);
+
 private:
   int startx, starty, goalx, goaly;
   int scaleX;

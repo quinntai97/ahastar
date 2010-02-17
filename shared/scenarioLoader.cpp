@@ -57,6 +57,16 @@ ScenarioLoader::ScenarioLoader(const char* fname)
     assert(0);
   }
 }
+
+void Experiment::print(std::ostream& out)
+{
+	out << this->getMapName() <<"\t";
+	out << this->getStartX() <<"\t";
+	out << this->getStartY()<<"\t";
+	out << this->getGoalX()<<"\t";
+	out << this->getGoalY()<<"\t";
+	out << this->getDistance() << "\t";
+}
     
 
   
