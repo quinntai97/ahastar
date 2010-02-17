@@ -45,6 +45,11 @@
 #include "scenarioLoader.h"
 #include "ScenarioManager.h"
 
+#include <iostream>
+#include <fstream>
+
+using namespace std;
+
 class AHAExperiment : public Experiment
 {
 	public:
@@ -77,6 +82,9 @@ class AHAScenarioManager: public AbstractScenarioManager
 
 	protected:
 		AHAExperiment* generateSingleExperiment(mapAbstraction*, int capability, int minagentsize);
+
+		void loadV2ScenarioFile(ifstream&);
+		void loadV21ScenarioFile(ifstream&);
 };
 
 #endif
