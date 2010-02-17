@@ -18,7 +18,7 @@ using namespace ExpMgrUtil;
 /* fake it for every map except "demo.map"; when we have demo.map we still fake pathable using a* instead of annotateda*/
 bool AnnotatedMapAbstractionMock::pathable(node* start, node* goal, int caps, int agentsize)
 {
-	if(caps = curexp->caps && agentsize == curexp->size)
+	if((caps = curexp->caps) && (agentsize == curexp->size))
 	{
 		int sx, sy, gx, gy;
 		sx = start->getLabelL(kFirstData);

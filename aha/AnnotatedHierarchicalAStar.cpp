@@ -20,8 +20,8 @@ bool AnnotatedHierarchicalAStar::evaluate(node* n, node* target)
 	if(!e)
 		return false;
 	
-	int to = e->getTo();
-	int from = e->getFrom();
+	unsigned int to = e->getTo();
+	unsigned int from = e->getFrom();
 	if(n->getNum() != to && n->getNum() != from)
 		return false;
 	if(target->getNum() != to && target->getNum() != from)

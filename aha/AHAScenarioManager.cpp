@@ -41,6 +41,13 @@ void AHAScenarioManager::generateExperiments(mapAbstraction* absMap,
 	}
 }
 
+void AHAScenarioManager::generateExperiments(mapAbstraction* absMap, int numexperiments)
+	throw(TooManyTriesException)
+{
+	generateExperiments(absMap, numexperiments, 1);
+}
+
+// randomly select a start and goal location 
 AHAExperiment* AHAScenarioManager::generateSingleExperiment(mapAbstraction* absMap, 
 		int capability, int size)
 {
