@@ -76,8 +76,11 @@ class AHAScenarioManager: public AbstractScenarioManager
 	#endif
 	
 	public: 
-		AHAScenarioManager() {};
-		virtual void generateExperiments(mapAbstraction*, int numscenarios, int minagentsize) throw(TooManyTriesException);
+		AHAScenarioManager() { version = 2.1; };
+		void generateExperiments(mapAbstraction*, int numscenarios, int minagentsize)
+			throw(TooManyTriesException);
+		virtual void generateExperiments(mapAbstraction* absMap, int numexperiments)
+			throw(TooManyTriesException);
 		virtual void loadScenarioFile(const char* filelocation);
 
 	protected:

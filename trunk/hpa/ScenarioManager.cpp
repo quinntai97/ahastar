@@ -1,4 +1,5 @@
 #include "ScenarioManager.h"
+#include "ClusterAStar.h"
 #include "mapAbstraction.h"
 
 AbstractScenarioManager::~AbstractScenarioManager()
@@ -14,8 +15,7 @@ void AbstractScenarioManager::writeScenarioFile(const char* filelocation)
 {
 	if(experiments.size() == 0) // nothing to write
 		return;
-		
-	float version = 2.1;	// v2.0 had distance after size/capability; 2.1 swaps them.
+	
 	std::ofstream scenariofile;
 	scenariofile.precision(16);
 	scenariofile.open(filelocation, std::ios::out);
@@ -32,15 +32,64 @@ void AbstractScenarioManager::writeScenarioFile(const char* filelocation)
 
 ScenarioManager::ScenarioManager()
 {
+	version = 3.0;
 }
 
 ScenarioManager::~ScenarioManager()
 {
 }
 
-void ScenarioManager::generateExperiments(mapAbstraction* absMap, 
-		int numscenarios, int agentsize) throw(TooManyTriesException)
+void ScenarioManager::generateExperiments(mapAbstraction* absMap, int numexperiments) 
+	throw(TooManyTriesException)
 {
+	assert(absMap != 0); // need a test here; throw exception if absMap is null
+	
+	int tries=0;
+	int generated=0;
+	while(generated < numexperiments)
+	{	
+		if(tries >= MAXTRIES)
+			throw TooManyTriesException(generated, numexperiments);
+		
+		Experiment* exp = generateSingleExperiment(absMap); 
+		if(exp != NULL) 
+		{
+			this->addExperiment(exp);
+			generated++;
+		}
+		tries++;
+	}
+}
+
+Experiment* ScenarioManager::generateSingleExperiment(mapAbstraction* absMap)
+{
+	graph *g = absMap->getAbstractGraph(0);
+	const char* _map = absMap->getMap()->getMapName();
+
+	node *r1, *r2;
+	Experiment* newexp;
+
+	r1 = r2 = 0;
+	path *p=0;
+
+	r1 = g->getRandomNode();
+	r2 = g->getRandomNode();
+
+	ClusterAStar searchalg;
+	p = searchalg.getPath(absMap, r1, r2);
+
+	if(!p)
+		return NULL;
+		
+	double dist = absMap->distance(p);
+	int x1, x2, y1, y2;
+	
+	x1 = r1->getLabelL(kFirstData); y1 = r1->getLabelL(kFirstData+1);
+	x2 = r2->getLabelL(kFirstData); y2 = r2->getLabelL(kFirstData+1);
+	newexp = new Experiment(x1, y1, x2, y2, 1, 1, 0, dist, _map);
+	
+	delete p;
+	return newexp;
 }
 
 void ScenarioManager::loadScenarioFile(const char* filelocation)

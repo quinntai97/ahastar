@@ -41,7 +41,7 @@ AnnotatedClusterAbstraction::AnnotatedClusterAbstraction(Map* m, AbstractAnnotat
 
 AnnotatedClusterAbstraction::~AnnotatedClusterAbstraction()
 {
-	for(int i =0; i< clusters.size(); i++)
+	for(unsigned int i =0; i< clusters.size(); i++)
 		delete clusters.at(i);
 	clusters.erase(clusters.begin(), clusters.end());
 
@@ -58,7 +58,7 @@ void AnnotatedClusterAbstraction::addCluster(AnnotatedCluster* ac)
 
 AnnotatedCluster* AnnotatedClusterAbstraction::getCluster(int cid)
 {
-	if(cid < 0 || cid >= clusters.size())
+	if(cid < 0 || ((unsigned)cid) >= clusters.size())
 		return 0;
 		
 	return clusters[cid];
@@ -90,7 +90,7 @@ void AnnotatedClusterAbstraction::buildClusters(IAnnotatedClusterFactory* acfact
 
 void AnnotatedClusterAbstraction::buildEntrances()
 {
-	for(int i=0; i<clusters.size(); i++)
+	for(unsigned int i=0; i<clusters.size(); i++)
 	{
 		AnnotatedCluster* ac = clusters[i];
 		ac->buildEntrances(this);
@@ -429,7 +429,7 @@ void AnnotatedClusterAbstraction::removeDominatedNodeFromParentCluster(node* n)
 {
 	AnnotatedCluster* ac = this->getCluster(n->getParentCluster());
 	std::vector<node*> *nodes = &(ac->getParents());
-	for(int i=0; i<nodes->size(); i++)
+	for(unsigned int i=0; i<nodes->size(); i++)
 	{
 		node* tmp = nodes->at(i);
 		if(tmp == n)
@@ -584,7 +584,7 @@ void AnnotatedClusterAbstraction::openGLDraw()
 	if(drawClusters)
 	{
 		glLineWidth(2.0f);
-		for(int cindex = 0; cindex<clusters.size(); cindex++)
+		for(unsigned int cindex = 0; cindex<clusters.size(); cindex++)
 		{
 			glColor3f (0.6F, 0.9F, 0.4F);
 			AnnotatedCluster* ac = clusters[cindex];

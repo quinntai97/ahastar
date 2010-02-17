@@ -429,7 +429,7 @@ void AnnotatedCluster::addTransitionToAbstractGraph(node* from, node* to, int ca
 
 void AnnotatedCluster::connectEntranceEndpoints(node* newendpoint, AnnotatedClusterAbstraction* aca)
 {
-	for(int i=0; i<getParents().size(); i++)
+	for(unsigned int i=0; i<getParents().size(); i++)
 	{
 		/* simplest capabilities (those involving fewest terrains) first and others last. important to avoid creating identical edges 
 		NB: assumes capabilities array is sorted accordingly  */
