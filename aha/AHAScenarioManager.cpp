@@ -5,11 +5,6 @@
 #include "AnnotatedAStar.h"
 #include "AHAConstants.h"
 
-#include <iostream>
-#include <fstream>
-
-using namespace std;
-
 /* generate some random set of experiments. 
 	@params:
 			numscenarios - number of experiments to generate.
@@ -92,16 +87,37 @@ void AHAScenarioManager::loadScenarioFile(const char* filelocation)
 	float version=0;
 	infile >> version;
 	
-	if(version != 2.0)
-		return;
-	
+	if(version == 2.0)
+	{
+		loadV2ScenarioFile(infile);
+	}
+
+	if(version == 2.1)
+	{
+		loadV21ScenarioFile(infile);
+	}
+
+	infile.close();
+}
+
+void AHAScenarioManager::loadV21ScenarioFile(ifstream& infile)
+{
+	int xs, ys, xg, yg, capability, agentsize;
+	float dist;
+	string mapfile;
+	while(infile>>mapfile>>xs>>ys>>xg>>yg>>dist>>capability>>agentsize)
+		experiments.push_back(
+			new AHAExperiment(xs, ys, xg, yg, capability, agentsize, dist, mapfile));
+}
+
+void AHAScenarioManager::loadV2ScenarioFile(ifstream& infile)
+{
 	int xs, ys, xg, yg, capability, agentsize;
 	float dist;
 	string mapfile;
 	while(infile>>mapfile>>xs>>ys>>xg>>yg>>capability>>agentsize>>dist)
-		experiments.push_back(new AHAExperiment(xs, ys, xg, yg, capability, agentsize, dist, mapfile));
-	
-	infile.close();
+		experiments.push_back(
+			new AHAExperiment(xs, ys, xg, yg, capability, agentsize, dist, mapfile));
 }
 
 
