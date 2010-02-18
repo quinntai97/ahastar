@@ -69,7 +69,7 @@ endif
 # every directory in ./apps, except those filtered out, is a target for compilation
 TARGETS = $(filter-out %~ Makefile %.mk tests libs, $(notdir $(wildcard apps/*)))
 
-all: $(TARGETS) tests
+all: cleanapps $(TARGETS) tests
 
 $(TARGETS) : % : lib%.a hog
 	$(CC)	$(CFLAGS) $(LIBFLAGS) -o $(addprefix bin/,$(@)) \
@@ -142,6 +142,9 @@ $(OPTHPATESTS_OBJ) : $(OPTHPATESTS_SRC) $(OPTHPATESTS_SRC:.cpp=.h) \
 clean:
 	@-$(RM) objs/*.o
 	@-$(RM) bin/*
+	@cd apps; $(MAKE) clean; cd ..
+
+cleanapps:
 	@cd apps; $(MAKE) clean; cd ..
 
 cleantests: 

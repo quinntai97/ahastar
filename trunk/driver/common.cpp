@@ -470,4 +470,4 @@ point3d GetOGLPos(int x, int y)
 }
 
 char* getHome() { return HOGHOME; }
-void setHome(char* val) { HOGHOME=val; std::cout<<"\nHOGHOME="<<HOGHOME<<". Can be overridden by setting the HOGHOME environment variable."; }
+void setHome(char* val) { HOGHOME=val; std::cout<<"\nHOGHOME="<<HOGHOME<<". Can be overridden by setting the HOGHOME environment variable."<<std::endl; }

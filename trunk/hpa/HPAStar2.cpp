@@ -188,7 +188,7 @@ void HPAStar2::updateMetrics(AbstractClusterAStar& castar)
 void HPAStar2::logFinalStats(statCollection* stats)
 {
 	ClusterAStar::logFinalStats(stats);
-	
+
 	stats->addStat("insNodesExpanded",getName(),getInsertNodesExpanded());
 	stats->addStat("insNodesTouched",getName(),getInsertNodesTouched());
 	stats->addStat("insPeakMemory",getName(),getInsertPeakMemory());

@@ -117,30 +117,36 @@ void EmptyCluster::addMacroEdges(HPAClusterAbstraction *aMap)
 {
 	graph* absg = aMap->getAbstractGraph(1);
 
-	int lx = this->getHOrigin();
-	int rx = lx + this->getWidth()-1;
-	if((rx - lx) > 1)
+	if(this->getWidth() > 1)
 	{
 		if(getVerbose())
 			std::cout << "adding horizontal macro edges"<<std::endl;
+
+		int lx = this->getHOrigin();
+		int rx = lx + this->getWidth()-1;
 		for(int y=this->getVOrigin(); y<this->getVOrigin()+this->getHeight()-1; y++)
 		{
 			node *left = absg->getNode(
 					aMap->getNodeFromMap(lx, y)->getLabelL(kParent));
 			node *right = absg->getNode(
 					aMap->getNodeFromMap(rx, y)->getLabelL(kParent));
-			
-			edge* e = new edge(left->getNum(), right->getNum(), aMap->h(left, right));
-			absg->addEdge(e);
+
+			edge* e = absg->findEdge(left->getNum(), right->getNum());
+			if(e == 0)
+			{
+				e = new edge(left->getNum(), right->getNum(), aMap->h(left, right));
+				absg->addEdge(e);
+			}
 		}
 	}
 
-	int ty = this->getVOrigin();
-	int by = this->getVOrigin()+this->getHeight()-1;
-	if((by - ty) > 1)
+	if(this->getHeight() > 1)
 	{
 		if(getVerbose())
 			std::cout << "adding vertical macro edges"<<std::endl;
+
+		int ty = this->getVOrigin();
+		int by = this->getVOrigin()+this->getHeight()-1;
 		for(int x=this->getHOrigin(); x<this->getHOrigin()+this->getWidth()-1; x++)
 		{
 			node *top = absg->getNode(
@@ -148,8 +154,12 @@ void EmptyCluster::addMacroEdges(HPAClusterAbstraction *aMap)
 			node *bottom = absg->getNode(
 					aMap->getNodeFromMap(x, by)->getLabelL(kParent));
 			
-			edge* e = new edge(top->getNum(), bottom->getNum(), aMap->h(top, bottom));
-			absg->addEdge(e);
+			edge* e = absg->findEdge(top->getNum(), bottom->getNum());
+			if(e == 0)
+			{
+				e = new edge(top->getNum(), bottom->getNum(), aMap->h(top, bottom));
+				absg->addEdge(e);
+			}
 		}
 	}
 }
