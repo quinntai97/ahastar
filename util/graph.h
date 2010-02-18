@@ -46,8 +46,8 @@ typedef union { double fval; long lval; } labelValue;
  */
 class graph_object {
 public:
-  graph_object():key(0), debuginfo(false), uniqueID(uniqueIDCounter++) { }
-  virtual ~graph_object() {}
+  graph_object():key(0), debuginfo(false), uniqueID(uniqueIDCounter++) { gobjCount++; }
+  virtual ~graph_object() { gobjCount--; }
   int getUniqueID() const { return uniqueID; }
   virtual double getKey() { return 0; }
   virtual void Print(std::ostream&) const;
@@ -56,6 +56,8 @@ public:
   // to go from an object to a table key in constant time.
   void setDebugInfo(bool debug) { debuginfo = debug; }
   bool getDebugInfo() { return debuginfo; }
+
+  static int gobjCount;
 
 protected:
 	  bool debuginfo;

@@ -15,7 +15,6 @@ EmptyCluster::EmptyCluster(const int x, const int y) throw(std::invalid_argument
 
 EmptyCluster::~EmptyCluster()
 {
-
 }
 
 void EmptyCluster::addNodesToCluster(HPAClusterAbstraction* aMap)

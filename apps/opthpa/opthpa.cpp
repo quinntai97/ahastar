@@ -77,6 +77,7 @@ void processStats(statCollection *stat)
 	stat->clearAllStats();
 }
 
+
 void processStats(statCollection* stat, const char* unitname)
 {
 	//stat->printStatsTable();
@@ -156,7 +157,6 @@ void processStats(statCollection* stat, const char* unitname)
 		pathdist = val.fval;
 	}
 	fprintf(f, "%.3f,\t", pathdist);	
-	
 	fprintf(f, "%s\n", gDefaultMap);	
 
 	fflush(f);
@@ -431,14 +431,26 @@ void myDisplayHandler(unitSimulation *unitSim, tKeyboardModifier mod, char key)
 
 void myNewUnitKeyHandler(unitSimulation *unitSim, tKeyboardModifier mod, char)
 {
+	HPAClusterAbstraction* aMap = dynamic_cast<HPAClusterAbstraction*>(
+			unitSim->getMapAbstraction());
+	aMap->clearColours();
+	for(int i=0; i<unitSim->getNumUnits(); i++)
+	{
+		unit* lastunit = dynamic_cast<searchUnit*>(unitSim->getUnit(0));
+		if(lastunit)
+		{
+			lastunit->logFinalStats(unitSim->getStats());
+			processStats(unitSim->getStats());
+		}
+	}
 	unitSim->clearAllUnits();
 
 	int x1, y1, x2, y2;
 	unit *u, *targ;
 	ClusterAStar* astar;
 	
-	std::cout << "\n absnodes: "<<unitSim->getMapAbstraction()->getAbstractGraph(1)->getNumNodes()<< " edges: "<<unitSim->getMapAbstraction()->getAbstractGraph(1)->getNumEdges();
-	std::cout << " cachesize: "<<((EmptyClusterAbstraction*)unitSim->getMapAbstraction())->getPathCacheSize();
+	//std::cout << "\n absnodes: "<<unitSim->getMapAbstraction()->getAbstractGraph(1)->getNumNodes()<< " edges: "<<unitSim->getMapAbstraction()->getAbstractGraph(1)->getNumEdges();
+	//std::cout << " cachesize: "<<((EmptyClusterAbstraction*)unitSim->getMapAbstraction())->getPathCacheSize();
 
 	unitSim->getRandomLocation(x1, y1);
 	unitSim->getRandomLocation(x2, y2);
@@ -498,7 +510,8 @@ void runNextExperiment(unitSimulation *unitSim)
 	if(expnum == scenariomgr.getNumExperiments()) 
 	{
 		processStats(unitSim->getStats());
-		delete unitSim;
+		delete unitSim;	
+		assert(graph_object::gobjCount == 0);
 		exit(0);
 	}
 
@@ -506,13 +519,6 @@ void runNextExperiment(unitSimulation *unitSim)
 			unitSim->getMapAbstraction());
 	aMap->clearColours();
 	
-
-	if(unitSim->getNumUnits() > 0)
-	{
-		unit* lastunit = unitSim->getUnit(0);
-		lastunit->logFinalStats(unitSim->getStats());
-		processStats(unitSim->getStats());
-	}
 
 	Experiment* nextExperiment = dynamic_cast<Experiment*>(scenariomgr.getNthExperiment(expnum));
 	
