@@ -229,7 +229,7 @@ void createSimulation(unitSimulation * &unitSim)
 void gogoGadgetNOGUIScenario(HPAClusterAbstraction* ecmap)
 {
 	CardinalAStar astar;
-	HPAStar2 hpastar(new CardinalAStarFactory);
+	HPAStar2 hpastar(false, false, new CardinalAStarFactory);
 	statCollection stats;
 	
 	for(int i=0; i< scenariomgr.getNumExperiments(); i++)
@@ -502,6 +502,11 @@ void runNextExperiment(unitSimulation *unitSim)
 		exit(0);
 	}
 
+	HPAClusterAbstraction* aMap = dynamic_cast<HPAClusterAbstraction*>(
+			unitSim->getMapAbstraction());
+	aMap->clearColours();
+	
+
 	if(unitSim->getNumUnits() > 0)
 	{
 		unit* lastunit = unitSim->getUnit(0);
@@ -521,6 +526,7 @@ void runNextExperiment(unitSimulation *unitSim)
 		nextTarget->setColor(1,0.98,0.8);
 		expnum++;
 		runAStar=false;
+		std::cout << "running "<<hpastar->getName()<<" experiment"<<std::endl;
 	}
 	else
 	{
@@ -529,6 +535,7 @@ void runNextExperiment(unitSimulation *unitSim)
 		nextUnit->setColor(1,1,0);
 		nextTarget->setColor(1,1,0);
 		runAStar=true;
+		std::cout << "running "<<astar->getName()<<" experiment"<<std::endl;
 	}
 	nextUnit->setSpeed(0.05);
 

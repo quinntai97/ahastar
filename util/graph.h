@@ -249,6 +249,7 @@ public:
   int getParentCluster(); 
   edge* findAnnotatedEdge(node* to, int capability, int clearance, double dist);
 
+  int drawColor;
   
 private:
   friend class graph;
@@ -265,6 +266,7 @@ private:
   int clearance[3];
   int terraintype;
   int clusterid;
+
   
 };
 

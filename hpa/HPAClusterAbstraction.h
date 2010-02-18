@@ -74,6 +74,8 @@ class HPAClusterAbstraction : public mapAbstraction
 
 		/* drawing and overlay methods */
 		virtual void openGLDraw(); 
+		void clearColours(); // stop visualising nodes expanded/touched
+
 		void setDrawClusters(bool draw) { drawClusters = draw; }
 		bool getDrawClusters() { return drawClusters; }
 		

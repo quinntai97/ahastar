@@ -119,51 +119,57 @@ path* AbstractClusterAStar::search(graph* g, node* from, node* to)
 
 void AbstractClusterAStar::expand(node* current, node* to, heap* openList, std::map<int, node*>& closedList, graph* g)
 {
-		if(verbose) printNode(string("expanding... "), current);
-		nodesExpanded++;
+	if(verbose) printNode(string("expanding... "), current);
+	nodesExpanded++;
 
-		/* evaluate each neighbour of the newly opened node */
-		edge_iterator ei = current->getEdgeIter();
-		edge* e = current->edgeIterNext(ei);
-		while(e)
+	/* evaluate each neighbour of the newly opened node */
+	edge_iterator ei = current->getEdgeIter();
+	edge* e = current->edgeIterNext(ei);
+	while(e)
+	{
+		// TODO: fix HOG's graph stuff; nodes identified using position in array instead of uniqueid. graph should just store a hash_map
+		int neighbourid = e->getFrom()==current->getNum()?e->getTo():e->getFrom();
+		node* neighbour = g->getNode(neighbourid);
+
+		
+		if(verbose) printNode(string("\tneighbour... "), neighbour);
+		if(closedList.find(neighbour->getUniqueID()) == closedList.end()) // ignore nodes on the closed list
 		{
-			// TODO: fix HOG's graph stuff; nodes identified using position in array instead of uniqueid. graph should just store a hash_map
-			int neighbourid = e->getFrom()==current->getNum()?e->getTo():e->getFrom();
-			node* neighbour = g->getNode(neighbourid);
-			
-			if(verbose) printNode(string("\tneighbour... "), neighbour);
-			if(closedList.find(neighbour->getUniqueID()) == closedList.end()) // ignore nodes on the closed list
-			{
-				// if a node on the openlist is reachable via this new edge, relax the edge (see cormen et al)
-				if(openList->isIn(neighbour)) 
-				{	
-					if(evaluate(current, neighbour, e)) 
-					{		
-						if(verbose) std::cout << "\t\trelaxing"<<std::endl;
-						relaxEdge(openList, g, e, current->getNum(), neighbourid, to); 
-						nodesTouched++;
-					}
+			// if a node on the openlist is reachable via this new edge, 
+			// relax the edge (see cormen et al)
+			if(openList->isIn(neighbour)) 
+			{	
+				if(evaluate(current, neighbour, e)) 
+				{		
+					if(verbose) std::cout << "\t\trelaxing"<<std::endl;
+					relaxEdge(openList, g, e, current->getNum(), neighbourid, to); 
+					nodesTouched++;
 				}
-				else
-				{
-					if(evaluate(current, neighbour, e)) 
-					{
-						if(verbose) std::cout << "\t\tadding to open list"<<std::endl;
-						neighbour->setLabelF(kTemporaryLabel, MAXINT); // initial fCost = inifinity
-						neighbour->setKeyLabel(kTemporaryLabel); // an initial key value for prioritisation in the openlist
-						neighbour->markEdge(0);  // reset any marked edges (we use marked edges to backtrack over optimal path when goal is found)
-						openList->add(neighbour);
-						relaxEdge(openList, g, e, current->getNum(), neighbourid, to); 
-						nodesTouched++;
-					}
-				}
-				
 			}
 			else
-				if(verbose) std::cout << "\t\tclosed!"<<std::endl;
-			e = current->edgeIterNext(ei);
+			{
+				if(evaluate(current, neighbour, e)) 
+				{
+					if(verbose) std::cout << "\t\tadding to open list"<<std::endl;
+					neighbour->setLabelF(kTemporaryLabel, MAXINT); // initial fCost = inifinity
+					neighbour->setKeyLabel(kTemporaryLabel); // an initial key value for prioritisation in the openlist
+					neighbour->markEdge(0);  // reset any marked edges (we use marked edges to backtrack over optimal path when goal is found)
+					openList->add(neighbour);
+					relaxEdge(openList, g, e, current->getNum(), neighbourid, to); 
+					nodesTouched++;
+				}
+			}
+			if(markForVis)
+				neighbour->drawColor = 1; // visualise touched
 		}
+		else
+			if(verbose) std::cout << "\t\tclosed!"<<std::endl;
+		e = current->edgeIterNext(ei);
+	}
 		
+	if(markForVis)
+		current->drawColor = 2; // visualise expanded
+
 	if(verbose) printNode(string("closing... "), current);
 	closedList[current->getUniqueID()] = current;	
 }
