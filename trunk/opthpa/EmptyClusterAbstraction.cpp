@@ -18,7 +18,6 @@ EmptyClusterAbstraction::EmptyClusterAbstraction(Map* m, IHPAClusterFactory* cf,
 
 EmptyClusterAbstraction::~EmptyClusterAbstraction()
 {
-
 }
 
 // Decomposes the map into a set of empty (obstacle free) clusters.

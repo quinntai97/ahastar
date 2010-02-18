@@ -35,6 +35,7 @@
 using namespace std;
 
 unsigned graph_object::uniqueIDCounter = 0;
+int graph_object::gobjCount = 0;
 
 void graph_object::Print(ostream& /*out*/) const
 {
@@ -709,6 +710,7 @@ node::node(const node* n)
 	keyLabel = n->keyLabel;
 	nodeNum = n->nodeNum;
 	width = n->width;
+	drawColor=0;
 }
 
 // clones all labels, all annotations, nodeNum, weight etc. DOES NOT clone edges or parentclusterid
@@ -725,7 +727,7 @@ graph_object *node::clone() const
   n->keyLabel = keyLabel;
   n->nodeNum = nodeNum;
   n->width = width;
-
+  n->drawColor=0;
   return n;
 }
 
