@@ -695,6 +695,8 @@ node::node(const char *n)
 	terraintype=0; // no default terraintype assumed (untraversable node)
 	for(int i=0;i<3;i++) 	// init clvals. everything is zero unless otherwise specified.
 		clearance[i]=0;	
+
+	drawColor=0;
 }
 
 /* NB: this copy constructor returns a node which is not connected to anything. ie. not a true deep copy constructor */
@@ -723,7 +725,7 @@ graph_object *node::clone() const
   n->keyLabel = keyLabel;
   n->nodeNum = nodeNum;
   n->width = width;
-  
+
   return n;
 }
 

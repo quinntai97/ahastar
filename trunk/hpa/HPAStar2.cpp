@@ -85,6 +85,7 @@ path* HPAStar2::getPath(graphAbstraction* aMap, node* _from, node* _to, reservat
 		castar->setCorridorNodes(this->corridorNodes);
 		path* abspath = castar->getPath(aMap, absstart, absgoal);
 		updateMetrics(*castar);
+		castar->markForVis = false;
 		
 		// refine the path
 		if(abspath) 

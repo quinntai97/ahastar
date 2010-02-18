@@ -216,6 +216,11 @@ void EmptyCluster::initOpenGLCoordinates(HPAClusterAbstraction* aMap)
 	map->getOpenGLCoord(this->getHOrigin(), this->getVOrigin()+this->getHeight()-1, 
 			xx, yy, zz, rr);
 	glHeight = yy - gly;
+
+	glx-=rr;
+	gly-=rr;
+	glHeight+=2*rr;
+	glWidth+=2*rr;
 }
 
 void EmptyCluster::openGLDraw()

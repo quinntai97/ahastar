@@ -59,7 +59,6 @@ class AbstractAnnotatedAStar : public aStarOld
 	private:
 		int capability, clearance; 
 		int cluster1, cluster2;
-
 };
 
 class AnnotatedAStar : public AbstractAnnotatedAStar

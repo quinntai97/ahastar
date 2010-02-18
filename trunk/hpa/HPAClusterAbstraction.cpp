@@ -260,6 +260,46 @@ void HPAClusterAbstraction::insertStartAndGoalNodesIntoAbstractGraph(node* _star
 
 void HPAClusterAbstraction::openGLDraw()
 {
+	Map* map = this->getMap();
+	GLdouble xx, yy, zz, rr;
+	glBegin(GL_QUADS);
+	
+	double depthmod = 0.4;
+	for(int level=0; level<2; level++)
+	{
+		graph* mygraph = getAbstractGraph(level);
+		node_iterator ni = mygraph->getNodeIter();	
+		node* cur = mygraph->nodeIterNext(ni);
+		while(cur)
+		{
+			int x = cur->getLabelL(kFirstData);
+			int y = cur->getLabelL(kFirstData+1);
+			if(cur->drawColor == 1)
+			{
+				glColor3f(0.1, 0.1, 0.5);
+				map->getOpenGLCoord(x, y, xx, yy, zz, rr);
+				zz = zz-rr*depthmod;
+				glVertex3f(xx-rr, yy-rr, zz);
+				glVertex3f(xx-rr, yy+rr, zz);
+				glVertex3f(xx+rr, yy+rr, zz);
+				glVertex3f(xx+rr, yy-rr, zz);
+			}
+			if(cur->drawColor == 2)
+			{
+				glColor3f(0.5, 0.1, 0.1);
+				map->getOpenGLCoord(x, y, xx, yy, zz, rr);
+				zz = zz-rr*depthmod;
+				glVertex3f(xx-rr, yy-rr, zz);
+				glVertex3f(xx-rr, yy+rr, zz);
+				glVertex3f(xx+rr, yy+rr, zz);
+				glVertex3f(xx+rr, yy-rr, zz);
+			}
+			cur = mygraph->nodeIterNext(ni);
+		}
+	}
+	
+	glEnd();
+
 	cluster_iterator it = getClusterIter();
 	HPACluster *cluster = clusterIterNext(it);
 	while(cluster)
@@ -268,6 +308,22 @@ void HPAClusterAbstraction::openGLDraw()
 		cluster = clusterIterNext(it);
 	}
 }
+
+void HPAClusterAbstraction::clearColours()
+{
+	for(int i=0; i<getNumAbstractGraphs(); i++)
+	{
+		graph* g = getAbstractGraph(i);
+		node_iterator ni = g->getNodeIter();	
+		node* n = g->nodeIterNext(ni);
+		while(n)
+		{
+			n->drawColor = 0;
+			n = g->nodeIterNext(ni);
+		}
+	}
+}
+
 
 
 // debugging method

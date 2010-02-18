@@ -71,6 +71,8 @@ TARGETS = $(filter-out %~ Makefile %.mk tests libs, $(notdir $(wildcard apps/*))
 
 all: cleanapps $(TARGETS) tests
 
+targets: cleanapps $(TARGETS)
+
 $(TARGETS) : % : lib%.a hog
 	$(CC)	$(CFLAGS) $(LIBFLAGS) -o $(addprefix bin/,$(@)) \
 		$(DRIVER_OBJ) $(UTIL_OBJ) $(SIMULATION_OBJ) $(ABSTRACTION_OBJ) $(SHARED_OBJ) \
