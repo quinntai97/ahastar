@@ -25,6 +25,7 @@ void AbstractScenarioManager::writeScenarioFile(const char* filelocation)
 	{	
 		Experiment*	cur = experiments.at(i);
 		cur->print(scenariofile);
+		scenariofile << std::endl;
 	}
 	
 	scenariofile.close();		

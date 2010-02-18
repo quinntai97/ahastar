@@ -5,7 +5,8 @@
 
 path* CardinalAStar::getPath(graphAbstraction *aMap, node *from, node *to, reservationProvider *rp)
 {
-	return ClusterAStar::getPath(aMap, from, to, rp);
+	path *p = ClusterAStar::getPath(aMap, from, to, rp);
+	return p;
 }
 
 // any edges which have non-integer costs are assumed to be diagonal and will

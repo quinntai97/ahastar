@@ -36,8 +36,8 @@ void EmptyClusterAbstraction::buildClusters()
 	Map* m = this->getMap();
 	int mapheight = m->getMapHeight();
 	int mapwidth = m->getMapWidth();
-	for(int x=0; x<mapwidth; x++)
-		for(int y=0; y<mapheight; y++)
+	for(int y=0; y<mapheight; y++)
+		for(int x=0; x<mapwidth; x++)
 		{
 			ClusterNode* cur = dynamic_cast<ClusterNode*>(this->getNodeFromMap(x, y));
 			if(cur && cur->getParentClusterId() == -1)

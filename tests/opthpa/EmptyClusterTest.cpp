@@ -223,6 +223,26 @@ void EmptyClusterTest::addNodesToClusterFramesEmptyClusterWhenOriginIsNotOnTheMa
 
 }
 
+void EmptyClusterTest::addNodesToClusterAddsMacroEdgesBetweenNodesOnOppositeBorders()
+{
+	EmptyClusterAbstraction ecmap(new Map(hpastartest.c_str()), new EmptyClusterFactory(), 
+			new ClusterNodeFactory(), new EdgeFactory());
+
+	EmptyCluster *cluster = new EmptyCluster(3,4);
+	ecmap.addCluster(cluster);
+	cluster->addNodesToCluster(&ecmap);
+
+	int abstractionLevel = 1;
+	graph *g = ecmap.getAbstractGraph(abstractionLevel);
+	int expectedNumAbstractNodes = 10;
+	int expectedNumAbstractEdges = 14;
+
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("abstract node count is wrong", expectedNumAbstractNodes, 
+			g->getNumNodes());
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("abstract edge count is wrong", expectedNumAbstractEdges, 
+			g->getNumEdges());
+}
+
 void EmptyClusterTest::buildVerticalEntrancesCreatesAllPossibleTransitionPoints()
 {
 	EmptyClusterAbstraction ecmap(new Map(hpastartest.c_str()), new EmptyClusterFactory(), 

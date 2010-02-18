@@ -82,12 +82,7 @@ void processStats(statCollection* stat, const char* unitname)
 	//stat->printStatsTable();
 	std::ostringstream ss;
 	ss << "results";
-	if(highquality)
-		ss << "_highquality";
-	else
-		ss << "_lowquality";
-
-	ss << "_csize"<<CLUSTERSIZE;
+	//ss << "_csize"<<CLUSTERSIZE;
 	
 	statValue val;
 	
@@ -199,8 +194,8 @@ void createSimulation(unitSimulation * &unitSim)
 	fflush(f);
 	fclose(f);
 	
-	std::cout << "\noriginal map: nodes: "<<g->getNumNodes()<<" edges: "<<g->getNumEdges();
-	std::cout << "\n map: "<<gDefaultMap<< "absnodes: "<<absg->getNumNodes()<<" absedges: "<<absg->getNumEdges();
+	std::cout << "map: "<<gDefaultMap<<" original map: nodes: "<<g->getNumNodes()<<" edges: "<<g->getNumEdges();
+	std::cout << " absnodes: "<<absg->getNumNodes()<<" absedges: "<<absg->getNumEdges()<<std::endl;
 	edge_iterator ei = absg->getEdgeIter();
 	 
 	// debugging
@@ -327,11 +322,16 @@ int myCLHandler(char *argument[], int maxNumArgs)
 
 int myScenarioGeneratorCLHandler(char *argument[], int maxNumArgs)
 {
-	if (maxNumArgs < 4)
-		return 0;	
+	if (maxNumArgs < 3)
+	{
+		std::cout << "-genscenarios invoked with insufficient parameters"<<std::endl;
+		printCommandLineArguments();
+		exit(-1);
+	}
+
 	std::string map(argument[1]);
 	std::string genscen(argument[0]);
-	std::cout << "call: "<<genscen<<" "<<map<<" "<<argument[2] <<" "<<argument[3];
+	std::cout << "call: "<<genscen<<" "<<map<<" "<<argument[2]<<std::endl;
 		
 	ScenarioManager scenariomgr;
 	int numScenarios = atoi(argument[2]);
@@ -340,10 +340,11 @@ int myScenarioGeneratorCLHandler(char *argument[], int maxNumArgs)
 			new ClusterNodeFactory(), new EdgeFactory());
 	
 	scenariomgr.generateExperiments(&ecmap, numScenarios);
-	std::cout << "\ngenerated: "<<scenariomgr.getNumExperiments()<< " experiments";
+	std::cout << "generated: "<<scenariomgr.getNumExperiments()<< " experiments"<<std::endl;
 
 	string outfile = map + ".scenario"; 
 	scenariomgr.writeScenarioFile(outfile.c_str());
+	std::cout << "writing scenario file: "<<outfile<<std::endl;
 	exit(-1);
 }
 
@@ -501,7 +502,13 @@ void runNextExperiment(unitSimulation *unitSim)
 		exit(0);
 	}
 
-	processStats(unitSim->getStats());
+	if(unitSim->getNumUnits() > 0)
+	{
+		unit* lastunit = unitSim->getUnit(0);
+		lastunit->logFinalStats(unitSim->getStats());
+		processStats(unitSim->getStats());
+	}
+
 	Experiment* nextExperiment = dynamic_cast<Experiment*>(scenariomgr.getNthExperiment(expnum));
 	
 	searchUnit* nextUnit;
@@ -523,8 +530,8 @@ void runNextExperiment(unitSimulation *unitSim)
 		nextTarget->setColor(1,1,0);
 		runAStar=true;
 	}
-	
 	nextUnit->setSpeed(0.05);
+
 	unitSim->clearAllUnits();
 	unitSim->addUnit(nextTarget);
 	unitSim->addUnit(nextUnit);
