@@ -17,6 +17,34 @@ EmptyCluster::~EmptyCluster()
 {
 }
 
+void EmptyCluster::addNodesToCluster(HPAClusterAbstraction* aMap, int** clearance)
+	throw(std::invalid_argument)
+{
+	if(aMap == NULL)
+		throw std::invalid_argument("EmptyCluster::addNodesToCluster cluster"
+			   	"abstraction parameter is null");
+	extend(aMap, clearance);
+
+	for(int x=getHOrigin(); x<getHOrigin()+getWidth(); x++)
+	{
+		for(int y=getVOrigin(); y<getVOrigin()+getHeight(); y++)
+		{
+			ClusterNode* n = dynamic_cast<ClusterNode*>(aMap->getNodeFromMap(x, y));
+			if(n)
+			{
+				addNode(n);
+			}
+			else
+			{
+				throw std::invalid_argument("EmptyCluster: tried to add to cluster a node of type other than ClusterNode");
+			}
+		}
+	}
+
+	frameCluster(aMap);
+	addMacroEdges(aMap);
+}
+
 void EmptyCluster::addNodesToCluster(HPAClusterAbstraction* aMap)
 	throw(std::invalid_argument)
 {
@@ -44,6 +72,7 @@ void EmptyCluster::addNodesToCluster(HPAClusterAbstraction* aMap)
 	frameCluster(aMap);
 	addMacroEdges(aMap);
 }
+
 
 // Every node framing the cluster is added to the abstract graph. Also, 
 // every edge between two adjacent framed nodes will appear in the graph.
@@ -185,6 +214,45 @@ void EmptyCluster::extend(HPAClusterAbstraction* aMap)
 		{
 			ClusterNode *n = dynamic_cast<ClusterNode*>(aMap->getNodeFromMap(x,y));
 			if(!n || n->getParentClusterId() != -1)
+			{
+				rowok=false;
+			}
+		}
+		if(!rowok)
+			break;
+		vsize++;
+	}
+	this->setHeight(vsize);
+
+	initOpenGLCoordinates(aMap);
+}
+
+void EmptyCluster::extend(HPAClusterAbstraction* aMap, int** clearance)
+{
+	int cvOrigin = clearance[this->getHOrigin()][this->getVOrigin()];
+
+	Map* themap = aMap->getMap();
+	int hsize=0;
+	int y = this->getVOrigin();
+	for(int x=this->getHOrigin(); x<themap->getMapWidth(); x++)
+	{
+		int cv = clearance[x][y];
+		ClusterNode *n = dynamic_cast<ClusterNode*>(aMap->getNodeFromMap(x,y));
+		if(!n || n->getParentClusterId() != -1 || cv > cvOrigin)
+			break;
+		hsize++;
+	}
+	
+	this->setWidth(hsize);
+	int vsize=0;
+	for( ; y<themap->getMapHeight(); y++)
+	{
+		bool rowok=true;
+		for(int x=this->getHOrigin(); x<this->getHOrigin()+this->getWidth(); x++)
+		{
+			int cv = clearance[x][y];
+			ClusterNode *n = dynamic_cast<ClusterNode*>(aMap->getNodeFromMap(x,y));
+			if(!n || n->getParentClusterId() != -1 || cv > cvOrigin)
 			{
 				rowok=false;
 			}

@@ -127,9 +127,14 @@ path* HPAStar2::getPath(graphAbstraction* aMap, node* _from, node* _to, reservat
 
 path* HPAStar2::refinePath(path* abspath, HPAClusterAbstraction* hpamap, AbstractClusterAStar& castar) 
 {
+	std::cout << "abspath: \n";
+	abspath->print();
+	std::cout << std::endl;
+
 	graph *absg = hpamap->getAbstractGraph(1); 
 	path* thepath = 0;
 	path* tail;
+	ClusterNode *debug1, *debug2;
 	while(abspath->next)
 	{
 		path* segment;
@@ -156,8 +161,17 @@ path* HPAStar2::refinePath(path* abspath, HPAClusterAbstraction* hpamap, Abstrac
 				castar.setCorridorNodes(NULL); 
 				
 			segment = castar.getPath(hpamap,llstart, llgoal); 
+			if(segment == 0)
+			{
+				std::cout << "null segment??"<<std::endl;
+				segment = castar.getPath(hpamap,llstart, llgoal); 
+			}
+
 			updateMetrics(castar);
 			if(verbose) { std::cout << "refined segment: "<<std::endl; printPath(segment); std::cout << " distance: "<<hpamap->distance(segment)<<std::endl; }
+
+			debug1 = llstart;
+			debug2 = llgoal;
 
 		}
 		

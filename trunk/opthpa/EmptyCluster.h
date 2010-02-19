@@ -40,6 +40,10 @@ class EmptyCluster : public HPACluster
 
 		virtual void 
 			addNodesToCluster(HPAClusterAbstraction*) throw(std::invalid_argument);
+
+		virtual void 
+			addNodesToCluster(HPAClusterAbstraction*, int** clearance) throw(std::invalid_argument);
+
 		virtual void openGLDraw();
 
 
@@ -51,6 +55,7 @@ class EmptyCluster : public HPACluster
 	private:
 		void initOpenGLCoordinates(HPAClusterAbstraction*);
 		void extend(HPAClusterAbstraction*);
+		void extend(HPAClusterAbstraction*, int** clearance);
 		void frameCluster(HPAClusterAbstraction*);
 		void addMacroEdges(HPAClusterAbstraction *aMap);
 		
