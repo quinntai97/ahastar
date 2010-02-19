@@ -35,6 +35,18 @@ void EmptyClusterAbstraction::buildClusters()
 	Map* m = this->getMap();
 	int mapheight = m->getMapHeight();
 	int mapwidth = m->getMapWidth();
+
+	int** clearance;
+    clearance = new int*[mapwidth];
+	for(int i = 0; i<mapwidth; i++)
+		clearance[i] = new int[mapheight];
+
+	for(int y=0; y<mapheight; y++)
+		for(int x=0; x<mapwidth; x++)
+			clearance[x][y] = 0;
+
+
+	computeClearance(clearance);
 	for(int y=0; y<mapheight; y++)
 		for(int x=0; x<mapwidth; x++)
 		{
@@ -44,13 +56,67 @@ void EmptyClusterAbstraction::buildClusters()
 				EmptyCluster* cluster = new EmptyCluster(x, y);	
 				cluster->setVerbose(getVerbose());
 				addCluster(cluster);
-				cluster->addNodesToCluster(this);
+				cluster->addNodesToCluster(this, clearance);
 				if(this->getVerbose())
 					std::cout << "new cluster @ ("<<x<<","<<y<<") with "
 						" id: "<< cluster->getId()<< std::endl;
 			}	
 		}
+
+	//std::cout << "clearance values for map: "<<m->getMapName()<<std::endl;
+//	for(int y=0; y<mapheight; y++)
+//	{
+//		for(int x=0; x<mapwidth; x++)
+//			std::cout << clearance[x][y] << " ";
+//		std::cout << std::endl;
+//	}
+
+	for(int i=0; i<mapwidth; i++)
+		delete clearance[i];
+	delete[] clearance;
 }
+
+void EmptyClusterAbstraction::computeClearance(int** clearance)
+{
+	Map* m = this->getMap();
+	int mapheight = m->getMapHeight();
+	int mapwidth = m->getMapWidth();
+	for(int x=getMap()->getMapWidth()-1;x>=0; x--)
+	{
+		for(int y=getMap()->getMapHeight()-1;y>=0; y--)
+		{
+			node* n = getNodeFromMap(x,y);
+			if(n) 
+			{	
+				int x = n->getLabelL(kFirstData);
+				int y = n->getLabelL(kFirstData+1);
+				node *adj1, *adj2, *adj3; // adjacent neighbours
+				adj1 = getNodeFromMap(x+1, y+1);
+				adj2 = getNodeFromMap(x+1,y);
+				adj3 = getNodeFromMap(x,y+1);
+				
+				if(adj1 && adj2 && adj3)
+				{	
+					int min = clearance[x+1][y+1]; 
+					int tmp1 = clearance[x+1][y]; 
+					int tmp2 = clearance[x][y+1]; 
+					min = tmp1<min?tmp1:min;
+					min = tmp2<min?tmp2:min;
+					clearance[x][y] = min+1; 
+				}
+				else // tile is on a border or perimeter boundary. clearance = 1
+				{
+					clearance[x][y] = 1;
+				}
+			}
+			else
+			{
+				clearance[x][y] = 0;
+			}
+		}
+	}
+}
+
 
 // each start/goal node is connected to the nearest abstract node along each border
 // of the cluster. i.e. it has 4 neighbours (one above, below, to the left and right).

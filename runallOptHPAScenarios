@@ -1,0 +1,11 @@
+#!/bin/bash
+for i in $(ls experiments/scenarios/opthpa/*.scenario);
+do
+   ./bin/opthpa -scenario $i -gui disable 
+   ./bin/opthpa -scenario $i -gui disable 
+   ./bin/opthpa -scenario $i -gui disable 
+   ./bin/opthpa -scenario $i -gui disable 
+   ./bin/opthpa -scenario $i -gui disable 
+   ./bin/opthpa -scenario $i -gui disable 
+done
+mv results_* experiments/results/opthpa 

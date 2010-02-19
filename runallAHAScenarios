@@ -1,6 +1,6 @@
 #!/bin/bash
 mkdir 0pct_refine
-for i in $(ls experiments/scenarios/softobs_0pct/*.scenario);
+for i in $(ls experiments/scenarios/aha/softobs_0pct/*.scenario);
 do
    ./bin/sample -scenario $i -gui disable -quality high  -clustersize 10
    ./bin/sample -scenario $i -gui disable -quality low  -clustersize 10
@@ -11,7 +11,7 @@ do
 done
 mv results_* 0pct_refine
 mkdir 10pct_refine
-for i in $(ls experiments/scenarios/softobs_10pct/*.scenario);
+for i in $(ls experiments/scenarios/aha/softobs_10pct/*.scenario);
 do
    ./bin/sample -scenario $i -gui disable -quality high  -clustersize 10
    ./bin/sample -scenario $i -gui disable -quality low  -clustersize 10
@@ -22,7 +22,7 @@ do
 done
 mv results_* 10pct_refine
 mkdir 20pct_refine
-for i in $(ls experiments/scenarios/softobs_20pct/*.scenario);
+for i in $(ls experiments/scenarios/aha/softobs_20pct/*.scenario);
 do
    ./bin/sample -scenario $i -gui disable -quality high  -clustersize 10
    ./bin/sample -scenario $i -gui disable -quality low  -clustersize 10
@@ -33,7 +33,7 @@ do
 done
 mv results_* 20pct_refine
 mkdir 30pct_refine
-for i in $(ls experiments/scenarios/softobs_30pct/*.scenario);
+for i in $(ls experiments/scenarios/aha/softobs_30pct/*.scenario);
 do
    ./bin/sample -scenario $i -gui disable -quality high  -clustersize 10
    ./bin/sample -scenario $i -gui disable -quality low  -clustersize 10
@@ -44,7 +44,7 @@ do
 done
 mv results_* 30pct_refine
 mkdir 40pct_refine
-for i in $(ls experiments/scenarios/softobs_40pct/*.scenario);
+for i in $(ls experiments/scenarios/aha/softobs_40pct/*.scenario);
 do
    ./bin/sample -scenario $i -gui disable -quality high  -clustersize 10
    ./bin/sample -scenario $i -gui disable -quality low  -clustersize 10
@@ -55,7 +55,7 @@ do
 done
 mv results_* 40pct_refine
 mkdir 50pct_refine
-for i in $(ls experiments/scenarios/softobs_50pct/*.scenario);
+for i in $(ls experiments/scenarios/aha/softobs_50pct/*.scenario);
 do
    ./bin/sample -scenario $i -gui disable -quality high  -clustersize 10
    ./bin/sample -scenario $i -gui disable -quality low  -clustersize 10

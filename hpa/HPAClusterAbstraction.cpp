@@ -311,6 +311,7 @@ void HPAClusterAbstraction::openGLDraw()
 
 void HPAClusterAbstraction::clearColours()
 {
+	std::cout << "clearingc oloours master"<<std::endl;
 	for(int i=0; i<getNumAbstractGraphs(); i++)
 	{
 		graph* g = getAbstractGraph(i);
