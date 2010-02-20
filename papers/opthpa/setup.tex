@@ -1,0 +1,8 @@
+\section{Experimental Setup}
+We evaluated the performance of OHA* and A* on a set of 120 octile-based maps, ranging in size from 50x50 to 320x320, which we borrowed from a popular roleplaying game.
+The same maps were used in previous games-related research (e.g., \cite{botea04}).
+
+For each map we generated 100 experiments by randomly creating valid problems between arbitrarily chosen pairs of locations.
+Each algorithm solved every problem once making for a total of 24000 (120 $\times$ 200) distinct experiments.
+All experiments were conducted on a 1.83GHz Intel Core 2 Duo processor with 1GB RAM running OSX 10.5.4.
+To implement both planners we used the University of Alberta's freely available pathfinding library, HOG (\url{www.cs.ualberta.ca/~nathanst/hog.html}). 
