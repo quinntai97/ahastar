@@ -1,40 +1,29 @@
 \section{Related Work}
-Fringe search seems to be optimal. Their main claim is that fringe search is faster than A* by 10-40 percent. The number of expanded nodes is roughly the same. We should aim at beating A* by a larger margin.
+A very effective method for solving path planning problems is to reformulate the original problem
+into an equivalent one in a much smaller abstract search space. 
+Known as hierarchical path planning this approach has been well studied over the last decade;
+algorithms in this category are usually fast, memory-efficient and suboptimal.
+Our contribution follows this general idea while seeking to retain optimality.
+It is perhaps most similar to the popular HPA* algorithm \cite{botea04} 
+which divides a grid map into a series of fixed-size clusters connected 
+by entrances.
+Finding a shortest path then involves inserting the start and goal into the 
+abstract graph and searching for a (usually suboptimal) path between them.
 \par
-D* focuses on only one goal location. D* is optimal in some sense (to check the paper again).
-It seems to compute the optimal distance to the goal, according to the current map information,
-in a lot of tiles on the map.
+Our work also bears some similarity to a recent result outlining new heuristic methods for improving the 
+performance of standard A* on games maps \cite{bjornsson06}.
+In that work, much like in ours, grid maps are decomposed into obstacle-free zones connected by entrances 
+and exits. 
+A preprocessing step identifies zones containing entrances but no corresponding exits, thus
+yielding the \emph{dead-end heuristic} (a similiar yet orthogonal idea to our main result).
+A highly informed \emph{gateway heuristic} is also developed which requires computing and storing exact 
+costs between all pairs of entrances and exits.
+Both heuristics are shown to be admissible and yield optimal length paths. 
+Average running time improvements over standard A* are reported at between 10-40\% using a range of
+realistic games maps.
 \par
-Sanders and Schultes have a method called Highway Hierarchies (HH). It computes optimal solutions. 
-HH seems to be designed for the topology of road networks. Unclear how it would do on grid maps, but I suspect it doesn't do well in some cases. E.g., would it work well on an empty grid map? HH is also memory intensive.
-\par
-Angelic Hierarchical A* (AHA*) is an optimal hierarchical planning algorithm.
-It requires a human expert to provide a series of abstract actions and their refinements.
-In contrast, we build a hierarchy automatically.
-AHA* seems to search in a space of partially refined plans. 
-In contrast, our high-level search space is a (natural) abstraction of the original search space.
-As a side effect, we introduce a more generic algorithm for optimal search when the exact costs of the edges are not known, but we know a lower and an upper bound for each edge.
-(Small comment: they say on pp226 that their pruning can be quite expensive, so they don't do all the pruning that might be done.)
-Some literature survey.
-\par
-Bjornsoon describes path planning algorithm that prunes the search space using dead-end and gateway heuristics. 
-In the paper, an offline pre-processing phase (flood-fill based) is used to construct an abstract representation comprised of \emph{rooms} and \emph{gateways} (need to check exact terminology). 
-The dead-end heuristic identifies and prunes from the search space any node that lies in a room that only contains a single entrance/exit. 
-Meanwhile, the gateway heuristic proceeds by computing an optimal length path between all gateways; this helps reduce the search space as the algorithm only considers gateways that lie along a path to the goal room.  
-In both cases, search consists of running a low-level A* on the reduced search space, so optimality is preserved.
-Need to check exactly what kind of performance Yngvi was getting; from memory however his approach was much better than standard A* (similar to a hierarchical planner I believe).
-
-In terms of expanded nodes, the best reported speed up is by a factor of 5.
-Speed ups by a factor of 2 or 3 are common as well.
-Time-wise the savings are smaller, since the gateway heuristic is more expensive to compute.
-Interestingly, even though the accuracy of the gateway heuristic is really good,
-the node savings are not as impressive (even though they are significant).
-This seems to be consistent with the observation that almost perfect heuristic
-can still require visiting lots of nodes.
-
-The gateway heuristic has similarities with our idea of using the sum of the lower bounds on the abstract path as a heuristic.
-
-\par
-HAA* is similar to this work in that the abstraction constructed in that paper is also concerned with identifying multiple paths between two entrances in a cluster-based decomposition (from memory, we were discussing the details of this technique when we first began discussing the possibility of using intervals). In that paper however the focus is on identifying optimal length routes for agents with different capabilities; here we aim to prune the search space. 
-\par 
-Need to mention HPA* also (obviously).
+Another algorithm with similar goals to our work is Fringe Search \cite{bjornsson05}.
+Fringe Search is a general purpose iterative deepening search algorithm with memory requirements
+comparable to A*. 
+It is provably optimal if maximum search depth is sufficiently large and, crucially, has been shown to 
+run between 25-40\% faster than A*.
