@@ -1,6 +1,20 @@
 \section{Conclusion}
-Concluding remarks go here.
-Our algorithm is fast, optimal and memory efficient. 
-We beat the pants off A* and have similar performance to HPA. 
-See if we can evaluate that algorithm also. 
-Should be easy to copy/paste code from opthpa.
+We presented a new optimality preserving algorithm for computing shortest paths
+on 4-connected grid maps.
+We use a hierarchical planning approach that decomposes a map into empty rectangular clusters.
+We prove that it is possible to optimally navigate across such clusters by only ever
+expanding nodes on their perimeter and never expanding any from the interior.
+We undertake an empirical analysis and show that this approach is between 1.7-2.1$\times$ faster than
+standard A* on a set of well known games maps. 
+At the same time our algorithm is shown to be very memory efficient, 
+expanding between 40-70\% fewer nodes than A* on the same set of benchmarks.
+Finally, our method is orthogonal to existing techniques meaning it could be easily integrated
+as part of a larger framework involving specialised heuristics or other speedup techniques; for example as described in \cite{bjornsoon05,bjornsson06}. 
+\par
+The obvious direction for further work is extending the algorithm to optimally solving 
+shortest path problems in more popular 8-connected grid maps. 
+Although the current approach would not translate directly to that domain we believe similar
+techniques involving the identification of dominated edges could be highly promising.
+Another direction for future work is to develop clustering algorithms that identify maximally
+sized empty areas on a given grid map.
+We believe this would significantly improve the performance of the current method 

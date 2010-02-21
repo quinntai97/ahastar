@@ -1,8 +1,32 @@
 \section{Experimental Setup}
-We evaluated the performance of OHA* and A* on a set of 120 octile-based maps, ranging in size from 50x50 to 320x320, which we borrowed from a popular roleplaying game.
-The same maps were used in previous games-related research (e.g., \cite{botea04}).
+We evaluated the performance of OHA* and A* on a set of 120 octile-based maps, ranging in size from 50x50 
+to 320x320, which we borrowed from BioWare's popular role-playing game \emph{Baldur's Gate}. 
+The same set of maps appear frequently in path planning research 
+\cite{botea04,bjornsson05,bjornsson06,harabor08} and we believe they are sufficiently representative 
+of typical scenarios found in modern video games.
+In addition we also evaluate six variants of the map CSC2F (shown in Figure \ref{fig-csc2f}) which is distributed with the University of Alberta's freely available pathfinding library 
+Hieararchical Open Graph\footnote{\url{www.cs.ualberta.ca/~nathanst/hog.html}} (or HOG).
 
-For each map we generated 100 experiments by randomly creating valid problems between arbitrarily chosen pairs of locations.
-Each algorithm solved every problem once making for a total of 24000 (120 $\times$ 200) distinct experiments.
+\begin{figure}[htbp]
+	\vspace{-4pt}
+       \begin{center}
+                       \includegraphics[scale=0.33, trim = 20mm 20mm 20mm 0mm]{diagrams/csc2f.png}
+       \end{center}
+	\vspace{-3pt}
+       \caption{The map CSC2F (86 $\times$ 88) is taken from the  \newline
+				Hierarchical Open Graph library.}
+       \label{fig-csc2f}
+	\vspace{-12pt}
+\end{figure}
+
+We designate these variants $\lbrace R0, R10, R20, R30, R40, R50 \rbrace$. 
+In each case the numeric constant refers to the probability that each traversable tile will be be flipped to 
+become an obstacle.
+We perform this evaluation in order to measure OHA*'s worst-case performance which we expect will occur in 
+environments that are densely packed with obstacles.
+\par
+For each map we generated 100 experiments by randomly creating valid problems between arbitrarily chosen 
+pairs of start and goal locations.
+Each algorithm solved every problem once making for a total of 25200 (126 $\times$ 200) distinct experiments.
 All experiments were conducted on a 1.83GHz Intel Core 2 Duo processor with 1GB RAM running OSX 10.5.4.
-To implement both planners we used the University of Alberta's freely available pathfinding library, HOG (\url{www.cs.ualberta.ca/~nathanst/hog.html}). 
+Both planners were implemented using HOG. 
