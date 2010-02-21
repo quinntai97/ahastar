@@ -14,7 +14,7 @@ Although not as popular as 8-connected octile grid maps (which allow diagonal tr
 the advantage of producing many highly symmetrical paths; 
 a property we exploit in order to derive the main result of this paper.
 \par 
-Our work is motivated by the seemingly innocuous problem in Figure \ref{fig-emptymap} 
+Our work is motivated by the seemingly innocuous problem in Figure \ref{fig-emptymap}(a)
 which requires finding a shortest path from S to G in a mostly empty room.
 \begin{figure}[htbp]
 	\vspace{-4pt}
@@ -33,7 +33,7 @@ This scenario appears as a subproblem in many real-world path planning applicati
 in video games.
 For example, BioWare's popular fantasy role-playing game \emph{Baldur's Gate} features complex dungeon
  areas that are composed of adjacent mostly empty rooms (see Figure \ref{fig-emptymap}(b) for an example).
-If we apply A* \cite{hart68} to solving the instance in Figure \ref{fig-emptymap}, using an almost 
+If we apply A* \cite{hart68} to solving the instance in Figure \ref{fig-emptymap}(a), using an almost 
 perfectly informed manhattan heuristic, we find that the algorithm must expand all tiles in the grey 
 area and at least some of those in the white area.
 Given an unfavourable tie-breaking strategy A* will generate all nodes on the map and of those expand 
@@ -47,5 +47,7 @@ often just as difficult for A* to solve) and show that it is possible to optimal
 such areas without ever exploring tiles that are not on the perimeter.
 This result forms the basis for a new hierarchical search method which decomposes 4-connected grid maps
 into a set of adjacent empty rooms. 
-We undertake an empirical analysis and show that our technique retains the optimality guarantees of A* 
-yet performs similarly to a state-of-the-art hierarchical planner which is memory-efficient but suboptimal.
+We show that it is possible to optimally traverse such an area by only ever expanding nodes along the
+perimeter of an empty room without ever needing to explore the interior.
+We undertake an empirical analysis and show that our technique is also fast and memory efficient,
+yielding results comparable with state-of-the-art suboptimal hierarchical planners.
