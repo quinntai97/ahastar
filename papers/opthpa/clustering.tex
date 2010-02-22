@@ -1,9 +1,42 @@
-\section{Decomposing 4-connected Grid Maps}
-Mechanical details of clustering.
-How to identify clusters.
-Why this approach and not a more naive one.
-Inserting the start goal.
-Why we don't need to insert the goal
-Associated overheads; point out this is little.
-(need to store height/width of each cluster + an id for each
-location so we can identify the associated cluster.
+\section{Identifying Empty Rooms}
+In this section we give a simple but effective algorithm for decomposing a grid map
+into large empty rooms.
+We proceed by first associating with every tile on the map a \emph{clearance value} 
+that measures the amount of traversable space at each location.
+We adopt the computation technique described in \cite{harabor08} where clearances
+are used to facilitate pathfinding for multi-size agents navigating across grid maps.
+The approach is a straightforward one which we outline in Algorithm \ref{alg_clearance}.
+Note that our method is more efficient than the equivalent technique presented
+in \cite{harabor08}.
+
+\input alg_clearance
+
+Once we derive a set of clearance values we employ a simple flood-fill algorithm to 
+construct empty rooms:
+
+\begin{enumerate}
+\item{Iterate over all nodes on the map, identifying nodes that have not yet 
+been assigned to a room.}
+\item{Starting with an unassigned node attempt a maximal extension of the room
+by flood-filling over the nodes in the current row (to the right of the start node).}
+\item{Stop flood-filling when one of the following conditions is met: an obstacle is found,
+a node which is already assigned to another room is found or an unassigned
+node is found which has a larger clearance value than the node at the origin of the room.
+The length of the row of tiles prior to termination is the width of the room.}
+\item{Repeat Steps 2-3 for each subsequent row attempting to grow the room
+each time to its maximal width.
+The number of rows successfully processed before the algorithm terminates is the height of the room.}
+\end{enumerate}
+
+We found this algorithm to work significantly better than other more naive flood-fill
+approaches (for example, as described in \cite{bjornsson06}). 
+In particular, the early termination condition at Step 3 
+due to increasing clearance is critical to the effectiveness of our approach.
+We use clearances in this context to avoid extending several smaller rooms into an area which
+could be occupied by one large room.
+
+As we will show in Section \ref{sec-results} the performance of OHA* is closely
+tied with its ability to prune as many nodes as possible from the interior of 
+empty rooms. 
+Although our method is not optimal for this purpose it is simple
+to understand and implement and produces good results in practice.
