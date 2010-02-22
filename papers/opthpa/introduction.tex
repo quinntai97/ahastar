@@ -9,16 +9,32 @@ the landmark heuristic \cite{} and variations of this idea, such as the dead-end
 Increasing the accuracy of a heuristic helps to improve the average performance,
 but there is no guarantee of a speed-up in all instances.
 It has been shown that even almost perfect heuristics,
-which differ from the perfect information by at most an additive constant,
+which differ from the perfect information by at most a (small) additive constant,
 can result in poor performance in some search-intensive problems such as AI planning~\cite{malte08,korf98}.
-Our simple example shown in Figure \ref{} (a), which we discuss later,
+Our simple example shown in Figure \ref{fig-emptymap}(a), which we discuss later,
 shows a similar behaviour in path finding.
 
-In the case of the latter, the search space is reduced but optimality is not preserved. 
+In the case of hierarchical decomposition, techniques such as
+HPA*~\cite{} and PRA*~\cite{} explore a reduced state space, 
+which makes them fast. They require no significant extra-memory
+compared to A* on a standard grid map.
+However, they have the disadvantage that solutions are not guaranteed 
+to be optimal.
+
+Compared to a standard pathfinding method, such as A* with 
+the Manhattan heuristic on a grid map,
+all techniques outlined earlier provide a performance trade-off.
+They are faster but, at the same time, they either require significant
+extra memory, or provide no optimality guarantee.
+
+In this work we explore a technique that reduces the state space while preserving optimality.
+No significant additional memory is needed. Depending on the map topology,
+our technique, called OHA*, can in fact use less memory than standard A*.
+
+
 It seems then that the reduction of search spaces while preserving optimality, as we do in this work, is a good direction for research.
 \par
-We begin by considering the problem of optimal path planning on 4-connected grid maps (or tile maps),
-so called because movement is restricted to the four cardinal directions, 
+We consider the problem of optimal path planning on 4-connected grid maps (or tile maps), so called because movement is restricted to the four cardinal directions, 
 This simple domain appears in application areas such as robotics \cite{latombe91} and video games 
 (cite one of the Game/AI Programming Gems books).
 Although not as popular as 8-connected octile grid maps (which allow diagonal transitions) the 4-connected case has 
