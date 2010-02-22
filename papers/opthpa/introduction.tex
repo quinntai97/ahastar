@@ -87,6 +87,11 @@ To preserve optimality, macro-edges that traverse an empty rectangle in one step
 At the same time, regular edges to interior nodes are removed.
 Overall, the branching factor of OHA* never increases as compared to standard A* on a grid map.
 
+OHA* is easy to understand and to implement. It can equivalently be seen either as
+a standard A* run on a search graph slightly different than a standard grid, or
+as a slightly modified A*, with a different successor generation rule,
+run on a standard grid state space.
+
 We undertake an empirical analysis and show that our technique is also fast and memory efficient.
 Thus, unlike most pathfinding techniques on grid maps, OHA* is able to provide a speed-up over A*
 without compromising other important performance criteria, such as the memory requirements
