@@ -73,17 +73,32 @@ Indeed, every node in the grey area has an $f$-value smaller than the $f$-value 
 which means that A* will necessary expand all nodes in the grey area.
 Given an unfavourable tie-breaking strategy A* will generate all nodes on the map and of those expand 
 all but one.
-\par
+
 In solving the problem from Figure \ref{fig-emptymap}(a) it is helpful to observe that,
-while many optimal-length solutions exist,
-there is no need to explore all of them. In particular,
-either of the two solutions that go along the border of the map will do.
+while many optimal-length solutions exist, there is no need to explore all of them.
+In particular, either of the two solutions that go along the border of the map will do.
 We generalise this observation to the related problem of traversing across empty rooms (which are 
 often just as difficult for A* to solve) and show that it is possible to optimally navigate across 
 such areas without ever exploring tiles that are not on the perimeter.
 This result forms the basis for a new hierarchical search method which decomposes 4-connected grid maps
 into a set of adjacent empty rooms. 
-We show that it is possible to optimally traverse such an area by only ever expanding nodes along the
-perimeter of an empty room without ever needing to explore the interior.
-We undertake an empirical analysis and show that our technique is also fast and memory efficient,
-yielding results comparable with state-of-the-art suboptimal hierarchical planners.
+We show that it is possible to optimally traverse an empty rectangular area by only ever expanding nodes along the perimeter of an empty room without ever needing to explore the interior.
+To preserve optimality, macro-edges that traverse an empty rectangle in one step are added to some of the perimeter nodes. 
+At the same time, regular edges to interior nodes are removed.
+Overall, the branching factor of OHA* never increases as compared to standard A* on a grid map.
+
+We undertake an empirical analysis and show that our technique is also fast and memory efficient.
+Thus, unlike most pathfinding techniques on grid maps, OHA* is able to provide a speed-up over A*
+without compromising other important performance criteria, such as the memory requirements
+and the optimality of solutions.
+
+The rest of the paper is structured as follows.
+Next we overview related work.
+Section \ref{algorithm} describes OHA*, our pathfinding algorithm.
+Decomposing the traversable part of a grid map into a partition of empty areas,
+which is required by OHA*, is the topic of Section~\ref{empty rooms}.
+Then, we present our experiments and results.
+The last section contains conclusions and future work ideas.
+
+
+
