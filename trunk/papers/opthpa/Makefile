@@ -1,6 +1,6 @@
 aticle.ps: *.tex ref.bib
 	pdflatex article
-#	bibtex article
+	bibtex article
 	pdflatex article
 	pdflatex  article
 	#dvips -t letter -Ppdf -G0 -o article.ps article.dvi
