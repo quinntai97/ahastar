@@ -1,8 +1,19 @@
 \section{Introduction}
-Most path planning studies have been focused in one of two directions: identifying better heuristics to 
+Many studies on single-agent path finding have been focused in one of two directions:
+identifying better heuristics to 
 guide search and reducing the search space through hierarchical decomposition.
-In the case of the former, it has been shown that even almost perfect heuristics can result in poor 
-performance \cite{malte08,korf98}. 
+In case of the former, obtaining heuristics more informed than the popular
+Manhattan heuristic usually has the downsize of a significant memory overhead.
+Well-known examples of memory-intensive heuristics for path finding are
+the landmark heuristic \cite{} and variations of this idea, such as the dead-end heuristic \cite{}.
+Increasing the accuracy of a heuristic helps to improve the average performance,
+but there is no guarantee of a speed-up in all instances.
+It has been shown that even almost perfect heuristics,
+which differ from the perfect information by at most an additive constant,
+can result in poor performance in some search-intensive problems such as AI planning~\cite{malte08,korf98}.
+Our simple example shown in Figure \ref{} (a), which we discuss later,
+shows a similar behaviour in path finding.
+
 In the case of the latter, the search space is reduced but optimality is not preserved. 
 It seems then that the reduction of search spaces while preserving optimality, as we do in this work, is a good direction for research.
 \par
