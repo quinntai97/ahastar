@@ -6,7 +6,7 @@ In case of the former, obtaining heuristics more informed than the popular
 Manhattan heuristic usually has the downsize of a significant memory overhead.
 Well-known examples of memory-intensive heuristics for path finding are
 the landmark heuristic \cite{} and variations of this idea, such as the dead-end heuristic \cite{}.
-Increasing the accuracy of a heuristic helps to improve the average performance,
+Increasing the accuracy of a heuristic helps to improve the average time performance,
 but there is no guarantee of a speed-up in all instances.
 It has been shown that even almost perfect heuristics,
 which differ from the perfect information by at most a (small) additive constant,
@@ -24,24 +24,29 @@ to be optimal.
 Compared to a standard pathfinding method, such as A* with 
 the Manhattan heuristic on a grid map,
 all techniques outlined earlier provide a performance trade-off.
-They are faster but, at the same time, they either require significant
-extra memory, or provide no optimality guarantee.
+They are typically faster but, at the same time, they either require significant
+extra memory, or provide no optimality guarantees.
 
 In this work we explore a technique that reduces the state space while preserving optimality.
 No significant additional memory is needed. Depending on the map topology,
 our technique, called OHA*, can in fact use less memory than standard A*.
+%OHA* is orthogonal to memory-intensive heuristics.
+%The former reduces the size of the search graph before a search begins.
+%The latter guide the exploration of the search graph.
+%If desired, the two can be combined.
 
-
-It seems then that the reduction of search spaces while preserving optimality, as we do in this work, is a good direction for research.
-\par
+%\par
 We consider the problem of optimal path planning on 4-connected grid maps (or tile maps), so called because movement is restricted to the four cardinal directions, 
 This simple domain appears in application areas such as robotics \cite{latombe91} and video games 
 (cite one of the Game/AI Programming Gems books).
-Although not as popular as 8-connected octile grid maps (which allow diagonal transitions) the 4-connected case has 
-the advantage of producing many highly symmetrical paths; 
-a property we exploit in order to derive the main result of this paper.
-\par 
-Our work is motivated by the seemingly innocuous problem in Figure \ref{fig-emptymap}(a)
+OHA* exploits the fact that
+there can be many shortest path fragments between two given location
+on an empty area of a map.
+Among many equivalent shortest fragments between two locations that belong to an optimal path,
+it is enough to consider one.
+This can reduce the search effort significantly, while maintaining solution optimality.
+
+As a motivating example, Figure \ref{fig-emptymap}(a) shows an instance
 which requires finding a shortest path from S to G in a mostly empty room.
 \begin{figure}[htbp]
 	\vspace{-4pt}
@@ -60,9 +65,12 @@ This scenario appears as a subproblem in many real-world path planning applicati
 in video games.
 For example, BioWare's popular fantasy role-playing game \emph{Baldur's Gate} features complex dungeon
  areas that are composed of adjacent mostly empty rooms (see Figure \ref{fig-emptymap}(b) for an example).
-If we apply A* \cite{hart68} to solving the instance in Figure \ref{fig-emptymap}(a), using an almost 
-perfectly informed manhattan heuristic, we find that the algorithm must expand all tiles in the grey 
+It can easily be shown that, in the example in Figure \ref{fig-emptymap}(a), the Manhattan heuristic is almost perfect: $\forall n, 0 \leq h*(n) - h(n) \leq 2$.
+Yet, if we apply A* \cite{hart68} to solving the instance in Figure \ref{fig-emptymap}(a), 
+we find that the algorithm must expand all tiles in the grey 
 area and at least some of those in the white area.
+Indeed, every node in the grey area has an $f$-value smaller than the $f$-value of the target,
+which means that A* will necessary expand all nodes in the grey area.
 Given an unfavourable tie-breaking strategy A* will generate all nodes on the map and of those expand 
 all but one.
 \par
