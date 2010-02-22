@@ -15,7 +15,7 @@ Our simple example shown in Figure \ref{fig-emptymap}(a), which we discuss later
 shows a similar behaviour in path finding.
 
 In the case of hierarchical decomposition, techniques such as
-HPA*~\cite{} and PRA*~\cite{} explore a reduced state space, 
+HPA*~\cite{BoteaMS04} and PRA*~\cite{Sturtevant:05} explore a reduced state space, 
 which makes them fast. They require no significant extra-memory
 compared to A* on a standard grid map.
 However, they have the disadvantage that solutions are not guaranteed 
@@ -66,7 +66,7 @@ in video games.
 For example, BioWare's popular fantasy role-playing game \emph{Baldur's Gate} features complex dungeon
  areas that are composed of adjacent mostly empty rooms (see Figure \ref{fig-emptymap}(b) for an example).
 It can easily be shown that, in the example in Figure \ref{fig-emptymap}(a), the Manhattan heuristic is almost perfect: $\forall n, 0 \leq h^*(n) - h(n) \leq 2$.
-Yet, if we apply A* \cite{hart68} to solving the instance in Figure \ref{fig-emptymap}(a), 
+Yet, if we apply A* \cite{hart68formal} to solving the instance in Figure \ref{fig-emptymap}(a), 
 we find that the algorithm must expand all tiles in the grey 
 area and at least some of those in the white area.
 Indeed, every node in the grey area has an $f$-value smaller than the $f$-value of the target,
