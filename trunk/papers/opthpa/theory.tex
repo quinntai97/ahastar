@@ -1,4 +1,4 @@
-\section{Theoretical Overview}
+\section{Optimal Hierarchical A*}
 Pathfinding in modern video games often involves exploring highly regular 
 \label{algorithm}
 environments such as cities, sewers or dungeons.
@@ -8,8 +8,7 @@ As we showed in Figure \ref{fig-emptymap} however it is exactly these
 types of environments which A* has the most difficulty with.
 The crux of the problem facing A* is that all nodes in an empty or near 
 empty room have very similar or even identical f-costs.
-To preserve optimality A* must expand them all in order to prove they do 
-not appear on the optimal path.
+To preserve optimality A* must expand them all or risk returning a suboptimal path.
 %Figure \ref{fig-oha_contrast}(a) illustrates such a case; 
 %notice that A* explores almost half the map. 
 \par
@@ -35,9 +34,12 @@ many rooms.
 First, suppose $\pi(s, g)$ is the segment at the end of the optimal path.
 Then $g$ is the final goal node and, in all likelihood, is located in the 
 interior of $R$ (as per Figure \ref{fig-roomtraversal}(a)).
-In this case we can simply use a manhattan heuristic to exactly calculate $h^*(s, g)$.
-Since $R$ is empty the heuristic is perfectly informed and we may generate $g$
-as a direct \emph{macro successor} of $s$ without expanding any nodes from the interior of $R$.
+In this case we can simply use $h_{M}$, (otherwise known as the Manhattan heuristic) 
+to calculate the distance between $s$ and $g$.
+Since $R$ is empty this heuristic is perfectly informed such that 
+$\forall s, g$ $h_{M}(s, g) = h^*(s, g)$.
+We may thus generate $g$ as a direct \emph{macro successor} of $s$ without expanding 
+any nodes from the interior of $R$.
 \par
 Next, suppose $\pi(s, g)$ is the segment at the beginning of the optimal path. 
 Then, $s$ is, in all likelihood, located in the interior of $R$ 
@@ -45,8 +47,8 @@ Then, $s$ is, in all likelihood, located in the interior of $R$
 In this case we proceed by expanding $s$ to generate the macro successor set 
 $\Gamma(s) = \lbrace s_{1}', s_{2}', s_{3}', s_{4}'\rbrace$.
 Each $s_{i}'$ is the closest perimeter node to $s$ along each of the four sides of $R$.
-Since $h^*$ is perfectly informed the cost of each macro edge 
-$c(s, s_{i}') = h^*(s, s_{i}')$ is optimal.
+Since $h_{M}$ is perfectly informed the cost of each macro edge 
+$c(s, s_{i}') = h_{M}(s, s_{i}')$ is optimal.
 Further, since $g$ is on the perimeter of $R$, there must exist a path $\pi(s_{i}', g)$ 
 such that the cost of $\pi(s, g) = \pi(s, s_{i}') + \pi(s_{i}', g)$ is optimal.
 To see that this is true simply choose the $s_{i}'$ closest to $g$.
@@ -63,7 +65,7 @@ Suppose however that $g$ is somewhere on the opposide side of $R$.
 In this case we can generate a single macro successor $s'$ which appears on the 
 perimeter of $R$ directly opposite to $s$.
 It now becomes trivial to show that there exists a minimum lengh path $\pi(s',g)$.
-Further, since $h^*$ is perfectly informed, the cost of $\pi(s, s')$ is also optimal
+Further, since $h_{M}$ is perfectly informed, the cost of $\pi(s, s')$ is also optimal
 which means that $\pi(s, g) = \pi(s, s') + \pi(s', g)$ must be optimal.
 \end{proof}
 
@@ -84,6 +86,9 @@ which means that $\pi(s, g) = \pi(s, s') + \pi(s', g)$ must be optimal.
 
 A direct corrolary Lemma \ref{thm-roomtraversal} is that we can prune from consideration
 all nodes from the interior of $R$ and limit ourselves to those nodes appearing along its perimeter.
+When we combine this approach with a macro successor generation policy
+that is guided by perfect information we create a search algorithm which is guaranteed to traverse
+any empty rectangular room both fast and optimally.
 In light of this result we propose the following hierarchical search strategy for finding shortest 
 paths in 4-connected grid maps:
 
@@ -98,18 +103,18 @@ $\Gamma(s) = \lbrace s_{1}', s_{2}', s_{3}', s_{4}'\rbrace$ which are added to t
 $\Gamma(x) = \lbrace p, q, x' \rbrace$ as described in Lemma \ref{thm-roomtraversal} and updating the open
 list as required.} 
 \item{\label{oha-step5} When expanding a node $s$ that is in the goal room generate $g$ directly as 
-described in Lemma \ref{thm-roomtraversal}} 
+described in Lemma \ref{thm-roomtraversal}.} 
 \item{Repeat steps \ref{oha-step3}-\ref{oha-step5} until either the goal is found (in which case return
 the path) or all nodes have been evaluated (in which case return failure).}
 \end{enumerate}
-When the graph search algorithm at step \ref{oha-step3} is A* we term the resulting algorithm 
+When the graph search algorithm at Step \ref{oha-step3} is A* we term the resulting algorithm 
 Optimal Hierarchical A* (or simply OHA*).
 
 \begin{figure*}[htbp]
 	\label{fig-oha_contrast}
 	\vspace{-4pt}
        \begin{center}
-           \includegraphics[scale=0.60, trim = 10mm 10mm 10mm 0mm]{diagrams/oha_contrast.png}
+           \includegraphics[scale=0.50, trim = 10mm 10mm 10mm 0mm]{diagrams/oha_contrast.png}
        \end{center}
 	\vspace{-3pt}
        \caption{\textbf{(a)} A* solving a problem on a typical ($86\times88$) game map. 
@@ -142,15 +147,15 @@ where $p(n)$ is the node that preceeds $n$ on the optimal path and $c$ is the co
 an edge connecting nodes $k_{i}$ and $k_{i+1}$ which appear in sequence along the optimal path 
 and are both ancestors of $n$.
 We construct $\pi'(m, n)$ by way of Lemma \ref{thm-roomtraversal}, 
-which states that we can use the heuristic function $h^*$ to directly generate $m$ as a 
+which states that we can use the heuristic function $h_{M}$ to directly generate $m$ as a 
 macro successor of $n$ if both are in the same room.
 Thus we have:
 
 $$ g^{*'}(m) = 0 $$
-$$ g^{*'}(n) = h^*(m, n)$$
+$$ g^{*'}(n) = h_{M}(m, n)$$
 
 To see that these are equivalent we may restate $g^*(n)$ as:
-$$g^*(n) = |x_{m} - x_{n}| + |y_{m} - y_{n}| = h^*(m, n)$$
+$$g^*(n) = |x_{m} - x_{n}| + |y_{m} - y_{n}| = h_{M}(m, n)$$
 
 where $x_{m}, y_{m}$ are the coordinates of node $m$ on the map and $x_{n}, y_{n}$ are
 the coordinates of node $n$.

@@ -1,40 +1,12 @@
 \section{Results}
 \label{sec-results}
-We begin with Table \ref{table-graphsize} which shows the average size of the complete search
-space for A* and OHA*.
-We present results in terms of the number of total number of nodes and edges required by each algorithm
-to optimally solve the instances from \emph{Baldur's Gate} (henceforth simply BG) and also 
-the instances from the six variants of the demo map (R0-R50 inclusive).
-\input graphsize
-We notice from Table \ref{table-graphsize} that in all cases OHA* has a significantly smaller number 
-of nodes and edges to consider when compared to A*.
-The exact number depends directly on the effectiveness of the decomposition algorithm in identifying 
-large empty areas.
-For example, our decomposition of R0 is very effective; over 61\% of all nodes and 87\% of all 
-edges required by A* are pruned.
-On the BG maps a smaller saving is observed; only 34\% of nodes and 72\% of edges are pruned.
-The difference is attributable to the odd 45-degree orientation of these maps which results in 
-long sequences of tiles with increasing clearance values 
-(recall that our decomposition algorithm ceases further expansion of a room if it detects 
-such a situation).
-Thus smaller rooms tend to be produced on the BG problem set (when compared to R0) leading to 
-fewer interior nodes that OHA* can prune. 
-We expect that a more sophisticated decomposition technique method would yield significantly 
-better results.
-Looking at the results for our demo map (R10-R50 in particular) we observe that as the number of 
-randomly distributed obstacles increases there is a corresponding drop in the number of nodes that may be 
-pruned.
-This is as expected. 
-On R50 for example most rooms contain few if any interior nodes; 
-we see that OHA* can only prune 8\% of all nodes and 49\% of all edges required by A*.
-\par
-Next we turn our attention to Figure \ref{fig-searcheffort} where we examine a number of metrics
+We begin with Figure \ref{fig-searcheffort} where we examine a number of metrics
 related the average search effort of the two algorithms on the BG problem set.
 In all cases we present results with respect to optimal path length.
 \begin{figure*}[htbp]
 	\vspace{-2pt}
 	\begin{center}
-		       \includegraphics[scale=0.5, trim = 20mm 17mm 20mm 5mm]{diagrams/bg_effort.pdf}
+		       \includegraphics[scale=0.48, trim = 20mm 17mm 20mm 5mm]{diagrams/bg_effort.pdf}
 	\end{center}
 	\caption{Average performance of A* and OHA*. We look at average nodes expanded, nodes generated,
 	peak memory and search times.}
@@ -55,17 +27,50 @@ the maximum size of the open list.
 Notice that in the worst case OHA* is shown to maintain between 12-37\% fewer nodes where each
 maintenance operation requires logarithmic time in the number of nodes.
 \par
+Next, we look at Table \ref{table-graphsize} which shows the average size of the complete search
+space for A* and OHA*.
+We present results in terms of the number of total number of nodes and edges required by each algorithm
+to optimally solve the instances from \emph{Baldur's Gate} (henceforth simply BG) and also 
+the instances from the six variants of the demo map (R0-R50 inclusive).
+\input graphsize
+We notice from Table \ref{table-graphsize} that in all cases OHA* has a significantly smaller number 
+of nodes and edges to consider when compared to A*.
+The exact number depends directly on the topography of the map and the 
+effectiveness of the decomposition algorithm in identifying large empty areas.
+For example, our decomposition of R0 is very effective; over 61\% of all nodes and 87\% of all 
+edges required by A* are pruned.
+On the BG maps a smaller saving is observed; only 34\% of nodes and 72\% of edges are pruned.
+The difference is attributable to the odd 45-degree orientation of these maps which results in 
+long sequences of tiles with increasing clearance values 
+(recall that our decomposition algorithm ceases further expansion of a room if it detects 
+such a situation).
+Thus smaller rooms tend to be produced on the BG problem set (when compared to R0) leading to 
+fewer interior nodes that OHA* can prune. 
+We expect that a more sophisticated decomposition technique method would yield significantly 
+better results.
+Looking at the results for our demo map (R10-R50 in particular) we observe that as the number of 
+randomly distributed obstacles increases there is a corresponding drop in the number of nodes that may be 
+pruned.
+This is as expected. 
+On R50 for example most rooms contain few if any interior nodes; 
+we see that OHA* can only prune 8\% of all nodes and 49\% of all edges required by A*.
+\par
 Finally, we turn our attention to Table 2 where we measure the 
 performance of A* and OHA* on the six variants of the demo map.
 Our intention here is examine how the performance of OHA* degrades in scenarios with
 high obstacle density.
 \input csc2f_table
 Observe that as the number of obstacles increases the number of nodes expanded by OHA*, and the
-associated search time, both decrease. 
+associated search time, both increase. 
 The drop in performance from R0 to R10 is quite significant; OHA*'s search times drop
 from approximately 3.3 times faster than A* to just 1.36 times faster.
 This advantage is further eroded as we go from R10 to R20 where OHA* is only 
 1.23 times faster than A*.
-Beyond this point the two algorithms can be considered equivalent;
-OHA*'s map decomposition yields little advantage and the two expand and generate 
-a very similar number of nodes.
+Beyond this point OHA*'s map decomposition yields little advantage; 
+as its performance approaches the worst case the algorithm collapses
+to standard A*.
+\par
+Summarising our results: we have seen that OHA* expands, on average, between 40-70\% less nodes than A*.
+We solve a large set of realistic problems optimally and achieve an average speedup of between 1.7 to 
+3.3 times faster than A*.
+In the worst case we have shown that the performance of OHA* collapses to that of A*.

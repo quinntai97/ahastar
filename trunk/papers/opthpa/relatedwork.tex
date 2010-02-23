@@ -11,15 +11,15 @@ Finding a shortest path then involves inserting the start and goal into the
 abstract graph and searching for a (usually suboptimal) path between them.
 \par
 A recent method which shares quite a few similarities with OHA* is MSA* \cite{bolanca09}.
-MSA* operates on 8-connected grid maps and, like our work,
- attempts to speed up A* by exploiting path equivalence in empty rooms.
-Rather than prune nodes from the interior of empty rooms however, as OHA* does,
-MSA* attempts to generate macro successors 
-in order to speed up room traversal. 
-A modest gain over A* is reported but the algorithm suffers from 
-expanding a large number of interior nodes. 
-It is also worth noting that OHA* uses a different decomposition technique 
-than MSA* in order to identify empty rooms. 
+MSA* operates on 8-connected grid maps and, like OHA*, 
+attempts to speed up search by exploiting path equivalence in empty rooms.
+However, where OHA* prunes nodes entirely from the interior of empty rooms 
+MSA* uses macro successors to limit the number of interior nodes that must 
+be visited during a room traversal.
+A speedup over conventional A* is reported but the algorithm is also
+shown to expand a large number of interior nodes which hampers its performance.
+It is also worth noting that MSA* uses a different decomposition 
+technique to OHA* in order to identify empty rooms.
 \par
 OHA* also bears some similarity to a recent result outlining new heuristic methods for improving the 
 performance of standard A* on games maps \cite{bjornsson06}.
@@ -43,4 +43,4 @@ comparable to A*.
 It is provably optimal if maximum search depth is sufficiently large and, crucially, has been shown to 
 run between 25-40\% faster than A*.
 As with the dead-end heuristic, Fringe Search is orthogonal to OHA* and the two
-are easily combined.
+can easily be combined.
