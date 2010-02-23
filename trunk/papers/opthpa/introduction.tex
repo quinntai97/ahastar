@@ -33,11 +33,11 @@ When compared to a standard pathfinding method, such as A* with a Manhattan heur
 all techniques outlined so far involve some kind of performance trade-off.
 They are typically faster than A* but, at the same time, require significant
 extra memory or provide no optimality guarantees.
-In this work we explore a technique that reduces the state space while preserving optimality.
+In this work we explore a technique called Optimal Hierarchical A* (OHA*) that 
+reduces the state space while preserving optimality.
 No significant additional memory is needed. 
-Infact, depending on the map topography, our technique, called OHA*, 
-can use significantly less memory than standard A*.
-Furthermore, OHA* is shown to be between 1.7 to 3.3 
+Infact, depending on the map topography, OHA* can use significantly less memory than standard A*.
+Furthermore, OHA* is shown to be on average between 1.7 to 3.3 
 times faster than A* on a large set of realistic maps.
 %OHA* is orthogonal to memory-intensive heuristics.
 %The former reduces the size of the search graph before a search begins.
