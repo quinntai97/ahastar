@@ -20,6 +20,19 @@ EmptyClusterAbstraction::~EmptyClusterAbstraction()
 {
 }
 
+int EmptyClusterAbstraction::getNumMacro()
+{
+	int macro = 0;
+	cluster_iterator ci = getClusterIter();
+	EmptyCluster* cluster = clusterIterNext(ci);
+	while(cluster)
+	{
+		macro += cluster->macro;
+		cluster = clusterIterNext(ci);
+	}
+	return macro;
+}
+
 // Decomposes the map into a set of empty (obstacle free) clusters.
 // simple flood-fill based decomposition:
 //  1. Start with some node @ (x, y). 

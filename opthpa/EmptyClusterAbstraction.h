@@ -44,6 +44,7 @@ class EmptyClusterAbstraction : public HPAClusterAbstraction
 			throw(std::invalid_argument);
 
 		virtual double h(node* from, node* to);
+		int getNumMacro();
 
 	private:
 		void connectSG(node* absNode);

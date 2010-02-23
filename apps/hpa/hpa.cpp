@@ -26,17 +26,17 @@
  */
 
 #include "common.h"
-#include "opthpa.h"
+#include "hpa.h"
 #include "HPAClusterAbstraction.h"
 #include "HPAClusterFactory.h"
-#include "EmptyClusterAbstraction.h"
-#include "EmptyCluster.h"
-#include "EmptyClusterFactory.h"
+#include "HPAClusterAbstraction.h"
+#include "HPACluster.h"
+#include "HPAClusterFactory.h"
 #include "EdgeFactory.h"
 #include "ClusterNodeFactory.h"
 #include "ClusterAStar.h"
 #include "CardinalAStar.h"
-#include "CardinalAStarFactory.h"
+#include "ClusterAStarFactory.h"
 #include "HPAStar2.h"
 #include "clusterAbstraction.h"
 #include "ScenarioManager.h"
@@ -172,8 +172,10 @@ void createSimulation(unitSimulation * &unitSim)
 	Map* map = new Map(gDefaultMap);
 	//map->scale(100, 100);
 
-	EmptyClusterAbstraction* ecmap = new EmptyClusterAbstraction(
-			map, new EmptyClusterFactory(), 
+	HPAClusterFactory* hcf = new HPAClusterFactory();
+	hcf->cardinal = true;
+	HPAClusterAbstraction* ecmap = new HPAClusterAbstraction(
+			map, hcf, 
 			new ClusterNodeFactory(), new EdgeFactory());
 
 	ecmap->buildClusters();
@@ -190,7 +192,6 @@ void createSimulation(unitSimulation * &unitSim)
 
 	fprintf(f, "%i,\t%i,\t", g->getNumNodes(), g->getNumEdges());
 	fprintf(f, "%i,\t%i,\t", absg->getNumNodes(), absg->getNumEdges());
-	fprintf(f, "%i,\t", ecmap->getNumMacro());
 	fprintf(f, "%s\n", map->getMapName());
 	fflush(f);
 	fclose(f);
@@ -230,7 +231,9 @@ void createSimulation(unitSimulation * &unitSim)
 void gogoGadgetNOGUIScenario(HPAClusterAbstraction* ecmap)
 {
 	CardinalAStar astar;
-	HPAStar2 hpastar(false, false, new CardinalAStarFactory);
+	ClusterAStarFactory* caf = new ClusterAStarFactory();
+	caf->setCardinal(true);
+	HPAStar2 hpastar(false, false, caf);
 	statCollection stats;
 	
 	for(int i=0; i< scenariomgr.getNumExperiments(); i++)
@@ -337,7 +340,7 @@ int myScenarioGeneratorCLHandler(char *argument[], int maxNumArgs)
 	ScenarioManager scenariomgr;
 	int numScenarios = atoi(argument[2]);
 
-	EmptyClusterAbstraction ecmap(new Map(map.c_str()), new EmptyClusterFactory(),
+	HPAClusterAbstraction ecmap(new Map(map.c_str()), new HPAClusterFactory(),
 			new ClusterNodeFactory(), new EdgeFactory());
 	
 	scenariomgr.generateExperiments(&ecmap, numScenarios);
@@ -451,7 +454,7 @@ void myNewUnitKeyHandler(unitSimulation *unitSim, tKeyboardModifier mod, char)
 	ClusterAStar* astar;
 	
 	//std::cout << "\n absnodes: "<<unitSim->getMapAbstraction()->getAbstractGraph(1)->getNumNodes()<< " edges: "<<unitSim->getMapAbstraction()->getAbstractGraph(1)->getNumEdges();
-	//std::cout << " cachesize: "<<((EmptyClusterAbstraction*)unitSim->getMapAbstraction())->getPathCacheSize();
+	//std::cout << " cachesize: "<<((HPAClusterAbstraction*)unitSim->getMapAbstraction())->getPathCacheSize();
 
 	unitSim->getRandomLocation(x1, y1);
 	unitSim->getRandomLocation(x2, y2);
@@ -465,10 +468,12 @@ void myNewUnitKeyHandler(unitSimulation *unitSim, tKeyboardModifier mod, char)
 	switch (mod)
 	{
 		case kShiftDown: 
-			astar = new HPAStar2(new CardinalAStarFactory());
+			ClusterAStarFactory* caf = new ClusterAStarFactory();
+			caf->setCardinal(true);
+			astar = new HPAStar2(caf);
 			unitSim->addUnit(u=new searchUnit(x2, y2, targ, astar)); 
-			u->setColor(0.3,0.7,0.3);
-			targ->setColor(0.3,0.7,0.3);
+			u->setColor(1,0.98,0.8);
+			targ->setColor(1,0.98,0.8);
 			break;
 		default:
 			astar = new CardinalAStar();
@@ -527,10 +532,12 @@ void runNextExperiment(unitSimulation *unitSim)
 	unit* nextTarget = new unit(nextExperiment->getGoalX(), nextExperiment->getGoalY());
 	if(runAStar)
 	{
-		HPAStar2* hpastar = new HPAStar2(new CardinalAStarFactory());
+		ClusterAStarFactory* caf = new ClusterAStarFactory();
+		caf->setCardinal(true);
+		HPAStar2* hpastar = new HPAStar2(caf);
 		nextUnit = new searchUnit(nextExperiment->getStartX(), nextExperiment->getStartY(), nextTarget, hpastar); 
-		nextUnit->setColor(0.1,0.1,0.5);
-		nextTarget->setColor(0.1,0.1,0.5);
+		nextUnit->setColor(1,0.98,0.8);
+		nextTarget->setColor(1,0.98,0.8);
 		expnum++;
 		runAStar=false;
 		std::cout << "running "<<hpastar->getName()<<" experiment"<<std::endl;
@@ -539,8 +546,8 @@ void runNextExperiment(unitSimulation *unitSim)
 	{
 		CardinalAStar* astar = new CardinalAStar();
 		nextUnit = new searchUnit(nextExperiment->getStartX(), nextExperiment->getStartY(), nextTarget, astar); 
-		nextUnit->setColor(0.5,0.1,0.1);
-		nextTarget->setColor(0.5,0.1,0.1);
+		nextUnit->setColor(1,1,0);
+		nextTarget->setColor(1,1,0);
 		runAStar=true;
 		std::cout << "running "<<astar->getName()<<" experiment"<<std::endl;
 	}

@@ -188,6 +188,9 @@ bool ClusterAStar::evaluate(node* current, node* target, edge* e)
 	if(!isInCorridor(target))
 		return false;
 
+	if(cardinal && e->getWeight() != (int)e->getWeight())
+		return false;
+
 	return true;
 }
 

@@ -33,7 +33,7 @@ class graph;
 class AbstractClusterAStar : public aStarOld
 {
 	public:	
-		AbstractClusterAStar() { corridorNodes = NULL; verbose = false; markForVis=true;}
+		AbstractClusterAStar() { corridorNodes = NULL; verbose = false; markForVis=true; }
 		virtual ~AbstractClusterAStar() {}
 		virtual const char* getName() = 0;
 		virtual path *getPath(graphAbstraction *aMap, node *from, node *to, reservationProvider *rp = 0) = 0;
@@ -68,11 +68,13 @@ class ClusterAStar : public AbstractClusterAStar
 			friend class ClusterAStarTest; 
 		#endif
 		
-		ClusterAStar() : AbstractClusterAStar() { }
+		ClusterAStar() : AbstractClusterAStar() { cardinal = false; }
 		virtual ~ClusterAStar() {}
 		virtual path *getPath(graphAbstraction *aMap, node *from, node *to, reservationProvider *rp = 0);
 		virtual const char* getName() { return "ClusterAStar"; }
 		virtual void logFinalStats(statCollection *stats);
+
+		bool cardinal;
 
 	protected:
 		virtual bool evaluate(node* current, node* target, edge* e=0);

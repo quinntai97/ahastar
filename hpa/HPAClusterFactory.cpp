@@ -12,9 +12,17 @@
 #include "ClusterAStar.h"
 #include <stdexcept>
 
+HPAClusterFactory::HPAClusterFactory() 
+{
+	cardinal = false;
+}
+
 HPACluster* HPAClusterFactory::createCluster(int xpos, int ypos)
 {
-	return createCluster(xpos, ypos, 10, 10, new ClusterAStar());
+	ClusterAStar* castar = new ClusterAStar();
+	if(cardinal)
+		castar->cardinal = true;
+	return createCluster(xpos, ypos, 10, 10, castar);
 }
 
 HPACluster* HPAClusterFactory::createCluster(int xpos, int ypos, int width, int height, AbstractClusterAStar* castar)
