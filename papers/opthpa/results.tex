@@ -1,9 +1,10 @@
 \section{Results}
+\label{sec-results}
 We begin with Table \ref{table-graphsize} which shows the average size of the complete search
 space for A* and OHA*.
 We present results in terms of the number of total number of nodes and edges required by each algorithm
 to optimally solve the instances from \emph{Baldur's Gate} (henceforth simply BG) and also 
-the instances from the six variants of the demp map (R0-R50 inclusive).
+the instances from the six variants of the demo map (R0-R50 inclusive).
 \input graphsize
 We notice from Table \ref{table-graphsize} that in all cases OHA* has a significantly smaller number 
 of nodes and edges to consider when compared to A*.
@@ -54,7 +55,7 @@ the maximum size of the open list.
 Notice that in the worst case OHA* is shown to maintain between 12-37\% fewer nodes where each
 maintenance operation requires logarithmic time in the number of nodes.
 \par
-Finally, we turn our attention to Table \ref{table-csc2f} where we measure the 
+Finally, we turn our attention to Table 2 where we measure the 
 performance of A* and OHA* on the six variants of the demo map.
 Our intention here is examine how the performance of OHA* degrades in scenarios with
 high obstacle density.
@@ -62,7 +63,7 @@ high obstacle density.
 Observe that as the number of obstacles increases the number of nodes expanded by OHA*, and the
 associated search time, both decrease. 
 The drop in performance from R0 to R10 is quite significant; OHA*'s search times drop
-from approximately 3 times faster than A* to just 1.36 times faster.
+from approximately 3.3 times faster than A* to just 1.36 times faster.
 This advantage is further eroded as we go from R10 to R20 where OHA* is only 
 1.23 times faster than A*.
 Beyond this point the two algorithms can be considered equivalent;

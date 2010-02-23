@@ -7,8 +7,8 @@ that measures the amount of traversable space at each location.
 We adopt the computation technique described in \cite{harabor08} where clearances
 are used to facilitate pathfinding for multi-size agents navigating across grid maps.
 The approach is a straightforward one which we outline in Algorithm \ref{alg-clearance}.
-Note that our method is more efficient than the equivalent technique presented
-in \cite{harabor08} (in the sense that we visit fewer nodes to compute clearance).
+Note that our method is slightly different (in the sense that we visit fewer nodes
+while computing clearance) than the original technique though still equivalent though still equivalent.
 
 \input alg_clearance
 
@@ -32,9 +32,8 @@ The number of rows successfully processed before the algorithm terminates is the
 We found this algorithm to work significantly better than other more naive flood-fill
 approaches (for example, as described in \cite{bjornsson06,bolanca09}). 
 In particular, the early termination condition at Step 3 
-due to increasing clearance is critical to the effectiveness of our approach.
-We use clearances in this context to avoid extending several smaller rooms into an area which
-could be occupied by one large room.
+due to increasing clearance is critical to avoid the situation where
+several smaller rooms are extended into an area which could be occupied by one large room.
 
 As we will show in Section \ref{sec-results} the performance of OHA* is closely
 tied with its ability to prune as many nodes as possible from the interior of 
