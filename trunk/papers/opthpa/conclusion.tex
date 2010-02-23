@@ -1,8 +1,8 @@
 \section{Conclusion}
 We presented a new optimality preserving algorithm for computing shortest paths
 on 4-connected grid maps.
-We use a hierarchical planning approach that decomposes a map into empty rectangular clusters.
-We prove that it is possible to optimally navigate across such clusters by only ever
+We use a hierarchical planning approach that decomposes a map into empty rectangular rooms.
+We prove that it is possible to optimally navigate across such romms by only ever
 expanding nodes on their perimeter and never expanding any from the interior.
 We undertake an empirical analysis and show that this approach is up to 3.3 times faster than 
 standard A* on a favourably configured test map and between 1.7 to 2.1 times faster than A* on 
@@ -17,6 +17,6 @@ The obvious direction for further work is extending the algorithm to optimally s
 shortest path problems in more popular 8-connected grid maps. 
 Although the current approach would not translate directly to that domain we believe similar
 techniques involving the identification of dominated edges could be highly promising.
-Another direction for future work is to develop clustering algorithms that identify maximally
+Another direction for future work is to develop decomposition algorithms that identify maximally
 sized empty areas on a given grid map.
 We believe this would significantly improve the performance of the current method.

@@ -3,27 +3,45 @@ A very effective method for solving path planning problems is to reformulate the
 into an equivalent one in a much smaller abstract search space. 
 Known as hierarchical path planning this approach has been well studied over the last decade;
 algorithms in this category are usually fast, memory-efficient and suboptimal.
-Our contribution follows this general idea while seeking to retain optimality.
+OHA* follows this general idea while seeking to retain optimality.
 It is perhaps most similar to the popular HPA* algorithm \cite{botea04} 
 which divides a grid map into a series of fixed-size clusters connected 
 by entrances.
 Finding a shortest path then involves inserting the start and goal into the 
 abstract graph and searching for a (usually suboptimal) path between them.
 \par
-Our work also bears some similarity to a recent result outlining new heuristic methods for improving the 
+A recent method which shares quite a few similarities with OHA* is MSA* \cite{bolanca09}.
+MSA* operates on 8-connected grid maps and, like our work,
+ attempts to speed up A* by exploiting path equivalence in empty rooms.
+Rather than prune nodes from the interior of empty rooms however, as OHA* does,
+MSA* attempts to generate macro successors 
+in order to speed up room traversal. 
+A modest gain over A* is reported but the algorithm suffers from 
+expanding a large number of interior nodes. 
+It is also worth noting that the empty room decomposition technique used by 
+MSA* is based on a naive flood-fill approach.
+In our experience this technique is much less effective than the 
+clearance-based method we describe in Section \ref{empty rooms}.
+\par
+OHA* also bears some similarity to a recent result outlining new heuristic methods for improving the 
 performance of standard A* on games maps \cite{bjornsson06}.
 In that work, much like in ours, grid maps are decomposed into obstacle-free zones connected by entrances 
 and exits. 
 A preprocessing step identifies zones containing entrances but no corresponding exits, thus
 yielding the \emph{dead-end heuristic} (a similiar yet orthogonal idea to our main result).
-A highly informed \emph{gateway heuristic} is also developed which requires computing and storing exact 
-costs between all pairs of entrances and exits.
+A highly informed (and memory intensive) \emph{gateway heuristic} is also developed which 
+requires computing and storing exact costs between all pairs of entrances and exits.
 Both heuristics are shown to be admissible and yield optimal length paths. 
 Average running time improvements over standard A* are reported at between 10-40\% using a range of
 realistic games maps.
 \par
-Another algorithm with similar goals to our work is Fringe Search \cite{bjornsson05}.
-Fringe Search is a general purpose iterative deepening search algorithm with memory requirements
+Fringe Search is yet another algorithm which attempts to preserve optimality
+while improving over standard A*.
+This work is quite different from others we have discussed in that it is not 
+hierarchical and it does not rely on the development of memory-intensive heuristics.
+Rather, Fringe Search is a general purpose iterative deepening technique with memory requirements
 comparable to A*. 
 It is provably optimal if maximum search depth is sufficiently large and, crucially, has been shown to 
 run between 25-40\% faster than A*.
+As with the dead-end heuristic, Fringe Search is orthogonal to OHA* and the two
+are easily combined.

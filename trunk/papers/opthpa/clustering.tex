@@ -6,9 +6,9 @@ We proceed by first associating with every tile on the map a \emph{clearance val
 that measures the amount of traversable space at each location.
 We adopt the computation technique described in \cite{harabor08} where clearances
 are used to facilitate pathfinding for multi-size agents navigating across grid maps.
-The approach is a straightforward one which we outline in Algorithm \ref{alg_clearance}.
+The approach is a straightforward one which we outline in Algorithm \ref{alg-clearance}.
 Note that our method is more efficient than the equivalent technique presented
-in \cite{harabor08}.
+in \cite{harabor08} (in the sense that we visit fewer nodes to compute clearance).
 
 \input alg_clearance
 
@@ -30,7 +30,7 @@ The number of rows successfully processed before the algorithm terminates is the
 \end{enumerate}
 
 We found this algorithm to work significantly better than other more naive flood-fill
-approaches (for example, as described in \cite{bjornsson06}). 
+approaches (for example, as described in \cite{bjornsson06,bolanca09}). 
 In particular, the early termination condition at Step 3 
 due to increasing clearance is critical to the effectiveness of our approach.
 We use clearances in this context to avoid extending several smaller rooms into an area which
