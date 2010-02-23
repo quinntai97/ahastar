@@ -1,3 +1,19 @@
 \begin{abstract}
-Hierarchical pathfinding algorithms such as HPA* work by decomposing a large map into a much smaller approximation that can be efficiently searched. This approach is fast, complete and memory efficient but usually suboptimal. In this paper we develop a new hierarchical algorithm which is guaranteed to return optimal solutions on 4-connected grid maps. Our approach identifies obstacle-free areas which can be optimally traversed by only expanding nodes along their perimeter. We give an empirical analysis and demonstrate that this method is fast, memory efficient, and produces optimal paths.
+In pathfinding problems, A* search with a Manhattan-like heuristic on a grid discretization of a map
+remains a popular solving approach.
+Speed-up enhancements include reducing the size of the search space with hierarchical abstraction,
+and building more informed heuristics.
+Each of these speed-up strategies have shortcomings.
+Recent successful hierarchical abstraction techniques for pathfinding
+return suboptimal solutions.
+Better informed pathfinding heuristics usually require significant additional memory,
+which can be several times larger than the size of the map.
+
+In this work we present OHA*, an algorithm that is faster than A*,
+preserves solution optimality, and requires no significant extra memory.
+OHA* works on 4-connected grid maps, which allow straight, but no diagonal movements.
+It identifies rectangular areas with no obstacles that can be optimally traversed 
+by only expanding nodes along their perimeter, without exploring their interior. 
+We give an empirical analysis and demonstrate that this method is fast
+and memory efficient, while producing optimal paths.
 \end{abstract}
