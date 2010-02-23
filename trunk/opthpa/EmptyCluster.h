@@ -46,6 +46,7 @@ class EmptyCluster : public HPACluster
 
 		virtual void openGLDraw();
 
+		int macro;
 
 	protected:
 		virtual void connectParent(node*, HPAClusterAbstraction*);

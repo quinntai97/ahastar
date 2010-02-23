@@ -11,6 +11,8 @@ EmptyCluster::EmptyCluster(const int x, const int y) throw(std::invalid_argument
 {
 	if(x < 0 || y <0)
 		throw std::invalid_argument("EmptyCluster: x,y coordinates must be >= 0");
+
+	macro = 0;
 }
 
 EmptyCluster::~EmptyCluster()
@@ -144,6 +146,7 @@ void EmptyCluster::frameCluster(HPAClusterAbstraction* aMap)
 void EmptyCluster::addMacroEdges(HPAClusterAbstraction *aMap)
 {
 	graph* absg = aMap->getAbstractGraph(1);
+	macro = 0;
 
 	if(this->getWidth() > 1)
 	{
@@ -164,6 +167,7 @@ void EmptyCluster::addMacroEdges(HPAClusterAbstraction *aMap)
 			{
 				e = new edge(left->getNum(), right->getNum(), aMap->h(left, right));
 				absg->addEdge(e);
+				macro++;
 			}
 		}
 	}
@@ -187,6 +191,7 @@ void EmptyCluster::addMacroEdges(HPAClusterAbstraction *aMap)
 			{
 				e = new edge(top->getNum(), bottom->getNum(), aMap->h(top, bottom));
 				absg->addEdge(e);
+				macro++;
 			}
 		}
 	}
@@ -292,8 +297,10 @@ void EmptyCluster::initOpenGLCoordinates(HPAClusterAbstraction* aMap)
 
 void EmptyCluster::openGLDraw()
 {
-	glColor3f (0.6F, 0.9F, 0.4F);
-	glLineWidth(2.0f);
+//	glColor3f (0.6F, 0.9F, 0.4F);
+	glColor3f (0.4F, 0.6F, 1.0F);
+	//glColor3f(0.1, 0.1, 0.7);
+	glLineWidth(3.0f);
 	glBegin(GL_LINE_STRIP);
 	glVertex3f(glx, gly, glz);
 	glVertex3f(glx+glWidth, gly, glz);

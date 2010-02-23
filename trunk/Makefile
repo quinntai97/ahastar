@@ -28,8 +28,9 @@ OPTHPATESTS_OBJ = $(subst .cpp,.o,$(addprefix objs/, $(notdir $(OPTHPATESTS_SRC)
 
 HOGINCLUDES = -I./hpa -I./aha -I./opthpa -I./abstraction -I./driver -I./shared -I./simulation -I./util
 TESTINCLUDES = -I./tests/util -I./tests/aha -I./tests/hpa -I./tests/opthpa 
-CFLAGS = -Wall -Wno-long-long -g -ggdb -ansi -pedantic $(HOGINCLUDES) $(TESTINCLUDES)
-CFASTFLAGS = -O2 $(HOGINCLUDES) -ansi
+#CFLAGS = -Wall -Wno-long-long -g -ggdb -ansi -pedantic $(HOGINCLUDES) $(TESTINCLUDES)
+#CFASTFLAGS = -O2 $(HOGINCLUDES) -ansi
+CFLAGS = -O3 $(HOGINCLUDES) -ansi
 
 CC = c++
 

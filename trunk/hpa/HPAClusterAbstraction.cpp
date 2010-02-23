@@ -261,8 +261,8 @@ void HPAClusterAbstraction::insertStartAndGoalNodesIntoAbstractGraph(node* _star
 void HPAClusterAbstraction::openGLDraw()
 {
 	Map* map = this->getMap();
-	GLdouble xx, yy, zz, rr;
-	glBegin(GL_QUADS);
+	map->setDrawLand(false);
+	GLdouble xx, yy, zz, zzg, rr;
 	
 	double depthmod = 0.4;
 	for(int level=0; level<2; level++)
@@ -272,13 +272,24 @@ void HPAClusterAbstraction::openGLDraw()
 		node* cur = mygraph->nodeIterNext(ni);
 		while(cur)
 		{
+			glBegin(GL_QUADS);
 			int x = cur->getLabelL(kFirstData);
 			int y = cur->getLabelL(kFirstData+1);
+			map->getOpenGLCoord(x, y, xx, yy, zz, rr);
+			zzg = zz-rr*0.5;
+			zz = zz-rr*depthmod;
+
+			if(cur->drawColor == 0)
+			{
+				glColor3f(0.9, 0.9, 0.9);
+				glVertex3f(xx-rr, yy-rr, zz+0.01);
+				glVertex3f(xx-rr, yy+rr, zz+0.01);
+				glVertex3f(xx+rr, yy+rr, zz+0.01);
+				glVertex3f(xx+rr, yy-rr, zz+0.01);
+			}
 			if(cur->drawColor == 1)
 			{
-				glColor3f(0.1, 0.1, 0.5);
-				map->getOpenGLCoord(x, y, xx, yy, zz, rr);
-				zz = zz-rr*depthmod;
+				glColor3f(0.4, 0.4, 0.4);
 				glVertex3f(xx-rr, yy-rr, zz);
 				glVertex3f(xx-rr, yy+rr, zz);
 				glVertex3f(xx+rr, yy+rr, zz);
@@ -286,25 +297,34 @@ void HPAClusterAbstraction::openGLDraw()
 			}
 			if(cur->drawColor == 2)
 			{
-				glColor3f(0.5, 0.1, 0.1);
-				map->getOpenGLCoord(x, y, xx, yy, zz, rr);
-				zz = zz-rr*depthmod;
+				glColor3f(0.6, 0.6, 0.6);
 				glVertex3f(xx-rr, yy-rr, zz);
 				glVertex3f(xx-rr, yy+rr, zz);
 				glVertex3f(xx+rr, yy+rr, zz);
 				glVertex3f(xx+rr, yy-rr, zz);
 			}
+			glEnd();
+
+			glColor3f (0.5F, 0.5F, 0.5F);
+			glLineWidth(0.3f);
+			glBegin(GL_LINE_STRIP);
+			glVertex3f(xx-rr, yy-rr, zzg);
+			glVertex3f(xx+rr, yy-rr, zzg);
+			glVertex3f(xx+rr, yy+rr, zzg);
+			glVertex3f(xx-rr, yy+rr, zzg);
+			glVertex3f(xx-rr, yy-rr, zzg);
+			glEnd();
+
 			cur = mygraph->nodeIterNext(ni);
 		}
 	}
 	
-	glEnd();
 
 	cluster_iterator it = getClusterIter();
 	HPACluster *cluster = clusterIterNext(it);
 	while(cluster)
 	{
-		cluster->openGLDraw();
+//		cluster->openGLDraw();
 		cluster = clusterIterNext(it);
 	}
 }

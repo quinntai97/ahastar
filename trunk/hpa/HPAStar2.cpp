@@ -127,10 +127,6 @@ path* HPAStar2::getPath(graphAbstraction* aMap, node* _from, node* _to, reservat
 
 path* HPAStar2::refinePath(path* abspath, HPAClusterAbstraction* hpamap, AbstractClusterAStar& castar) 
 {
-	std::cout << "abspath: \n";
-	abspath->print();
-	std::cout << std::endl;
-
 	graph *absg = hpamap->getAbstractGraph(1); 
 	path* thepath = 0;
 	path* tail;
