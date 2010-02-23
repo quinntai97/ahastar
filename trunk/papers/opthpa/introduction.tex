@@ -38,16 +38,13 @@ No significant additional memory is needed.
 Infact, depending on the map topography, our technique, called OHA*, 
 can use significantly less memory than standard A*.
 Futhermore, OHA* is shown to be between 1.7 to 3.3 
-times faster than A* on a large set of realistic problems.
+times faster than A* on a large set of realistic maps.
 %OHA* is orthogonal to memory-intensive heuristics.
 %The former reduces the size of the search graph before a search begins.
 %The latter guide the exploration of the search graph.
 %If desired, the two can be combined.
 
 %\par
-We consider the problem of optimal path finding on 4-connected grid maps (or tile maps), 
-so called because movement is restricted to the four cardinal directions.
-This simple domain appears in application areas such as robotics and \cite{latombe91} and video games
 \cite{tozour02}.
 \par
 %OHA* exploits the fact that in this domain there can be many equivalent 
@@ -74,8 +71,11 @@ finding a shortest path in a mostly empty room.
 				Many solutions exist; we highlight three. }
        \label{fig-emptymap}
 \end{figure}
+In this case we consider the problem variant where the map is a 4-connected grid, 
+so called because movement is restricted to the four cardinal directions.
 This scenario appears as a subproblem in many real-world path finding applications but particularly
 in video games.
+%This simple domain appears in application areas such as robotics and \cite{latombe91} and video games
 For example, BioWare's popular fantasy role-playing game \emph{Baldur's Gate} features complex dungeon
  areas that are composed of adjacent mostly empty rooms (see Figure \ref{fig-bgmap} for an example).
 It can easily be shown that, in the example from Figure \ref{fig-emptymap}, the Manhattan heuristic is almost perfect: $\forall n, 0 \leq h^*(n) - h(n) \leq 2$.

@@ -6,9 +6,9 @@ These locales tend to be topographically simple and frequently comprise only
 empty rooms and corridors between them.
 As we showed in Figure \ref{fig-emptymap} however it is exactly these 
 types of environments which A* has the most difficulty with.
-The main difficulty facing A* is that all nodes in an empty or near 
+The crux of the problem facing A* is that all nodes in an empty or near 
 empty room have very similar or even identical f-costs.
-To preserve optimality A* must expand all such nodes until it can prove they do 
+To preserve optimality A* must expand them all in order to prove they do 
 not appear on the optimal path.
 %Figure \ref{fig-oha_contrast}(a) illustrates such a case; 
 %notice that A* explores almost half the map. 
@@ -162,7 +162,7 @@ Thus $g^{*}(m) = g^{*'}(m)$.
 For the inductive case we must show that the same analysis which was true for the basis case
 is also true for any segment of the optimal path running through some room $R$. 
 Lemma \ref{thm-roomtraversal} gives just such an analysis.
-Since every segment of $\pi^{*}(m, n)$ has a corresponding segment in $\pi^{*'}$ of equivalent
+Since every segment of $\pi^{*}(m, n)$ has a corresponding segment in $\pi^{*'}(m, n)$ of equivalent
 length it must be that $g^*(n) = g^{*'}(n)$ and $g^*(m) = g^{*'}(m)$.
 \end{proof}
 
@@ -172,8 +172,8 @@ The topography of this map is typical of what one might expect in a modern rolep
 \footnote{Infact, most video game maps tend to be somewhat bigger than our example but for demonstration 
 purposes it is quite sufficient.};
 there are many rooms and corridors and many entrances to connect them.
-In Figure \ref{fig-oha_contrast}(a) we show A* solving a typical problem on this map. 
-In this case obtaining the optimal solution required expanding almost half the nodes on the map.
+Figure \ref{fig-oha_contrast}(a) shows A* solving a typical problem on this map. 
+In this case obtaining the optimal solution required expanding almost half the nodes in the state space.
 Figure \ref{fig-oha_contrast}(b) shows the same problem being solved by OHA*.
 We were able to prune away large sections of the map by taking advantage of the fact that
 such nodes never need to be expanded in order to retain optimality.
