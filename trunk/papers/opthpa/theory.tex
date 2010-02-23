@@ -7,7 +7,7 @@ empty rooms and corridors between them.
 As we showed in Figure \ref{fig-emptymap} however it is exactly these 
 types of environments which A* has the most difficulty with.
 The crux of the problem facing A* is that all nodes in an empty or near 
-empty room have very similar or even identical f-costs.
+empty room have very similar or even identical $f$-values.
 To preserve optimality A* must expand them all or risk returning a suboptimal path.
 %Figure \ref{fig-oha_contrast}(a) illustrates such a case; 
 %notice that A* explores almost half the map. 
@@ -140,7 +140,7 @@ We will show it is true using an structural proof by induction on the length
 of $\pi^{*'}(m, n)$.
 \par
 For the basis case, suppose node $m$ and $n$ are in the same room $R$.
-In this case the optimal $g-costs$ of $m$ and $n$ are given by:
+In this case the optimal $g$-values of $m$ and $n$ are given by:
 $$g^*(m) = 0$$
 $$ g^*(n) =  \sum_{i = m}^{p(n)}c(k_{i}, k_{i+1})$$ 
 
