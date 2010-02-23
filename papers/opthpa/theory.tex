@@ -84,7 +84,7 @@ which means that $\pi(s, g) = \pi(s, s') + \pi(s', g)$ must be optimal.
 	\vspace{-15pt}
 \end{figure}
 
-A direct corrolary Lemma \ref{thm-roomtraversal} is that we can prune from consideration
+A direct corrolary to Lemma \ref{thm-roomtraversal} is that we can prune from consideration
 all nodes from the interior of $R$ and limit ourselves to those nodes appearing along its perimeter.
 When we combine this approach with a macro successor generation policy
 that is guided by perfect information we create a search algorithm which is guaranteed to traverse
@@ -96,14 +96,15 @@ paths in 4-connected grid maps:
 \item{\label{oha-step1} Preprocess a 4-connected grid map in order to construct a set of adjacent empty rooms such that 
 each room is rectangular in shape and each tile on the map is assigned to exactly one room. }
 \item{\label{oha-step2} Begin the search by expanding the start node as described in 
-Lemma \ref{thm-roomtraversal} in order to generate the set 
+Lemma \ref{thm-roomtraversal} (and Figure \ref{fig-roomtraversal}(b)) in order to generate the set 
 $\Gamma(s) = \lbrace s_{1}', s_{2}', s_{3}', s_{4}'\rbrace$ which are added to the open list. }
 \item{\label{oha-step3} Using any graph search algorithm evaluate the set of open nodes.}
 \item{\label{oha-step4} When expanding a node $x$ that is not in the goal room generate the set 
-$\Gamma(x) = \lbrace p, q, x' \rbrace$ as described in Lemma \ref{thm-roomtraversal} and updating the open
+$\Gamma(x) = \lbrace p, q, x' \rbrace$ as described in Lemma \ref{thm-roomtraversal} (and Figure
+\ref{fig-roomtraversal}(c)) updating the open
 list as required.} 
 \item{\label{oha-step5} When expanding a node $s$ that is in the goal room generate $g$ directly as 
-described in Lemma \ref{thm-roomtraversal}.} 
+described in Lemma \ref{thm-roomtraversal} (and Figure \ref{fig-roomtraversal}(a)).} 
 \item{Repeat steps \ref{oha-step3}-\ref{oha-step5} until either the goal is found (in which case return
 the path) or all nodes have been evaluated (in which case return failure).}
 \end{enumerate}
