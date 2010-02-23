@@ -61,10 +61,10 @@ Then, $s$ and $g$ are both located on the perimeter of $R$
 If $g$ is on the same side of the perimeter to $s$ or on one of the two orthogonal sides 
 it follows that we can find an optimal length path between them by the successive expansion of 
 nodes adjacent to $s$ along the perimeter.
-Suppose however that $g$ is somewhere on the opposide side of $R$.
+Suppose however that $g$ is somewhere on the opposite side of $R$.
 In this case we can generate a single macro successor $s'$ which appears on the 
 perimeter of $R$ directly opposite to $s$.
-It now becomes trivial to show that there exists a minimum lengh path $\pi(s',g)$.
+It now becomes trivial to show that there exists a minimum length path $\pi(s',g)$.
 Further, since $h_{M}$ is perfectly informed, the cost of $\pi(s, s')$ is also optimal
 which means that $\pi(s, g) = \pi(s, s') + \pi(s', g)$ must be optimal.
 \end{proof}
@@ -143,7 +143,7 @@ In this case the optimal $g-costs$ of $m$ and $n$ are given by:
 $$g^*(m) = 0$$
 $$ g^*(n) =  \sum_{i = m}^{p(n)}c(k_{i}, k_{i+1})$$ 
 
-where $p(n)$ is the node that preceeds $n$ on the optimal path and $c$ is the cost of 
+where $p(n)$ is the node that precedes $n$ on the optimal path and $c$ is the cost of 
 an edge connecting nodes $k_{i}$ and $k_{i+1}$ which appear in sequence along the optimal path 
 and are both ancestors of $n$.
 We construct $\pi'(m, n)$ by way of Lemma \ref{thm-roomtraversal}, 
@@ -161,7 +161,7 @@ where $x_{m}, y_{m}$ are the coordinates of node $m$ on the map and $x_{n}, y_{n
 the coordinates of node $n$.
 We can calculate $g(n)$ in this fashion only because $\pi^*(m,n)$ is optimal and $R$ is
 obstacle free which eliminates the possibility that the optimal path contains
- switchbacks (segments where the path doubles back on itself).
+ switch-backs (segments where the path doubles back on itself).
 Thus $g^{*}(m) = g^{*'}(m)$.
 \par
 For the inductive case we must show that the same analysis which was true for the basis case
@@ -173,7 +173,7 @@ length it must be that $g^*(n) = g^{*'}(n)$ and $g^*(m) = g^{*'}(m)$.
 
 To highlight how well OHA* can work in practice consider the example game map in Figure 
 \ref{fig-oha_contrast}. 
-The topography of this map is typical of what one might expect in a modern roleplaying game
+The topography of this map is typical of what one might expect in a modern role-playing game
 \footnote{Infact, most video game maps tend to be somewhat bigger than our example but for demonstration 
 purposes it is quite sufficient.};
 there are many rooms and corridors and many entrances to connect them.

@@ -2,12 +2,12 @@
 We presented Optimal Hierarchical A* (OHA*); a new optimality preserving algorithm for 
 computing shortest paths on 4-connected grid maps.
 We use a hierarchical planning approach that decomposes a map into empty rectangular rooms.
-We prove that it is possible to optimally navigate across such romms by only ever
+We prove that it is possible to optimally navigate across such rooms by only ever
 expanding nodes on their perimeter and never expanding any from the interior.
 We undertake an empirical analysis on a range of realistic benchmarks and show that
 this approach is between 1.7 to 3.3 times faster than A*.
 It is not hard however to find examples of maps that feature larger empty areas
-\footnote{For example, such as those seen in Blizzard's popular multiplayer game World of Warcraft} 
+\footnote{For example, such as those seen in Blizzard's popular multi-player game World of Warcraft} 
 on which the performance of OHA* would be many times faster than A*.
 In addition OHA* is also shown to be very memory efficient,
 expanding between 40-70\% fewer nodes than A* on the same set of realistic benchmarks.
