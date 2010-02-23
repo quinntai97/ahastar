@@ -3,27 +3,28 @@ We begin with Table \ref{table-graphsize} which shows the average size of the co
 space for A* and OHA*.
 We present results in terms of the number of total number of nodes and edges required by each algorithm
 to optimally solve the instances from \emph{Baldur's Gate} (henceforth simply BG) and also 
-the instances from the six variants of the map CSC2F.
+the instances from the six variants of the demp map (R0-R50 inclusive).
 \input graphsize
-We notice from Figure \ref{table-graphsize} that in all cases OHA* has a significantly smaller number 
+We notice from Table \ref{table-graphsize} that in all cases OHA* has a significantly smaller number 
 of nodes and edges to consider when compared to A*.
-The exact number depends directly on the effectiveness of the clustering algorithm in identifying 
+The exact number depends directly on the effectiveness of the decomposition algorithm in identifying 
 large empty areas.
-For example, our decomposition of CSC2F R0 is very effective; over 61\% of all nodes and 87\% of all 
+For example, our decomposition of R0 is very effective; over 61\% of all nodes and 87\% of all 
 edges required by A* are pruned.
 On the BG maps a smaller saving is observed; only 34\% of nodes and 72\% of edges are pruned.
 The difference is attributable to the odd 45-degree orientation of these maps which results in 
 long sequences of tiles with increasing clearance values 
-(recall that our decomposition algorithm ceases further expansion of a cluster if it detects 
+(recall that our decomposition algorithm ceases further expansion of a room if it detects 
 such a situation).
-Thus smaller clusters tend to be produced on the BG problem set (when compared to CSC2F R0) leading to 
+Thus smaller rooms tend to be produced on the BG problem set (when compared to R0) leading to 
 fewer interior nodes that OHA* can prune. 
-We expect that a more sophisticated clustering method would yield significantly better results.
-Looking at the results for CSC2F (R10-R50 in particular) we observe that as the number of 
+We expect that a more sophisticated decomposition technique method would yield significantly 
+better results.
+Looking at the results for our demo map (R10-R50 in particular) we observe that as the number of 
 randomly distributed obstacles increases there is a corresponding drop in the number of nodes that may be 
 pruned.
 This is as expected. 
-On R50 for example most clusters contain few if any interior nodes; 
+On R50 for example most rooms contain few if any interior nodes; 
 we see that OHA* can only prune 8\% of all nodes and 49\% of all edges required by A*.
 \par
 Next we turn our attention to Figure \ref{fig-searcheffort} where we examine a number of metrics
@@ -32,7 +33,7 @@ In all cases we present results with respect to optimal path length.
 \begin{figure*}[htbp]
 	\vspace{-2pt}
 	\begin{center}
-		       \includegraphics[scale=0.66, trim = 20mm 17mm 20mm 5mm]{diagrams/bg_effort.pdf}
+		       \includegraphics[scale=0.5, trim = 20mm 17mm 20mm 5mm]{diagrams/bg_effort.pdf}
 	\end{center}
 	\caption{Average performance of A* and OHA*. We look at average nodes expanded, nodes generated,
 	peak memory and search times.}
@@ -54,7 +55,7 @@ Notice that in the worst case OHA* is shown to maintain between 12-37\% fewer no
 maintenance operation requires logarithmic time in the number of nodes.
 \par
 Finally, we turn our attention to Table \ref{table-csc2f} where we measure the 
-performance of A* and OHA* on the six variants of CSC2F.
+performance of A* and OHA* on the six variants of the demo map.
 Our intention here is examine how the performance of OHA* degrades in scenarios with
 high obstacle density.
 \input csc2f_table
