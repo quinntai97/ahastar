@@ -75,7 +75,7 @@ void EmptyClusterTest::addNodesToClusterFramesTheEmptyClusterWithAbstractNodes()
 	int abstractionLevel = 1;
 	graph *g = ecmap.getAbstractGraph(abstractionLevel);
 	int expectedNumAbstractNodes = 12;
-	int expectedNumAbstractEdges = 18;
+	int expectedNumAbstractEdges = 20;
 
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("abstract node count is wrong", expectedNumAbstractNodes, 
 			g->getNumNodes());
@@ -128,7 +128,7 @@ void EmptyClusterTest::addNodesToClusterFramesEmptyClustersWithHeightEqualTo1()
 	int abstractionLevel = 1;
 	graph *g = ecmap.getAbstractGraph(abstractionLevel);
 	int expectedNumAbstractNodes = 3;
-	int expectedNumAbstractEdges = 2;
+	int expectedNumAbstractEdges = 3;
 
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("abstract node count is wrong", expectedNumAbstractNodes, 
 			g->getNumNodes());
@@ -166,7 +166,7 @@ void EmptyClusterTest::addNodesToClusterFramesEmptyClustersWithWidthEqualTo1()
 	int abstractionLevel = 1;
 	graph *g = ecmap.getAbstractGraph(abstractionLevel);
 	int expectedNumAbstractNodes = 6;
-	int expectedNumAbstractEdges = 5;
+	int expectedNumAbstractEdges = 6;
 
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("abstract node count is wrong", expectedNumAbstractNodes, 
 			g->getNumNodes());
@@ -235,7 +235,7 @@ void EmptyClusterTest::addNodesToClusterAddsMacroEdgesBetweenNodesOnOppositeBord
 	int abstractionLevel = 1;
 	graph *g = ecmap.getAbstractGraph(abstractionLevel);
 	int expectedNumAbstractNodes = 10;
-	int expectedNumAbstractEdges = 14;
+	int expectedNumAbstractEdges = 15;
 
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("abstract node count is wrong", expectedNumAbstractNodes, 
 			g->getNumNodes());

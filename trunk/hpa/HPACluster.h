@@ -10,8 +10,9 @@
 #ifndef HPACLUSTER_H
 #define HPACLUSTER_H
 
-#include <stdexcept>
 #include <map>
+#include <iostream>
+#include <stdexcept>
 
 class node;
 class searchAlgorithm;
@@ -57,6 +58,7 @@ class HPACluster
 		inline bool getVerbose() { return verbose; }
 		inline void setVerbose(bool _v) { verbose = _v; }
 		
+		void print(std::ostream& out);
 		void printParents();
 		virtual void openGLDraw() { }
 

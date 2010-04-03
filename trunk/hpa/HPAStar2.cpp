@@ -62,6 +62,9 @@ path* HPAStar2::getPath(graphAbstraction* aMap, node* _from, node* _to, reservat
 	// if from/goal are in the same cluster, try to find a path directly
 	if(from->getParentClusterId() == to->getParentClusterId())
 	{
+		if(verbose)
+			std::cout << "start + goal in the same cluster; trying to find a non-abstract path"<<std::endl;
+
 		HPACluster *cluster = hpamap->getCluster(from->getParentClusterId());
 		castar->setCorridorNodes(cluster->getNodes());
 		thepath = castar->getPath(aMap, from, to, rp);
@@ -71,6 +74,9 @@ path* HPAStar2::getPath(graphAbstraction* aMap, node* _from, node* _to, reservat
 	// no direct path or from/goal not in the same cluster
 	if(thepath==0)
 	{
+		if(verbose)
+			std::cout << "trying to find abstract path; inserting s+g"<<std::endl;
+
 		hpamap->insertStartAndGoalNodesIntoAbstractGraph(from, to);		
 		this->nodesExpanded += hpamap->getNodesExpanded();
 		this->nodesTouched += hpamap->getNodesTouched();
@@ -83,6 +89,10 @@ path* HPAStar2::getPath(graphAbstraction* aMap, node* _from, node* _to, reservat
 		node* absstart = absg->getNode(from->getLabelL(kParent));
 		node* absgoal = absg->getNode(to->getLabelL(kParent));
 		castar->setCorridorNodes(this->corridorNodes);
+
+		if(verbose)
+			std::cout << "searching for path in abstract graph"<<std::endl;
+
 		path* abspath = castar->getPath(aMap, absstart, absgoal);
 		updateMetrics(*castar);
 		castar->markForVis = false;
@@ -90,13 +100,26 @@ path* HPAStar2::getPath(graphAbstraction* aMap, node* _from, node* _to, reservat
 		// refine the path
 		if(abspath) 
 		{
+			if(verbose)
+			{
+				std::cout << "abstract path: ";
+				printPath(abspath);
+				std::cout << std::endl;
+			}
+
 			if(refineAbstractPath)
 			{
+				if(verbose)
+					std::cout << "refining abstract path..."<<std::endl;
+
 				thepath = refinePath(abspath, hpamap, *castar);
 				delete abspath;
 			}
 			else
 			{
+				if(verbose)
+					std::cout << "no refinement; returning a non-refined path consisting only of non-abstract nodes"<<std::endl;
+
 				/* return a non-refined path consisting only of non-abstract nodes */
 				thepath = abspath; 
 				while(abspath)
@@ -146,15 +169,17 @@ path* HPAStar2::refinePath(path* abspath, HPAClusterAbstraction* hpamap, Abstrac
 		}
 		else
 		{
-			ClusterNode* llstart = dynamic_cast<ClusterNode*>(hpamap->getNodeFromMap(abspath->n->getLabelL(kFirstData), abspath->n->getLabelL(kFirstData+1)));
-			ClusterNode* llgoal = dynamic_cast<ClusterNode*>(hpamap->getNodeFromMap(abspath->next->n->getLabelL(kFirstData), abspath->next->n->getLabelL(kFirstData+1)));
+			ClusterNode* llstart = dynamic_cast<ClusterNode*>(
+					hpamap->getNodeFromMap(abspath->n->getLabelL(kFirstData), abspath->n->getLabelL(kFirstData+1)));
+			ClusterNode* llgoal = dynamic_cast<ClusterNode*>(
+					hpamap->getNodeFromMap(abspath->next->n->getLabelL(kFirstData), abspath->next->n->getLabelL(kFirstData+1)));
 			if(llstart->getParentClusterId() == llgoal->getParentClusterId()) // intra-edge refinement limited to a single cluster.
 			{ 
 				HPACluster* cluster = hpamap->getCluster(llstart->getParentClusterId());
 				castar.setCorridorNodes(cluster->getNodes());
 			}
 			else
-				castar.setCorridorNodes(NULL); 
+				 castar.setCorridorNodes(NULL); 
 				
 			segment = castar.getPath(hpamap,llstart, llgoal); 
 			if(segment == 0)
@@ -164,11 +189,15 @@ path* HPAStar2::refinePath(path* abspath, HPAClusterAbstraction* hpamap, Abstrac
 			}
 
 			updateMetrics(castar);
-			if(verbose) { std::cout << "refined segment: "<<std::endl; printPath(segment); std::cout << " distance: "<<hpamap->distance(segment)<<std::endl; }
+			if(verbose) 
+			{
+			   	std::cout << "refined segment: "<<std::endl; 
+				printPath(segment); 
+				std::cout << " distance: "<<hpamap->distance(segment)<<std::endl; 
+			}
 
 			debug1 = llstart;
 			debug2 = llgoal;
-
 		}
 		
 		// append segment to refined path
@@ -176,13 +205,16 @@ path* HPAStar2::refinePath(path* abspath, HPAClusterAbstraction* hpamap, Abstrac
 			thepath = segment;										
 		tail = thepath->tail();	
 
-		// avoid overlap between successive segments (one ends where another begins)
+		// avoid overlap between successive segments (i.e one segment ends with the same node as the next begins)
 		if(tail->n->getNum() == segment->n->getNum()) 
+		{
 			tail->next = segment->next;
+			segment->next = 0;
+			delete segment;
+		}
 		
 		abspath = abspath->next;
 	}
-	
 	return thepath;
 }
 

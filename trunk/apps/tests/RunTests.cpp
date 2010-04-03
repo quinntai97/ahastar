@@ -34,6 +34,7 @@ int runtests(void);
 int main (int argc, char* argv[])
 {
 	runtests();	
+//	sleep(60);
 	return 0;
 }
 

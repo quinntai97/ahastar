@@ -27,6 +27,18 @@
 #include "path.h"
 #include "constants.h"
 
+path::path(node* _n, path* _next) : n(_n), next(_next)
+{
+	//std::cout << "new path()"<<std::endl;
+}
+
+path::~path() 
+{ 
+	//std::cout << "delete path"<<std::endl; 
+	if (next != NULL)
+	   	delete next; 
+}
+
 // Returns the length of the path -- number of steps
 unsigned path::length()
 {
