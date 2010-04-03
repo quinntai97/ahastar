@@ -86,7 +86,7 @@ void CardinalAStarTest::ItsGoTime()
 	path* p = hpa.getPath(&ecmap, start, goal);
 
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("no path found :(", false, p == 0);
-	p->print(true);
+	//p->print(true);
 	delete p;
 	std::cout << std::endl;
 
@@ -95,7 +95,7 @@ void CardinalAStarTest::ItsGoTime()
 	p = hpa.getPath(&ecmap, start, goal);
 
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("no inter-cluster path found :(", false, p == 0);
-	p->print(true);
+	//p->print(true);
 	delete p;
 
 }

@@ -32,13 +32,23 @@ void EmptyClusterAbstractionTest::buildClustersDecomposesTheMapIntoEmptyClusters
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("failed to build correct # of clusters", 
 			numExpectedClusters, ecmap.getNumClusters());
 
-	int csizes[9] = {15, 1, 4, 4, 3, 3, 2, 6, 1};
+	int csizes[9] = {15, 1, 4, 4, 1, 3, 4, 6, 1};
 
 	int cszIndex = 0;
 	cluster_iterator it = ecmap.getClusterIter();
 	EmptyCluster* cluster = ecmap.clusterIterNext(it);
+//	while(cluster)
+//	{
+//		cluster->print(std::cout);
+//		std::cout << std::endl;
+//		cluster = ecmap.clusterIterNext(it);
+//		cszIndex++;
+//		
+//	}
 	while(cluster)
 	{
+	//	cluster->print(std::cout);
+//		std::cout << std::endl;
 		std::stringstream err;
 		err << "cluster "<<cluster->getId()<<" has wrong # of nodes";
 		CPPUNIT_ASSERT_EQUAL_MESSAGE(err.str().c_str(), csizes[cszIndex],
@@ -53,6 +63,7 @@ void EmptyClusterAbstractionTest::buildEntrancesConnectsAllClusters()
 {
 	EmptyClusterAbstraction ecmap(new Map(hpastartest.c_str()), new EmptyClusterFactory(), 
 			new ClusterNodeFactory(), new EdgeFactory());
+//	ecmap.setVerbose(true);
 	ecmap.buildClusters();
 
 	int abstractionLevel = 1;
@@ -62,14 +73,13 @@ void EmptyClusterAbstractionTest::buildEntrancesConnectsAllClusters()
 
 	ecmap.buildEntrances();
 
-	expectedNumAbstractEdges += 14; // # of transition points across all entrances
-	expectedNumAbstractNodes +=1; // single-node cluster @ (7,2)
+	expectedNumAbstractEdges += 13; // # of transition points across all entrances
+	expectedNumAbstractNodes +=2; // two single node clusters @ (0,3) and (3, 5) 
 
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("abstract edge count is wrong", expectedNumAbstractEdges, 
 			g->getNumEdges());
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("abstract node count changed!", expectedNumAbstractNodes, 
 			g->getNumNodes());
-
 }
 
 void EmptyClusterAbstractionTest::insertStartAndGoalNodesIntoAbstractGraphWorksAsAdvertised()

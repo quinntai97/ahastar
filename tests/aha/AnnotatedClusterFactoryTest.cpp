@@ -27,4 +27,5 @@ void AnnotatedClusterFactoryTest::createClusterShouldReturnANewInstanceOfAnnotat
 	int x=0, y=0, cheight=5, cwidth=5;	
 	AnnotatedCluster* ac = dynamic_cast<AnnotatedCluster*>(acf->createCluster(x, y, cwidth, cheight));
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("factory failed to return an instance of AnnotatedCluster", true, ac!=0);
+	delete ac;
 }

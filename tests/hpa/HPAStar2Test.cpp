@@ -120,6 +120,7 @@ void HPAStar2Test::getPathReturnNullWhenStartOrGoalHave_kAbstractionLevel_Greate
 
 void HPAStar2Test::getPathShouldReturnTheShortestPathBetweenTwoLowLevelNodes()
 {
+	//std::cout << "hpastartest: "<<hpastartest.c_str()<<std::endl;
 	HPAClusterAbstraction hpamap(new Map(hpastartest.c_str()), new HPAClusterFactory(), 
 		new ClusterNodeFactory(), new EdgeFactory());
 	hpamap.setClusterSize(TESTCLUSTERSIZE);
@@ -137,7 +138,10 @@ void HPAStar2Test::getPathShouldReturnTheShortestPathBetweenTwoLowLevelNodes()
 	node *start = hpamap.getNodeFromMap(2,1);
 	node* goal = hpamap.getNodeFromMap(4,5);
 	HPAStar2 hpastar(new ClusterAStarFactory());
+	//hpastar->setVerbose(true);
 	p = hpastar.getPath(&hpamap, start,goal);	
+
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("path is unexpectedly null", true, p != 0);
 	
 	int expectedLength = 8;	
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("path length wrong", expectedLength, (int)p->length());	
@@ -290,8 +294,9 @@ void HPAStar2Test::logStatsShouldRecordAllMetricsToStatsCollection()
 	node* goal = hpamap.getNodeFromMap(4,5);
 	
 	HPAStar2 hpastar(new ClusterAStarFactory());
+//	hpastar.verbose = true;
 	p = hpastar.getPath(&hpamap, start, goal);
-	assert(p != 0);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("null path returned unexpectedly", true, p != 0);
 	
 	hpastar.logFinalStats(&sc);
 	
@@ -350,6 +355,7 @@ void HPAStar2Test::getPathShouldReturnANonRefinedPathIfRefinementFlagIsNotSet()
 	HPAStar2 hpastar(new ClusterAStarFactory());
 	hpastar.setRefineAbstractPathFlag(false);
 	p = hpastar.getPath(&hpamap, start,goal);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("null path returned unexpectedly", true, p != 0);
 
 	int expectedLength = 4;	
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("path length wrong", expectedLength, (int)p->length());	

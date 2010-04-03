@@ -86,7 +86,18 @@ void HPAClusterAbstractionTest::constructorShouldCreateANewGraphObject()
 void HPAClusterAbstractionTest::constructorThrowsExceptionGivenAnIncompatibleNodeFactoryParameter()
 {
 	NodeFactory *_nf = new NodeFactory();
-	HPAClusterAbstraction hpacaMap(new Map(acmap.c_str()), this-> cf, _nf, ef);
+	try
+	{
+		HPAClusterAbstraction hpacaMap(new Map(acmap.c_str()), this-> cf, _nf, ef);
+	}
+	catch(std::invalid_argument e)
+	{
+		delete _nf;
+		delete nf;
+		delete cf;
+		delete ef;
+		throw e;
+	}
 }
 
 

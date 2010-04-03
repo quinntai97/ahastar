@@ -16,6 +16,8 @@
 
 #include "mapAbstraction.h"
 #include "HPAUtil.h"
+
+#include <iostream>
 #include <stdexcept>
 
 class IHPAClusterFactory;
@@ -93,6 +95,8 @@ class HPAClusterAbstraction : public mapAbstraction
 		INodeFactory* getNodeFactory() { return nf; }
 		inline bool getVerbose() { return verbose; }
 		inline void setVerbose(bool _v) { verbose = _v; }
+
+		void print(std::ostream& out);
 		
 	protected:
 		void addCluster(HPACluster* cluster);

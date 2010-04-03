@@ -468,6 +468,7 @@ void myNewUnitKeyHandler(unitSimulation *unitSim, tKeyboardModifier mod, char)
 	switch (mod)
 	{
 		case kShiftDown: 
+		{
 			ClusterAStarFactory* caf = new ClusterAStarFactory();
 			caf->setCardinal(true);
 			astar = new HPAStar2(caf);
@@ -475,12 +476,16 @@ void myNewUnitKeyHandler(unitSimulation *unitSim, tKeyboardModifier mod, char)
 			u->setColor(1,0.98,0.8);
 			targ->setColor(1,0.98,0.8);
 			break;
+		}
+
 		default:
+		{
 			astar = new CardinalAStar();
 			unitSim->addUnit(u=new searchUnit(x2, y2, targ, astar)); 
 			u->setColor(1,1,0);
 			targ->setColor(1,1,0);
 			break;
+		}
 	}
 	u->setSpeed(0.12);
 //	u->setSpeed(0.000001);

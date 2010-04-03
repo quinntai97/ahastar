@@ -1,5 +1,6 @@
 VPATH = tests/util/:tests/hpa/:tests/aha/:opthpa/:hpa/:aha/:abstraction/:driver/:shared/:simulation/:util/:objs/:apps/libs:bin/
 
+# source targets
 ABSTRACTION_SRC = $(wildcard abstraction/*.cpp)
 DRIVER_SRC = $(wildcard driver/*.cpp)
 SHARED_SRC = $(wildcard shared/*.cpp)
@@ -13,6 +14,7 @@ AHASTARTESTS_SRC = $(wildcard tests/aha/*.cpp)
 HPASTARTESTS_SRC = $(wildcard tests/hpa/*.cpp)
 OPTHPATESTS_SRC = $(wildcard tests/opthpa/*.cpp)
 
+# object targets
 DRIVER_OBJ = $(subst .cpp,.o,$(addprefix objs/, $(notdir $(DRIVER_SRC))))
 ABSTRACTION_OBJ = $(subst .cpp,.o,$(addprefix objs/, $(notdir $(ABSTRACTION_SRC))))
 SHARED_OBJ = $(subst .cpp,.o,$(addprefix objs/, $(notdir $(SHARED_SRC))))
@@ -26,40 +28,40 @@ AHASTARTESTS_OBJ = $(subst .cpp,.o,$(addprefix objs/, $(notdir $(AHASTARTESTS_SR
 HPASTARTESTS_OBJ = $(subst .cpp,.o,$(addprefix objs/, $(notdir $(HPASTARTESTS_SRC))))
 OPTHPATESTS_OBJ = $(subst .cpp,.o,$(addprefix objs/, $(notdir $(OPTHPATESTS_SRC))))
 
+# header file locations
 HOGINCLUDES = -I./hpa -I./aha -I./opthpa -I./abstraction -I./driver -I./shared -I./simulation -I./util
 TESTINCLUDES = -I./tests/util -I./tests/aha -I./tests/hpa -I./tests/opthpa 
-#CFLAGS = -Wall -Wno-long-long -g -ggdb -ansi -pedantic $(HOGINCLUDES) $(TESTINCLUDES)
-#CFASTFLAGS = -O2 $(HOGINCLUDES) -ansi
-CFLAGS = -O3 $(HOGINCLUDES) -ansi
 
+# compiler flags
 CC = c++
+CFLAGS = -Wall -Wno-long-long -g -ggdb -ansi -pedantic $(HOGINCLUDES) $(TESTINCLUDES)
+#CFLAGS = -O3 $(HOGINCLUDES) -ansi
 
-ifeq ($(findstring "Darwin", "$(shell uname -s)"), "Darwin")
-TESTLIBFLAGS = -L/opt/local/lib -L/usr/local/lib -lcppunit -lmockpp
+# locations of library files program depends on
 LIBFLAGS = -Lapps/libs 
-CFLAGS += -DOS_MAC -I/opt/local/include/ -I/usr/local/include/ -DUNITTEST
-ifeq ("$(OPENGL)", "STUB")
-CFLAGS += -I./driver/STUB/ -I./driver/STUB/GL/ -DNO_OPENGL
-else
-LIBFLAGS += -framework GLUT -framework OpenGL -framework AppKit -framework Foundation
-CFLAGS += -I/System/Library/Frameworks/GLUT.framework/Versions/A/Headers/
-CFLAGS += -I/System/Library/Frameworks/OpenGL.framework/Versions/A/Headers/
-CFLAGS += -I/System/Library/Frameworks/AGL.framework/Versions/A/Headers/
-CFLAGS += -I/System/Library/Frameworks/Foundation.framework/Versions/A/Headers/
-CFLAGS += -I/System/Library/Frameworks/AppKit.framework/Versions/A/Headers/
-#CFLAGS += -I/System/Library/Frameworks/CarbonCore.framework/Versions/A/Headers/
-endif
 
+# platform specific header/library paths
+ifeq ($(findstring "Darwin", "$(shell uname -s)"), "Darwin")
+ TESTLIBFLAGS = -L/opt/local/lib -L/usr/local/lib -lcppunit -lmockpp
+ CFLAGS += -DOS_MAC -I/opt/local/include/ -I/usr/local/include/ -DUNITTEST
+ ifeq ("$(OPENGL)", "STUB")
+  CFLAGS = -I./driver/STUB/ -I./driver/STUB/GL/ -DNO_OPENGL
+ else
+  LIBFLAGS += -framework GLUT -framework OpenGL -framework AppKit -framework Foundation
+  CFLAGS += -I/System/Library/Frameworks/GLUT.framework/Versions/A/Headers/
+  CFLAGS += -I/System/Library/Frameworks/OpenGL.framework/Versions/A/Headers/
+  CFLAGS += -I/System/Library/Frameworks/AGL.framework/Versions/A/Headers/
+  CFLAGS += -I/System/Library/Frameworks/Foundation.framework/Versions/A/Headers/
+  CFLAGS += -I/System/Library/Frameworks/AppKit.framework/Versions/A/Headers/
+ endif
 else # not darwin
 LIBFLAGS = -Lapps/libs -L/usr/X11R6/lib64 -L/usr/X11R6/lib -L/usr/lib -L$(HOME)/lib -L/opt/local/lib -L/usr/local/lib
-
-ifeq ("$(OPENGL)", "STUB")
-CFLAGS += -I./driver/STUB/ -I./driver/STUB/GL/ -DNO_OPENGL
-else
-CFLAGS += -I/usr/include/GL
-LIBFLAGS +=  -lGL -lGLU -lglut -lXi -lXmu -lcppunit -lmockpp
-endif
-
+ ifeq ("$(OPENGL)", "STUB")
+  CFLAGS += -I./driver/STUB/ -I./driver/STUB/GL/ -DNO_OPENGL
+ else
+  CFLAGS += -I/usr/include/GL
+  LIBFLAGS +=  -lGL -lGLU -lglut -lXi -lXmu -lcppunit -lmockpp
+ endif
 endif
 
 ifeq ("$(CPU)", "G5")

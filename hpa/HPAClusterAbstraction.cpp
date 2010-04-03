@@ -331,7 +331,7 @@ void HPAClusterAbstraction::openGLDraw()
 
 void HPAClusterAbstraction::clearColours()
 {
-	std::cout << "clearingc oloours master"<<std::endl;
+	std::cout << "clearing colours master"<<std::endl;
 	for(int i=0; i<getNumAbstractGraphs(); i++)
 	{
 		graph* g = getAbstractGraph(i);
@@ -357,4 +357,17 @@ void HPAClusterAbstraction::printUniqueIdsOfAllNodesInGraph(graph *g)
 		std::cout << "addr: "<<&(*n) << "uid: "<< n->getUniqueID() <<" ("<< n->getLabelL(kFirstData)<<","<< n->getLabelL(kFirstData+1)<<")"<<std::endl;
 		n = g->nodeIterNext(it);
 	}
+}
+
+void HPAClusterAbstraction::print(std::ostream& out)
+{
+	cluster_iterator it = getClusterIter();
+	HPACluster* cluster = clusterIterNext(it);
+	while(cluster)
+	{
+		cluster->print(out);
+		out<<std::endl;
+		cluster = clusterIterNext(it);
+	}
+
 }

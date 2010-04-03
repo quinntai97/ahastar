@@ -37,8 +37,8 @@ public:
   node *n;
   path *next;
 	
-  path(node *_n, path *_next=0) : n(_n), next(_next) {}
-  ~path() { if (next != NULL) delete next; }
+  path(node *_n, path *_next=0); 
+  ~path(); 
 	path *clone() { return next?(new path(n, next->clone())):new path(n, next);}
 	path *tail() { if (next) return next->tail(); return this; }
 	/** reverses path in place, and returns pointer to new head of path */

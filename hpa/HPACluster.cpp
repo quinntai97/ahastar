@@ -29,7 +29,16 @@ HPACluster::HPACluster(const int x, const int y, const int _width, const int _he
 
 HPACluster::HPACluster(const int x, const int y, const int _width, const int _height) throw(std::invalid_argument)
 {
-	init(x, y, _width, _height, new ClusterAStar());
+	ClusterAStar* _alg = new ClusterAStar();
+	try
+	{
+	init(x, y, _width, _height, _alg);
+	}
+	catch(std::invalid_argument e)
+	{
+		delete _alg;
+		throw e;
+	}
 
 }
 
@@ -376,3 +385,8 @@ void HPACluster::printParents()
 	}
 }
 
+void HPACluster::print(std::ostream& out)
+{
+	out << "Cluster "<<getId()<<" Origin: ("<<getHOrigin()<<", "<<getVOrigin()<<") ";
+	out << "ht: "<<getHeight()<<" wt: "<<getWidth()<<" #nodes: "<<getNumNodes()<<" #parents: "<<getNumParents()<<" ";
+}

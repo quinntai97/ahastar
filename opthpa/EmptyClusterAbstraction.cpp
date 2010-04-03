@@ -34,32 +34,33 @@ int EmptyClusterAbstraction::getNumMacro()
 }
 
 // Decomposes the map into a set of empty (obstacle free) clusters.
-// simple flood-fill based decomposition:
-//  1. Start with some node @ (x, y). 
-//  2. Determine the length of a maximal row by extending horizontally 
-//  until an obstacle is encountered or a node assigned to another cluster 
-//  is encountered. 
-//  3. Once the maximal row size is established, try to extend the cluster vertically
-//  by building rows of the same length. 
-//  4. Stop when a full-size row cannot be built due to obstacles or nodes already 
-//  assigned to another cluster.
+// simple flood-fill based decomposition that extends a cluster until
+// one of 3 terminating conditions is met:
+//  	1. Clearance at some tile is greater than clearance at origin
+//  	2. An obstacle is encountered
+//  	3. The edge of the map is encountered.
+//
+//  Condition 1 is important to avoid extending clusters into areas that could be
+//  assigned to larger clusters.
 void EmptyClusterAbstraction::buildClusters()
 {
+	if(getVerbose())
+		std::cout << "buildClusters...."<<std::endl;
+
 	Map* m = this->getMap();
 	int mapheight = m->getMapHeight();
 	int mapwidth = m->getMapWidth();
 
+	// calculate clearance values; store in a 2-D array
 	int** clearance;
     clearance = new int*[mapwidth];
 	for(int i = 0; i<mapwidth; i++)
 		clearance[i] = new int[mapheight];
-
 	for(int y=0; y<mapheight; y++)
 		for(int x=0; x<mapwidth; x++)
 			clearance[x][y] = 0;
-
-
 	computeClearance(clearance);
+
 	for(int y=0; y<mapheight; y++)
 		for(int x=0; x<mapwidth; x++)
 		{
@@ -71,10 +72,19 @@ void EmptyClusterAbstraction::buildClusters()
 				addCluster(cluster);
 				cluster->addNodesToCluster(this, clearance);
 				if(this->getVerbose())
-					std::cout << "new cluster @ ("<<x<<","<<y<<") with "
-						" id: "<< cluster->getId()<< std::endl;
+				{
+					std::cout << "new cluster @ ("<<x<<","<<y<<") "
+						" id: "<< cluster->getId()<< " height: "<<cluster->getHeight()<<" "
+			   			"width: "<<cluster->getWidth()<<std::endl;
+				}
 			}	
 		}
+
+	if(getVerbose())
+	{
+		graph* g = this->getAbstractGraph(1);
+		std::cout << "abstract graph; nodes: "<< g->getNumNodes()<<" edges: "<<g->getNumEdges()<<std::endl;
+	}
 
 	//std::cout << "clearance values for map: "<<m->getMapName()<<std::endl;
 //	for(int y=0; y<mapheight; y++)
@@ -91,9 +101,6 @@ void EmptyClusterAbstraction::buildClusters()
 
 void EmptyClusterAbstraction::computeClearance(int** clearance)
 {
-	Map* m = this->getMap();
-	int mapheight = m->getMapHeight();
-	int mapwidth = m->getMapWidth();
 	for(int x=getMap()->getMapWidth()-1;x>=0; x--)
 	{
 		for(int y=getMap()->getMapHeight()-1;y>=0; y--)

@@ -149,6 +149,7 @@ void HPAClusterTest::addParentShouldIgnoreNodesAlreadyInTheParentsCollection()
 	cluster.addParent(n, &hpamap);
 	
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("not not added to parents collection", numExpectedParentNodes, (int)cluster.parents.size()); 
+	delete n;
 }
 
 void HPAClusterTest::addParentShouldCreateEdgesToRepresentAllValidPathsBetweenNewNodeAndExistingClusterEndpoints()
