@@ -38,11 +38,11 @@ class EmptyCluster : public HPACluster
 		EmptyCluster(const int x, const int y) throw(std::invalid_argument);
 		virtual ~EmptyCluster();
 
-		virtual void 
-			addNodesToCluster(HPAClusterAbstraction*) throw(std::invalid_argument);
+		virtual void addNodesToCluster(HPAClusterAbstraction*) 
+			throw(std::invalid_argument);
 
-		virtual void 
-			addNodesToCluster(HPAClusterAbstraction*, int** clearance) throw(std::invalid_argument);
+		virtual void addNodesToCluster(HPAClusterAbstraction*, int** clearance) 
+			throw(std::invalid_argument);
 
 		virtual void openGLDraw();
 
@@ -52,6 +52,10 @@ class EmptyCluster : public HPACluster
 		virtual void connectParent(node*, HPAClusterAbstraction*);
 		virtual void buildHorizontalEntrances(HPAClusterAbstraction* hpamap);
 		virtual void buildVerticalEntrances(HPAClusterAbstraction* hpamap);
+		virtual void processVerticalEntrance(HPAClusterAbstraction* hpamap,
+				int x, int y, int length);
+		virtual void processHorizontalEntrance(HPAClusterAbstraction* hpamap,
+				int x, int y, int length);
 
 	private:
 		void initOpenGLCoordinates(HPAClusterAbstraction*);
