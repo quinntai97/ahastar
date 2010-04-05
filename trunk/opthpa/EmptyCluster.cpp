@@ -319,6 +319,57 @@ void EmptyCluster::connectParent(node*, HPAClusterAbstraction*)
 {
 }
 
+// identifies entrances between horizontally adjacent clusters.
+// an abstract node is added for each node in the entrance area
+// and an abstract edge is added for each (straight) edge in the entrance area 
+// connecting the two clusters.
+//
+// if 'allowDiagonals' is set we also add an abstract edge for each diagonal
+// edge in the entrance area between the two clusters
+void EmptyCluster::processHorizontalEntrance(
+		HPAClusterAbstraction* hpamap, int x, int y, int length)
+{
+	for(int xprime=x; xprime <x+length; xprime++)
+	{	
+		node* endpoint1 = hpamap->getNodeFromMap(xprime, y); 
+		node* endpoint2 = hpamap->getNodeFromMap(xprime, y-1);
+		this->addTransitionPoint(endpoint1, endpoint2, hpamap);
+	}
+
+	if(getAllowDiagonals())
+	{
+		
+		int	targetClusterId = dynamic_cast<ClusterNode*>(
+					hpamap->getNodeFromMap(x, y-1))->getParentClusterId();
+		
+		// first set of diagonals
+		for(int xprime=x; xprime <x+length; xprime++)
+		{	
+			node* endpoint1 = hpamap->getNodeFromMap(xprime, y); 
+			node* endpoint2 = hpamap->getNodeFromMap(xprime+1, y-1);
+			if(endpoint2 && 
+				dynamic_cast<ClusterNode*>(endpoint2)->getParentClusterId() 
+						== targetClusterId)
+			{
+				this->addTransitionPoint(endpoint1, endpoint2, hpamap);
+			}
+		}
+
+		// second set of diagonals
+		for(int xprime=x; xprime <x+length; xprime++)
+		{	
+			node* endpoint1 = hpamap->getNodeFromMap(xprime, y); 
+			node* endpoint2 = hpamap->getNodeFromMap(xprime-1, y-1);
+			if(endpoint2 && 
+				dynamic_cast<ClusterNode*>(endpoint2)->getParentClusterId() 
+						== targetClusterId)
+			{
+				this->addTransitionPoint(endpoint1, endpoint2, hpamap);
+			}
+		}
+	}
+}
+
 void EmptyCluster::buildHorizontalEntrances(HPAClusterAbstraction* hpamap)
 {
 	int mapheight = hpamap->getMap()->getMapHeight();
@@ -336,14 +387,59 @@ void EmptyCluster::buildHorizontalEntrances(HPAClusterAbstraction* hpamap)
 			x++;
 		else
 		{
-			// place a transition point for each pair of nodes in the entrance area 
-			for(int xprime=x; xprime <x+length; xprime++)
-			{	
-				node* endpoint1 = hpamap->getNodeFromMap(xprime, y); 
-				node* endpoint2 = hpamap->getNodeFromMap(xprime, y-1);
+			// add inter-edges to connect adjacent clusters 
+			processHorizontalEntrance(hpamap, x, y, length);
+			x += length;
+		}
+	}
+}
+
+// each node in the veritcal entrance area is represented by a node in 
+// the abstract graph. 
+// further, each (straight) edge in the entrance area, connecting the two
+// adjacent clusters, is represented by a node in the abstract graph.
+//
+// if 'allowDiagonals' is true, every diagonal edge connecting the two
+// adjacent clusters is represented by an edge in the abstract graph.
+void EmptyCluster::processVerticalEntrance(
+		HPAClusterAbstraction* hpamap, int x, int y, int length)
+{
+	for(int yprime=y; yprime <y+length; yprime++)
+	{
+		node* endpoint1 = hpamap->getNodeFromMap(x, yprime); 
+		node* endpoint2 = hpamap->getNodeFromMap(x-1, yprime);
+		this->addTransitionPoint(endpoint1, endpoint2, hpamap);
+	}
+
+	if(getAllowDiagonals())
+	{
+		int	targetClusterId = dynamic_cast<ClusterNode*>(
+					hpamap->getNodeFromMap(x-1, y))->getParentClusterId();
+		
+		// first set of diagonals
+		for(int yprime=y; yprime <y+length; yprime++)
+		{	
+			node* endpoint1 = hpamap->getNodeFromMap(x, yprime); 
+			node* endpoint2 = hpamap->getNodeFromMap(x-1, yprime-1);
+			if(endpoint2 && 
+				dynamic_cast<ClusterNode*>(endpoint2)->getParentClusterId() 
+						== targetClusterId)
+			{
 				this->addTransitionPoint(endpoint1, endpoint2, hpamap);
 			}
-			x += length;
+		}
+
+		// second set of diagonals
+		for(int yprime=y; yprime <y+length; yprime++)
+		{	
+			node* endpoint1 = hpamap->getNodeFromMap(x, yprime); 
+			node* endpoint2 = hpamap->getNodeFromMap(x-1, yprime+1);
+			if(endpoint2 && 
+				dynamic_cast<ClusterNode*>(endpoint2)->getParentClusterId() 
+						== targetClusterId)
+			{
+				this->addTransitionPoint(endpoint1, endpoint2, hpamap);
+			}
 		}
 	}
 }
@@ -366,13 +462,7 @@ void EmptyCluster::buildVerticalEntrances(HPAClusterAbstraction* hpamap)
 			y++;
 		else
 		{
-			// place a transition point for each pair of nodes in the entrance area
-			for(int yprime=y; yprime <y+length; yprime++)
-			{
-				node* endpoint1 = hpamap->getNodeFromMap(x, yprime); 
-				node* endpoint2 = hpamap->getNodeFromMap(x-1, yprime);
-				this->addTransitionPoint(endpoint1, endpoint2, hpamap);
-			}
+			processVerticalEntrance(hpamap, x, y, length);
 			y += length;
 		}
 	}
