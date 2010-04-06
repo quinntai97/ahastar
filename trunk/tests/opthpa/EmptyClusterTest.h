@@ -19,7 +19,9 @@ class EmptyClusterTest : public CPPUNIT_NS::TestFixture
 	CPPUNIT_TEST( addNodesToClusterAddsMacroEdgesBetweenNodesOnOppositeBorders );
 
 	CPPUNIT_TEST( buildHorizontalEntrancesCreatesAllPossibleTransitionPoints );
+	CPPUNIT_TEST( buildHorizontalEntrancesCreatesAllDiagonalTransitionPoints );
 	CPPUNIT_TEST( buildVerticalEntrancesCreatesAllPossibleTransitionPoints );
+	CPPUNIT_TEST( buildVerticalEntrancesCreatesAllDiagonalTransitionPoints );
 
 	CPPUNIT_TEST_SUITE_END();
 
@@ -38,6 +40,9 @@ class EmptyClusterTest : public CPPUNIT_NS::TestFixture
 
 		void buildHorizontalEntrancesCreatesAllPossibleTransitionPoints();
 		void buildVerticalEntrancesCreatesAllPossibleTransitionPoints();
+
+		void buildHorizontalEntrancesCreatesAllDiagonalTransitionPoints();
+		void buildVerticalEntrancesCreatesAllDiagonalTransitionPoints();
 
 };
 

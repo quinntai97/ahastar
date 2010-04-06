@@ -96,6 +96,9 @@ class HPAClusterAbstraction : public mapAbstraction
 		inline bool getVerbose() { return verbose; }
 		inline void setVerbose(bool _v) { verbose = _v; }
 
+		inline void setAllowDiagonals(bool value) { allowDiagonals = value; }
+		inline bool getAllowDiagonals() { return allowDiagonals; }
+
 		void print(std::ostream& out);
 		
 	protected:
@@ -120,6 +123,7 @@ class HPAClusterAbstraction : public mapAbstraction
 		double searchTime;
 		long peakMemory;
 		bool verbose;
+		bool allowDiagonals;
 };
 
 #endif

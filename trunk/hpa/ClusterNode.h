@@ -23,6 +23,8 @@ class ClusterNode : public node
 		int getParentClusterId() { return parentClusterId; }
 		void setParentClusterId(int _id) { parentClusterId = _id; }
 
+		void print(std::ostream& out);
+
 	private:
 		void init();
 		int parentClusterId;

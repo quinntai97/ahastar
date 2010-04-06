@@ -10,6 +10,7 @@ class EmptyClusterAbstractionTest : public CPPUNIT_NS::TestFixture
 
 	CPPUNIT_TEST( buildClustersDecomposesTheMapIntoEmptyClusters );
 	CPPUNIT_TEST( buildEntrancesConnectsAllClusters );
+	CPPUNIT_TEST( buildEntrancesConnectsAllClustersWhenAllowDiagonalsIsSet );
 	CPPUNIT_TEST( insertStartAndGoalNodesIntoAbstractGraphWorksAsAdvertised );
 	CPPUNIT_TEST( insertStartAndGoalNodesIntoAbstractGraphDoesNotAddAnythingIfStartOrGoalExistInGraphAlready );
 	CPPUNIT_TEST( hComputesTileDistanceBetweenTwoNodes );
@@ -23,6 +24,7 @@ class EmptyClusterAbstractionTest : public CPPUNIT_NS::TestFixture
 
 		void buildClustersDecomposesTheMapIntoEmptyClusters();
 		void buildEntrancesConnectsAllClusters();
+		void buildEntrancesConnectsAllClustersWhenAllowDiagonalsIsSet();
 
 		void insertStartAndGoalNodesIntoAbstractGraphWorksAsAdvertised();
 		void insertStartAndGoalNodesIntoAbstractGraphDoesNotAddAnythingIfStartOrGoalExistInGraphAlready();
