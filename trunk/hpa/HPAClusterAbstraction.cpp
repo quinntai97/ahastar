@@ -361,6 +361,8 @@ void HPAClusterAbstraction::printUniqueIdsOfAllNodesInGraph(graph *g)
 
 void HPAClusterAbstraction::print(std::ostream& out)
 {
+	out << "HPAClusterAbstraction. "<<getNumClusters()<<" clusters.";
+	out << " csize: "<<getClusterSize()<<std::endl;
 	cluster_iterator it = getClusterIter();
 	HPACluster* cluster = clusterIterNext(it);
 	while(cluster)

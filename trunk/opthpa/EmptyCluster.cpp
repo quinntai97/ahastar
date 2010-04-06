@@ -468,3 +468,4 @@ void EmptyCluster::buildVerticalEntrances(HPAClusterAbstraction* hpamap)
 	}
 }
 
+

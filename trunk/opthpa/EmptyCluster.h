@@ -52,6 +52,7 @@ class EmptyCluster : public HPACluster
 		virtual void connectParent(node*, HPAClusterAbstraction*);
 		virtual void buildHorizontalEntrances(HPAClusterAbstraction* hpamap);
 		virtual void buildVerticalEntrances(HPAClusterAbstraction* hpamap);
+
 		virtual void processVerticalEntrance(HPAClusterAbstraction* hpamap,
 				int x, int y, int length);
 		virtual void processHorizontalEntrance(HPAClusterAbstraction* hpamap,

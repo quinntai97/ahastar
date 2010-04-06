@@ -210,6 +210,8 @@ void HPACluster::buildEntrances(HPAClusterAbstraction* hpamap) throw(std::invali
 	
 	buildHorizontalEntrances(hpamap);
 	buildVerticalEntrances(hpamap);
+	if(allowDiagonals)
+		buildDiagonalEntrances(hpamap);
 }
 
 // Each cluster only considers veritcal entrances along the length of its eastern border. 
@@ -353,6 +355,9 @@ void HPACluster::buildDiagonalEntrances(HPAClusterAbstraction* hpamap)
 	node* endpoint2 = hpamap->getNodeFromMap(x-1, y-1);
 	if(endpoint1 && endpoint2)
 	{
+		if(verbose)
+			std::cout << "adding diagonal transition point at: "
+				" ("<<x<<", "<<y<<") <-> ("<<x-1<<", "<<y-1<<")"<<std::endl;
 		addTransitionPoint(endpoint1, endpoint2, hpamap);
 	}
 
@@ -362,6 +367,9 @@ void HPACluster::buildDiagonalEntrances(HPAClusterAbstraction* hpamap)
 	endpoint2 = hpamap->getNodeFromMap(x+1, y-1);
 	if(endpoint1 && endpoint2)
 	{
+		if(verbose)
+			std::cout << "adding diagonal transition point at: "
+				" ("<<x<<", "<<y<<") <-> ("<<x+1<<", "<<y-1<<")"<<std::endl;
 		addTransitionPoint(endpoint1, endpoint2, hpamap);
 	}
 
@@ -371,6 +379,9 @@ void HPACluster::buildDiagonalEntrances(HPAClusterAbstraction* hpamap)
 	endpoint2 = hpamap->getNodeFromMap(x+1, y+1);
 	if(endpoint1 && endpoint2)
 	{
+		if(verbose)
+			std::cout << "adding diagonal transition point at: "
+				" ("<<x<<", "<<y<<") <-> ("<<x+1<<", "<<y+1<<")"<<std::endl;
 		addTransitionPoint(endpoint1, endpoint2, hpamap);
 	}
 
@@ -380,6 +391,9 @@ void HPACluster::buildDiagonalEntrances(HPAClusterAbstraction* hpamap)
 	endpoint2 = hpamap->getNodeFromMap(x-1, y+1);
 	if(endpoint1 && endpoint2)
 	{
+		if(verbose)
+			std::cout << "adding diagonal transition point at: "
+				" ("<<x<<", "<<y<<") <-> ("<<x-1<<", "<<y+1<<")"<<std::endl;
 		addTransitionPoint(endpoint1, endpoint2, hpamap);
 	}
 }

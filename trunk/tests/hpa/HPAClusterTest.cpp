@@ -583,6 +583,85 @@ void HPAClusterTest::buildHorizontalEntrancesShouldCreateAnEntranceOnEachSideOfA
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("no node in abstract graph representing the end of the second transition point", true, g->getNode(etn2->getLabelL(kParent)) != NULL);
 }
 
+void HPAClusterTest::buildDiagonalEntrancesShouldCreateAnEntranceBetweenTwoDiagonallyAdjacentClustersIfALowLevelEdgeAlreadyConnectsThem()
+{
+	HPAClusterAbstraction hpamap(new Map(emptymap.c_str()), new HPAClusterFactory(), 
+		new ClusterNodeFactory(), new EdgeFactory());
+	hpamap.setClusterSize(3);
+	hpamap.buildClusters();
+
+	// first diagonal transition (bottom right corner)
+	ClusterNode* n1 = dynamic_cast<ClusterNode*>(
+			hpamap.getNodeFromMap(3,3));
+	ClusterNode* n2 = dynamic_cast<ClusterNode*>(
+			hpamap.getNodeFromMap(2,2));
+
+	// second diagonal transition (top left corner)
+	ClusterNode* n3 = dynamic_cast<ClusterNode*>(
+			hpamap.getNodeFromMap(5,5));
+	ClusterNode* n4 = dynamic_cast<ClusterNode*>(
+			hpamap.getNodeFromMap(6,6));
+	
+	// third diagonal transition (top right corner)
+	ClusterNode* n5 = dynamic_cast<ClusterNode*>(
+			hpamap.getNodeFromMap(5,3));
+	ClusterNode* n6 = dynamic_cast<ClusterNode*>(
+			hpamap.getNodeFromMap(6,2));
+	
+	// fourth diagonal transition (bottom left corner)
+	ClusterNode* n7 = dynamic_cast<ClusterNode*>(
+			hpamap.getNodeFromMap(3,5));
+	ClusterNode* n8 = dynamic_cast<ClusterNode*>(
+			hpamap.getNodeFromMap(2,6));
+
+	// clusters that must be connected: c1 to c2 and c1 to c3 
+	HPACluster *c1 = hpamap.getCluster(n1->getParentClusterId());
+	HPACluster *c2 = hpamap.getCluster(n2->getParentClusterId()); 
+	HPACluster *c3 = hpamap.getCluster(n4->getParentClusterId()); 
+	HPACluster *c4 = hpamap.getCluster(n6->getParentClusterId()); 
+	HPACluster *c5 = hpamap.getCluster(n8->getParentClusterId()); 
+
+	graph* absg = hpamap.getAbstractGraph(1);
+	int numExpectedNodes = 8; 
+	int numExpectedEdges = 10; // 4 interedges + 6 intra
+
+	c1->buildDiagonalEntrances(&hpamap);
+
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("abstract graph has wrong # of nodes",
+			numExpectedNodes, absg->getNumNodes());
+
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("abstract graph has wrong # of edges",
+			numExpectedEdges, absg->getNumEdges());
+
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("parent count wrong in c1", 
+			4, c1->getNumParents());
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("parent count wrong in c2", 
+			1, c2->getNumParents());
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("parent count wrong in c3", 
+			1, c3->getNumParents());
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("parent count wrong in c3", 
+			1, c4->getNumParents());
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("parent count wrong in c3", 
+			1, c5->getNumParents());
+
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("node n1 has no abstract parent", 
+			true, absg->getNode(n1->getLabelL(kParent)) != NULL);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("node n2 has no abstract parent", 
+			true, absg->getNode(n2->getLabelL(kParent)) != NULL);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("node n3 has no abstract parent", 
+			true, absg->getNode(n3->getLabelL(kParent)) != NULL);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("node n4 has no abstract parent", 
+			true, absg->getNode(n4->getLabelL(kParent)) != NULL);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("node n5 has no abstract parent", 
+			true, absg->getNode(n5->getLabelL(kParent)) != NULL);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("node n6 has no abstract parent", 
+			true, absg->getNode(n6->getLabelL(kParent)) != NULL);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("node n7 has no abstract parent", 
+			true, absg->getNode(n7->getLabelL(kParent)) != NULL);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("node n8 has no abstract parent", 
+			true, absg->getNode(n8->getLabelL(kParent)) != NULL);
+}
+
 void HPAClusterTest::buildEntrancesShouldThrowExceptionGivenA_NULL_ACAParameter()
 {
 	HPACluster cluster(0,0,5,5);
