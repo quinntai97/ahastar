@@ -31,3 +31,10 @@ void ClusterNode::init()
 {
 	this->setLabelL(kParent, -1);
 }
+
+void ClusterNode::print(std::ostream& out)
+{
+	out << "node @ ("<<getLabelL(kFirstData)<<",";
+	out << getLabelL(kFirstData+1)<<") cId: "<<parentClusterId;
+	out <<std::endl;
+}

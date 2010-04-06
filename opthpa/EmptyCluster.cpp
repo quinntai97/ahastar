@@ -55,6 +55,12 @@ void EmptyCluster::addNodesToCluster(HPAClusterAbstraction* aMap)
 			   	"abstraction parameter is null");
 	extend(aMap);
 
+	if(getVerbose())
+	{
+		std::cout << "cheight: "<<getHeight()<<" cwidth: ";
+		std::cout <<getWidth()<<std::endl;
+	}
+
 	for(int x=getHOrigin(); x<getHOrigin()+getWidth(); x++)
 	{
 		for(int y=getVOrigin(); y<getVOrigin()+getHeight(); y++)
@@ -222,6 +228,11 @@ void EmptyCluster::extend(HPAClusterAbstraction* aMap)
 		for(int x=this->getHOrigin(); x<this->getHOrigin()+this->getWidth(); x++)
 		{
 			ClusterNode *n = dynamic_cast<ClusterNode*>(aMap->getNodeFromMap(x,y));
+			if(getVerbose())
+			{
+				if(n)
+					std::cout << "("<<x<<", "<<y<<") is ok!"<<std::endl;
+			}
 			if(!n || n->getParentClusterId() != -1)
 			{
 				rowok=false;
@@ -329,6 +340,13 @@ void EmptyCluster::connectParent(node*, HPAClusterAbstraction*)
 void EmptyCluster::processHorizontalEntrance(
 		HPAClusterAbstraction* hpamap, int x, int y, int length)
 {
+//	if(getVerbose())
+//	{
+//		std::cout << "processing hEnts for ";
+//		print(std::cout);
+//		std::cout << std::endl;
+//	}
+
 	for(int xprime=x; xprime <x+length; xprime++)
 	{	
 		node* endpoint1 = hpamap->getNodeFromMap(xprime, y); 
@@ -338,33 +356,33 @@ void EmptyCluster::processHorizontalEntrance(
 
 	if(getAllowDiagonals())
 	{
-		
-		int	targetClusterId = dynamic_cast<ClusterNode*>(
-					hpamap->getNodeFromMap(x, y-1))->getParentClusterId();
-		
 		// first set of diagonals
-		for(int xprime=x; xprime <x+length; xprime++)
+		for(int xprime=x+1; xprime <x+length; xprime++)
 		{	
 			node* endpoint1 = hpamap->getNodeFromMap(xprime, y); 
-			node* endpoint2 = hpamap->getNodeFromMap(xprime+1, y-1);
-			if(endpoint2 && 
-				dynamic_cast<ClusterNode*>(endpoint2)->getParentClusterId() 
-						== targetClusterId)
+			node* endpoint2 = hpamap->getNodeFromMap(xprime-1, y-1);
+			assert(endpoint1 && endpoint2);
+
+			this->addTransitionPoint(endpoint1, endpoint2, hpamap);
+			if(getVerbose())
 			{
-				this->addTransitionPoint(endpoint1, endpoint2, hpamap);
+				std::cout << "dtp: ("<<xprime<<","<<y<<") <-> ("
+				"" << xprime-1<<", "<<y-1<<")"<<std::endl;
 			}
 		}
 
 		// second set of diagonals
-		for(int xprime=x; xprime <x+length; xprime++)
+		for(int xprime=x+1; xprime <x+length; xprime++)
 		{	
-			node* endpoint1 = hpamap->getNodeFromMap(xprime, y); 
-			node* endpoint2 = hpamap->getNodeFromMap(xprime-1, y-1);
-			if(endpoint2 && 
-				dynamic_cast<ClusterNode*>(endpoint2)->getParentClusterId() 
-						== targetClusterId)
+			node* endpoint1 = hpamap->getNodeFromMap(xprime, y-1); 
+			node* endpoint2 = hpamap->getNodeFromMap(xprime-1, y);
+			assert(endpoint1 && endpoint2);
+
+			this->addTransitionPoint(endpoint1, endpoint2, hpamap);
+			if(getVerbose())
 			{
-				this->addTransitionPoint(endpoint1, endpoint2, hpamap);
+				std::cout << "dtp: ("<<xprime<<","<<y-1<<") <-> ("
+				"" << xprime-1<<", "<<y<<")"<<std::endl;
 			}
 		}
 	}
@@ -404,6 +422,13 @@ void EmptyCluster::buildHorizontalEntrances(HPAClusterAbstraction* hpamap)
 void EmptyCluster::processVerticalEntrance(
 		HPAClusterAbstraction* hpamap, int x, int y, int length)
 {
+//	if(getVerbose())
+//	{
+//		std::cout << "processing vEnts for ";
+//		print(std::cout);
+//		std::cout << std::endl;
+//	}
+
 	for(int yprime=y; yprime <y+length; yprime++)
 	{
 		node* endpoint1 = hpamap->getNodeFromMap(x, yprime); 
@@ -413,32 +438,33 @@ void EmptyCluster::processVerticalEntrance(
 
 	if(getAllowDiagonals())
 	{
-		int	targetClusterId = dynamic_cast<ClusterNode*>(
-					hpamap->getNodeFromMap(x-1, y))->getParentClusterId();
-		
 		// first set of diagonals
-		for(int yprime=y; yprime <y+length; yprime++)
+		for(int yprime=y+1; yprime <y+length; yprime++)
 		{	
 			node* endpoint1 = hpamap->getNodeFromMap(x, yprime); 
 			node* endpoint2 = hpamap->getNodeFromMap(x-1, yprime-1);
-			if(endpoint2 && 
-				dynamic_cast<ClusterNode*>(endpoint2)->getParentClusterId() 
-						== targetClusterId)
+			assert(endpoint1 && endpoint2);
+
+			this->addTransitionPoint(endpoint1, endpoint2, hpamap);
+			if(getVerbose())
 			{
-				this->addTransitionPoint(endpoint1, endpoint2, hpamap);
+				std::cout << "dtp: ("<<x<<","<<yprime<<") <-> ("
+				"" << x-1<<","<<yprime-1<<")"<<std::endl;
 			}
 		}
 
 		// second set of diagonals
-		for(int yprime=y; yprime <y+length; yprime++)
+		for(int yprime=y+1; yprime <y+length; yprime++)
 		{	
-			node* endpoint1 = hpamap->getNodeFromMap(x, yprime); 
-			node* endpoint2 = hpamap->getNodeFromMap(x-1, yprime+1);
-			if(endpoint2 && 
-				dynamic_cast<ClusterNode*>(endpoint2)->getParentClusterId() 
-						== targetClusterId)
+			node* endpoint1 = hpamap->getNodeFromMap(x-1, yprime); 
+			node* endpoint2 = hpamap->getNodeFromMap(x, yprime-1);
+			assert(endpoint1 && endpoint2);
+				
+			this->addTransitionPoint(endpoint1, endpoint2, hpamap);
+			if(getVerbose())
 			{
-				this->addTransitionPoint(endpoint1, endpoint2, hpamap);
+				std::cout << "dtp: ("<<x-1<<","<<yprime<<") <-> ("
+				"" << x<<","<<yprime-1<<")"<<std::endl;
 			}
 		}
 	}

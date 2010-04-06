@@ -295,3 +295,59 @@ void EmptyClusterTest::buildHorizontalEntrancesCreatesAllPossibleTransitionPoint
 			g->getNumEdges());
 
 }
+
+void 
+EmptyClusterTest::buildHorizontalEntrancesCreatesAllDiagonalTransitionPoints()
+{
+	EmptyClusterAbstraction ecmap(new Map(hpastartest.c_str()), new EmptyClusterFactory(), 
+			new ClusterNodeFactory(), new EdgeFactory());
+
+	EmptyCluster *cluster1 = new EmptyCluster(1,2);
+	EmptyCluster *cluster2 = new EmptyCluster(1,0);
+
+	ecmap.addCluster(cluster1);
+	ecmap.addCluster(cluster2);
+	cluster1->addNodesToCluster(&ecmap);
+	cluster2->addNodesToCluster(&ecmap);
+
+	int abstractionLevel = 1;
+	graph *g = ecmap.getAbstractGraph(abstractionLevel);
+	int expectedNumAbstractNodes = g->getNumNodes(); // before
+	int expectedNumAbstractEdges = g->getNumEdges(); // before
+
+	cluster2->setAllowDiagonals(true);
+	cluster2->buildHorizontalEntrances(&ecmap);
+
+	expectedNumAbstractEdges += 10; // 4 straight transitions, 6 diagonal
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("abstract node count is wrong", 
+			expectedNumAbstractNodes, g->getNumNodes());
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("abstract edge count is wrong", 
+			expectedNumAbstractEdges, g->getNumEdges());
+}
+
+void EmptyClusterTest::buildVerticalEntrancesCreatesAllDiagonalTransitionPoints()
+{
+	EmptyClusterAbstraction ecmap(new Map(hpastartest.c_str()), new EmptyClusterFactory(), 
+			new ClusterNodeFactory(), new EdgeFactory());
+
+	EmptyCluster *cluster1 = new EmptyCluster(3,0);
+	EmptyCluster *cluster2 = new EmptyCluster(0,0);
+	ecmap.addCluster(cluster1);
+	ecmap.addCluster(cluster2);
+	cluster1->addNodesToCluster(&ecmap);
+	cluster2->addNodesToCluster(&ecmap);
+
+	int abstractionLevel = 1;
+	graph *g = ecmap.getAbstractGraph(abstractionLevel);
+	int expectedNumAbstractNodes = g->getNumNodes(); // before
+	int expectedNumAbstractEdges = g->getNumEdges(); // before
+
+	cluster2->setAllowDiagonals(true);
+	cluster2->buildVerticalEntrances(&ecmap);
+
+	expectedNumAbstractEdges += 7; // 3 straight transitions and 4 diagonal
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("abstract node count is wrong", expectedNumAbstractNodes, 
+			g->getNumNodes());
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("abstract edge count is wrong", expectedNumAbstractEdges, 
+			g->getNumEdges());
+}

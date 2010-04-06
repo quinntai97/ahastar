@@ -82,6 +82,30 @@ void EmptyClusterAbstractionTest::buildEntrancesConnectsAllClusters()
 			g->getNumNodes());
 }
 
+void EmptyClusterAbstractionTest::buildEntrancesConnectsAllClustersWhenAllowDiagonalsIsSet()
+{
+	EmptyClusterAbstraction ecmap(new Map(hpastartest.c_str()), new EmptyClusterFactory(), 
+			new ClusterNodeFactory(), new EdgeFactory());
+	ecmap.buildClusters();
+
+	int abstractionLevel = 1;
+	graph *g = ecmap.getAbstractGraph(abstractionLevel);
+	int expectedNumAbstractNodes = g->getNumNodes(); // before
+	int expectedNumAbstractEdges = g->getNumEdges(); // before
+
+	ecmap.setAllowDiagonals(true);
+	//ecmap.setVerbose(true);
+	ecmap.buildEntrances();
+
+	expectedNumAbstractEdges += 31; // 13 straight transitions, 18 diagonal 
+	expectedNumAbstractNodes +=2; // two single node clusters @ (0,3) and (3, 5) 
+
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("abstract edge count is wrong", 
+			expectedNumAbstractEdges, g->getNumEdges());
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("abstract node count changed!", 
+			expectedNumAbstractNodes, g->getNumNodes());
+}
+
 void EmptyClusterAbstractionTest::insertStartAndGoalNodesIntoAbstractGraphWorksAsAdvertised()
 {
 	EmptyClusterAbstraction ecmap(new Map(hpastartest.c_str()), new EmptyClusterFactory(), 

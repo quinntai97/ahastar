@@ -45,6 +45,7 @@ HPAClusterAbstraction::HPAClusterAbstraction(Map* m, IHPAClusterFactory* _cf,
 	nodesExpanded = nodesTouched = peakMemory = 0;
 	searchTime = 0;
 	verbose = false;
+	allowDiagonals = false;
 }
 
 HPAClusterAbstraction::~HPAClusterAbstraction()
@@ -107,6 +108,8 @@ void HPAClusterAbstraction::buildEntrances()
 	HPACluster* cluster = this->clusterIterNext(it);
 	while(cluster)
 	{
+		cluster->setVerbose(getVerbose());
+		cluster->setAllowDiagonals(allowDiagonals);
 		cluster->buildEntrances(this);
 		cluster = this->clusterIterNext(it);
 	}
