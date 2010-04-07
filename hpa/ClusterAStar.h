@@ -68,8 +68,9 @@ class ClusterAStar : public AbstractClusterAStar
 			friend class ClusterAStarTest; 
 		#endif
 		
-		ClusterAStar() : AbstractClusterAStar() { cardinal = false; }
-		virtual ~ClusterAStar() {}
+		ClusterAStar();
+		virtual	~ClusterAStar();
+
 		virtual path *getPath(graphAbstraction *aMap, node *from, node *to, reservationProvider *rp = 0);
 		virtual const char* getName() { return "ClusterAStar"; }
 		virtual void logFinalStats(statCollection *stats);
