@@ -31,8 +31,9 @@ class CardinalAStar : public ClusterAStar
     #endif
 
 	public:
-		CardinalAStar() { }
-		virtual	~CardinalAStar() { }
+		CardinalAStar();
+		virtual	~CardinalAStar();
+
 		virtual path *getPath(graphAbstraction *aMap, node *from, node *to, reservationProvider *rp = 0);
 		virtual const char* getName() { return "CardinalAStar"; }
 
