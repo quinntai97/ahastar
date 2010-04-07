@@ -15,9 +15,9 @@
 #ifndef MACRONODE_H
 #define MACRONODE_H
 
-#include "graph.h"
+#include "ClusterNode.h"
 
-class MacroNode : public node
+class MacroNode : public ClusterNode
 {
 	public:
 		MacroNode(const char* _n);
@@ -26,9 +26,12 @@ class MacroNode : public node
 
 		inline void	setMacroParent(MacroNode* _p) { p = _p; }
 		inline MacroNode* getMacroParent() { return p; }
+		inline double getDistanceToMacroParent() { return pdist; }
+		inline void setDistanceToMacroParent(double _dist) { pdist = _dist; }
 
 	private:
 		MacroNode* p;
+		double pdist;
 };
 
 #endif

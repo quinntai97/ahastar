@@ -1,10 +1,10 @@
 #include "MacroNode.h"
 
-MacroNode::MacroNode(const char* _name) : node(_name)
+MacroNode::MacroNode(const char* _name) : ClusterNode(_name)
 {
 }
 
-MacroNode::MacroNode(const MacroNode* n) : node(n)
+MacroNode::MacroNode(const MacroNode* n) : ClusterNode(n)
 {
 	p = n->p;
 }

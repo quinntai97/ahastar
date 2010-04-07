@@ -174,6 +174,15 @@ void AbstractClusterAStar::expand(node* current, node* to, heap* openList, std::
 	closedList[current->getUniqueID()] = current;	
 }
 
+ClusterAStar::ClusterAStar() : AbstractClusterAStar()
+{
+	cardinal = false;
+}
+
+ClusterAStar::~ClusterAStar()
+{
+}
+
 /* evaluate()
 	check if it is possible to move from the current location to an adjacent target location via some edge.
 	things we look for:

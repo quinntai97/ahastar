@@ -22,6 +22,7 @@
 #define OHASTAR_H
 
 #include "ClusterAStar.h"
+#include <stdexcept>
 
 class OHAStar : public ClusterAStar
 {
@@ -29,10 +30,9 @@ class OHAStar : public ClusterAStar
 	public:
 		OHAStar();
 		virtual ~OHAStar();
-
-		virtual path* getPath(graphAbstraction* aMap, node* from, node* to,
-				reservationProvider* rp = 0);
 		virtual const char* getName() { return "OHAStar"; }
+
+		virtual double h(node* a, node* b) throw(std::invalid_argument);
 
 	protected:
 		virtual bool evaluate(node* current, node* target, edge* e);
