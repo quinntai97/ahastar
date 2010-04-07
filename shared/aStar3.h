@@ -52,8 +52,8 @@ public:
 	graphAbstraction* getGraphAbstraction() { return map; }
 	
 protected:
-	void relaxEdge(heap *nodeHeap, graph *g, edge *e, int source, int nextNode, node *to);
-	path *extractBestPath(graph *g, unsigned int current);
+	virtual void relaxEdge(heap *nodeHeap, graph *g, edge *e, int source, int nextNode, node *to);
+	virtual path *extractBestPath(graph *g, unsigned int current);
 
 private:
 	graphAbstraction *map;

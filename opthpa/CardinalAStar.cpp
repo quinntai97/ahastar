@@ -2,6 +2,13 @@
 #include "EmptyCluster.h"
 #include "EmptyClusterAbstraction.h"
 
+CardinalAStar::CardinalAStar()
+{
+}
+
+CardinalAStar::~CardinalAStar()
+{
+}
 
 path* CardinalAStar::getPath(graphAbstraction *aMap, node *from, node *to, reservationProvider *rp)
 {
