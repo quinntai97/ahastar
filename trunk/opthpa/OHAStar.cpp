@@ -10,6 +10,8 @@ OHAStar::~OHAStar()
 {
 }
 
+// TODO: start node is its own macro parent
+
 bool OHAStar::evaluate(node* current, node* target, edge* e)
 {
 	return false;

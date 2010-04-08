@@ -28,6 +28,11 @@ class OHAStar : public ClusterAStar
 {
 
 	public:
+
+		#ifdef UNITTEST
+			friend class OHAStarTest;
+		#endif
+
 		OHAStar();
 		virtual ~OHAStar();
 		virtual const char* getName() { return "OHAStar"; }
