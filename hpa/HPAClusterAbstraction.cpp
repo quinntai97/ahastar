@@ -31,11 +31,14 @@ HPAClusterAbstraction::HPAClusterAbstraction(Map* m, IHPAClusterFactory* _cf,
 	: mapAbstraction(m), cf(_cf), nf(_nf), ef(_ef), clustersize(DEFAULTCLUSTERSIZE) 
 {	
 	
-	if(!dynamic_cast<ClusterNodeFactory*>(nf))
+	node* n = nf->newNode("test");
+	if(!dynamic_cast<ClusterNode*>(n))
 	{
+		delete n;
 		throw std::invalid_argument("HPAClusterAbstraction requires a node factory"
-				"of type ClusterNodeFactory");
+				"that produces ClusterNode objects");
 	}
+	delete n;
 		
 	abstractions.push_back(getMapGraph(this->getMap(), nf, ef)); 
 	abstractions.push_back(new graph());	
