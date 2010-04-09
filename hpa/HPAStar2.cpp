@@ -238,17 +238,6 @@ void HPAStar2::logFinalStats(statCollection* stats)
 	stats->addStat("insSearchTime",getName(),getInsertSearchTime());
 }
 
-// debugging function
-void HPAStar2::printPath(path* p)
-{
-	while(p)
-	{
-		node* n = p->n;
-		std::cout << "id: "<<n->getUniqueID()<<" node @ "<<n->getLabelL(kFirstData) << ","<<n->getLabelL(kFirstData+1)<<std::endl;
-		p = p->next;
-	}		
-}
-
 void HPAStar2::resetMetrics()
 {
 	insertNodesExpanded = insertNodesTouched = insertPeakMemory = 0;

@@ -29,6 +29,7 @@
 
 #include "searchAlgorithm.h"
 #include "heap.h"
+#include <stdexcept>
 
 // this is a "classic" implementation of A*
 // it is not particularly optimized, it is more of an example of how an
@@ -50,6 +51,8 @@ public:
 	double getDefaultEdgeWeight() { return wh; }
 	void setGraphAbstraction(graphAbstraction *aMap) { map = aMap; }
 	graphAbstraction* getGraphAbstraction() { return map; }
+
+	virtual double h(node* a, node* b) throw(std::invalid_argument);
 	
 protected:
 	virtual void relaxEdge(heap *nodeHeap, graph *g, edge *e, int source, int nextNode, node *to);

@@ -100,6 +100,8 @@ class HPAClusterAbstraction : public mapAbstraction
 		inline bool getAllowDiagonals() { return allowDiagonals; }
 
 		void print(std::ostream& out);
+
+		//virtual double h(node *a, node *b);
 		
 	protected:
 		void addCluster(HPACluster* cluster);

@@ -27,6 +27,10 @@ ClusterNode::ClusterNode(const char* name) : node(name)
 	init();
 }
 
+ClusterNode::~ClusterNode()
+{
+}
+
 void ClusterNode::init()
 {
 	this->setLabelL(kParent, -1);

@@ -40,6 +40,17 @@ bool AbstractClusterAStar::isInCorridor(node* _n)
 	return false;
 }
 
+// debugging function
+void AbstractClusterAStar::printPath(path* p)
+{
+	while(p)
+	{
+		node* n = p->n;
+		std::cout << "id: "<<n->getUniqueID()<<" node @ "<<n->getName()<<std::endl;
+		p = p->next;
+	}		
+}
+
 /*
 	1. get the current node on the open list
 	2. check if node is the goal; goto 6 if yes.
@@ -78,7 +89,7 @@ path* AbstractClusterAStar::search(graph* g, node* from, node* to)
 	searchtime =0;
 
 	// label start node cost 0 
-	from->setLabelF(kTemporaryLabel, 1*this->getGraphAbstraction()->h(from, to));
+	from->setLabelF(kTemporaryLabel, h(from, to));
 	from->markEdge(0);
 	
 	heap* openList = new heap(30);
