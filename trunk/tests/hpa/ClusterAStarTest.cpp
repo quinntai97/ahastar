@@ -259,6 +259,9 @@ void ClusterAStarTest::expandDoesNotReopenNodesOnTheClosedList()
 	node* neighbour2 = new node("neighbour2");
 	neighbour2->setLabelL(kFirstData, 1);
 	neighbour2->setLabelL(kFirstData, 1);
+	node* goal = new node("neighbour2");
+	goal->setLabelL(kFirstData, 3);
+	goal->setLabelL(kFirstData, 4);
 	
 	
 	g.addNode(target);
@@ -271,7 +274,7 @@ void ClusterAStarTest::expandDoesNotReopenNodesOnTheClosedList()
 	g.addEdge(e);
 	
 	closedList[neighbour1->getUniqueID()] = neighbour1;
-	castar.expand(target, NULL, &openList, closedList, &g);
+	castar.expand(target, goal, &openList, closedList, &g);
 	
 	int expectedSizeOfOpenList = 1;
 	int expectedSizeOfClosedList = 2;

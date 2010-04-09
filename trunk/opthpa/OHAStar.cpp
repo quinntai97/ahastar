@@ -1,20 +1,55 @@
 #include "OHAStar.h"
 #include "MacroNode.h"
 #include "map.h"
+#include "MacroNode.h"
 
 OHAStar::OHAStar()
 {
+	cardinal = false;
 }
 
 OHAStar::~OHAStar()
 {
 }
 
-// TODO: start node is its own macro parent
+path* OHAStar::getPath(graphAbstraction *aMap, node *from, node *to, reservationProvider *rp)
+{
+	MacroNode* mfrom = dynamic_cast<MacroNode*>(from);
+	MacroNode* mto = dynamic_cast<MacroNode*>(to);
 
+	if(!mfrom || !mto)
+	{
+		std::cout << "OHA* failed; start or goal not of type MacroNode";
+		std::cout << "start type: "<<typeid(from).name()<<" goal type: ";
+		std::cout << typeid(to).name() <<std::endl;
+		return 0;
+	}
+
+	// abstract or low-level search? this decision affects the behaviour of ::relaxEdge
+	if(mfrom->getLabelL(kAbstractionLevel) == 1)
+	{
+		mfrom->setMacroParent(mfrom);
+		std::cout << "setting macro parent...";
+	}
+	else
+		mfrom->setMacroParent(0);
+
+	return ClusterAStar::getPath(aMap, from, to, rp);	
+}
+
+// if ::cardinal == true, edges with non-integer costs will not be evaluated during search.
+// i.e. we pretend the graph has no diagonal edges (characteristic of a 4-connected graph).
 bool OHAStar::evaluate(node* current, node* target, edge* e)
 {
-	return false;
+	bool retVal = ClusterAStar::evaluate(current, target, e);
+	if(cardinal)
+	{
+		if(e->getWeight() != (int)e->getWeight())
+			retVal = false;
+		if(e->getWeight() > 2 && !retVal)
+			std::cerr << "found a macro edge with non-integer costs! wtf?";
+	}
+	return retVal;
 }
 
 // relaxEdge keeps track of the shortest path to each node.
@@ -36,31 +71,58 @@ void OHAStar::relaxEdge(heap *openList, graph *g, edge *e, int fromId,
 {
 	MacroNode* from = dynamic_cast<MacroNode*>(g->getNode(fromId));
 	MacroNode* to = dynamic_cast<MacroNode*>(g->getNode(toId));
-	MacroNode* mp = 0; // macro parent 
-	double f_to = DBL_MAX; 
-
 	assert(from && to);
-	if(from->getParentClusterId() == to->getParentClusterId())
+
+	double f_to = DBL_MAX; 
+	MacroNode* mp = from->getMacroParent(); // macro parent 
+
+	// if 'from' has a macro parent, we relax the edge with respect to its macro parent
+	// otherwise, standard A* relaxation is used
+	if(mp == 0) 
 	{
-		mp = from->getMacroParent();
-		double g_mp = mp->getLabelF(kTemporaryLabel) - h(mp, goal); 
-		f_to = g_mp + h(mp, to)  + h(to, goal); // NB: h(mp, to) is exact
+		double g_from = from->getLabelF(kTemporaryLabel) - h(from, goal);
+		f_to = g_from + e->getWeight() + h(to, goal);
 	}
 	else
 	{
-		mp = to;
-		double g_from = from->getLabelF(kTemporaryLabel) - h(from, goal);
-		f_to = g_from + e->getWeight() + h(to, goal);
+		if(from->getParentClusterId() == to->getParentClusterId())
+		{
+			double g_mp = mp->getLabelF(kTemporaryLabel) - h(mp, goal); 
+			f_to = g_mp + h(mp, to)  + h(to, goal); // NB: h(mp, to) is exact
+		}
+		else
+		{
+			mp = to;
+			double g_from = from->getLabelF(kTemporaryLabel) - h(from, goal);
+			f_to = g_from + e->getWeight() + h(to, goal);
+		}
 	}
 
 	// update priority and macro parent if necessary 
 	if(f_to < to->getLabelL(kTemporaryLabel))
 	{
+		if(verbose)
+		{
+			std::cout << " relaxing "<<to->getName()<<" from: "<<from->getName()<< " f(to): "<<f_to;
+			if(!mp)
+				std::cout << " no mp!"<<std::endl;
+			else
+			{
+				double g_mp = mp->getLabelF(kTemporaryLabel) - h(mp, goal); 
+				std::cout << " fmp: "<<mp->getLabelF(kTemporaryLabel)<<" hmp: "<<h(mp, goal);
+				std::cout << " gmp: "<<g_mp<< " h(to, goal): "<<h(to, goal);
+				std::cout << " mp(to) = "<<mp->getName()<<std::endl;
+			}
+		}
+
 		to->setLabelF(kTemporaryLabel, f_to);
 		openList->decreaseKey(to);
 		to->markEdge(e);
 		to->setMacroParent(mp);
 	}
+	else
+		if(verbose)
+			std::cout << " not relaxing!"<<std::endl;
 }
 
 // Extracts the optimal path once the goal is found.
@@ -83,55 +145,56 @@ path* OHAStar::extractBestPath(graph *g, unsigned int current)
 	{
 		MacroNode* cn = dynamic_cast<MacroNode*>(g->getNode(current));
 		assert(cn);
+		p = new path(cn, p);
+		if(verbose)
+			std::cout << current <<"cn: "<<cn->getName();
+
 		MacroNode* mp = cn->getMacroParent();
-
-		if(cn->getNum() != mp->getNum())
+		if(mp)
 		{
-			p = new path(cn, p);
-			current = mp->getNum();
-			if(verbose)
-				std::cout << current <<" <- (mp)";
-
+			if(cn->getNum() != mp->getNum())
+			{
+				current = mp->getNum();
+				if(verbose)
+					std::cout << " following macro parent "<<mp->getName()<<std::endl;
+			}
+			else
+			{
+				e = cn->getMarkedEdge();
+				if(e != 0)
+				{
+					current = e->getFrom() == current?e->getTo():e->getFrom();
+					if(verbose)
+						std::cout << " following marked edge"<<std::endl;
+				}
+				else
+				{
+					// cn must be the start node (cannot follow macro parent or marked edge)
+					if(verbose)
+						std::cout << " is start! finished!"<<std::endl; 
+					break;
+				}
+			}
 		}
 		else
 		{
-			e = cn->getMarkedEdge();
-			if(e == 0)
-				break;
-			else
-			{
+				// special case for searching on the non-abstracted graph
+				// where none of the nodes have macro parents
+				e = cn->getMarkedEdge();
+				if(e == 0)
+					break;
+
 				if (e->getFrom() == current)
 					current = e->getTo();
 				else
 					current = e->getFrom();
-			}
-			p = new path(g->getNode(current), p);
-			if(verbose)
-				std::cout << current <<" <- ";
+				p = new path(g->getNode(current), p);
+				if(verbose)
+					std::cout << current <<" <- ";
 		}
 	}
 
 	return p;
 }
 
-// Equivalent of manhattan heuristic for octile grids
-double OHAStar::h(node* a, node*b) throw(std::invalid_argument)
-{
-
-	if(a == NULL || b == NULL) 
-		throw std::invalid_argument("null node");
-
-	int x1 = a->getLabelL(kFirstData);
-	int x2 = b->getLabelL(kFirstData);
-	int y1 = a->getLabelL(kFirstData+1);
-	int y2 = b->getLabelL(kFirstData+1);
-	
-	double answer = 0.0;
-	const double root2m1 = ROOT_TWO-1;//sqrt(2.0)-1;
-		if (fabs(x1-x2) < fabs(y1-y2))
-			answer = root2m1*fabs(x1-x2)+fabs(y1-y2);
-	else
-		answer = root2m1*fabs(y1-y2)+fabs(x1-x2);
-	return answer;
-}
 

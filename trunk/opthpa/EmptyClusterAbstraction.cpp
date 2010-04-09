@@ -226,23 +226,23 @@ void EmptyClusterAbstraction::connectSG(node* absNode)
 }
 
 // h heuristic
-double EmptyClusterAbstraction::h(node* from, node* to)
-{
-	int fx = from->getLabelL(kFirstData);
-	int fy = from->getLabelL(kFirstData+1);
-	int tx = to->getLabelL(kFirstData);
-	int ty = to->getLabelL(kFirstData+1);
-//	std::cout << "from: "<<fx<<","<<fy<<") to: ("<<tx<<","<<ty<<") ";
-
-	int deltax = fx - tx;
-	if(deltax < 0) deltax *=-1;
-
-	int deltay = fy - ty;
-	if(deltay < 0) deltay *=-1;
-
-//	std::cout << "deltax: "<<deltax<<" deltay: "<<deltay<<std::endl;
-	return deltax + deltay;
-}
+//double EmptyClusterAbstraction::h(node* from, node* to)
+//{
+//	int fx = from->getLabelL(kFirstData);
+//	int fy = from->getLabelL(kFirstData+1);
+//	int tx = to->getLabelL(kFirstData);
+//	int ty = to->getLabelL(kFirstData+1);
+////	std::cout << "from: "<<fx<<","<<fy<<") to: ("<<tx<<","<<ty<<") ";
+//
+//	int deltax = fx - tx;
+//	if(deltax < 0) deltax *=-1;
+//
+//	int deltay = fy - ty;
+//	if(deltay < 0) deltay *=-1;
+//
+////	std::cout << "deltax: "<<deltax<<" deltay: "<<deltay<<std::endl;
+//	return deltax + deltay;
+//}
 
 EmptyCluster* EmptyClusterAbstraction::clusterIterNext(cluster_iterator& it) const
 {

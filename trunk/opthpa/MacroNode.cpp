@@ -2,6 +2,7 @@
 
 MacroNode::MacroNode(const char* _name) : ClusterNode(_name)
 {
+	p = 0;
 }
 
 MacroNode::MacroNode(const MacroNode* n) : ClusterNode(n)

@@ -52,7 +52,6 @@ class HPAStar2 : public ClusterAStar
 		
 		void updateMetrics(AbstractClusterAStar& castar);  
 		void resetMetrics();
-		void printPath(path* p);
 };
 
 #endif

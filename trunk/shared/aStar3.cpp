@@ -27,6 +27,7 @@
 #include "fpUtil.h"
 #include "aStar3.h"
 #include "heap.h"
+#include "map.h"
 
 static const int verbose = 0;
 
@@ -61,7 +62,7 @@ path *aStarOld::getPath(graphAbstraction *aMap, node *from, node *to, reservatio
 	
 	// label start node cost 0
 	n = from;
-	n->setLabelF(kTemporaryLabel, wh*map->h(n, to));
+	n->setLabelF(kTemporaryLabel, wh*h(n, to));
 	n->markEdge(0);
 	
 	while (1)
@@ -136,16 +137,7 @@ void aStarOld::relaxEdge(heap *nodeHeap, graph *g, edge *e, int source, int next
 	node *from = g->getNode(source);
 	node *to = g->getNode(nextNode);
 	
-	/* alternate path fCost = from.gCost (derived as from.fCost - from.hCost) + to.hCost + length(from, to) */
-	/*double hTo = wh*map->h(to, d);
-	double hFrom = wh*map->h(from, d);
-	double edgeweight = e->getWeight();
-	double oldgcost = from->getLabelF(kTemporaryLabel);
-	double gcost = from->getLabelF(kTemporaryLabel)-wh*map->h(from, d);
-	double hcost = wh*map->h(to, d)+e->getWeight(); */
-
-	weight = from->getLabelF(kTemporaryLabel)-wh*map->h(from, d)+wh*map->h(to, d)+e->getWeight(); 
-	
+	weight = from->getLabelF(kTemporaryLabel)-wh*h(from, d)+wh*h(to, d)+e->getWeight(); 
 	if (fless(weight, to->getLabelF(kTemporaryLabel)))
 	{
 		if (verbose)
@@ -179,4 +171,25 @@ path *aStarOld::extractBestPath(graph *g, unsigned int current)
 	p = new path(g->getNode(current), p);
 	if (verbose) printf("%d\n", current);
 	return p;	
+}
+
+// euclidean distance on octile grids
+double aStarOld::h(node* a, node*b) throw(std::invalid_argument)
+{
+
+	if(a == NULL || b == NULL) 
+		throw std::invalid_argument("null node");
+
+	int x1 = a->getLabelL(kFirstData);
+	int x2 = b->getLabelL(kFirstData);
+	int y1 = a->getLabelL(kFirstData+1);
+	int y2 = b->getLabelL(kFirstData+1);
+	
+	double answer = 0.0;
+	const double root2m1 = ROOT_TWO-1;//sqrt(2.0)-1;
+		if (fabs(x1-x2) < fabs(y1-y2))
+			answer = root2m1*fabs(x1-x2)+fabs(y1-y2);
+	else
+		answer = root2m1*fabs(y1-y2)+fabs(x1-x2);
+	return answer;
 }

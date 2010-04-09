@@ -46,6 +46,8 @@ class AbstractClusterAStar : public aStarOld
 			assert(corridorNodes == _nodes); 
 		}
 
+		void printPath(path* p); // debugging function
+
 		bool markForVis;	
 		bool verbose;
 

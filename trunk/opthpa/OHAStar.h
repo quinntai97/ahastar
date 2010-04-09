@@ -22,7 +22,6 @@
 #define OHASTAR_H
 
 #include "ClusterAStar.h"
-#include <stdexcept>
 
 class OHAStar : public ClusterAStar
 {
@@ -37,7 +36,10 @@ class OHAStar : public ClusterAStar
 		virtual ~OHAStar();
 		virtual const char* getName() { return "OHAStar"; }
 
-		virtual double h(node* a, node* b) throw(std::invalid_argument);
+		inline void setCardinal(bool _cardinal) { cardinal = _cardinal; }
+		inline bool getCardinal() { return cardinal; }
+
+		virtual path *getPath(graphAbstraction *aMap, node *from, node *to, reservationProvider *rp = 0);
 
 	protected:
 		virtual bool evaluate(node* current, node* target, edge* e);
@@ -45,6 +47,8 @@ class OHAStar : public ClusterAStar
 				int nextNode, node *to);
 		virtual path *extractBestPath(graph *g, unsigned int current);
 
+	private:
+		bool cardinal; // pretend the graph is 4-connected (ignore diagonal edges)
 
 };
 
