@@ -91,6 +91,8 @@ class HPAClusterAbstraction : public mapAbstraction
 		virtual void repairAbstraction() {}
 		virtual mapAbstraction* clone(Map *) { return NULL; }
 	
+		virtual double h(node *a, node *b);
+	
 		IEdgeFactory* getEdgeFactory() { return ef; }
 		INodeFactory* getNodeFactory() { return nf; }
 		inline bool getVerbose() { return verbose; }
@@ -101,7 +103,6 @@ class HPAClusterAbstraction : public mapAbstraction
 
 		void print(std::ostream& out);
 
-		//virtual double h(node *a, node *b);
 		
 	protected:
 		void addCluster(HPACluster* cluster);
