@@ -421,6 +421,7 @@ void HPACluster::addTransitionPoint(node* from, node* to, HPAClusterAbstraction*
 	// add internodes; first try to reuse existing nodes from the abstract graph, else create new ones.
 	int abstractionLevel = 1;
 	graph *g = hpamap->getAbstractGraph(abstractionLevel);
+	Map* map = hpamap->getMap();
 	ClusterNode* absfrom = dynamic_cast<ClusterNode*>(g->getNode(from->getLabelL(kParent)));
 	ClusterNode* absto = dynamic_cast<ClusterNode*>(g->getNode(to->getLabelL(kParent)));
 	

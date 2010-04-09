@@ -107,7 +107,7 @@ void OHAStarTest::relaxEdgeUpdatesPriorityOfNodeThatHasNoMacroParent()
 
 void OHAStarTest::getPathFindsAnOptimalPathInTheAbstractGraph()
 {
-	std::cout << "getPathFindsAnOptimalPathInTheAbstractGraph"<<std::endl;
+//	std::cout << "getPathFindsAnOptimalPathInTheAbstractGraph"<<std::endl;
 	OHAStar alg;
 	EmptyClusterAbstraction ecmap(new Map(hpastartest.c_str()), new EmptyClusterFactory(), 
 			new MacroNodeFactory(), new EdgeFactory());
@@ -130,7 +130,7 @@ void OHAStarTest::getPathFindsAnOptimalPathInTheAbstractGraph()
 	int expectedNumSteps = 6;
 	//alg.verbose = true;
 	path *p = alg.getPath(&ecmap, start, goal);
-	alg.printPath(p);
+	//alg.printPath(p);
 	//	p->print(true);
 
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("no path returned!", true, p!=0);
@@ -158,7 +158,50 @@ void OHAStarTest::getPathFindsAnOptimalPathInTheAbstractGraph()
 
 void OHAStarTest::getPathFindsAnOptimalPathInTheLowLevelGraph()
 {
-	CPPUNIT_ASSERT_EQUAL_MESSAGE("implement me", true, false);
+	OHAStar alg;
+	EmptyClusterAbstraction ecmap(new Map(hpastartest.c_str()), new EmptyClusterFactory(), 
+			new MacroNodeFactory(), new EdgeFactory());
+	ecmap.setAllowDiagonals(true);
+	ecmap.buildClusters();
+	ecmap.buildEntrances();
+	graph *g = ecmap.getAbstractGraph(1);
+
+	node* start = ecmap.getNodeFromMap(1,0);
+	node* goal = ecmap.getNodeFromMap(3,4);
+
+	double expectedPathLength = ROOT_TWO*4+2;
+	int expectedNumSteps = 7;
+	//alg.verbose = true;
+	path *p = alg.getPath(&ecmap, start, goal);
+	//alg.printPath(p);
+	//	p->print(true);
+
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("no path returned!", true, p!=0);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("path has wrong # of steps", expectedNumSteps, (int)p->length());
+
+//	double seglengths[5] = {ROOT_TWO+1, 1, ROOT_TWO, ROOT_TWO, ROOT_TWO};
+//	int sli = 0;
+	double length = 0;
+
+	path* tmp = p;
+	while(tmp)
+	{
+		path* next = tmp->next;
+		if(next)
+		{
+			length += alg.h(tmp->n, next->n);
+
+//			MacroNode* n = dynamic_cast<MacroNode*>(tmp->n);
+//			MacroNode* nextn = dynamic_cast<MacroNode*>(next->n);
+//			CPPUNIT_ASSERT_EQUAL_MESSAGE("path segment has wrong cost", seglengths[sli], 
+//					alg.h(n, nextn));
+		}
+		tmp = next;
+	//	sli++;
+	}
+	delete p;
+
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("path length oncorrect: ", expectedPathLength, length);
 }
 
 void OHAStarTest::extractBestPathWorksAsAdvertisedWhenPredecessorOfGoalIsItsMacroParent()

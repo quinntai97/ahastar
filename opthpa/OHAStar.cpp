@@ -29,7 +29,6 @@ path* OHAStar::getPath(graphAbstraction *aMap, node *from, node *to, reservation
 	if(mfrom->getLabelL(kAbstractionLevel) == 1)
 	{
 		mfrom->setMacroParent(mfrom);
-		std::cout << "setting macro parent...";
 	}
 	else
 		mfrom->setMacroParent(0);
@@ -183,12 +182,8 @@ path* OHAStar::extractBestPath(graph *g, unsigned int current)
 				e = cn->getMarkedEdge();
 				if(e == 0)
 					break;
+				current = e->getFrom() == current?e->getTo():e->getFrom();
 
-				if (e->getFrom() == current)
-					current = e->getTo();
-				else
-					current = e->getFrom();
-				p = new path(g->getNode(current), p);
 				if(verbose)
 					std::cout << current <<" <- ";
 		}

@@ -153,15 +153,14 @@ void EmptyClusterAbstractionTest::insertStartAndGoalNodesIntoAbstractGraphWorksA
 	edge* e = absStart->edgeIterNext(ei);
 	int index=0;
 
-	std::cout << "ll h: "<<ecmap.h(ecmap.getNodeFromMap(1,1), ecmap.getNodeFromMap(0,1))<<std::endl;
 	while(e)
 	{
-		int otherId = absStart->getNum() == e->getFrom()?e->getTo():e->getFrom();
-		node *xn = g->getNode(otherId);
-		std::cout << "start: "<<absStart->getName()<<" xn: "<<xn->getName()<<" h: "<<ecmap.h(absStart, xn);
-		std::cout <<" expected: "<<sEdgeWeights[index];
-		std::cout << " actual: "<<e->getWeight()<< std::endl;
-		std::cout << xn->getLabelL(kFirstData)<<","<<xn->getLabelL(kFirstData+1)<<std::endl;
+//		int otherId = absStart->getNum() == e->getFrom()?e->getTo():e->getFrom();
+//		node *xn = g->getNode(otherId);
+//		std::cout << "start: "<<absStart->getName()<<" xn: "<<xn->getName()<<" h: "<<ecmap.h(absStart, xn);
+//		std::cout <<" expected: "<<sEdgeWeights[index];
+//		std::cout << " actual: "<<e->getWeight()<< std::endl;
+//		std::cout << xn->getLabelL(kFirstData)<<","<<xn->getLabelL(kFirstData+1)<<std::endl;
 
 		CPPUNIT_ASSERT_EQUAL_MESSAGE("absStart edge weight != h distance",
 				sEdgeWeights[index], e->getWeight());
