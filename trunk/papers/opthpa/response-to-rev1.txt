@@ -1,10 +1,10 @@
 
-Wrt the commonality of 4-connected grids: As Reviewer2 remarks, 4-connected maps are "very common in video games and many test domains". E.g., games on low-memory devices (mobile phones): Nintendo's Star Tropics, Solstice, Equinox...
+Table1 summarizes efficiency of our greedy decomposition. Your suggestion for a constant-bound suboptimal decomposition is interesting for future work.
 
-HPA* was tested on the same Baldur's Gate maps (BGM). Their best speed-up is about 10, compared to OHA*'s of ~2 on BGM. HPA*'s paths typically are a few percent off-optimal. One can easily build examples with arbitrarily suboptimal HPA* paths.
+HPA* was tested on the same BaldursGate maps (BGM). Their best speedup is about 10; OHA*'s is ~2 on BGM. HPA* paths typically are near optimal. Simple examples exist with arbitrarily suboptimal HPA* paths.
 
-We compared against A* because (1) A* remains a popular pathfinding approach; (2) A* is core in other methods, including HPA*; (3) OHA* can be a substitute for A* even in case (2).
+A* is core in many pathfinding techniques, including HPA*. As OHA* is an A* substitute, OHA* could be used to speedup HPA* steps (start/target insertion and path refinement).
 
-OHA* has no significant overhead per node, even reducing the branching factor sometimes by 1. Figure 5 shows that the time speed-up get larger than node speed-up because the open list is smaller in OHA* and open-list update operations depend on its size.
+OHA* has no significant overhead per node. It even reduces the branching factor sometimes by 1. Figure5 shows that time speedup gets larger than node speedup because OHA* maintains a smaller open list.
 
-We summarize the decomposition efficiency in Table 1. Your suggestion for a constant-bound suboptimal decomposition is very interesting for future work.
+Commonality of 4connected grids: As Reviewer2 remarks, they are "very common in video games and many test domains". Eg, games on low-memory devices: Nintendo's StarTropics, Solstice, Equinox...
