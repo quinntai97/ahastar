@@ -1,0 +1,12 @@
+We do not believe OHA*, as is, would preserve optimality on 8-connected grid maps.
+Your suggestion to study this more general domain is interesting as future work.
+
+Your observation that OHA* is a misnomer is a good point. While our work is inspired by
+HPA* (a fact we wanted to reflect in its name) it does perhaps share more
+in common with macro operator techniques. We would be happy to change its name to reflect this.
+
+HPA* and PRA* were both tested on BGM with best reported speedup ~10; OHA* is ~2 on BGM. HPA* paths are
+near optimal but simple examples exist with arbitrarily suboptimal paths; OHA* is always optimal.
+We felt a comparison with A* would be more relevant as OHA* is a direct substitute (on 4-connected grid maps).
+HPA* and PRA*, being suboptimal, are not.
+Further, as OHA* is an A* substitute, OHA* could be used to speedup HPA* steps (start/target insertion and path refinement).
