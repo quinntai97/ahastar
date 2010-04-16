@@ -1,0 +1,10 @@
+
+OHA* doesn't strictly require a decomposition into empty rectangles. When a rectangle is available, OHA* explores that area fast. Otherwise, OHA* performs standard A* search. Results on maps like the one in Figure4 are reported in Figure5 (BG=BaldursGate).
+
+We argued in resposeToReview1 where 4connected maps are useful.
+
+Preprocessing time is not included in reported online times. Offline preprocessing is reused in many instances on the same map, amortizing its costs. Existing pathfinding techniques (memory heuristics, hierarchical abstraction) make similar distinctions between preprocessing and online search.
+
+We agree that each of Voronoi, visibility, and grid graphs has pros and cons. Eg, visibility graphs can exhibit a large branching factor. Gridmaps remain widely used (cite Touzour?).
+
+Regarding "unnatural look": A path fragment bent along the perimeter of an empty rectangle can be replaced without additional search with a lengthwise equivalent fragment that steps inside the rectangle.
