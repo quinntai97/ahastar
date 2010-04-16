@@ -1,10 +1,12 @@
 
 Table1 summarizes efficiency of our greedy decomposition. Your suggestion for a constant-bound suboptimal decomposition is interesting for future work.
 
-HPA* was tested on the same BaldursGate maps (BGM). Their best speedup is about 10; OHA*'s is ~2 on BGM. HPA* paths typically are near optimal. Simple examples exist with arbitrarily suboptimal HPA* paths. PRA* authors (IJCAI 2005) conclude their speed and optimality performance is roughly similar to HPA*.
-
-A* is core in many pathfinding techniques, including HPA*. As OHA* is an A* substitute, OHA* could be used to speedup HPA* steps (start/target insertion and path refinement).
+Re map orientation: This is indeed the main reason for lower performance on Baldur's Gate maps (BGM).
+We studied other decomposition methods (flood-filling) but the results were not as good.
 
 OHA* has no significant overhead per node. It even reduces the branching factor sometimes by 1. Figure5 shows that time speedup gets larger than node speedup because OHA* maintains a smaller open list.
 
-Commonality of 4connected grids: As Reviewer3 remarks, they are "very common in video games and many test domains". Eg, games on low-memory devices: Nintendo's StarTropics, Solstice, Equinox...
+We discuss in responseToReview3 how OHA* compares with HPA* and PRA*.
+
+Commonality of 4connected grids: As Reviewer3 remarks, they are "very common in video games and many test domains". Eg,
+games appearing on low-memory devices: Nintendo's StarTropics, Konami's Metal Gear, Namco's PacMan...
