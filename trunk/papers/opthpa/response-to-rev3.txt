@@ -1,5 +1,6 @@
 
-HPA* and PRA* were both tested on BaldursGate (BGM) with best reported speedup ~10; OHA* is ~2 on BGM. HPA*/PRA* produce near-optimal paths but no guarantees are reported; OHA* is always optimal.
+HPA* and PRA* were both tested on BaldursGate (BGM). In both cases authors report a ~10x speedup over A*; OHA* speedup
+is ~2x on BGM. HPA*/PRA* produce near-optimal paths but no guarantees are reported; OHA* is always optimal.
 We felt a comparison with A* would be more relevant as OHA* is a direct substitute (on 4connected gridmaps). HPA* and PRA*, being suboptimal, are not. Further, OHA* could be used to speedup HPA* steps (start/target insertion and path refinement).
 
 
