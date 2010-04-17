@@ -1,9 +1,11 @@
 
 We thank all reviewers for the feedback.
 
-Table1 summarizes the efficiency of our greedy decomposition. We studied other decomposition methods (flood-filling) but the results were not as good. Your suggestion for a constant-bound suboptimal decomposition is interesting for future work.
+Table1 summarizes the efficiency of our greedy decomposition. Your suggestion for a constant-bound suboptimal decomposition is interesting for future work.
 
 Re map orientation: This is indeed the main reason for lower performance on Baldur's Gate maps (BGM). 
+On BGM our decomposition often identifies long narrow rectangles with few interior nodes. This leads to reduced
+performance.
 
 OHA* has no significant overhead per node. It even reduces the branching factor sometimes by 1. Figure5 shows that time speedup gets larger than node speedup because OHA* maintains a smaller open list.
 
