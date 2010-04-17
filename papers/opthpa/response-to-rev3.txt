@@ -1,10 +1,11 @@
 
-HPA* and PRA* were both tested on BaldursGate (BGM). In both cases authors report a ~10x speedup over A*; OHA* speedup
-is ~2x on BGM. HPA*/PRA* produce near-optimal paths but no guarantees are reported; OHA* is always optimal.
-We felt a comparison with A* would be more relevant as OHA* is a direct substitute (on 4connected gridmaps). HPA* and PRA*, being suboptimal, are not. Further, OHA* could be used to speedup HPA* steps (start/target insertion and path refinement).
+Thank you for the feedback.
 
+HPA* and PRA* were both tested on BaldursGate (BGM). In both cases authors report a ~10x speedup over A*; OHA* speedup is ~2x on BGM. HPA*/PRA* produce near-optimal paths but no guarantees are reported; OHA* is always optimal. As in other search problems (eg, planning), ensuring optimality is harder.
 
-We do not believe OHA*, as is, would preserve optimality on 8connected gridmaps.
-Your suggestion to study this more general domain is interesting as future work.
+We compared with A* because OHA* is a direct substitute (on 4connected gridmaps). As A* is core in HPA*, OHA* could be used to speedup HPA* steps (start/target insertion and path refinement).
 
-While our work is inspired by HPA* (a fact we wanted to reflect in its name) it does perhaps share more in common with macro operator techniques. We would be happy to change its name to reflect this.
+Wrt applicability to other grid maps: it seems possible to extend OHA* to 8connected maps (future work). When perimeter crawling makes current path prefix suboptimal (8connected-wise), connect the last node on the path prefix to the parent of the parent through a 8connected optimal shortcut edge.
+
+We agree with your suggestion to change the name of the algorithm.
+
