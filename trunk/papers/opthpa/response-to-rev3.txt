@@ -1,20 +1,16 @@
-// I think we can put thankyou in the second comment box. 
-Thank you for the feedback.
+Thank you for your review.
 
-// Daniel's suggestion:
-=====
-HPA* and PRA* were both tested on BaldursGate (BGM). In both cases authors report a ~10x speedup over A*; OHA* speedup
-is ~2x on BGM. HPA*/PRA* produce near-optimal paths but no guarantees are reported; OHA* is always optimal.
-We felt a comparison with A* would be more relevant as OHA* is a direct substitute (on 4connected gridmaps). HPA* and
-PRA*, being suboptimal, are not. Further, we regard OHA* as orthogonal to HPA*; Eg, OHA* could speed up HPA* start/target
-insertion and path refinement.
-=====
+There is a speed-optimality tradeoff in OHA* vs HPA*/PRA*. HPA* and PRA* were both tested on BaldursGate (BGM). In both
+cases authors report a ~10x speedup over A*; OHA* speedup is ~2x on BGM. HPA*/PRA* produce near-optimal paths but no
+guarantees are reported; OHA* is always optimal. As in other search problems (eg, AI planning), ensuring optimality is
+harder.
 
-HPA* and PRA* were both tested on BaldursGate (BGM). In both cases authors report a ~10x speedup over A*; OHA* speedup is ~2x on BGM. HPA*/PRA* produce near-optimal paths but no guarantees are reported; OHA* is always optimal. As in other search problems (eg, planning), ensuring optimality is harder.
-We compared with A* because OHA* is a direct substitute (on 4connected gridmaps). As A* is core in HPA*, OHA* could be used to speedup HPA* steps (start/target insertion and path refinement).
+Why we compared to A*: A* is core in many pathfinding techniques. As both are optimal (unlike HPA*/PRA*), OHA* is a
+direct substitute for A* on 4connected grids. For example, replacing A* with OHA* could speed up HPA* steps, such as
+start/target insertion and path refinement.
 
-// I think this is unclear (and beyond the scope of the paper).
-Wrt applicability to other grid maps: it seems possible to extend OHA* to 8connected maps (future work). When perimeter crawling makes current path prefix suboptimal (8connected-wise), connect the last node on the path prefix to the parent of the parent through a 8connected optimal shortcut edge.
+Wrt applicability to other gridmaps: we believe it should be possible to extend OHA* to 8connected grids (future work).
+However, as you remark, 4connected grids are important on their own.
 
-We agree with your suggestion to change the name of the algorithm.
+We agree with your suggestion to rename the algorithm.
 
