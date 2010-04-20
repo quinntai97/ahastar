@@ -50,6 +50,7 @@ class OHAStar : public ClusterAStar
 
 	private:
 		bool cardinal; // pretend the graph is 4-connected (ignore diagonal edges)
+		node* closestNeighbour(node* from, node* to);
 
 };
 
