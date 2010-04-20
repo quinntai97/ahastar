@@ -192,4 +192,73 @@ path* OHAStar::extractBestPath(graph *g, unsigned int current)
 	return p;
 }
 
+// refines an abstract path; each abstract path is made up of a sequence of connected
+// fragments where each fragment has a start and goal
+path* OHAStar::refinePath(path* abspath)
+{
+	graphAbstraction* aMap = getGraphAbstraction();
+	graph* g = aMap->getAbstractGraph(0);
+	path* thepath = 0;
+	path* tail = 0;
+	
+	while(abspath->next)
+	{
+		node *fs = aMap->getNodeFromMap(abspath->n->getLabelL(kFirstData), 
+				abspath->n->getLabelL(kFirstData+1));
+		node* fg = aMap->getNodeFromMap(abspath->next->n->getLabelL(kFirstData), 
+				abspath->next->n->getLabelL(kFirstData+1));
 
+		path* segment = new path(fs, 0);
+		path* segtail = segment;
+		while(segtail->n->getNum() != fg->getNum())
+		{
+			n = closestNeighbour(segtail->n, fg);
+			segtail->next = new path(n, 0);
+			segtail = segtail->next;
+		}
+
+		// append segment to refined path
+		if(thepath == 0)
+			thepath = segment;										
+		else
+			tail->next = segment;
+
+		// avoid overlap between successive segments (i.e one segment ends with the same node as the next begins)
+		if(tail->n->getNum() == segment->n->getNum()) 
+		{
+			thepathtail->next = segment->next;
+			segment->next = 0;
+			delete segment;
+		}
+		
+		tail = segtail;
+		abspath = abspath->next;			
+	}
+}
+
+// use ::h to evaluate all neighbours of 'from' with respect to their distance to 'to'
+// return the neighbour with the lowest value (i.e. the one closest to 'to')
+node* OHAStar::closestNeighbour(node* from, node* to)
+{	
+	graphAbstraction* aMap = getGraphAbstraction();
+	graph* g = getGraphAbstraction()->getAbstractGraph(0);
+
+	double mindist = DBL_MAX;
+	node* closest = 0;
+
+	neighbour_iterator ni = from->getNeighbourIter();
+	int nid = from->nodeNeighborNext(ni);
+	while(nid != -1)
+	{
+		node* n = g->getNode(ni);
+		double hdist = h(from, n);
+		if(hdist < mindist)
+		{
+			closest = n;
+			mindist = hdist;
+		}
+		nid = from->nodeNeighbourNext(ni);
+	}
+
+	return closest;
+}
