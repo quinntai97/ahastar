@@ -1,5 +1,8 @@
 #include "OHAStar.h"
+
+#include "graph.h"
 #include "MacroNode.h"
+#include "mapAbstraction.h"
 #include "map.h"
 #include "MacroNode.h"
 
@@ -33,7 +36,10 @@ path* OHAStar::getPath(graphAbstraction *aMap, node *from, node *to, reservation
 	else
 		mfrom->setMacroParent(0);
 
-	return ClusterAStar::getPath(aMap, from, to, rp);	
+	path* p = ClusterAStar::getPath(aMap, from, to, rp);	
+	path* rpath = refinePath(p);
+	delete p;
+	return rpath;
 }
 
 // if ::cardinal == true, edges with non-integer costs will not be evaluated during search.
@@ -196,7 +202,7 @@ path* OHAStar::extractBestPath(graph *g, unsigned int current)
 // fragments where each fragment has a start and goal
 path* OHAStar::refinePath(path* abspath)
 {
-	graphAbstraction* aMap = getGraphAbstraction();
+	mapAbstraction* aMap = dynamic_cast<mapAbstraction*>(getGraphAbstraction());
 	graph* g = aMap->getAbstractGraph(0);
 	path* thepath = 0;
 	path* tail = 0;
@@ -212,28 +218,29 @@ path* OHAStar::refinePath(path* abspath)
 		path* segtail = segment;
 		while(segtail->n->getNum() != fg->getNum())
 		{
-			n = closestNeighbour(segtail->n, fg);
+			node* n = closestNeighbour(segtail->n, fg);
 			segtail->next = new path(n, 0);
 			segtail = segtail->next;
 		}
 
 		// append segment to refined path
 		if(thepath == 0)
-			thepath = segment;										
-		else
-			tail->next = segment;
-
-		// avoid overlap between successive segments (i.e one segment ends with the same node as the next begins)
-		if(tail->n->getNum() == segment->n->getNum()) 
 		{
-			thepathtail->next = segment->next;
+			thepath = segment;										
+		}
+		else
+		{
+			// successive segments overlap (one finishes where other begins); fix this 
+			assert(tail->n->getNum() == segment->n->getNum());
+			tail->next = segment->next;
 			segment->next = 0;
 			delete segment;
 		}
-		
 		tail = segtail;
 		abspath = abspath->next;			
 	}
+
+	return thepath;
 }
 
 // use ::h to evaluate all neighbours of 'from' with respect to their distance to 'to'
@@ -246,7 +253,7 @@ node* OHAStar::closestNeighbour(node* from, node* to)
 	double mindist = DBL_MAX;
 	node* closest = 0;
 
-	neighbour_iterator ni = from->getNeighbourIter();
+	neighbor_iterator ni = from->getNeighborIter();
 	int nid = from->nodeNeighborNext(ni);
 	while(nid != -1)
 	{
@@ -257,7 +264,7 @@ node* OHAStar::closestNeighbour(node* from, node* to)
 			closest = n;
 			mindist = hdist;
 		}
-		nid = from->nodeNeighbourNext(ni);
+		nid = from->nodeNeighborNext(ni);
 	}
 
 	return closest;
