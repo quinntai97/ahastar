@@ -46,6 +46,7 @@ class OHAStar : public ClusterAStar
 		virtual void relaxEdge(heap *nodeHeap, graph *g, edge *e, int source, 
 				int nextNode, node *to);
 		virtual path *extractBestPath(graph *g, unsigned int current);
+		virtual path* refinePath(path* p);
 
 	private:
 		bool cardinal; // pretend the graph is 4-connected (ignore diagonal edges)
