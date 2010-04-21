@@ -259,7 +259,7 @@ void ClusterAStarTest::expandDoesNotReopenNodesOnTheClosedList()
 	node* neighbour2 = new node("neighbour2");
 	neighbour2->setLabelL(kFirstData, 1);
 	neighbour2->setLabelL(kFirstData, 1);
-	node* goal = new node("neighbour2");
+	node* goal = new node("goal");
 	goal->setLabelL(kFirstData, 3);
 	goal->setLabelL(kFirstData, 4);
 	
@@ -267,6 +267,7 @@ void ClusterAStarTest::expandDoesNotReopenNodesOnTheClosedList()
 	g.addNode(target);
 	g.addNode(neighbour1);
 	g.addNode(neighbour2);
+	g.addNode(goal);
 	
 	edge* e = new edge(target->getNum(), neighbour1->getNum(), 1.0);
 	g.addEdge(e);

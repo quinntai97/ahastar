@@ -118,20 +118,11 @@ void OHAStarTest::getPathFindsAnOptimalPathInTheAbstractGraph()
 
 	node* st = ecmap.getNodeFromMap(1,0);
 	node* gl = ecmap.getNodeFromMap(3,4);
-	int sp = st->getLabelL(kParent);
-	int gp = gl->getLabelL(kParent);
-	node* spn = g->getNode(sp);
-	node* gpn = g->getNode(gp);
-
 	MacroNode* start  = dynamic_cast<MacroNode*>(g->getNode(st->getLabelL(kParent))); 
 	MacroNode* goal =  dynamic_cast<MacroNode*>(g->getNode(gl->getLabelL(kParent)));
 
-	double expectedPathLength = ROOT_TWO*4+2;
 	int expectedNumSteps = 6;
-	//alg.verbose = true;
 	path *p = alg.getPath(&ecmap, start, goal);
-	//alg.printPath(p);
-	//	p->print(true);
 
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("no path returned!", true, p!=0);
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("path has wrong # of steps", expectedNumSteps, (int)p->length());
@@ -164,7 +155,6 @@ void OHAStarTest::getPathFindsAnOptimalPathInTheLowLevelGraph()
 	ecmap.setAllowDiagonals(true);
 	ecmap.buildClusters();
 	ecmap.buildEntrances();
-	graph *g = ecmap.getAbstractGraph(1);
 
 	node* start = ecmap.getNodeFromMap(1,0);
 	node* goal = ecmap.getNodeFromMap(3,4);
@@ -213,14 +203,11 @@ void OHAStarTest::extractBestPathWorksAsAdvertisedWhenPredecessorOfGoalIsItsMacr
 			new MacroNodeFactory(), new EdgeFactory());
 	ecmap.buildClusters();
 
-	graph *g = ecmap.getAbstractGraph(0);
 	heap openlist;
-
 	MacroNode* start  = dynamic_cast<MacroNode*>(ecmap.getNodeFromMap(2, 0));
-
 	MacroNode* goal =  dynamic_cast<MacroNode*>(ecmap.getNodeFromMap(3, 4));
-	double expectedPathLength = ROOT_TWO*4+2;
 	int expectedNumSteps = 5;
+
 	path *p = alg.getPath(&ecmap, start, goal);
 
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("path has wrong # of steps", expectedNumSteps, (int)p->length());
@@ -242,4 +229,46 @@ void OHAStarTest::extractBestPathWorksAsAdvertisedWhenPredecessorOfGoalIsItsMacr
 		tmp = next;
 		sli++;
 	}
+}
+
+void OHAStarTest::refinePathWorksAsAdvertised()
+{
+	int ref = path::ref;
+	OHAStar alg;
+	EmptyClusterAbstraction ecmap(new Map(hpastartest.c_str()), new EmptyClusterFactory(), 
+			new MacroNodeFactory(), new EdgeFactory());
+	ecmap.setAllowDiagonals(true);
+	ecmap.buildClusters();
+	ecmap.buildEntrances();
+	graph *g = ecmap.getAbstractGraph(1);
+
+	node* st = ecmap.getNodeFromMap(0,0);
+	node* gl = ecmap.getNodeFromMap(5,2);
+	MacroNode* start  = dynamic_cast<MacroNode*>(g->getNode(st->getLabelL(kParent))); 
+	MacroNode* goal =  dynamic_cast<MacroNode*>(g->getNode(gl->getLabelL(kParent)));
+
+	path *p = alg.getPath(&ecmap, start, goal);
+	p = alg.refinePath(p);
+
+	int expectedSteps = 6;
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("refined path has incorrect length", expectedSteps, 
+			(int)p->length());
+
+	double expectedLength = alg.h(start, goal);
+	double length = 0;
+	path* tmp = p;
+	while(tmp)
+	{
+		path* next = tmp->next;
+		if(next)
+		{
+			length += alg.h(tmp->n, next->n);
+		}
+		tmp = next;
+	}
+
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("refined path has wrong length", expectedLength, length);
+	delete p;
+
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("refcount wrong; leak?", ref, path::ref);
 }

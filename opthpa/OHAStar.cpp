@@ -15,6 +15,8 @@ OHAStar::~OHAStar()
 {
 }
 
+// TODO: if s+g are low level, get their abstract parents and search on those
+// fail otherwise?.
 path* OHAStar::getPath(graphAbstraction *aMap, node *from, node *to, reservationProvider *rp)
 {
 	MacroNode* mfrom = dynamic_cast<MacroNode*>(from);
@@ -37,9 +39,11 @@ path* OHAStar::getPath(graphAbstraction *aMap, node *from, node *to, reservation
 		mfrom->setMacroParent(0);
 
 	path* p = ClusterAStar::getPath(aMap, from, to, rp);	
-	path* rpath = refinePath(p);
-	delete p;
-	return rpath;
+
+//	path* rpath = refinePath(p);
+//	delete p;
+//	return rpath;
+	return p;
 }
 
 // if ::cardinal == true, edges with non-integer costs will not be evaluated during search.
@@ -200,12 +204,12 @@ path* OHAStar::extractBestPath(graph *g, unsigned int current)
 
 // refines an abstract path; each abstract path is made up of a sequence of connected
 // fragments where each fragment has a start and goal
-path* OHAStar::refinePath(path* abspath)
+path* OHAStar::refinePath(path* _abspath)
 {
 	mapAbstraction* aMap = dynamic_cast<mapAbstraction*>(getGraphAbstraction());
-	graph* g = aMap->getAbstractGraph(0);
 	path* thepath = 0;
 	path* tail = 0;
+	path* abspath = _abspath;
 	
 	while(abspath->next)
 	{
@@ -240,6 +244,7 @@ path* OHAStar::refinePath(path* abspath)
 		abspath = abspath->next;			
 	}
 
+	delete _abspath;
 	return thepath;
 }
 
@@ -247,24 +252,22 @@ path* OHAStar::refinePath(path* abspath)
 // return the neighbour with the lowest value (i.e. the one closest to 'to')
 node* OHAStar::closestNeighbour(node* from, node* to)
 {	
-	graphAbstraction* aMap = getGraphAbstraction();
 	graph* g = getGraphAbstraction()->getAbstractGraph(0);
-
 	double mindist = DBL_MAX;
 	node* closest = 0;
 
-	neighbor_iterator ni = from->getNeighborIter();
-	int nid = from->nodeNeighborNext(ni);
+	neighbor_iterator niter = from->getNeighborIter();
+	int nid = from->nodeNeighborNext(niter);
 	while(nid != -1)
 	{
-		node* n = g->getNode(ni);
-		double hdist = h(from, n);
+		node* n = g->getNode(nid);
+		double hdist = h(n, to);
 		if(hdist < mindist)
 		{
 			closest = n;
 			mindist = hdist;
 		}
-		nid = from->nodeNeighborNext(ni);
+		nid = from->nodeNeighborNext(niter);
 	}
 
 	return closest;

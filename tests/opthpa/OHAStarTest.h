@@ -17,6 +17,8 @@ class OHAStarTest : public CPPUNIT_NS::TestFixture
 	CPPUNIT_TEST( relaxEdgeUpdatesPriorityOfNodeThatHasNoMacroParent );
 	CPPUNIT_TEST( getPathFindsAnOptimalPathInTheAbstractGraph );
 	CPPUNIT_TEST( getPathFindsAnOptimalPathInTheLowLevelGraph );
+
+	CPPUNIT_TEST( refinePathWorksAsAdvertised );
 	//CPPUNIT_TEST( extractBestPathWorksAsAdvertisedWhenPredecessorOfGoalIsItsMacroParent );
 	CPPUNIT_TEST_SUITE_END();
 
@@ -31,6 +33,8 @@ class OHAStarTest : public CPPUNIT_NS::TestFixture
 		void relaxEdgeUpdatesPriorityOfNodeThatHasNoMacroParent(); 
 		void getPathFindsAnOptimalPathInTheAbstractGraph();
 		void getPathFindsAnOptimalPathInTheLowLevelGraph();
+
+		void refinePathWorksAsAdvertised();
 };
 
 #endif

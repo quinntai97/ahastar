@@ -49,6 +49,8 @@ public:
 //  double distance(graphAbstraction* aMap);
   unsigned degree();
   void print(bool beginning=true);
+
+  static int ref;
 };
 
 #endif 
