@@ -31,19 +31,17 @@ path* OHAStar::getPath(graphAbstraction *aMap, node *from, node *to, reservation
 	}
 
 	// abstract or low-level search? this decision affects the behaviour of ::relaxEdge
-	if(mfrom->getLabelL(kAbstractionLevel) == 1)
+	if(mfrom->getLabelL(kAbstractionLevel) == 0)
 	{
-		mfrom->setMacroParent(mfrom);
+		graph* g = aMap->getAbstractGraph(1);
+		mfrom = dynamic_cast<MacroNode*>(g->getNode(mfrom->getLabelL(kParent)));
+		mto = dynamic_cast<MacroNode*>(g->getNode(mto->getLabelL(kParent)));
+		assert(mfrom && mto);
 	}
-	else
-		mfrom->setMacroParent(0);
 
+	mfrom->setMacroParent(mfrom);
 	path* p = ClusterAStar::getPath(aMap, from, to, rp);	
-
-//	path* rpath = refinePath(p);
-//	delete p;
-//	return rpath;
-	return p;
+	return refinePath(p);
 }
 
 // if ::cardinal == true, edges with non-integer costs will not be evaluated during search.
