@@ -49,7 +49,7 @@ class AbstractClusterAStar : public aStarOld
 		void printPath(path* p); // debugging function
 
 		bool markForVis;	
-		bool verbose;
+		//bool verbose;
 
 	protected:
 		void printNode(std::string msg, node* n);

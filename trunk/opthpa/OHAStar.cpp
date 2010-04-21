@@ -3,6 +3,7 @@
 #include "graph.h"
 #include "MacroNode.h"
 #include "mapAbstraction.h"
+#include "EmptyClusterAbstraction.h"
 #include "map.h"
 #include "MacroNode.h"
 
@@ -17,8 +18,10 @@ OHAStar::~OHAStar()
 
 // TODO: if s+g are low level, get their abstract parents and search on those
 // fail otherwise?.
-path* OHAStar::getPath(graphAbstraction *aMap, node *from, node *to, reservationProvider *rp)
+path* OHAStar::getPath(graphAbstraction *_aMap, node *from, node *to, reservationProvider *rp)
 {
+	EmptyClusterAbstraction *aMap = dynamic_cast<EmptyClusterAbstraction*>(_aMap);
+	assert(aMap);
 	MacroNode* mfrom = dynamic_cast<MacroNode*>(from);
 	MacroNode* mto = dynamic_cast<MacroNode*>(to);
 
@@ -31,8 +34,16 @@ path* OHAStar::getPath(graphAbstraction *aMap, node *from, node *to, reservation
 	}
 
 	// abstract or low-level search? this decision affects the behaviour of ::relaxEdge
-	if(mfrom->getLabelL(kAbstractionLevel) == 0)
+	if(mfrom->getLabelL(kAbstractionLevel) == 0 || 
+			mto->getLabelL(kAbstractionLevel) == 0)
 	{
+		if(verbose)
+			std::cout << "inserting s+g into abstract graph"<<std::endl;
+		aMap->insertStartAndGoalNodesIntoAbstractGraph(mfrom, mto);
+		int mfp = mfrom->getLabelL(kParent);
+		int mtp = mto->getLabelL(kParent);
+		std::cout << "parent ids: "<<mfp<<" "<<mtp<<std::endl;
+
 		graph* g = aMap->getAbstractGraph(1);
 		mfrom = dynamic_cast<MacroNode*>(g->getNode(mfrom->getLabelL(kParent)));
 		mto = dynamic_cast<MacroNode*>(g->getNode(mto->getLabelL(kParent)));
@@ -40,7 +51,9 @@ path* OHAStar::getPath(graphAbstraction *aMap, node *from, node *to, reservation
 	}
 
 	mfrom->setMacroParent(mfrom);
-	path* p = ClusterAStar::getPath(aMap, from, to, rp);	
+	path* p = ClusterAStar::getPath(aMap, mfrom, mto, rp);	
+
+	aMap->removeStartAndGoalNodesFromAbstractGraph();
 	return refinePath(p);
 }
 
@@ -106,30 +119,35 @@ void OHAStar::relaxEdge(heap *openList, graph *g, edge *e, int fromId,
 	}
 
 	// update priority and macro parent if necessary 
-	if(f_to < to->getLabelL(kTemporaryLabel))
+	if(f_to < to->getLabelF(kTemporaryLabel))
 	{
 		if(verbose)
 		{
-			std::cout << " relaxing "<<to->getName()<<" from: "<<from->getName()<< " f(to): "<<f_to;
-			if(!mp)
-				std::cout << " no mp!"<<std::endl;
-			else
-			{
-				double g_mp = mp->getLabelF(kTemporaryLabel) - h(mp, goal); 
-				std::cout << " fmp: "<<mp->getLabelF(kTemporaryLabel)<<" hmp: "<<h(mp, goal);
-				std::cout << " gmp: "<<g_mp<< " h(to, goal): "<<h(to, goal);
-				std::cout << " mp(to) = "<<mp->getName()<<std::endl;
-			}
+			std::cout << "\t\trelaxing "<<to->getName()<<" old priority: ";
+			std::cout << to->getLabelF(kTemporaryLabel)<<" new priority: "<<f_to<<std::endl;
 		}
+		//if(verbose)
+		//{
+		//	std::cout << " relaxing "<<to->getName()<<" from: "<<from->getName()<< " f(to): "<<f_to;
+		//	if(!mp)
+		//		std::cout << " no mp!"<<std::endl;
+		//	else
+		//	{
+		//		double g_mp = mp->getLabelF(kTemporaryLabel) - h(mp, goal); 
+		//		std::cout << " fmp: "<<mp->getLabelF(kTemporaryLabel)<<" hmp: "<<h(mp, goal);
+		//		std::cout << " gmp: "<<g_mp<< " h(to, goal): "<<h(to, goal);
+		//		std::cout << " mp(to) = "<<mp->getName()<<std::endl;
+		//	}
+		//}
 
 		to->setLabelF(kTemporaryLabel, f_to);
 		openList->decreaseKey(to);
 		to->markEdge(e);
 		to->setMacroParent(mp);
 	}
-	else
-		if(verbose)
-			std::cout << " not relaxing!"<<std::endl;
+//	else
+//		if(verbose)
+//			std::cout << " not relaxing!"<<std::endl;
 }
 
 // Extracts the optimal path once the goal is found.
@@ -259,7 +277,7 @@ node* OHAStar::closestNeighbour(node* from, node* to)
 	while(nid != -1)
 	{
 		node* n = g->getNode(nid);
-		double hdist = h(n, to);
+		double hdist = h(from, n) + h(n, to);
 		if(hdist < mindist)
 		{
 			closest = n;

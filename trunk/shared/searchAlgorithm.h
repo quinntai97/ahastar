@@ -39,7 +39,7 @@
 
 class searchAlgorithm {
 public:
-	searchAlgorithm() { nodesExpanded = nodesTouched = 0;}
+	searchAlgorithm() { nodesExpanded = nodesTouched = 0; verbose = 0;}
 	virtual ~searchAlgorithm() {}
 	virtual const char *getName() = 0;
 	virtual path *getPath(graphAbstraction *aMap, node *from, node *to, reservationProvider *rp = 0) = 0;
@@ -50,6 +50,8 @@ public:
 	//protected:
 	long nodesExpanded;
 	long nodesTouched;
+
+	int verbose;
 };
 
 extern void doRandomPath(graphAbstraction *aMap, searchAlgorithm *sa, bool repeat = false);
