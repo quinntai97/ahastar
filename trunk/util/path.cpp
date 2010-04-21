@@ -27,9 +27,11 @@
 #include "path.h"
 #include "constants.h"
 
+int path::ref = 0;
 path::path(node* _n, path* _next) : n(_n), next(_next)
 {
 	//std::cout << "new path()"<<std::endl;
+	ref++;
 }
 
 path::~path() 
@@ -37,6 +39,7 @@ path::~path()
 	//std::cout << "delete path"<<std::endl; 
 	if (next != NULL)
 	   	delete next; 
+	ref--;
 }
 
 // Returns the length of the path -- number of steps
