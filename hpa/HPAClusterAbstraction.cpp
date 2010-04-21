@@ -330,7 +330,7 @@ void HPAClusterAbstraction::openGLDraw()
 	HPACluster *cluster = clusterIterNext(it);
 	while(cluster)
 	{
-//		cluster->openGLDraw();
+		cluster->openGLDraw();
 		cluster = clusterIterNext(it);
 	}
 }

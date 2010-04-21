@@ -66,7 +66,11 @@ void AbstractClusterAStar::printPath(path* p)
 */
 path* ClusterAStar::getPath(graphAbstraction *aMap, node* from, node* to, reservationProvider *rp)
 {
-	if(verbose) std::cout << "getPath()"<<std::endl;
+	if(verbose) 
+	{
+		std::cout << "getPath() mapLevel: ";
+		std::cout <<from->getLabelL(kAbstractionLevel)<<std::endl;
+	}
 	if(!checkParameters(aMap, from, to))
 	{
 		nodesExpanded=0;
@@ -152,7 +156,7 @@ void AbstractClusterAStar::expand(node* current, node* to, heap* openList, std::
 			{	
 				if(evaluate(current, neighbour, e)) 
 				{		
-					if(verbose) std::cout << "\t\trelaxing"<<std::endl;
+				//	if(verbose) std::cout << "\t\trelaxing"<<std::endl;
 					relaxEdge(openList, g, e, current->getNum(), neighbourid, to); 
 					nodesTouched++;
 				}
