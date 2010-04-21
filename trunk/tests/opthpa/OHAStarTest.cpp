@@ -105,6 +105,7 @@ void OHAStarTest::relaxEdgeUpdatesPriorityOfNodeThatHasNoMacroParent()
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("node has wrong macro parent", true, to->getMacroParent() == 0);
 }
 
+// search for a path given two nodes from the abstract graph
 void OHAStarTest::getPathFindsAnOptimalPathInTheAbstractGraph()
 {
 //	std::cout << "getPathFindsAnOptimalPathInTheAbstractGraph"<<std::endl;
@@ -121,13 +122,13 @@ void OHAStarTest::getPathFindsAnOptimalPathInTheAbstractGraph()
 	MacroNode* start  = dynamic_cast<MacroNode*>(g->getNode(st->getLabelL(kParent))); 
 	MacroNode* goal =  dynamic_cast<MacroNode*>(g->getNode(gl->getLabelL(kParent)));
 
-	int expectedNumSteps = 6;
+	int expectedNumSteps = 7;
 	path *p = alg.getPath(&ecmap, start, goal);
 
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("no path returned!", true, p!=0);
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("path has wrong # of steps", expectedNumSteps, (int)p->length());
 
-	double seglengths[5] = {ROOT_TWO+1, 1, ROOT_TWO, ROOT_TWO, ROOT_TWO};
+	double seglengths[6] = {ROOT_TWO, 1, 1, ROOT_TWO, ROOT_TWO, ROOT_TWO};
 	int sli = 0;
 
 	path* tmp = p;
@@ -147,6 +148,7 @@ void OHAStarTest::getPathFindsAnOptimalPathInTheAbstractGraph()
 	delete p;
 }
 
+// search for a path given two nodes from the low-level graph
 void OHAStarTest::getPathFindsAnOptimalPathInTheLowLevelGraph()
 {
 	OHAStar alg;
@@ -161,33 +163,20 @@ void OHAStarTest::getPathFindsAnOptimalPathInTheLowLevelGraph()
 
 	double expectedPathLength = ROOT_TWO*4+2;
 	int expectedNumSteps = 7;
-	//alg.verbose = true;
 	path *p = alg.getPath(&ecmap, start, goal);
-	//alg.printPath(p);
-	//	p->print(true);
 
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("no path returned!", true, p!=0);
-	CPPUNIT_ASSERT_EQUAL_MESSAGE("path has wrong # of steps", expectedNumSteps, (int)p->length());
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("path has wrong # of steps", 
+			expectedNumSteps, (int)p->length());
 
-//	double seglengths[5] = {ROOT_TWO+1, 1, ROOT_TWO, ROOT_TWO, ROOT_TWO};
-//	int sli = 0;
 	double length = 0;
-
 	path* tmp = p;
 	while(tmp)
 	{
 		path* next = tmp->next;
 		if(next)
-		{
 			length += alg.h(tmp->n, next->n);
-
-//			MacroNode* n = dynamic_cast<MacroNode*>(tmp->n);
-//			MacroNode* nextn = dynamic_cast<MacroNode*>(next->n);
-//			CPPUNIT_ASSERT_EQUAL_MESSAGE("path segment has wrong cost", seglengths[sli], 
-//					alg.h(n, nextn));
-		}
 		tmp = next;
-	//	sli++;
 	}
 	delete p;
 
