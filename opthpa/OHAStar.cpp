@@ -52,9 +52,10 @@ path* OHAStar::getPath(graphAbstraction *_aMap, node *from, node *to, reservatio
 
 	mfrom->setMacroParent(mfrom);
 	path* p = ClusterAStar::getPath(aMap, mfrom, mto, rp);	
-
+	p = refinePath(p);
 	aMap->removeStartAndGoalNodesFromAbstractGraph();
-	return refinePath(p);
+
+	return p;
 }
 
 // if ::cardinal == true, edges with non-integer costs will not be evaluated during search.
@@ -226,13 +227,22 @@ path* OHAStar::refinePath(path* _abspath)
 	path* thepath = 0;
 	path* tail = 0;
 	path* abspath = _abspath;
-	
+
 	while(abspath->next)
 	{
+		if(verbose)
+		{
+			std::cout << "refining segment: "<<abspath->n->getName()<<", ";
+			std::cout <<abspath->next->n->getName()<<std::endl;
+		}
+
 		node *fs = aMap->getNodeFromMap(abspath->n->getLabelL(kFirstData), 
 				abspath->n->getLabelL(kFirstData+1));
+		assert(fs);
 		node* fg = aMap->getNodeFromMap(abspath->next->n->getLabelL(kFirstData), 
 				abspath->next->n->getLabelL(kFirstData+1));
+		assert(fg);
+
 
 		path* segment = new path(fs, 0);
 		path* segtail = segment;
@@ -242,7 +252,9 @@ path* OHAStar::refinePath(path* _abspath)
 			segtail->next = new path(n, 0);
 			segtail = segtail->next;
 		}
-
+		if(verbose)
+			std::cout << std::endl;
+			
 		// append segment to refined path
 		if(thepath == 0)
 		{

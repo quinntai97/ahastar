@@ -51,21 +51,31 @@ pRecContext getCurrentContext()
 	return pContextInfo;
 }
 
+void cleanup (void)
+{
+	processStats(pContextInfo->unitLayer->getStats());
+	delete pContextInfo->unitLayer;
+	delete pContextInfo;
+	free(getHome());
+}
+
+
+
 int main(int argc, char** argv)
 {	
 	/* where are we? */
-	char* HOGHOME;
+	char* hh = 0;
 	char* val = getenv("HOGHOME");
 	if(val != NULL)
 	{
-		HOGHOME = (char*)malloc(sizeof(char*)*strlen(val));
-		strcpy(HOGHOME, val);
+		hh = (char*)malloc(sizeof(char*)*strlen(val));
+		strcpy(hh, val);
 	}
 	else 
-		HOGHOME = getcwd(val, PATH_MAX);
+		hh = getcwd(val, PATH_MAX);
 
-	std::cout << "\nHOGHOME: "<<HOGHOME;
-	setHome(HOGHOME);
+	std::cout << "\nHOGHOME";
+	setHome(hh);
 
 	// Init traj global
 	startTrajRecap = false;
@@ -98,12 +108,8 @@ int main(int argc, char** argv)
 	// Initialize the tank model
 	//initTankTextures();
 	
+	atexit (cleanup);
 	glutMainLoop();
-	
-	processStats(pContextInfo->unitLayer->getStats());
-	delete pContextInfo->unitLayer;
-	delete pContextInfo;
-	free(HOGHOME);
 	
 	return 0;
 }

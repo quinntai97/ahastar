@@ -150,6 +150,11 @@ EmptyClusterAbstraction::insertStartAndGoalNodesIntoAbstractGraph(node* s, node*
 	ClusterNode* absStart = dynamic_cast<ClusterNode*>(absg->getNode(s->getLabelL(kParent)));
 	ClusterNode* absGoal = dynamic_cast<ClusterNode*>(absg->getNode(g->getLabelL(kParent)));
 
+	assert(absStart->getLabelL(kFirstData) == s->getLabelL(kFirstData));
+	assert(absStart->getLabelL(kFirstData+1) == s->getLabelL(kFirstData+1));
+	assert(absGoal->getLabelL(kFirstData) == g->getLabelL(kFirstData));
+	assert(absGoal->getLabelL(kFirstData+1) == g->getLabelL(kFirstData+1));
+
 	if(absStart == 0 || absGoal == 0)
 	{
 		throw std::invalid_argument("either start or goal node not inserted into abstract graph");

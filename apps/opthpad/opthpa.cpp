@@ -456,8 +456,8 @@ void myNewUnitKeyHandler(unitSimulation *unitSim, tKeyboardModifier mod, char)
 	unitSim->getRandomLocation(x1, y1);
 	unitSim->getRandomLocation(x2, y2);
 	
-	x2=26; y2=3;
-	x1=58; y1=48;
+	//x2=26; y2=3;
+	//x1=58; y1=48;
 	std::cout << "\n deploying unit to "<<x2<<","<<y2<<" with target at "<<x1<<","<<y1;
 	
 	unitSim->addUnit(targ = new unit(x1, y1));
@@ -466,14 +466,14 @@ void myNewUnitKeyHandler(unitSimulation *unitSim, tKeyboardModifier mod, char)
 	{
 		case kShiftDown: 
 			astar = new OHAStar();
-			astar->verbose = true;
+//			astar->verbose = true;
 			unitSim->addUnit(u=new searchUnit(x2, y2, targ, astar)); 
 			u->setColor(0.3,0.7,0.3);
 			targ->setColor(0.3,0.7,0.3);
 			break;
 		default:
 			astar = new ClusterAStar();
-			astar->verbose = true;
+			//astar->verbose = true;
 			unitSim->addUnit(u=new searchUnit(x2, y2, targ, astar)); 
 			u->setColor(1,1,0);
 			targ->setColor(1,1,0);
