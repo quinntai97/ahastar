@@ -18,7 +18,9 @@ void glutInitWindowSize (int width, int height) {};
 void glutKeyboardFunc (void (*) (unsigned char key, int x, int y)) {};
 void glutMainLoop (void) { 
 	while (1)
+	{
 		renderScene();
+	}
 };
 
 void glutMotionFunc (void (*) (int x, int y)) {};

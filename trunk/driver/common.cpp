@@ -52,9 +52,8 @@ static bool const verbose = false;
 
 char gDefaultMap[1024] = "";
 const recVec gOrigin = { 0.0, 0.0, 0.0 };
+
 char* HOGHOME=0;
-
-
 using namespace std;
 
 static std::vector<commandLineCallbackData *> commandLineCallbacks;

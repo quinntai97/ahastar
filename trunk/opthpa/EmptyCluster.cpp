@@ -313,7 +313,7 @@ void EmptyCluster::initOpenGLCoordinates(HPAClusterAbstraction* aMap)
 void EmptyCluster::openGLDraw()
 {
 //	glColor3f (0.6F, 0.9F, 0.4F);
-	glColor3f (0.4F, 0.6F, 1.0F);
+	glColor3f (0.0F, 0.6F, 0.0F);
 	//glColor3f(0.1, 0.1, 0.7);
 	glLineWidth(3.0f);
 	glBegin(GL_LINE_STRIP);

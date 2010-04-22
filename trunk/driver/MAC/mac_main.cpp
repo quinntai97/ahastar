@@ -2243,6 +2243,8 @@ int main(int argc, char* argv[])
 			window = GetNextWindow(window);
 		}
 	}
+
+	std::cout << "existing macmain"<<std::endl;
 	
 	// Exiting...
 	if (gConfigEDMUPP) { // dispose UPP for DM notifications
