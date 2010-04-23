@@ -78,7 +78,7 @@ void processStats(statCollection *stat)
 
 void processStats(statCollection* stat, const char* unitname)
 {
-	return;
+	std::cout << "processStats?!"<<std::endl;
 	//stat->printStatsTable();
 	std::ostringstream ss;
 	ss << "results";
@@ -93,8 +93,8 @@ void processStats(statCollection* stat, const char* unitname)
 		expId--;
 
 	ss << "_"<<unitname;
-	//std::cout << "exp: "<<expId<<" ";
-	//std::cout << unitname;
+	std::cout << "exp: "<<expId<<" ";
+	std::cout << unitname;
 	FILE *f = fopen(ss.str().c_str(), "a+");
 
 	ne = nt = pm = absne = absnt = abspm = insne = insnt = inspm = 0;
@@ -517,6 +517,8 @@ void runNextExperiment(unitSimulation *unitSim)
 		assert(graph_object::gobjCount == 0);
 		exit(0);
 	}
+	else
+		processStats(unitSim->getStats());
 
 	HPAClusterAbstraction* aMap = dynamic_cast<HPAClusterAbstraction*>(
 			unitSim->getMapAbstraction());
