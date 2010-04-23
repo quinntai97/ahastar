@@ -25,5 +25,6 @@ const string badmap = HOGHOME+"maps/local/demo.map";
 const string emptymap = HOGHOME+"tests/testmaps/emptymap.map";
 const string hpaentrancetest = HOGHOME+"tests/testmaps/hpaentrancetest.map";
 const string hpastartest = HOGHOME+"tests/testmaps/hpastartest.map";
+const string csc2f = HOGHOME+"maps/local/CSC2F.map";
 
 #endif

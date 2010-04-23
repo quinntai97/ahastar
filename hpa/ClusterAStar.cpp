@@ -112,8 +112,12 @@ path* AbstractClusterAStar::search(graph* g, node* from, node* to)
 
 		if(current == to)
 		{
-			if(verbose) printNode(string("goal found! "), current);
 			p = extractBestPath(g, current->getNum());
+			if(verbose)
+			{	
+				printNode(string("goal found! "), current);
+				printPath(p);
+			}
 			break;
 		}
 		
@@ -129,6 +133,7 @@ path* AbstractClusterAStar::search(graph* g, node* from, node* to)
 	searchtime = t.endTimer();
 	delete openList; 
 	closedList.clear();
+
 	return p;	
 }
 
@@ -245,5 +250,5 @@ bool ClusterAStar::checkParameters(graphAbstraction* aMap, node* from, node* to)
 
 void AbstractClusterAStar::printNode(string msg, node* n)
 {	
-		std::cout << msg <<"addr: "<<&(*n)<<" num: "<<n->getUniqueID() <<" ("<<n->getLabelL(kFirstData)<<","<<n->getLabelL(kFirstData+1)<<")"<<std::endl;
+		std::cout << msg <<"addr: "<<&(*n)<<" num: "<<n->getUniqueID() <<" ("<<n->getLabelL(kFirstData)<<","<<n->getLabelL(kFirstData+1)<<") priority: "<<n->getLabelF(kTemporaryLabel)<<std::endl;
 }
