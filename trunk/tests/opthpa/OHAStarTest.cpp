@@ -152,72 +152,46 @@ void OHAStarTest::getPathFindsAnOptimalPathInTheAbstractGraph()
 void OHAStarTest::getPathFindsAnOptimalPathInTheLowLevelGraph()
 {
 	OHAStar alg;
-	EmptyClusterAbstraction ecmap(new Map(hpastartest.c_str()), new EmptyClusterFactory(), 
+	alg.verbose = true;
+	ClusterAStar astar;
+	astar.verbose = true;
+	EmptyClusterAbstraction ecmap(new Map(csc2f.c_str()), new EmptyClusterFactory(), 
 			new MacroNodeFactory(), new EdgeFactory());
 	ecmap.setAllowDiagonals(true);
 	ecmap.buildClusters();
 	ecmap.buildEntrances();
 
-	node* start = ecmap.getNodeFromMap(1,0);
-	node* goal = ecmap.getNodeFromMap(3,4);
+	node* start = ecmap.getNodeFromMap(83, 47);
+	node* goal = ecmap.getNodeFromMap(56, 64);
 
-	double expectedPathLength = ROOT_TWO*4+2;
-	int expectedNumSteps = 7;
 	path *p = alg.getPath(&ecmap, start, goal);
+	path* optp =  astar.getPath(&ecmap, start, goal);
 
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("no path returned!", true, p!=0);
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("path has wrong # of steps", 
-			expectedNumSteps, (int)p->length());
+			(int)optp->length(), (int)p->length());
 
 	double length = 0;
 	path* tmp = p;
-	while(tmp)
+	while(tmp->next)
 	{
-		path* next = tmp->next;
-		if(next)
-			length += alg.h(tmp->n, next->n);
-		tmp = next;
+		length += alg.h(tmp->n, tmp->next->n);
+		tmp = tmp->next;
 	}
 	delete p;
 
-	CPPUNIT_ASSERT_EQUAL_MESSAGE("path length oncorrect: ", expectedPathLength, length);
-}
-
-void OHAStarTest::extractBestPathWorksAsAdvertisedWhenPredecessorOfGoalIsItsMacroParent()
-{
-	CPPUNIT_ASSERT_EQUAL_MESSAGE("implement me", true, false);
-
-	OHAStar alg;
-	EmptyClusterAbstraction ecmap(new Map(hpastartest.c_str()), new EmptyClusterFactory(), 
-			new MacroNodeFactory(), new EdgeFactory());
-	ecmap.buildClusters();
-
-	heap openlist;
-	MacroNode* start  = dynamic_cast<MacroNode*>(ecmap.getNodeFromMap(2, 0));
-	MacroNode* goal =  dynamic_cast<MacroNode*>(ecmap.getNodeFromMap(3, 4));
-	int expectedNumSteps = 5;
-
-	path *p = alg.getPath(&ecmap, start, goal);
-
-	CPPUNIT_ASSERT_EQUAL_MESSAGE("path has wrong # of steps", expectedNumSteps, (int)p->length());
-
-	double seglengths[5] = {ROOT_TWO+1, 1, ROOT_TWO+1, ROOT_TWO+1, ROOT_TWO+1};
-	int sli = 0;
-
-	path* tmp = p;
-	while(tmp)
+	double optlen=0;
+	tmp = optp;
+	while(tmp->next)
 	{
-		path* next = tmp->next;
-		if(next)
-		{
-			MacroNode* n = dynamic_cast<MacroNode*>(tmp->n);
-			MacroNode* nextn = dynamic_cast<MacroNode*>(next->n);
-			CPPUNIT_ASSERT_EQUAL_MESSAGE("path segment has wrong cost", seglengths[sli], 
-					alg.h(n, nextn));
-		}
-		tmp = next;
-		sli++;
+		optlen += alg.h(tmp->n, tmp->next->n);
+		tmp = tmp->next;
 	}
+	delete optp;
+
+	std::cout << "optlen: "<<optlen<<" oha*: "<<length<<std::endl;
+
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("path length incorrect: ", optlen, length);
 }
 
 void OHAStarTest::refinePathWorksAsAdvertised()

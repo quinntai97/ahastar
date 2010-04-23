@@ -6,6 +6,7 @@
 #include "EmptyClusterAbstraction.h"
 #include "map.h"
 #include "MacroNode.h"
+#include "timer.h"
 
 OHAStar::OHAStar()
 {
@@ -20,6 +21,9 @@ OHAStar::~OHAStar()
 // fail otherwise?.
 path* OHAStar::getPath(graphAbstraction *_aMap, node *from, node *to, reservationProvider *rp)
 {
+	Timer t;
+	t.startTimer();
+
 	EmptyClusterAbstraction *aMap = dynamic_cast<EmptyClusterAbstraction*>(_aMap);
 	assert(aMap);
 	MacroNode* mfrom = dynamic_cast<MacroNode*>(from);
@@ -51,9 +55,17 @@ path* OHAStar::getPath(graphAbstraction *_aMap, node *from, node *to, reservatio
 	}
 
 	mfrom->setMacroParent(mfrom);
+	double insertTime = t.endTimer();
+
 	path* p = ClusterAStar::getPath(aMap, mfrom, mto, rp);	
+
+	t.startTimer();
+
 	p = refinePath(p);
 	aMap->removeStartAndGoalNodesFromAbstractGraph();
+
+	double refineTime = t.endTimer();
+	searchtime+=insertTime + refineTime;
 
 	return p;
 }

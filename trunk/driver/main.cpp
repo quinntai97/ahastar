@@ -53,7 +53,6 @@ pRecContext getCurrentContext()
 
 void cleanup (void)
 {
-	processStats(pContextInfo->unitLayer->getStats());
 	delete pContextInfo->unitLayer;
 	delete pContextInfo;
 	free(getHome());

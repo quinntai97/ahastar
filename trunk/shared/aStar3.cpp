@@ -140,7 +140,7 @@ void aStarOld::relaxEdge(heap *nodeHeap, graph *g, edge *e, int source, int next
 	if (fless(weight, to->getLabelF(kTemporaryLabel)))
 	{
 		if (verbose)
-			printf("Updating %s to %1.2f from %1.2f\n", to->getName(), weight, to->getLabelF(kTemporaryLabel));
+			printf("Updating %s  (%d) to %1.4f from %1.4f\n", to->getName(), to->getNum(), weight, to->getLabelF(kTemporaryLabel));
 		to->setLabelF(kTemporaryLabel, weight);
 		nodeHeap->decreaseKey(to); // move the node up in priority
 		to->markEdge(e); // this is the edge used to get to this node in the min. path tree

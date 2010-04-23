@@ -78,7 +78,6 @@ void processStats(statCollection *stat)
 
 void processStats(statCollection* stat, const char* unitname)
 {
-	std::cout << "processStats?!"<<std::endl;
 	//stat->printStatsTable();
 	std::ostringstream ss;
 	ss << "results";
@@ -125,36 +124,10 @@ void processStats(statCollection* stat, const char* unitname)
 	st = val.fval;
 	fprintf(f, "%.8f,\t", st);
 	
-	if(strcmp(unitname, "OHAStar") == 0)
-	{
-		exists = stat->lookupStat("insNodesExpanded", unitname, val);
-		assert(exists);
-		insne = val.lval;
-		fprintf(f, "%i,\t", insne);
+	exists = stat->lookupStat("distanceMoved", unitname, val);
+	assert(exists);
+	pathdist = val.fval;
 
-		exists = stat->lookupStat("insNodesTouched", unitname, val);
-		assert(exists);
-		insnt = val.lval;
-		fprintf(f, "%i,\t", insnt);
-		
-		exists = stat->lookupStat("insPeakMemory", unitname, val);
-		assert(exists);
-		inspm = val.lval;
-		fprintf(f, "%i,\t", inspm);
-				
-		exists = stat->lookupStat("insSearchTime", unitname, val);
-		assert(exists);
-		insst = val.fval;
-		fprintf(f, "%.8f,\t", insst);
-
-	}
-	
-	if(!hog_gui)
-	{
-		exists = stat->lookupStat("distanceMoved", unitname, val);
-		assert(exists);
-		pathdist = val.fval;
-	}
 	fprintf(f, "%.3f,\t", pathdist);	
 	fprintf(f, "%s\n", gDefaultMap);	
 
@@ -510,15 +483,13 @@ bool myClickHandler(unitSimulation *unitSim, int, int, point3d loc, tButtonType 
 
 void runNextExperiment(unitSimulation *unitSim)
 {	
+	processStats(unitSim->getStats());
 	if(expnum == scenariomgr.getNumExperiments()) 
 	{
-		processStats(unitSim->getStats());
 		delete unitSim;	
 		assert(graph_object::gobjCount == 0);
 		exit(0);
 	}
-	else
-		processStats(unitSim->getStats());
 
 	HPAClusterAbstraction* aMap = dynamic_cast<HPAClusterAbstraction*>(
 			unitSim->getMapAbstraction());
