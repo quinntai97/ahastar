@@ -258,8 +258,24 @@ void AbstractClusterAStar::printNode(string msg, node* n, node* goal)
 	std::cout <<" ("<<n->getLabelL(kFirstData)<<","<<n->getLabelL(kFirstData+1)<<") ";
 
 	if(dynamic_cast<MacroNode*>(n))
-		if(dynamic_cast<MacroNode*>(n)->getMacroParent())
+	{
+		MacroNode* mp = dynamic_cast<MacroNode*>(n)->getMacroParent();
+		if(mp && mp->getNum() != n->getNum())
+		{
 			std::cout << " mp: "<<dynamic_cast<MacroNode*>(n)->getMacroParent()->getName()<<" ";
+		}
+		else
+		{
+			if(n->getMarkedEdge())
+			{
+				graph* g =  getGraphAbstraction()->getAbstractGraph(n->getLabelL(kAbstractionLevel));
+				edge* e = n->getMarkedEdge();
+				int parentId = e->getTo() == n->getNum()?e->getFrom():e->getTo();
+				node* parent = g->getNode(parentId);
+				std::cout << " p: ("<<parent->getLabelL(kFirstData)<<", "<<parent->getLabelL(kFirstData+1)<<") ";
+			}
+		}
+	}
 
 	if(goal)
 	{
@@ -267,6 +283,4 @@ void AbstractClusterAStar::printNode(string msg, node* n, node* goal)
 		double gcost = n->getLabelF(kTemporaryLabel) - hcost;
 		std::cout << " f: "<<gcost+hcost<<" g: "<<gcost<<" h: "<<hcost<<std::endl;
 	}
-
-
 }
