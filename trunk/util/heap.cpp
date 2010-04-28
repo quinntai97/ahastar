@@ -23,6 +23,7 @@
 #include <iostream>
 #include "fpUtil.h"
 #include "heap.h"
+#include "aStar3.h"
 
 heap::heap(int s)
 {
@@ -56,6 +57,11 @@ void heap::add(graph_object *val)
 void heap::decreaseKey(graph_object *val)
 {
   heapifyUp(val->key);
+}
+
+void heap::decreaseKey_wrt_Goal(graph_object *val, aStarOld* astar, node* goal)
+{
+	heapifyUp_wrt_Goal(val->key, astar, goal);
 }
 
 /**
@@ -107,6 +113,45 @@ void heap::heapifyUp(int index)
     _elts[parent]->key = parent;
     _elts[index]->key = index;
     heapifyUp(parent);
+  }
+}
+
+void heap::heapifyUp_wrt_Goal(int index, aStarOld* astar, node* goal)
+{
+  if (index == 0) return;
+  int parent = (index-1)/2;
+
+  if (fgreater(_elts[parent]->getKey(), _elts[index]->getKey()))
+	{
+    graph_object *tmp = _elts[parent];
+    _elts[parent] = _elts[index];
+    _elts[index] = tmp;
+    _elts[parent]->key = parent;
+    _elts[index]->key = index;
+    heapifyUp_wrt_Goal(parent, astar, goal);
+	return;
+  }
+
+  if(fequal(_elts[parent]->getKey(), _elts[index]->getKey()))
+  {
+	node* p = dynamic_cast<node*>(_elts[parent]);
+	node* i = dynamic_cast<node*>(_elts[index]);
+
+	if(p && i)
+	{
+		double gcost_p = p->getLabelF(kTemporaryLabel) - astar->h(p, goal);	
+		double gcost_i = i->getLabelF(kTemporaryLabel) - astar->h(i, goal);
+
+		if(fgreater(gcost_p, gcost_i))
+		{
+			graph_object *tmp = _elts[parent];
+			_elts[parent] = _elts[index];
+			_elts[index] = tmp;
+			_elts[parent]->key = parent;
+			_elts[index]->key = index;
+			heapifyUp_wrt_Goal(parent, astar, goal);
+		}
+	}
   }
 }
 

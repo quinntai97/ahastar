@@ -15,6 +15,7 @@
 #include "ClusterAStar.h"
 #include "ClusterNode.h"
 #include "mapAbstraction.h"
+#include "MacroNode.h"
 #include "timer.h"
 #include "heap.h"
 #include "graph.h"
@@ -134,12 +135,15 @@ path* AbstractClusterAStar::search(graph* g, node* from, node* to)
 	delete openList; 
 	closedList.clear();
 
+	if(verbose)
+		printPath(p);
+
 	return p;	
 }
 
 void AbstractClusterAStar::expand(node* current, node* to, heap* openList, std::map<int, node*>& closedList, graph* g)
 {
-	if(verbose) printNode(string("expanding... "), current);
+	if(verbose) printNode(string("expanding... "), current, to);
 	nodesExpanded++;
 
 	/* evaluate each neighbour of the newly opened node */
@@ -152,7 +156,7 @@ void AbstractClusterAStar::expand(node* current, node* to, heap* openList, std::
 		node* neighbour = g->getNode(neighbourid);
 
 		
-		if(verbose) printNode(string("\tneighbour... "), neighbour);
+//		if(verbose) printNode(string("\tneighbour... "), neighbour);
 		if(closedList.find(neighbour->getUniqueID()) == closedList.end()) // ignore nodes on the closed list
 		{
 			// if a node on the openlist is reachable via this new edge, 
@@ -170,7 +174,7 @@ void AbstractClusterAStar::expand(node* current, node* to, heap* openList, std::
 			{
 				if(evaluate(current, neighbour, e)) 
 				{
-					if(verbose) std::cout << "\t\tadding to open list"<<std::endl;
+					//if(verbose) std::cout << "\t\tadding to open list"<<std::endl;
 					neighbour->setLabelF(kTemporaryLabel, MAXINT); // initial fCost = inifinity
 					neighbour->setKeyLabel(kTemporaryLabel); // an initial key value for prioritisation in the openlist
 					neighbour->markEdge(0);  // reset any marked edges (we use marked edges to backtrack over optimal path when goal is found)
@@ -182,15 +186,15 @@ void AbstractClusterAStar::expand(node* current, node* to, heap* openList, std::
 			if(markForVis)
 				neighbour->drawColor = 1; // visualise touched
 		}
-		else
-			if(verbose) std::cout << "\t\tclosed!"<<std::endl;
+		//else
+			//if(verbose) std::cout << "\t\tclosed!"<<std::endl;
 		e = current->edgeIterNext(ei);
 	}
 		
 	if(markForVis)
 		current->drawColor = 2; // visualise expanded
 
-	if(verbose) printNode(string("closing... "), current);
+	//if(verbose) printNode(string("closing... "), current);
 	closedList[current->getUniqueID()] = current;	
 }
 
@@ -248,7 +252,21 @@ bool ClusterAStar::checkParameters(graphAbstraction* aMap, node* from, node* to)
 	return true;
 }
 
-void AbstractClusterAStar::printNode(string msg, node* n)
+void AbstractClusterAStar::printNode(string msg, node* n, node* goal)
 {	
-		std::cout << msg <<"addr: "<<&(*n)<<" num: "<<n->getUniqueID() <<" ("<<n->getLabelL(kFirstData)<<","<<n->getLabelL(kFirstData+1)<<") priority: "<<n->getLabelF(kTemporaryLabel)<<std::endl;
+	std::cout << msg <<"addr: "<<&(*n)<<" num: "<<n->getUniqueID();
+	std::cout <<" ("<<n->getLabelL(kFirstData)<<","<<n->getLabelL(kFirstData+1)<<") ";
+
+	if(dynamic_cast<MacroNode*>(n))
+		if(dynamic_cast<MacroNode*>(n)->getMacroParent())
+			std::cout << " mp: "<<dynamic_cast<MacroNode*>(n)->getMacroParent()->getName()<<" ";
+
+	if(goal)
+	{
+		double hcost = h(n, goal);
+		double gcost = n->getLabelF(kTemporaryLabel) - hcost;
+		std::cout << " f: "<<gcost+hcost<<" g: "<<gcost<<" h: "<<hcost<<std::endl;
+	}
+
+
 }

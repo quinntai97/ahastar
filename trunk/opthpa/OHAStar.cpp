@@ -5,6 +5,7 @@
 #include "mapAbstraction.h"
 #include "EmptyClusterAbstraction.h"
 #include "map.h"
+#include "MacroEdge.h"
 #include "MacroNode.h"
 #include "timer.h"
 
@@ -72,16 +73,29 @@ path* OHAStar::getPath(graphAbstraction *_aMap, node *from, node *to, reservatio
 
 // if ::cardinal == true, edges with non-integer costs will not be evaluated during search.
 // i.e. we pretend the graph has no diagonal edges (characteristic of a 4-connected graph).
-bool OHAStar::evaluate(node* current, node* target, edge* e)
+bool OHAStar::evaluate(node* _current, node* _target, edge* e)
 {
+	MacroNode* current = dynamic_cast<MacroNode*>(_current);;
+	MacroNode* target = dynamic_cast<MacroNode*>(_target);;
+
 	bool retVal = ClusterAStar::evaluate(current, target, e);
+
 	if(cardinal)
 	{
 		if(e->getWeight() != (int)e->getWeight())
-			retVal = false;
+			return false;
 		if(e->getWeight() > 2 && !retVal)
 			std::cerr << "found a macro edge with non-integer costs! wtf?";
 	}
+
+	if(dynamic_cast<MacroEdge*>(e))
+	{
+		if(&*current->getMacroParent() == &*current )
+			retVal = true;
+		else
+			retVal = false;		
+	}
+
 	return retVal;
 }
 
@@ -134,11 +148,12 @@ void OHAStar::relaxEdge(heap *openList, graph *g, edge *e, int fromId,
 	// update priority and macro parent if necessary 
 	if(f_to < to->getLabelF(kTemporaryLabel))
 	{
-		if(verbose)
-		{
-			std::cout << "\t\trelaxing "<<to->getName()<<" old priority: ";
-			std::cout << to->getLabelF(kTemporaryLabel)<<" new priority: "<<f_to<<std::endl;
-		}
+		//if(verbose)
+		//{
+		//	std::cout << "\t\trelaxing "<<to->getName()<<" old priority: ";
+		//	std::cout << to->getLabelF(kTemporaryLabel)<<" new priority: "<<f_to;
+		//	std::cout << " g: "<<f_to-h(to, goal)<<" h: "<<h(to, goal)<<std::endl;
+		//}
 		//if(verbose)
 		//{
 		//	std::cout << " relaxing "<<to->getName()<<" from: "<<from->getName()<< " f(to): "<<f_to;
