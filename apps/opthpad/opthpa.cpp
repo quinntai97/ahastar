@@ -431,6 +431,7 @@ void myNewUnitKeyHandler(unitSimulation *unitSim, tKeyboardModifier mod, char)
 	
 	//x2=26; y2=3;
 	//x1=58; y1=48;
+	std::cout << "\nwtf?!?!\n";
 	std::cout << "\n deploying unit to "<<x2<<","<<y2<<" with target at "<<x1<<","<<y1;
 	
 	unitSim->addUnit(targ = new unit(x1, y1));
@@ -439,14 +440,14 @@ void myNewUnitKeyHandler(unitSimulation *unitSim, tKeyboardModifier mod, char)
 	{
 		case kShiftDown: 
 			astar = new OHAStar();
-//			astar->verbose = true;
+			astar->verbose = true;
 			unitSim->addUnit(u=new searchUnit(x2, y2, targ, astar)); 
 			u->setColor(0.3,0.7,0.3);
 			targ->setColor(0.3,0.7,0.3);
 			break;
 		default:
 			astar = new ClusterAStar();
-			//astar->verbose = true;
+			astar->verbose = true;
 			unitSim->addUnit(u=new searchUnit(x2, y2, targ, astar)); 
 			u->setColor(1,1,0);
 			targ->setColor(1,1,0);
@@ -486,8 +487,6 @@ void runNextExperiment(unitSimulation *unitSim)
 	processStats(unitSim->getStats());
 	if(expnum == scenariomgr.getNumExperiments()) 
 	{
-		delete unitSim;	
-		assert(graph_object::gobjCount == 0);
 		exit(0);
 	}
 
@@ -503,6 +502,7 @@ void runNextExperiment(unitSimulation *unitSim)
 	if(runAStar)
 	{
 		OHAStar* hpastar = new OHAStar();
+		hpastar->verbose = true;
 		nextUnit = new searchUnit(nextExperiment->getStartX(), nextExperiment->getStartY(), nextTarget, hpastar); 
 		nextUnit->setColor(0.1,0.1,0.5);
 		nextTarget->setColor(0.1,0.1,0.5);
@@ -513,6 +513,7 @@ void runNextExperiment(unitSimulation *unitSim)
 	else
 	{
 		ClusterAStar* astar = new ClusterAStar();
+		astar->verbose = true;
 		nextUnit = new searchUnit(nextExperiment->getStartX(), nextExperiment->getStartY(), nextTarget, astar); 
 		nextUnit->setColor(0.5,0.1,0.1);
 		nextTarget->setColor(0.5,0.1,0.1);

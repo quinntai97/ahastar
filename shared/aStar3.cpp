@@ -175,7 +175,6 @@ path *aStarOld::extractBestPath(graph *g, unsigned int current)
 // euclidean distance on octile grids
 double aStarOld::h(node* a, node*b) throw(std::invalid_argument)
 {
-
 	if(a == NULL || b == NULL) 
 		throw std::invalid_argument("null node");
 

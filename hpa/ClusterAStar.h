@@ -52,7 +52,7 @@ class AbstractClusterAStar : public aStarOld
 		//bool verbose;
 
 	protected:
-		void printNode(std::string msg, node* n);
+		void printNode(std::string msg, node* n, node* goal=0);
 		bool isInCorridor(node* n);
 		virtual void expand(node* current, node* to, heap* openList, std::map<int, node*>& closedList, graph* g);
 		virtual bool evaluate(node* current, node* target, edge* e) = 0; 

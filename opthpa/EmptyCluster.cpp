@@ -2,6 +2,7 @@
 
 #include "ClusterNode.h"
 #include "HPAClusterAbstraction.h"
+#include "MacroEdge.h"
 #include "map.h"
 
 const int DUMMYDIMENSION = 10; // pass this to keep HPACluster constructor happy
@@ -170,7 +171,7 @@ void EmptyCluster::addMacroEdges(HPAClusterAbstraction *aMap)
 			edge* e = absg->findEdge(left->getNum(), right->getNum());
 			if(e == 0)
 			{
-				e = new edge(left->getNum(), right->getNum(), aMap->h(left, right));
+				e = new MacroEdge(left->getNum(), right->getNum(), aMap->h(left, right));
 				absg->addEdge(e);
 				macro++;
 				if(getVerbose())
@@ -194,7 +195,7 @@ void EmptyCluster::addMacroEdges(HPAClusterAbstraction *aMap)
 			edge* e = absg->findEdge(top->getNum(), bottom->getNum());
 			if(e == 0)
 			{
-				e = new edge(top->getNum(), bottom->getNum(), aMap->h(top, bottom));
+				e = new MacroEdge(top->getNum(), bottom->getNum(), aMap->h(top, bottom));
 				absg->addEdge(e);
 				macro++;
 				if(getVerbose())
