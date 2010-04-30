@@ -145,15 +145,16 @@ void OHAStar::relaxEdge(heap *openList, graph *g, edge *e, int fromId,
 		}
 	}
 
+		if(verbose)
+		{
+			std::cout << "\t\trelaxing "<<to->getName()<<" old priority: ";
+			std::cout << to->getLabelF(kTemporaryLabel)<<" new priority: "<<f_to;
+			std::cout << " g: "<<f_to-h(to, goal)<<" h: "<<h(to, goal)<<std::endl;
+		}
+
 	// update priority and macro parent if necessary 
 	if(f_to < to->getLabelF(kTemporaryLabel))
 	{
-		//if(verbose)
-		//{
-		//	std::cout << "\t\trelaxing "<<to->getName()<<" old priority: ";
-		//	std::cout << to->getLabelF(kTemporaryLabel)<<" new priority: "<<f_to;
-		//	std::cout << " g: "<<f_to-h(to, goal)<<" h: "<<h(to, goal)<<std::endl;
-		//}
 		//if(verbose)
 		//{
 		//	std::cout << " relaxing "<<to->getName()<<" from: "<<from->getName()<< " f(to): "<<f_to;
