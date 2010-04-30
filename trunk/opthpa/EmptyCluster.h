@@ -26,6 +26,7 @@
 
 #include "HPACluster.h"
 
+class graph;
 class HPAClusterAbstraction;
 
 class EmptyCluster : public HPACluster
@@ -64,6 +65,7 @@ class EmptyCluster : public HPACluster
 		void extend(HPAClusterAbstraction*, int** clearance);
 		void frameCluster(HPAClusterAbstraction*);
 		void addMacroEdges(HPAClusterAbstraction *aMap);
+		void addSingleMacroEdge(node* from, node* to, double weight, graph* absg);
 		
 		GLdouble glx, gly, glz;  // OpenGL origin coordinates
 		GLdouble glHeight, glWidth;

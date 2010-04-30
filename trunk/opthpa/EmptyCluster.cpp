@@ -167,16 +167,22 @@ void EmptyCluster::addMacroEdges(HPAClusterAbstraction *aMap)
 					aMap->getNodeFromMap(lx, y)->getLabelL(kParent));
 			node *right = absg->getNode(
 					aMap->getNodeFromMap(rx, y)->getLabelL(kParent));
+			addSingleMacroEdge(left, right, aMap->h(left, right), absg);
 
-			edge* e = absg->findEdge(left->getNum(), right->getNum());
-			if(e == 0)
+			if(getAllowDiagonals())
 			{
-				e = new MacroEdge(left->getNum(), right->getNum(), aMap->h(left, right));
-				absg->addEdge(e);
-				macro++;
-				if(getVerbose())
-					std::cout << "[("<<lx<<", "<<y<<") <-> ("<<rx<<", "<<y<<")] ";
-
+				if(y>this->getVOrigin())
+				{
+					right = absg->getNode(
+						aMap->getNodeFromMap(rx, y-1)->getLabelL(kParent));
+					addSingleMacroEdge(left, right, aMap->h(left, right), absg);
+				}
+				if(y<this->getVOrigin()+this->getHeight()-1)
+				{
+					right = absg->getNode(
+						aMap->getNodeFromMap(rx, y+1)->getLabelL(kParent));
+					addSingleMacroEdge(left, right, aMap->h(left, right), absg);
+				}
 			}
 		}
 	}
@@ -191,21 +197,48 @@ void EmptyCluster::addMacroEdges(HPAClusterAbstraction *aMap)
 					aMap->getNodeFromMap(x, ty)->getLabelL(kParent));
 			node *bottom = absg->getNode(
 					aMap->getNodeFromMap(x, by)->getLabelL(kParent));
-			
-			edge* e = absg->findEdge(top->getNum(), bottom->getNum());
-			if(e == 0)
+			addSingleMacroEdge(top, bottom, aMap->h(top, bottom), absg);
+
+			if(getAllowDiagonals())
 			{
-				e = new MacroEdge(top->getNum(), bottom->getNum(), aMap->h(top, bottom));
-				absg->addEdge(e);
-				macro++;
-				if(getVerbose())
-					std::cout << "[("<<x<<", "<<ty<<") <-> ("<<x<<", "<<by<<")] ";
+				if(x>this->getHOrigin())
+				{
+					bottom = absg->getNode(
+						aMap->getNodeFromMap(x-1, by)->getLabelL(kParent));
+					addSingleMacroEdge(top, bottom, aMap->h(top, bottom), absg);
+				}
+				if(x<this->getHOrigin()+this->getWidth()-1)
+				{
+					bottom = absg->getNode(
+						aMap->getNodeFromMap(x+1, by)->getLabelL(kParent));
+					addSingleMacroEdge(top, bottom, aMap->h(top, bottom), absg);
+				}
 			}
 		}
 	}
 
 	if(getVerbose())
 		std::cout << macro << " macro edges added for cluster "<<getId()<<std::endl;
+}
+
+void EmptyCluster::addSingleMacroEdge(node* from, node* to, double weight, graph* absg)
+{
+			edge* e = absg->findEdge(from->getNum(), to->getNum());
+			if(e == 0)
+			{
+				e = new MacroEdge(from->getNum(), to->getNum(), weight);
+				absg->addEdge(e);
+				macro++;
+				if(getVerbose())
+				{
+					std::cout << "[("<<from->getLabelL(kFirstData)<<", ";
+					std::cout <<from->getLabelL(kFirstData+1)<<") <-> (";
+					std::cout << to->getLabelL(kFirstData);
+					std::cout << to->getLabelL(kFirstData+1);
+					std::cout <<")] ";
+				}
+			}
+	
 }
 
 void EmptyCluster::extend(HPAClusterAbstraction* aMap)
@@ -336,7 +369,7 @@ void EmptyCluster::connectParent(node*, HPAClusterAbstraction*)
 // and an abstract edge is added for each (straight) edge in the entrance area 
 // connecting the two clusters.
 //
-// if 'allowDiagonals' is set we also add an abstract edge for each diagonal
+// if 'getAllowDiagonals()' is set we also add an abstract edge for each diagonal
 // edge in the entrance area between the two clusters
 void EmptyCluster::processHorizontalEntrance(
 		HPAClusterAbstraction* hpamap, int x, int y, int length)
@@ -418,7 +451,7 @@ void EmptyCluster::buildHorizontalEntrances(HPAClusterAbstraction* hpamap)
 // further, each (straight) edge in the entrance area, connecting the two
 // adjacent clusters, is represented by a node in the abstract graph.
 //
-// if 'allowDiagonals' is true, every diagonal edge connecting the two
+// if 'getAllowDiagonals()' is true, every diagonal edge connecting the two
 // adjacent clusters is represented by an edge in the abstract graph.
 void EmptyCluster::processVerticalEntrance(
 		HPAClusterAbstraction* hpamap, int x, int y, int length)
