@@ -17,7 +17,7 @@
 #include "mapAbstraction.h"
 #include "MacroNode.h"
 #include "timer.h"
-#include "heap.h"
+#include "altheap.h"
 #include "graph.h"
 
 #include <sstream>
@@ -95,9 +95,10 @@ path* AbstractClusterAStar::search(graph* g, node* from, node* to)
 
 	// label start node cost 0 
 	from->setLabelF(kTemporaryLabel, h(from, to));
+	//from->setLabelF(kTemporaryLabel, 0);
 	from->markEdge(0);
 	
-	heap* openList = new heap(30);
+	altheap* openList = new altheap(to, 30);
 	std::map<int, node*> closedList;
 	
 	openList->add(from);
@@ -117,7 +118,6 @@ path* AbstractClusterAStar::search(graph* g, node* from, node* to)
 			if(verbose)
 			{	
 				printNode(string("goal found! "), current);
-				printPath(p);
 			}
 			break;
 		}
@@ -136,7 +136,10 @@ path* AbstractClusterAStar::search(graph* g, node* from, node* to)
 	closedList.clear();
 
 	if(verbose)
+	{
+		std::cout << "\n";
 		printPath(p);
+	}
 
 	return p;	
 }
@@ -186,8 +189,26 @@ void AbstractClusterAStar::expand(node* current, node* to, heap* openList, std::
 			if(markForVis)
 				neighbour->drawColor = 1; // visualise touched
 		}
-		//else
+		else
+		{
 			//if(verbose) std::cout << "\t\tclosed!"<<std::endl;
+			double fcost = neighbour->getLabelF(kTemporaryLabel);
+
+			// alternate fcost
+			double hcost = h(neighbour, to);
+			double gcost = current->getLabelF(kTemporaryLabel) - h(current, to);
+
+			if((gcost + e->getWeight() + hcost) < fcost)
+			{
+				std::cout << "node "<<neighbour->getName()<<" expanded out of order! ";
+				std::cout << " fClosed = "<<fcost << " fActual: "<<gcost + e->getWeight() + hcost;
+				printNode("\nfaulty node: ", neighbour, to); 
+				std::cout << std::endl;
+				printNode(" alt parent: ", current, to);
+				std::cout << std::endl;
+			}
+
+		}
 		e = current->edgeIterNext(ei);
 	}
 		
@@ -264,8 +285,8 @@ void AbstractClusterAStar::printNode(string msg, node* n, node* goal)
 		{
 			std::cout << " mp: "<<dynamic_cast<MacroNode*>(n)->getMacroParent()->getName()<<" ";
 		}
-		else
-		{
+//		else
+//		{
 			if(n->getMarkedEdge())
 			{
 				graph* g =  getGraphAbstraction()->getAbstractGraph(n->getLabelL(kAbstractionLevel));
@@ -274,12 +295,13 @@ void AbstractClusterAStar::printNode(string msg, node* n, node* goal)
 				node* parent = g->getNode(parentId);
 				std::cout << " p: ("<<parent->getLabelL(kFirstData)<<", "<<parent->getLabelL(kFirstData+1)<<") ";
 			}
-		}
+//		}
 	}
 
 	if(goal)
 	{
 		double hcost = h(n, goal);
+		//double hcost = 0; 
 		double gcost = n->getLabelF(kTemporaryLabel) - hcost;
 		std::cout << " f: "<<gcost+hcost<<" g: "<<gcost<<" h: "<<hcost<<std::endl;
 	}

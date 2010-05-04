@@ -41,13 +41,15 @@ public:
 	unsigned int size();
   void add(graph_object *val);
   void decreaseKey(graph_object *val);
-  void decreaseKey_wrt_Goal(graph_object *val, aStarOld* astar, node* goal);
   bool isIn(graph_object *val);
   graph_object *remove();
   bool empty();
+
+  // returns true if (priority of) first >= second; else false
+  virtual bool rotate(graph_object* first, graph_object* second);
+
 private:
   void heapifyUp(int index);
-  void heapifyUp_wrt_Goal(int index, aStarOld* astar, node* goal);
   void heapifyDown(int index);
   std::vector<graph_object *> _elts;
   int count;

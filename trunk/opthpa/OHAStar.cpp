@@ -88,13 +88,36 @@ bool OHAStar::evaluate(node* _current, node* _target, edge* e)
 			std::cerr << "found a macro edge with non-integer costs! wtf?";
 	}
 
+	if(e->getWeight() > 1.5)
+	{
+		if(verbose)
+		{
+	//		std::cout << "e is macro...";
+
+		}
+	}
+
 	if(dynamic_cast<MacroEdge*>(e))
 	{
+	//	if(verbose)
+	//		std::cout << " dynamic cast successful... ";
+
 		if(&*current->getMacroParent() == &*current )
+		{
 			retVal = true;
+	//		if(verbose)
+	//			std::cout << " node is mp. return true"<<std::endl;
+		}
 		else
+		{
 			retVal = false;		
+	//		if(verbose)
+	//			std::cout<<" node is not mp. return false"<<std::endl;
+		}
 	}
+	//else
+	//	if(e->getWeight() > 1.5 && verbose)
+	//		std::cout << " dynamic cast failed. "<<std::endl;
 
 	return retVal;
 }
@@ -129,6 +152,8 @@ void OHAStar::relaxEdge(heap *openList, graph *g, edge *e, int fromId,
 	{
 		double g_from = from->getLabelF(kTemporaryLabel) - h(from, goal);
 		f_to = g_from + e->getWeight() + h(to, goal);
+		//double g_from = from->getLabelF(kTemporaryLabel) ;
+		//f_to = g_from + e->getWeight() ;
 	}
 	else
 	{
@@ -136,25 +161,41 @@ void OHAStar::relaxEdge(heap *openList, graph *g, edge *e, int fromId,
 		{
 			double g_mp = mp->getLabelF(kTemporaryLabel) - h(mp, goal); 
 			f_to = g_mp + h(mp, to)  + h(to, goal); // NB: h(mp, to) is exact
+			//double g_mp = mp->getLabelF(kTemporaryLabel) ; 
+			//f_to = g_mp + h(mp, to)  ; // NB: h(mp, to) is exact
 		}
 		else
 		{
 			mp = to;
 			double g_from = from->getLabelF(kTemporaryLabel) - h(from, goal);
 			f_to = g_from + e->getWeight() + h(to, goal);
+			//double g_from = from->getLabelF(kTemporaryLabel) ;
+			//f_to = g_from + e->getWeight() ;
 		}
 	}
 
+
+	// minimise number of macro parents
+	if(f_to == to->getLabelF(kTemporaryLabel) && &*to->getMacroParent() == &*to)
+	{
+		//if(verbose)
+		//{
+		//	std::cout << "revoking macro parent status of "<<to->getName();
+		//	std::cout << "new parent: "<<from->getName();
+		//}
+		if(mp->getParentClusterId() == to->getParentClusterId())
+			to->setMacroParent(mp);
+	}
+
+	// update priority and macro parent if necessary 
+	if(f_to < to->getLabelF(kTemporaryLabel))
+	{
 		if(verbose)
 		{
 			std::cout << "\t\trelaxing "<<to->getName()<<" old priority: ";
 			std::cout << to->getLabelF(kTemporaryLabel)<<" new priority: "<<f_to;
 			std::cout << " g: "<<f_to-h(to, goal)<<" h: "<<h(to, goal)<<std::endl;
 		}
-
-	// update priority and macro parent if necessary 
-	if(f_to < to->getLabelF(kTemporaryLabel))
-	{
 		//if(verbose)
 		//{
 		//	std::cout << " relaxing "<<to->getName()<<" from: "<<from->getName()<< " f(to): "<<f_to;

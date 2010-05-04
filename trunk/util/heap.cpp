@@ -59,11 +59,6 @@ void heap::decreaseKey(graph_object *val)
   heapifyUp(val->key);
 }
 
-void heap::decreaseKey_wrt_Goal(graph_object *val, aStarOld* astar, node* goal)
-{
-	heapifyUp_wrt_Goal(val->key, astar, goal);
-}
-
 /**
  * Returns true if the object is in the heap.
  */
@@ -105,7 +100,7 @@ void heap::heapifyUp(int index)
   if (index == 0) return;
   int parent = (index-1)/2;
 
-  if (fgreater(_elts[parent]->getKey(), _elts[index]->getKey()))
+  if (rotate(_elts[parent], _elts[index]))
 	{
     graph_object *tmp = _elts[parent];
     _elts[parent] = _elts[index];
@@ -113,45 +108,6 @@ void heap::heapifyUp(int index)
     _elts[parent]->key = parent;
     _elts[index]->key = index;
     heapifyUp(parent);
-  }
-}
-
-void heap::heapifyUp_wrt_Goal(int index, aStarOld* astar, node* goal)
-{
-  if (index == 0) return;
-  int parent = (index-1)/2;
-
-  if (fgreater(_elts[parent]->getKey(), _elts[index]->getKey()))
-	{
-    graph_object *tmp = _elts[parent];
-    _elts[parent] = _elts[index];
-    _elts[index] = tmp;
-    _elts[parent]->key = parent;
-    _elts[index]->key = index;
-    heapifyUp_wrt_Goal(parent, astar, goal);
-	return;
-  }
-
-  if(fequal(_elts[parent]->getKey(), _elts[index]->getKey()))
-  {
-	node* p = dynamic_cast<node*>(_elts[parent]);
-	node* i = dynamic_cast<node*>(_elts[index]);
-
-	if(p && i)
-	{
-		double gcost_p = p->getLabelF(kTemporaryLabel) - astar->h(p, goal);	
-		double gcost_i = i->getLabelF(kTemporaryLabel) - astar->h(i, goal);
-
-		if(fgreater(gcost_p, gcost_i))
-		{
-			graph_object *tmp = _elts[parent];
-			_elts[parent] = _elts[index];
-			_elts[index] = tmp;
-			_elts[parent]->key = parent;
-			_elts[index]->key = index;
-			heapifyUp_wrt_Goal(parent, astar, goal);
-		}
-	}
   }
 }
 
@@ -166,12 +122,12 @@ void heap::heapifyDown(int index)
     return;
   else if (child2 >= count)
     which = child1;
-  else if (fless(_elts[child1]->getKey(), _elts[child2]->getKey()))
-    which = child1;
-  else
+  else if (rotate(_elts[child1], _elts[child2]))
     which = child2;
+  else
+    which = child1;
 
-  if (fless(_elts[which]->getKey(), _elts[index]->getKey()))
+  if (rotate(_elts[index], _elts[which]))
 	{
     graph_object *tmp = _elts[which];
     _elts[which] = _elts[index];
@@ -180,4 +136,12 @@ void heap::heapifyDown(int index)
     _elts[index]->key = index;
     heapifyDown(which);
   }
+}
+
+// returns true if the priority of second < first
+bool heap::rotate(graph_object* first, graph_object* second)
+{
+  if (fless(second->getKey(), first->getKey()))
+	  return true;
+  return false;
 }

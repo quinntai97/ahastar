@@ -153,7 +153,11 @@ void EmptyCluster::frameCluster(HPAClusterAbstraction* aMap)
 void EmptyCluster::addMacroEdges(HPAClusterAbstraction *aMap)
 {
 	if(getVerbose())
-		std::cout << "adding macro edges...";
+	{
+		std::cout << "adding macro edges for cluster "<<getId()<<" origin ";
+		std::cout <<"("<< getHOrigin()<<", "<<getVOrigin()<<")";
+		std::cout <<" diagonal edges allowed? "<<getAllowDiagonals()<< " ";
+	}
 	graph* absg = aMap->getAbstractGraph(1);
 	macro = 0;
 
@@ -161,7 +165,7 @@ void EmptyCluster::addMacroEdges(HPAClusterAbstraction *aMap)
 	{
 		int lx = this->getHOrigin();
 		int rx = lx + this->getWidth()-1;
-		for(int y=this->getVOrigin(); y<this->getVOrigin()+this->getHeight(); y++)
+		for(int y=this->getVOrigin()+1; y<this->getVOrigin()+this->getHeight()-1; y++)
 		{
 			node *left = absg->getNode(
 					aMap->getNodeFromMap(lx, y)->getLabelL(kParent));
@@ -191,7 +195,7 @@ void EmptyCluster::addMacroEdges(HPAClusterAbstraction *aMap)
 	{
 		int ty = this->getVOrigin();
 		int by = this->getVOrigin()+this->getHeight()-1;
-		for(int x=this->getHOrigin(); x<this->getHOrigin()+this->getWidth(); x++)
+		for(int x=this->getHOrigin()+1; x<this->getHOrigin()+this->getWidth()-1; x++)
 		{
 			node *top = absg->getNode(
 					aMap->getNodeFromMap(x, ty)->getLabelL(kParent));
@@ -233,9 +237,9 @@ void EmptyCluster::addSingleMacroEdge(node* from, node* to, double weight, graph
 				{
 					std::cout << "[("<<from->getLabelL(kFirstData)<<", ";
 					std::cout <<from->getLabelL(kFirstData+1)<<") <-> (";
-					std::cout << to->getLabelL(kFirstData);
+					std::cout << to->getLabelL(kFirstData) << ", ";
 					std::cout << to->getLabelL(kFirstData+1);
-					std::cout <<")] ";
+					std::cout <<") wt: "<<weight<< " ] ";
 				}
 			}
 	
