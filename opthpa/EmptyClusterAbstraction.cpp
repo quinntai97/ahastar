@@ -69,6 +69,7 @@ void EmptyClusterAbstraction::buildClusters()
 			{
 				EmptyCluster* cluster = new EmptyCluster(x, y);	
 				cluster->setVerbose(getVerbose());
+				cluster->setAllowDiagonals(getAllowDiagonals());
 				addCluster(cluster);
 				cluster->addNodesToCluster(this, clearance);
 				if(this->getVerbose())

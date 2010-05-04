@@ -11,6 +11,7 @@
 #define HPAUTIL_H
 
 #include <map>
+#include <stdexcept>
 
 class node;
 class path;
@@ -21,6 +22,8 @@ namespace HPAUtil
 	typedef std::map<int, path*> pathTable;
 	typedef std::map<int, node*> nodeTable;
 	typedef std::map<int, HPACluster*> clusterTable;
+
+	double h(node* from, node* to) throw(std::invalid_argument);
 }
 
 #endif
