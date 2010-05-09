@@ -1,19 +1,24 @@
 \begin{abstract}
-In pathfinding problems, A* search with a Manhattan-like heuristic on a grid discretization of a map
-remains a popular solving approach.
-Speed-up enhancements include reducing the size of the search space with hierarchical abstraction,
+% NB: 200 words max
+Pathfinding systems that operate on regular grids are common in the AI literature
+and often used in video games.
+Typical speed-up enhancements include reducing the size of the search space using abstraction,
 and building more informed heuristics.
-Each of these speed-up strategies have shortcomings.
-Recent successful hierarchical abstraction techniques for pathfinding
-return suboptimal solutions.
-Better informed pathfinding heuristics usually require significant additional memory,
-which can be several times larger than the size of the map.
-
-In this work we present OHA*, an algorithm that is faster than A*,
-preserves solution optimality, and requires no significant extra memory.
-OHA* works on 4-connected grid maps, which allow straight, but no diagonal movements.
-It identifies rectangular areas with no obstacles that can be optimally traversed 
-by only expanding nodes along their perimeter, without exploring their interior. 
-We give an empirical analysis and demonstrate that this method is fast
-and memory efficient, while producing optimal paths.
+Though effective each of these strategies has shortcomings. 
+For example, pathfinding with abstraction usually involves trading away optimality
+for speed.
+Meanwhile, improving on the accuracy of the well known Manhattan heuristic usually
+requires significant extra memory.
+\par
+We present a different kind of speedup technique based on the idea
+of identifying and eliminating symmetric path segments in 4-connected grid maps 
+(which allow straight but not diagonal movement).
+Our method decomposes such maps into a set of rectangular rooms with no obstacles 
+and then prunes all nodes from the interior of each room.
+We show that the resultant grid maps preserve the completeness and optimality 
+characteristics of the original.
+We then give an empirical analysis by running A* on a range of different grid maps 
+including a well known set from the popular video game Baldur's Gate.
+Our results show that on average A* runs between 1.7 to 3.3 times faster on our pruned 
+grid maps and expands between 40-70\% fewer nodes.
 \end{abstract}
