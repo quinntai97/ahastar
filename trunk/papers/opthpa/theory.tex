@@ -18,12 +18,12 @@ perimeter. We claim that this approach preserves optimality when searching in
 4-connected grid maps. 
 Consider the following argument:
 
-\begin{mylemma}
+\begin{lemma}
 \label{thm-roomtraversal}
 For every optimal length path segment running through the interior of an empty 
 4-connected rectangular room $R$ there exists another equivalent length path 
 segment which involves only nodes from the perimeter of $R$.
-\end{mylemma}
+\end{lemma}
 \begin{proof}
 Let $s, g \in R$ correspond to the endpoints of an optimal length path segment 
 $\pi(s, g)$ running through R.
@@ -127,9 +127,9 @@ all shown) and the algorithm only considers nodes along their perimeter.}
 \end{figure*}
 
 
-\begin{mytheorem}
+\begin{theorem}
 OHA* is optimal. 
-\end{mytheorem}
+\end{theorem}
 \begin{proof}
 To prove this claim we have to show that for every optimal length path $\pi^*(m, n)$ 
 on a 4-connected grid map, which starts at node $m$ and terminates at node $n$, 
