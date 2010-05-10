@@ -44,15 +44,16 @@ traditional pathfinding algorithms such as A* to solve.
 The problem in this case is that while many optimal length solutions exist (we highlight three) it is
 difficult to distinguish between them -- they each appear equally good and, to guarantee optimality,
 A* is usually forced to explore them all before finding the goal.
-To further complicate things a number of dead-end rooms exist containing tiles with \emph{f-values} identical
-to those on an optimal path -- these must also be expanded.
+To further complicate things a number of dead-end rooms exist containing tiles with \emph{f-values} smaller
+than the the goal and these must also be expanded.
 
 \begin{figure}[tb]
        \begin{center}
                        \includegraphics[scale=0.30, trim = 10mm 10mm 10mm 0mm]{diagrams/overview.png}
        \end{center}
 	\vspace{-3pt}
-       \caption{(Top) A pathfinding instance that is simple to humans but difficult for a computer. 
+       \caption{(Top) A highly symmetric pathfinding instance that is simple to humans but difficult 
+				for a computer.
 				Many solutions exist; we highlight three. 
 				(Bottom) The same map with our symmetry elimination method applied. We decompose the map
 				into a set of obstacle-free rooms from which we prune all nodes except those on the perimeter.
@@ -61,7 +62,7 @@ to those on an optimal path -- these must also be expanded.
 \end{figure}
 
 In order to solve the problem more efficiently we will divide the map into a set of obstacle-free rooms and 
-observe that while there are many ways to optimally traverse across a room there is very often a solution 
+observe that while there are many ways to optimally traverse across a room there is always a solution 
 involving only nodes from the perimeter.
 %Infact, if we could traverse directly from one side of an empty room to another there appears to \emph{always}
 %exist an optimal length solution that involves only nodes from the perimeter.
@@ -75,13 +76,13 @@ Our method is easy to understand and implement.
 It produces grid maps that are often much smaller than the original grid map
 (and never larger), have the same branching factor as the original and preserve the same completeness and optimality 
 guaranteeing characteristics.
-Further, since our method is focused on eliminating symmetries in the search space, it is orthogonal to all existing 
+Further, since our method is focused on eliminating symmetries in the search space, it is orthogonal to existing 
 search techniques, including both hierarchical and low level pathfinding systems as well as memory-based heuristics.
 We demonstrate its effectiveness by undertaking an empirical analysis on a wide range of maps, 
 including a well known set from the popular roleplaying game \emph{Baldur's Gate 2}. 
-Our experimental results show a reduction in the average number of A* node expansions by between 40-70\%. 
-We also report an average A* search time speedup of between 1.7 to 3.3 times, depending on the topography of the 
-map being used.
+Our experimental results show the average number of A* node expansions is reduced by between 29-65\%. 
+We also report a corresponding search time speedup of between 1.7 to 3.3 times on average, depending on the 
+topography of the map being used.
 \par
 The rest of the paper is structured as follows.
 Next we overview related work. Then we provide a formal description of our 
