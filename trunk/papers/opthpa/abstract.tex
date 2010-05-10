@@ -15,10 +15,11 @@ of identifying and eliminating symmetric path segments in 4-connected grid maps
 (which allow straight but not diagonal movement).
 Our method decomposes such maps into a set of rectangular rooms with no obstacles 
 and then prunes all symmetric paths from the interior of each room.
-We show that the resultant grid maps preserve the completeness and optimality 
-characteristics of the original.
-We then give an empirical analysis by running A* on a range of different grid maps 
+The resulting map is often much smaller and consequently much faster to search
+than the original.
+We evaluate this technique on a range of different grid maps 
 including a well known set from the popular video game Baldur's Gate 2.
-Results show that using our pruned grid maps A* runs between 1.7 to 3.3 times faster on average
-and expands between 40-70\% fewer nodes.
+Results show that A* can run up to 3.3 times faster on average
+and expand 64\% fewer nodes.
+We achieve this without using any extra memory or sacrificing solution optimality.
 \end{abstract}
