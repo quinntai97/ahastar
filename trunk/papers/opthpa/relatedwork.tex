@@ -1,28 +1,33 @@
 \section{Related Work}
-A very effective method for solving path planning problems is to reformulate the original problem
-into an equivalent one in a much smaller abstract search space. 
-Known as hierarchical path planning this approach has been well studied over the last decade;
-algorithms in this category are usually fast, memory-efficient and suboptimal.
-OHA* follows this general idea while seeking to retain optimality.
-It is perhaps most similar to the popular HPA* algorithm \cite{botea04} 
-which divides a grid map into a series of fixed-size clusters connected 
-by entrances.
-Finding a shortest path then involves inserting the start and goal into the 
-abstract graph and searching for a (usually suboptimal) path between them.
+%Symmetry arises in many problems in artificial intelligence; from planning and scheduling
+%domains to general constraint satisfaction and even pathfinding.
+%In almost all cases symmetry is undesirable as it increases the size of the search space
+%and wastes time that could be spent finding better solutions.
+%Our symmetry elimination technique bears some similarity to the work of Walsh \cite{walsh07}
+%which focuses on breaking variable assignment symmetries in constraint satisfaction problems.
+%By comparison, we study the much more specific problem of eliminating path symmetries that 
+%appear between pairs of nodes on a grid map. 
+%\par
+One recent result on the problem of symmetric path elimination in grid maps is due to
+Pochter et al \cite{pochter09}.
+Their main contribution is a technique for the identification of swamps, which are defined as
+areas on a grid map that contain only nodes appearing on symmetric paths.
+Though irregular in both shape and size, swamps can be thought of as a generalisation of our
+empty room decomposition.
+One important difference however is that swamps are shown to be most effective on maps featuring a
+large number of obstacles and less effective on maps featuring wide open areas.
+By comparison, our algorithm is most effective when large empty rooms can be identified and less
+effective when this is not the case.
+Thus the two methods are in some sense complimentary.
+Another important difference is that swamps are identified online and thus introduce additional 
+overhead to a running search.
+By comparison, our pruning method is offline and has no such overhead.
+Finally, keeping track of swamps requires an additional memory overhead.
+By comparison, our method has no overhead and in many cases actually reduces the amount of
+memory required to store the map.
 \par
-A recent method which shares quite a few similarities with OHA* is MSA* \cite{bolanca09}.
-MSA* operates on 8-connected grid maps and, like OHA*, 
-attempts to speed up search by exploiting path equivalence in empty rooms.
-However, where OHA* prunes nodes entirely from the interior of empty rooms 
-MSA* uses macro successors to limit the number of interior nodes that must 
-be visited during a room traversal.
-A speedup over conventional A* is reported but the algorithm is also
-shown to expand a large number of interior nodes which hampers its performance.
-It is also worth noting that MSA* uses a different decomposition 
-technique to OHA* in order to identify empty rooms.
-\par
-OHA* also bears some similarity to a recent result outlining new heuristic methods for improving the 
-performance of standard A* on games maps \cite{bjornsson06}.
+Our work also bears some similarity to new heuristic methods aimed at improving the 
+performance of standard A* on grid maps \cite{bjornsson06}.
 In that work, much like in ours, grid maps are decomposed into obstacle-free zones connected by entrances 
 and exits. 
 A preliminary search in the decomposed graph identifies zones that do not appear 
@@ -34,13 +39,30 @@ Both heuristics are shown to be admissible and yield optimal length paths.
 Average running time improvements over standard A* are reported at between 10-40\% using a range of
 realistic games maps.
 \par
-Fringe Search is yet another algorithm which attempts to preserve optimality
-while improving over standard A*.
-This work is quite different from others we have discussed in that it is not 
-hierarchical and it does not rely on the development of memory-intensive heuristics.
-Rather, Fringe Search is a general purpose iterative deepening technique with memory requirements
-comparable to A*. 
+MSA* \cite{bolanca09} is a new optimality preserving search algorithm which attempts to speed up search 
+on 8-connected grid maps by exploiting path equivalance in empty rooms. 
+Rather than pruning nodes from the interior of an empty room however MSA* attempts to speed up 
+search by generating macro edges on the fly.
+An improvement over conventional A* is reported but the algorithm is also
+shown to expand a large number of nodes from the interior of empty rooms, which hampers its performance.
+It is also worth noting that MSA* uses a different empty room decomposition method
+from the one described in our work.
+\par
+Fringe Search \cite{bjornsson06} is a general purpose iterative deepening technique which also
+aims to improve on the performance of A*.
+This work is quite different from others we have discussed in that it does not
+rely on any specific decomposition technique nor on the development of any new heuristics
+to guide the search.
 It is provably optimal if maximum search depth is sufficiently large and, crucially, has been shown to 
 run between 25-40\% faster than A*.
-As with the dead-end heuristic, Fringe Search is orthogonal to OHA* and the two
+As with the dead-end heuristic, Fringe Search is orthogonal to our work and the two
 can easily be combined.
+\par
+Another very effective method for solving path planning problems is to reformulate the original problem
+into an equivalent one in a much smaller abstract search space. 
+Algorithms in this category are usually fast, memory-efficient and suboptimal.
+Our empty room decomposition is inspired, in part, by work in this area and is perhaps most similar to 
+the popular HPA* algorithm \cite{botea04} 
+which divides a grid map into a series of fixed-size clusters connected 
+by entrances.
+As with Fringe Search, HPA* is orthogonal to our work and the two could be easily combined.
