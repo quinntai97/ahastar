@@ -22,28 +22,27 @@ It is easy see to see that we eliminate a large number of symmetric paths
 that exist between arbitrary pairs of nodes on the perimeter of each room.
 In many cases there remains only one optimal length path between each 
 pair of nodes in each room.
-We claim that this approach preserves optimality when searching in 
-4-connected grid maps. 
+We claim that this approach preserves optimality when traversing across any arbitrary room.
 
 \begin{lemma}
 \label{thm-roomtraversal}
 Let $R$ be an arbitrary rectangular room that is free of obstacles
 and $s, g \in R$ be two locations on its perimeter.
 Then $s$ and $g$ can be connected optimally through a path that
-involves only nodes on the perimeter of $R$, and possibly 
-one macro-step.
+mentions only nodes on the perimeter of $R$ and possibly involves
+a macro edge.
 \end{lemma}
 \begin{proof}
 \par
-We distinguish between the following two cases.
-If $s$ and $g$ are placed on the same edge of the perimeter, or
-on two orthogonal edges, then an optimal path from $s$ and $g$
-can be obtained by crawling along the perimeter.
-Case two is when $s$ and $g$ are placed on opposite edges.
-In such a case, 
-we can simply follow the macro edge at $s$ to navigate directly to a node $s'$ located on
+There are two distinct cases to consider.
+Case 1 is when $s$ and $g$ are placed on the same side of the perimeter, or
+on two orthogonal sides. 
+To obtain an optimal path we can simply travel along the perimeter from $s$ to $g$.
+Case 2 is when $s$ and $g$ are placed on opposite sides of the perimeter.
+To obtain an optimal path we can simply follow the macro edge at $s$ 
+to navigate directly to a node $s'$ located on
 the same side of the perimeter as $g$. Then, go from $s'$ to $g$ along the perimeter.
 \end{proof}
 
 A direct corrolary to Lemma \ref{thm-roomtraversal} is that we can prune from consideration
-all nodes from the interior of $R$ and limit ourselves to those nodes appearing along its perimeter.
+all nodes from the interior of $R$ and limit ourselves to only searching nodes appearing along its perimeter.

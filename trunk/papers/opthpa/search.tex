@@ -5,53 +5,53 @@ a set of empty rectangular rooms and pruning all nodes from the interior of
 each room.
 However, it is often the case that a pruned node might be required at a later
 point as a start or goal location for an agent.
-We will show that it is possible to 
+To solve this problem we propose to insert the start or goal (or both if necessary)
+back into the graph for the duration of the search using the following procedure:
+\begin{enumerate}
+\item{If the start and goal are not in the same room, connect each of them
+to the closest neighbours on each side of the perimeter of the empty room (see Figure \ref{fig-insertion}).}
+\item{If the start and goal are in the same room no insertion is required;
+ take the manhattan distance between them as the length of the optimal path (see Figure \ref{fig-noinsertion}).}
+\end{enumerate}
+We claim that this procedure does not affect the optimality guarantees associated with traversing
+across the room that the start or goal node is located in. 
 
+\begin{lemma}
+Let $R$ be an empty rectangular room and $N \in R$ the set of interior nodes.
+Given any optimal length path segment $\pi^*(s, g)$ where $s, g \in R$
+it is always possible to construct another optimal length path $\pi'(s, g)$ which 
+mentions only the nodes in $\lbrace s, g \rbrace \bigcup  R \setminus N$.
+\end{lemma}
+\begin{proof}
+First, suppose $s \in N$ and $g \in R \setminus N$ (or vice versa).
+In this case we insert $s$ into $R \setminus N$ and connect it 
+to $\lbrace s'_{1}, s'_{2}, s'_{3}, s'_{4} \rbrace \in R \setminus N$; the closest neighbours on each side of the perimeter.
+The weight of each edge incident with $s$ is equal to the manhattan distance between
+$s$ and each $s'_{i}$.
+Thus both $s, g \in \lbrace s, g \rbrace \bigcup R \setminus N$.
+Since $g$ is on the perimeter of $R$, there must exist a path $\pi(s'_{i}, g)$ and
+we can now construct $\pi'(s, g)$ as $\pi'(s, g) = \pi(s,s'_{i}) + \pi(s'_{i}, g)$.
+To see that $\pi'(s, g)$ has the same length as $\pi^*(s, g)$ simply choose the 
+$s'_{i}$ closest to $g$. 
+\par
+Next, suppose $s, g \in N$. 
+In this case we can simply construct $\pi'(s, g)$ in a single step where its
+length is the manhattan distance between the $s$ and $g$.
+Since $R$ is empty it is trivial to see that $\pi'(s, g)$ has the same length
+as $\pi^*(s, g)$.
+\end{proof}
 
-% \begin{proof}
-% Let $s, g \in R$ correspond to the endpoints of an optimal length path segment 
-% $\pi^*(s, g)$ running through R.
-% There are three cases we need to consider depending on whether the segment 
-% is at the beginning, middle or end of some long optimal path that crosses
-% many rooms.
-% \par
-% First, suppose $\pi^*(s, g)$ is the segment at the end of the optimal path.
-% Then $g$ is the final goal node and, in all likelihood, is located in the 
-% interior of $R$ (as per Figure \ref{fig-roomtraversal}(a)).
-% In this case we can simply use $h_{M}$, (otherwise known as the Manhattan heuristic) 
-% to calculate the distance between $s$ and $g$.
-% Since $R$ is empty this heuristic is perfectly informed such that 
-% $\forall s, g$ $h_{M}(s, g) = h^*(s, g)$.
-% We may thus generate $g$ as a direct \emph{macro successor} of $s$ without expanding 
-% any nodes from the interior of $R$.
-% \par
-% Next, suppose $\pi(s, g)$ is the segment at the beginning of the optimal path. 
-% Then, $s$ is, in all likelihood, located in the interior of $R$ 
-% (as per Figure \ref{fig-roomtraversal}(b)) while $g$ is located on the perimeter.
-% In this case we proceed by expanding $s$ to generate the macro successor set 
-% $\Gamma(s) = \lbrace s_{1}', s_{2}', s_{3}', s_{4}'\rbrace$.
-% Each $s_{i}'$ is the closest perimeter node to $s$ along each of the four sides of $R$.
-% Since $h_{M}$ is perfectly informed the cost of each macro edge 
-% $c(s, s_{i}') = h_{M}(s, s_{i}')$ is optimal.
-% Further, since $g$ is on the perimeter of $R$, there must exist a path $\pi(s_{i}', g)$ 
-% such that the cost of $\pi(s, g) = \pi(s, s_{i}') + \pi(s_{i}', g)$ is optimal.
-% To see that this is true simply choose the $s_{i}'$ closest to $g$.
-% It follows that since $\pi(s, min(s_{i}'))$ is optimal and $\pi(min(s_{i}', g)$
-% is optimal it must be that $\pi(s, g)$ is also optimal. 
-% \par
-% Finally, suppose that $\pi(s, g)$ is a segment in the middle of the optimal path.
-% Then, $s$ and $g$ are both located on the perimeter of $R$ 
-% (as in Figure \ref{fig-roomtraversal}(c)). 
-% If $g$ is on the same side of the perimeter to $s$ or on one of the two orthogonal sides 
-% it follows that we can find an optimal length path between them by the successive expansion of 
-% nodes adjacent to $s$ along the perimeter.
-% Suppose however that $g$ is somewhere on the opposite side of $R$.
-% In this case we can generate a single macro successor $s'$ which appears on the 
-% perimeter of $R$ directly opposite to $s$.
-% It now becomes trivial to show that there exists a minimum length path $\pi(s',g)$.
-% Further, since $h_{M}$ is perfectly informed, the cost of $\pi(s, s')$ is also optimal
-% which means that $\pi(s, g) = \pi(s, s') + \pi(s', g)$ must be optimal.
-% \end{proof}
+Once the search has finished we remove the start and goal from the graph.
+The time required in each case (insertion and deletion) is constant.
+We claim that this operation, together with the optimality preserving empty
+room traversal outlined in Lemma \ref{thm-roomtraversal}, is sufficient to guarantee
+that A* will always return an optimal solution if one exists.
+
+\begin{theorem}
+For every optimal length path $\pi^*(s, g)$ in a 4-connected grid map there exists
+an equivalent length path $\pi'(s, g)$ in the pruned version of the grid map.
+\end{theorem}
+
 
 \begin{figure}[htbp]
 	\label{fig-roomtraversal}
@@ -67,33 +67,6 @@ We will show that it is possible to
        \label{fig-ohacontrast}
 	\vspace{-15pt}
 \end{figure}
-
-A direct corrolary to Lemma \ref{thm-roomtraversal} is that we can prune from consideration
-all nodes from the interior of $R$ and limit ourselves to those nodes appearing along its perimeter.
-When we combine this approach with a macro successor generation policy
-that is guided by perfect information we create a search algorithm which is guaranteed to traverse
-any empty rectangular room both fast and optimally.
-In light of this result we propose the following hierarchical search strategy for finding shortest 
-paths in 4-connected grid maps:
-
-\begin{enumerate}
-\item{\label{oha-step1} Preprocess a 4-connected grid map in order to construct a set of adjacent empty rooms such that 
-each room is rectangular in shape and each tile on the map is assigned to exactly one room. }
-\item{\label{oha-step2} Begin the search by expanding the start node as described in 
-Lemma \ref{thm-roomtraversal} (and Figure \ref{fig-roomtraversal}(b)) in order to generate the set 
-$\Gamma(s) = \lbrace s_{1}', s_{2}', s_{3}', s_{4}'\rbrace$ which are added to the open list. }
-\item{\label{oha-step3} Using any graph search algorithm evaluate the set of open nodes.}
-\item{\label{oha-step4} When expanding a node $x$ that is not in the goal room generate the set 
-$\Gamma(x) = \lbrace p, q, x' \rbrace$ as described in Lemma \ref{thm-roomtraversal} (and Figure
-\ref{fig-roomtraversal}(c)) updating the open
-list as required.} 
-\item{\label{oha-step5} When expanding a node $s$ that is in the goal room generate $g$ directly as 
-described in Lemma \ref{thm-roomtraversal} (and Figure \ref{fig-roomtraversal}(a)).} 
-\item{Repeat steps \ref{oha-step3}-\ref{oha-step5} until either the goal is found (in which case return
-the path) or all nodes have been evaluated (in which case return failure).}
-\end{enumerate}
-When the graph search algorithm at Step \ref{oha-step3} is A* we term the resulting algorithm 
-Optimal Hierarchical A* (or simply OHA*).
 
 \begin{figure*}[htbp]
 	\label{fig-oha_contrast}
