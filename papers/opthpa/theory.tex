@@ -1,4 +1,4 @@
-\section{Pruning Symmetric Paths Offline}
+\section{Offline Symmetry Elimination}
 \label{algorithm}
 Pathfinding in modern video games often involves exploring highly regular 
 environments such as cities, sewers or dungeons (e.g Figure \ref{fig-bgmap}).
@@ -19,9 +19,8 @@ with a node on the directly opposite side of the room.}
 \end{enumerate}
 Figure \ref{fig-overview} shows an example of this process.
 It is easy see to see that we eliminate a large number of symmetric paths
-that exist between arbitrary pairs of nodes on the perimeter of each room.
-In many cases there remains only one optimal length path between each 
-pair of nodes in each room.
+that exist between arbitrary pairs of nodes on the perimeter of each room;
+in many cases only one optimal path remains.
 We claim that this approach preserves optimality when traversing across any arbitrary room.
 
 \begin{lemma}
