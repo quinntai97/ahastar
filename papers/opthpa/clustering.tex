@@ -1,24 +1,25 @@
 \section{Identifying Empty Rooms}
 \label{empty rooms}
-In this section we give a simple but effective algorithm for decomposing a grid map
-into large empty rooms.
-We proceed by first associating with every tile on the map a \emph{clearance value} 
-that measures the amount of traversable space at each location.
-We adopt the computation technique described in \cite{harabor08} where clearances
-are used to facilitate pathfinding for multi-size agents navigating across grid maps.
-The approach is a straightforward one which we outline in Algorithm \ref{alg-clearance}.
-Note that our method is slightly different (in the sense that we visit fewer nodes
-while computing clearance) than the original technique though still equivalent. 
+In this section we give a simple but effective flood-fill-based algorithm for decomposing a 
+grid map into empty rectangular rooms.
+Our method attempts to identify large open spaces by examining the amount of \emph{clearance}
+(a distance-to-obstacle metric) around a tile and growing that area until some termination 
+condition is reached.
+%In Algorithm \ref{alg-clearance} we give a recursive procedure for computing clearances.
+%This technique is originally described in \cite{harabor08} where clearances are used to
+%facilitate pathfinding for multi-size agents navigating across grid maps.
+In order to compute clearances we employ the technique described in \cite{harabor08}.
+However, for reasons of brevity, we will omit a description of that algorithm.
+%\input alg_clearance
+\par
+Once clearance values are computed for each tile on the map we apply the following
+procedure to construct empty rectangular rooms:
 
-\input alg_clearance
-
-Once we derive a set of clearance values we employ a simple flood-fill algorithm to 
-construct empty rooms:
 
 \begin{enumerate}
-\item{Iterate over all nodes on the map, identifying nodes that have not yet 
+\item{Iterate over all traversable nodes on the map, identifying nodes that have not yet 
 been assigned to a room.}
-\item{Starting with an unassigned node attempt a maximal extension of the room
+\item{Starting with the first unassigned node, attempt a maximal extension of the room
 by flood-filling over the nodes in the current row (to the right of the start node).}
 \item{Stop flood-filling when one of the following conditions is met: an obstacle is found,
 a node which is already assigned to another room is found or an unassigned
@@ -29,14 +30,14 @@ each time to its maximal width.
 The number of rows successfully processed before the algorithm terminates is the height of the room.}
 \end{enumerate}
 
-We found this algorithm to work significantly better than other more naive flood-fill
-approaches (for example, as described in \cite{bjornsson06,bolanca09}). 
-In particular, the early termination condition at Step 3 
-due to increasing clearance is critical to avoid the situation where
-several smaller rooms are extended into an area which could be occupied by one large room.
+% We found this algorithm to work significantly better than other more naive flood-fill
+% approaches (for example, as described in \cite{bjornsson06,bolanca09}). 
+% In particular, the early termination condition at Step 3 
+% due to increasing clearance is critical to avoid the situation where
+% several smaller rooms are extended into an area which could be occupied by one large room.
 
-As we will show in Section \ref{sec-results} the performance of OHA* is closely
-tied with its ability to prune as many nodes as possible from the interior of 
-empty rooms. 
-Although our method is not optimal for this purpose it is simple
+As we will see the performance of A* on our modified grid map is closely related to the total 
+number of nodes we are able to prune.
+Thus, identifying large rooms is critical.
+Although our decomposition technique is not optimal for this purpose it is simple
 to understand and implement and produces good results in practice.

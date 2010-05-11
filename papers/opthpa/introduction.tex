@@ -40,13 +40,14 @@ Consider as a motivating example the simple map in Figure \ref{fig-overview}, wh
 requires finding a path from one room on the map to another. 
 This is a scenario which appears often in video games (the dungeon areas in popular roleplaying games
 can be described in such terms, albeit on a larger scale).
-Running A* on a standard grid can be surprisingly inefficient in such instances.
-The problem in this case is that while many optimal length solutions exist (we highlight three) it is
-difficult to distinguish between them -- they each appear equally good and, to guarantee optimality,
+Running A* on a standard grid can be surprisingly inefficient in such instances;
+there are many optimal length solutions and
+%The problem in this case is that while many optimal length solutions exist (we highlight three) it is
+%difficult to distinguish between them -- they each appear equally good and, to guarantee optimality,
 A* is usually forced to explore them all before finding the goal.
-For many locations on the map, including all tiles in rooms A, C and E, the Manhattan heuristic 
-is almost perfect, as it differs from the true distance by almost two.
-Despite this, many tiles have \emph{f-values} smaller than the goal's, and therefore A* must expand them.
+%For many locations on the map, including all tiles in rooms A, C and E, the Manhattan heuristic 
+%is almost perfect, as it differs from the true distance by almost two.
+%Despite this, many tiles have \emph{f-values} smaller than the goal's, and therefore A* must expand them.
 
 \begin{figure}[tb]
        \begin{center}
@@ -72,26 +73,27 @@ of an empty room and, to preserve optimality, replace them with a series of \emp
 moving directly from one side of an empty room to the other. 
 In the process we eliminate almost all equivalent-length path segments and significantly reduce the number of 
 locations that must be considered when crossing the room.
-Cases when the start (or the goal) location belongs to the interior of an empty rectangle are handled as detailed in the third section.
+Cases when the start (or the goal) location belongs to the interior of an empty rectangle are handled by
+temporarily re-inserting these nodes back into the map.
 \par
 Our method is easy to understand and implement.
 It produces grid maps that are often much smaller than the original grid map
-(and never larger), have the same branching factor as the original and preserve the same completeness and optimality 
+(and never larger), have the same branching factor and preserve the same completeness and optimality 
 guaranteeing characteristics.
 Further, since our method is focused on eliminating symmetries in the search space, it is orthogonal to existing 
 search techniques, including both hierarchical and low level pathfinding systems as well as memory-based heuristics.
 We demonstrate its effectiveness by undertaking an empirical analysis on a wide range of maps, 
 including a well known set from the popular roleplaying game \emph{Baldur's Gate 2}. 
-Our experimental results show the average number of A* node expansions is reduced by between 29-65\%. 
+Our experimental results show the average number of A* node expansions is reduced by between 29-64\%. 
 We also report a corresponding search time speedup of between 1.7 to 3.3 times on average, depending on the 
 topography of the map being used.
-\par
-The rest of the paper is structured as follows.
-Next we overview related work. Then we provide a formal description of our 
-symmetry elimination technique.
-Following that we discuss how to decompose the traversable part of a grid map into a partition 
-of empty areas.
-Finally we present our experiments and results just before our conclusions and future work ideas.
+% \par
+% The rest of the paper is structured as follows.
+% Next we overview related work. Then we provide a formal description of our 
+% symmetry elimination technique.
+% Following that we discuss how to decompose the traversable part of a grid map into a partition 
+% of empty areas.
+% Finally we present our experiments and results just before our conclusions and future work ideas.
 
 %%%%
 %We will exploit this property in order to identify and eliminate a large number of nodes from the

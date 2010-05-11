@@ -5,19 +5,18 @@ a set of empty rectangular rooms and pruning all nodes from the interior of
 each room.
 However, it is often the case that a pruned node might be required at a later
 point as a start or goal location for an agent.
-To solve this problem we propose to insert the start or goal (or both if necessary)
-back into the graph for the duration of the search using the following procedure:
+To solve this problem we propose to insert these  nodes
+back into the graph for the duration of the search using the following procedure (highlighted in Figure \ref{fig:insertion}):
 \begin{enumerate}
 \item{If the start and goal are not in the same room, connect each of them
-to the closest neighbours on each side of the perimeter of the empty room (see Figure \ref{fig-insertion}).}
+to the closest neighbours on each side of the perimeter of the empty room.}
 \item{If the start and goal are in the same room no insertion is required;
- take the Manhattan distance between them as the length of the optimal path (see Figure \ref{fig-noinsertion}).}
+ take the Manhattan distance between them as the length of the optimal path. }
 \end{enumerate}
-We claim that this procedure does not affect the optimality guarantees associated with traversing
+We claim that this procedure  does not affect the optimality guarantees associated with traversing
 across the room that the start or goal node is located in. 
 
 \begin{figure}[t]
-	\label{fig-roomtraversal}
 	\vspace{-4pt}
        \begin{center}
            \includegraphics[scale=0.50, trim = 10mm 10mm 10mm 0mm]{diagrams/roomtraversal.png}
@@ -26,16 +25,16 @@ across the room that the start or goal node is located in.
        \caption{(Top) When $S$ and $G$ are in the empty room no insertion is necessary and we take the 
 				Manhattan distance as the length of the optimal path.
 				(Bottom) $S$ is a node previously pruned and $G$ is on the perimeter.
-				We insert $S$ into the graph and connect it to neighbour on each side of the empty room.
+				We insert $S$ into the graph and connect it to neighbours on each side of the empty room.
 				Then, an optimal-length path to $G$ can always be found.}
-       \label{fig-ohacontrast}
-	\vspace{-15pt}
+	%\vspace{-15pt}
+	\label{fig:insertion}
 \end{figure}
 
 \begin{lemma}
 \label{thm-insertion}
-Let $R$ be an empty rectangular room and $N \in R$ the set of interior nodes.
-For any pair of nodes $s, g \in R$ it is always possible to construct an optimal
+Let $R$ be an empty rectangular room and $N \in R$ the set of interior nodes which are pruned.
+For any pair of nodes $s, g \in R$ it is always possible to find an optimal
 length path which mentions only nodes in $\lbrace s, g \rbrace \bigcup  R \setminus N$.
 \end{lemma}
 \begin{proof}
@@ -86,17 +85,13 @@ all shown) and the algorithm only considers nodes along their perimeter.}
 	\vspace{-15pt}
 \end{figure*}
 
-To highlight how effective our symmetry breaking technique can be in practice consider the example game map
-in Figure \ref{fig-contrast}. 
-The topography of this map is typical of what one might expect in a modern role-playing game
-\footnote{Infact, most video game maps tend to be somewhat bigger than our example but for demonstration 
-purposes it is quite sufficient.};
-there are many rooms and corridors and many entrances to connect them.
-Figure \ref{fig-contrast}(a) shows A* solving a typical problem on this map. 
-In this case obtaining the optimal solution required expanding almost half the nodes in the state space.
-Figure \ref{fig-contrast}(b) shows the same problem being solved by OHA*.
-We were able to prune away large sections of the map by taking advantage of the fact that
-such nodes never need to be expanded in order to retain optimality.
-In this case OHA* expands less than $\frac{1}{3}$ of the area explored by A* and returns
-a solution 4 times faster.
-
+In figure \ref{fig-contrast} we highlight the effectiveness of our symmetry breaking technique using
+a map that has characteristics typical of what one might expect in a modern role-playing game \footnote{
+Infact, most video game maps tend to be somewhat bigger than our example but for demonstration 
+purposes it is quite sufficient.}
+; there are many rooms and corridors and many entrances connecting them.
+Using A* we solve a typical problem on the original grid map and in the process expand almost half the nodes
+in the state space.
+We then decompose the map to eliminate symmetries and re-run A*.
+This time A* expands less than 15\% of all nodes (more than a three-fold improvement) and returns the 
+optimal solution 4 times faster.
