@@ -27,26 +27,22 @@ We claim that this approach preserves optimality when searching in
 
 \begin{lemma}
 \label{thm-roomtraversal}
-Let $R$ be an arbitrary 4-connected rectangular room that is free of obstacles.
-and $s, g \in R$ be the endpoints of an optimal length path 
-segment $\pi^*(s, g)$ running through the interior of $R$. 
-For each such path there exists another optimal length path $\pi'(s, g)$ 
-which involves only nodes from the perimeter of $R$. 
-%For every optimal length path segment running through the interior of an empty 
-%4-connected rectangular room $R$ there exists another equivalent length path 
-%segment which involves only nodes from the perimeter of $R$.
+Let $R$ be an arbitrary rectangular room that is free of obstacles
+and $s, g \in R$ be two locations on its perimeter.
+Then $s$ and $g$ can be connected optimally through a path that
+involves only nodes on the perimeter of $R$, and possibly 
+one macro-step.
 \end{lemma}
 \begin{proof}
 \par
-As $\pi^*(s, g)$ is a segment of an optimal path both $s$ and $g$ are located on the perimeter of $R$.
-If $g$ is on the same side of the perimeter to $s$ or on one of the two orthogonal sides 
-it follows that we can find an optimal length path between them by the successive expansion of 
-nodes adjacent to $s$ along the perimeter.
-Suppose however that $g$ is somewhere on the opposite side of $R$.
-In this case we can simply follow the macro edge at $s$ to navigate directly to a node $s'$ located on
-the same side of the perimeter as $g$.
-Thus $\pi'(s, g) = \pi(s, s') + \pi(s',g)$.
-As $R$ is 4-connected it is trivial to show that the length of $\pi'(s, g)$ is equal to $\pi^*(s, g)$.
+We distinguish between the following two cases.
+If $s$ and $g$ are placed on the same edge of the perimeter, or
+on two orthogonal edges, then an optimal path from $s$ and $g$
+can be obtained by crawling along the perimeter.
+Case two is when $s$ and $g$ are placed on opposite edges.
+In such a case, 
+we can simply follow the macro edge at $s$ to navigate directly to a node $s'$ located on
+the same side of the perimeter as $g$. Then, go from $s'$ to $g$ along the perimeter.
 \end{proof}
 
 A direct corrolary to Lemma \ref{thm-roomtraversal} is that we can prune from consideration
