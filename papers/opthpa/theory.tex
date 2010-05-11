@@ -1,73 +1,101 @@
-\section{Optimal Hierarchical A*}
-Pathfinding in modern video games often involves exploring highly regular 
+\section{Pruning Symmetric Paths Offline}
 \label{algorithm}
-environments such as cities, sewers or dungeons.
-These locales tend to be topographically simple and frequently comprise only
-empty rooms and corridors between them.
-As we showed in Figure \ref{fig-emptymap} however it is exactly these 
-types of environments which A* has the most difficulty with.
-The crux of the problem facing A* is that all nodes in an empty or near 
-empty room have very similar or even identical $f$-values.
-To preserve optimality A* must expand them all or risk returning a suboptimal path.
-%Figure \ref{fig-oha_contrast}(a) illustrates such a case; 
-%notice that A* explores almost half the map. 
+Pathfinding in modern video games often involves exploring highly regular 
+environments such as cities, sewers or dungeons (e.g Figure \ref{fig-bgmap}).
+Though these locales tend to be topographically simple (usually being comprised
+of empty rooms connected by corridors) they can also be highly symmetric 
+with many optimal length paths existing between arbitrary pairs of locations.
+Symmetry is undesirable as it increases the size of the search space
+and forces search algorithms to waste time that could be spent finding better solutions.
 \par
-To overcome these difficulties we propose the following simple search strategy:
-instead of exploring the interior of an empty room expand only nodes along the
-perimeter. We claim that this approach preserves optimality when searching in 
+We propose the following offline strategy for identifying and eliminating symmetric paths in 
+4-connected grid maps:
+\begin{enumerate}
+\item{Decompose the grid map into a set of empty rooms, where each empty room is 
+rectangular in shape and free of any obstacles.}
+\item{Prune all nodes from the interior of each empty room.}
+\item{Add a series of \emph{macro edges} that connect each node on the perimeter of an empty room
+with a node on the directly opposite side of the room.}
+\end{enumerate}
+Figure \ref{fig-overview} shows an example of this process.
+It is easy see to see that we eliminate a large number of symmetric paths
+that exist between arbitrary pairs of nodes on the perimeter of each room.
+In many cases there remains only one optimal length path between each 
+pair of nodes in each room.
+We claim that this approach preserves optimality when searching in 
 4-connected grid maps. 
-Consider the following argument:
 
 \begin{lemma}
 \label{thm-roomtraversal}
-For every optimal length path segment running through the interior of an empty 
-4-connected rectangular room $R$ there exists another equivalent length path 
-segment which involves only nodes from the perimeter of $R$.
+Let $R$ be an arbitrary 4-connected rectangular room that is free of obstacles.
+and $s, g \in R$ be the endpoints of an optimal length path 
+segment $\pi^*(s, g)$ running through the interior of $R$. 
+For each such path there exists another optimal length path $\pi'(s, g)$ 
+which involves only nodes from the perimeter of $R$. 
+%For every optimal length path segment running through the interior of an empty 
+%4-connected rectangular room $R$ there exists another equivalent length path 
+%segment which involves only nodes from the perimeter of $R$.
 \end{lemma}
 \begin{proof}
-Let $s, g \in R$ correspond to the endpoints of an optimal length path segment 
-$\pi(s, g)$ running through R.
-There are three cases we need to consider depending on whether the segment 
-is at the beginning, middle or end of some long optimal path that crosses
-many rooms.
 \par
-First, suppose $\pi(s, g)$ is the segment at the end of the optimal path.
-Then $g$ is the final goal node and, in all likelihood, is located in the 
-interior of $R$ (as per Figure \ref{fig-roomtraversal}(a)).
-In this case we can simply use $h_{M}$, (otherwise known as the Manhattan heuristic) 
-to calculate the distance between $s$ and $g$.
-Since $R$ is empty this heuristic is perfectly informed such that 
-$\forall s, g$ $h_{M}(s, g) = h^*(s, g)$.
-We may thus generate $g$ as a direct \emph{macro successor} of $s$ without expanding 
-any nodes from the interior of $R$.
-\par
-Next, suppose $\pi(s, g)$ is the segment at the beginning of the optimal path. 
-Then, $s$ is, in all likelihood, located in the interior of $R$ 
-(as per Figure \ref{fig-roomtraversal}(b)) while $g$ is located on the perimeter.
-In this case we proceed by expanding $s$ to generate the macro successor set 
-$\Gamma(s) = \lbrace s_{1}', s_{2}', s_{3}', s_{4}'\rbrace$.
-Each $s_{i}'$ is the closest perimeter node to $s$ along each of the four sides of $R$.
-Since $h_{M}$ is perfectly informed the cost of each macro edge 
-$c(s, s_{i}') = h_{M}(s, s_{i}')$ is optimal.
-Further, since $g$ is on the perimeter of $R$, there must exist a path $\pi(s_{i}', g)$ 
-such that the cost of $\pi(s, g) = \pi(s, s_{i}') + \pi(s_{i}', g)$ is optimal.
-To see that this is true simply choose the $s_{i}'$ closest to $g$.
-It follows that since $\pi(s, min(s_{i}'))$ is optimal and $\pi(min(s_{i}', g)$
-is optimal it must be that $\pi(s, g)$ is also optimal. 
-\par
-Finally, suppose that $\pi(s, g)$ is a segment in the middle of the optimal path.
-Then, $s$ and $g$ are both located on the perimeter of $R$ 
-(as in Figure \ref{fig-roomtraversal}(c)). 
+As $\pi^*(s, g)$ is a segment of an optimal path both $s$ and $g$ are located on the perimeter of $R$.
 If $g$ is on the same side of the perimeter to $s$ or on one of the two orthogonal sides 
 it follows that we can find an optimal length path between them by the successive expansion of 
 nodes adjacent to $s$ along the perimeter.
 Suppose however that $g$ is somewhere on the opposite side of $R$.
-In this case we can generate a single macro successor $s'$ which appears on the 
-perimeter of $R$ directly opposite to $s$.
-It now becomes trivial to show that there exists a minimum length path $\pi(s',g)$.
-Further, since $h_{M}$ is perfectly informed, the cost of $\pi(s, s')$ is also optimal
-which means that $\pi(s, g) = \pi(s, s') + \pi(s', g)$ must be optimal.
+In this case we can simply follow the macro edge at $s$ to navigate directly to a node $s'$ located on
+the same side of the perimeter as $g$.
+Thus $\pi'(s, g) = \pi(s, s') + \pi(s',g)$.
+As $R$ is 4-connected it is trivial to show that the length of $\pi'(s, g)$ is equal to $\pi^*(s, g)$.
 \end{proof}
+
+A direct corrolary to Lemma \ref{thm-roomtraversal} is that we can prune from consideration
+all nodes from the interior of $R$ and limit ourselves to those nodes appearing along its perimeter.
+
+% \begin{proof}
+% Let $s, g \in R$ correspond to the endpoints of an optimal length path segment 
+% $\pi^*(s, g)$ running through R.
+% There are three cases we need to consider depending on whether the segment 
+% is at the beginning, middle or end of some long optimal path that crosses
+% many rooms.
+% \par
+% First, suppose $\pi^*(s, g)$ is the segment at the end of the optimal path.
+% Then $g$ is the final goal node and, in all likelihood, is located in the 
+% interior of $R$ (as per Figure \ref{fig-roomtraversal}(a)).
+% In this case we can simply use $h_{M}$, (otherwise known as the Manhattan heuristic) 
+% to calculate the distance between $s$ and $g$.
+% Since $R$ is empty this heuristic is perfectly informed such that 
+% $\forall s, g$ $h_{M}(s, g) = h^*(s, g)$.
+% We may thus generate $g$ as a direct \emph{macro successor} of $s$ without expanding 
+% any nodes from the interior of $R$.
+% \par
+% Next, suppose $\pi(s, g)$ is the segment at the beginning of the optimal path. 
+% Then, $s$ is, in all likelihood, located in the interior of $R$ 
+% (as per Figure \ref{fig-roomtraversal}(b)) while $g$ is located on the perimeter.
+% In this case we proceed by expanding $s$ to generate the macro successor set 
+% $\Gamma(s) = \lbrace s_{1}', s_{2}', s_{3}', s_{4}'\rbrace$.
+% Each $s_{i}'$ is the closest perimeter node to $s$ along each of the four sides of $R$.
+% Since $h_{M}$ is perfectly informed the cost of each macro edge 
+% $c(s, s_{i}') = h_{M}(s, s_{i}')$ is optimal.
+% Further, since $g$ is on the perimeter of $R$, there must exist a path $\pi(s_{i}', g)$ 
+% such that the cost of $\pi(s, g) = \pi(s, s_{i}') + \pi(s_{i}', g)$ is optimal.
+% To see that this is true simply choose the $s_{i}'$ closest to $g$.
+% It follows that since $\pi(s, min(s_{i}'))$ is optimal and $\pi(min(s_{i}', g)$
+% is optimal it must be that $\pi(s, g)$ is also optimal. 
+% \par
+% Finally, suppose that $\pi(s, g)$ is a segment in the middle of the optimal path.
+% Then, $s$ and $g$ are both located on the perimeter of $R$ 
+% (as in Figure \ref{fig-roomtraversal}(c)). 
+% If $g$ is on the same side of the perimeter to $s$ or on one of the two orthogonal sides 
+% it follows that we can find an optimal length path between them by the successive expansion of 
+% nodes adjacent to $s$ along the perimeter.
+% Suppose however that $g$ is somewhere on the opposite side of $R$.
+% In this case we can generate a single macro successor $s'$ which appears on the 
+% perimeter of $R$ directly opposite to $s$.
+% It now becomes trivial to show that there exists a minimum length path $\pi(s',g)$.
+% Further, since $h_{M}$ is perfectly informed, the cost of $\pi(s, s')$ is also optimal
+% which means that $\pi(s, g) = \pi(s, s') + \pi(s', g)$ must be optimal.
+% \end{proof}
 
 \begin{figure}[htbp]
 	\label{fig-roomtraversal}
