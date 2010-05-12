@@ -9,7 +9,9 @@ condition is reached.
 %This technique is originally described in \cite{harabor08} where clearances are used to
 %facilitate pathfinding for multi-size agents navigating across grid maps.
 In order to compute clearances we employ the technique described in \cite{harabor08}.
-However, for reasons of brevity, we will omit a description of that algorithm.
+The algorithm can be summarised as follows:
+For each tile on the map, compute a maximal size square bounding box that contains no obstacles.
+The length of the bounding box becomes the clearance value associated with the tile.
 %\input alg_clearance
 \par
 Once clearance values are computed for each tile on the map we apply the following

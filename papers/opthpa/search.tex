@@ -71,18 +71,16 @@ on the perimeter of each room.
 Thus the length of $\pi'(s, g)$ is equal to the length of $\pi'(s,g)$.
 \end{proof}
 
-\begin{figure*}[t]
+\begin{figure}[t]
 %	\vspace{-4pt}
-       \begin{center}
-           \includegraphics[scale=0.50, trim = 10mm 10mm 10mm 0mm]{diagrams/oha_contrast.png}
-       \end{center}
-%	\vspace{-3pt}
-       \caption{\textbf{(a)} A* solving a problem on an unmodified ($86\times88$) game map. 
-Expanded nodes are marked light grey while nodes at the frontier of the search are dark grey.
-\textbf{(b)} A* solving the same problem using our modified grid map. A number of large rooms have been identified (not
-all shown) and the algorithm only considers nodes along their perimeter.}
+\centering
+	    \includegraphics[width=0.95\columnwidth, trim = 10mm 10mm 10mm 0mm]{diagrams/oha_contrast.png}
+		\caption{On the left we show A* solving a problem on an unmodified ($86\times88$) grid map. 
+		Expanded nodes are marked light grey while nodes at the frontier of the search are dark grey.
+		On the right is A* solving the same problem using our modified grid map. A number of large rooms have been identified (not
+		all shown) and the algorithm only considers nodes along their perimeter.}
 	\label{fig-contrast}
-\end{figure*}
+\end{figure}
 
 In Figure \ref{fig-contrast} we highlight the effectiveness of our symmetry breaking technique using
 a map that has characteristics typical of what one might expect in a modern role-playing game \footnote{
