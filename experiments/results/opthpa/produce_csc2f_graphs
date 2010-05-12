@@ -1,0 +1,47 @@
+### Nodes Expanded Graph ###
+tmp <- as.data.frame( cbind(csc2f_s0$ane / csc2f_s0$ne, csc2f_s0$dist))
+names(tmp) <- c("nepct", "dist")
+foo <- as.data.frame( cbind(csc2f_s10$ane / csc2f_s10$ne, csc2f_s10$dist))
+names(foo) <- c("nepct", "dist")
+tmp <- rbind(tmp, foo)
+foo <- as.data.frame( cbind(csc2f_s20$ane / csc2f_s20$ne, csc2f_s20$dist))
+names(foo) <- c("nepct", "dist")
+tmp <- rbind(tmp, foo)
+
+pdf(width=10, height=5, file="csc2f_performance.pdf")
+par(mfrow=c(1,2))
+foo <- ams(tmp$nepct[1:100], tmp$dist[1:100], 25)
+plot(foo$avgseries*100 ~ foo$avgdist, type="b", lty=1, pch=1, ylim=c(0,100), cex=0.75,
+main="Avg. Nodes Expanded (% vs. Original Map)", xlab="Path Length",
+ylab="% Nodes Expanded")
+foo <- ams(tmp$nepct[101:200], tmp$dist[101:200], 25)
+lines(foo$avgseries*100 ~ foo$avgdist, type="b", lty=2, pch=2, cex=0.75)
+foo <- ams(tmp$nepct[201:300], tmp$dist[201:300], 25)
+lines(foo$avgdist, foo$avgseries*100, type="b", lty=3, pch=3, cex=0.75)
+legend("bottomleft", c("R0", "R10", "R20"), 
+pch=c(1, 2, 3), lty=c(1,2,3), cex=0.75)
+
+### Search Times / Speedup Graph ### 
+tmp <- as.data.frame( cbind(csc2f_s0$st / csc2f_s0$ast, csc2f_s0$dist))
+names(tmp) <- c("stpct", "dist")
+foo <- as.data.frame( cbind(csc2f_s10$st / csc2f_s10$ast, csc2f_s10$dist))
+names(foo) <- c("stpct", "dist")
+tmp <- rbind(tmp, foo)
+foo <- as.data.frame( cbind(csc2f_s20$st / csc2f_s20$ast, csc2f_s20$dist))
+names(foo) <- c("stpct", "dist")
+tmp <- rbind(tmp, foo)
+foo <- as.data.frame( cbind(csc2f_s30$st / csc2f_s30$ast, csc2f_s30$dist))
+names(foo) <- c("stpct", "dist")
+tmp <- rbind(tmp, foo)
+
+foo <- ams(tmp$stpct[1:100], tmp$dist[1:100], 25)
+plot(foo$avgseries~ foo$avgdist, type="b", lty=1, pch=1, ylim=c(0,4), cex=0.75,
+main="Avg. Speedup Factor (vs. Original Map)", xlab="Path Length",
+ylab="Speedup Factor")
+foo <- ams(tmp$stpct[101:200], tmp$dist[101:200], 25)
+lines(foo$avgseries~ foo$avgdist, type="b", lty=2, pch=2, cex=0.75)
+foo <- ams(tmp$stpct[201:300], tmp$dist[201:300], 25)
+lines(foo$avgdist, foo$avgseries, type="b", lty=3, pch=3, cex=0.75)
+legend("bottomleft", c("R0", "R10", "R20"), 
+pch=c(1, 2, 3), lty=c(1,2,3), cex=0.75)
+dev.off()
