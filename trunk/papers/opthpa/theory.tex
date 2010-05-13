@@ -6,7 +6,7 @@ Though these locales tend to be topographically simple (usually being comprised
 of empty rooms connected by corridors) they can also be highly symmetric 
 with many optimal length paths existing between arbitrary pairs of locations.
 Symmetry is undesirable as it increases the size of the search space
-and forces search algorithms to waste time that could be spent finding better solutions.
+and forces search algorithms to waste time.
 \par
 We propose the following offline strategy for identifying and eliminating symmetric paths in 
 4-connected grid maps:
@@ -19,29 +19,32 @@ with a node on the directly opposite side of the room.}
 \end{enumerate}
 Figure \ref{fig-overview} shows an example of this process.
 It is easy see to see that we eliminate a large number of symmetric paths
-that exist between arbitrary pairs of nodes on the perimeter of each room;
-in many cases only one optimal path remains.
+that exist between arbitrary pairs of nodes on the perimeter of each room.
+% AB: The claim below is not obvious from the figure. There can be several optimal paths left, 
+% each of them using a different macro to get across the room.
+%in many cases only one optimal path remains.
 We claim that this approach preserves optimality when traversing across any arbitrary room.
 
 \begin{lemma}
 \label{thm-roomtraversal}
 Let $R$ be an arbitrary rectangular room that is free of obstacles
-and $s, g \in R$ be two locations on its perimeter.
-Then $s$ and $g$ can be connected optimally through a path that
+and $m, n$ be two locations on its perimeter.
+Then $m$ and $n$ can be connected optimally through a path that
 mentions only nodes on the perimeter of $R$ and possibly involves
 a macro edge.
 \end{lemma}
 \begin{proof}
 \par
 There are two distinct cases to consider.
-Case 1 is when $s$ and $g$ are placed on the same side of the perimeter, or
+Case 1 is when $m$ and $n$ are placed on the same side of the perimeter, or
 on two orthogonal sides. 
 To obtain an optimal path we can simply travel along the perimeter from $s$ to $g$.
-Case 2 is when $s$ and $g$ are placed on opposite sides of the perimeter.
+Case 2 is when $m$ and $n$ are placed on opposite sides of the perimeter.
 To obtain an optimal path we can simply follow the macro edge at $s$ 
-to navigate directly to a node $s'$ located on
-the same side of the perimeter as $g$. Then, go from $s'$ to $g$ along the perimeter.
+to navigate directly to a node $m'$ located on
+the same side of the perimeter as $n$. Then, go from $m'$ to $n$ along the perimeter.
 \end{proof}
 
 A direct corrolary to Lemma \ref{thm-roomtraversal} is that we can prune from consideration
-all nodes from the interior of $R$ and limit ourselves to only searching nodes appearing along its perimeter.
+all nodes from the interior of $R$ and limit ourselves to only searching nodes appearing along its perimeter. The only exceptions are interior nodes that happen to be the start or the target
+of the search at hand. We address this case in the following section.
