@@ -98,7 +98,7 @@ path* AbstractClusterAStar::search(graph* g, node* from, node* to)
 	//from->setLabelF(kTemporaryLabel, 0);
 	from->markEdge(0);
 	
-	altheap* openList = new altheap(to, 30);
+	heap* openList = new heap(30);
 	std::map<int, node*> closedList;
 	
 	openList->add(from);
@@ -192,16 +192,18 @@ void AbstractClusterAStar::expand(node* current, node* to, heap* openList, std::
 		else
 		{
 			//if(verbose) std::cout << "\t\tclosed!"<<std::endl;
-			double fcost = neighbour->getLabelF(kTemporaryLabel);
+			double fclosed = neighbour->getLabelF(kTemporaryLabel);
+			double gclosed =  fclosed - h(neighbour, to);
 
 			// alternate fcost
-			double hcost = h(neighbour, to);
-			double gcost = current->getLabelF(kTemporaryLabel) - h(current, to);
+			double alth = h(neighbour, to);
+			double altg = current->getLabelF(kTemporaryLabel) - h(current, to);
 
-			if((gcost + e->getWeight() + hcost) < fcost)
+			if((altg + e->getWeight() + alth) < fclosed)
 			{
 				std::cout << "node "<<neighbour->getName()<<" expanded out of order! ";
-				std::cout << " fClosed = "<<fcost << " fActual: "<<gcost + e->getWeight() + hcost;
+				std::cout << " fClosed = "<<fclosed << " fActual: "<<altg + e->getWeight() + alth;
+				std::cout << " gClosed = "<<gclosed<< "; alternative: "<<altg+e->getWeight();
 				printNode("\nfaulty node: ", neighbour, to); 
 				std::cout << std::endl;
 				printNode(" alt parent: ", current, to);
