@@ -148,6 +148,18 @@ void EmptyCluster::frameCluster(HPAClusterAbstraction* aMap)
 			}
 		}
 	}
+
+	// frame single-node clusters
+	if(getWidth() == 1 && getHeight() == 1)
+	{
+		ClusterNode* n = dynamic_cast<ClusterNode*>(aMap->getNodeFromMap(getHOrigin(), getVOrigin()));
+		ClusterNode* absn = dynamic_cast<ClusterNode*>(n->clone());
+		absn->setLabelL(kAbstractionLevel, 1);
+		graph* g = aMap->getAbstractGraph(1);
+		g->addNode(absn);
+		addParent(absn, aMap); // also creates intra-edges
+		n->setLabelL(kParent, absn->getNum());
+	}
 }
 
 void EmptyCluster::addMacroEdges(HPAClusterAbstraction *aMap)
