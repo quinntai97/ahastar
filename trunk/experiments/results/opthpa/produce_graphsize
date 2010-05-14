@@ -1,13 +1,1 @@
-gs_edges <- as.data.frame(bgmapsize$edges)
-gs_edges <- cbind(gs_edges, maporder)
-gs_edges <- cbind(gs_edges, bgmapsize$absedges)
-gs_edges <- gs_edges[order(gs_edges$"bgmapsize$edges"),]
 
-gs_nodes <- as.data.frame(bgmapsize$nodes)
-gs_nodes <- cbind(gs_nodes, maporder)
-gs_nodes <- cbind(gs_nodes, bgmapsize$absnodes)
-gs_nodes <- gs_nodes[order(gs_nodes$"bgmapsize$nodes"),]
-
-### we don't record size of original map very well; use HPA numbers instead ###
-avgnodes <- 4469
-avgedges <- 16420

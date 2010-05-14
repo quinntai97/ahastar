@@ -1,25 +1,42 @@
-load("Rhelpers")
+load("../Rscripts/Rhelpers.Rdata")
 
-gsnames <- c("nodes", "edges", "absnodes", "absedges", "map")
-gsclasses <- c("integer", "integer", "integer", "integer", "character")
+gsnames <- c("nodes", "edges", "absnodes", "absedges", "macroedges", "map")
+gsclasses <- c("integer", "integer", "integer", "integer", "integer", "character")
 astarnames <- c("id", "name", "ne", "nt", "pm", "st", "opl", "map")
 astarclasses <- c("integer", "character", "integer", "integer", "integer", "double", "double", "character")
 ohanames <- c("exp", "name", "ne", "nt", "pm", "st", "insne", "insnt", "inspm", "insst", "opl", "map")
 ohaclasses <- c("integer", "character", "integer", "integer", "integer", "double", "integer", "integer", "integer", "double", "double", "character")
 
-bgmapsize <- read.table("bgmaps/results_graphsize", col.names=gsnames, colClasses=gsclasses, header=FALSE, se=",")
-csc2fsize <- read.table("csc2f/results_graphsize", col.names=gsnames, colClasses=gsclasses, header=FALSE, se=",")
+graphsize <- read.table("bgmaps/results_graphsize", col.names=gsnames, colClasses=gsclasses, header=FALSE, se=",")
+graphsize <- rbind(graphsize, read.table("rooms/results_graphsize",
+col.names=gsnames, colClasses=gsclasses, header=FALSE, se=","))
+graphsize <- rbind(graphsize, read.table("adaptive-depth/results_graphsize",
+col.names=gsnames, colClasses=gsclasses, header=FALSE, se=","))
+graphsize$map <- sub("\t([a-z])*/(([a-z])*/)*", "", graphsize$map)
 
-macronames <- c("nodes", "edges", "absnodes", "absedges", "macro", "map")
-macroclasses <- c("integer", "integer", "integer", "integer", "integer", 
-"character")
-macrobg <- read.table("bgsize", col.names=macronames, colClasses=macroclasses, header=FALSE, se=",")
-macrocsc2f <- read.table("csc2fsize", col.names=macronames, colClasses=macroclasses, header=FALSE, se=",")
+astar <- astar <- read.table("bgmaps/results_CardinalAStar", col.names=astarnames, colClasses=astarclasses, header=FALSE, sep=",")
+astar <- rbind(astar, read.table("rooms/results_CardinalAStar",
+col.names=astarnames, colClasses=astarclasses, header=FALSE, sep=","))
+astar <- rbind(astar, read.table("adaptive-depth/results_CardinalAStar",
+col.names=astarnames, colClasses=astarclasses, header=FALSE, sep=","))
+astar$map <- sub("\t([a-z])*/(([a-z])*/)*", "", astar$map)
 
-bg_astar <- read.table("bgmaps/results_CardinalAStar", col.names=astarnames, colClasses=astarclasses, header=FALSE, sep=",")
-bg_ohastar <- read.table("bgmaps/results_HPAStar2", col.names=ohanames, colClasses=ohaclasses, header=FALSE, sep=",")
+ohastar <- read.table("bgmaps/results_HPAStar2", col.names=ohanames, colClasses=ohaclasses, header=FALSE, sep=",")
+ohastar <- rbind(ohastar, read.table("rooms/results_HPAStar2",
+col.names=ohanames, colClasses=ohaclasses, header=FALSE, sep=","))
+ohastar <- rbind(ohastar, read.table("adaptive-depth/results_HPAStar2",
+col.names=ohanames, colClasses=ohaclasses, header=FALSE, sep=","))
+ohastar$map <- sub("\t([a-z])*/(([a-z])*/)*", "", ohastar$map)
 
-csc2f_astar <- read.table("csc2f/results_CardinalAStar", col.names=astarnames, colClasses=astarclasses, header=FALSE, sep=",")
-csc2f_ohastar <- read.table("csc2f/results_HPAStar2", col.names=ohanames, colClasses=ohaclasses, header=FALSE, sep=",")
 
-maporder <- bgmapsize$"map"
+r8_astar <- astar[grep("8room*", astar$map),]
+r16_astar <- astar[grep("16room*", astar$map),]
+r32_astar <- astar[grep("32room*", astar$map),]
+bg_astar <- astar[grep("AR*", astar$map),]
+ad_astar <- astar[grep("adaptive-depth*", astar$map),]
+
+r8_ohastar <- ohastar[grep("8room*", ohastar$map),]
+r16_ohastar <- ohastar[grep("16room*", ohastar$map),]
+r32_ohastar <- ohastar[grep("32room*", ohastar$map),]
+bg_ohastar <- ohastar[grep("AR*", ohastar$map),]
+ad_ohastar <- ohastar[grep("adaptive-depth*", ohastar$map),]
