@@ -77,6 +77,7 @@ Experiment* ScenarioManager::generateSingleExperiment(mapAbstraction* absMap)
 	r2 = g->getRandomNode();
 
 	ClusterAStar searchalg;
+	searchalg.cardinal = true;
 	p = searchalg.getPath(absMap, r1, r2);
 
 	if(!p)
