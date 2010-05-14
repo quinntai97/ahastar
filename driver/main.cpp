@@ -53,8 +53,8 @@ pRecContext getCurrentContext()
 
 void cleanup (void)
 {
-	delete pContextInfo->unitLayer;
-	delete pContextInfo;
+//	delete pContextInfo->unitLayer;
+//	delete pContextInfo;
 	assert(graph_object::gobjCount == 0);
 	free(getHome());
 }
