@@ -1,79 +1,71 @@
 \section{Results}
 \label{sec-results}
-We begin with Table \ref{table-graphsize} which shows the average size
-of the state space across our two benchmarks: Baldur's Gate (henceforth BG) and 
-R0-R20 (the three variants of the map from Figure \ref{fig-contrast}).
-We compare the number of nodes and edges in the original versions of the maps
-with the number of nodes and edges in our modified maps where symmetric paths 
-have been pruned.
+We evaluated the effectiveness of our graph pruning algorithm by measuring the 
+total number of nodes pruned from each map (Table \ref{table-graphsize}) and
+the average speedup experienced by A* in terms of nodes expanded and search time
+(Figure \ref{fig-speedup}).
+We measure the latter by sorting all experiments from each benchmark into
+groups based on path length. 
+The first group contains of experiments where the optimal path had a length
+of between 1-25. 
+Experiments in the second group have path lengths of between 26-50 and so on.
+%This approach allows for a more detailed analysis than simply measuring average
+%performance across an entire benchmark.
+We will discuss our results on each benchmark in turn.
 \input graphsize
-Notice that in each case the modified maps are significantly smaller.
-For example, on R0 over 61\% of all nodes and xx\% of all edges required are pruned.
-On R10 and R20 the total saving is less; between 4-14\% of all nodes and xx-xx\% of all edges are pruned.  
-Recall that on these maps each traversable tile has either a 10\% or 20\% chance of becoming an obstacle. 
-This changes the topography of the map significantly; there are much fewer 
-symmetric paths and the empty rooms identified are consequently much smaller -- as expected.
-Meanwhile, on the BG maps, 34\% of nodes and xx\% of edges are pruned.
-As we will see this is sufficient to achieve a two-fold speedup however it seems our decomposition
-is significantly less effective on these instances than R0.
-We attribute the difference to the odd 45-degree orientation of the BG maps.
-Upon investigation it was discovered that in such cases our decomposition technique tends to identify very 
-long narrow rooms with few interior nodes. 
-We expect that a more sophisticated decomposition technique would yield significantly better results
-in these cases.
+\textbf{Adaptive Depth:} 
+The topography of the maps in this benchmark were very favourable for our
+symmetry breaking technique.
+Our decomposition algorithm was able to identify many large open areas and
+pruned between 50.5\% to 62.3\% of all nodes.
+Its average performance was just over over 57\%. 
+We also noticed a 2-3 fold reduction in the average number of nodes expanded 
+by A* and a corresponding search time speed up of between 3-4 times.
+Very easy problems (those with path lengths < 25) fared worse than harder
+problems; there was an average speedup of 3 vs. 3.5 to 4 for harder problems.
+This is as expected; the number of pruned nodes which do not need to be evaluated
+will usually grow with the distance from the starting position to the goal
+position. 
+Of course this observation assumes the decomposition algorithm is able identify
+symmetric paths in all rooms that appear on the way to the goal.
+Though this is often the case there is no guarantee in general and the performance
+gain experienced by the search algorithm is closely tied to the topography of 
+the map.
 \par
-Thus smaller rooms tend to be produced on the BG problem set (when compared to R0) leading to 
-fewer interior nodes that OHA* can prune. 
-We expect that a more sophisticated decomposition technique method would yield significantly 
-better results.
-Looking at the results for our demo map (R10-R50 in particular) we observe that as the number of 
-randomly distributed obstacles increases there is a corresponding drop in the number of nodes that may be 
+\textbf{Baldur's Gate: }
+The maps in this benchmark are usually composed of large open areas, sometimes
+interspersed with large obstacles, or otherwise small to medium rooms connected
+by long rectangular corridors.
+We expected to see similar performance to that observed on Adaptive Depth
+however this was not the case.
+Though our decomposition algorithm prunes as many as 70\% of all traversable nodes 
+on some maps its average performance was only 29\%. 
+There was also a reasonably high level variability in the effectiveness of the 
+decomposition from one map to the next, as indicated by the standard deviation
+of 10.33\%.
+Some closer investigation revealed that the 45-degree orientation of these maps
+resulted in long sequences of increasing clearance values running left-to-right.
+This causes our decomposition algorithm to terminate early and results in long
+skinny rooms which have few interior nodes.
+Nevertheless, we observed that the number of nodes expanded by A* decreased by a
+factor of between 1.5 to 1.8 corresponding to a search time speed up of between
+2 to 2.5 times faster than A* running on the original map.
+We expect that these results would improve significantly given a more effective
+decomposition algorithm.
+\par
+\textbf{Rooms:}
+The maps in this benchmark were all very similar, comprising of 32$\times$32
+rectangular rooms connected by randomly placed entrances.
+Each room is of size 7$\times$7 and contains 49 nodes. 
+24 of these (or just under 50\%) are interior nodes which we expected would be
 pruned.
-This is as expected. 
-On R50 for example most rooms contain few if any interior nodes; 
-we see that OHA* can only prune 8\% of all nodes and 49\% of all edges required by A*.
-\par
-We begin with Figure \ref{fig-searcheffort} where we examine a number of metrics
-related the average search effort of the two algorithms on the BG problem set.
-In all cases we present results with respect to optimal path length.
-\begin{figure*}[t]
-	\begin{center}
-		       \includegraphics[width=1.9\columnwidth, trim = 20mm 17mm 20mm 5mm]{diagrams/speedup.pdf}
-	\end{center}
-	\caption{Average performance of A* and OHA*. We look at average nodes expanded, nodes generated,
-	peak memory and search times.}
-	\label{fig-searcheffort}
-\end{figure*}
-\par \indent
-Figures \ref{fig-searcheffort}(a) and \ref{fig-searcheffort}(b)  show the average number of 
-nodes expanded and generated. 
-The trend is identical in both cases; OHA* expands and generates between 29-41\% fewer nodes than A*.
-Problem instances with longer path lengths yield greater savings as on larger maps there is more 
-opportunity for OHA* to prune nodes. 
-Figure \ref{fig-searcheffort}(c) shows the corresponding search times for the problem instances. 
-The same general trend may be observed; OHA* is between 1.7-2.1 times faster than A*.
-We believe part of this speedup is attributable to the smaller open list OHA* needs to maintain.
-We present data to support this hypothesis in Figure \ref{fig-searcheffort}(d) where we measure 
-the maximum size of the open list. 
-Notice that in the worst case OHA* is shown to maintain between 12-37\% fewer nodes where each
-maintenance operation requires logarithmic time in the number of nodes.
-\par
-Finally, we turn our attention to Table 2 where we measure the 
-performance of A* and OHA* on the six variants of the demo map.
-Our intention here is examine how the performance of OHA* degrades in scenarios with
-high obstacle density.
-
-Observe that as the number of obstacles increases the number of nodes expanded by OHA*, and the
-associated search time, both increase. 
-The drop in performance from R0 to R10 is quite significant; OHA*'s search times drop
-from approximately 3.3 times faster than A* to just 1.36 times faster.
-This advantage is further eroded as we go from R10 to R20 where OHA* is only 
-1.23 times faster than A*.
-Beyond this point OHA*'s map decomposition yields little advantage; 
-as its performance approaches the worst case the algorithm collapses
-to standard A*.
-\par
-Summarising our results: we have seen that OHA* expands, on average, between 40-70\% less nodes than A*.
-We solve a large set of realistic problems optimally and achieve an average speedup of between 1.7 to 
-3.3 times faster than A*.
-In the worst case we have shown that the performance of OHA* collapses to that of A*.
+This was indeed the case: between 46.4\% to 48.1\% of nodes were pruned by 
+the decomposition algorithm with an average performance of 47.55\%.
+We observed a similar reduction in the number of nodes expanded by A* yielding
+search times approximately 2.75 times faster than A* running on the original
+maps.
+Given rooms with proportionally larger dimensions we would expect to see a
+proportionally larger improvement in the performance of A*.
+We expect the same is also true as rooms become smaller: in the worst case,
+there are no interior nodes to prune and the performance of A* would remain
+unchanged when compared to the original map.
