@@ -20,7 +20,8 @@ procedure to construct empty rectangular rooms:
 
 
 \begin{enumerate}
-\item{Iterate over all traversable nodes on the map, identifying nodes that have not yet 
+\item{Iterate over all traversable nodes on the map, row by row in a
+left-to-right manner, identifying nodes that have not yet 
 been assigned to a room.}
 \item{Starting with the first unassigned node, attempt a maximal extension of the room
 by flood-filling over the nodes in the current row (to the right of the start node).}

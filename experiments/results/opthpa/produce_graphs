@@ -1,46 +1,39 @@
 #### Graph Size Table ####
 ### graphsize table ####
-gs_trendmean <- mean((graphsize[grep("AR*", graphsize$map), 3]/graphsize[grep("AR*", graphsize$map), 1])*100)
+gs_trendmean <- mean(100-(graphsize[grep("AR*", graphsize$map), 3]/graphsize[grep("AR*", graphsize$map), 1])*100)
 gs_trendmean <- rbind(gs_trendmean, 
-mean((graphsize[grep("adaptive*", graphsize$map), 3]/graphsize[grep("adaptive*", graphsize$map), 1])*100))
+mean(100-(graphsize[grep("adaptive*", graphsize$map), 3]/graphsize[grep("adaptive*", graphsize$map), 1])*100))
 gs_trendmean <- rbind(gs_trendmean, 
-mean((graphsize[grep("8room*", graphsize$map), 3]/graphsize[grep("8room*", graphsize$map), 1])*100))
-gs_trendmean <- rbind(gs_trendmean, 
-mean((graphsize[grep("16room*", graphsize$map), 3]/graphsize[grep("16room*", graphsize$map), 1])*100))
-gs_trendmean <- rbind(gs_trendmean, 
-mean((graphsize[grep("32room*", graphsize$map), 3]/graphsize[grep("32room*", graphsize$map), 1])*100))
-gs_trendmean <- as.data.frame(gs_trendmean)
-row.names(gs_trendmean) <- c("BG", "AD", "R8", "R16", "R32")
+mean(100-(graphsize[grep("*room*", graphsize$map), 3]/graphsize[grep("*room*", graphsize$map), 1])*100))
+row.names(gs_trendmean) <- c("BG", "AD", "Rooms")
 names(gs_trendmean) <- c("pctnodes")
 
-gs_trendmin <- min((graphsize[grep("AR*", graphsize$map), 3]/graphsize[grep("AR*", graphsize$map), 1])*100)
+gs_trendmin <- min(100-(graphsize[grep("AR*", graphsize$map), 3]/graphsize[grep("AR*", graphsize$map), 1])*100)
 gs_trendmin <- rbind(gs_trendmin, 
-min((graphsize[grep("adaptive*", graphsize$map), 3]/graphsize[grep("adaptive*", graphsize$map), 1])*100))
+min(100-(graphsize[grep("adaptive*", graphsize$map), 3]/graphsize[grep("adaptive*", graphsize$map), 1])*100))
 gs_trendmin <- rbind(gs_trendmin, 
-min((graphsize[grep("8room*", graphsize$map), 3]/graphsize[grep("8room*", graphsize$map), 1])*100))
-gs_trendmin <- rbind(gs_trendmin, 
-min((graphsize[grep("16room*", graphsize$map), 3]/graphsize[grep("16room*", graphsize$map), 1])*100))
-gs_trendmin <- rbind(gs_trendmin, 
-min((graphsize[grep("32room*", graphsize$map), 3]/graphsize[grep("32room*", graphsize$map), 1])*100))
-gs_trendmin <- as.data.frame(gs_trendmin)
-row.names(gs_trendmin) <- c("BG", "AD", "R8", "R16", "R32")
-names(gs_trendmin) <- c("pctnodesmin")
+min(100-(graphsize[grep("*room*", graphsize$map), 3]/graphsize[grep("*room*", graphsize$map), 1])*100))
+row.names(gs_trendmin) <- c("BG", "AD", "Rooms")
+names(gs_trendmin) <- c("min")
 
-gs_trendmax <- max((graphsize[grep("AR*", graphsize$map), 3]/graphsize[grep("AR*", graphsize$map), 1])*100)
+gs_trendmax <- max(100-(graphsize[grep("AR*", graphsize$map), 3]/graphsize[grep("AR*", graphsize$map), 1])*100)
 gs_trendmax <- rbind(gs_trendmax, 
-max((graphsize[grep("adaptive*", graphsize$map), 3]/graphsize[grep("adaptive*", graphsize$map), 1])*100))
+max(100-(graphsize[grep("adaptive*", graphsize$map), 3]/graphsize[grep("adaptive*", graphsize$map), 1])*100))
 gs_trendmax <- rbind(gs_trendmax, 
-max((graphsize[grep("8room*", graphsize$map), 3]/graphsize[grep("8room*", graphsize$map), 1])*100))
-gs_trendmax <- rbind(gs_trendmax, 
-max((graphsize[grep("16room*", graphsize$map), 3]/graphsize[grep("16room*", graphsize$map), 1])*100))
-gs_trendmax <- rbind(gs_trendmax, 
-max((graphsize[grep("32room*", graphsize$map), 3]/graphsize[grep("32room*", graphsize$map), 1])*100))
-gs_trendmax <- as.data.frame(gs_trendmax)
-row.names(gs_trendmax) <- c("BG", "AD", "R8", "R16", "R32")
-names(gs_trendmax) <- c("pctnodesmax")
+max(100-(graphsize[grep("*room*", graphsize$map), 3]/graphsize[grep("*room*", graphsize$map), 1])*100))
+row.names(gs_trendmax) <- c("BG", "AD", "Rooms")
+names(gs_trendmax) <- c("max")
 
-gs_trend <- cbind(gs_trendmean, gs_trendmin, gs_trendmax)
+gs_trendsd <- sd(100-(graphsize[grep("AR*", graphsize$map), 3]/graphsize[grep("AR*", graphsize$map), 1])*100)
+gs_trendsd <- rbind(gs_trendsd, 
+sd(100-(graphsize[grep("adaptive*", graphsize$map), 3]/graphsize[grep("adaptive*", graphsize$map), 1])*100))
+gs_trendsd <- rbind(gs_trendsd, 
+sd(100-(graphsize[grep("*room*", graphsize$map), 3]/graphsize[grep("*room*", graphsize$map), 1])*100))
+row.names(gs_trendsd) <- c("BG", "AD", "Rooms")
+names(gs_trendsd) <- c("sd")
 
+gs_trend <- as.data.frame(cbind(gs_trendmean, gs_trendmin, gs_trendmax, gs_trendsd))
+names(gs_trend) <- c("mean", "min", "max", "sd");
 
 #### Speedup Graphs #### 
 
@@ -64,25 +57,22 @@ names(rooms_trend) <- c("opl", "ne_speedup", "st_speedup")
 pdf(width=15, height=5, file="speedup.pdf")
 par(mfrow=c(1,3))
 
-plot(ad_trend$ne_speedup ~ ad_trend$opl, type="l", lty=1,  cex=0.70, 
-main="Average Speedup: Adaptive Depth", ylab="Average Speedup", 
-xlab="Path Length", ylim=c(1,5))
-lines(ad_trend$st_speedup ~ ad_trend$opl, type="l", lty=2,  cex=0.70)
-legend("topleft", c("Nodes Expanded", "Search Time"),  lty=c(1,2), cex=0.70,
-pt.bg=c("white", "white"))
+plot(ad_trend$ne_speedup ~ ad_trend$opl, type="l", lty=1,   
+main="Average Speedup: Adaptive Depth", ylab="Avg. Speedup Factor", 
+xlab="Path Length", ylim=c(1,5), cex.main=2)
+lines(ad_trend$st_speedup ~ ad_trend$opl, type="l", lty=2)
+legend("topleft", c("Nodes Expanded", "Search Time"),  lty=c(1,2), cex=1.25)
 
-plot(bg_trend$ne_speedup ~ bg_trend$opl, type="l", lty=1,  cex=0.70, 
-main="Average Speedup: Baldur's Gate", ylab="Average Speedup", 
-xlab="Path Length", ylim=c(1,5))
-lines(bg_trend$st_speedup ~ bg_trend$opl, type="l", lty=2,  cex=0.70)
-legend("topleft", c("Nodes Expanded", "Search Time"),  lty=c(1,2), cex=0.70,
-pt.bg=c("white", "white"))
+plot(bg_trend$ne_speedup ~ bg_trend$opl, type="l", lty=1,   
+main="Average Speedup: Baldur's Gate", ylab="Avg. Speedup Factor", 
+xlab="Path Length", ylim=c(1,5), cex.main=2)
+lines(bg_trend$st_speedup ~ bg_trend$opl, type="l", lty=2)
+legend("topleft", c("Nodes Expanded", "Search Time"),  lty=c(1,2), cex=1.25)
 
-plot(rooms_trend$ne_speedup ~ rooms_trend$opl, type="l", lty=1,  cex=0.70, 
-main="Average Speedup: Rooms", ylab="Average Speedup", 
-xlab="Path Length", ylim=c(1,5))
-lines(rooms_trend$st_speedup ~ rooms_trend$opl, type="l", lty=2,  cex=0.70)
-legend("topleft", c("Nodes Expanded", "Search Time"),  lty=c(1,2), cex=0.70,
-pt.bg=c("white", "white"))
+plot(rooms_trend$ne_speedup ~ rooms_trend$opl, type="l", lty=1,   
+main="Average Speedup: Rooms", ylab="Avg. Speedup Factor", 
+xlab="Path Length", ylim=c(1,5), cex.main=2)
+lines(rooms_trend$st_speedup ~ rooms_trend$opl, type="l", lty=2)
+legend("topleft", c("Nodes Expanded", "Search Time"),  lty=c(1,2), cex=1.25)
 
 dev.off()
