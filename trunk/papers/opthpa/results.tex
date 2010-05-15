@@ -1,16 +1,16 @@
 \section{Results}
 \label{sec-results}
-We evaluated the effectiveness of our graph pruning algorithm by measuring the 
-total number of nodes pruned from each map (Table \ref{table-graphsize}) and
-the average speedup experienced by A* in terms of nodes expanded and search time
-(Figure \ref{fig-speedup}).
-We measure the latter by sorting all experiments from each benchmark into
-groups based on path length. 
-The first group contains of experiments where the optimal path had a length
-of between 1-25. 
-Experiments in the second group have path lengths of between 26-50 and so on.
-%This approach allows for a more detailed analysis than simply measuring average
-%performance across an entire benchmark.
+Table \ref{table-graphsize} reports on the effectiveness of our symmetry breaking
+algorithm by measuing the percentage of nodes pruned from each set of maps.
+We give figures for the minimum, maximum and average number of nodes pruned
+in each of the three benchmarks.
+We also give the standard deviation as an indicator for the level of variability
+associated with each result.
+Meanwhile, in Figure \ref{fig-speedup} we present the average speedup experienced by A* 
+when running on our modified grid maps as compared to the original.
+We measure speedup in terms of node expansions and search times.
+A search time speedup of 2.0 is twice a fast; a node expansion speedup of 2.0 
+indicates 50\% fewer nodes were expanded.
 We will discuss our results on each benchmark in turn.
 \input graphsize
 \textbf{Adaptive Depth:} 
@@ -21,8 +21,11 @@ pruned between 50.5\% to 62.3\% of all nodes.
 Its average performance was just over over 57\%. 
 We also noticed a 2-3 fold reduction in the average number of nodes expanded 
 by A* and a corresponding search time speed up of between 3-4 times.
-Very easy problems (those with path lengths < 25) fared worse than harder
-problems; there was an average speedup of 3 vs. 3.5 to 4 for harder problems.
+Very easy problems (those with path lengths $<$ 25) fared worse than harder
+problems. 
+In these cases we observed search times that were only 3 times faster on average 
+than running A* on the original map. 
+By comparison, problems with longer path lengths were solved 3.5 to 4 times faster.
 This is as expected; the number of pruned nodes which do not need to be evaluated
 will usually grow with the distance from the starting position to the goal
 position. 
@@ -66,6 +69,14 @@ search times approximately 2.75 times faster than A* running on the original
 maps.
 Given rooms with proportionally larger dimensions we would expect to see a
 proportionally larger improvement in the performance of A*.
-We expect the same is also true as rooms become smaller: in the worst case,
-there are no interior nodes to prune and the performance of A* would remain
-unchanged when compared to the original map.
+We expect the same is also true as rooms become smaller where in the worst case
+there are no interior nodes to prune from any room.
+
+\begin{figure*}[t]
+       \begin{center}
+                       \includegraphics[width=1.95\columnwidth, trim = 10mm 10mm 10mm 0mm]{diagrams/speedup.pdf}
+       \end{center}
+       \caption{Average A* speedup on each of our three benchmarks. 
+		Results are given in terms of nodes expanded and search time.}
+\label{fig-speedup}
+\end{figure*}
