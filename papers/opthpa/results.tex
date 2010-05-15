@@ -36,14 +36,14 @@ we see that OHA* can only prune 8\% of all nodes and 49\% of all edges required 
 We begin with Figure \ref{fig-searcheffort} where we examine a number of metrics
 related the average search effort of the two algorithms on the BG problem set.
 In all cases we present results with respect to optimal path length.
-\begin{figure}[t]
+\begin{figure*}[t]
 	\begin{center}
-		       \includegraphics[width=0.95\columnwidth, trim = 20mm 17mm 20mm 5mm]{diagrams/bg_effort.pdf}
+		       \includegraphics[width=1.9\columnwidth, trim = 20mm 17mm 20mm 5mm]{diagrams/speedup.pdf}
 	\end{center}
 	\caption{Average performance of A* and OHA*. We look at average nodes expanded, nodes generated,
 	peak memory and search times.}
 	\label{fig-searcheffort}
-\end{figure}
+\end{figure*}
 \par \indent
 Figures \ref{fig-searcheffort}(a) and \ref{fig-searcheffort}(b)  show the average number of 
 nodes expanded and generated. 
@@ -62,18 +62,6 @@ Finally, we turn our attention to Table 2 where we measure the
 performance of A* and OHA* on the six variants of the demo map.
 Our intention here is examine how the performance of OHA* degrades in scenarios with
 high obstacle density.
-
-\begin{figure}[t]
-	\begin{center}
-		       \includegraphics[width=0.9\columnwidth, trim = 20mm 17mm 20mm 5mm]{diagrams/csc2f_performance.pdf}
-	\end{center}
-	\caption{Average performance of A* on the demo map from Figure \ref{fig-contrast}. On the left
-	we show the average proportion of nodes expanded by A\* on our modified grid map vs. the original map.
-	On the right we show the average speedup experienced by A\* on our modified grid map vs. the original map. 
-	}
-\label{fig-csc2fresults}
-\end{figure}
-
 
 Observe that as the number of obstacles increases the number of nodes expanded by OHA*, and the
 associated search time, both increase. 
