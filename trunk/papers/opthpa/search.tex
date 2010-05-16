@@ -1,11 +1,7 @@
 \section{Online Insertion}
-In the preceeding section we showed that it is possible to break a large 
-number of path symmetries by decomposing a 4-connected grid map into 
-a set of empty rectangular rooms and pruning all nodes from the interior of
-each room.
-However, it is often the case that a pruned node might be required at a later
-point as a start or goal location for an agent.
-To solve this problem we propose to insert these  nodes
+It can often be the case that an interior node pruned as a result of offline symmetry elimination
+is required at a later point as a start or goal location for an agent.
+Interior search and target nodes are temporarily inserted
 back into the graph for the duration of the search using the following procedure (highlighted in Figure \ref{fig:insertion}):
 \begin{enumerate}
 \item{If the start and goal are in the same room no insertion is required.
@@ -90,12 +86,12 @@ and $u$ moves upwards in any order.
 \end{figure}
 
 In Figure \ref{fig-contrast} we highlight the effectiveness of our symmetry breaking technique using
-a map that has characteristics typical of what one might expect in a modern role-playing game \footnote{
-Infact, most video game maps tend to be somewhat bigger than our example but for demonstration 
-purposes it is quite sufficient.}
-; there are many rooms and corridors and many entrances connecting them.
-Using A* we solve a typical problem on the original grid map and in the process expand almost half the nodes
-in the state space.
-We then decompose the map to eliminate symmetries and re-run A*.
+a map that has characteristics typical of what one might expect in a modern role-playing game\footnote{
+In fact, many video game maps tend to be somewhat bigger than our example but for demonstration 
+purposes it is sufficient.};
+there are many rooms and corridors and many entrances connecting them.
+A* on the original grid map and expands almost half the nodes
+in the state space in the shown example.
+We then apply our technique to eliminate symmetries and re-run A*.
 This time A* expands less than 15\% of all nodes (more than a three-fold improvement) and returns the 
 optimal solution 4 times faster.

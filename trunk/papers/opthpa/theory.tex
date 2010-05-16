@@ -13,17 +13,18 @@ We propose the following offline strategy for identifying and eliminating symmet
 4-connected grid maps:
 \begin{enumerate}
 \item{Decompose the grid map into a set of empty rooms, where each empty room is 
-rectangular in shape and free of any obstacles.}
-\item{Prune all nodes from the interior of each empty room.}
+rectangular in shape and free of any obstacles. 
+The size of the rooms can vary across a map, depending
+on the placement of the obstacles.}
+\item{Prune all nodes from the interior but not the perimeter of each empty room.
+Notice that trivial rooms with the width $w$ or the height $h$ or both being $\leq 2$
+provide no interior nodes to prune. Such rooms might be computed in areas with many obstacles.}
 \item{Add a series of \emph{macro edges} that connect each node on the perimeter of an empty room
 with a node on the directly opposite side of the room.}
 \end{enumerate}
 Figure \ref{fig-overview} shows an example of this process.
 It is easy see to see that we eliminate a large number of symmetric paths
 that exist between arbitrary pairs of nodes on the perimeter of each room.
-% AB: The claim below is not obvious from the figure. There can be several optimal paths left, 
-% each of them using a different macro to get across the room.
-%in many cases only one optimal path remains.
 We claim that this approach preserves optimality when traversing across any arbitrary room.
 
 \begin{lemma}
