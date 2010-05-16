@@ -13,12 +13,13 @@ requires significant extra memory.
 We present a different kind of speedup technique based on the idea
 of identifying and eliminating symmetric path segments in 4-connected grid maps 
 (which allow straight but not diagonal movement).
-Our method decomposes such maps into a set of rectangular rooms with no obstacles 
-and then prunes all symmetric paths from the interior of each room.
+Our method identifies rectangular rooms with no obstacles 
+and prunes all interior but not perimeter nodes,
+eliminating symmetric paths from the interior of each room.
 The resulting map is often much smaller and consequently much faster to search
 than the original.
 We evaluate this technique on a range of different grid maps 
 including a well known set from the popular video game Baldur's Gate 2.
-Results show that, on our test data, A* can run up to 4 times faster on average.
+On our test data, A* can run up to 4 times faster on average.
 We achieve this without using any significant extra memory or sacrificing solution optimality.
 \end{abstract}
