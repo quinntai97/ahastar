@@ -36,18 +36,19 @@ Some recent examples include Square Enix's \emph{Heroes of Mana} (released for t
 Astraware's \emph{My Little Tank} (iPhone) and Atari's \emph{Dragon Ball Z: Legacy of Goku} 
 (Gameboy Advance). 
 \par
-Consider as a motivating example the simple map in Figure \ref{fig-overview}, which
-requires finding a path from one room on the map to another. 
-This is a scenario which appears often in video games (the dungeon areas in popular roleplaying games
+Consider as a motivating example the simple map in Figure \ref{fig-overview}.
+%, which
+%requires finding a path from one room on the map to another.
+Topologies with rooms and corridors appear often in video games 
+(e.g., dungeon areas in roleplaying games
 can be described in such terms, albeit on a larger scale).
-Running A* on a standard grid can be surprisingly inefficient in such instances;
-there are many optimal length solutions and
-%The problem in this case is that while many optimal length solutions exist (we highlight three) it is
-%difficult to distinguish between them -- they each appear equally good and, to guarantee optimality,
-A* is usually forced to explore them all before finding the goal.
-%For many locations on the map, including all tiles in rooms A, C and E, the Manhattan heuristic 
+Running A* on a standard grid can be surprisingly inefficient in such instances.
+%For many locations on the map, including all tiles in rooms A, C and E, the Manhattan heuristic
 %is almost perfect, as it differs from the true distance by almost two.
-%Despite this, many tiles have \emph{f-values} smaller than the goal's, and therefore A* must expand them.
+In Figure~\ref{fig-overview}, many tiles have \emph{f-values} smaller than the goal's,
+and A* must expand them.
+Many of the explored paths are symmetric in the sense that they can be obtained from each other
+by re-ordering the moves.
 
 \begin{figure}[tb]
        \begin{center}
@@ -63,16 +64,15 @@ A* is usually forced to explore them all before finding the goal.
        \label{fig-overview}
 \end{figure}
 
-In order to solve the problem more efficiently we will automatically discover obstacle-free rectangular rooms and 
+To solve the problem more efficiently we will automatically discover obstacle-free rectangular rooms and 
 observe that while there are many ways to optimally traverse across a room there is always a solution 
 involving only nodes from the perimeter.
-%Infact, if we could traverse directly from one side of an empty room to another there appears to \emph{always}
-%exist an optimal length solution that involves only nodes from the perimeter.
 This observation forms the basis for our symmetry elimination technique: we prune all nodes from the interior
-of an empty room and, to preserve optimality, replace them with a series of \emph{macro edges} that facilitate 
+but not the perimeter of an empty room and, to preserve optimality,
+replace them with a series of \emph{macro edges} that allow
 moving directly from one side of an empty room to the other. 
-In the process we eliminate almost all equivalent-length path segments and significantly reduce the number of 
-locations that must be considered when crossing the room.
+In the process we eliminate almost all equivalent path segments when crossing a room,
+significantly reducing the number of locations that must be explored.
 Cases when the start (or the goal) location belongs to the interior of an empty rectangle are handled by
 temporarily re-inserting these nodes back into the map.
 \par
