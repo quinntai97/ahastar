@@ -25,10 +25,8 @@ pruned between 50.5\% to 62.3\% of all nodes.
 Its average performance was just over 57\%. 
 We also noticed a 2-3 fold reduction in the average number of nodes expanded 
 by A* and a corresponding search time speed up of between 3-4 times.
-Very easy problems (those with path lengths $<$ 25) fared worse than harder
-problems. 
-In these cases we observed search times that were only 3 times faster on average 
-than running A* on the original map. 
+For very easy problems (those with path lengths $<$ 25) we observed search times 
+that were only 3 times faster on average than running A* on the original map. 
 By comparison, problems with longer path lengths were solved 3.5 to 4 times faster.
 This is as expected; the number of pruned nodes which do not need to be evaluated
 will usually grow with the distance from the starting position to the goal
