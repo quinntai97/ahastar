@@ -26,10 +26,11 @@ rectangular areas that are connected by randomly placed entrances.}
         \label{fig-bgmap}
  \end{figure}
 \par
-For each map we restricted movement to the four cardinal directions and generated 100 experiments by 
-randomly creating valid problems between arbitrarily chosen pairs of start and goal locations.
-We then ran A* twice: once on the original maps and again on our modified maps
-This makes for a total of 86400 (432$\times$100$\times$2) distinct experiments.
+For each map we restricted movement to the four cardinal directions.
+We generated 100 instances per map by randomly chosing pairs of start and goal locations
+with the property that a path exists between them.
+We then ran A* twice: once on the original maps and again on our modified maps.
+This makes for a total of 86400 (432$\times$100$\times$2) distinct running instances.
 Our test machine featured a 2.93GHz Intel Core 2 Duo processor with 4GB RAM and
 ran OSX 10.6.2.
-A* is implemented using HOG.
+We use the A* implementation provided in HOG.

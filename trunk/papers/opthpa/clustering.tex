@@ -8,15 +8,15 @@ condition is reached.
 %In Algorithm \ref{alg-clearance} we give a recursive procedure for computing clearances.
 %This technique is originally described in \cite{harabor08} where clearances are used to
 %facilitate pathfinding for multi-size agents navigating across grid maps.
-In order to compute clearances we employ the technique described in \cite{harabor08}.
+In order to compute clearances we employ the technique described by \citeauthor{harabor08}~\shortcite{harabor08}.
 The algorithm can be summarised as follows:
 For each tile $t$ on the map, compute a maximal size square bounding box that contains no obstacles
-and has $t$ as a upper-left corner.
+and has $t$ as the upper-left corner.
 The length of the bounding box becomes the clearance value associated with the tile.
 %\input alg_clearance
 \par
-Once clearance values are computed for each tile on the map we apply the following
-procedure to construct empty rectangular rooms:
+We introduce the following
+procedure to construct empty rectangular rooms once clearance values are computed:
 
 
 \begin{enumerate}

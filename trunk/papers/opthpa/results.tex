@@ -9,16 +9,20 @@ associated with each result.
 Meanwhile, in Figure \ref{fig-speedup} we present the average speedup experienced by A* 
 when running on our modified grid maps as compared to the original.
 We measure speedup in terms of node expansions and search times.
-A search time speedup of 2.0 is twice a fast; a node expansion speedup of 2.0 
+For example, a search time speedup of 2.0 is twice a fast; a node expansion speedup of 2.0 
 indicates 50\% fewer nodes were expanded.
+We will see that the time speed-up is greater than the node speed-up.
+This is because operations for maintaining the open list depend on the size of the list
+and thus having a smaller open list makes each such operation faster.
+
 We will discuss our results on each benchmark in turn.
 \input graphsize
 \textbf{Adaptive Depth:} 
-The topography of the maps in this benchmark were very favourable for our
+The topography of the maps in this benchmark were favourable for our
 symmetry breaking technique.
 Our decomposition algorithm was able to identify many large open areas and
 pruned between 50.5\% to 62.3\% of all nodes.
-Its average performance was just over over 57\%. 
+Its average performance was just over 57\%. 
 We also noticed a 2-3 fold reduction in the average number of nodes expanded 
 by A* and a corresponding search time speed up of between 3-4 times.
 Very easy problems (those with path lengths $<$ 25) fared worse than harder
@@ -28,12 +32,14 @@ than running A* on the original map.
 By comparison, problems with longer path lengths were solved 3.5 to 4 times faster.
 This is as expected; the number of pruned nodes which do not need to be evaluated
 will usually grow with the distance from the starting position to the goal
-position. 
-Of course this observation assumes the decomposition algorithm is able identify
-symmetric paths in all rooms that appear on the way to the goal.
-Though this is often the case there is no guarantee in general and the performance
-gain experienced by the search algorithm is closely tied to the topography of 
-the map.
+position. In smaller searches there tend to be fewer opportunities to take advantage 
+of the pruning enhancement.
+%
+%Of course this observation assumes the decomposition algorithm is able identify
+%symmetric paths in all rooms that appear on the way to the goal.
+%Though this is often the case there is no guarantee in general and the performance
+%gain experienced by the search algorithm is closely tied to the topography of 
+%the map.
 \par
 \textbf{Baldur's Gate: }
 The maps in this benchmark are usually composed of large open areas, sometimes
