@@ -1,8 +1,9 @@
 \section{Online Insertion}
-It can often be the case that an interior node pruned as a result of offline symmetry elimination
-is required at a later point as a start or goal location for an agent.
-Interior start and target nodes are temporarily inserted
-back into the graph for the duration of the search using the following procedure (highlighted in Figure \ref{fig:insertion}):
+Often an interior node pruned as a result of offline symmetry elimination
+is required as a start or goal location for an agent.
+We handle such cases by inserting back into the graph interior start and goal nodes  
+for the duration of the search.
+We use the following procedure (highlighted in Figure \ref{fig:insertion}):
 \begin{enumerate}
 \item{If the start and goal are in the same room no insertion is required.
  Since it is guaranteed that there are no obstacles between the two locations, an optimal 
@@ -11,8 +12,8 @@ back into the graph for the duration of the search using the following procedure
 \item{If the start and goal are not in the same room, connect each of them
 to the closest neighbours on each side of the perimeter of the empty room.}
 \end{enumerate}
-We claim that this procedure allows to retain optimal paths from the start (or goal) location
-to all nodes of the perimeter of its room.
+We claim that this procedure retains optimality when searching from the start (or goal) location
+to all nodes on the perimeter of its room.
 
 \begin{figure}[t]
 	\vspace{-4pt}
@@ -56,6 +57,7 @@ We claim that procedure outlined earlier is sufficient to
 guarantee that running A* on our pruned maps will always return an optimal solution if one exists.
 
 \begin{theorem}
+\label{thm-optimality}
 For every optimal length path $\pi^*(s, g)$ in a 4-connected grid map there exists
 an equivalent length path in the pruned version of the grid map.
 \end{theorem}
@@ -67,8 +69,9 @@ on the perimeter of each room (and possibly one macro-step).
 %Thus the length of $\pi'(s, g)$ is equal to the length of $\pi'(s,g)$.
 \end{proof}
 
-If desired, optimal solutions pruned by our symmetry reduction can easily be reconstructed
-from our optimal solutions.
+A direct corollary of Theorem \ref{thm-optimality} is that optimal solutions
+pruned by our symmetry reduction can be easily reconstructed; for example to
+avoid unnatural looking paths where agents seem to hug walls.
 Consider a path fragment between $m$ and $n$, two nodes on the perimeter of an empty room.
 Assume, without any generality loss, that the path fragment contains $r$ moves to the right and $u$ moves upwards.
 All optimal path fragments between $m$ and $n$ can be obtained by interleaving $r$ moves to the right
