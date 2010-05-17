@@ -16,11 +16,12 @@ We propose the following offline strategy for identifying and eliminating symmet
 rectangular in shape and free of any obstacles. 
 The size of the rooms can vary across a map, depending
 on the placement of the obstacles.}
-\item{Prune all nodes from the interior but not the perimeter of each empty room.
-Notice that trivial rooms with the width $w$ or the height $h$ or both being $\leq 2$
-provide no interior nodes to prune. Such rooms might be computed in areas with many obstacles.}
+\item{Prune all nodes from the interior but not the perimeter of each empty
+room.}
 \item{Add a series of \emph{macro edges} that connect each node on the perimeter of an empty room
-with a node on the directly opposite side of the room.}
+with a node on the directly opposite side of the room.
+Trivial rooms (where the width $w$ or the height $h$ is $\leq 2$) which contain
+no interior nodes are left unmodified.}
 \end{enumerate}
 Figure \ref{fig-overview} shows an example of this process.
 It is easy see to see that we eliminate a large number of symmetric paths
@@ -47,6 +48,8 @@ to navigate directly to a node $m'$ located on
 the same side of the perimeter as $n$. Then, go from $m'$ to $n$ along the perimeter.
 \end{proof}
 
-A direct corrolary to Lemma \ref{thm-roomtraversal} is that we can prune from consideration
-all nodes from the interior of $R$ and limit ourselves to only searching nodes appearing along its perimeter. The only exceptions are interior nodes that happen to be the start or the target
-of the search at hand. We address this case in the following section.
+A direct corollary to Lemma \ref{thm-roomtraversal} is that we can prune from consideration
+all nodes from the interior of $R$ and limit ourselves to only searching nodes appearing along its perimeter. 
+The only remaining consideration is how to deal with interior nodes that happen
+to be the start or goal location for the search at hand.
+We address this case in the following section.
