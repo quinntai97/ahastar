@@ -44,6 +44,8 @@ class HPACluster
 		
 		inline	void setSearchAlgorithm(AbstractClusterAStar* _alg) { alg = _alg; }
 		inline AbstractClusterAStar* getSearchAlgorithm() { return alg; }
+		inline void setVOrigin(int starty_) { starty = starty_; }
+		inline void setHOrigin(int startx_) { startx = startx_; }
 		inline int getVOrigin() { return starty; }
 		inline int getHOrigin() { return startx; }
 		inline int getWidth() { return width; }

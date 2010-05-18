@@ -259,6 +259,8 @@ void EmptyCluster::addSingleMacroEdge(node* from, node* to, double weight, graph
 
 void EmptyCluster::extend(HPAClusterAbstraction* aMap)
 {
+	setWidth(1);
+	setHeight(1);
 	Map* themap = aMap->getMap();
 	int hsize=0;
 	int y = this->getVOrigin();
@@ -299,39 +301,38 @@ void EmptyCluster::extend(HPAClusterAbstraction* aMap)
 
 void EmptyCluster::extend(HPAClusterAbstraction* aMap, int** clearance)
 {
-	int cvOrigin = clearance[this->getHOrigin()][this->getVOrigin()];
+	ClusterNode* n = dynamic_cast<ClusterNode*>(aMap->getNodeFromMap(getHOrigin(), getVOrigin()));
+	if(!n || n->getParentClusterId() != -1)
+	{
+		setHeight(0);
+		setWidth(0);
+		std::cout << "WARNING!! aborting cluster creation; origin is invalid or already assigned!!"<<std::endl;
+		return;
+	}
 
-	Map* themap = aMap->getMap();
-	int hsize=0;
-	int y = this->getVOrigin();
-	for(int x=this->getHOrigin(); x<themap->getMapWidth(); x++)
+	setWidth(1);
+	setHeight(1);
+	//std::cout << "cluster: "<<getHOrigin()<<", "<<getVOrigin()<<" ht: "<<getHeight()<<" wt: "<<getWidth()<<std::endl;
+	while(canExtendClearanceSquare(aMap))
 	{
-		int cv = clearance[x][y];
-		ClusterNode *n = dynamic_cast<ClusterNode*>(aMap->getNodeFromMap(x,y));
-		if(!n || n->getParentClusterId() != -1 || cv > cvOrigin)
-			break;
-		hsize++;
+		setHeight(getHeight() + 1);
+		setWidth(getWidth() + 1);
 	}
-	
-	this->setWidth(hsize);
-	int vsize=0;
-	for( ; y<themap->getMapHeight(); y++)
+	//std::cout << "csq done; height: "
+	//	<<getHeight()<<" width: "<<getWidth()<<std::endl;
+
+
+	while(canExtendHorizontally(aMap))
 	{
-		bool rowok=true;
-		for(int x=this->getHOrigin(); x<this->getHOrigin()+this->getWidth(); x++)
-		{
-			int cv = clearance[x][y];
-			ClusterNode *n = dynamic_cast<ClusterNode*>(aMap->getNodeFromMap(x,y));
-			if(!n || n->getParentClusterId() != -1 || cv > cvOrigin)
-			{
-				rowok=false;
-			}
-		}
-		if(!rowok)
-			break;
-		vsize++;
+		setWidth(getWidth() + 1);
+	//	std::cout << " extending horizontally!"<<std::endl;
 	}
-	this->setHeight(vsize);
+
+	while(canExtendVertically(aMap))
+	{
+		setHeight(getHeight() + 1);
+	//	std::cout << " extending vertically!"<<std::endl;
+	}
 
 	initOpenGLCoordinates(aMap);
 }
@@ -544,4 +545,50 @@ void EmptyCluster::buildVerticalEntrances(HPAClusterAbstraction* hpamap)
 	}
 }
 
+bool EmptyCluster::canExtendClearanceSquare(HPAClusterAbstraction* hpamap)
+{
+	int x = getHOrigin() + getWidth();
+	int y = getVOrigin();
+	for( ; y <= getVOrigin() + getHeight(); y++)
+	{
+		ClusterNode* n = dynamic_cast<ClusterNode*>(hpamap->getNodeFromMap(x, y));
+		if(!n || n->getParentClusterId() != -1)
+			return false;
+	}
 
+	x = getHOrigin();
+	y = getVOrigin() + getHeight();
+	for( ; x <= getHOrigin() + getWidth(); x++)
+	{
+		ClusterNode* n = dynamic_cast<ClusterNode*>(hpamap->getNodeFromMap(x, y));
+		if(!n || n->getParentClusterId() != -1)
+			return false;
+	}
+
+	return true;
+}
+
+bool EmptyCluster::canExtendHorizontally(HPAClusterAbstraction* hpamap)
+{
+	int x = getHOrigin() + getWidth();
+	for(int y = getVOrigin(); y<getVOrigin() + getHeight(); y++)
+	{
+		ClusterNode* n = dynamic_cast<ClusterNode*>(hpamap->getNodeFromMap(x, y));
+		if(!n || n->getParentClusterId() != -1)
+			return false;
+	}
+	return true;
+}
+
+bool EmptyCluster::canExtendVertically(HPAClusterAbstraction* hpamap)
+{
+	int y = getVOrigin() + getHeight();
+	for(int x = getHOrigin(); x<getHOrigin() + getWidth(); x++)
+	{
+		ClusterNode* n = dynamic_cast<ClusterNode*>(hpamap->getNodeFromMap(x, y));
+		if(!n || n->getParentClusterId() != -1)
+			return false;
+	}
+	return true;
+
+}

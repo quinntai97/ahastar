@@ -1,7 +1,7 @@
 #auto-generated file, do not edit!
 SHELL = /bin/tcsh
 CC = g++
-CFLAGS = -Wall -O3 -I../aha -I../hpa -I../opthpa -I../abstraction -I../driver -I../shared -I../simulation -I../util
+CFLAGS = -Wall -g -ggdb -I../aha -I../hpa -I../opthpa -I../abstraction -I../driver -I../shared -I../simulation -I../util
 
 ifeq ($(findstring "Darwin", "$(shell uname -s)"), "Darwin")
 ifeq ("$(OPENGL)", "STUB")

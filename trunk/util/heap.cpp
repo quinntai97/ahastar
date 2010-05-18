@@ -25,10 +25,11 @@
 #include "heap.h"
 #include "aStar3.h"
 
-heap::heap(int s)
+heap::heap(int s, bool minheap)
 {
   count = 0;
   _elts.reserve(s);
+  this->minheap = minheap;
 }
 
 heap::~heap()
@@ -56,7 +57,19 @@ void heap::add(graph_object *val)
  */
 void heap::decreaseKey(graph_object *val)
 {
-  heapifyUp(val->key);
+	if(minheap)
+		heapifyUp(val->key);
+	else
+		heapifyDown(val->key);
+}
+
+// increase key for the object 'val' and reorder the heap accordingly
+void heap::increaseKey(graph_object* val)
+{
+	if(minheap)
+		heapifyDown(val->key);
+	else
+		heapifyUp(val->key);
 }
 
 /**
@@ -71,7 +84,7 @@ bool heap::isIn(graph_object *val)
 }
 
 /**
- * Remove the item with the lowest key from the heap & re-heapify.
+ * Remove the item with the highest priority from the heap & re-heapify.
  */
 graph_object *heap::remove()
 {
@@ -85,6 +98,12 @@ graph_object *heap::remove()
   heapifyDown(0);
 
   return ans;
+}
+
+// return a pointer to the object on the top of the heap but do not remove it
+graph_object* heap::peek()
+{
+	return _elts[0];
 }
 
 /**
@@ -111,13 +130,14 @@ void heap::heapifyUp(int index)
   }
 }
 
+// reorders the subheap with elts_[index] as its root
 void heap::heapifyDown(int index)
 {
   int child1 = index*2+1;
   int child2 = index*2+2;
   int which;
 	
-  // find smallest child
+  // find smallest (or largest, depending on heap type) child
   if (child1 >= count)
     return;
   else if (child2 >= count)
@@ -138,10 +158,21 @@ void heap::heapifyDown(int index)
   }
 }
 
-// returns true if the priority of second < first
+// returns true if:
+//   minheap is true and the priority of second < first
+//   minheap is false and the priority of second > first
 bool heap::rotate(graph_object* first, graph_object* second)
 {
-  if (fless(second->getKey(), first->getKey()))
+  if(minheap)
+  {
+	if (fless(second->getKey(), first->getKey()))
 	  return true;
-  return false;
+	return false;
+  }
+  else
+  {
+	  if(fgreater(second->getKey(), first->getKey()))
+		  return true;
+	  return false;
+  }
 }
