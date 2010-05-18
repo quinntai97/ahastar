@@ -6,6 +6,7 @@
 #include "IHPAClusterFactory.h"
 #include "INodeFactory.h"
 #include "graph.h"
+#include "heap.h"
 #include "map.h"
 
 EmptyClusterAbstraction::EmptyClusterAbstraction(Map* m, IHPAClusterFactory* cf, 
@@ -94,6 +95,107 @@ void EmptyClusterAbstraction::buildClusters()
 //			std::cout << clearance[x][y] << " ";
 //		std::cout << std::endl;
 //	}
+
+	for(int i=0; i<mapwidth; i++)
+		delete clearance[i];
+	delete[] clearance;
+}
+
+void EmptyClusterAbstraction::buildClusters2()
+{
+	if(getVerbose())
+		std::cout << "buildClusters...."<<std::endl;
+
+	Map* m = this->getMap();
+	int mapheight = m->getMapHeight();
+	int mapwidth = m->getMapWidth();
+
+	// calculate clearance values; store in a 2-D array
+	int** clearance;
+    clearance = new int*[mapwidth];
+	for(int i = 0; i<mapwidth; i++)
+		clearance[i] = new int[mapheight];
+	for(int y=0; y<mapheight; y++)
+		for(int x=0; x<mapwidth; x++)
+			clearance[x][y] = 0;
+	computeClearance(clearance);
+
+	// set initial priorities of all potential cluster origins
+	// based on # of interior nodes in maximal clearance square of each tile
+	heap clusterheap(30, false);
+	EmptyCluster* cluster = new EmptyCluster(0, 0);
+	for(int y=0; y<mapheight; y++)
+		for(int x=0; x<mapwidth; x++)
+		{
+			node* n = this->getNodeFromMap(x, y);
+			if(n)
+			{
+				cluster->setHOrigin(x);
+				cluster->setVOrigin(y);
+				cluster->extend(this, clearance);	
+
+				double interiorNodes = 0;
+				if(cluster->getWidth() > 2 && cluster->getHeight() > 2)
+					interiorNodes = (cluster->getWidth()-2)*(cluster->getHeight()-2);
+
+				//std::cout << "heap: ("<<x<<", "<<y<<") clearance: "<<clearance[x][y]<<" priority: "<<interiorNodes<<std::endl;
+				n->setLabelF(kTemporaryLabel, interiorNodes);
+				n->setKeyLabel(kTemporaryLabel);
+				clusterheap.add(n);
+			}
+		}
+
+	// start making clusters; prefer clusters with more interior nodes to others
+	// with less
+	while(!clusterheap.empty())
+	{
+		ClusterNode* cur = dynamic_cast<ClusterNode*>(clusterheap.peek());
+		double minExpectedInteriorNodes = cur->getLabelF(kTemporaryLabel);
+		int x = cur->getLabelL(kFirstData);
+		int y = cur->getLabelL(kFirstData+1);
+
+		if(cur->getParentClusterId() == -1)
+		{
+			if(!cluster)
+				cluster = new EmptyCluster(x, y);
+			else
+			{
+				cluster->setHOrigin(x);
+				cluster->setVOrigin(y);
+			}
+			cluster->extend(this, clearance);	
+
+			double interiorNodes = 0;
+			if(cluster->getWidth() > 2 && cluster->getHeight() > 2)
+				interiorNodes = (cluster->getWidth()-2)*(cluster->getHeight()-2);
+
+			if(interiorNodes >= minExpectedInteriorNodes)
+			{
+				cluster->setVerbose(getVerbose());
+				cluster->setAllowDiagonals(getAllowDiagonals());
+				addCluster(cluster);
+				cluster->addNodesToCluster(this, clearance);
+				if(this->getVerbose())
+				{
+					std::cout << "new cluster @ ("<<x<<","<<y<<") "
+						" id: "<< cluster->getId()<< " height: "<<cluster->getHeight()<<" "
+						"width: "<<cluster->getWidth()<<" priority: "<<cur->getLabelF(kTemporaryLabel)<<std::endl;
+				}
+				clusterheap.remove();
+				cluster = 0;
+			}
+			else
+			{
+				cur->setLabelF(kTemporaryLabel, interiorNodes); 
+				clusterheap.decreaseKey(cur);
+			}
+		}
+		else
+		{
+			clusterheap.remove();
+		}
+		
+	}
 
 	for(int i=0; i<mapwidth; i++)
 		delete clearance[i];
@@ -259,3 +361,4 @@ EmptyCluster* EmptyClusterAbstraction::getCluster(int cid)
 {
 	return dynamic_cast<EmptyCluster*>(HPAClusterAbstraction::getCluster(cid));
 }
+

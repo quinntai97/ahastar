@@ -150,7 +150,7 @@ void createSimulation(unitSimulation * &unitSim)
 
 	//ecmap->setAllowDiagonals(true);
 //	ecmap->setVerbose(true);
-	ecmap->buildClusters();
+	ecmap->buildClusters2();
 	ecmap->buildEntrances();
 	//ecmap->setDrawClusters(true);
 	graph* absg = ecmap->getAbstractGraph(1);

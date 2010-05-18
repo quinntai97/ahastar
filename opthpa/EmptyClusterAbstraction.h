@@ -37,6 +37,7 @@ class EmptyClusterAbstraction : public HPAClusterAbstraction
 		virtual ~EmptyClusterAbstraction();
 
 		virtual void buildClusters();
+		virtual void buildClusters2();
 		virtual	EmptyCluster* clusterIterNext(cluster_iterator&) const;
 		virtual EmptyCluster* getCluster(int cid);
 		

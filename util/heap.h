@@ -30,29 +30,40 @@
 #include "graph.h"
 
 /**
- * A simple & efficient heap class which uses graph objects.
+ * A simple & efficient min/max heap class which uses graph objects.
  */
 
 class aStarOld;
 class heap {
 public:
-  heap(int s = DEFAULT_SIZE);
+
+  // creates a new min or max heap (depending on whether minheap 
+  // is true or false)
+  heap(int s = DEFAULT_SIZE, bool minheap = true );
   ~heap();
-	unsigned int size();
+
+  unsigned int size();
   void add(graph_object *val);
   void decreaseKey(graph_object *val);
+  void increaseKey(graph_object* val);
   bool isIn(graph_object *val);
   graph_object *remove();
+  graph_object *peek();
+
   bool empty();
 
   // returns true if (priority of) first >= second; else false
   virtual bool rotate(graph_object* first, graph_object* second);
+
+  bool isMinHeap() { return minheap; } 
 
 private:
   void heapifyUp(int index);
   void heapifyDown(int index);
   std::vector<graph_object *> _elts;
   int count;
+
+  bool minheap;
 };
 
 #endif
