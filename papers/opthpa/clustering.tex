@@ -2,44 +2,30 @@
 \label{empty rooms}
 In this section we give a simple but effective flood-fill-based algorithm for decomposing a 
 grid map into empty rectangular rooms.
-Our method attempts to identify large open spaces by examining the amount of \emph{clearance}
-(a distance-to-obstacle metric) around a tile and growing that area until some termination 
-condition is reached.
-%In Algorithm \ref{alg-clearance} we give a recursive procedure for computing clearances.
-%This technique is originally described in \cite{harabor08} where clearances are used to
-%facilitate pathfinding for multi-size agents navigating across grid maps.
-In order to compute clearances we employ the technique described by \citeauthor{harabor08}~\shortcite{harabor08}.
-The algorithm can be summarised as follows:
-For each tile $t$ on the map, compute a maximal size square bounding box that contains no obstacles
-and has $t$ as the upper-left corner.
-The length of the bounding box becomes the clearance value associated with the tile.
-%\input alg_clearance
-\par
-We introduce the following
-procedure to construct empty rectangular rooms once clearance values are computed:
-
+We will try to build large rooms before small ones and prefer rooms which
+contain as many interior nodes as possible:
 
 \begin{enumerate}
-\item{Iterate over all traversable nodes on the map, row by row in a
-left-to-right manner, identifying nodes that have not yet 
-been assigned to a room.}
-\item{Starting with the first unassigned node, attempt a maximal extension of the room
-by flood-filling over the nodes in the current row (to the right of the start node).}
-\item{Stop flood-filling when one of the following conditions is met: an obstacle is found,
-a node which is already assigned to another room is found or an unassigned
-node is found which has a larger clearance value than the node at the origin of the room.
-The length of the row of tiles prior to termination is the width of the room.}
-\item{Repeat Steps 2-3 for each subsequent row attempting to grow the room
-each time to its maximal width.
-The number of rows successfully processed before the algorithm terminates is the height of the room.}
+\item{For each traversable tile $t$, build an empty rectangle which has $t$ as its upper-left corner and which
+contains as many interior nodes as possible.}
+\item{\label{step2} Using a Max-Heap, sort the list of traversable tiles using the number of
+interior nodes in the rectangle of each $t$ as its priority.}
+\item{\label{step3} Take from the heap the tile $t$ with highest priority and try to build an empty
+room. }
+\item{\label{step4} If $t$ is already assigned to a room, discard it. 
+Otherwise, try to build an empty room with $t$ as its upper-left corner.}
+\item{\label{step5} If the number of nodes in the empty room is at least equal to the priority 
+of $t$ we add the room to our decomposition. }
+\item{\label{step6} If the number of nodes in the empty room at $t$ is not at least equal to
+the priority of $t$ we update the priority of $t$ and put it back the heap.}
+\item{\label{step7} Repeat Steps \ref{step3} to \ref{step6} until the heap is
+empty and all nodes have been assigned to a room in the decomposition.}
 \end{enumerate}
 
-% We found this algorithm to work significantly better than other more naive flood-fill
-% approaches (for example, as described in \cite{bjornsson06,bolanca09}). 
-% In particular, the early termination condition at Step 3 
-% due to increasing clearance is critical to avoid the situation where
-% several smaller rooms are extended into an area which could be occupied by one large room.
-
+The construction of empty rooms is similar to the computation of \emph{clearance
+values} in \citeauthor{harabor08}~\shortcite{harabor08}, however we work with rectangles
+instead of squares. 
+\par
 As we will see the performance of A* on our modified grid map is closely related to the total 
 number of nodes we are able to prune.
 Thus, identifying large rooms is critical.
