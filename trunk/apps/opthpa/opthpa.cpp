@@ -176,7 +176,7 @@ void createSimulation(unitSimulation * &unitSim)
 			map, new EmptyClusterFactory(), 
 			new ClusterNodeFactory(), new EdgeFactory());
 
-	ecmap->buildClusters();
+	ecmap->buildClusters2();
 	ecmap->buildEntrances();
 	//ecmap->setDrawClusters(true);
 	graph* absg = ecmap->getAbstractGraph(1);
