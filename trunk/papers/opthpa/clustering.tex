@@ -6,28 +6,28 @@ We will try to build large rooms before small ones and prefer rooms which
 contain as many interior nodes as possible:
 
 \begin{enumerate}
-\item{For each traversable tile $t$, build a maximal size empty square which has
+\item{\label{step1} For each traversable tile $t$, build a maximal size empty square which has
 $t$ as its upper left corner.}
-\item{Form a rectangle by extending the square, first horizontally then
+\item{\label{step2} Form a maximal size rectangle by extending the square, first horizontally then
 vertically such that the resulting room contains no obstacles. }
-\item{\label{step2} Using a Max-Heap, sort the list of traversable tiles using the number of
+\item{\label{step3} Using a Max-Heap, sort the list of traversable tiles using the number of
 interior nodes in the rectangle of each $t$ as its priority.}
-\item{\label{step3} Take from the heap the tile $t$ with highest priority and try to build an empty
-room. }
-\item{\label{step4} If $t$ is already assigned to a room, discard it. 
-Otherwise, try to build an empty room with $t$ as its upper-left corner which
+\item{\label{step4} Take from the heap the tile $t$ with highest priority,
+discarding any tiles which have already been assigned to a room. }
+\item{\label{step5} Build a maximal size empty room (as outlined in Steps
+\ref{step1} and \ref{step2}) which has $t$ as its upper-left corner and 
 contains no obstacles or nodes already assigned to another room.}
-\item{\label{step5} If the number of nodes in the empty room is at least equal to the priority 
-of $t$ we add the room to our decomposition. }
-\item{\label{step6} If the number of nodes in the empty room at $t$ is not at least equal to
-the priority of $t$ we discard the room and update the priority of $t$ on the heap.}
+\item{\label{step6} If the number of interior nodes in the empty room is at least equal to the priority 
+of $t$ we add the room to our decomposition. 
+Otherwise, we discard the room and update the priority of $t$ with the number of interior 
+nodes the room contained. }
 \item{\label{step7} Repeat Steps \ref{step3} to \ref{step6} until the heap is
 empty and all nodes have been assigned to a room in the decomposition.}
 \end{enumerate}
 
 The construction of empty rooms is similar to the computation of \emph{clearance
-values} in \citeauthor{harabor08}~\shortcite{harabor08}, however we work with rectangles
-instead of squares. 
+values} in \citeauthor{harabor08}~\shortcite{harabor08}. 
+In this case however we work with maximal size rectangles instead of squares. 
 \par
 As we will see the performance of A* on our modified grid map is closely related to the total 
 number of nodes we are able to prune.
