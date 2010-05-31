@@ -148,7 +148,7 @@ void createSimulation(unitSimulation * &unitSim)
 			map, new EmptyClusterFactory(), 
 			new MacroNodeFactory(), new EdgeFactory());
 
-	//ecmap->setAllowDiagonals(true);
+	ecmap->setAllowDiagonals(true);
 //	ecmap->setVerbose(true);
 	ecmap->buildClusters2();
 	ecmap->buildEntrances();

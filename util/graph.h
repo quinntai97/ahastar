@@ -150,6 +150,8 @@ class edge : public graph_object {
 	double getWidth() { return getLabelF(kEdgeWidth); }
 	void setWidth(double val) { setLabelF(kEdgeWidth, val); }
 	
+	void setTo(int nodeid) { to = nodeid; }
+	void setFrom(int nodeid) { from = nodeid; }
 	unsigned int getFrom() { return from; }
 	unsigned int getTo() { return to; }
 	

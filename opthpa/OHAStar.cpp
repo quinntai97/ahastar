@@ -58,10 +58,17 @@ path* OHAStar::getPath(graphAbstraction *_aMap, node *from, node *to, reservatio
 	mfrom->setMacroParent(mfrom);
 	double insertTime = t.endTimer();
 
+	if(verbose)
+	{
+		std::cout << "new problem;";
+		printNode(std::string("start"), mfrom);
+		printNode(std::string("goal"), mto);
+		std::cout << std::endl;
+	}
+
 	path* p = ClusterAStar::getPath(aMap, mfrom, mto, rp);	
 
 	t.startTimer();
-
 	p = refinePath(p);
 	aMap->removeStartAndGoalNodesFromAbstractGraph();
 
@@ -369,3 +376,106 @@ node* OHAStar::closestNeighbour(node* from, node* to)
 
 	return closest;
 }
+
+// expand all nodes along the perimeter of the current rectangle
+void OHAStar::expand(node* current_, node* goal_, heap* openList, std::map<int, node*>& closedList, graph* g)
+{
+	AbstractClusterAStar::expand(current_, goal_, openList, closedList, g);
+	if(verbose)
+	{
+		printNode(std::string("expanding perimeter..."),current_);
+		std::cout << std::endl;;
+	}
+
+	MacroNode* current = dynamic_cast<MacroNode*>(current_);
+	assert(current);
+	MacroNode* goal = dynamic_cast<MacroNode*>(goal_);
+	assert(goal);
+
+	EmptyClusterAbstraction* ecmap = dynamic_cast<EmptyClusterAbstraction*>(getGraphAbstraction());
+	assert(ecmap);
+
+	EmptyCluster* parentCluster  = ecmap->getCluster(current->getParentClusterId());
+	nodeTable* perimeter = parentCluster->getParents();
+
+	edge* e = new edge(0, 0, 0); // dummy
+	for(nodeTable::iterator it = perimeter->begin(); it != perimeter->end(); it++)
+	{
+		MacroNode* neighbour = dynamic_cast<MacroNode*>(it->second);
+		int neighbourid = neighbour->getNum();
+		if(neighbourid == current->getNum())
+			continue;
+		
+		e->setTo(current->getNum());
+		e->setFrom(neighbourid);
+		e->setWeight(this->h(current, neighbour));
+		
+		if(verbose) 
+		{
+			printNode(std::string("\tneighbour... "), neighbour);
+		}
+		if(closedList.find(neighbour->getUniqueID()) == closedList.end()) // ignore nodes on the closed list
+		{
+			// if a node on the openlist is reachable via this new edge, 
+			// relax the edge (see cormen et al)
+			if(openList->isIn(neighbour)) 
+			{	
+				if(evaluate(current, neighbour, e)) 
+				{		
+					if(verbose) std::cout << "\t\trelaxing"<<std::endl;
+					relaxEdge(openList, g, e, current->getNum(), neighbourid, goal); 
+					nodesTouched++;
+				}
+			}
+			else
+			{
+				if(evaluate(current, neighbour, e)) 
+				{
+					if(verbose) std::cout << "\t\tadding to open list"<<std::endl;
+					neighbour->setLabelF(kTemporaryLabel, MAXINT); // initial fCost = inifinity
+					neighbour->setKeyLabel(kTemporaryLabel); // an initial key value for prioritisation in the openlist
+					neighbour->markEdge(0);  // reset any marked edges (we use marked edges to backtrack over optimal path when goal is found)
+					openList->add(neighbour);
+					relaxEdge(openList, g, e, current->getNum(), neighbourid, goal); 
+					nodesTouched++;
+				}
+			}
+			if(markForVis)
+				neighbour->drawColor = 1; // visualise touched
+		}
+		else
+		{
+			if(verbose) 
+			{
+				std::cout << "\t\tclosed!"<<std::endl;
+			}
+			double fclosed = neighbour->getLabelF(kTemporaryLabel);
+			double gclosed =  fclosed - h(neighbour, goal);
+
+			// alternate fcost
+			double alth = h(neighbour, goal);
+			double altg = current->getLabelF(kTemporaryLabel) - h(current, goal);
+
+			if((altg + e->getWeight() + alth) < fclosed)
+			{
+				std::cout << "node "<<neighbour->getName()<<" expanded out of order! ";
+				std::cout << " fClosed = "<<fclosed << " fActual: "<<altg + e->getWeight() + alth;
+				std::cout << " gClosed = "<<gclosed<< "; alternative: "<<altg+e->getWeight();
+				printNode("\nfaulty node: ", neighbour, goal); 
+				std::cout << std::endl;
+				printNode(" alt parent: ", current, goal);
+				std::cout << std::endl;
+			}
+
+		}
+	}
+		
+	delete e;
+	if(markForVis)
+		current->drawColor = 2; // visualise expanded
+
+	//if(verbose) printNode(string("closing... "), current);
+	closedList[current->getUniqueID()] = current;	
+}
+
+

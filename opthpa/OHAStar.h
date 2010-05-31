@@ -42,6 +42,7 @@ class OHAStar : public ClusterAStar
 		virtual path *getPath(graphAbstraction *aMap, node *from, node *to, reservationProvider *rp = 0);
 
 	protected:
+		virtual void expand(node* current, node* to, heap* openList, std::map<int, node*>& closedList, graph* g);
 		virtual bool evaluate(node* current, node* target, edge* e);
 		virtual void relaxEdge(heap *nodeHeap, graph *g, edge *e, int source, 
 				int nextNode, node *to);
@@ -49,7 +50,7 @@ class OHAStar : public ClusterAStar
 		virtual path* refinePath(path* p);
 
 	private:
-		bool cardinal; // pretend the graph is 4-connected (ignore diagonal edges)
+		bool cardinal; // if true, diagonal edges are ignored (pretend graph is 4-connected)
 		node* closestNeighbour(node* from, node* to);
 
 };
