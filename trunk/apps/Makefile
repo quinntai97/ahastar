@@ -41,8 +41,8 @@ apps.mk : $(TARGS) Makefile
 	@echo "#auto-generated file, do not edit!" >! apps.mk
 	@echo "SHELL = /bin/tcsh" >> apps.mk
 	@echo "CC = g++" >> apps.mk
-	@echo "CFLAGS = -Wall -g -ggdb -I../aha -I../hpa -I../opthpa -I../abstraction -I../driver -I../shared -I../simulation -I../util" >> apps.mk
-#	@echo "CFLAGS = -Wall -O3 -I../aha -I../hpa -I../opthpa -I../abstraction -I../driver -I../shared -I../simulation -I../util" >> apps.mk
+#	@echo "CFLAGS = -Wall -g -ggdb -I../aha -I../hpa -I../opthpa -I../abstraction -I../driver -I../shared -I../simulation -I../util" >> apps.mk
+	@echo "CFLAGS = -Wall -O3 -I../aha -I../hpa -I../opthpa -I../abstraction -I../driver -I../shared -I../simulation -I../util" >> apps.mk
 	@echo >> $(@)
 
 	@echo 'ifeq ($(value DLR)(findstring "Darwin", "$(value DLR)(shell uname -s)"), "Darwin")' >> $(@)

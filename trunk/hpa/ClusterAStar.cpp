@@ -159,7 +159,6 @@ void AbstractClusterAStar::expand(node* current, node* to, heap* openList, std::
 		node* neighbour = g->getNode(neighbourid);
 
 		
-//		if(verbose) printNode(string("\tneighbour... "), neighbour);
 		if(closedList.find(neighbour->getUniqueID()) == closedList.end()) // ignore nodes on the closed list
 		{
 			// if a node on the openlist is reachable via this new edge, 
@@ -168,7 +167,7 @@ void AbstractClusterAStar::expand(node* current, node* to, heap* openList, std::
 			{	
 				if(evaluate(current, neighbour, e)) 
 				{		
-				//	if(verbose) std::cout << "\t\trelaxing"<<std::endl;
+					if(verbose) std::cout << "\t\trelaxing";
 					relaxEdge(openList, g, e, current->getNum(), neighbourid, to); 
 					nodesTouched++;
 				}
@@ -177,7 +176,7 @@ void AbstractClusterAStar::expand(node* current, node* to, heap* openList, std::
 			{
 				if(evaluate(current, neighbour, e)) 
 				{
-					//if(verbose) std::cout << "\t\tadding to open list"<<std::endl;
+					if(verbose) std::cout << "\t\tadding to open list";
 					neighbour->setLabelF(kTemporaryLabel, MAXINT); // initial fCost = inifinity
 					neighbour->setKeyLabel(kTemporaryLabel); // an initial key value for prioritisation in the openlist
 					neighbour->markEdge(0);  // reset any marked edges (we use marked edges to backtrack over optimal path when goal is found)
@@ -191,7 +190,7 @@ void AbstractClusterAStar::expand(node* current, node* to, heap* openList, std::
 		}
 		else
 		{
-			//if(verbose) std::cout << "\t\tclosed!"<<std::endl;
+			if(verbose) std::cout << "\t\tclosed!";
 			double fclosed = neighbour->getLabelF(kTemporaryLabel);
 			double gclosed =  fclosed - h(neighbour, to);
 
@@ -210,6 +209,11 @@ void AbstractClusterAStar::expand(node* current, node* to, heap* openList, std::
 				std::cout << std::endl;
 			}
 
+		}
+		if(verbose)
+		{
+			printNode(string("\tneighbour... "), neighbour);
+			std::cout << std::endl;
 		}
 		e = current->edgeIterNext(ei);
 	}

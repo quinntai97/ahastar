@@ -45,7 +45,7 @@ void EmptyCluster::addNodesToCluster(HPAClusterAbstraction* aMap, int** clearanc
 	}
 
 	frameCluster(aMap);
-	addMacroEdges(aMap);
+	//addMacroEdges(aMap);
 }
 
 void EmptyCluster::addNodesToCluster(HPAClusterAbstraction* aMap)
@@ -79,7 +79,7 @@ void EmptyCluster::addNodesToCluster(HPAClusterAbstraction* aMap)
 	}
 
 	frameCluster(aMap);
-	addMacroEdges(aMap);
+	//addMacroEdges(aMap);
 }
 
 
