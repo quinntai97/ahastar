@@ -145,12 +145,14 @@ void HPACluster::addParent(node* _parentnode, HPAClusterAbstraction* hpamap) thr
 	parents[parentnode->getUniqueID()] = parentnode;
 }
 
-void HPACluster::removeParent(int clusterId)
+void HPACluster::removeParent(int nodeid)
 {
-	node* n = nodes[clusterId];
-	if(n != 0)
+	nodeTable::iterator it = parents.find(nodeid);
+	if(it != parents.end())
 	{
-		nodes.erase(clusterId); // only removed from parents hashmap
+		unsigned int numParents= parents.size();
+		parents.erase(it);
+		assert(parents.size() == --numParents);
 	}	
 }
 
@@ -410,18 +412,17 @@ void HPACluster::buildDiagonalEntrances(HPAClusterAbstraction* hpamap)
 // These nodes are connected to each other via an inter-edge and to every other node within their respective clusters (if reachable) by intra-edges.
 void HPACluster::addTransitionPoint(node* from, node* to, HPAClusterAbstraction* hpamap)
 {
-//	if(getVerbose())
-//	{
-//		std::cout << "addTransitionPoint: ";
-//		from->Print(std::cout);
-//		to->Print(std::cout);
-//		std::cout << std::endl;
-//	}
+	//if(getVerbose())
+	//{
+	//	std::cout << "addTransitionPoint: ";
+	//	from->Print(std::cout);
+	//	to->Print(std::cout);
+	//	std::cout << std::endl;
+	//}
 
 	// add internodes; first try to reuse existing nodes from the abstract graph, else create new ones.
 	int abstractionLevel = 1;
 	graph *g = hpamap->getAbstractGraph(abstractionLevel);
-	Map* map = hpamap->getMap();
 	ClusterNode* absfrom = dynamic_cast<ClusterNode*>(g->getNode(from->getLabelL(kParent)));
 	ClusterNode* absto = dynamic_cast<ClusterNode*>(g->getNode(to->getLabelL(kParent)));
 	
@@ -482,4 +483,29 @@ void HPACluster::print(std::ostream& out)
 {
 	out << "Cluster "<<getId()<<" Origin: ("<<getHOrigin()<<", "<<getVOrigin()<<") ";
 	out << "ht: "<<getHeight()<<" wt: "<<getWidth()<<" #nodes: "<<getNumNodes()<<" #parents: "<<getNumParents()<<" ";
+}
+
+bool HPACluster::verifyCluster()
+{
+		bool result = true;
+		int numExpectedParents = 0;
+		if(this->getWidth() == 1 && this->getHeight() == 1)
+			numExpectedParents = 1;
+		else if(this->getWidth() == 1)
+			numExpectedParents = this->getHeight();
+		else if(this->getHeight() == 1)
+			numExpectedParents = this->getWidth();
+		else
+			numExpectedParents = this->getWidth()*2 + (this->getHeight()-2)*2;
+
+		assert(numExpectedParents == this->getNumParents());
+		if(numExpectedParents != this->getNumParents())
+			result = false;
+
+		int numExpectedNodes = this->getHeight()*this->getWidth();
+		assert(numExpectedNodes == this->getNumNodes());
+		if(numExpectedNodes != this->getNumNodes())
+			result = false;
+
+		return result;
 }
