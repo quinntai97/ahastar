@@ -1,4 +1,4 @@
-#include "hogconfig.h"
+#include "HogConfig.h"
 #include <cstring>
 
 HogConfig::HogConfig()
