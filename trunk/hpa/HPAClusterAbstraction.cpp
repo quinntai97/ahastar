@@ -174,7 +174,7 @@ void HPAClusterAbstraction::removeStartAndGoalNodesFromAbstractGraph() throw(std
 		}
 		
 		HPACluster* startCluster = clusters[start->getParentClusterId()];
-		startCluster->removeParent(startid); 
+		startCluster->removeParent(start->getUniqueID()); 
 		g->removeNode(startid); 
 		
 		startid = -1;
@@ -200,7 +200,7 @@ void HPAClusterAbstraction::removeStartAndGoalNodesFromAbstractGraph() throw(std
 		}
 		
 		HPACluster* goalCluster = clusters[goal->getParentClusterId()];
-		goalCluster->removeParent(goalid);
+		goalCluster->removeParent(goal->getUniqueID());
 		g->removeNode(goal->getNum()); 
 
 		goalid = -1;
@@ -396,4 +396,15 @@ double HPAClusterAbstraction::h(node* a, node* b)
 	else
 		answer = root2m1*fabs(y1-y2)+fabs(x1-x2);
 	return answer;
+}
+
+void HPAClusterAbstraction::verifyClusters()
+{
+	cluster_iterator iter = getClusterIter();
+	HPACluster* cluster = clusterIterNext(iter);
+	while(cluster)
+	{
+		cluster->verifyCluster();
+		cluster = clusterIterNext(iter);
+	}
 }

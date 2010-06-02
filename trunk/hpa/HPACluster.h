@@ -66,6 +66,8 @@ class HPACluster
 		inline bool getVerbose() { return verbose; }
 		inline void setVerbose(bool _v) { verbose = _v; }
 		
+
+		bool verifyCluster();
 		void print(std::ostream& out);
 		void printParents();
 		virtual void openGLDraw() { }
