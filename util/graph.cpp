@@ -711,6 +711,7 @@ node::node(const node* n)
 	nodeNum = n->nodeNum;
 	width = n->width;
 	drawColor=0;
+	markedEdge = 0;
 }
 
 // clones all labels, all annotations, nodeNum, weight etc. DOES NOT clone edges or parentclusterid
@@ -728,6 +729,7 @@ graph_object *node::clone() const
   n->nodeNum = nodeNum;
   n->width = width;
   n->drawColor=0;
+  n->markedEdge = 0;
   return n;
 }
 
