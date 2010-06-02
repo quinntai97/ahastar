@@ -80,7 +80,7 @@ path* HPAStar2::getPath(graphAbstraction* aMap, node* _from, node* _to, reservat
 		hpamap->insertStartAndGoalNodesIntoAbstractGraph(from, to);		
 		this->nodesExpanded += hpamap->getNodesExpanded();
 		this->nodesTouched += hpamap->getNodesTouched();
-		this->searchtime += hpamap->getSearchTime();
+		this->searchTime += hpamap->getSearchTime();
 		if(this->peakmemory < hpamap->getPeakMemory())
 			this->peakmemory = hpamap->getPeakMemory();
 				
@@ -225,7 +225,7 @@ void HPAStar2::updateMetrics(AbstractClusterAStar& castar)
 	this->nodesTouched += castar.getNodesTouched();
 	if(this->peakmemory < castar.getPeakMemory())
 		this->peakmemory = castar.getPeakMemory();
-	this->searchtime += castar.getSearchTime();
+	this->searchTime += castar.getSearchTime();
 }
 
 void HPAStar2::logFinalStats(statCollection* stats)
@@ -245,5 +245,5 @@ void HPAStar2::resetMetrics()
 	this->nodesExpanded = 0;
 	this->nodesTouched = 0;
 	this->peakmemory = 0;
-	this->searchtime = 0;
+	this->searchTime = 0;
 }

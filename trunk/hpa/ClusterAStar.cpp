@@ -77,7 +77,7 @@ path* ClusterAStar::getPath(graphAbstraction *aMap, node* from, node* to, reserv
 		nodesExpanded=0;
 		nodesTouched=0;
 		peakmemory = 0;
-		searchtime =0;
+		searchTime =0;
 		return NULL;
 	}
 	this->setGraphAbstraction(aMap);
@@ -91,7 +91,7 @@ path* AbstractClusterAStar::search(graph* g, node* from, node* to)
 	nodesExpanded=0;
 	nodesTouched=0;
 	peakmemory = 0;
-	searchtime =0;
+	searchTime =0;
 
 	// label start node cost 0 
 	from->setLabelF(kTemporaryLabel, h(from, to));
@@ -131,7 +131,7 @@ path* AbstractClusterAStar::search(graph* g, node* from, node* to)
 			break;
 		}
 	}
-	searchtime = t.endTimer();
+	searchTime = t.endTimer();
 	delete openList; 
 	closedList.clear();
 
@@ -156,7 +156,7 @@ void AbstractClusterAStar::expand(node* current, node* to, heap* openList, std::
 	{
 		// TODO: fix HOG's graph stuff; nodes identified using position in array instead of uniqueid. graph should just store a hash_map
 		int neighbourid = e->getFrom()==current->getNum()?e->getTo():e->getFrom();
-		node* neighbour = g->getNode(neighbourid);
+		ClusterNode* neighbour = dynamic_cast<ClusterNode*>(g->getNode(neighbourid));
 
 		
 		if(closedList.find(neighbour->getUniqueID()) == closedList.end()) // ignore nodes on the closed list
@@ -179,7 +179,7 @@ void AbstractClusterAStar::expand(node* current, node* to, heap* openList, std::
 					if(verbose) std::cout << "\t\tadding to open list";
 					neighbour->setLabelF(kTemporaryLabel, MAXINT); // initial fCost = inifinity
 					neighbour->setKeyLabel(kTemporaryLabel); // an initial key value for prioritisation in the openlist
-					neighbour->markEdge(0);  // reset any marked edges (we use marked edges to backtrack over optimal path when goal is found)
+					neighbour->reset();  // reset any marked edges from previous searches 
 					openList->add(neighbour);
 					relaxEdge(openList, g, e, current->getNum(), neighbourid, to); 
 					nodesTouched++;
@@ -256,10 +256,8 @@ bool ClusterAStar::evaluate(node* current, node* target, edge* e)
 
 void ClusterAStar::logFinalStats(statCollection *stats)
 {
-	stats->addStat("nodesExpanded",getName(),getNodesExpanded());
-	stats->addStat("nodesTouched",getName(),getNodesTouched());
+	searchAlgorithm::logFinalStats(stats);
 	stats->addStat("peakMemory",getName(),getPeakMemory());
-	stats->addStat("searchTime",getName(),getSearchTime());
 }
 
 bool ClusterAStar::checkParameters(graphAbstraction* aMap, node* from, node* to)
@@ -287,12 +285,10 @@ void AbstractClusterAStar::printNode(string msg, node* n, node* goal)
 	if(dynamic_cast<MacroNode*>(n))
 	{
 		MacroNode* mp = dynamic_cast<MacroNode*>(n)->getMacroParent();
-		if(mp && mp->getNum() != n->getNum())
+		if(mp)
 		{
 			std::cout << " mp: "<<dynamic_cast<MacroNode*>(n)->getMacroParent()->getName()<<" ";
 		}
-//		else
-//		{
 			if(n->getMarkedEdge())
 			{
 				graph* g =  getGraphAbstraction()->getAbstractGraph(n->getLabelL(kAbstractionLevel));
@@ -301,7 +297,6 @@ void AbstractClusterAStar::printNode(string msg, node* n, node* goal)
 				node* parent = g->getNode(parentId);
 				std::cout << " p: ("<<parent->getLabelL(kFirstData)<<", "<<parent->getLabelL(kFirstData+1)<<") ";
 			}
-//		}
 	}
 
 	if(goal)

@@ -22,6 +22,8 @@ OHAStar::~OHAStar()
 // fail otherwise?.
 path* OHAStar::getPath(graphAbstraction *_aMap, node *from, node *to, reservationProvider *rp)
 {
+	visitedClusters.clear();
+	assert(visitedClusters.size() == 0);
 	Timer t;
 	t.startTimer();
 
@@ -38,6 +40,8 @@ path* OHAStar::getPath(graphAbstraction *_aMap, node *from, node *to, reservatio
 		return 0;
 	}
 
+	aMap->verifyClusters();
+
 	// abstract or low-level search? this decision affects the behaviour of ::relaxEdge
 	if(mfrom->getLabelL(kAbstractionLevel) == 0 || 
 			mto->getLabelL(kAbstractionLevel) == 0)
@@ -45,9 +49,9 @@ path* OHAStar::getPath(graphAbstraction *_aMap, node *from, node *to, reservatio
 		if(verbose)
 			std::cout << "inserting s+g into abstract graph"<<std::endl;
 		aMap->insertStartAndGoalNodesIntoAbstractGraph(mfrom, mto);
-		int mfp = mfrom->getLabelL(kParent);
-		int mtp = mto->getLabelL(kParent);
-		std::cout << "parent ids: "<<mfp<<" "<<mtp<<std::endl;
+		//int mfp = mfrom->getLabelL(kParent);
+		//int mtp = mto->getLabelL(kParent);
+		//std::cout << "parent ids: "<<mfp<<" "<<mtp<<std::endl;
 
 		graph* g = aMap->getAbstractGraph(1);
 		mfrom = dynamic_cast<MacroNode*>(g->getNode(mfrom->getLabelL(kParent)));
@@ -61,8 +65,10 @@ path* OHAStar::getPath(graphAbstraction *_aMap, node *from, node *to, reservatio
 	if(verbose)
 	{
 		std::cout << "new problem;";
-		printNode(std::string("start"), mfrom);
-		printNode(std::string("goal"), mto);
+		std::cout << "start: ";
+		mfrom->Print(std::cout);	
+		std::cout << "goal: ";
+		mto->Print(std::cout);
 		std::cout << std::endl;
 	}
 
@@ -71,16 +77,17 @@ path* OHAStar::getPath(graphAbstraction *_aMap, node *from, node *to, reservatio
 	t.startTimer();
 	p = refinePath(p);
 	aMap->removeStartAndGoalNodesFromAbstractGraph();
+	aMap->verifyClusters();
 
 	double refineTime = t.endTimer();
-	searchtime+=insertTime + refineTime;
+	searchTime+=insertTime + refineTime;
 
 	return p;
 }
 
 // if ::cardinal == true, edges with non-integer costs will not be evaluated during search.
 // i.e. we pretend the graph has no diagonal edges (characteristic of a 4-connected graph).
-bool OHAStar::evaluate(node* _current, node* _target, edge* e)
+/*bool OHAStar::evaluate(node* _current, node* _target, edge* e)
 {
 	MacroNode* current = dynamic_cast<MacroNode*>(_current);;
 	MacroNode* target = dynamic_cast<MacroNode*>(_target);;
@@ -128,6 +135,7 @@ bool OHAStar::evaluate(node* _current, node* _target, edge* e)
 
 	return retVal;
 }
+*/
 
 // relaxEdge keeps track of the shortest path to each node.
 // the method is called every time a node is generated.
@@ -143,7 +151,7 @@ bool OHAStar::evaluate(node* _current, node* _target, edge* e)
 // @param: e - the edge being considered
 // @param: fromId - the Id of the node being expanded
 // @param: toId - the Id of the node being generated
-void OHAStar::relaxEdge(heap *openList, graph *g, edge *e, int fromId, 
+/*void OHAStar::relaxEdge(heap *openList, graph *g, edge *e, int fromId, 
 		int toId, node *goal)
 {
 	MacroNode* from = dynamic_cast<MacroNode*>(g->getNode(fromId));
@@ -226,6 +234,7 @@ void OHAStar::relaxEdge(heap *openList, graph *g, edge *e, int fromId,
 //		if(verbose)
 //			std::cout << " not relaxing!"<<std::endl;
 }
+*/
 
 // Extracts the optimal path once the goal is found.
 // Unlike the canonical implementation, which simply follows marked edges
@@ -378,19 +387,28 @@ node* OHAStar::closestNeighbour(node* from, node* to)
 }
 
 // expand all nodes along the perimeter of the current rectangle
-void OHAStar::expand(node* current_, node* goal_, heap* openList, std::map<int, node*>& closedList, graph* g)
+void 
+OHAStar::expand(node* current_, node* goal_, heap* openList, std::map<int, node*>& closedList, graph* g)
 {
 	AbstractClusterAStar::expand(current_, goal_, openList, closedList, g);
-	if(verbose)
-	{
-		printNode(std::string("expanding perimeter..."),current_);
-		std::cout << std::endl;;
-	}
+	expandMacro(current_, goal_, openList, closedList, g);
+}
+
+void 
+OHAStar::expandMacro(node* current_, node* goal_, heap* openList, 
+		std::map<int, node*>& closedList, graph* g)
+{
 
 	MacroNode* current = dynamic_cast<MacroNode*>(current_);
 	assert(current);
 	MacroNode* goal = dynamic_cast<MacroNode*>(goal_);
 	assert(goal);
+
+	if(verbose)
+	{
+		printNode(std::string("expandMacro..."),current_);
+		std::cout << " in cluster "<<current->getParentClusterId() << std::endl;
+	}
 
 	EmptyClusterAbstraction* ecmap = dynamic_cast<EmptyClusterAbstraction*>(getGraphAbstraction());
 	assert(ecmap);
@@ -398,17 +416,17 @@ void OHAStar::expand(node* current_, node* goal_, heap* openList, std::map<int, 
 	EmptyCluster* parentCluster  = ecmap->getCluster(current->getParentClusterId());
 	nodeTable* perimeter = parentCluster->getParents();
 
-	edge* e = new edge(0, 0, 0); // dummy
+
+//	std::cout << "perimeter size: "<<perimeter->size()<<std::endl;
+	unsigned int count=0;
 	for(nodeTable::iterator it = perimeter->begin(); it != perimeter->end(); it++)
 	{
-		MacroNode* neighbour = dynamic_cast<MacroNode*>(it->second);
-		int neighbourid = neighbour->getNum();
-		if(neighbourid == current->getNum())
-			continue;
-		
-		e->setTo(current->getNum());
-		e->setFrom(neighbourid);
-		e->setWeight(this->h(current, neighbour));
+		assert(count < perimeter->size());
+		node* nb = it->second;
+		MacroNode* neighbour = dynamic_cast<MacroNode*>(nb);
+		assert(neighbour);
+		//if(neighbour->getNum() == current->getNum())
+		//	continue;
 		
 		if(verbose) 
 		{
@@ -418,27 +436,23 @@ void OHAStar::expand(node* current_, node* goal_, heap* openList, std::map<int, 
 		{
 			// if a node on the openlist is reachable via this new edge, 
 			// relax the edge (see cormen et al)
-			if(openList->isIn(neighbour)) 
+//			if(visitedClusters.find(parentCluster->getId()) != visitedClusters.end())
+			if(openList->isIn(neighbour))
 			{	
-				if(evaluate(current, neighbour, e)) 
-				{		
-					if(verbose) std::cout << "\t\trelaxing"<<std::endl;
-					relaxEdge(openList, g, e, current->getNum(), neighbourid, goal); 
-					nodesTouched++;
-				}
+				if(verbose) std::cout << "\t\trelaxing"<<std::endl;
+				relaxMacro(openList, current, neighbour, goal); 
+				nodesTouched++;
 			}
 			else
 			{
-				if(evaluate(current, neighbour, e)) 
-				{
-					if(verbose) std::cout << "\t\tadding to open list"<<std::endl;
-					neighbour->setLabelF(kTemporaryLabel, MAXINT); // initial fCost = inifinity
-					neighbour->setKeyLabel(kTemporaryLabel); // an initial key value for prioritisation in the openlist
-					neighbour->markEdge(0);  // reset any marked edges (we use marked edges to backtrack over optimal path when goal is found)
-					openList->add(neighbour);
-					relaxEdge(openList, g, e, current->getNum(), neighbourid, goal); 
-					nodesTouched++;
-				}
+				if(verbose) std::cout << "\t\tadding to open list"<<std::endl;
+				neighbour->setLabelF(kTemporaryLabel, MAXINT); // initial fCost = inifinity
+				neighbour->setKeyLabel(kTemporaryLabel); // an initial key value for prioritisation in the openlist
+				neighbour->setMacroParent(current);
+				neighbour->reset();
+				openList->add(neighbour);
+				relaxMacro(openList, current, neighbour, goal); 
+				nodesTouched++;
 			}
 			if(markForVis)
 				neighbour->drawColor = 1; // visualise touched
@@ -453,14 +467,14 @@ void OHAStar::expand(node* current_, node* goal_, heap* openList, std::map<int, 
 			double gclosed =  fclosed - h(neighbour, goal);
 
 			// alternate fcost
-			double alth = h(neighbour, goal);
-			double altg = current->getLabelF(kTemporaryLabel) - h(current, goal);
+			double altg = current->getLabelF(kTemporaryLabel) - h(current, goal) + h(current, neighbour);
+			double altf = altg + h(neighbour, goal);
 
-			if((altg + e->getWeight() + alth) < fclosed)
+			if(altf < fclosed)
 			{
 				std::cout << "node "<<neighbour->getName()<<" expanded out of order! ";
-				std::cout << " fClosed = "<<fclosed << " fActual: "<<altg + e->getWeight() + alth;
-				std::cout << " gClosed = "<<gclosed<< "; alternative: "<<altg+e->getWeight();
+				std::cout << " fClosed = "<<fclosed << " fAlt: "<<altf;
+				std::cout << " gClosed = "<<gclosed<< "; gAlt: "<<altg;
 				printNode("\nfaulty node: ", neighbour, goal); 
 				std::cout << std::endl;
 				printNode(" alt parent: ", current, goal);
@@ -468,14 +482,52 @@ void OHAStar::expand(node* current_, node* goal_, heap* openList, std::map<int, 
 			}
 
 		}
+		count++;
 	}
 		
-	delete e;
 	if(markForVis)
 		current->drawColor = 2; // visualise expanded
 
 	//if(verbose) printNode(string("closing... "), current);
 	closedList[current->getUniqueID()] = current;	
+
+	if(visitedClusters.find(parentCluster->getId()) == visitedClusters.end())
+			visitedClusters[parentCluster->getId()] = true;
 }
 
+void 
+OHAStar::relaxMacro(heap *openList, MacroNode* from, MacroNode* to, node* goal)
+{
+	assert(from->getParentClusterId() == to->getParentClusterId());
+	double g_from = from->getLabelF(kTemporaryLabel) - h(from, goal); 
+	double f_to = g_from + h(from, to) + h(to, goal); 
 
+	// update priority and macro parent 
+	if(f_to < to->getLabelF(kTemporaryLabel))
+	{
+		to->setLabelF(kTemporaryLabel, f_to);
+		to->setMacroParent(from);
+		to->markEdge(0);
+		openList->decreaseKey(to);
+	}
+}
+
+void 
+OHAStar::relaxEdge(heap* openList, graph* g, edge* e, int fromId,
+		int toId, node* goal)
+{
+	MacroNode* from = dynamic_cast<MacroNode*>(g->getNode(fromId));
+	MacroNode* to = dynamic_cast<MacroNode*>(g->getNode(toId));
+	assert(from && to);
+
+	double g_from = from->getLabelF(kTemporaryLabel) - h(from, goal);
+	double f_to = g_from + e->getWeight() + h(to, goal);
+	
+	if(f_to < to->getLabelF(kTemporaryLabel))
+	{
+		to->setLabelF(kTemporaryLabel, f_to);
+		to->setMacroParent(0);
+		to->markEdge(e);
+		openList->decreaseKey(to);
+	}
+}

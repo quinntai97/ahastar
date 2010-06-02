@@ -39,7 +39,6 @@ class AbstractClusterAStar : public aStarOld
 		virtual path *getPath(graphAbstraction *aMap, node *from, node *to, reservationProvider *rp = 0) = 0;
 		
 		long getPeakMemory() { return peakmemory; }
-		double getSearchTime() { return searchtime; }
 		void setCorridorNodes(std::map<int, node*>* _nodes) 
 		{ 
 			corridorNodes = _nodes; 
@@ -59,7 +58,6 @@ class AbstractClusterAStar : public aStarOld
 		virtual path *search(graph* g, node *from, node *to);
 		
 		long peakmemory;
-		double searchtime;
 		std::map<int, node*> *corridorNodes;
 };
 

@@ -22,7 +22,9 @@
 #define OHASTAR_H
 
 #include "ClusterAStar.h"
+#include <ext/hash_map>
 
+class MacroNode;
 class OHAStar : public ClusterAStar
 {
 
@@ -43,15 +45,19 @@ class OHAStar : public ClusterAStar
 
 	protected:
 		virtual void expand(node* current, node* to, heap* openList, std::map<int, node*>& closedList, graph* g);
-		virtual bool evaluate(node* current, node* target, edge* e);
+		virtual void expandMacro(node* current, node* to, heap* openList, std::map<int, node*>& closedList, graph* g);
+//		virtual bool evaluate(node* current, node* target, edge* e);
 		virtual void relaxEdge(heap *nodeHeap, graph *g, edge *e, int source, 
 				int nextNode, node *to);
+		virtual void relaxMacro(heap *openList, MacroNode* from, MacroNode* to, node* goal);
+		void relaxMacro(heap *openList, graph *g, int fromId, int toId, node* goal);
 		virtual path *extractBestPath(graph *g, unsigned int current);
 		virtual path* refinePath(path* p);
 
 	private:
 		bool cardinal; // if true, diagonal edges are ignored (pretend graph is 4-connected)
 		node* closestNeighbour(node* from, node* to);
+		__gnu_cxx::hash_map<int, bool> visitedClusters;
 
 };
 
