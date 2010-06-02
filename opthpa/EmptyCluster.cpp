@@ -136,6 +136,7 @@ void EmptyCluster::frameCluster(HPAClusterAbstraction* aMap)
 				last = n;
 			}
 		}
+
 		// add nodes along top border
 		y = this->getVOrigin();
 		for(x=this->getHOrigin()+this->getWidth()-1; x>=this->getHOrigin(); x--)

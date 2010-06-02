@@ -24,6 +24,7 @@ class MacroNode : public ClusterNode
 		MacroNode(const MacroNode* n);		
 		virtual ~MacroNode();
 		virtual graph_object* clone() const { return new MacroNode(this); }
+		virtual void reset();
 
 		inline void	setMacroParent(MacroNode* _p) { p = _p; }
 		inline MacroNode* getMacroParent() { return p; }

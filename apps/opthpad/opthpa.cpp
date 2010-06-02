@@ -92,8 +92,8 @@ void processStats(statCollection* stat, const char* unitname)
 		expId--;
 
 	ss << "_"<<unitname;
-	std::cout << "exp: "<<expId<<" ";
-	std::cout << unitname;
+	//std::cout << "exp: "<<expId<<" ";
+//	std::cout << unitname;
 	FILE *f = fopen(ss.str().c_str(), "a+");
 
 	ne = nt = pm = absne = absnt = abspm = insne = insnt = inspm = 0;
@@ -151,11 +151,7 @@ void createSimulation(unitSimulation * &unitSim)
 	ecmap->setAllowDiagonals(true);
 //	ecmap->setVerbose(true);
 	ecmap->buildClusters2();
-	ecmap->verifyClusters();
-	std::cout << "\nbuildClusters2 is OK"<<std::endl;
 	ecmap->buildEntrances();
-	ecmap->verifyClusters();
-	std::cout << "\nbuildEntrances is OK"<<std::endl;
 	//ecmap->setDrawClusters(true);
 	graph* absg = ecmap->getAbstractGraph(1);
 	graph* g = ecmap->getAbstractGraph(0);
@@ -507,7 +503,7 @@ void runNextExperiment(unitSimulation *unitSim)
 	if(runAStar)
 	{
 		OHAStar* hpastar = new OHAStar();
-		hpastar->verbose = true;
+		//hpastar->verbose = true;
 		nextUnit = new searchUnit(nextExperiment->getStartX(), nextExperiment->getStartY(), nextTarget, hpastar); 
 		nextUnit->setColor(0.1,0.1,0.5);
 		nextTarget->setColor(0.1,0.1,0.5);
@@ -518,7 +514,7 @@ void runNextExperiment(unitSimulation *unitSim)
 	else
 	{
 		ClusterAStar* astar = new ClusterAStar();
-		astar->verbose = true;
+		//astar->verbose = true;
 		nextUnit = new searchUnit(nextExperiment->getStartX(), nextExperiment->getStartY(), nextTarget, astar); 
 		nextUnit->setColor(0.5,0.1,0.1);
 		nextTarget->setColor(0.5,0.1,0.1);

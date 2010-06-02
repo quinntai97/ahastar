@@ -175,6 +175,7 @@ void EmptyClusterAbstraction::buildClusters2()
 				cluster->setAllowDiagonals(getAllowDiagonals());
 				addCluster(cluster);
 				cluster->addNodesToCluster(this, clearance);
+				cluster->verifyCluster();
 				if(this->getVerbose())
 				{
 					std::cout << "new cluster @ ("<<x<<","<<y<<") "

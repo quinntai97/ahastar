@@ -1,5 +1,5 @@
 #include "ScenarioManager.h"
-#include "ClusterAStar.h"
+#include "aStar3.h"
 #include "mapAbstraction.h"
 
 AbstractScenarioManager::~AbstractScenarioManager()
@@ -76,8 +76,9 @@ Experiment* ScenarioManager::generateSingleExperiment(mapAbstraction* absMap)
 	r1 = g->getRandomNode();
 	r2 = g->getRandomNode();
 
-	ClusterAStar searchalg;
-	searchalg.cardinal = true;
+	//ClusterAStar searchalg;
+	//searchalg.cardinal = true;
+	aStarOld searchalg;
 	p = searchalg.getPath(absMap, r1, r2);
 
 	if(!p)

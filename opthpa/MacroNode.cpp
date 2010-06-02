@@ -14,3 +14,9 @@ MacroNode::~MacroNode()
 {
 
 }
+
+void MacroNode::reset()
+{
+	ClusterNode::reset();
+	setMacroParent(0);
+}
