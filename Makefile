@@ -34,8 +34,8 @@ TESTINCLUDES = -I./tests/util -I./tests/aha -I./tests/hpa -I./tests/opthpa
 
 # compiler flags
 CC = c++
-#CFLAGS = -Wall -Wno-long-long -g -ggdb -ansi -pedantic $(HOGINCLUDES) $(TESTINCLUDES)
-CFLAGS = -O3 $(HOGINCLUDES) -ansi
+CFLAGS = -Wall -Wno-long-long -g -ggdb -ansi -pedantic $(HOGINCLUDES) $(TESTINCLUDES)
+#CFLAGS = -O3 $(HOGINCLUDES) -ansi
 
 # locations of library files program depends on
 LIBFLAGS = -Lapps/libs 
@@ -72,7 +72,7 @@ endif
 # every directory in ./apps, except those filtered out, is a target for compilation
 TARGETS = $(filter-out %~ Makefile %.mk tests libs, $(notdir $(wildcard apps/*)))
 
-all: cleanapps $(TARGETS) tests
+all: cleanapps $(TARGETS)
 
 targets: cleanapps $(TARGETS)
 

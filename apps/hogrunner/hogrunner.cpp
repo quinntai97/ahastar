@@ -26,22 +26,15 @@
  */
 
 #include "common.h"
-#include "opthpa.h"
-#include "HPAClusterAbstraction.h"
-#include "HPAClusterFactory.h"
-#include "EmptyClusterAbstraction.h"
-#include "EmptyCluster.h"
-#include "EmptyClusterFactory.h"
-#include "EdgeFactory.h"
-#include "MacroNodeFactory.h"
-#include "ClusterAStar.h"
-#include "OHAStar.h"
-#include "clusterAbstraction.h"
+#include "hogrunner.h"
 #include "ScenarioManager.h"
+#include "aStar3.h"
+#include "mapFlatAbstraction.h"
 #include "searchUnit.h"
 #include "statCollection.h"
 #include <cstdlib>
 #include <sstream>
+#include "HogConfig.h"
 
 bool mouseTracking;
 int px1, py1, px2, py2;
@@ -49,11 +42,9 @@ int absType = 3;
 ScenarioManager scenariomgr;
 Experiment* nextExperiment;
 int expnum=0;
-bool runAStar=false;
 bool scenario=false;
-bool hog_gui=true;
-bool highquality=true;
-int CLUSTERSIZE=10;
+
+HogConfig config;
 
 /**
  * This function is called each time a unitSimulation is deallocated to
@@ -65,16 +56,11 @@ void processStats(statCollection *stat)
 	if(stat->getNumStats() == 0)
 		return;
 	
-	std::string unitname;
-	if(runAStar) // aha is next; we just finished aa* experiment
-		unitname = "ClusterAStar";		
-	else
-		unitname = "OHAStar";
+	std::string unitname("aStarOld");
 	
 	processStats(stat, unitname.c_str());
 	stat->clearAllStats();
 }
-
 
 void processStats(statCollection* stat, const char* unitname)
 {
@@ -88,12 +74,8 @@ void processStats(statCollection* stat, const char* unitname)
 	int ne, nt, pm, absne, absnt, abspm, insne, insnt, inspm;
 	double st, absst, insst, pathdist;
 	int expId = expnum;
-	if(strcmp(unitname, "OHAStar") == 0 && hog_gui)
-		expId--;
 
 	ss << "_"<<unitname;
-	std::cout << "exp: "<<expId<<" ";
-	std::cout << unitname;
 	FILE *f = fopen(ss.str().c_str(), "a+");
 
 	ne = nt = pm = absne = absnt = abspm = insne = insnt = inspm = 0;
@@ -114,20 +96,17 @@ void processStats(statCollection* stat, const char* unitname)
 	nt = val.lval;
 	fprintf(f, "%i,\t", nt);
 
-	exists = stat->lookupStat("peakMemory", unitname, val);
-	assert(exists);
-	pm = val.lval;
-	fprintf(f, "%i,\t", pm);
-
 	exists = stat->lookupStat("searchTime", unitname, val);
 	assert(exists);
 	st = val.fval;
 	fprintf(f, "%.8f,\t", st);
 	
-	exists = stat->lookupStat("distanceMoved", unitname, val);
-	assert(exists);
-	pathdist = val.fval;
-
+	if(!config.getGUI())
+	{
+		exists = stat->lookupStat("distanceMoved", unitname, val);
+		assert(exists);
+		pathdist = val.fval;
+	}
 	fprintf(f, "%.3f,\t", pathdist);	
 	fprintf(f, "%s\n", gDefaultMap);	
 
@@ -144,54 +123,11 @@ void createSimulation(unitSimulation * &unitSim)
 	Map* map = new Map(gDefaultMap);
 	//map->scale(100, 100);
 
-	EmptyClusterAbstraction* ecmap = new EmptyClusterAbstraction(
-			map, new EmptyClusterFactory(), 
-			new MacroNodeFactory(), new EdgeFactory());
-
-	ecmap->setAllowDiagonals(true);
-//	ecmap->setVerbose(true);
-	ecmap->buildClusters2();
-	ecmap->verifyClusters();
-	std::cout << "\nbuildClusters2 is OK"<<std::endl;
-	ecmap->buildEntrances();
-	ecmap->verifyClusters();
-	std::cout << "\nbuildEntrances is OK"<<std::endl;
-	//ecmap->setDrawClusters(true);
-	graph* absg = ecmap->getAbstractGraph(1);
-	graph* g = ecmap->getAbstractGraph(0);
+	mapFlatAbstraction* absMap = new mapFlatAbstraction(map);
 	
-	std::ostringstream ss;
-	ss << "results_graphsize";
-	//ss << "_csize"<<CLUSTERSIZE;
-	
-	FILE *f = fopen(ss.str().c_str(), "a+");
-
-	fprintf(f, "%i,\t%i,\t", g->getNumNodes(), g->getNumEdges());
-	fprintf(f, "%i,\t%i,\t", absg->getNumNodes(), absg->getNumEdges());
-	fprintf(f, "%i,\t", ecmap->getNumMacro());
-	fprintf(f, "%s\n", map->getMapName());
-	fflush(f);
-	fclose(f);
-	
-	std::cout << "map: "<<gDefaultMap<<" original map: nodes: "<<g->getNumNodes()<<" edges: "<<g->getNumEdges();
-	std::cout << " absnodes: "<<absg->getNumNodes()<<" absedges: "<<absg->getNumEdges()<<std::endl;
-	edge_iterator ei = absg->getEdgeIter();
-	 
-	// debugging
-/*	edge* e = absg->edgeIterNext(ei);
-	while(e)
+	if(config.getGUI())
 	{
-		node* f = absg->getNode(e->getFrom());
-		node* t = absg->getNode(e->getTo());
-		std::cout << "\n edge connects "<<f->getLabelL(kFirstData)<<","<<f->getLabelL(kFirstData+1)<< " and "<<t->getLabelL(kFirstData)<<","<<t->getLabelL(kFirstData+1);
-		std::cout <<"(weight: "<<e->getWeight()<<" caps: "<<e->getCapability() << " clearance: "<<e->getClearance(e->getCapability())<<")";
-		e = absg->edgeIterNext(ei);
-	}
-*/
-	
-	if(hog_gui)
-	{
-		unitSim = new unitSimulation(ecmap);	
+		unitSim = new unitSimulation(absMap);	
 		unitSim->setCanCrossDiagonally(true);
 		if(scenario)
 		{
@@ -201,41 +137,32 @@ void createSimulation(unitSimulation * &unitSim)
 	}
 	else
 	{
-		gogoGadgetNOGUIScenario(ecmap);
+		gogoGadgetNOGUIScenario(absMap);
 	}
 }
 
-void gogoGadgetNOGUIScenario(HPAClusterAbstraction* ecmap)
+void gogoGadgetNOGUIScenario(mapAbstraction* absMap)
 {
-	ClusterAStar astar;
-	OHAStar hpastar;
+	aStarOld astar;
 	statCollection stats;
 	
 	for(int i=0; i< scenariomgr.getNumExperiments(); i++)
 	{
 		expnum = i;
 		nextExperiment = (Experiment*)scenariomgr.getNthExperiment(i);
-		node* from = ecmap->getNodeFromMap(nextExperiment->getStartX(), nextExperiment->getStartY());
-		node* to = ecmap->getNodeFromMap(nextExperiment->getGoalX(), nextExperiment->getGoalY());
+		node* from = absMap->getNodeFromMap(nextExperiment->getStartX(), nextExperiment->getStartY());
+		node* to = absMap->getNodeFromMap(nextExperiment->getGoalX(), nextExperiment->getGoalY());
 		
-		path* p = astar.getPath(ecmap, from, to);
-		double distanceTravelled = ecmap->distance(p);
+		path* p = astar.getPath(absMap, from, to);
+		double distanceTravelled = absMap->distance(p);
 		stats.addStat("distanceMoved", astar.getName(), distanceTravelled);
 		astar.logFinalStats(&stats);
 		processStats(&stats, astar.getName());
 		stats.clearAllStats();
 		delete p;
-		
-		p = hpastar.getPath(ecmap, from, to);
-		distanceTravelled = ecmap->distance(p);
-		stats.addStat("distanceMoved", hpastar.getName(), distanceTravelled);
-		hpastar.logFinalStats(&stats);
-		processStats(&stats);
-		stats.clearAllStats();
-		delete p;
 	}
 	
-	delete ecmap;
+	delete absMap;
 	exit(0);
 }
 
@@ -283,11 +210,14 @@ void initializeHandlers()
 	installKeyboardHandler(myNewUnitKeyHandler, "Add simple Unit", "Deploys a right-hand-rule unit", kControlDown, 1);
 
 	installCommandLineHandler(myCLHandler, "-map", "-map filename", "Selects the default map to be loaded.");
-	installCommandLineHandler(myScenarioGeneratorCLHandler, "-genscenarios", "-genscenarios [.map filename] [number of scenarios] [clearance]", "Generates a scenario; a set of path problems on a given map");
-	installCommandLineHandler(myExecuteScenarioCLHandler, "-scenario", "-scenario filename", "Execute all experiments in a given .scenario file");
-	installCommandLineHandler(myGUICLHandler, "-gui", "-gui enable/disable", "Run the app without a pretty interface (used in conjunction with -scenario). Defaults to enable if not specified or if a non-valid argument is given ");	
-	installCommandLineHandler(myClustersizeCLHandler, "-clustersize", "-clustersize [num]", "Size of clusters to split up map into. Larger clusters are faster to create but less accurate. Default = 10.");		
-	
+	installCommandLineHandler(myScenarioGeneratorCLHandler, 
+			"-genscenarios", "-genscenarios [.map filename] [number of scenarios] ", 
+			"Generates a scenario; a set of path problems on a given map");
+	installCommandLineHandler(myExecuteScenarioCLHandler, "-scenario", 
+			"-scenario filename", "Execute all experiments in a given .scenario file");
+	installCommandLineHandler(myGUICLHandler, "-gui", "-gui enable/disable",
+		   	"Run the app without a pretty interface (used in conjunction with -scenario)."
+			 "Defaults to enable if not specified or if a non-valid argument is given ");	
 	installMouseClickHandler(myClickHandler);
 }
 
@@ -315,10 +245,9 @@ int myScenarioGeneratorCLHandler(char *argument[], int maxNumArgs)
 	ScenarioManager scenariomgr;
 	int numScenarios = atoi(argument[2]);
 
-	EmptyClusterAbstraction ecmap(new Map(map.c_str()), new EmptyClusterFactory(),
-			new MacroNodeFactory(), new EdgeFactory());
+	mapFlatAbstraction absMap(new Map(map.c_str()));
 	
-	scenariomgr.generateExperiments(&ecmap, numScenarios);
+	scenariomgr.generateExperiments(&absMap, numScenarios);
 	std::cout << "generated: "<<scenariomgr.getNumExperiments()<< " experiments"<<std::endl;
 
 	string outfile = map + ".scenario"; 
@@ -344,44 +273,13 @@ int myExecuteScenarioCLHandler(char *argument[], int maxNumArgs)
 int myGUICLHandler(char *argument[], int maxNumArgs)
 {
 	std::string value(argument[1]);
-	if(strcmp(argument[1], "disable") == 0)
-		hog_gui=false;
+	if(!strcmp(argument[1], "disable"))
+		config.setGUI(false);
+	if(!strcmp(argument[1], "enable"))
+		config.setGUI(true);
 
 	return 2;
 }
-
-int myQualityCLHandler(char *argument[], int maxNumArgs)
-{
-	std::string value(argument[1]);
-	if(strcmp(argument[1], "high") == 0)
-	{
-		highquality=true;
-		return 2;
-	}
-	else 
-		if(strcmp(argument[1], "low") == 0)
-		{
-			highquality=false;
-			return 2;
-		}
-		
-	return 0;
-}
-
-int myClustersizeCLHandler(char *argument[], int maxNumArgs)
-{
-	std::string value(argument[1]);
-	int val = atoi(value.c_str());
-	if(val>0)
-	{
-		CLUSTERSIZE=val;
-		return 2;
-	}
-
-	return 0;
-}
-
-
 
 void myDisplayHandler(unitSimulation *unitSim, tKeyboardModifier mod, char key)
 {
@@ -410,57 +308,32 @@ void myDisplayHandler(unitSimulation *unitSim, tKeyboardModifier mod, char key)
 
 void myNewUnitKeyHandler(unitSimulation *unitSim, tKeyboardModifier mod, char)
 {
-	HPAClusterAbstraction* aMap = dynamic_cast<HPAClusterAbstraction*>(
-			unitSim->getMapAbstraction());
-	aMap->clearColours();
 	for(int i=0; i<unitSim->getNumUnits(); i++)
 	{
 		unit* lastunit = dynamic_cast<searchUnit*>(unitSim->getUnit(0));
 		if(lastunit)
 		{
 			lastunit->logFinalStats(unitSim->getStats());
-			processStats(unitSim->getStats());
+			processStats(unitSim->getStats(), lastunit->getName());
 		}
 	}
 	unitSim->clearAllUnits();
 
 	int x1, y1, x2, y2;
 	unit *u, *targ;
-	ClusterAStar* astar;
-	
-	//std::cout << "\n absnodes: "<<unitSim->getMapAbstraction()->getAbstractGraph(1)->getNumNodes()<< " edges: "<<unitSim->getMapAbstraction()->getAbstractGraph(1)->getNumEdges();
-	//std::cout << " cachesize: "<<((EmptyClusterAbstraction*)unitSim->getMapAbstraction())->getPathCacheSize();
 
 	unitSim->getRandomLocation(x1, y1);
 	unitSim->getRandomLocation(x2, y2);
-	
-	//x2=26; y2=3;
-	//x1=58; y1=48;
-	std::cout << "\nwtf?!?!\n";
-	std::cout << "\n deploying unit to "<<x2<<","<<y2<<" with target at "<<x1<<","<<y1;
-	
-	unitSim->addUnit(targ = new unit(x1, y1));
 
-	switch (mod)
-	{
-		case kShiftDown: 
-			astar = new OHAStar();
-			astar->verbose = true;
-			unitSim->addUnit(u=new searchUnit(x2, y2, targ, astar)); 
-			u->setColor(0.3,0.7,0.3);
-			targ->setColor(0.3,0.7,0.3);
-			break;
-		default:
-			astar = new ClusterAStar();
-			astar->verbose = true;
-			unitSim->addUnit(u=new searchUnit(x2, y2, targ, astar)); 
-			u->setColor(1,1,0);
-			targ->setColor(1,1,0);
-			break;
-	}
-	u->setSpeed(0.12);
-//	u->setSpeed(0.000001);
-	//unitSim->setmapAbstractionDisplay(1);
+	unitSim->addUnit(targ = new unit(x1, y1));
+	targ->setColor(1,1,0);
+
+	aStarOld* astar = new aStarOld();
+	unitSim->addUnit(u=new searchUnit(x2, y2, targ, astar)); 
+	u->setColor(1,1,0);
+	u->setSpeed(0.05);
+
+	std::cout << "deploying unit to "<<x2<<","<<y2<<" with target at "<<x1<<","<<y1<<std::endl;
 }
 
 bool myClickHandler(unitSimulation *unitSim, int, int, point3d loc, tButtonType button, tMouseEventType mType)
@@ -489,42 +362,32 @@ bool myClickHandler(unitSimulation *unitSim, int, int, point3d loc, tButtonType 
 
 void runNextExperiment(unitSimulation *unitSim)
 {	
-	processStats(unitSim->getStats());
+	// doesn't log stats while visualising; see unitSimulation::advanceTime
+	// (map is cleared before this function is called)
+/*	if(expnum > 0)
+	{
+		unit* lastunit = dynamic_cast<searchUnit*>(unitSim->getUnit(0));
+		processStats(unitSim->getStats(), lastunit->getName());
+	}
+
 	if(expnum == scenariomgr.getNumExperiments()) 
 	{
+		delete unitSim;	
+		assert(graph_object::gobjCount == 0);
 		exit(0);
 	}
-
-	HPAClusterAbstraction* aMap = dynamic_cast<HPAClusterAbstraction*>(
-			unitSim->getMapAbstraction());
-	aMap->clearColours();
-	
+*/
 
 	Experiment* nextExperiment = dynamic_cast<Experiment*>(scenariomgr.getNthExperiment(expnum));
-	
 	searchUnit* nextUnit;
 	unit* nextTarget = new unit(nextExperiment->getGoalX(), nextExperiment->getGoalY());
-	if(runAStar)
-	{
-		OHAStar* hpastar = new OHAStar();
-		hpastar->verbose = true;
-		nextUnit = new searchUnit(nextExperiment->getStartX(), nextExperiment->getStartY(), nextTarget, hpastar); 
-		nextUnit->setColor(0.1,0.1,0.5);
-		nextTarget->setColor(0.1,0.1,0.5);
-		expnum++;
-		runAStar=false;
-		std::cout << "running "<<hpastar->getName()<<" experiment"<<std::endl;
-	}
-	else
-	{
-		ClusterAStar* astar = new ClusterAStar();
-		astar->verbose = true;
-		nextUnit = new searchUnit(nextExperiment->getStartX(), nextExperiment->getStartY(), nextTarget, astar); 
-		nextUnit->setColor(0.5,0.1,0.1);
-		nextTarget->setColor(0.5,0.1,0.1);
-		runAStar=true;
-		std::cout << "running "<<astar->getName()<<" experiment"<<std::endl;
-	}
+
+	aStarOld* astar = new aStarOld(); 
+	nextUnit = new searchUnit(nextExperiment->getStartX(), nextExperiment->getStartY(), nextTarget, astar); 
+	nextUnit->setColor(0.1,0.1,0.5);
+	nextTarget->setColor(0.1,0.1,0.5);
+	expnum++;
+	std::cout << "running "<<astar->getName()<<" experiment"<<std::endl;
 	nextUnit->setSpeed(0.05);
 
 	unitSim->clearAllUnits();
