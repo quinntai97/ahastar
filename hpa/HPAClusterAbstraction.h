@@ -102,6 +102,7 @@ class HPAClusterAbstraction : public mapAbstraction
 		inline bool getAllowDiagonals() { return allowDiagonals; }
 
 		void print(std::ostream& out);
+		void verifyClusters();
 
 		
 	protected:
