@@ -39,17 +39,19 @@
 
 class searchAlgorithm {
 public:
-	searchAlgorithm() { nodesExpanded = nodesTouched = 0; verbose = 0;}
+	searchAlgorithm() { nodesExpanded = nodesTouched = 0; searchTime = 0; verbose = 0;}
 	virtual ~searchAlgorithm() {}
 	virtual const char *getName() = 0;
 	virtual path *getPath(graphAbstraction *aMap, node *from, node *to, reservationProvider *rp = 0) = 0;
 	long getNodesExpanded() { return nodesExpanded; }
 	long getNodesTouched() { return nodesTouched; }
-	virtual void logFinalStats(statCollection *) {}
+	double getSearchTime() { return searchTime; }
+	virtual void logFinalStats(statCollection *);
 
 	//protected:
 	long nodesExpanded;
 	long nodesTouched;
+	double searchTime;
 
 	int verbose;
 };

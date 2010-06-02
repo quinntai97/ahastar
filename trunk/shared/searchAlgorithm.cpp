@@ -141,3 +141,10 @@ void doRandomPath(graphAbstraction *aMap, searchAlgorithm *sa, bool repeat)
 		
 		//aMap->clearDisplayLists();
 }
+
+void searchAlgorithm::logFinalStats(statCollection* stats)
+{
+	stats->addStat("nodesExpanded",getName(),getNodesExpanded());
+	stats->addStat("nodesTouched",getName(),getNodesTouched());
+	stats->addStat("searchTime",getName(),getSearchTime());
+}

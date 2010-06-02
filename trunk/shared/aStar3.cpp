@@ -28,6 +28,7 @@
 #include "aStar3.h"
 #include "heap.h"
 #include "map.h"
+#include "timer.h"
 
 
 // The constructor
@@ -50,6 +51,7 @@ path *aStarOld::getPath(graphAbstraction *aMap, node *from, node *to, reservatio
 	// Reset the number of states expanded
 	nodesExpanded = 0;
 	nodesTouched = 0;
+	searchTime = 0;
 	
 	if ((from == 0) || (to == 0) || (!aMap->pathable(from, to)) || (from == to))
 		return 0;
@@ -64,6 +66,8 @@ path *aStarOld::getPath(graphAbstraction *aMap, node *from, node *to, reservatio
 	n->setLabelF(kTemporaryLabel, wh*h(n, to));
 	n->markEdge(0);
 	
+	Timer t;
+	t.startTimer();
 	while (1)
 	{
 		nodesExpanded++;
@@ -125,6 +129,7 @@ path *aStarOld::getPath(graphAbstraction *aMap, node *from, node *to, reservatio
 		if (verbose) printf("Expanding %d\n", n->getNum());
 		if (n == to) break; // we found the goal
 	}
+	searchTime = t.endTimer();
 	delete openList;
 	return extractBestPath(g, n->getNum());
 }
