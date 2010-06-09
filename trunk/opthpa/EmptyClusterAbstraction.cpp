@@ -294,9 +294,9 @@ void EmptyClusterAbstraction::connectSG(node* absNode)
 	// connect to nodes along top perimeter of cluster
 	int maxDiagonalSteps = y - nodeCluster->getVOrigin();
 	int minx = (x-maxDiagonalSteps)<nodeCluster->getHOrigin()?nodeCluster->getHOrigin():(x-maxDiagonalSteps);
-	int maxx = (x+maxDiagonalSteps)>(nodeCluster->getHOrigin()+nodeCluster->getWidth())?
-		(nodeCluster->getHOrigin()+nodeCluster->getWidth()):(x+maxDiagonalSteps);
-	for(int nx = minx; nx<maxx; nx++)
+	int maxx = (x+maxDiagonalSteps+1)>(nodeCluster->getHOrigin()+nodeCluster->getWidth())?
+		(nodeCluster->getHOrigin()+nodeCluster->getWidth()):(x+maxDiagonalSteps+1);
+	for(int nx = minx; nx < maxx; nx++)
 	{
 		int ny = nodeCluster->getVOrigin();
 		node* absNeighbour = absg->getNode(this->getNodeFromMap(nx, ny)->getLabelL(kParent));
@@ -309,9 +309,9 @@ void EmptyClusterAbstraction::connectSG(node* absNode)
 	// connect to nodes along the bottom perimeter of cluster
 	maxDiagonalSteps = (nodeCluster->getVOrigin()+nodeCluster->getHeight()-1) - y;
 	minx = (x-maxDiagonalSteps)<nodeCluster->getHOrigin()?nodeCluster->getHOrigin():(x-maxDiagonalSteps);
-	maxx = (x+maxDiagonalSteps)>(nodeCluster->getHOrigin()+nodeCluster->getWidth())?
-		(nodeCluster->getHOrigin()+nodeCluster->getWidth()):(x+maxDiagonalSteps);
-	for(int nx = minx; nx<maxx; nx++)
+	maxx = (x+maxDiagonalSteps+1)>(nodeCluster->getHOrigin()+nodeCluster->getWidth())?
+		(nodeCluster->getHOrigin()+nodeCluster->getWidth()):(x+maxDiagonalSteps+1);
+	for(int nx = minx; nx < maxx; nx++)
 	{
 		int ny = nodeCluster->getVOrigin()+nodeCluster->getHeight()-1;
 		node* absNeighbour = absg->getNode(this->getNodeFromMap(nx, ny)->getLabelL(kParent));
@@ -324,8 +324,8 @@ void EmptyClusterAbstraction::connectSG(node* absNode)
 	// connect to nodes along the left perimeter of cluster
 	maxDiagonalSteps = x - nodeCluster->getHOrigin();	
 	int miny = (y-maxDiagonalSteps)<nodeCluster->getVOrigin()?nodeCluster->getVOrigin():(y-maxDiagonalSteps);
-	int maxy = (y+maxDiagonalSteps)>(nodeCluster->getVOrigin()+nodeCluster->getHeight())?
-		(nodeCluster->getVOrigin()+nodeCluster->getHeight()):(y+maxDiagonalSteps);
+	int maxy = (y+maxDiagonalSteps+1)>(nodeCluster->getVOrigin()+nodeCluster->getHeight())?
+		(nodeCluster->getVOrigin()+nodeCluster->getHeight()):(y+maxDiagonalSteps+1);
 	for(int ny = miny; ny < maxy; ny++)
 	{
 		int nx = nodeCluster->getHOrigin();
@@ -339,8 +339,8 @@ void EmptyClusterAbstraction::connectSG(node* absNode)
 	// connect to nodes along the right perimeter of cluster
 	maxDiagonalSteps = (nodeCluster->getHOrigin()+nodeCluster->getWidth()-1) - x;
 	miny = (y-maxDiagonalSteps)<nodeCluster->getVOrigin()?nodeCluster->getVOrigin():(y-maxDiagonalSteps);
-	maxy = (y+maxDiagonalSteps)>(nodeCluster->getVOrigin()+nodeCluster->getHeight())?
-		(nodeCluster->getVOrigin()+nodeCluster->getHeight()):(y+maxDiagonalSteps);
+	maxy = (y+maxDiagonalSteps+1)>(nodeCluster->getVOrigin()+nodeCluster->getHeight())?
+		(nodeCluster->getVOrigin()+nodeCluster->getHeight()):(y+maxDiagonalSteps+1);
 	for(int ny = miny; ny < maxy; ny++)
 	{
 		int nx = nodeCluster->getHOrigin()+nodeCluster->getWidth()-1;
