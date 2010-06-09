@@ -218,8 +218,6 @@ void EmptyCluster::addCardinalMacroEdges(HPAClusterAbstraction *aMap)
 // use this when working with 8-connected grid maps
 void EmptyCluster::addMacroEdges(HPAClusterAbstraction *aMap)
 {
-	this->print(std::cout);
-	std::cout << std::endl;
 	if(getVerbose())
 	{
 		std::cout << "adding macro edges for cluster "<<getId()<<" origin ";
@@ -229,7 +227,6 @@ void EmptyCluster::addMacroEdges(HPAClusterAbstraction *aMap)
 	graph* absg = aMap->getAbstractGraph(1);
 	macro = 0;
 
-	std::cout << "\n1. gsize: "<<absg->getNumEdges()<< " ";
 	if(this->getAllowDiagonals() && this->getHeight() > 1 && this->getWidth() > 1)
 	{
 		// first, add diagonal edges between nodes on orthogonal sides of the cluster
@@ -278,7 +275,6 @@ void EmptyCluster::addMacroEdges(HPAClusterAbstraction *aMap)
 					aMap->getNodeFromMap(sx, sy)->getLabelL(kParent));
 			addSingleMacroEdge(first, second, aMap->h(first, second), absg);
 		}
-		std::cout << "\n2. gsize: "<<absg->getNumEdges()<< " ";
 
 		// add edges connecting nodes on the top side to nodes on the bottom side of the cluster
 		for(int fx=this->getHOrigin(); fx<this->getHOrigin()+this->getWidth(); fx++)
@@ -317,9 +313,7 @@ void EmptyCluster::addMacroEdges(HPAClusterAbstraction *aMap)
 				addSingleMacroEdge(first, second, aMap->h(first, second), absg);
 			}
 		}
-		std::cout << "\n3. gsize: "<<absg->getNumEdges()<< " ";
 	}
-
 
 	if(getVerbose())
 		std::cout << macro << " macro edges added for cluster "<<getId()<<std::endl;

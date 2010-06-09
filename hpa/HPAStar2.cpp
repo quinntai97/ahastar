@@ -57,6 +57,7 @@ path* HPAStar2::getPath(graphAbstraction* aMap, node* _from, node* _to, reservat
 	ClusterNode* to = dynamic_cast<ClusterNode*>(_to);
 					
 	AbstractClusterAStar* castar = caf->newClusterAStar();
+	castar->verbose = verbose;
 	path* thepath=0;
 
 	// if from/goal are in the same cluster, try to find a path directly
