@@ -3,6 +3,7 @@
 #include "ClusterNode.h"
 #include "HPAClusterAbstraction.h"
 #include "MacroEdge.h"
+#include "MacroNode.h"
 #include "map.h"
 
 const int DUMMYDIMENSION = 10; // pass this to keep HPACluster constructor happy
@@ -45,7 +46,7 @@ void EmptyCluster::addNodesToCluster(HPAClusterAbstraction* aMap, int** clearanc
 	}
 
 	frameCluster(aMap);
-	//addMacroEdges(aMap);
+	addMacroEdges(aMap);
 }
 
 void EmptyCluster::addNodesToCluster(HPAClusterAbstraction* aMap)
@@ -79,7 +80,7 @@ void EmptyCluster::addNodesToCluster(HPAClusterAbstraction* aMap)
 	}
 
 	frameCluster(aMap);
-	//addMacroEdges(aMap);
+	addMacroEdges(aMap);
 }
 
 
@@ -163,13 +164,17 @@ void EmptyCluster::frameCluster(HPAClusterAbstraction* aMap)
 	}
 }
 
-void EmptyCluster::addMacroEdges(HPAClusterAbstraction *aMap)
+// use this when working with 4-connected grid maps
+// (see [Harabor & Botea, 2010])
+void EmptyCluster::addCardinalMacroEdges(HPAClusterAbstraction *aMap)
 {
+	this->print(std::cout);
+	std::cout << std::endl;
 	if(getVerbose())
 	{
-		std::cout << "adding macro edges for cluster "<<getId()<<" origin ";
+		std::cout << "adding cardinal macro edges for cluster "<<getId()<<" origin ";
 		std::cout <<"("<< getHOrigin()<<", "<<getVOrigin()<<")";
-		std::cout <<" diagonal edges allowed? "<<getAllowDiagonals()<< " ";
+		std::cout <<" diagonal edges allowed? "<<getAllowDiagonals()<< " "<<std::endl;
 	}
 	graph* absg = aMap->getAbstractGraph(1);
 	macro = 0;
@@ -185,22 +190,6 @@ void EmptyCluster::addMacroEdges(HPAClusterAbstraction *aMap)
 			node *right = absg->getNode(
 					aMap->getNodeFromMap(rx, y)->getLabelL(kParent));
 			addSingleMacroEdge(left, right, aMap->h(left, right), absg);
-
-			if(getAllowDiagonals())
-			{
-				if(y>this->getVOrigin())
-				{
-					right = absg->getNode(
-						aMap->getNodeFromMap(rx, y-1)->getLabelL(kParent));
-					addSingleMacroEdge(left, right, aMap->h(left, right), absg);
-				}
-				if(y<this->getVOrigin()+this->getHeight()-1)
-				{
-					right = absg->getNode(
-						aMap->getNodeFromMap(rx, y+1)->getLabelL(kParent));
-					addSingleMacroEdge(left, right, aMap->h(left, right), absg);
-				}
-			}
 		}
 	}
 
@@ -216,21 +205,6 @@ void EmptyCluster::addMacroEdges(HPAClusterAbstraction *aMap)
 					aMap->getNodeFromMap(x, by)->getLabelL(kParent));
 			addSingleMacroEdge(top, bottom, aMap->h(top, bottom), absg);
 
-			if(getAllowDiagonals())
-			{
-				if(x>this->getHOrigin())
-				{
-					bottom = absg->getNode(
-						aMap->getNodeFromMap(x-1, by)->getLabelL(kParent));
-					addSingleMacroEdge(top, bottom, aMap->h(top, bottom), absg);
-				}
-				if(x<this->getHOrigin()+this->getWidth()-1)
-				{
-					bottom = absg->getNode(
-						aMap->getNodeFromMap(x+1, by)->getLabelL(kParent));
-					addSingleMacroEdge(top, bottom, aMap->h(top, bottom), absg);
-				}
-			}
 		}
 	}
 
@@ -238,24 +212,141 @@ void EmptyCluster::addMacroEdges(HPAClusterAbstraction *aMap)
 		std::cout << macro << " macro edges added for cluster "<<getId()<<std::endl;
 }
 
-void EmptyCluster::addSingleMacroEdge(node* from, node* to, double weight, graph* absg)
+// use this when working with 8-connected grid maps
+void EmptyCluster::addMacroEdges(HPAClusterAbstraction *aMap)
 {
-			edge* e = absg->findEdge(from->getNum(), to->getNum());
-			if(e == 0)
+	this->print(std::cout);
+	std::cout << std::endl;
+	if(getVerbose())
+	{
+		std::cout << "adding macro edges for cluster "<<getId()<<" origin ";
+		std::cout <<"("<< getHOrigin()<<", "<<getVOrigin()<<")";
+		std::cout <<" diagonal edges allowed? "<<getAllowDiagonals()<< " "<<std::endl;
+	}
+	graph* absg = aMap->getAbstractGraph(1);
+	macro = 0;
+
+	std::cout << "\n1. gsize: "<<absg->getNumEdges()<< " ";
+	if(this->getAllowDiagonals() && this->getHeight() > 1 && this->getWidth() > 1)
+	{
+		// first, add diagonal edges between nodes on orthogonal sides of the cluster
+		int max = this->getHeight() > this->getWidth()?this->getWidth():this->getHeight();
+		for(int offset=1; offset<max; offset++)
+		{
+			// connect left and bottom sides of cluster
+			int fx = this->getHOrigin()+offset;
+			int fy = this->getVOrigin();
+			int sx = this->getHOrigin();
+			int sy = this->getVOrigin()+offset;
+			node *first = absg->getNode(
+					aMap->getNodeFromMap(fx, fy)->getLabelL(kParent));
+			node *second = absg->getNode(
+					aMap->getNodeFromMap(sx, sy)->getLabelL(kParent));
+			addSingleMacroEdge(first, second, aMap->h(first, second), absg);
+
+			// connect top and right sides of cluster
+			fx = this->getHOrigin()+this->getWidth()-1-offset;
+			sx = this->getHOrigin()+this->getWidth()-1;
+			first = absg->getNode(
+					aMap->getNodeFromMap(fx, fy)->getLabelL(kParent));
+			second = absg->getNode(
+					aMap->getNodeFromMap(sx, sy)->getLabelL(kParent));
+			addSingleMacroEdge(first, second, aMap->h(first, second), absg);
+
+			// connect left and bottom sides of cluster
+			fx = this->getHOrigin()+offset;
+			fy = this->getVOrigin()+getHeight()-1;
+			sx = this->getHOrigin();
+			sy = this->getVOrigin()+this->getHeight()-1-offset;
+			first = absg->getNode(
+					aMap->getNodeFromMap(fx, fy)->getLabelL(kParent));
+			second = absg->getNode(
+					aMap->getNodeFromMap(sx, sy)->getLabelL(kParent));
+			addSingleMacroEdge(first, second, aMap->h(first, second), absg);
+
+			// connect bottom and right sides sides of cluster
+			fx = this->getHOrigin()+this->getWidth()-1;
+			fy = this->getVOrigin()+getHeight()-1-offset;
+			sx = this->getHOrigin()+this->getWidth()-1-offset;
+			sy = this->getVOrigin()+this->getHeight()-1;
+			first = absg->getNode(
+					aMap->getNodeFromMap(fx, fy)->getLabelL(kParent));
+			second = absg->getNode(
+					aMap->getNodeFromMap(sx, sy)->getLabelL(kParent));
+			addSingleMacroEdge(first, second, aMap->h(first, second), absg);
+		}
+		std::cout << "\n2. gsize: "<<absg->getNumEdges()<< " ";
+
+		// add edges connecting nodes on the top side to nodes on the bottom side of the cluster
+		for(int fx=this->getHOrigin(); fx<this->getHOrigin()+this->getWidth(); fx++)
+		{
+			int fy = this->getVOrigin();
+			node* first = absg->getNode(
+					aMap->getNodeFromMap(fx, fy)->getLabelL(kParent));
+
+			int minx = (fx-(max-1))<this->getHOrigin()?this->getHOrigin():(fx-(max-1));
+			int maxx = (fx+max)>(this->getHOrigin()+this->getWidth())?
+				(this->getHOrigin()+this->getWidth()):(fx+max);
+			for(int sx = minx; sx < maxx; sx++)
 			{
-				e = new MacroEdge(from->getNum(), to->getNum(), weight);
-				absg->addEdge(e);
-				macro++;
-				if(getVerbose())
-				{
-					std::cout << "[("<<from->getLabelL(kFirstData)<<", ";
-					std::cout <<from->getLabelL(kFirstData+1)<<") <-> (";
-					std::cout << to->getLabelL(kFirstData) << ", ";
-					std::cout << to->getLabelL(kFirstData+1);
-					std::cout <<") wt: "<<weight<< " ] ";
-				}
+				int sy = this->getVOrigin()+this->getHeight()-1;
+				node* second = absg->getNode(
+					aMap->getNodeFromMap(sx, sy)->getLabelL(kParent));
+				addSingleMacroEdge(first, second, aMap->h(first, second), absg);
 			}
-	
+		}
+
+		// add edges connecting nodes on the left side to nodes on the right side of the cluster
+		for(int fy=this->getVOrigin(); fy<this->getVOrigin()+this->getHeight(); fy++)
+		{
+			int fx = this->getHOrigin();
+			node* first = absg->getNode(
+					aMap->getNodeFromMap(fx, fy)->getLabelL(kParent));
+
+			int miny = (fy-(max-1))<this->getVOrigin()?this->getVOrigin():(fy-(max-1));
+			int maxy = (fy+max)>(this->getVOrigin()+this->getHeight())?
+				(this->getVOrigin()+this->getHeight()):(fy+max);
+			for(int sy = miny; sy < maxy; sy++) 
+			{
+				int sx = this->getHOrigin()+this->getWidth()-1;
+				node* second = absg->getNode(
+					aMap->getNodeFromMap(sx, sy)->getLabelL(kParent));
+				addSingleMacroEdge(first, second, aMap->h(first, second), absg);
+			}
+		}
+		std::cout << "\n3. gsize: "<<absg->getNumEdges()<< " ";
+	}
+
+
+	if(getVerbose())
+		std::cout << macro << " macro edges added for cluster "<<getId()<<std::endl;
+}
+
+void EmptyCluster::addSingleMacroEdge(node* from_, node* to_, double weight, graph* absg)
+{
+	assert(from_ && to_);
+	MacroNode* from = dynamic_cast<MacroNode*>(from_);
+	MacroNode* to = dynamic_cast<MacroNode*>(to_);
+
+	assert(from && to);
+	assert(from->getParentClusterId() == to->getParentClusterId());
+
+	edge* e = absg->findEdge(from->getNum(), to->getNum());
+	if(e == 0 && from->getParentClusterId() == to->getParentClusterId())
+	{
+		e = new MacroEdge(from->getNum(), to->getNum(), weight);
+		absg->addEdge(e);
+		macro++;
+		if(getVerbose())
+		{
+			std::cout << "[("<<from->getLabelL(kFirstData)<<", ";
+			std::cout <<from->getLabelL(kFirstData+1)<<") <-> (";
+			std::cout << to->getLabelL(kFirstData) << ", ";
+			std::cout << to->getLabelL(kFirstData+1);
+			std::cout <<") wt: "<<weight<< " ] "<<std::endl;
+		}
+	}
+
 }
 
 void EmptyCluster::extend(HPAClusterAbstraction* aMap)

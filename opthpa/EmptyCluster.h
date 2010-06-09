@@ -66,6 +66,7 @@ class EmptyCluster : public HPACluster
 		void initOpenGLCoordinates(HPAClusterAbstraction*);
 		void frameCluster(HPAClusterAbstraction*);
 		void addMacroEdges(HPAClusterAbstraction *aMap);
+		void addCardinalMacroEdges(HPAClusterAbstraction *aMap);
 		void addSingleMacroEdge(node* from, node* to, double weight, graph* absg);
 		bool canExtendClearanceSquare(HPAClusterAbstraction* hpamap);
 		bool canExtendHorizontally(HPAClusterAbstraction* hpamap); 
