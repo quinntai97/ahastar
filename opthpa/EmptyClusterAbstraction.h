@@ -49,6 +49,7 @@ class EmptyClusterAbstraction : public HPAClusterAbstraction
 
 	private:
 		void connectSG(node* absNode);
+		void cardinalConnectSG(node* absNode);
 		void computeClearance(int** clearance);
 
 

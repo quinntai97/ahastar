@@ -266,12 +266,93 @@ EmptyClusterAbstraction::insertStartAndGoalNodesIntoAbstractGraph(node* s, node*
 
 	// only connect nodes that do not already exist in the abstract graph 
 	if(this->getStartId() != -1)
-		connectSG(absStart);
+	{
+		if(getAllowDiagonals())
+			connectSG(absStart);
+		else
+			cardinalConnectSG(absStart);
+	}
 	if(this->getGoalId() != -1)
-		connectSG(absGoal);
+	{
+		if(getAllowDiagonals())
+			connectSG(absGoal);
+		else
+			cardinalConnectSG(absGoal);
+	}
 }
 
 void EmptyClusterAbstraction::connectSG(node* absNode)
+{
+	EmptyCluster* nodeCluster = this->getCluster(dynamic_cast<ClusterNode*>(absNode)->getParentClusterId());
+	graph* absg = this->getAbstractGraph(1);
+
+	const int x = absNode->getLabelL(kFirstData);
+	const int y = absNode->getLabelL(kFirstData+1);
+	if(getVerbose())
+		std::cout << "inserting node ("<<x<<", "<<y<<") into abstract graph"<<std::endl;
+
+	// connect to nodes along top perimeter of cluster
+	int maxDiagonalSteps = y - nodeCluster->getVOrigin();
+	int minx = (x-maxDiagonalSteps)<nodeCluster->getHOrigin()?nodeCluster->getHOrigin():(x-maxDiagonalSteps);
+	int maxx = (x+maxDiagonalSteps)>(nodeCluster->getHOrigin()+nodeCluster->getWidth())?
+		(nodeCluster->getHOrigin()+nodeCluster->getWidth()):(x+maxDiagonalSteps);
+	for(int nx = minx; nx<maxx; nx++)
+	{
+		int ny = nodeCluster->getVOrigin();
+		node* absNeighbour = absg->getNode(this->getNodeFromMap(nx, ny)->getLabelL(kParent));
+		if(absNeighbour == 0)
+			throw std::invalid_argument("cluster not properly framed along top border");
+		edge* e = new edge(absNode->getNum(), absNeighbour->getNum(), h(absNode, absNeighbour));
+		absg->addEdge(e);
+	}
+
+	// connect to nodes along the bottom perimeter of cluster
+	maxDiagonalSteps = (nodeCluster->getVOrigin()+nodeCluster->getHeight()-1) - y;
+	minx = (x-maxDiagonalSteps)<nodeCluster->getHOrigin()?nodeCluster->getHOrigin():(x-maxDiagonalSteps);
+	maxx = (x+maxDiagonalSteps)>(nodeCluster->getHOrigin()+nodeCluster->getWidth())?
+		(nodeCluster->getHOrigin()+nodeCluster->getWidth()):(x+maxDiagonalSteps);
+	for(int nx = minx; nx<maxx; nx++)
+	{
+		int ny = nodeCluster->getVOrigin()+nodeCluster->getHeight()-1;
+		node* absNeighbour = absg->getNode(this->getNodeFromMap(nx, ny)->getLabelL(kParent));
+		if(absNeighbour == 0)
+			throw std::invalid_argument("cluster not properly framed along top border");
+		edge* e = new edge(absNode->getNum(), absNeighbour->getNum(), h(absNode, absNeighbour));
+		absg->addEdge(e);
+	}
+
+	// connect to nodes along the left perimeter of cluster
+	maxDiagonalSteps = x - nodeCluster->getHOrigin();	
+	int miny = (y-maxDiagonalSteps)<nodeCluster->getVOrigin()?nodeCluster->getVOrigin():(y-maxDiagonalSteps);
+	int maxy = (y+maxDiagonalSteps)>(nodeCluster->getVOrigin()+nodeCluster->getHeight())?
+		(nodeCluster->getVOrigin()+nodeCluster->getHeight()):(y+maxDiagonalSteps);
+	for(int ny = miny; ny < maxy; ny++)
+	{
+		int nx = nodeCluster->getHOrigin();
+		node* absNeighbour = absg->getNode(this->getNodeFromMap(nx, ny)->getLabelL(kParent));
+		if(absNeighbour == 0)
+			throw std::invalid_argument("cluster not properly framed along top border");
+		edge* e = new edge(absNode->getNum(), absNeighbour->getNum(), h(absNode, absNeighbour));
+		absg->addEdge(e);
+	}
+
+	// connect to nodes along the right perimeter of cluster
+	maxDiagonalSteps = (nodeCluster->getHOrigin()+nodeCluster->getWidth()-1) - x;
+	miny = (y-maxDiagonalSteps)<nodeCluster->getVOrigin()?nodeCluster->getVOrigin():(y-maxDiagonalSteps);
+	maxy = (y+maxDiagonalSteps)>(nodeCluster->getVOrigin()+nodeCluster->getHeight())?
+		(nodeCluster->getVOrigin()+nodeCluster->getHeight()):(y+maxDiagonalSteps);
+	for(int ny = miny; ny < maxy; ny++)
+	{
+		int nx = nodeCluster->getHOrigin()+nodeCluster->getWidth()-1;
+		node* absNeighbour = absg->getNode(this->getNodeFromMap(nx, ny)->getLabelL(kParent));
+		if(absNeighbour == 0)
+			throw std::invalid_argument("cluster not properly framed along top border");
+		edge* e = new edge(absNode->getNum(), absNeighbour->getNum(), h(absNode, absNeighbour));
+		absg->addEdge(e);
+	}
+}
+
+void EmptyClusterAbstraction::cardinalConnectSG(node* absNode)
 {
 	graph* absg = this->getAbstractGraph(1);
 	EmptyCluster* nodeCluster = this->getCluster(dynamic_cast<ClusterNode*>(absNode)->getParentClusterId());
