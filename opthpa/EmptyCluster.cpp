@@ -283,7 +283,7 @@ void EmptyCluster::addMacroEdges(HPAClusterAbstraction *aMap)
 			node* first = absg->getNode(
 					aMap->getNodeFromMap(fx, fy)->getLabelL(kParent));
 
-			int minx = (fx-(max-1))<this->getHOrigin()?this->getHOrigin():(fx-(max-1));
+			int minx = (fx-(max-1))<this->getHOrigin()?(this->getHOrigin()+1):(fx-(max-1)); // +1 to avoid adding a single symmetric edge
 			int maxx = (fx+max)>(this->getHOrigin()+this->getWidth())?
 				(this->getHOrigin()+this->getWidth()):(fx+max);
 			for(int sx = minx; sx < maxx; sx++)
@@ -302,7 +302,7 @@ void EmptyCluster::addMacroEdges(HPAClusterAbstraction *aMap)
 			node* first = absg->getNode(
 					aMap->getNodeFromMap(fx, fy)->getLabelL(kParent));
 
-			int miny = (fy-(max-1))<this->getVOrigin()?this->getVOrigin():(fy-(max-1));
+			int miny = (fy-(max-1))<this->getVOrigin()?(this->getVOrigin()+1):(fy-(max-1)); // +1 to avoid adding a single symmetric edge
 			int maxy = (fy+max)>(this->getVOrigin()+this->getHeight())?
 				(this->getVOrigin()+this->getHeight()):(fy+max);
 			for(int sy = miny; sy < maxy; sy++) 
