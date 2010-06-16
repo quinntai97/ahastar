@@ -291,7 +291,8 @@ void EmptyCluster::addMacroEdges(HPAClusterAbstraction *aMap)
 				int sy = this->getVOrigin()+this->getHeight()-1;
 				node* second = absg->getNode(
 					aMap->getNodeFromMap(sx, sy)->getLabelL(kParent));
-				addSingleMacroEdge(first, second, aMap->h(first, second), absg);
+				if(isIncidentWithInterEdge(first) || isIncidentWithInterEdge(second))
+					addSingleMacroEdge(first, second, aMap->h(first, second), absg);
 			}
 		}
 
@@ -310,13 +311,19 @@ void EmptyCluster::addMacroEdges(HPAClusterAbstraction *aMap)
 				int sx = this->getHOrigin()+this->getWidth()-1;
 				node* second = absg->getNode(
 					aMap->getNodeFromMap(sx, sy)->getLabelL(kParent));
-				addSingleMacroEdge(first, second, aMap->h(first, second), absg);
+				if(isIncidentWithInterEdge(first) || isIncidentWithInterEdge(second))
+					addSingleMacroEdge(first, second, aMap->h(first, second), absg);
 			}
 		}
 	}
 
 	if(getVerbose())
 		std::cout << macro << " macro edges added for cluster "<<getId()<<std::endl;
+}
+
+bool EmptyCluster::isIncidentWithInterEdge(node* n)
+{
+	return true;
 }
 
 void EmptyCluster::addSingleMacroEdge(node* from_, node* to_, double weight, graph* absg)
