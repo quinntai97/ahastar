@@ -71,7 +71,7 @@ class EmptyCluster : public HPACluster
 		bool canExtendClearanceSquare(HPAClusterAbstraction* hpamap);
 		bool canExtendHorizontally(HPAClusterAbstraction* hpamap); 
 		bool canExtendVertically(HPAClusterAbstraction* hpamap);
-		bool isIncidentWithInterEdge(node* n);
+		bool isIncidentWithInterEdge(node* n, HPAClusterAbstraction* hpamap);
 		
 		GLdouble glx, gly, glz;  // OpenGL origin coordinates
 		GLdouble glHeight, glWidth;

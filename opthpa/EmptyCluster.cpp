@@ -1,6 +1,7 @@
 #include "EmptyCluster.h"
 
 #include "ClusterNode.h"
+#include "graph.h"
 #include "HPAClusterAbstraction.h"
 #include "MacroEdge.h"
 #include "MacroNode.h"
@@ -291,8 +292,21 @@ void EmptyCluster::addMacroEdges(HPAClusterAbstraction *aMap)
 				int sy = this->getVOrigin()+this->getHeight()-1;
 				node* second = absg->getNode(
 					aMap->getNodeFromMap(sx, sy)->getLabelL(kParent));
-				if(isIncidentWithInterEdge(first) || isIncidentWithInterEdge(second))
-					addSingleMacroEdge(first, second, aMap->h(first, second), absg);
+				if(isIncidentWithInterEdge(first, aMap) || isIncidentWithInterEdge(second, aMap))
+				{
+							addSingleMacroEdge(first, second, aMap->h(first, second), absg);
+				}
+				else if(getVerbose())
+				{
+					MacroNode* tmp = dynamic_cast<MacroNode*>(first);
+					MacroNode* tmp2 = dynamic_cast<MacroNode*>(second);
+					std::cout << "nodes not incident with inter-edge: ";
+					tmp->print(std::cout);
+					std::cout << " ";
+					tmp2->print(std::cout);
+					std::cout << std::endl;
+
+				}
 			}
 		}
 
@@ -311,8 +325,21 @@ void EmptyCluster::addMacroEdges(HPAClusterAbstraction *aMap)
 				int sx = this->getHOrigin()+this->getWidth()-1;
 				node* second = absg->getNode(
 					aMap->getNodeFromMap(sx, sy)->getLabelL(kParent));
-				if(isIncidentWithInterEdge(first) || isIncidentWithInterEdge(second))
-					addSingleMacroEdge(first, second, aMap->h(first, second), absg);
+				if(isIncidentWithInterEdge(first, aMap) || isIncidentWithInterEdge(second, aMap))
+				{
+							addSingleMacroEdge(first, second, aMap->h(first, second), absg);
+				}
+				else if(getVerbose())
+				{
+					MacroNode* tmp = dynamic_cast<MacroNode*>(first);
+					MacroNode* tmp2 = dynamic_cast<MacroNode*>(second);
+					std::cout << "nodes not incident with inter-edge: ";
+					tmp->print(std::cout);
+					std::cout << " ";
+					tmp2->print(std::cout);
+					std::cout << std::endl;
+
+				}
 			}
 		}
 	}
@@ -321,9 +348,41 @@ void EmptyCluster::addMacroEdges(HPAClusterAbstraction *aMap)
 		std::cout << macro << " macro edges added for cluster "<<getId()<<std::endl;
 }
 
-bool EmptyCluster::isIncidentWithInterEdge(node* n)
+// returns true if node n_ has a neighbour with a different parent cluster. 
+bool EmptyCluster::isIncidentWithInterEdge(node* n_, HPAClusterAbstraction* hpamap)
 {
-	return true;
+	bool retVal = false;
+	MacroNode* n = dynamic_cast<MacroNode*>(n_);
+	assert(n);
+	if(getVerbose())
+	{
+		std::cout << "checking incidence w/ inter edge for node: ";
+		n->print(std::cout);
+		std::cout << std::endl;
+	}
+
+	int nx = n->getLabelL(kFirstData);
+	int ny = n->getLabelL(kFirstData+1);
+	for(int nbx = nx-1; nbx < nx+2; nbx++)
+		for(int nby = ny-1; nby < ny+2; nby++)
+		{
+			MacroNode* nb = dynamic_cast<MacroNode*>(hpamap->getNodeFromMap(nbx, nby));
+			if(nb)
+			{
+				if(getVerbose())
+				{
+					std::cout << "neighbour: ";
+					nb->print(std::cout);
+					std::cout << std::endl;
+				}
+				if(nb->getParentClusterId() != n->getParentClusterId())
+				{
+					retVal = true;
+				}
+			}
+		}
+
+	return retVal;
 }
 
 void EmptyCluster::addSingleMacroEdge(node* from_, node* to_, double weight, graph* absg)
@@ -331,6 +390,7 @@ void EmptyCluster::addSingleMacroEdge(node* from_, node* to_, double weight, gra
 	assert(from_ && to_);
 	MacroNode* from = dynamic_cast<MacroNode*>(from_);
 	MacroNode* to = dynamic_cast<MacroNode*>(to_);
+
 
 	assert(from && to);
 	assert(from->getParentClusterId() == to->getParentClusterId());
