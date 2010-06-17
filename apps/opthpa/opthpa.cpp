@@ -234,6 +234,8 @@ void gogoGadgetNOGUIScenario(HPAClusterAbstraction* ecmap)
 	ClusterAStar astar;
 	HPAStar2 hpastar(false, false, new ClusterAStarFactory);
 	statCollection stats;
+	double optlen=0;
+	double pslen=0;
 	
 	for(int i=0; i< scenariomgr.getNumExperiments(); i++)
 	{
@@ -244,6 +246,7 @@ void gogoGadgetNOGUIScenario(HPAClusterAbstraction* ecmap)
 		
 		path* p = astar.getPath(ecmap, from, to);
 		double distanceTravelled = ecmap->distance(p);
+		optlen = distanceTravelled;
 		stats.addStat("distanceMoved", astar.getName(), distanceTravelled);
 		astar.logFinalStats(&stats);
 		processStats(&stats, astar.getName());
@@ -252,14 +255,34 @@ void gogoGadgetNOGUIScenario(HPAClusterAbstraction* ecmap)
 		
 		p = hpastar.getPath(ecmap, from, to);
 		distanceTravelled = ecmap->distance(p);
+		pslen = distanceTravelled;
 		stats.addStat("distanceMoved", hpastar.getName(), distanceTravelled);
 		hpastar.logFinalStats(&stats);
 		processStats(&stats);
 		stats.clearAllStats();
 		delete p;
+
+		if(optlen != pslen)
+		{
+			astar.verbose = true;
+			hpastar.verbose = true;
+			path* p = astar.getPath(ecmap, from, to);
+			double tmp = ecmap->distance(p);
+			delete p;
+			p = 0;
+			p = hpastar.getPath(ecmap, from, to);
+			double tmp2 = ecmap->distance(p);
+			delete p;
+
+			std::cout << "\n opt: "<<tmp;
+			std::cout << " pslen: "<<tmp2<<std::endl;
+			std::cout << " previously, opt: "<<optlen<<" pslen: "<<pslen<<std::endl;
+			break;
+		}
 	}
 	
 	delete ecmap;
+//	sleep(20);
 	exit(0);
 }
 

@@ -171,6 +171,11 @@ void AbstractClusterAStar::expand(node* current, node* to, heap* openList, std::
 					relaxEdge(openList, g, e, current->getNum(), neighbourid, to); 
 					nodesTouched++;
 				}
+				else
+				{
+					if(verbose)
+						std::cout << "\t\tin open list but not evaluating?!?!";
+				}
 			}
 			else
 			{
@@ -184,6 +189,12 @@ void AbstractClusterAStar::expand(node* current, node* to, heap* openList, std::
 					relaxEdge(openList, g, e, current->getNum(), neighbourid, to); 
 					nodesTouched++;
 				}
+				else
+				{
+					if(verbose)
+						std::cout << "\t\tnot in open list and not evaluating";
+				}
+
 			}
 			if(markForVis)
 				neighbour->drawColor = 1; // visualise touched
@@ -243,13 +254,34 @@ ClusterAStar::~ClusterAStar()
 bool ClusterAStar::evaluate(node* current, node* target, edge* e)
 {
 	if(!current || !target)
+	{
+		if(verbose)
+		{
+//			if(!current)
+//				std::cout << " ::evaluate: current not set!";
+//			if(!target)
+//				std::cout << " ::evaluate: current not set!";
+		}
 		return false;
+	}
 				
 	if(!isInCorridor(target))
+	{
+		//if(verbose)
+		//{
+		//	std::cout << " ::evaluate: target not in corridor!";
+		//}
 		return false;
+	}
 
 	if(cardinal && e->getWeight() != (int)e->getWeight())
+	{
+		//if(verbose)
+		//{
+		//	std::cout << " ::evaluate: cardinal set and edge weight not integer!";
+		//}
 		return false;
+	}
 
 	return true;
 }
