@@ -8,17 +8,19 @@
 #include "graph.h"
 #include "heap.h"
 #include "map.h"
+#include "MacroEdge.h"
 
 EmptyClusterAbstraction::EmptyClusterAbstraction(Map* m, IHPAClusterFactory* cf, 
 	INodeFactory* nf, IEdgeFactory* ef) 
 	throw(std::invalid_argument)
 	: HPAClusterAbstraction(m, cf, nf, ef) 
 {
-
+	sgEdge = 0;
 }
 
 EmptyClusterAbstraction::~EmptyClusterAbstraction()
 {
+	assert(sgEdge == 0);
 }
 
 int EmptyClusterAbstraction::getNumMacro()
@@ -264,21 +266,48 @@ EmptyClusterAbstraction::insertStartAndGoalNodesIntoAbstractGraph(node* s, node*
 		throw std::invalid_argument("either start or goal node not inserted into abstract graph");
 	}
 
-	// only connect nodes that do not already exist in the abstract graph 
-	if(this->getStartId() != -1)
+	if(absStart->getParentClusterId() == absGoal->getParentClusterId())
 	{
-		if(getAllowDiagonals())
-			connectSG(absStart);
-		else
-			cardinalConnectSG(absStart);
+		if(!absg->findEdge(absStart->getNum(), absGoal->getNum()))
+		{
+			sgEdge = new MacroEdge(absStart->getNum(), absGoal->getNum(), this->h(absStart, absGoal));
+			absg->addEdge(sgEdge);
+		}	
 	}
-	if(this->getGoalId() != -1)
+	else
 	{
-		if(getAllowDiagonals())
-			connectSG(absGoal);
-		else
-			cardinalConnectSG(absGoal);
+		// only connect nodes that do not already exist in the abstract graph 
+		if(this->getStartId() != -1)
+		{
+			if(getAllowDiagonals())
+				connectSG(absStart);
+			else
+				cardinalConnectSG(absStart);
+		}
+		if(this->getGoalId() != -1)
+		{
+			if(getAllowDiagonals())
+				connectSG(absGoal);
+			else
+				cardinalConnectSG(absGoal);
+		}
 	}
+	
+}
+
+void 
+EmptyClusterAbstraction::removeStartAndGoalNodesFromAbstractGraph() 
+	throw(std::runtime_error)
+{
+	if(sgEdge)
+	{
+		graph* absg = this->getAbstractGraph(1);
+		absg->removeEdge(sgEdge);
+		delete sgEdge;
+		sgEdge = 0;
+	}
+
+	HPAClusterAbstraction::removeStartAndGoalNodesFromAbstractGraph();	
 }
 
 void EmptyClusterAbstraction::connectSG(node* absNode)
@@ -302,7 +331,7 @@ void EmptyClusterAbstraction::connectSG(node* absNode)
 		node* absNeighbour = absg->getNode(this->getNodeFromMap(nx, ny)->getLabelL(kParent));
 		if(absNeighbour == 0)
 			throw std::invalid_argument("cluster not properly framed along top border");
-		edge* e = new edge(absNode->getNum(), absNeighbour->getNum(), h(absNode, absNeighbour));
+		edge* e = new MacroEdge(absNode->getNum(), absNeighbour->getNum(), h(absNode, absNeighbour));
 		absg->addEdge(e);
 	}
 

@@ -379,22 +379,46 @@ void HPAClusterAbstraction::print(std::ostream& out)
 
 }
 
+// returns heuristic lowerbound on the distance between two tiles.
+// if diagonal moves are allowed this is the octile distance.
+// if diagonal moves are not allowed, this is the manhattan distance.
 double HPAClusterAbstraction::h(node* a, node* b)
 {
 	if(a == NULL || b == NULL) 
 		throw std::invalid_argument("null node");
-
-	int x1 = a->getLabelL(kFirstData);
-	int x2 = b->getLabelL(kFirstData);
-	int y1 = a->getLabelL(kFirstData+1);
-	int y2 = b->getLabelL(kFirstData+1);
 	
 	double answer = 0.0;
-	const double root2m1 = ROOT_TWO-1;//sqrt(2.0)-1;
+	if(getAllowDiagonals())
+	{
+		int x1 = a->getLabelL(kFirstData);
+		int x2 = b->getLabelL(kFirstData);
+		int y1 = a->getLabelL(kFirstData+1);
+		int y2 = b->getLabelL(kFirstData+1);
+		
+		const double root2m1 = ROOT_TWO-1;//sqrt(2.0)-1;
 		if (fabs(x1-x2) < fabs(y1-y2))
 			answer = root2m1*fabs(x1-x2)+fabs(y1-y2);
+		else
+			answer = root2m1*fabs(y1-y2)+fabs(x1-x2);
+	}
 	else
-		answer = root2m1*fabs(y1-y2)+fabs(x1-x2);
+	{
+		int ax = a->getLabelL(kFirstData);
+		int ay = a->getLabelL(kFirstData+1);
+		int bx = b->getLabelL(kFirstData);
+		int by = b->getLabelL(kFirstData+1);
+		//std::cout << "from: "<<ax<<","<<ay<<") to: ("<<bx<<","<<by<<") ";
+
+		int deltax = ax - bx;
+		if(deltax < 0) deltax *=-1;
+
+		int deltay = ay - by;
+		if(deltay < 0) deltay *=-1;
+
+		//std::cout << "deltax: "<<deltax<<" deltay: "<<deltay<<std::endl;
+		answer = deltax + deltay;
+	}
+
 	return answer;
 }
 
