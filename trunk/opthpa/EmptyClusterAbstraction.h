@@ -43,6 +43,8 @@ class EmptyClusterAbstraction : public HPAClusterAbstraction
 		
 		virtual void insertStartAndGoalNodesIntoAbstractGraph(node*, node*) 
 			throw(std::invalid_argument);
+		virtual void removeStartAndGoalNodesFromAbstractGraph() 
+			throw(std::runtime_error);
 
 		//virtual double h(node* from, node* to);
 		int getNumMacro();
@@ -51,6 +53,8 @@ class EmptyClusterAbstraction : public HPAClusterAbstraction
 		void connectSG(node* absNode);
 		void cardinalConnectSG(node* absNode);
 		void computeClearance(int** clearance);
+
+		edge* sgEdge;
 
 
 };
