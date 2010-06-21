@@ -151,12 +151,42 @@ HPACluster* HPAClusterAbstraction::clusterIterNext(cluster_iterator &iter) const
   return 0;
 }
 
-/* Remove any nodes we added into the abstract graph to facilitate some search query. */		
+/* Remove any nodes we added into the abstract graph to facilitate some search 
+ * query. 
+ * NB: nodes removed in reverse order to creation (i.e. goal, then start)
+ */
 void HPAClusterAbstraction::removeStartAndGoalNodesFromAbstractGraph() throw(std::runtime_error)
 {
 	graph* g = abstractions[1];
 	ClusterNode* start = dynamic_cast<ClusterNode*>(g->getNode(startid));
 	ClusterNode* goal = dynamic_cast<ClusterNode*>(g->getNode(goalid));
+	
+	//	std::cout << " erasing goal...";
+	if(goal)
+	{		
+		edge_iterator ei = goal->getEdgeIter();
+		edge* e = goal->edgeIterNext(ei);
+		while(e)
+		{
+			g->removeEdge(e);
+			delete pathCache[e->getUniqueID()];
+			pathCache.erase(e->getUniqueID());
+			delete e;
+			ei = goal->getEdgeIter();
+			e = goal->edgeIterNext(ei);
+		}
+		
+		HPACluster* goalCluster = clusters[goal->getParentClusterId()];
+		goalCluster->removeParent(goal->getUniqueID());
+		g->removeNode(goal->getNum()); 
+
+		goalid = -1;
+		node* originalGoal = getNodeFromMap(goal->getLabelL(kFirstData), 
+				goal->getLabelL(kFirstData+1));
+		originalGoal->setLabelL(kParent, goalid);
+		delete goal;
+		goal = 0;
+	}
 	
 	//	std::cout << "\n erasing start..";
 	if(start)
@@ -178,37 +208,14 @@ void HPAClusterAbstraction::removeStartAndGoalNodesFromAbstractGraph() throw(std
 		g->removeNode(startid); 
 		
 		startid = -1;
-		node* originalStart = getNodeFromMap(start->getLabelL(kFirstData), start->getLabelL(kFirstData+1));
+		node* originalStart = getNodeFromMap(start->getLabelL(kFirstData), 
+				start->getLabelL(kFirstData+1));
 		originalStart->setLabelL(kParent, startid);
 		delete start;
-		start=NULL;
+		start=0;
 	}
 
-	//	std::cout << " erasing goal...";
-	if(goal)
-	{		
-		edge_iterator ei = goal->getEdgeIter();
-		edge* e = goal->edgeIterNext(ei);
-		while(e)
-		{
-			g->removeEdge(e);
-			delete pathCache[e->getUniqueID()];
-			pathCache.erase(e->getUniqueID());
-			delete e;
-			ei = goal->getEdgeIter();
-			e = goal->edgeIterNext(ei);
-		}
-		
-		HPACluster* goalCluster = clusters[goal->getParentClusterId()];
-		goalCluster->removeParent(goal->getUniqueID());
-		g->removeNode(goal->getNum()); 
 
-		goalid = -1;
-		node* originalGoal = getNodeFromMap(goal->getLabelL(kFirstData), goal->getLabelL(kFirstData+1));
-		originalGoal->setLabelL(kParent, startid);
-		delete goal;
-		goal = NULL;
-	}
 }
 
 void HPAClusterAbstraction::insertStartAndGoalNodesIntoAbstractGraph(node* _start, node* _goal) throw(std::invalid_argument)
@@ -237,6 +244,8 @@ void HPAClusterAbstraction::insertStartAndGoalNodesIntoAbstractGraph(node* _star
 		startCluster->addParent(absstart, this);
 		start->setLabelL(kParent, startid);
 		this->startid = startid;
+		int numnodes = abstractions[1]->getNumNodes();
+		assert(startid+1 == numnodes);
 
 //		nodesExpanded = startCluster->getSearchAlgorithm()->getNodesExpanded();
 //		nodesTouched = startCluster->getSearchAlgorithm()->getNodesTouched();

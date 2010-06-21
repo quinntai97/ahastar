@@ -67,14 +67,15 @@ class HPACluster
 		inline void setVerbose(bool _v) { verbose = _v; }
 		
 
-		bool verifyCluster();
+		virtual bool verifyCluster();
 		void print(std::ostream& out);
 		void printParents();
 		virtual void openGLDraw() { }
 
 	protected:
 		virtual void addNode(node* mynode) throw(std::invalid_argument);
-		virtual void addTransitionPoint(node* from, node* to, HPAClusterAbstraction* hpamap);
+		virtual void addTransitionPoint(node* from, node* to, 
+				HPAClusterAbstraction* hpamap, double edgeweight = 0);
 		virtual void connectParent(node*, HPAClusterAbstraction*);
 
 		virtual void buildHorizontalEntrances(HPAClusterAbstraction* hpamap);
@@ -86,9 +87,9 @@ class HPACluster
 		virtual void processVerticalEntrance(HPAClusterAbstraction* hpamap,
 						int x, int y, int length);
 
-		int findVerticalEntranceLength(int x, int y, 
+		virtual	int findVerticalEntranceLength(int x, int y, 
 				HPAClusterAbstraction* hpamap);
-		int findHorizontalEntranceLength(int x, int y, 
+		virtual	int findHorizontalEntranceLength(int x, int y, 
 				HPAClusterAbstraction* hpamap);
 	
 	private:

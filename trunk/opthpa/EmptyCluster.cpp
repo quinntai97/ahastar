@@ -1,6 +1,7 @@
 #include "EmptyCluster.h"
 
 #include "ClusterNode.h"
+#include "Entrance.h"
 #include "graph.h"
 #include "HPAClusterAbstraction.h"
 #include "MacroEdge.h"
@@ -41,16 +42,35 @@ void EmptyCluster::addNodesToCluster(HPAClusterAbstraction* aMap, int** clearanc
 			}
 			else
 			{
-				throw std::invalid_argument("EmptyCluster: tried to add to cluster a node of type other than ClusterNode");
+				throw std::invalid_argument("EmptyCluster: tried to add to "
+						"cluster a node of type other than ClusterNode");
 			}
 		}
 	}
 
 	frameCluster(aMap);
-	if(aMap->getAllowDiagonals())
-		addMacroEdges(aMap);
+	//if(aMap->getAllowDiagonals())
+	//	addMacroEdges(aMap);
+//	else
+//		addCardinalMacroEdges(aMap);
+}
+
+void 
+EmptyCluster::buildEntrances(HPAClusterAbstraction* hpamap) 
+	throw(std::invalid_argument)
+{
+	if(getVerbose())
+	{
+		std::cout << "buildEntrances; ";
+		print(std::cout);
+		std::cout << std::endl;
+	}
+	HPACluster::buildEntrances(hpamap);
+	
+	if(hpamap->getAllowDiagonals())
+		addMacroEdges(hpamap);
 	else
-		addCardinalMacroEdges(aMap);
+		addCardinalMacroEdges(hpamap);
 }
 
 void EmptyCluster::addNodesToCluster(HPAClusterAbstraction* aMap)
@@ -78,13 +98,14 @@ void EmptyCluster::addNodesToCluster(HPAClusterAbstraction* aMap)
 			}
 			else
 			{
-				throw std::invalid_argument("EmptyCluster: tried to add to cluster a node of type other than ClusterNode");
+				throw std::invalid_argument("EmptyCluster: tried to add to "
+						"cluster a node of type other than ClusterNode");
 			}
 		}
 	}
 
-	frameCluster(aMap);
-	addMacroEdges(aMap);
+	//frameCluster(aMap);
+	//addMacroEdges(aMap);
 }
 
 
@@ -97,22 +118,31 @@ void EmptyCluster::addNodesToCluster(HPAClusterAbstraction* aMap)
 void EmptyCluster::frameCluster(HPAClusterAbstraction* aMap)
 {
 	if(getVerbose())
-		std::cout << "frameCluster"<<std::endl;
+		std::cout << "frameCluster "<<this->getId()<<std::endl;
 
 	// add nodes along left border
+	ClusterNode* first = 0;
 	ClusterNode* last = 0;
 	int x = this->getHOrigin();
 	int y = this->getVOrigin();
 	for( ; y<this->getVOrigin()+this->getHeight(); y++)
 	{
 		ClusterNode* n = dynamic_cast<ClusterNode*>(aMap->getNodeFromMap(x,y));
-		if(n && last && n->getUniqueID() != last->getUniqueID())
+		assert(n);
+		if(last)
 		{
-			addTransitionPoint(n, last, aMap);
+			if(n->getUniqueID() != last->getUniqueID() &&
+				this->isIncidentWithInterEdge(n, aMap))
+			{
+				addTransitionPoint(n, last, aMap, aMap->h(n, last));
+				last = n;
+			}
+		}
+		else if(isIncidentWithInterEdge(n, aMap))
+		{
+			first = n;
 			last = n;
 		}
-		else
-			last = n;
 	}
 
 	// add nodes along bottom border
@@ -120,11 +150,22 @@ void EmptyCluster::frameCluster(HPAClusterAbstraction* aMap)
 	for(x=this->getHOrigin(); x<this->getHOrigin()+this->getWidth(); x++)
 	{
 		ClusterNode* n = dynamic_cast<ClusterNode*>(aMap->getNodeFromMap(x,y));
-		if(n && last && n->getUniqueID() != last->getUniqueID())
+		assert(n);
+		if(last)
 		{
-			addTransitionPoint(n, last, aMap);
+			if(n->getUniqueID() != last->getUniqueID() &&
+				this->isIncidentWithInterEdge(n, aMap))
+			{
+				addTransitionPoint(n, last, aMap, aMap->h(n, last));
+				last = n;
+			}
+		}
+		else if(isIncidentWithInterEdge(n, aMap))
+		{
+			first = n;
 			last = n;
 		}
+
 	}
 
 	// don't try to add edges twice if the cluster has dimension = 1
@@ -134,10 +175,21 @@ void EmptyCluster::frameCluster(HPAClusterAbstraction* aMap)
 		x = this->getHOrigin()+this->getWidth()-1;
 		for(y=this->getVOrigin()+this->getHeight()-1; y>=this->getVOrigin(); y--)
 		{
-			ClusterNode* n = dynamic_cast<ClusterNode*>(aMap->getNodeFromMap(x,y));
-			if(n && last && n->getUniqueID() != last->getUniqueID())
+			ClusterNode* n = dynamic_cast<ClusterNode*>(
+					aMap->getNodeFromMap(x,y));
+			assert(n);
+			if(last)
 			{
-				addTransitionPoint(n, last, aMap);
+				if(n->getUniqueID() != last->getUniqueID() &&
+					this->isIncidentWithInterEdge(n, aMap))
+				{
+					addTransitionPoint(n, last, aMap, aMap->h(n, last));
+					last = n;
+				}
+			}
+			else if(isIncidentWithInterEdge(n, aMap))
+			{
+				first = n;
 				last = n;
 			}
 		}
@@ -146,19 +198,37 @@ void EmptyCluster::frameCluster(HPAClusterAbstraction* aMap)
 		y = this->getVOrigin();
 		for(x=this->getHOrigin()+this->getWidth()-1; x>=this->getHOrigin(); x--)
 		{
-			ClusterNode* n = dynamic_cast<ClusterNode*>(aMap->getNodeFromMap(x,y));
-			if(n && last && n->getUniqueID() != last->getUniqueID())
+			ClusterNode* n = dynamic_cast<ClusterNode*>(
+					aMap->getNodeFromMap(x,y));
+			assert(n);
+			if(last)
 			{
-				addTransitionPoint(n, last, aMap);
+				if(n->getUniqueID() != last->getUniqueID() &&
+					this->isIncidentWithInterEdge(n, aMap))
+				{
+					addTransitionPoint(n, last, aMap, aMap->h(n, last));
+					last = n;
+				}
+			}
+			else if(isIncidentWithInterEdge(n, aMap))
+			{
+				first = n;
 				last = n;
 			}
+		}
+
+		// connect the first and last nodes to be considered
+		if(first && last && first->getUniqueID() != last->getUniqueID())
+		{
+			addTransitionPoint(first, last, aMap, aMap->h(first, last));
 		}
 	}
 
 	// frame single-node clusters
 	if(getWidth() == 1 && getHeight() == 1)
 	{
-		ClusterNode* n = dynamic_cast<ClusterNode*>(aMap->getNodeFromMap(getHOrigin(), getVOrigin()));
+		ClusterNode* n = dynamic_cast<ClusterNode*>(
+				aMap->getNodeFromMap(getHOrigin(), getVOrigin()));
 		ClusterNode* absn = dynamic_cast<ClusterNode*>(n->clone());
 		absn->setLabelL(kAbstractionLevel, 1);
 		graph* g = aMap->getAbstractGraph(1);
@@ -172,8 +242,8 @@ void EmptyCluster::frameCluster(HPAClusterAbstraction* aMap)
 // (see [Harabor & Botea, 2010])
 void EmptyCluster::addCardinalMacroEdges(HPAClusterAbstraction *aMap)
 {
-	this->print(std::cout);
-	std::cout << std::endl;
+//	this->print(std::cout);
+//	std::cout << std::endl;
 	if(getVerbose())
 	{
 		std::cout << "adding cardinal macro edges for cluster "<<getId()<<" origin ";
@@ -193,7 +263,8 @@ void EmptyCluster::addCardinalMacroEdges(HPAClusterAbstraction *aMap)
 					aMap->getNodeFromMap(lx, y)->getLabelL(kParent));
 			node *right = absg->getNode(
 					aMap->getNodeFromMap(rx, y)->getLabelL(kParent));
-			addSingleMacroEdge(left, right, aMap->h(left, right), absg);
+			if(left && right)
+				addSingleMacroEdge(left, right, aMap->h(left, right), absg);
 		}
 	}
 
@@ -207,13 +278,364 @@ void EmptyCluster::addCardinalMacroEdges(HPAClusterAbstraction *aMap)
 					aMap->getNodeFromMap(x, ty)->getLabelL(kParent));
 			node *bottom = absg->getNode(
 					aMap->getNodeFromMap(x, by)->getLabelL(kParent));
-			addSingleMacroEdge(top, bottom, aMap->h(top, bottom), absg);
+			if(top && bottom)
+				addSingleMacroEdge(top, bottom, aMap->h(top, bottom), absg);
 
 		}
 	}
 
 	if(getVerbose())
 		std::cout << macro << " macro edges added for cluster "<<getId()<<std::endl;
+}
+
+
+void
+EmptyCluster::addDiagonalMacroEdges(HPAClusterAbstraction* aMap)
+{
+	graph* absg = aMap->getAbstractGraph(1);
+	macro = 0;
+
+	// first, add diagonal edges between nodes on orthogonal sides of the 
+	// cluster
+	int max = this->getHeight() > this->getWidth()?
+		this->getWidth():this->getHeight();
+	for(int offset=1; offset<max; offset++)
+	{
+		// connect left and bottom sides of cluster
+		int fx = this->getHOrigin()+offset;
+		int fy = this->getVOrigin();
+		int sx = this->getHOrigin();
+		int sy = this->getVOrigin()+offset;
+		node *first = absg->getNode(
+				aMap->getNodeFromMap(fx, fy)->getLabelL(kParent));
+		node *second = absg->getNode(
+				aMap->getNodeFromMap(sx, sy)->getLabelL(kParent));
+		if(first && second)
+			addSingleMacroEdge(first, second, aMap->h(first, second), absg);
+		else if(!first && second)
+		{
+			first = nextNodeInRow(fx, fy, aMap, true);
+			if(first)
+				addSingleMacroEdge(first, second, aMap->h(first, second), absg);
+		}
+		else if(!second && first)
+		{
+			second = nextNodeInColumn(sx, sy, aMap, true);
+			if(second)
+				addSingleMacroEdge(first, second, aMap->h(first, second), absg);
+		}
+
+		// connect top and right sides of cluster
+		fx = this->getHOrigin()+this->getWidth()-1-offset;
+		sx = this->getHOrigin()+this->getWidth()-1;
+		first = absg->getNode(
+				aMap->getNodeFromMap(fx, fy)->getLabelL(kParent));
+		second = absg->getNode(
+				aMap->getNodeFromMap(sx, sy)->getLabelL(kParent));
+		if(first && second)
+			addSingleMacroEdge(first, second, aMap->h(first, second), absg);
+		else if(!first && second)
+		{
+			first = nextNodeInRow(fx, fy, aMap, false);
+			if(first)
+				addSingleMacroEdge(first, second, aMap->h(first, second), absg);
+		}
+		else if(first && !second)
+		{
+			second = nextNodeInColumn(sx, sy, aMap, true);
+			if(second)
+				addSingleMacroEdge(first, second, aMap->h(first, second), absg);
+		}
+
+		// connect left and bottom sides of cluster
+		fx = this->getHOrigin()+offset;
+		fy = this->getVOrigin()+getHeight()-1;
+		sx = this->getHOrigin();
+		sy = this->getVOrigin()+this->getHeight()-1-offset;
+		first = absg->getNode(
+				aMap->getNodeFromMap(fx, fy)->getLabelL(kParent));
+		second = absg->getNode(
+				aMap->getNodeFromMap(sx, sy)->getLabelL(kParent));
+		if(first && second)
+			addSingleMacroEdge(first, second, aMap->h(first, second), absg);
+		else if(!first && second)
+		{
+			first = nextNodeInRow(fx, fy, aMap, true);
+			if(first)
+				addSingleMacroEdge(first, second, aMap->h(first, second), absg);
+		}
+		else if(first && !second)
+		{
+			second = nextNodeInColumn(sx, sy, aMap, false);
+			if(second)
+				addSingleMacroEdge(first, second, aMap->h(first, second), absg);
+		}
+
+		// connect bottom and right sides sides of cluster
+		fx = this->getHOrigin()+this->getWidth()-1;
+		fy = this->getVOrigin()+getHeight()-1-offset;
+		sx = this->getHOrigin()+this->getWidth()-1-offset;
+		sy = this->getVOrigin()+this->getHeight()-1;
+		first = absg->getNode(
+				aMap->getNodeFromMap(fx, fy)->getLabelL(kParent));
+		second = absg->getNode(
+				aMap->getNodeFromMap(sx, sy)->getLabelL(kParent));
+		if(first && second) 
+			addSingleMacroEdge(first, second, aMap->h(first, second), absg);
+		else if(!first && second)
+		{
+			first = nextNodeInColumn(fx, fy, aMap, false);
+			if(first)
+				addSingleMacroEdge(first, second, aMap->h(first, second), absg);
+		}
+		else if(first && !second)
+		{
+			second = nextNodeInRow(sx, sy, aMap, false);
+			if(second)
+				addSingleMacroEdge(first, second, aMap->h(first, second), absg);
+		}
+	}
+
+}
+
+void
+EmptyCluster::addDiagonalFanMacroEdges(HPAClusterAbstraction* aMap)
+{
+	graph* absg = aMap->getAbstractGraph(1);
+	macro = 0;
+
+	// add edges connecting nodes on the top side to nodes on the bottom 
+	// side of the cluster
+	int max = this->getHeight() > this->getWidth()?
+		this->getWidth():this->getHeight();
+	for(int fx=this->getHOrigin(); 
+			fx<this->getHOrigin()+this->getWidth(); 
+			fx++)
+	{
+		int fy = this->getVOrigin();
+		node* first = absg->getNode(
+				aMap->getNodeFromMap(fx, fy)->getLabelL(kParent));
+
+		if(!first) continue;
+
+		int minx = (fx-(max-1))<this->getHOrigin()?
+			(this->getHOrigin()):(fx-(max-1)); 
+		int maxx = (fx+max)>(this->getHOrigin()+this->getWidth())?
+			(this->getHOrigin()+this->getWidth()):(fx+max);
+		for(int sx = minx; sx < maxx; sx++)
+		{
+			int sy = this->getVOrigin()+this->getHeight()-1;
+			node* second = absg->getNode(
+				aMap->getNodeFromMap(sx, sy)->getLabelL(kParent));
+
+			if(!second) continue;
+			addSingleMacroEdge(first, second, aMap->h(first, second), absg);
+		}
+	}
+
+	// add edges connecting nodes on the left side to nodes on the right 
+	// side of the cluster
+	for(int fy=this->getVOrigin();
+			fy<this->getVOrigin()+this->getHeight();
+			fy++)
+	{
+		int fx = this->getHOrigin();
+		node* first = absg->getNode(
+				aMap->getNodeFromMap(fx, fy)->getLabelL(kParent));
+
+		if(!first) continue;
+
+		int miny = (fy-(max-1))<this->getVOrigin()?
+			(this->getVOrigin()):(fy-(max-1)); 
+		int maxy = (fy+max)>(this->getVOrigin()+this->getHeight())?
+			(this->getVOrigin()+this->getHeight()):(fy+max);
+		for(int sy = miny; sy < maxy; sy++) 
+		{
+			int sx = this->getHOrigin()+this->getWidth()-1;
+			node* second = absg->getNode(
+				aMap->getNodeFromMap(sx, sy)->getLabelL(kParent));
+
+			if(!second) continue;
+			addSingleMacroEdge(first, second, aMap->h(first, second), absg);
+		}
+	}
+}
+
+void 
+EmptyCluster::addMacroEdgesBetweenLeftRightEntrances(
+		HPAClusterAbstraction* hpamap)
+{
+	// connect entrances along the left of the cluster to entrances along
+	// the right.
+	graph* absg = hpamap->getAbstractGraph(1);
+	int ly = this->getVOrigin();
+	while(ly < (this->getVOrigin()+this->getHeight()))
+	{
+		int lx = this->getHOrigin();
+		int rx = this->getHOrigin()+this->getWidth()-1;
+		int length = findVerticalLength(lx, ly, hpamap);
+		//std::cout << "@ :"<<lx<<", "<<ly<< " found vent of length "<<length;
+		//std::cout << std::endl;
+
+		if(length == 0)
+		{
+			ly++;
+			continue;
+		}
+
+		int rymin = (ly - (this->getWidth()-1));
+		if(rymin >= this->getVOrigin())
+		{
+			//std::cout << "connecting top... lx: "<<lx<<"ly: "<<ly;
+			//std::cout << " rymin: "<<rymin<<" width-1: "<<this->getWidth()-1;
+			//std::cout << " wtf: "<<ly - this->getWidth()-1;
+			//std::cout << std::endl;
+
+			for(int ry = rymin; ry >= this->getVOrigin(); ry--)
+			{
+			//	std::cout << "ry: "<<ry<<" rx: "<<rx<<std::endl;
+				node* absNeighbour = 0;
+				assert(hpamap->getNodeFromMap(rx, ry));
+				absNeighbour = absg->getNode(hpamap->getNodeFromMap(rx, 
+							ry)->getLabelL(kParent));
+
+				if(absNeighbour)
+				{
+					assert(hpamap->getNodeFromMap(rx, ry)->getLabelL(kParent) 
+							!= -1);
+					assert((int)absNeighbour->getNum() < absg->getNumNodes());
+					node* absNode = absg->getNode(
+							hpamap->getNodeFromMap(lx, ly)->getLabelL(kParent));
+					addSingleMacroEdge(absNode, absNeighbour, 
+							hpamap->h(absNode, absNeighbour), absg);
+					break;
+				}
+			}
+		}
+
+		rymin = (ly + length-1)+(this->getWidth()-1);
+		if(rymin < (this->getVOrigin()+this->getHeight()))
+		{
+			//std::cout << "connecting bottom..."<<std::endl;
+			//std::cout << " rymin: "<<rymin<<" width-1: "<<this->getWidth()-1;
+			//std::cout << std::endl;
+			for(int ry = rymin; 
+					ry < (this->getVOrigin()+this->getHeight());
+					ry++)
+			{
+			//	std::cout << "ry: "<<ry<<" rx: "<<rx<<std::endl;
+				node* absNeighbour = 0;
+				assert(hpamap->getNodeFromMap(rx, ry));
+				absNeighbour = absg->getNode(hpamap->getNodeFromMap(rx, 
+							ry)->getLabelL(kParent));
+
+				if(absNeighbour)
+				{
+					assert(hpamap->getNodeFromMap(rx, ry)->getLabelL(kParent) != 
+							-1);
+					assert((int)absNeighbour->getNum() < absg->getNumNodes());
+					node* absNode = absg->getNode(hpamap->getNodeFromMap(lx, 
+								(ly+length-1))->getLabelL(kParent));
+					addSingleMacroEdge(absNode, absNeighbour, 
+							hpamap->h(absNode, absNeighbour), absg);
+					break;
+				}
+
+			}
+		}
+
+		ly += length;
+	}
+}
+
+void 
+EmptyCluster::addMacroEdgesBetweenTopAndBottomEntrances(
+		HPAClusterAbstraction* hpamap)
+{
+	// connect entrances along the top of the cluster to entrances along
+	// the bottom.
+	graph* absg = hpamap->getAbstractGraph(1);
+	int tx = this->getHOrigin();
+	while(tx < (this->getHOrigin()+this->getWidth()))
+	{
+		int ty = this->getVOrigin();
+		int by = this->getVOrigin()+this->getHeight()-1;
+		int length = findHorizontalLength(tx, ty, hpamap);
+		//std::cout << "@ :"<<tx<<", "<<ty<< " found hent of length "<<length;
+		//std::cout << std::endl;
+
+		if(length == 0)
+		{
+			tx++;
+			continue;
+		}
+
+		int bxmin = tx - (this->getHeight()-1);
+		if(bxmin > this->getHOrigin())
+		{
+			//std::cout << "connecting left... tx: "<<tx<<"ty: "<<ty;
+			//std::cout << " bxmin: "<<bxmin<<" height-1: "<<this->getHeight()-1;
+			//std::cout << std::endl;
+
+			for(int bx = bxmin; bx >= this->getHOrigin(); bx--)
+			{
+				//std::cout << "by: "<<by<<" bx: "<<bx;
+				node* absNeighbour = 0;
+				assert(hpamap->getNodeFromMap(bx, by));
+				absNeighbour = absg->getNode(hpamap->getNodeFromMap(bx, 
+							by)->getLabelL(kParent));
+
+				if(absNeighbour)
+				{
+					//std::cout << " exists!"<<std::endl;
+					assert(hpamap->getNodeFromMap(bx, by)->getLabelL(kParent) 
+							!= -1);
+					assert((int)absNeighbour->getNum() < absg->getNumNodes());
+					node* absNode = absg->getNode(
+							hpamap->getNodeFromMap(tx, ty)->getLabelL(kParent));
+					addSingleMacroEdge(absNode, absNeighbour, 
+							hpamap->h(absNode, absNeighbour), absg);
+					break;
+				}
+				//std::cout << std::endl;
+			}
+		}
+
+		bxmin = (tx + length-1)+(this->getHeight()-1);
+		if(bxmin < (this->getHOrigin()+this->getWidth()))
+		{
+			//std::cout << "connecting right... tx: "<<tx<<"ty: "<<ty;
+			//std::cout << " bxmin: "<<bxmin<<" height-1: "<<this->getHeight()-1;
+			//std::cout << std::endl;
+			for(int bx = bxmin; 
+					bx < (this->getHOrigin()+this->getWidth());
+					bx++)
+			{
+				//std::cout << "by: "<<by<<" bx: "<<bx;
+				node* absNeighbour = 0;
+				assert(hpamap->getNodeFromMap(bx, by));
+				absNeighbour = absg->getNode(hpamap->getNodeFromMap(bx, 
+							by)->getLabelL(kParent));
+
+				if(absNeighbour)
+				{
+					//std::cout << " exists!"<<std::endl;
+					assert(hpamap->getNodeFromMap(bx, by)->getLabelL(kParent) 
+							!= -1);
+					assert((int)absNeighbour->getNum() < absg->getNumNodes());
+					node* absNode = absg->getNode(hpamap->getNodeFromMap(
+								(tx+length-1), ty)->getLabelL(kParent));
+					addSingleMacroEdge(absNode, absNeighbour, 
+							hpamap->h(absNode, absNeighbour), absg);
+					break;
+				}
+				//std::cout << std::endl;
+
+			}
+		}
+
+		tx += length;
+	}
 }
 
 // use this when working with 8-connected grid maps
@@ -225,123 +647,13 @@ void EmptyCluster::addMacroEdges(HPAClusterAbstraction *aMap)
 		std::cout <<"("<< getHOrigin()<<", "<<getVOrigin()<<")";
 		std::cout <<" diagonal edges allowed? "<<getAllowDiagonals()<< " "<<std::endl;
 	}
-	graph* absg = aMap->getAbstractGraph(1);
-	macro = 0;
 
-	if(this->getAllowDiagonals() && this->getHeight() > 1 && this->getWidth() > 1)
+	if(this->getHeight() > 1 && this->getWidth() > 1)
 	{
-		// first, add diagonal edges between nodes on orthogonal sides of the cluster
-		int max = this->getHeight() > this->getWidth()?this->getWidth():this->getHeight();
-		for(int offset=1; offset<max; offset++)
-		{
-			// connect left and bottom sides of cluster
-			int fx = this->getHOrigin()+offset;
-			int fy = this->getVOrigin();
-			int sx = this->getHOrigin();
-			int sy = this->getVOrigin()+offset;
-			node *first = absg->getNode(
-					aMap->getNodeFromMap(fx, fy)->getLabelL(kParent));
-			node *second = absg->getNode(
-					aMap->getNodeFromMap(sx, sy)->getLabelL(kParent));
-			addSingleMacroEdge(first, second, aMap->h(first, second), absg);
-
-			// connect top and right sides of cluster
-			fx = this->getHOrigin()+this->getWidth()-1-offset;
-			sx = this->getHOrigin()+this->getWidth()-1;
-			first = absg->getNode(
-					aMap->getNodeFromMap(fx, fy)->getLabelL(kParent));
-			second = absg->getNode(
-					aMap->getNodeFromMap(sx, sy)->getLabelL(kParent));
-			addSingleMacroEdge(first, second, aMap->h(first, second), absg);
-
-			// connect left and bottom sides of cluster
-			fx = this->getHOrigin()+offset;
-			fy = this->getVOrigin()+getHeight()-1;
-			sx = this->getHOrigin();
-			sy = this->getVOrigin()+this->getHeight()-1-offset;
-			first = absg->getNode(
-					aMap->getNodeFromMap(fx, fy)->getLabelL(kParent));
-			second = absg->getNode(
-					aMap->getNodeFromMap(sx, sy)->getLabelL(kParent));
-			addSingleMacroEdge(first, second, aMap->h(first, second), absg);
-
-			// connect bottom and right sides sides of cluster
-			fx = this->getHOrigin()+this->getWidth()-1;
-			fy = this->getVOrigin()+getHeight()-1-offset;
-			sx = this->getHOrigin()+this->getWidth()-1-offset;
-			sy = this->getVOrigin()+this->getHeight()-1;
-			first = absg->getNode(
-					aMap->getNodeFromMap(fx, fy)->getLabelL(kParent));
-			second = absg->getNode(
-					aMap->getNodeFromMap(sx, sy)->getLabelL(kParent));
-			addSingleMacroEdge(first, second, aMap->h(first, second), absg);
-		}
-
-		// add edges connecting nodes on the top side to nodes on the bottom side of the cluster
-		for(int fx=this->getHOrigin(); fx<this->getHOrigin()+this->getWidth(); fx++)
-		{
-			int fy = this->getVOrigin();
-			node* first = absg->getNode(
-					aMap->getNodeFromMap(fx, fy)->getLabelL(kParent));
-
-			int minx = (fx-(max-1))<this->getHOrigin()?(this->getHOrigin()+1):(fx-(max-1)); // +1 to avoid adding a single symmetric edge
-			int maxx = (fx+max)>(this->getHOrigin()+this->getWidth())?
-				(this->getHOrigin()+this->getWidth()):(fx+max);
-			for(int sx = minx; sx < maxx; sx++)
-			{
-				int sy = this->getVOrigin()+this->getHeight()-1;
-				node* second = absg->getNode(
-					aMap->getNodeFromMap(sx, sy)->getLabelL(kParent));
-				if(isIncidentWithInterEdge(first, aMap) || isIncidentWithInterEdge(second, aMap))
-				{
-							addSingleMacroEdge(first, second, aMap->h(first, second), absg);
-				}
-				else if(getVerbose())
-				{
-					MacroNode* tmp = dynamic_cast<MacroNode*>(first);
-					MacroNode* tmp2 = dynamic_cast<MacroNode*>(second);
-					std::cout << "nodes not incident with inter-edge: ";
-					tmp->print(std::cout);
-					std::cout << " ";
-					tmp2->print(std::cout);
-					std::cout << std::endl;
-
-				}
-			}
-		}
-
-		// add edges connecting nodes on the left side to nodes on the right side of the cluster
-		for(int fy=this->getVOrigin(); fy<this->getVOrigin()+this->getHeight(); fy++)
-		{
-			int fx = this->getHOrigin();
-			node* first = absg->getNode(
-					aMap->getNodeFromMap(fx, fy)->getLabelL(kParent));
-
-			int miny = (fy-(max-1))<this->getVOrigin()?(this->getVOrigin()+1):(fy-(max-1)); // +1 to avoid adding a single symmetric edge
-			int maxy = (fy+max)>(this->getVOrigin()+this->getHeight())?
-				(this->getVOrigin()+this->getHeight()):(fy+max);
-			for(int sy = miny; sy < maxy; sy++) 
-			{
-				int sx = this->getHOrigin()+this->getWidth()-1;
-				node* second = absg->getNode(
-					aMap->getNodeFromMap(sx, sy)->getLabelL(kParent));
-				if(isIncidentWithInterEdge(first, aMap) || isIncidentWithInterEdge(second, aMap))
-				{
-							addSingleMacroEdge(first, second, aMap->h(first, second), absg);
-				}
-				else if(getVerbose())
-				{
-					MacroNode* tmp = dynamic_cast<MacroNode*>(first);
-					MacroNode* tmp2 = dynamic_cast<MacroNode*>(second);
-					std::cout << "nodes not incident with inter-edge: ";
-					tmp->print(std::cout);
-					std::cout << " ";
-					tmp2->print(std::cout);
-					std::cout << std::endl;
-
-				}
-			}
-		}
+		addDiagonalMacroEdges(aMap);
+		addDiagonalFanMacroEdges(aMap);
+		addMacroEdgesBetweenTopAndBottomEntrances(aMap);
+		addMacroEdgesBetweenLeftRightEntrances(aMap);
 	}
 
 	if(getVerbose())
@@ -354,33 +666,32 @@ bool EmptyCluster::isIncidentWithInterEdge(node* n_, HPAClusterAbstraction* hpam
 	bool retVal = false;
 	MacroNode* n = dynamic_cast<MacroNode*>(n_);
 	assert(n);
-	if(getVerbose())
-	{
-		std::cout << "checking incidence w/ inter edge for node: ";
-		n->print(std::cout);
-		std::cout << std::endl;
-	}
 
-	int nx = n->getLabelL(kFirstData);
-	int ny = n->getLabelL(kFirstData+1);
-	for(int nbx = nx-1; nbx < nx+2; nbx++)
-		for(int nby = ny-1; nby < ny+2; nby++)
-		{
-			MacroNode* nb = dynamic_cast<MacroNode*>(hpamap->getNodeFromMap(nbx, nby));
-			if(nb)
+	if(getAllowDiagonals())
+	{
+		int nx = n->getLabelL(kFirstData);
+		int ny = n->getLabelL(kFirstData+1);
+		for(int nbx = nx-1; nbx < nx+2; nbx++)
+			for(int nby = ny-1; nby < ny+2; nby++)
 			{
-				if(getVerbose())
-				{
-					std::cout << "neighbour: ";
-					nb->print(std::cout);
-					std::cout << std::endl;
-				}
-				if(nb->getParentClusterId() != n->getParentClusterId())
+				MacroNode* nb = dynamic_cast<MacroNode*>(
+						hpamap->getNodeFromMap(nbx, nby));
+				if(!getAllowDiagonals() && nbx != nx && nby != ny)
+					continue;
+				else if(nb && 
+						nb->getParentClusterId() != n->getParentClusterId())
 				{
 					retVal = true;
 				}
 			}
-		}
+	}
+	
+//	if(getVerbose())
+//	{
+//		std::cout << "checking incidence w/ inter edge for node: ";
+//		n->print(std::cout);
+//		std::cout << retVal <<std::endl;
+//	}
 
 	return retVal;
 }
@@ -403,7 +714,7 @@ void EmptyCluster::addSingleMacroEdge(node* from_, node* to_, double weight, gra
 		macro++;
 		if(getVerbose())
 		{
-			std::cout << "[("<<from->getLabelL(kFirstData)<<", ";
+			std::cout << "added macro edge: [("<<from->getLabelL(kFirstData)<<", ";
 			std::cout <<from->getLabelL(kFirstData+1)<<") <-> (";
 			std::cout << to->getLabelL(kFirstData) << ", ";
 			std::cout << to->getLabelL(kFirstData+1);
@@ -593,6 +904,7 @@ void EmptyCluster::processHorizontalEntrance(
 			}
 		}
 	}
+
 }
 
 void EmptyCluster::buildHorizontalEntrances(HPAClusterAbstraction* hpamap)
@@ -675,6 +987,7 @@ void EmptyCluster::processVerticalEntrance(
 			}
 		}
 	}
+	
 }
 
 void EmptyCluster::buildVerticalEntrances(HPAClusterAbstraction* hpamap)
@@ -690,7 +1003,6 @@ void EmptyCluster::buildVerticalEntrances(HPAClusterAbstraction* hpamap)
 	{
 		int length = findVerticalEntranceLength(x,y, hpamap);
 	
-		// build transition points; long entrances have 2, short entrances have 1.
 		if(length == 0)
 			y++;
 		else
@@ -747,4 +1059,117 @@ bool EmptyCluster::canExtendVertically(HPAClusterAbstraction* hpamap)
 	}
 	return true;
 
+}
+
+// returns the length of a contiguous horizontal entrance area starting at
+// coordinate (x, y)
+int EmptyCluster::findHorizontalLength(int x, int y, 
+		HPAClusterAbstraction* hpamap)
+{
+	int length = 0;
+	for(int xprime = x;
+		   	xprime < (this->getHOrigin()+this->getWidth());
+		   	xprime++)
+	{
+		node* n = hpamap->getNodeFromMap(xprime, y);
+		if(isIncidentWithInterEdge(n, hpamap))
+		{
+			assert(n->getLabelL(kParent) != -1);
+			length++;
+		}
+		else
+			break;	
+	}
+	return length;
+}
+
+// returns the length of a contiguous vertical entrance area starting at
+// coordinate (x, y)
+int EmptyCluster::findVerticalLength(int x, int y, 
+		HPAClusterAbstraction* hpamap)
+{
+	int length = 0;
+	for(int yprime = y; 
+			yprime < (this->getVOrigin()+this->getHeight());
+		   	yprime++)
+	{
+		node* n = hpamap->getNodeFromMap(x, yprime);
+		if(isIncidentWithInterEdge(n, hpamap))
+		{
+			assert(n->getLabelL(kParent) != -1);
+			length++;
+		}
+		else
+			break;	
+	}
+	return length;
+}
+
+node*
+EmptyCluster::nextNodeInRow(int x, int y, HPAClusterAbstraction* hpamap,
+		bool leftToRight)
+{
+	node* retVal = 0;
+	graph* absg = hpamap->getAbstractGraph(1);
+	if(leftToRight)
+	{
+		for( ; x < (this->getHOrigin() + this->getWidth()) ; x++)
+		{
+			int nodeId = hpamap->getNodeFromMap(x, y)->getLabelL(kParent);
+			if(nodeId != -1)
+			{
+				retVal = absg->getNode(nodeId);
+				break;
+			}
+		}
+	}
+	else
+	{
+		for( ; x >= this->getHOrigin(); x--)
+		{
+			int nodeId = hpamap->getNodeFromMap(x, y)->getLabelL(kParent);
+			if(nodeId != -1)
+			{
+				retVal = absg->getNode(nodeId);
+				break;
+			}
+		}
+	}
+
+	return retVal;
+}
+
+node*
+EmptyCluster::nextNodeInColumn(int x, int y, HPAClusterAbstraction* hpamap,
+		bool topToBottom)
+{
+	node* retVal = 0;
+	graph* absg = hpamap->getAbstractGraph(1);
+
+	if(topToBottom)
+	{
+		for( ; y < (this->getVOrigin() + this->getHeight()); y++)
+		{
+			int nodeId = hpamap->getNodeFromMap(x, y)->getLabelL(kParent);
+			if(nodeId != -1)
+			{
+				retVal = absg->getNode(nodeId);
+				break;
+			}
+		}
+	}
+	else
+	{
+		for( ; y >= this->getVOrigin(); y--)
+		{
+			int nodeId = hpamap->getNodeFromMap(x, y)->getLabelL(kParent);
+			if(nodeId != -1)
+			{
+				retVal = absg->getNode(nodeId);
+				break;
+			}
+		}
+	}
+
+	return retVal;
 }
