@@ -25,9 +25,11 @@
 #endif
 
 #include "HPACluster.h"
+#include <vector>
 
 class graph;
 class HPAClusterAbstraction;
+class Entrance;
 
 class EmptyCluster : public HPACluster
 {
@@ -38,6 +40,9 @@ class EmptyCluster : public HPACluster
 	public:
 		EmptyCluster(const int x, const int y) throw(std::invalid_argument);
 		virtual ~EmptyCluster();
+
+		virtual void buildEntrances(HPAClusterAbstraction* hpamap)
+			throw(std::invalid_argument);
 
 		virtual void addNodesToCluster(HPAClusterAbstraction*) 
 			throw(std::invalid_argument);
@@ -72,7 +77,20 @@ class EmptyCluster : public HPACluster
 		bool canExtendHorizontally(HPAClusterAbstraction* hpamap); 
 		bool canExtendVertically(HPAClusterAbstraction* hpamap);
 		bool isIncidentWithInterEdge(node* n, HPAClusterAbstraction* hpamap);
-		
+		int findVerticalLength(int x, int y, HPAClusterAbstraction* hpamap);
+		int findHorizontalLength(int x, int y, HPAClusterAbstraction* hpamap);
+		void addDiagonalMacroEdges(HPAClusterAbstraction* hpamap);
+		void addDiagonalFanMacroEdges(HPAClusterAbstraction* hpamap);
+		void addMacroEdgesBetweenTopAndBottomEntrances(
+				HPAClusterAbstraction* hpamap);
+		void addMacroEdgesBetweenLeftRightEntrances(
+				HPAClusterAbstraction* hpamap);
+
+		node* nextNodeInColumn(int x, int y, HPAClusterAbstraction* hpamap,
+				bool leftToRight);
+		node* nextNodeInRow(int x, int y, HPAClusterAbstraction* hpamap,
+				bool topToBottom);
+
 		GLdouble glx, gly, glz;  // OpenGL origin coordinates
 		GLdouble glHeight, glWidth;
 };

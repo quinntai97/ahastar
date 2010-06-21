@@ -407,18 +407,12 @@ void HPACluster::buildDiagonalEntrances(HPAClusterAbstraction* hpamap)
 	}
 }
 
-// A transition point is composed of two adjacent nodes in separate clusters.
-// Creating a new transition point requires the insertion of two nodes from the original map into the abstract graph.
-// These nodes are connected to each other via an inter-edge and to every other node within their respective clusters (if reachable) by intra-edges.
-void HPACluster::addTransitionPoint(node* from, node* to, HPAClusterAbstraction* hpamap)
+// a transition point connects two nodes on the map. usually the nodes are on the
+// border of two adjacent clusters (in which case the transition results in an
+// inter-edge being created) but this is not necessary.
+void HPACluster::addTransitionPoint(node* from, node* to, 
+		HPAClusterAbstraction* hpamap, double edgeweight)
 {
-	//if(getVerbose())
-	//{
-	//	std::cout << "addTransitionPoint: ";
-	//	from->Print(std::cout);
-	//	to->Print(std::cout);
-	//	std::cout << std::endl;
-	//}
 
 	// add internodes; first try to reuse existing nodes from the abstract graph, else create new ones.
 	int abstractionLevel = 1;
@@ -447,23 +441,32 @@ void HPACluster::addTransitionPoint(node* from, node* to, HPAClusterAbstraction*
 		to->setLabelL(kParent, absto->getNum());
 	}
 	
-	// add inter-edge; its weight is equal to the weight of the low level edge
-	// connecting the transition points
-	graph* llg = hpamap->getAbstractGraph(0);	
-	edge* lle = llg->findEdge(from->getNum(), to->getNum());
-	double wt = 0;
-	if(lle)
-		wt = lle->getWeight();
-	else
+	// add the edge between the two transition points. 
+	if(edgeweight == 0)
 	{
-		std::cout << "adding a transition between two disconneted edges?!"
-			"something went really wrong. terminating."<<std::endl;
-		exit(-1);
+		graph* llg = hpamap->getAbstractGraph(0);	
+		edge* lle = llg->findEdge(from->getNum(), to->getNum());
+		if(lle)
+			edgeweight = lle->getWeight();
+		else
+		{
+			std::cout << "adding a transition between two disconneted edges?!"
+				"something went really wrong. terminating."<<std::endl;
+			exit(-1);
+		}
 	}
 
 	edge* e = hpamap->getEdgeFactory()->newEdge(
-			absfrom->getNum(), absto->getNum(), wt);
+			absfrom->getNum(), absto->getNum(), edgeweight);
 	g->addEdge(e);
+
+	if(getVerbose())
+	{
+		std::cout << "addTransitionPoint: ";
+		from->Print(std::cout);
+		to->Print(std::cout);
+		std::cout << " cost: "<<edgeweight<<std::endl;
+	}
 }
 
 // debug method
@@ -488,24 +491,25 @@ void HPACluster::print(std::ostream& out)
 bool HPACluster::verifyCluster()
 {
 		bool result = true;
-		int numExpectedParents = 0;
-		if(this->getWidth() == 1 && this->getHeight() == 1)
-			numExpectedParents = 1;
-		else if(this->getWidth() == 1)
-			numExpectedParents = this->getHeight();
-		else if(this->getHeight() == 1)
-			numExpectedParents = this->getWidth();
-		else
-			numExpectedParents = this->getWidth()*2 + (this->getHeight()-2)*2;
 
-		assert(numExpectedParents == this->getNumParents());
-		if(numExpectedParents != this->getNumParents())
-			result = false;
-
-		int numExpectedNodes = this->getHeight()*this->getWidth();
-		assert(numExpectedNodes == this->getNumNodes());
-		if(numExpectedNodes != this->getNumNodes())
-			result = false;
+//		int numExpectedParents = 0;
+//		if(this->getWidth() == 1 && this->getHeight() == 1)
+//			numExpectedParents = 1;
+//		else if(this->getWidth() == 1)
+//			numExpectedParents = this->getHeight();
+//		else if(this->getHeight() == 1)
+//			numExpectedParents = this->getWidth();
+//		else
+//			numExpectedParents = this->getWidth()*2 + (this->getHeight()-2)*2;
+//
+//		assert(numExpectedParents == this->getNumParents());
+//		if(numExpectedParents != this->getNumParents())
+//			result = false;
+//
+//		int numExpectedNodes = this->getHeight()*this->getWidth();
+//		assert(numExpectedNodes == this->getNumNodes());
+//		if(numExpectedNodes != this->getNumNodes())
+//			result = false;
 
 		return result;
 }
