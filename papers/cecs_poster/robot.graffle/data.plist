@@ -1596,8 +1596,8 @@ Text text text  Text text text Text text text Text text text Text text text }</s
 			<integer>9049</integer>
 			<key>Points</key>
 			<array>
-				<string>{509.035, 1340.46}</string>
-				<string>{511.864, 1329.48}</string>
+				<string>{509.034, 1340.46}</string>
+				<string>{511.865, 1329.47}</string>
 			</array>
 			<key>Style</key>
 			<dict>
@@ -2719,7 +2719,7 @@ E = mc}</string>
 						<string>{\rtf1\ansi\ansicpg1252\cocoartf1038\cocoasubrtf250
 {\fonttbl\f0\fnil\fcharset0 Handwriting-Dakota;}
 {\colortbl;\red255\green255\blue255;}
-\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural\pardirnatural
 
 \f0\fs144 \cf0 V = IR\
 E = mc}</string>
@@ -3169,7 +3169,7 @@ Text text text  Text text text Text text text Text text text Text text text}</st
 		</dict>
 		<dict>
 			<key>Bounds</key>
-			<string>{{654.709, 1202.09}, {902.249, 300.75}}</string>
+			<string>{{608.038, 1165.95}, {1035.75, 345.25}}</string>
 			<key>Class</key>
 			<string>ShapedGraphic</string>
 			<key>ID</key>
@@ -3706,7 +3706,7 @@ Text text text  Text text text Text text text Text text text Text text text}</st
 				</dict>
 				<dict>
 					<key>Bounds</key>
-					<string>{{563.424, 436.016}, {52, 86}}</string>
+					<string>{{563.424, 435.998}, {52, 86}}</string>
 					<key>Class</key>
 					<string>ShapedGraphic</string>
 					<key>FitText</key>
@@ -3819,8 +3819,8 @@ Text text text  Text text text Text text text Text text text Text text text}</st
 					<real>-1</real>
 					<key>Points</key>
 					<array>
-						<string>{565.506, 463.729}</string>
-						<string>{610.325, 463.753}</string>
+						<string>{565.507, 463.725}</string>
+						<string>{610.325, 463.725}</string>
 					</array>
 					<key>Style</key>
 					<dict>
@@ -3862,7 +3862,7 @@ Text text text  Text text text Text text text Text text text Text text text}</st
 					<array>
 						<string>{656.644, 494.053}</string>
 						<string>{619.116, 508.998}</string>
-						<string>{565.507, 509.471}</string>
+						<string>{565.507, 509.472}</string>
 					</array>
 					<key>Style</key>
 					<dict>
@@ -4180,8 +4180,8 @@ Text text text  Text text text Text text text Text text text Text text text}</st
 					<real>-1</real>
 					<key>Points</key>
 					<array>
-						<string>{776.708, 585.909}</string>
-						<string>{867.346, 585.916}</string>
+						<string>{776.709, 585.907}</string>
+						<string>{867.346, 585.908}</string>
 					</array>
 					<key>Style</key>
 					<dict>
@@ -4221,8 +4221,8 @@ Text text text  Text text text Text text text Text text text Text text text}</st
 					<real>-1</real>
 					<key>Points</key>
 					<array>
-						<string>{776.708, 570.635}</string>
-						<string>{867.346, 570.643}</string>
+						<string>{776.709, 570.634}</string>
+						<string>{867.346, 570.635}</string>
 					</array>
 					<key>Style</key>
 					<dict>
@@ -4481,7 +4481,7 @@ Text text text  Text text text Text text text Text text text Text text text}</st
 					<key>Points</key>
 					<array>
 						<string>{565.007, 585.689}</string>
-						<string>{610.325, 585.875}</string>
+						<string>{610.325, 585.874}</string>
 					</array>
 					<key>Style</key>
 					<dict>
@@ -4681,8 +4681,8 @@ Text text text  Text text text Text text text Text text text Text text text}</st
 					<real>-1</real>
 					<key>Points</key>
 					<array>
-						<string>{565.506, 494.275}</string>
-						<string>{610.325, 494.299}</string>
+						<string>{565.507, 494.271}</string>
+						<string>{610.325, 494.271}</string>
 					</array>
 					<key>Style</key>
 					<dict>
@@ -4722,8 +4722,8 @@ Text text text  Text text text Text text text Text text text Text text text}</st
 					<real>-1</real>
 					<key>Points</key>
 					<array>
-						<string>{565.506, 479.002}</string>
-						<string>{610.325, 479.026}</string>
+						<string>{565.507, 478.998}</string>
+						<string>{610.325, 478.998}</string>
 					</array>
 					<key>Style</key>
 					<dict>
@@ -4763,8 +4763,8 @@ Text text text  Text text text Text text text Text text text Text text text}</st
 					<real>-1</real>
 					<key>Points</key>
 					<array>
-						<string>{603.189, 456.588}</string>
-						<string>{603.189, 501.407}</string>
+						<string>{603.188, 456.588}</string>
+						<string>{603.188, 501.407}</string>
 					</array>
 					<key>Style</key>
 					<dict>
@@ -4804,8 +4804,8 @@ Text text text  Text text text Text text text Text text text Text text text}</st
 					<real>-1</real>
 					<key>Points</key>
 					<array>
-						<string>{587.916, 456.588}</string>
-						<string>{587.916, 501.407}</string>
+						<string>{587.915, 456.588}</string>
+						<string>{587.915, 501.407}</string>
 					</array>
 					<key>Style</key>
 					<dict>
@@ -5173,8 +5173,8 @@ Text text text  Text text text Text text text Text text text Text text text}</st
 					<real>-1</real>
 					<key>Points</key>
 					<array>
-						<string>{657.144, 585.908}</string>
-						<string>{760.436, 585.915}</string>
+						<string>{657.144, 585.907}</string>
+						<string>{760.436, 585.908}</string>
 					</array>
 					<key>Style</key>
 					<dict>
@@ -5214,8 +5214,8 @@ Text text text  Text text text Text text text Text text text Text text text}</st
 					<real>-1</real>
 					<key>Points</key>
 					<array>
-						<string>{657.144, 570.635}</string>
-						<string>{760.436, 570.641}</string>
+						<string>{657.144, 570.634}</string>
+						<string>{760.436, 570.634}</string>
 					</array>
 					<key>Style</key>
 					<dict>
@@ -5255,8 +5255,8 @@ Text text text  Text text text Text text text Text text text Text text text}</st
 					<real>-1</real>
 					<key>Points</key>
 					<array>
-						<string>{657.144, 555.363}</string>
-						<string>{760.436, 555.369}</string>
+						<string>{657.144, 555.362}</string>
+						<string>{760.436, 555.362}</string>
 					</array>
 					<key>Style</key>
 					<dict>
@@ -5297,7 +5297,7 @@ Text text text  Text text text Text text text Text text text Text text text}</st
 					<key>Points</key>
 					<array>
 						<string>{657.144, 540.089}</string>
-						<string>{760.436, 540.096}</string>
+						<string>{760.436, 540.089}</string>
 					</array>
 					<key>Style</key>
 					<dict>
@@ -5338,7 +5338,7 @@ Text text text  Text text text Text text text Text text text Text text text}</st
 					<key>Points</key>
 					<array>
 						<string>{657.144, 524.816}</string>
-						<string>{760.436, 524.823}</string>
+						<string>{760.436, 524.816}</string>
 					</array>
 					<key>Style</key>
 					<dict>
@@ -5378,8 +5378,8 @@ Text text text  Text text text Text text text Text text text Text text text}</st
 					<real>-1</real>
 					<key>Points</key>
 					<array>
-						<string>{657.144, 509.544}</string>
-						<string>{760.436, 509.55}</string>
+						<string>{657.144, 509.543}</string>
+						<string>{760.436, 509.543}</string>
 					</array>
 					<key>Style</key>
 					<dict>
@@ -5420,7 +5420,7 @@ Text text text  Text text text Text text text Text text text Text text text}</st
 					<key>Points</key>
 					<array>
 						<string>{656.644, 494.053}</string>
-						<string>{760.436, 494.254}</string>
+						<string>{760.436, 494.255}</string>
 					</array>
 					<key>Style</key>
 					<dict>
@@ -5462,8 +5462,8 @@ Text text text  Text text text Text text text Text text text Text text text}</st
 					<real>-1</real>
 					<key>Points</key>
 					<array>
-						<string>{657.144, 478.998}</string>
-						<string>{760.436, 479.004}</string>
+						<string>{657.144, 478.997}</string>
+						<string>{760.436, 478.997}</string>
 					</array>
 					<key>Style</key>
 					<dict>
@@ -5503,8 +5503,8 @@ Text text text  Text text text Text text text Text text text Text text text}</st
 					<real>-1</real>
 					<key>Points</key>
 					<array>
-						<string>{657.144, 463.725}</string>
-						<string>{760.436, 463.731}</string>
+						<string>{657.144, 463.724}</string>
+						<string>{760.436, 463.724}</string>
 					</array>
 					<key>Style</key>
 					<dict>
@@ -11556,7 +11556,7 @@ Text text text  Text text text Text text text Text text text Text text text}</st
 					<key>OrthogonalBarAutomatic</key>
 					<true/>
 					<key>OrthogonalBarPosition</key>
-					<real>175.5</real>
+					<real>24.79229736328125</real>
 					<key>Points</key>
 					<array>
 						<string>{855.063, 354.859}</string>
@@ -11605,11 +11605,11 @@ Text text text  Text text text Text text text Text text text Text text text}</st
 					<real>175.5</real>
 					<key>Points</key>
 					<array>
-						<string>{855.063, 354.859}</string>
+						<string>{854.256, 357.993}</string>
 						<string>{723.845, 355.302}</string>
 						<string>{720.354, 297.701}</string>
 						<string>{679.335, 251.446}</string>
-						<string>{562.702, 265.843}</string>
+						<string>{562.703, 265.843}</string>
 					</array>
 					<key>Style</key>
 					<dict>
@@ -21273,8 +21273,8 @@ Text text text  Text text text Text text text Text text text Text text text}</st
 					<integer>1919</integer>
 					<key>Points</key>
 					<array>
-						<string>{318.179, 468.285}</string>
-						<string>{332.841, 483.898}</string>
+						<string>{318.478, 468.282}</string>
+						<string>{333.435, 483.891}</string>
 					</array>
 					<key>Style</key>
 					<dict>
@@ -21306,8 +21306,8 @@ Text text text  Text text text Text text text Text text text Text text text}</st
 					<integer>1920</integer>
 					<key>Points</key>
 					<array>
-						<string>{287.507, 468.275}</string>
-						<string>{271.951, 483.877}</string>
+						<string>{288.056, 468.281}</string>
+						<string>{273.042, 483.889}</string>
 					</array>
 					<key>Style</key>
 					<dict>
@@ -21339,8 +21339,8 @@ Text text text  Text text text Text text text Text text text Text text text}</st
 					<integer>1921</integer>
 					<key>Points</key>
 					<array>
-						<string>{317.821, 436.586}</string>
-						<string>{332.835, 420.199}</string>
+						<string>{318.391, 436.593}</string>
+						<string>{333.469, 420.765}</string>
 					</array>
 					<key>Style</key>
 					<dict>
@@ -21372,8 +21372,8 @@ Text text text  Text text text Text text text Text text text Text text text}</st
 					<integer>1922</integer>
 					<key>Points</key>
 					<array>
-						<string>{287.913, 436.596}</string>
-						<string>{272.547, 420.771}</string>
+						<string>{288.148, 436.594}</string>
+						<string>{273.016, 420.766}</string>
 					</array>
 					<key>Style</key>
 					<dict>
@@ -21445,8 +21445,8 @@ Text text text  Text text text Text text text Text text text Text text text}</st
 					<integer>1927</integer>
 					<key>Points</key>
 					<array>
-						<string>{319.279, 452.138}</string>
-						<string>{332.695, 451.886}</string>
+						<string>{319.279, 452.412}</string>
+						<string>{332.695, 452.39}</string>
 					</array>
 					<key>Style</key>
 					<dict>
@@ -21478,8 +21478,8 @@ Text text text  Text text text Text text text Text text text Text text text}</st
 					<integer>1928</integer>
 					<key>Points</key>
 					<array>
-						<string>{287.314, 452.25}</string>
-						<string>{273.898, 452.093}</string>
+						<string>{287.313, 452.422}</string>
+						<string>{273.898, 452.408}</string>
 					</array>
 					<key>Style</key>
 					<dict>
@@ -21511,8 +21511,8 @@ Text text text  Text text text Text text text Text text text Text text text}</st
 					<integer>1929</integer>
 					<key>Points</key>
 					<array>
-						<string>{302.769, 468.42}</string>
-						<string>{302.256, 483.973}</string>
+						<string>{303.261, 468.421}</string>
+						<string>{303.227, 483.972}</string>
 					</array>
 					<key>Style</key>
 					<dict>
@@ -21544,8 +21544,8 @@ Text text text  Text text text Text text text Text text text Text text text}</st
 					<integer>1930</integer>
 					<key>Points</key>
 					<array>
-						<string>{302.852, 436.455}</string>
-						<string>{302.419, 420.903}</string>
+						<string>{303.267, 436.455}</string>
+						<string>{303.238, 420.904}</string>
 					</array>
 					<key>Style</key>
 					<dict>
@@ -21636,8 +21636,8 @@ Text text text  Text text text Text text text Text text text Text text text}</st
 					<integer>1889</integer>
 					<key>Points</key>
 					<array>
-						<string>{154.847, 452.138}</string>
-						<string>{168.263, 451.887}</string>
+						<string>{154.847, 452.412}</string>
+						<string>{168.263, 452.39}</string>
 					</array>
 					<key>Style</key>
 					<dict>
@@ -21669,8 +21669,8 @@ Text text text  Text text text Text text text Text text text Text text text}</st
 					<integer>1890</integer>
 					<key>Points</key>
 					<array>
-						<string>{122.881, 452.251}</string>
-						<string>{109.466, 452.094}</string>
+						<string>{122.881, 452.422}</string>
+						<string>{109.466, 452.408}</string>
 					</array>
 					<key>Style</key>
 					<dict>
@@ -21702,8 +21702,8 @@ Text text text  Text text text Text text text Text text text Text text text}</st
 					<integer>1891</integer>
 					<key>Points</key>
 					<array>
-						<string>{138.337, 468.42}</string>
-						<string>{137.824, 483.973}</string>
+						<string>{138.829, 468.421}</string>
+						<string>{138.795, 483.972}</string>
 					</array>
 					<key>Style</key>
 					<dict>
@@ -21735,8 +21735,8 @@ Text text text  Text text text Text text text Text text text Text text text}</st
 					<integer>1892</integer>
 					<key>Points</key>
 					<array>
-						<string>{138.42, 436.455}</string>
-						<string>{137.987, 420.903}</string>
+						<string>{138.835, 436.455}</string>
+						<string>{138.806, 420.904}</string>
 					</array>
 					<key>Style</key>
 					<dict>
@@ -22234,7 +22234,7 @@ Text text text  Text text text Text text text Text text text Text text text }</s
 							<integer>1739</integer>
 							<key>Points</key>
 							<array>
-								<string>{1908.04, 325.46}</string>
+								<string>{1908.04, 325.459}</string>
 								<string>{1812.63, 497.964}</string>
 								<string>{1760.97, 504.293}</string>
 								<string>{1734.39, 543.056}</string>
@@ -24220,7 +24220,7 @@ Text text text  Text text text Text text text Text text text Text text text }</s
 							<integer>1856</integer>
 							<key>Points</key>
 							<array>
-								<string>{2136.37, 120.956}</string>
+								<string>{2136.36, 120.958}</string>
 								<string>{2155.21, 103.215}</string>
 								<string>{2184.73, 97.6774}</string>
 							</array>
@@ -24846,7 +24846,7 @@ Text text text  Text text text Text text text Text text text Text text text }</s
 							<integer>1878</integer>
 							<key>Points</key>
 							<array>
-								<string>{1250.25, 462.345}</string>
+								<string>{1250.25, 462.347}</string>
 								<string>{1262.2, 440.407}</string>
 								<string>{1281.88, 417.147}</string>
 							</array>
@@ -26082,8 +26082,8 @@ Text text text  Text text text Text text text Text text text Text text text }</s
 					<integer>669</integer>
 					<key>Points</key>
 					<array>
-						<string>{2189.96, 1327.56}</string>
-						<string>{2189.9, 1314.61}</string>
+						<string>{2189.84, 1327.56}</string>
+						<string>{2189.72, 1314.62}</string>
 					</array>
 					<key>Style</key>
 					<dict>
@@ -27339,7 +27339,7 @@ Text text text  Text text text Text text text Text text text Text text text }</s
 	<key>MasterSheets</key>
 	<array/>
 	<key>ModificationDate</key>
-	<string>2010-06-23 03:07:25 +1000</string>
+	<string>2010-06-23 03:16:56 +1000</string>
 	<key>Modifier</key>
 	<string>Daniel Harabor</string>
 	<key>NotesVisible</key>
@@ -27424,7 +27424,7 @@ Text text text  Text text text Text text text Text text text Text text text }</s
 		<key>SidebarWidth</key>
 		<integer>120</integer>
 		<key>VisibleRegion</key>
-		<string>{{10, 0}, {2247.5, 1561.25}}</string>
+		<string>{{2.5, 0}, {2247.5, 1561.25}}</string>
 		<key>Zoom</key>
 		<real>0.80000001192092896</real>
 		<key>ZoomValues</key>
