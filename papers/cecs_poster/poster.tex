@@ -32,7 +32,7 @@
 \Ncolumntop{static}{4}{150bp}          % Make 1 static and 4 flow frames
 \setstaticframe{1}{label={title}}      % Call the static frame `title'
 \newlength\wideheight
-\setlength{\wideheight}{10in}          % How high will our double width frame be?
+\setlength{\wideheight}{15in}          % How high will our double width frame be?
 \newlength\offset                      % The offset up to the bottom of the middle columns
 \setlength{\offset}{\wideheight}       % is the height of the wide frame
 \addtolength{\offset}{\vcolumnsep}     % plus the vertical column separation
@@ -42,10 +42,11 @@
 \addtolength{\ffareaheight}{-\offset}  % reduce the middle column heights by the offset
 \newlength\logooffset
 \setlength{\logooffset}{0mm}           % Height of ANU logo above the rest of the border
-\setflowframe{2,3}{y=0in,height=\ffareaheight}
+\setflowframe{2,3}{y=7.5in,height=\ffareaheight}
 \addtolength{\leftheight}{-\logooffset} % leave space for ANU logo
 \setflowframe{1}{y=\logooffset,height=\leftheight}
-\newstaticframe{\ffareawidth}{\wideheight}{11in}{15.5in}[figure]
+\newstaticframe{\ffareawidth}{\wideheight}{11in}{14.5in}[figure]
+\newstaticframe{\ffareawidth}{6.5in}{11in}{0in}[results]
 \setstaticframe{2}{clear}
 \setallflowframes{border=none}
 \setallstaticframes{border=none}
@@ -74,7 +75,16 @@ School of Information Sciences and Engineering}
 \begin{staticfigure}
 \begin{center}
 %\includegraphics[width=\textwidth]{MatlabUsage2001-2007}earthmoon_nasa_big.jpg
-\includegraphics[width=\textwidth]{diagrams/robot_splash}
+\includegraphics[width=\textwidth]{diagrams/robot_splash2}
+\end{center}
+\end{staticfigure}
+\end{staticcontents*}
+
+\begin{staticcontents*}{results}
+\begin{staticfigure}
+\begin{center}
+%\includegraphics[width=\textwidth]{MatlabUsage2001-2007}earthmoon_nasa_big.jpg
+\includegraphics[width=\textwidth]{diagrams/speedup}
 \end{center}
 \end{staticfigure}
 \end{staticcontents*}
