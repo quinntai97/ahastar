@@ -1,0 +1,80 @@
+\documentclass[a0,landscape]{a0poster}
+% pdfLaTeX template
+% For use with  CECS A0 poster presentations
+% By James Ashton 2010-04-06
+\usepackage{CECSposter}                % Define Title and section header appearance
+\usepackage{graphicx}                  % Allow the inclusion of graphics
+\usepackage{flowfram}                  % Flow frame package
+\usepackage{url}
+\usepackage{wrapfig}
+\usepackage{subfigure}
+%
+\usepackage{winfonts}                  % Facilitate the use of fonts from Microsoft Windows
+\pdfmapfile{+winfonts.map}             % tell pdftex where to find the fonts
+\usepackage[T1]{fontenc}               % we need T1 encoding for this to work
+\renewcommand{\familydefault}{tahoma}  % ANU says to use Tahoma when we don't have Rotis
+%
+\addtolength{\oddsidemargin}{20bp}     % Increase the margins on
+\addtolength{\textwidth}{-70bp}        % all four sides to allow
+\addtolength{\textheight}{-240bp}      % for the space taken up
+\addtolength{\topmargin}{-30bp}        % by the red CECS frame.
+\makebackgroundframe                   % Background static frame used by the red CECS frame
+%
+% The following code can (and probably should) be changed to suit each individual
+% poster.  This is just an example of what can be done with flowfram.  There's
+% a title frame at the top with four, equal-width column frames below.  We need to
+% shorten the leftmost column to allow for the way the ANU logo protrudes in from
+% the CECS frame.  Also, we have a double width figure frame below the middle two
+% columns.
+%
+\setlength{\vcolumnsep}{30bp}          % 30 big points between columns vertically
+\setlength{\columnsep}{60bp}           % 60 big points between columns horizontally
+\Ncolumntop{static}{4}{150bp}          % Make 1 static and 4 flow frames
+\setstaticframe{1}{label={title}}      % Call the static frame `title'
+\newlength\wideheight
+\setlength{\wideheight}{10in}          % How high will our double width frame be?
+\newlength\offset                      % The offset up to the bottom of the middle columns
+\setlength{\offset}{\wideheight}       % is the height of the wide frame
+\addtolength{\offset}{\vcolumnsep}     % plus the vertical column separation
+\computeflowframearea{2,3}
+\newlength\leftheight
+\setlength{\leftheight}{\ffareaheight}
+\addtolength{\ffareaheight}{-\offset}  % reduce the middle column heights by the offset
+\newlength\logooffset
+\setlength{\logooffset}{0mm}           % Height of ANU logo above the rest of the border
+\setflowframe{2,3}{y=\offset,height=\ffareaheight}
+\addtolength{\leftheight}{-\logooffset} % leave space for ANU logo
+\setflowframe{1}{y=\logooffset,height=\leftheight}
+\newstaticframe{\ffareawidth}{\wideheight}{\ffareax}{0in}[figure]
+\setstaticframe{2}{clear}
+\setallflowframes{border=none}
+\setallstaticframes{border=none}
+\title{Fast and Optimal Pathfinding on Grid Maps}
+\date{}% Don't show the date
+\author{Daniel Harabor\protect\footnotemark[1]
+\and
+Adi Botea\protect\footnotemark[1]}
+\begin{document}
+\begin{staticcontents*}{title}
+\maketitle
+\end{staticcontents*}
+\thispagestyle{empty} \symbolfootnotetext[1]{NICTA and the Research
+School of Information Sciences and Engineering}
+
+\input problem
+\input bigidea
+\input results
+\input futurework
+\input moreinfo
+
+% this just fills the empty columns
+%\framebreak\mbox{}%\framebreak\mbox{}
+\setstaticcontents{1}{\includegraphics{CECSframe}}
+\begin{staticcontents*}{figure}
+\begin{staticfigure}
+%\includegraphics[width=\textwidth]{MatlabUsage2001-2007}earthmoon_nasa_big.jpg
+\includegraphics[width=\textwidth]{diagrams/speedup}
+\caption{A very wide figure that spans two columns} \label{fig:wide}
+\end{staticfigure}
+\end{staticcontents*}
+\end{document}
