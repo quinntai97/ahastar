@@ -42,10 +42,10 @@
 \addtolength{\ffareaheight}{-\offset}  % reduce the middle column heights by the offset
 \newlength\logooffset
 \setlength{\logooffset}{0mm}           % Height of ANU logo above the rest of the border
-\setflowframe{2,3}{y=\offset,height=\ffareaheight}
+\setflowframe{2,3}{y=0in,height=\ffareaheight}
 \addtolength{\leftheight}{-\logooffset} % leave space for ANU logo
 \setflowframe{1}{y=\logooffset,height=\leftheight}
-\newstaticframe{\ffareawidth}{\wideheight}{\ffareax}{0in}[figure]
+\newstaticframe{\ffareawidth}{\wideheight}{11in}{15.5in}[figure]
 \setstaticframe{2}{clear}
 \setallflowframes{border=none}
 \setallstaticframes{border=none}
@@ -72,9 +72,10 @@ School of Information Sciences and Engineering}
 \setstaticcontents{1}{\includegraphics{CECSframe}}
 \begin{staticcontents*}{figure}
 \begin{staticfigure}
+\begin{center}
 %\includegraphics[width=\textwidth]{MatlabUsage2001-2007}earthmoon_nasa_big.jpg
-\includegraphics[width=\textwidth]{diagrams/speedup}
-\caption{A very wide figure that spans two columns} \label{fig:wide}
+\includegraphics[width=\textwidth]{diagrams/robot_splash}
+\end{center}
 \end{staticfigure}
 \end{staticcontents*}
 \end{document}
