@@ -49,6 +49,7 @@
 \setflowframe{1}{y=\logooffset,height=\leftheight}
 \newstaticframe{\ffareawidth}{\wideheight}{11.25in}{14.5in}[figure]
 \newstaticframe{\ffareawidth}{6.5in}{11in}{0in}[results]
+\newstaticframe{\ffareawidth}{2in}{31in}{26in}[nicta]
 \setstaticframe{2}{clear}
 \setallflowframes{border=none}
 \setallstaticframes{border=none}
@@ -59,12 +60,8 @@
 \begin{staticcontents*}{title}
 \maketitle
 \end{staticcontents*}
+\thispagestyle{empty} 
 
-\input problem
-\input bigidea
-\input results
-\input futurework
-\input moreinfo
 
 % this just fills the empty columns
 %\framebreak\mbox{}%\framebreak\mbox{}
@@ -83,6 +80,7 @@ rooms which can be traversed without visiting any tiles from their interior.}
 
 \begin{staticcontents*}{results}
 \begin{staticfigure}
+\label{fig:speedup}
 \begin{center}
 \includegraphics[width=0.8\textwidth, trim=20mm 0mm 40mm 0mm]{diagrams/speedup}
 \vspace{-1em}
@@ -91,6 +89,20 @@ and realistic benchmarks.}
 \end{center}
 \end{staticfigure}
 \end{staticcontents*}
+
+\begin{staticcontents*}{nicta}
+\begin{staticfigure}
+\begin{center}
+\includegraphics[width=4in]{diagrams/nicta_logo.png}
+\end{center}
+\end{staticfigure}
+\end{staticcontents*}
+
+\input problem
+\input bigidea
+\input results
+\input futurework
+\input moreinfo
 \bibliographystyle{plain}
 \bibliography{references}
 \end{document}
