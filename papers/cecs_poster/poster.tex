@@ -8,6 +8,8 @@
 \usepackage{url}
 \usepackage{wrapfig}
 \usepackage{subfigure}
+\usepackage{cite}
+%\usepackage{aaai}
 %
 \usepackage{winfonts}                  % Facilitate the use of fonts from Microsoft Windows
 \pdfmapfile{+winfonts.map}             % tell pdftex where to find the fonts
@@ -42,25 +44,21 @@
 \addtolength{\ffareaheight}{-\offset}  % reduce the middle column heights by the offset
 \newlength\logooffset
 \setlength{\logooffset}{0mm}           % Height of ANU logo above the rest of the border
-\setflowframe{2,3}{y=7.5in,height=\ffareaheight}
+\setflowframe{2,3}{y=7.5in,height=0.95\ffareaheight}
 \addtolength{\leftheight}{-\logooffset} % leave space for ANU logo
 \setflowframe{1}{y=\logooffset,height=\leftheight}
-\newstaticframe{\ffareawidth}{\wideheight}{11in}{14.5in}[figure]
+\newstaticframe{\ffareawidth}{\wideheight}{11.25in}{14.5in}[figure]
 \newstaticframe{\ffareawidth}{6.5in}{11in}{0in}[results]
 \setstaticframe{2}{clear}
 \setallflowframes{border=none}
 \setallstaticframes{border=none}
 \title{Fast and Optimal Pathfinding on Grid Maps}
 \date{}% Don't show the date
-\author{Daniel Harabor\protect\footnotemark[1]
-\and
-Adi Botea\protect\footnotemark[1]}
+\author{Daniel Harabor \and Adi Botea}
 \begin{document}
 \begin{staticcontents*}{title}
 \maketitle
 \end{staticcontents*}
-\thispagestyle{empty} \symbolfootnotetext[1]{NICTA and the Research
-School of Information Sciences and Engineering}
 
 \input problem
 \input bigidea
@@ -73,9 +71,12 @@ School of Information Sciences and Engineering}
 \setstaticcontents{1}{\includegraphics{CECSframe}}
 \begin{staticcontents*}{figure}
 \begin{staticfigure}
+\label{fig:splash}
 \begin{center}
-%\includegraphics[width=\textwidth]{MatlabUsage2001-2007}earthmoon_nasa_big.jpg
-\includegraphics[width=\textwidth]{diagrams/robot_splash2}
+\vspace{2em}
+\includegraphics[width=0.9\textwidth, trim = 30mm 0mm 30mm 0mm]{diagrams/robot_splash2}
+\caption{We speed up search by decomposing a 4-connected map into rectangular
+rooms which can be traversed without visiting any tiles from their interior.} 
 \end{center}
 \end{staticfigure}
 \end{staticcontents*}
@@ -83,9 +84,13 @@ School of Information Sciences and Engineering}
 \begin{staticcontents*}{results}
 \begin{staticfigure}
 \begin{center}
-%\includegraphics[width=\textwidth]{MatlabUsage2001-2007}earthmoon_nasa_big.jpg
-\includegraphics[width=\textwidth]{diagrams/speedup}
+\includegraphics[width=0.8\textwidth, trim=20mm 0mm 40mm 0mm]{diagrams/speedup}
+\vspace{-1em}
+\caption{We manage to speed up A* by between 2-4 times on a range of synthetic
+and realistic benchmarks.}
 \end{center}
 \end{staticfigure}
 \end{staticcontents*}
+\bibliographystyle{plain}
+\bibliography{references}
 \end{document}
