@@ -1,15 +1,18 @@
+
+
 \section{Future Work}
- \begin{wrapfigure}{r}{0.30\columnwidth}
-\vspace{-4em}
-		\includegraphics[width=0.28\columnwidth, trim = 10mm 10mm 10mm
-10mm]{diagrams/robot_mechanic.pdf}
-\vspace{1em}
- \end{wrapfigure}
-We are currently investigating techniques which will allow us to prune tiles from the perimeter 
-of empty rooms.
-If successful, this would allow us to avoid exploring empty rooms from which the goal cannot be 
-reached and thus further speed up search.
-Another direction for further work involves the development of an analogous symmetry elimination 
-algorithm for 8-connected grid maps.
-8-connected grids also exhibit a high degree of path symmetry but the problem is more difficult
-because each tile on the perimeter of a empty room has a potentially higher branching factor. 
+We are investigating a number of extensions:
+\begin{itemize}
+\item{Symmetry elimination techniques that allow us to \textbf{avoid dead-end rooms} from which the goal cannot be reached. }
+\item{A symmetry elimination algorithm for \textbf{8-connected grid maps}.
+Such maps also exhibit a high degree of path symmetry but the problem is more
+difficult due to higher branching factor.
+}
+\item{\textbf{Hybrid algorithms} that combine our speedup technique with existing methods
+to achieve further performance increases.}
+\end{itemize}
+
+ \begin{figure}[b]
+ \centering
+		\includegraphics[width=0.7\columnwidth]{diagrams/robot_mechanic.pdf}
+ \end{figure}
