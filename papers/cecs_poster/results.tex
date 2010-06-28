@@ -1,8 +1,9 @@
 \section{Results}
- \begin{wrapfigure}{r}{0.4\columnwidth}
-		\includegraphics[width=0.4\columnwidth]{diagrams/robot_weights.pdf}
- \end{wrapfigure}
 
+ %\begin{wrapfigure}{r}{0.4\columnwidth}
+ %   \vspace{-3em}
+ %   	\includegraphics[width=0.3\columnwidth, trim=0mm 10mm 0mm 0mm]{diagrams/robot_weights.pdf}
+ %\end{wrapfigure}
 \textbf{Figure \ref{fig:speedup}} summarises our \textbf{main result} while Figure
 4 and Figure 5 show the amount of improvement we
 can regularly obtain. We evaluate performance by running the well known A* algorithm on a range of realistic and synthetic benchmarks:
@@ -36,10 +37,10 @@ rectangular areas that are connected by randomly placed entrances.
 \label{fig:speedup}
 \begin{center}
 \includegraphics[width=\columnwidth]{diagrams/speedup}
-\caption{We speed up A* by between 2-4 times on a range of synthetic
+\caption{Using symmetry elimination A* runs between 2-4 times faster on a range of synthetic
 and realistic benchmarks.
-The fastest instances are observed on maps with large open areas where we
-eliminate many symmetric paths and produce small grid maps.}
+The best results are achieved on maps with large open areas where we eliminate
+many symmetric paths.}
 \end{center}
 \end{figure}
 
@@ -56,6 +57,6 @@ eliminate many symmetric paths and produce small grid maps.}
 		\includegraphics[width=\columnwidth]{diagrams/psearch.pdf}
 	\caption{Tiles explored after symmetry elimination.}
 	\end{minipage}
-\vspace{3em}
+\vspace{2em}
  \end{figure}
 
