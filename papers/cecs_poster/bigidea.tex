@@ -9,10 +9,13 @@ We propose the following offline \textbf{symmetry breaking technique}:
 \item{Prune all tiles not on the perimeter of an empty room.}
 \item{Connect tiles on opposite sides of the perimeter.}
 \end{enumerate}
+\vspace{1em}
 Sometimes a tile which has been pruned is later required; for example as a start
 or goal location. 
-We handle these cases by temporarily re-inserting the 
-required tile back into the grid map for the duration of the search.
+To handle such cases we use an \textbf{online re-insertion} procedure.
+Figure \ref{fig:splash} shows a concrete example.
+%by temporarily re-inserting the 
+%required tile back into the grid map for the duration of the search.
 
 \begin{figure}[t]
 \hspace{0.35in}
@@ -21,7 +24,8 @@ required tile back into the grid map for the duration of the search.
 \begin{center}
 \includegraphics[width=17in]{diagrams/robot_map.pdf}
 \caption{We speed up search by decomposing a 4-connected map into empty rectangular
-rooms which can be traversed without visiting any tiles from their interior.} 
+rooms which can be traversed without visiting any tiles from their interior.
+This method is both fast and provably optimal.}
 \end{center}
 \end{minipage}
 \vspace{2em}
