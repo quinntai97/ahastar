@@ -31,6 +31,8 @@
 #include "constants.h"
 
 #include <vector>
+#include <cstdlib>
+#include <cstring>
 
 using namespace std;
 
@@ -198,47 +200,47 @@ edge *graph::findEdge(unsigned int from, unsigned int to)
   return 0;
 }
 
-/*edge* graph::findAnnotatedEdge(node* from, node* to, int capability, int clearance, double weight)
-{
-        if(!(from && to))
-                return 0;
-
-		edge* shortestSoFar=0;
-		
-        edge_iterator ei = from->getEdgeIter();
-        edge * e = from->edgeIterNext(ei);
-        while(e)
-        {
-                        unsigned int which;
-                        if ((which = e->getFrom()) == from->getNum()) which = e->getTo();
-
-                        /* found an existing edge between these two nodes */
-/*                        if(which == to->getNum())
-                        {
-                                /* is the edge traversable with the given capability parameter? */
-/*								int eclearance = e->getClearance(capability);
-								if(e->getWeight() <= weight)
-									if(eclearance >= clearance)
-									{
-										if(shortestSoFar==0)
-											shortestSoFar = e;
-										else
-										{
-											if(e->getWeight() < shortestSoFar->getWeight())
-												shortestSoFar = e;
-										}
-										
-									}
-//									else
-//										std::cout << "\nWARNING! findAnnotatedEdge being queried about a more optimal path between endpoints\n";
-						}
-
-                        e = from->edgeIterNext(ei);
-        }
-
-        return shortestSoFar;
-}
-*/
+///*edge* graph::findAnnotatedEdge(node* from, node* to, int capability, int clearance, double weight)
+//{
+//        if(!(from && to))
+//                return 0;
+//
+//		edge* shortestSoFar=0;
+//		
+//        edge_iterator ei = from->getEdgeIter();
+//        edge * e = from->edgeIterNext(ei);
+//        while(e)
+//        {
+//                        unsigned int which;
+//                        if ((which = e->getFrom()) == from->getNum()) which = e->getTo();
+//
+//                        /* found an existing edge between these two nodes */
+///*                        if(which == to->getNum())
+//                        {
+//                                /* is the edge traversable with the given capability parameter? */
+///*								int eclearance = e->getClearance(capability);
+//								if(e->getWeight() <= weight)
+//									if(eclearance >= clearance)
+//									{
+//										if(shortestSoFar==0)
+//											shortestSoFar = e;
+//										else
+//										{
+//											if(e->getWeight() < shortestSoFar->getWeight())
+//												shortestSoFar = e;
+//										}
+//										
+//									}
+////									else
+////										std::cout << "\nWARNING! findAnnotatedEdge being queried about a more optimal path between endpoints\n";
+//						}
+//
+//                        e = from->edgeIterNext(ei);
+//        }
+//
+//        return shortestSoFar;
+//}
+//*/
 
 bool graph::relax(edge *e, int weightIndex)
 {
@@ -273,7 +275,7 @@ bool graph::relaxReverseEdge(edge *e, int weightIndex)
 node *graph::getRandomNode()
 {
   if (_nodes.size() == 0) return 0;
-  int rand_val = (int)(((double)random()/RAND_MAX)*_nodes.size());
+  int rand_val = (int)(((double)rand()/RAND_MAX)*_nodes.size());
   return _nodes[rand_val];
 }
 
@@ -281,7 +283,7 @@ edge *graph::getRandomEdge()
 {
   if (_edges.size() == 0) return 0;
   //	int rand_val = random()%edge_index;
-  int rand_val = (int)(((double)random()/RAND_MAX)*_edges.size());
+  int rand_val = (int)(((double)rand()/RAND_MAX)*_edges.size());
   return _edges[rand_val];
   //return 0;
 }
@@ -984,19 +986,19 @@ edge *node::edgeIterNext(edge_iterator &iter) const
 
 edge *node::getRandomIncomingEdge()
 {
-  int rand_val = random()%_edgesIncoming.size();
+  int rand_val = rand()%_edgesIncoming.size();
   return _edgesIncoming[rand_val];
 }
 
 edge *node::getRandomOutgoingEdge()
 {
-  int rand_val = random()%_edgesOutgoing.size();
+  int rand_val = rand()%_edgesOutgoing.size();
   return _edgesOutgoing[rand_val];
 }
 
 edge *node::getRandomEdge()
 {
-  int rand_val = random()%_allEdges.size();
+  int rand_val = rand()%_allEdges.size();
   return _allEdges[rand_val];
 }
 

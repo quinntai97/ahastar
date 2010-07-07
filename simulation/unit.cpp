@@ -27,6 +27,7 @@
 #include "unit.h"
 #include "glUtil.h"
 #include "fpUtil.h"
+#include <cstdlib>
 
 GLuint unit::sphereDispList = 0;
 int unit::unitID = 0;
@@ -45,9 +46,9 @@ unit::unit(int _x, int _y, unit *_target)
 	//	lastMoveSuccess = true;
 	//	aMap = 0;
 	
-	r = (GLfloat)(random()%256)/256.0;
-	g = (GLfloat)(random()%256)/256.0;
-	b = (GLfloat)(random()%256)/256.0;
+	r = (GLfloat)(rand()%256)/256.0;
+	g = (GLfloat)(rand()%256)/256.0;
+	b = (GLfloat)(rand()%256)/256.0;
 	if (target)
 	{
 		if (target->getObjectType() == kDisplayOnly)
@@ -339,11 +340,11 @@ void randomUnit::updateLocation(int _x, int _y, bool success, simulationInfo *)
 {
 	if (success)
 	{ // I moved successfully
-		if (random()%20 == 7)
-			lastIndex = random()%9;
+		if (rand()%20 == 7)
+			lastIndex = rand()%9;
 	}
 	else {
-		lastIndex = random()%9;
+		lastIndex = rand()%9;
 	}
 	x = _x; y = _y;
 }
@@ -373,16 +374,16 @@ void billiardBallUnit::updateLocation(int _x, int _y, bool success, simulationIn
 		// I moved successfully
 		// If I was staying put then I should start moving after the coolOffPeriod expires
 		if (lastIndex == kStayIndex && --collisionStatus <= 0) 
-			lastIndex = random()%9;
+			lastIndex = rand()%9;
 		// If I was moving then I may change my mind with probability probDirChange
-		if (lastIndex != kStayIndex && fless(random()%10000,probDirChange*10000.0))
-			lastIndex = random()%9;
+		if (lastIndex != kStayIndex && fless(rand()%10000,probDirChange*10000.0))
+			lastIndex = rand()%9;
 	}
 	else {
 		// I was not successful in my move (i.e., I collided)
 		// start resting
 		collisionStatus = coolOffPeriod;
-		lastIndex = coolOffPeriod > 0 ? kStayIndex : random()%9;		
+		lastIndex = coolOffPeriod > 0 ? kStayIndex : rand()%9;		
 	}
 	x = _x; y = _y;
 }
@@ -430,8 +431,8 @@ tDirection teleportUnit::makeMove(mapProvider *mp, reservationProvider *, simula
 	if (timer == 0)
 	{
 		timer = stayTime;
-		x = random()%aMap->getMap()->getMapWidth();
-		y = random()%aMap->getMap()->getMapHeight();
+		x = rand()%aMap->getMap()->getMapWidth();
+		y = rand()%aMap->getMap()->getMapHeight();
 		return kTeleport;
 	}
 	timer--;

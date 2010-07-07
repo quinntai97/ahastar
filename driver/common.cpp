@@ -22,6 +22,7 @@
 #include <iostream>
 #include <unistd.h>
 #include <cstdlib>
+#include <cstring>
 
 //#ifdef OS_MAC
 //#include <OpenGL/gl.h>

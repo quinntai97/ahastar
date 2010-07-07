@@ -29,6 +29,7 @@
 #include "unit.h"
 #include "unitGroup.h"
 #include "fpUtil.h"
+#include <cstdlib>
 
 static const bool verbose = false;
 
@@ -185,12 +186,12 @@ void unitRaceSimulation::doPreTimestepCalc()
 		int xx1, yy1, xx2, yy2;
 		do {
 			do {
-				xx1 = random()%map_width;
-				yy1 = random()%map_height;
+				xx1 = rand()%map_width;
+				yy1 = rand()%map_height;
 			}	while ((bv->get(yy1*map_width+xx1)) ||
 							 (map->getTerrainType(xx1, yy1) != kGround));
-			xx2 = random()%map_width;
-			yy2 = random()%map_height;
+			xx2 = rand()%map_width;
+			yy2 = rand()%map_height;
 		}	while ((bv->get(yy2*map_width+xx2)) ||
 						 (map->getTerrainType(xx2, yy2) != kGround) ||
 						 ((xx1==xx2)||(yy1==yy2)) ||
@@ -211,8 +212,8 @@ void unitRaceSimulation::doPreTimestepCalc()
 				target->agent->updateLocation(xx2, yy2, false, this);
 			}
 			else {
-				units[t]->startx = random()%map_width;
-				units[t]->starty = random()%map_height;
+				units[t]->startx = rand()%map_width;
+				units[t]->starty = rand()%map_height;
 			}
 		}
 		for (unsigned int t = 0; t < displayUnits.size(); t++)

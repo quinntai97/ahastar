@@ -8,6 +8,7 @@
  */
 
 #include "MapLineAbstraction.h"
+#include <cstdlib>
 
 MapLineAbstraction::MapLineAbstraction(Map *_map, int dist, bool uniform)
 :mapAbstraction(_map), lineDistance(dist), abstractUniformly(uniform)
@@ -144,7 +145,7 @@ void MapLineAbstraction::addNodes(graph *g)
 				//printf("Match!\n");
 				node *parent = createParent(g, parents[0]);
 				//printf("-->Creating parent (%d)\n", parent->getNum());
-				for (int z = 0; z < parents.size(); z++)
+				for (unsigned int z = 0; z < parents.size(); z++)
 				{
 					if (parents[z]->getLabelL(kParent) != -1)
 						break;
@@ -183,7 +184,7 @@ void MapLineAbstraction::addNodes(graph *g)
 					if (neighbor->getLabelL(kParent) == -1)
 					{
 						prob++;
-						if ((random()%100) < 100.0/prob)
+						if ((rand()%100) < 100.0/prob)
 						{
 							choice = neighbor;
 						}

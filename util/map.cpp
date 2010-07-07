@@ -21,6 +21,8 @@
 #include <stack>
 #include "map.h"
 #include "glUtil.h"
+#include <cstring>
+#include <cstdlib>
 
 using namespace std;
 
@@ -1661,7 +1663,7 @@ void Map::doVertexColor(tTerrain type, int vHeight, bool darken)
 			red = .9; green = .9; blue = .9; alpha = .5; // kOutOfBounds2
 			break;
 		case kWater:
-			red = 0; green = (random()%10)/100.0; blue = scaleH*1-(random()%10)/100.0;
+			red = 0; green = (rand()%10)/100.0; blue = scaleH*1-(rand()%10)/100.0;
 			break;
 		case kGround:
 			if ((tileSet == kFall) || (tileSet == kFallTile))
@@ -1669,9 +1671,9 @@ void Map::doVertexColor(tTerrain type, int vHeight, bool darken)
 				double r1=0, r2=0, r3=0;
 				if (tileSet == kFall)
 				{
-					r1 = (random()%10-5)/100.0;
-					r2 = (random()%10-5)/100.0;
-					r3 = (random()%5)/100.0;
+					r1 = (rand()%10-5)/100.0;
+					r2 = (rand()%10-5)/100.0;
+					r3 = (rand()%5)/100.0;
 				}
 				red = scaleH*.5+r1;
 				green = scaleH*.25+r2;
@@ -1681,9 +1683,9 @@ void Map::doVertexColor(tTerrain type, int vHeight, bool darken)
 				double r1=0, r2=0, r3=0;
 				if (tileSet == kWinter)
 				{
-					r1 = -(random()%8)/100.0;
-					r2 = -(random()%8)/100.0;
-					r3 = -(random()%8)/100.0;
+					r1 = -(rand()%8)/100.0;
+					r2 = -(rand()%8)/100.0;
+					r3 = -(rand()%8)/100.0;
 				}
 				red = scaleH*0.9+r1;
 				green = scaleH*0.9+r2;
@@ -1691,24 +1693,24 @@ void Map::doVertexColor(tTerrain type, int vHeight, bool darken)
 			}
 			break;
 		case kTrees:
-			red = (random()%10)/100.0;
-			green = .45*scaleH-(random()%10)/100.0;
-			blue = (random()%10)/100.0;
+			red = (rand()%10)/100.0;
+			green = .45*scaleH-(rand()%10)/100.0;
+			blue = (rand()%10)/100.0;
 			break;
 		case kSwamp:
-			red = (scaleH*.5+(random()%10-5)/100.0)*0.9;
-			green = (scaleH*.25+(random()%10-5)/100.0)*0.9;
-			blue = (80+random()%10-5)/100.0;
+			red = (scaleH*.5+(rand()%10-5)/100.0)*0.9;
+			green = (scaleH*.25+(rand()%10-5)/100.0)*0.9;
+			blue = (80+rand()%10-5)/100.0;
 			break;
 		case kGrass:
-			red = (random()%10)/100.0;
-			green = scaleH-(random()%10)/100.0;
-			blue = (random()%10)/100.0;
+			red = (rand()%10)/100.0;
+			green = scaleH-(rand()%10)/100.0;
+			blue = (rand()%10)/100.0;
 			break;
 		case kBlight:
-			red = (50+random()%10-5)/100.0;
-			green = (50+random()%10-5)/100.0;
-			blue = (50+random()%10-5)/100.0;
+			red = (50+rand()%10-5)/100.0;
+			green = (50+rand()%10-5)/100.0;
+			blue = (50+rand()%10-5)/100.0;
 			break;
 		default:
 			break;
@@ -2097,12 +2099,12 @@ void makeMaze(Map *map, int pathSize)
 		pathWidth = t+1;
 	for (int i = 0; i < 6*width*height; i++)
 	{
-		long x = (random()%width)&(~pathSize); // only path on even tiles
-		long y = (random()%height)&(~pathSize);
+		long x = (rand()%width)&(~pathSize); // only path on even tiles
+		long y = (rand()%height)&(~pathSize);
 		
 		if (map->getHeight(x, y) <= 1)
 		{
-			switch(random()%4)
+			switch(rand()%4)
 			{
 				case 0: // NORTH
 					if ((x >= 2*pathWidth) && (map->getHeight(x-2*pathWidth, y)+map->getHeight(x, y) < 2))

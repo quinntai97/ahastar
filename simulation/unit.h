@@ -32,6 +32,7 @@
 #include "constants.h"
 #include "unitGroup.h"
 #include "unitSimulation.h"
+#include <cstdlib>
 
 /**
 * A unit is the basic object that moves and interacts in the unitSimulation.
@@ -148,7 +149,7 @@ public:
 	randomerUnit(int _x, int _y, int _r, int _g, int _b)
 	:unit(_x, _y, _r, _g, _b) { unitType = kWorldObject; }
 	tDirection makeMove(mapProvider *, reservationProvider *, simulationInfo *)
-	{ return possibleDir[random()%numPrimitiveActions]; }
+	{ return possibleDir[rand()%numPrimitiveActions]; }
 	virtual const char *getName() { return "randomerUnit"; }
 };
 

@@ -5,6 +5,8 @@
 #include "AnnotatedAStar.h"
 #include "AHAConstants.h"
 
+#include <cstdlib>
+
 /* generate some random set of experiments. 
 	@params:
 			numscenarios - number of experiments to generate.
@@ -30,7 +32,7 @@ void AHAScenarioManager::generateExperiments(mapAbstraction* absMap,
 		if(tries >= MAXTRIES)
 			throw TooManyTriesException(generated, numscenarios);
 			
-		int capability = capabilities[random()%NUMCAPABILITIES];
+		int capability = capabilities[rand()%NUMCAPABILITIES];
 		AHAExperiment* exp = generateSingleExperiment(absMap,capability,minsize); // randomly selects a start and goal location 
 		if(exp != NULL) 
 		{

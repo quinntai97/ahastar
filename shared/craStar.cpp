@@ -447,7 +447,7 @@ path *craStar::buildNextAbstractPath(graphAbstraction *aMap, path *lastPath,
 	fromChain.pop_back();
 	
 	if (verbose)
-		printf("Expanded %d nodes before doing level %d\n", nodesExpanded, (int)from->getLabelL(kAbstractionLevel));		
+		printf("Expanded %ld nodes before doing level %d\n", nodesExpanded, (int)from->getLabelL(kAbstractionLevel));		
 	
 	if (verbose)
 		printf("Building path from %d to %d (%ld/%ld)\n",

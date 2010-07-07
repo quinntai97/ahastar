@@ -11,6 +11,8 @@
 
 #include <vector>
 #include <string>
+#include <cstring>
+
 using std::string;
 
 static const int kNoScaling = -1;
