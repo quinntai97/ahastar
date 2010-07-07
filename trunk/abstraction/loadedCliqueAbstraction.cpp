@@ -26,6 +26,8 @@
  */
 
 #include "loadedCliqueAbstraction.h"
+#include <cstdlib>
+#include <cstring>
 
 using namespace std;
 
@@ -215,7 +217,7 @@ graph *loadedCliqueAbstraction::loadGraph(char *fname)
 	sscanf(nextLine, "VERSION %lf", &version);
 	if (version != VERSION)
 	{
-		printf("Got %lf; code can only handle version 1.0\n", version);
+		printf("Got %f; code can only handle version 1.0\n", version);
 		exit(1);
 	}
 	

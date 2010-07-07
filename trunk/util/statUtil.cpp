@@ -27,6 +27,7 @@
 
 #include "statUtil.h"
 #include <math.h>
+#include <cstdio>
 
 inline double max(double a, double b)
 { if (a > b) return a; return b; }
@@ -41,7 +42,7 @@ void setupAverageRatio(statCollection *stats, char *stat1, char *stat2)
 	stats->clearFilters();
 	stats->addIncludeFilter(stat1);
 	stats->addIncludeFilter(stat2);
-	stats->addIncludeFilter("simulationTime");
+	stats->addIncludeFilter((char*)"simulationTime");
 }
 
 /**

@@ -29,6 +29,7 @@
 #include "constants.h"
 #include "NodeFactory.h"
 #include "EdgeFactory.h"
+#include <cstdlib>
 
 mapAbstraction::~mapAbstraction()
 { 
@@ -38,7 +39,7 @@ mapAbstraction::~mapAbstraction()
 void mapAbstraction::getRandomTileFromNode(node *n, int &x, int &y)
 {
 	while (getAbstractionLevel(n) != 0)
-		n = getNthChild(n, random()%getNumChildren(n));
+		n = getNthChild(n, rand()%getNumChildren(n));
 	x = n->getLabelL(kFirstData);
 	y = n->getLabelL(kFirstData+1);
 }
@@ -452,7 +453,7 @@ void addMapEdges(Map *m, graph *g, IEdgeFactory* ef, int x, int y)
 	{
 		if (m->adjacentEdges(x-1, y, kInternalEdge) && (m->getTile(x-1, y).tile1.node != kNoGraphNode))
 		{
-			if ((random()%100) < gStraightEdgeProb)
+			if ((rand()%100) < gStraightEdgeProb)
 			{
 				e = ef->newEdge(m->getTile(x, y).tile1.node, m->getTile(x-1, y).tile1.node, 1);
 				g->addEdge(e);
@@ -460,7 +461,7 @@ void addMapEdges(Map *m, graph *g, IEdgeFactory* ef, int x, int y)
 		}
 		else if (m->getTile(x-1, y).tile2.node != kNoGraphNode)
 		{
-			if ((random()%100) < gStraightEdgeProb)
+			if ((rand()%100) < gStraightEdgeProb)
 			{
 				e = ef->newEdge(m->getTile(x, y).tile1.node, m->getTile(x-1, y).tile2.node, 1);
 				g->addEdge(e);
@@ -481,7 +482,7 @@ void addMapEdges(Map *m, graph *g, IEdgeFactory* ef, int x, int y)
 				{
 					if (m->getTile(x, y-1).tile1.node != kNoGraphNode)
 					{
-						if ((random()%100) < gStraightEdgeProb)
+						if ((rand()%100) < gStraightEdgeProb)
 						{
 							e = ef->newEdge(m->getTile(x, y).tile1.node, m->getTile(x, y-1).tile1.node, 1);
 							g->addEdge(e);
@@ -490,7 +491,7 @@ void addMapEdges(Map *m, graph *g, IEdgeFactory* ef, int x, int y)
 				}
 				else if (m->getTile(x, y-1).tile2.node != kNoGraphNode)
 				{
-					if ((random()%100) < gStraightEdgeProb)
+					if ((rand()%100) < gStraightEdgeProb)
 					{
 						e = ef->newEdge(m->getTile(x, y).tile1.node, m->getTile(x, y-1).tile2.node, 1);
 						g->addEdge(e);
@@ -503,7 +504,7 @@ void addMapEdges(Map *m, graph *g, IEdgeFactory* ef, int x, int y)
 			{
 				if ((m->getTile(x, y).tile2.node != kNoGraphNode) && (m->getTile(x, y-1).tile1.node != kNoGraphNode))
 				{
-					if ((random()%100) < gStraightEdgeProb)
+					if ((rand()%100) < gStraightEdgeProb)
 					{
 						e = ef->newEdge(m->getTile(x, y).tile2.node, m->getTile(x, y-1).tile1.node, 1);
 						g->addEdge(e);
@@ -512,7 +513,7 @@ void addMapEdges(Map *m, graph *g, IEdgeFactory* ef, int x, int y)
 			}
 			else if ((m->getTile(x, y).tile2.node != kNoGraphNode) && (m->getTile(x, y-1).tile2.node != kNoGraphNode))
 			{
-				if ((random()%100) < gStraightEdgeProb)
+				if ((rand()%100) < gStraightEdgeProb)
 				{
 					e = ef->newEdge(m->getTile(x, y).tile2.node, m->getTile(x, y-1).tile2.node, 1);
 					g->addEdge(e);
@@ -540,7 +541,7 @@ void addMapEdges(Map *m, graph *g, IEdgeFactory* ef, int x, int y)
 			{
 				if (m->getTile(x-1, y-1).tile1.node != kNoGraphNode)
 				{
-					if ((random()%100) < gEdgeProb)
+					if ((rand()%100) < gEdgeProb)
 					{
 						e = ef->newEdge(m->getTile(x, y).tile1.node, m->getTile(x-1, y-1).tile1.node, ROOT_TWO);
 						g->addEdge(e);
@@ -549,7 +550,7 @@ void addMapEdges(Map *m, graph *g, IEdgeFactory* ef, int x, int y)
 			}
 			else if (m->getTile(x-1, y-1).tile2.node != kNoGraphNode)
 			{
-				if ((random()%100) < gEdgeProb)
+				if ((rand()%100) < gEdgeProb)
 				{
 					e = ef->newEdge(m->getTile(x, y).tile1.node, m->getTile(x-1, y-1).tile2.node, ROOT_TWO);
 					g->addEdge(e);
@@ -577,7 +578,7 @@ void addMapEdges(Map *m, graph *g, IEdgeFactory* ef, int x, int y)
 			{
 				if (m->getTile(x, y).tile1.node != kNoGraphNode)
 				{
-					if ((random()%100) < gEdgeProb)
+					if ((rand()%100) < gEdgeProb)
 					{
 						e = ef->newEdge(m->getTile(x, y).tile1.node, m->getTile(x+1, y-1).tile1.node, ROOT_TWO);
 						g->addEdge(e);
@@ -586,7 +587,7 @@ void addMapEdges(Map *m, graph *g, IEdgeFactory* ef, int x, int y)
 			}
 			else if (m->getTile(x, y).tile2.node != kNoGraphNode)
 			{
-				if ((random()%100) < gEdgeProb)
+				if ((rand()%100) < gEdgeProb)
 				{
 					e = ef->newEdge(m->getTile(x, y).tile2.node, m->getTile(x+1, y-1).tile1.node, ROOT_TWO);
 					g->addEdge(e);

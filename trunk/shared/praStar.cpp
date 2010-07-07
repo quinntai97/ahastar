@@ -165,7 +165,7 @@ path *praStar::getPath(graphAbstraction *aMap, node *from, node *to, reservation
 		from = fromChain.back();
 		dest = to->getNum();
 		if (verbose)
-			printf("Expanded %d nodes before doing level %d\n", nodesExpanded, (int)from->getLabelL(kAbstractionLevel));		
+			printf("Expanded %ld nodes before doing level %d\n", nodesExpanded, (int)from->getLabelL(kAbstractionLevel));		
 		toChain.pop_back();
 		fromChain.pop_back();
 		

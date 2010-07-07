@@ -139,7 +139,7 @@ clusterAbstraction::~clusterAbstraction()
 		delete (*it).second;
 	paths.erase(paths.begin(), paths.end());
 	
-	for(int i = 0; i<newPaths.size(); i++)
+	for(unsigned int i = 0; i<newPaths.size(); i++)
 		delete newPaths.at(i);
 	newPaths.erase(newPaths.begin(), newPaths.end());
 	

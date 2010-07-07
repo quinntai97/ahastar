@@ -26,6 +26,8 @@
  */
 
 #include "statCollection.h"
+#include <cstdio>
+#include <cstring>
 
 
 // typedef union { double fval; long lval; } statValue;
@@ -40,50 +42,7 @@
 //std::vector<char *> owners;
 //std::vector<stat> stats;
 
-statCollection::statCollection()
-:categories(), owners(), stats()
-{
-	printOutput = false;
-}
-
-statCollection::~statCollection()
-{
-	for (unsigned int x = 0; x < categories.size(); x++)
-	{
-		delete [] categories[x];
-		categories[x] = 0;
-	}
-
-	for (unsigned int x = 0; x < owners.size(); x++)
-	{
-		delete [] owners[x];
-		owners[x] = 0;
-	}
-
-	for (unsigned int x = 0; x < excludeFilters.size(); x++)
-	{
-		delete [] excludeFilters[x];
-		excludeFilters[x] = 0;
-	}
-
-	for (unsigned int x = 0; x < includeFilters.size(); x++)
-	{
-		delete [] includeFilters[x];
-		includeFilters[x] = 0;
-	}
-}
-
-/**
-* Add a new stat entry for the given category, owner and value.
- */
-void statCollection::addStat(const char *category, const char *owner, double value)
-{
-	if (!passFilter(category))
-		return;
-	int catID, ownerID;
-	catID = addCategory(category);
-	ownerID = addOwner(owner);
-	stats.resize(stats.size()+1);
+statCollection::statCollection() :categories(), owners(), stats() { printOutput = false; } statCollection::~statCollection() { for (unsigned int x = 0; x < categories.size(); x++) { delete [] categories[x]; categories[x] = 0; } for (unsigned int x = 0; x < owners.size(); x++) { delete [] owners[x]; owners[x] = 0; } for (unsigned int x = 0; x < excludeFilters.size(); x++) { delete [] excludeFilters[x]; excludeFilters[x] = 0; } for (unsigned int x = 0; x < includeFilters.size(); x++) { delete [] includeFilters[x]; includeFilters[x] = 0; } } /** * Add a new stat entry for the given category, owner and value.  */ void statCollection::addStat(const char *category, const char *owner, double value) { if (!passFilter(category)) return; int catID, ownerID; catID = addCategory(category); ownerID = addOwner(owner); stats.resize(stats.size()+1);
 	stats[stats.size()-1].category = catID;
 	stats[stats.size()-1].owner = ownerID;
 	stats[stats.size()-1].value.fval = value;
@@ -495,7 +454,7 @@ void statCollection::printStatsTable() const
 	
 	for (int x = 0; x < (int)stats.size(); x++)
 		if (stats[x].sType == floatStored)
-			printf("%d \t%s \t%s \t%le\n", x, categories[stats[x].category],
+			printf("%d \t%s \t%s \t%e\n", x, categories[stats[x].category],
 						 owners[stats[x].owner], stats[x].value.fval);
 		else
 			printf("%d \t%s \t%s \t%ld\n", x, categories[stats[x].category],

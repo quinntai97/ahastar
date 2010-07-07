@@ -32,6 +32,7 @@ using namespace std;
 #include "heap.h"
 #include <cmath>
 #include <memory>
+#include <cstdlib>
 
 enum {
 	kQuiet = 0x00,

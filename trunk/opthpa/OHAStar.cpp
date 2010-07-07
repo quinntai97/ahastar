@@ -9,6 +9,9 @@
 #include "MacroNode.h"
 #include "timer.h"
 
+#include <typeinfo>
+#include <cfloat>
+
 OHAStar::OHAStar()
 {
 	cardinal = false;

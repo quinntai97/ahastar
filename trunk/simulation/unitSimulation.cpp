@@ -29,6 +29,8 @@
 #include "unitGroup.h"
 #include "fpUtil.h"
 #include "timer.h"
+#include <cstdlib>
+#include <cstring>
 
 const bool verbose = false;
 
@@ -783,7 +785,7 @@ void unitSimulation::stepUnitTime(unitInfo *theUnit)
 	if (aMap->getAbstractGraph(0)->findEdge(map->getNodeNum(theUnit->currx, theUnit->curry),
 																					map->getNodeNum(newx, newy)))
 	{
-		if ((stochasticity > 0) && ((random()%1023)/1024.0 < stochasticity))
+		if ((stochasticity > 0) && ((rand()%1023)/1024.0 < stochasticity))
 		{
 			if (verbose) 
 				printf("HAHA; move failed for %s because of stochastic environment\n",
@@ -1064,8 +1066,8 @@ mapAbstraction *unitSimulation::getMapAbstractionDisplay()
 void unitSimulation::getRandomLocation(int &x, int &y, tTerrain terrain)
 {
 	do {
-		x = random()%map_width;
-		y = random()%map_height;
+		x = rand()%map_width;
+		y = rand()%map_height;
 	} while ((bv->get(y*map_width+x)) ||
 					 (map->getTerrainType(x, y) != terrain));
 }
@@ -1077,10 +1079,10 @@ void unitSimulation::getRandomLocation(int &x, int &y, tTerrain terrain)
 void unitSimulation::getRandomLocations(int &x1, int &y1, int &x2, int &y2, tTerrain terrain)
 {
 	do {
-		x1 = random()%map_width;
-		y1 = random()%map_height;
-		x2 = random()%map_width;
-		y2 = random()%map_height;
+		x1 = rand()%map_width;
+		y1 = rand()%map_height;
+		x2 = rand()%map_width;
+		y2 = rand()%map_height;
 	} while ((map->getTerrainType(x2, y2) != terrain) ||
 					 (map->getTerrainType(x1, y1) != terrain) ||
 					 (!aMap->pathable(aMap->getNodeFromMap(x1, y1), aMap->getNodeFromMap(x2, y2))) ||
@@ -1094,8 +1096,8 @@ void unitSimulation::getRandomLocations(int &x1, int &y1, int &x2, int &y2, tTer
 void unitSimulation::getRandomLocation(int x1, int y1, int &x2, int &y2, tTerrain terrain)
 {
 	do {
-		x2 = random()%map_width;
-		y2 = random()%map_height;
+		x2 = rand()%map_width;
+		y2 = rand()%map_height;
 	} while ((map->getTerrainType(x2, y2) != terrain) ||
 					 (map->getTerrainType(x1, y1) != terrain) ||
 					 (!aMap->pathable(aMap->getNodeFromMap(x1, y1), aMap->getNodeFromMap(x2, y2))) ||

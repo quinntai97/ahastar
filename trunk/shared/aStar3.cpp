@@ -30,6 +30,8 @@
 #include "map.h"
 #include "timer.h"
 
+#include <cstring>
+
 
 // The constructor
 aStarOld::aStarOld(double _weight, bool _doPathDraw)

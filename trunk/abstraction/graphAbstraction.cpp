@@ -174,7 +174,7 @@ int graphAbstraction::widthBFS(node *child, node *parent)
 //				printf("         neighbor %d in Q\n", neighbor->getNum());
 				continue;
 			}
-			if (neighbor->getLabelL(kParent) == parent->getNum())
+			if (neighbor->getLabelL(kParent) == (int)parent->getNum())
 			{
 //				printf("         neighbor %d onto Q(%d) depth (%d)\n", neighbor->getNum(), q.size(), depth[x]+1);
 				neighbor->key = q.size();
@@ -188,7 +188,7 @@ int graphAbstraction::widthBFS(node *child, node *parent)
 
 double graphAbstraction::measureAverageNodeWidth(int level)
 {
-	if ((level > abstractions.size()) || (level <= 0))
+	if ((level > (int)abstractions.size()) || (level <= 0))
 		return 0.0f;
 	graph *g = abstractions[level];
 
@@ -303,11 +303,11 @@ int graphAbstraction::countEdgesAtDistance(node *child, node *parent, std::vecto
 	child->key = 0;
 	depth.push_back(0);
 	
-	for (int x = 0; x < q.size(); x++)
+	for (unsigned int x = 0; x < q.size(); x++)
 	{
 		//		printf("Handling node: %d\n", q[x]->getNum());
 		neighbor_iterator ni = q[x]->getNeighborIter();
-		if (depth[x]+1 > dists.size())
+		if (depth[x]+1 > (int)dists.size())
 			dists.resize(depth[x]+1);
 		dists[depth[x]] += getNumExternalEdges(q[x], parent);
 
@@ -319,7 +319,7 @@ int graphAbstraction::countEdgesAtDistance(node *child, node *parent, std::vecto
 				//				printf("         neighbor %d in Q\n", neighbor->getNum());
 				continue;
 			}
-			if (neighbor->getLabelL(kParent) == parent->getNum())
+			if (neighbor->getLabelL(kParent) == (int)parent->getNum())
 			{
 				//				printf("         neighbor %d onto Q(%d) depth (%d)\n", neighbor->getNum(), q.size(), depth[x]+1);
 				neighbor->key = q.size();

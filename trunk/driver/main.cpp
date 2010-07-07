@@ -23,7 +23,7 @@
 #ifdef OS_MAC
 #include <GLUT/glut.h>
 #else
-#include <glut.h>
+#include <GL/glut.h>
 #endif
 
 #include "trackball.h"
@@ -31,6 +31,11 @@
 
 #include "main.h"
 #include "TextBox.h"
+
+#include <cstring>
+#include <cstdlib>
+#include "limits.h"
+#include "time.h"
 
 using namespace std;
 
@@ -80,7 +85,7 @@ int main(int argc, char** argv)
 	// Init traj global
 	startTrajRecap = false;
 
-	srandom(time(0));
+	srand(time(0));
 	
 	installCommandLineHandler(processFramesPerSecond, "-fps", "-fps <int>", "[System Option] Specifies the maximum frames per second.");
 	initializeHandlers();
@@ -122,14 +127,14 @@ void createMenus()
 	// tell glut that "processMenuEvents" will 
 	// handle the events
 	submenu = glutCreateMenu(processMenuEvents);
-	glutAddMenuEntry("Map1",'map1');
-	glutAddMenuEntry("Map2",'map2');
-	glutAddMenuEntry("Map3",'map3');
+	glutAddMenuEntry((char*)"Map1",1);
+	glutAddMenuEntry((char*)"Map2",2);
+	glutAddMenuEntry((char*)"Map3",3);
 	menu = glutCreateMenu(processMenuEvents);
 	
 	//add entries to our menu
-	glutAddSubMenu("Open Map",submenu);
-	glutAddMenuEntry("Clear Map...",'clar');
+	glutAddSubMenu((char*)"Open Map",submenu);
+	glutAddMenuEntry((char*)"Clear Map...",0);
 	
 	// attach the menu to the right button
 	glutAttachMenu(GLUT_MIDDLE_BUTTON);
@@ -138,25 +143,25 @@ void createMenus()
 void processMenuEvents(int option)
 {
 	switch (option) {
-		case 'map1':
+		case 1:
 			sprintf(gDefaultMap, "/Users/nathanst/Development/hog/maps/bgmaps/AR0011SR.map");
 			processStats(pContextInfo->unitLayer->getStats());
 			delete pContextInfo->unitLayer;
 			createSimulation(pContextInfo->unitLayer);
 			break;
-		case 'map2':
+		case 2:
 			sprintf(gDefaultMap, "/Users/nathanst/Development/hog/maps/wc3maps/divideandconquer.map");
 			processStats(pContextInfo->unitLayer->getStats());
 			delete pContextInfo->unitLayer;
 			createSimulation(pContextInfo->unitLayer);
 			break;
-		case 'map3':
+		case 3:
 			sprintf(gDefaultMap, "/Users/nathanst/Development/hog/maps/wc3maps/mysticisles.map");
 			processStats(pContextInfo->unitLayer->getStats());
 			delete pContextInfo->unitLayer;
 			createSimulation(pContextInfo->unitLayer);
 			break;
-		case 'clar':
+		case 0:
 			gDefaultMap[0] = 0;
 			processStats(pContextInfo->unitLayer->getStats());
 			delete pContextInfo->unitLayer;
