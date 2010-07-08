@@ -53,6 +53,11 @@ class EmptyCluster : public HPACluster
 		void extend(HPAClusterAbstraction*);
 		void extend(HPAClusterAbstraction*, int** clearance);
 
+		node* nextNodeInColumn(int x, int y, HPAClusterAbstraction* hpamap,
+				bool leftToRight);
+		node* nextNodeInRow(int x, int y, HPAClusterAbstraction* hpamap,
+				bool topToBottom);
+
 		virtual void openGLDraw();
 
 		int macro;
@@ -86,10 +91,6 @@ class EmptyCluster : public HPACluster
 		void addMacroEdgesBetweenLeftRightEntrances(
 				HPAClusterAbstraction* hpamap);
 
-		node* nextNodeInColumn(int x, int y, HPAClusterAbstraction* hpamap,
-				bool leftToRight);
-		node* nextNodeInRow(int x, int y, HPAClusterAbstraction* hpamap,
-				bool topToBottom);
 
 		GLdouble glx, gly, glz;  // OpenGL origin coordinates
 		GLdouble glHeight, glWidth;
