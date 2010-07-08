@@ -575,3 +575,13 @@ void EmptyClusterAbstraction::connectSGToNeighbour(node* absNode, node* absNeigh
 //	return deltax + deltay;
 //}
 
+EmptyCluster* EmptyClusterAbstraction::clusterIterNext(cluster_iterator& it) const
+{
+       return dynamic_cast<EmptyCluster*>(HPAClusterAbstraction::clusterIterNext(it));
+}
+
+EmptyCluster* EmptyClusterAbstraction::getCluster(int cid)
+{
+       return dynamic_cast<EmptyCluster*>(HPAClusterAbstraction::getCluster(cid));
+}
+
