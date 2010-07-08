@@ -325,104 +325,66 @@ void EmptyClusterAbstraction::connectSG(node* absNode)
 	int minx = (x-maxDiagonalSteps)<nodeCluster->getHOrigin()?nodeCluster->getHOrigin():(x-maxDiagonalSteps);
 	int maxx = (x+maxDiagonalSteps+1)>(nodeCluster->getHOrigin()+nodeCluster->getWidth())?
 		(nodeCluster->getHOrigin()+nodeCluster->getWidth()):(x+maxDiagonalSteps+1);
-	for(int nx = minx; nx < maxx; nx++)
+
+	node* absNeighbour = 0;
+	int ny = nodeCluster->getVOrigin();
+	int nx = minx;
+	for( ; nx < maxx; nx++)
 	{
-		int ny = nodeCluster->getVOrigin();
-		node* absNeighbour = 0;
 		assert(this->getNodeFromMap(nx, ny));
 		absNeighbour = absg->getNode(this->getNodeFromMap(nx, ny)->getLabelL(kParent));
-
 		if(absNeighbour && &*absNeighbour != &*absNode)
-		{
-			assert(this->getNodeFromMap(nx, ny)->getLabelL(kParent) != -1);
-			assert((int)absNeighbour->getNum() < absg->getNumNodes());
-			edge* e = new MacroEdge(absNode->getNum(), absNeighbour->getNum(), h(absNode, absNeighbour));
-			absg->addEdge(e);
-		}
-	}
-	// try to connect to nearest entrance along the top border not in the fan of absNode
-	for(int nx = minx-1; nx >= nodeCluster->getHOrigin(); nx--)
-	{
-		int ny = nodeCluster->getVOrigin();
-		node* absNeighbour = 0;
-		assert(this->getNodeFromMap(nx, ny));
-		absNeighbour = absg->getNode(this->getNodeFromMap(nx, ny)->getLabelL(kParent));
-		if(absNeighbour)
-		{
-			assert((int)absNeighbour->getNum() < absg->getNumNodes());
-			assert(this->getNodeFromMap(nx, ny)->getLabelL(kParent) != -1);
-			edge* e = new MacroEdge(absNode->getNum(), absNeighbour->getNum(), h(absNode, absNeighbour));
-			absg->addEdge(e);
-			break;
-		}
-	}
-	for(int nx = maxx; nx < (nodeCluster->getHOrigin()+nodeCluster->getWidth()); nx++)
-	{
-		int ny = nodeCluster->getVOrigin();
-		node* absNeighbour = 0;
-		assert(this->getNodeFromMap(nx, ny));
-		absNeighbour = absg->getNode(this->getNodeFromMap(nx, ny)->getLabelL(kParent));
-		if(absNeighbour)
-		{
-			assert(this->getNodeFromMap(nx, ny)->getLabelL(kParent) != -1);
-			assert((int)absNeighbour->getNum() < absg->getNumNodes());
-			edge* e = new MacroEdge(absNode->getNum(), absNeighbour->getNum(), h(absNode, absNeighbour));
-			absg->addEdge(e);
-			break;
-		}
+			connectSGToNeighbour(absNode, absNeighbour);
 	}
 
+	// try to connect to nearest entrance along the top border not in the fan of absNode
+	absNeighbour = absg->getNode(this->getNodeFromMap(minx, ny)->getLabelL(kParent));
+	if(absNeighbour == 0)
+	{
+		absNeighbour = nodeCluster->nextNodeInRow(minx, ny, this, false);
+		if(absNeighbour)
+		   	connectSGToNeighbour(absNode, absNeighbour);
+	}
+
+	absNeighbour = absg->getNode(this->getNodeFromMap(maxx-1, ny)->getLabelL(kParent));
+	if(absNeighbour == 0)
+	{
+		absNeighbour = nodeCluster->nextNodeInRow(maxx-1, ny, this, true);
+		if(absNeighbour)
+		   	connectSGToNeighbour(absNode, absNeighbour);
+	}
 
 	// connect to nodes along the bottom perimeter of cluster
 	maxDiagonalSteps = (nodeCluster->getVOrigin()+nodeCluster->getHeight()-1) - y;
 	minx = (x-maxDiagonalSteps)<nodeCluster->getHOrigin()?nodeCluster->getHOrigin():(x-maxDiagonalSteps);
 	maxx = (x+maxDiagonalSteps+1)>(nodeCluster->getHOrigin()+nodeCluster->getWidth())?
 		(nodeCluster->getHOrigin()+nodeCluster->getWidth()):(x+maxDiagonalSteps+1);
-	for(int nx = minx; nx < maxx; nx++)
+
+	nx = minx;
+	ny = nodeCluster->getVOrigin()+nodeCluster->getHeight()-1;
+	for( ; nx < maxx; nx++)
 	{
-		int ny = nodeCluster->getVOrigin()+nodeCluster->getHeight()-1;
-		node* absNeighbour = 0;
 		assert(this->getNodeFromMap(nx, ny));
 		absNeighbour = absg->getNode(this->getNodeFromMap(nx, ny)->getLabelL(kParent));
 		if(absNeighbour && &*absNeighbour != &*absNode)
-		{
-			assert(this->getNodeFromMap(nx, ny)->getLabelL(kParent) != -1);
-			assert((int)absNeighbour->getNum() < absg->getNumNodes());
-			edge* e = new edge(absNode->getNum(), absNeighbour->getNum(), h(absNode, absNeighbour));
-			absg->addEdge(e);
-		}
+			connectSGToNeighbour(absNode, absNeighbour);
 	}
+	
 	// try to connect to nearest entrance along the bottom border not in the fan of absNode
-	for(int nx = minx-1; nx >= nodeCluster->getHOrigin(); nx--)
+	absNeighbour = absg->getNode(this->getNodeFromMap(minx, ny)->getLabelL(kParent));
+	if(absNeighbour == 0)
 	{
-		int ny = nodeCluster->getVOrigin()+nodeCluster->getHeight()-1;
-		node* absNeighbour = 0;
-		assert(this->getNodeFromMap(nx, ny));
-		absNeighbour = absg->getNode(this->getNodeFromMap(nx, ny)->getLabelL(kParent));
+		absNeighbour = nodeCluster->nextNodeInRow(minx, ny, this, false);
 		if(absNeighbour)
-		{
-			assert(this->getNodeFromMap(nx, ny)->getLabelL(kParent) != -1);
-			assert((int)absNeighbour->getNum() < absg->getNumNodes());
-			edge* e = new MacroEdge(absNode->getNum(), absNeighbour->getNum(), h(absNode, absNeighbour));
-			absg->addEdge(e);
-			break;
-		}
-
+		   	connectSGToNeighbour(absNode, absNeighbour);
 	}
-	for(int nx = maxx; nx < (nodeCluster->getHOrigin()+nodeCluster->getWidth()); nx++)
+
+	absNeighbour = absg->getNode(this->getNodeFromMap(maxx-1, ny)->getLabelL(kParent));
+	if(absNeighbour == 0)
 	{
-		int ny = nodeCluster->getVOrigin()+nodeCluster->getHeight()-1;
-		node* absNeighbour = 0;
-		assert(this->getNodeFromMap(nx, ny));
-		absNeighbour = absg->getNode(this->getNodeFromMap(nx, ny)->getLabelL(kParent));
+		absNeighbour = nodeCluster->nextNodeInRow(maxx-1, ny, this, true);
 		if(absNeighbour)
-		{
-			assert(this->getNodeFromMap(nx, ny)->getLabelL(kParent) != -1);
-			assert((int)absNeighbour->getNum() < absg->getNumNodes());
-			edge* e = new MacroEdge(absNode->getNum(), absNeighbour->getNum(), h(absNode, absNeighbour));
-			absg->addEdge(e);
-			break;
-		}
+		   	connectSGToNeighbour(absNode, absNeighbour);
 	}
 
 	// connect to nodes along the left perimeter of cluster
@@ -430,50 +392,32 @@ void EmptyClusterAbstraction::connectSG(node* absNode)
 	int miny = (y-maxDiagonalSteps)<nodeCluster->getVOrigin()?nodeCluster->getVOrigin():(y-maxDiagonalSteps);
 	int maxy = (y+maxDiagonalSteps+1)>(nodeCluster->getVOrigin()+nodeCluster->getHeight())?
 		(nodeCluster->getVOrigin()+nodeCluster->getHeight()):(y+maxDiagonalSteps+1);
-	for(int ny = miny; ny < maxy; ny++)
+
+	nx = nodeCluster->getHOrigin();
+	ny = miny;
+	for( ; ny < maxy; ny++)
 	{
-		int nx = nodeCluster->getHOrigin();
-		node* absNeighbour = 0;
 		assert(this->getNodeFromMap(nx, ny));
 		absNeighbour = absg->getNode(this->getNodeFromMap(nx, ny)->getLabelL(kParent));
 		if(absNeighbour && &*absNeighbour != &*absNode)
-		{
-			assert(this->getNodeFromMap(nx, ny)->getLabelL(kParent) != -1);
-			assert((int)absNeighbour->getNum() < absg->getNumNodes());
-			edge* e = new MacroEdge(absNode->getNum(), absNeighbour->getNum(), h(absNode, absNeighbour));
-			absg->addEdge(e);
-		}
+			connectSGToNeighbour(absNode, absNeighbour);
 	}
-	for(int ny = miny-1; ny >= nodeCluster->getVOrigin(); ny--)
-	{
-		int nx = nodeCluster->getHOrigin();
-		node* absNeighbour = 0;
-		absNeighbour = absg->getNode(this->getNodeFromMap(nx, ny)->getLabelL(kParent));
-		if(absNeighbour)
-		{
-			assert(this->getNodeFromMap(nx, ny)->getLabelL(kParent) != -1);
-			assert((int)absNeighbour->getNum() < absg->getNumNodes());
-			edge* e = new MacroEdge(absNode->getNum(), absNeighbour->getNum(), h(absNode, absNeighbour));
-			absg->addEdge(e);
-			break;
-		}
 
+	// connect to nearest nodes outside fan area (if necessary)
+	absNeighbour = absg->getNode(this->getNodeFromMap(nx, miny)->getLabelL(kParent));
+	if(absNeighbour == 0)
+	{
+		absNeighbour = nodeCluster->nextNodeInColumn(nx, miny, this, false);
+		if(absNeighbour)
+		   	connectSGToNeighbour(absNode, absNeighbour);
 	}
-	for(int ny = maxy; ny < (nodeCluster->getVOrigin()+nodeCluster->getHeight()); ny++)
-	{
-		int nx = nodeCluster->getHOrigin();
-		node* absNeighbour = 0;
-		assert(this->getNodeFromMap(nx, ny));
-		absNeighbour = absg->getNode(this->getNodeFromMap(nx, ny)->getLabelL(kParent));
-		if(absNeighbour)
-		{
-			assert(this->getNodeFromMap(nx, ny)->getLabelL(kParent) != -1);
-			assert((int)absNeighbour->getNum() < absg->getNumNodes());
-			edge* e = new MacroEdge(absNode->getNum(), absNeighbour->getNum(), h(absNode, absNeighbour));
-			absg->addEdge(e);
-			break;
-		}
 
+	absNeighbour = absg->getNode(this->getNodeFromMap(nx, maxy-1)->getLabelL(kParent));
+	if(absNeighbour == 0)
+	{
+		absNeighbour = nodeCluster->nextNodeInColumn(nx, maxy-1, this, true);
+		if(absNeighbour)
+		   	connectSGToNeighbour(absNode, absNeighbour);
 	}
 
 	// connect to nodes along the right perimeter of cluster
@@ -481,51 +425,32 @@ void EmptyClusterAbstraction::connectSG(node* absNode)
 	miny = (y-maxDiagonalSteps)<nodeCluster->getVOrigin()?nodeCluster->getVOrigin():(y-maxDiagonalSteps);
 	maxy = (y+maxDiagonalSteps+1)>(nodeCluster->getVOrigin()+nodeCluster->getHeight())?
 		(nodeCluster->getVOrigin()+nodeCluster->getHeight()):(y+maxDiagonalSteps+1);
-	for(int ny = miny; ny < maxy; ny++)
+
+	nx = nodeCluster->getHOrigin()+nodeCluster->getWidth()-1;
+	ny = miny;
+	for( ; ny < maxy; ny++)
 	{
-		int nx = nodeCluster->getHOrigin()+nodeCluster->getWidth()-1;
-		node* absNeighbour = 0;
 		assert(this->getNodeFromMap(nx, ny));
 		absNeighbour = absg->getNode(this->getNodeFromMap(nx, ny)->getLabelL(kParent));
 		if(absNeighbour && &*absNeighbour != &*absNode)
-		{
-			assert(this->getNodeFromMap(nx, ny)->getLabelL(kParent) != -1);
-			assert((int)absNeighbour->getNum() < absg->getNumNodes());
-			edge* e = new MacroEdge(absNode->getNum(), absNeighbour->getNum(), h(absNode, absNeighbour));
-			absg->addEdge(e);
-		}
+			connectSGToNeighbour(absNode, absNeighbour);
 	}
-	for(int ny = miny-1; ny >= nodeCluster->getVOrigin(); ny--)
-	{
-		int nx = nodeCluster->getHOrigin()+nodeCluster->getWidth()-1;
-		node* absNeighbour = 0;
-		assert(this->getNodeFromMap(nx, ny));
-		absNeighbour = absg->getNode(this->getNodeFromMap(nx, ny)->getLabelL(kParent));
-		if(absNeighbour)
-		{
-			assert(this->getNodeFromMap(nx, ny)->getLabelL(kParent) != -1);
-			assert((int)absNeighbour->getNum() < absg->getNumNodes());
-			edge* e = new MacroEdge(absNode->getNum(), absNeighbour->getNum(), h(absNode, absNeighbour));
-			absg->addEdge(e);
-			break;
-		}
 
+	// connect to nearest nodes outside fan area (if necessary)
+	absNeighbour = absg->getNode(this->getNodeFromMap(nx, miny)->getLabelL(kParent));
+	if(absNeighbour == 0)
+	{
+		absNeighbour = nodeCluster->nextNodeInColumn(nx, miny, this, false);
+		if(absNeighbour)
+		   	connectSGToNeighbour(absNode, absNeighbour);
 	}
-	for(int ny = maxy; ny < (nodeCluster->getVOrigin()+nodeCluster->getHeight()); ny++)
-	{
-		int nx = nodeCluster->getHOrigin()+nodeCluster->getWidth()-1;
-		node* absNeighbour = 0;
-		assert(this->getNodeFromMap(nx, ny));
-		absNeighbour = absg->getNode(this->getNodeFromMap(nx, ny)->getLabelL(kParent));
-		if(absNeighbour)
-		{
-			assert(this->getNodeFromMap(nx, ny)->getLabelL(kParent) != -1);
-			assert((int)absNeighbour->getNum() < absg->getNumNodes());
-			edge* e = new MacroEdge(absNode->getNum(), absNeighbour->getNum(), h(absNode, absNeighbour));
-			absg->addEdge(e);
-			break;
-		}
 
+	absNeighbour = absg->getNode(this->getNodeFromMap(nx, maxy-1)->getLabelL(kParent));
+	if(absNeighbour == 0)
+	{
+		absNeighbour = nodeCluster->nextNodeInColumn(nx, maxy-1, this, true);
+		if(absNeighbour)
+		   	connectSGToNeighbour(absNode, absNeighbour);
 	}
 }
 
@@ -544,38 +469,52 @@ void EmptyClusterAbstraction::cardinalConnectSG(node* absNode)
 	int nx = x;
 	node* absNeighbour = absg->getNode(this->getNodeFromMap(nx, ny)->getLabelL(kParent));
 	if(absNeighbour == 0)
-		throw std::invalid_argument("cluster not properly framed along top border");
+	{
+		absNeighbour = nodeCluster->nextNodeInRow(nx, ny, this, true);
+		if(absNeighbour)
+			connectSGToNeighbour(absNode, absNeighbour);
 
-	edge* e = new edge(absNode->getNum(), absNeighbour->getNum(), h(absNode, absNeighbour));
-	absg->addEdge(e);
-	if(getVerbose())
-		std::cout << "above: ("<<nx<<", "<<ny<<") weight: "<<e->getWeight();
-
+		absNeighbour =  nodeCluster->nextNodeInRow(nx, ny, this, false);
+		if(absNeighbour)
+			connectSGToNeighbour(absNode, absNeighbour);
+	}
+	else
+		connectSGToNeighbour(absNode, absNeighbour);
 
 	// connect to neighbour below
 	ny = nodeCluster->getVOrigin()+nodeCluster->getHeight()-1;
 	nx = x;
 	absNeighbour = absg->getNode(this->getNodeFromMap(nx, ny)->getLabelL(kParent));
 	if(absNeighbour == 0)
-		throw std::invalid_argument("cluster not properly framed along bottom border");
+	{
+		absNeighbour = nodeCluster->nextNodeInRow(nx, ny, this, true);
+		if(absNeighbour)
+			connectSGToNeighbour(absNode, absNeighbour);
 
-	e = new edge(absNode->getNum(), absNeighbour->getNum(), h(absNode, absNeighbour));
-	absg->addEdge(e);
-	if(getVerbose())
-		std::cout << "below: ("<<nx<<", "<<ny<<") weight: "<<e->getWeight();
-
+		absNeighbour =  nodeCluster->nextNodeInRow(nx, ny, this, false);
+		if(absNeighbour)
+			connectSGToNeighbour(absNode, absNeighbour);
+	}
+	else
+		connectSGToNeighbour(absNode, absNeighbour);
+		
 
 	// connect to neighbour to the left
 	ny = y; 
 	nx = nodeCluster->getHOrigin();
 	absNeighbour = absg->getNode(this->getNodeFromMap(nx, ny)->getLabelL(kParent));
 	if(absNeighbour == 0)
-		throw std::invalid_argument("cluster not properly framed along left border");
+	{
+		absNeighbour = nodeCluster->nextNodeInColumn(nx, ny, this, true);
+		if(absNeighbour)
+			connectSGToNeighbour(absNode, absNeighbour);
 
-	e = new edge(absNode->getNum(), absNeighbour->getNum(), h(absNode, absNeighbour));
-	absg->addEdge(e);
-	if(getVerbose())
-		std::cout << "left: ("<<nx<<", "<<ny<<") weight: "<<e->getWeight();
+		absNeighbour =  nodeCluster->nextNodeInColumn(nx, ny, this, false);
+		if(absNeighbour)
+			connectSGToNeighbour(absNode, absNeighbour);
+	}
+	else
+		connectSGToNeighbour(absNode, absNeighbour);
 
 
 	// connect to neighbour to the right
@@ -583,13 +522,38 @@ void EmptyClusterAbstraction::cardinalConnectSG(node* absNode)
 	nx = nodeCluster->getHOrigin()+nodeCluster->getWidth()-1;
 	absNeighbour = absg->getNode(this->getNodeFromMap(nx, ny)->getLabelL(kParent));
 	if(absNeighbour == 0)
-		throw std::invalid_argument("cluster not properly framed along right border");
+	{
+		absNeighbour = nodeCluster->nextNodeInColumn(nx, ny, this, true);
+		if(absNeighbour)
+			connectSGToNeighbour(absNode, absNeighbour);
 
-	e = new edge(absNode->getNum(), absNeighbour->getNum(), h(absNode, absNeighbour));
+		absNeighbour =  nodeCluster->nextNodeInColumn(nx, ny, this, false);
+		if(absNeighbour)
+			connectSGToNeighbour(absNode, absNeighbour);
+	}
+	else
+		connectSGToNeighbour(absNode, absNeighbour);
+}
+
+void EmptyClusterAbstraction::connectSGToNeighbour(node* absNode, node* absNeighbour)
+{
+	assert(this->getNodeFromMap(absNode->getLabelL(kFirstData),
+					absNode->getLabelL(kFirstData+1))->getLabelL(kParent) != -1);
+	assert(this->getNodeFromMap(absNeighbour->getLabelL(kFirstData), 
+					absNeighbour->getLabelL(kFirstData+1))->getLabelL(kParent) != -1);
+
+	graph* absg = this->getAbstractGraph(1);
+
+	assert((int)absNeighbour->getNum() < absg->getNumNodes());
+	assert((int)absNode->getNum() < absg->getNumNodes());
+
+	edge* e = new MacroEdge(absNode->getNum(), absNeighbour->getNum(), h(absNode, absNeighbour));
 	absg->addEdge(e);
 	if(getVerbose())
-		std::cout << "right ("<<nx<<", "<<ny<<") weight: "<<e->getWeight() <<std::endl;
-
+	{
+		std::cout << "absNeighbour ("<<absNeighbour->getLabelL(kFirstData)<<", "
+			<<absNeighbour->getLabelL(kFirstData+1)<<") weight: "<<e->getWeight() <<std::endl;
+	}
 }
 
 // h heuristic
@@ -610,14 +574,4 @@ void EmptyClusterAbstraction::cardinalConnectSG(node* absNode)
 ////	std::cout << "deltax: "<<deltax<<" deltay: "<<deltay<<std::endl;
 //	return deltax + deltay;
 //}
-
-EmptyCluster* EmptyClusterAbstraction::clusterIterNext(cluster_iterator& it) const
-{
-	return dynamic_cast<EmptyCluster*>(HPAClusterAbstraction::clusterIterNext(it));
-}
-
-EmptyCluster* EmptyClusterAbstraction::getCluster(int cid)
-{
-	return dynamic_cast<EmptyCluster*>(HPAClusterAbstraction::getCluster(cid));
-}
 
