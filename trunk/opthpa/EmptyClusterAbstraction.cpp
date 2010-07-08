@@ -339,17 +339,17 @@ void EmptyClusterAbstraction::connectSG(node* absNode)
 
 	// try to connect to nearest entrance along the top border not in the fan of absNode
 	absNeighbour = absg->getNode(this->getNodeFromMap(minx, ny)->getLabelL(kParent));
-	if(absNeighbour == 0)
+	if(absNeighbour == 0 || absNeighbour->getNum() == absNode->getNum())
 	{
-		absNeighbour = nodeCluster->nextNodeInRow(minx, ny, this, false);
+		absNeighbour = nodeCluster->nextNodeInRow(minx-1, ny, this, false);
 		if(absNeighbour)
 		   	connectSGToNeighbour(absNode, absNeighbour);
 	}
 
 	absNeighbour = absg->getNode(this->getNodeFromMap(maxx-1, ny)->getLabelL(kParent));
-	if(absNeighbour == 0)
+	if(absNeighbour == 0 || absNeighbour->getNum() == absNode->getNum())
 	{
-		absNeighbour = nodeCluster->nextNodeInRow(maxx-1, ny, this, true);
+		absNeighbour = nodeCluster->nextNodeInRow(maxx, ny, this, true);
 		if(absNeighbour)
 		   	connectSGToNeighbour(absNode, absNeighbour);
 	}
@@ -372,17 +372,17 @@ void EmptyClusterAbstraction::connectSG(node* absNode)
 	
 	// try to connect to nearest entrance along the bottom border not in the fan of absNode
 	absNeighbour = absg->getNode(this->getNodeFromMap(minx, ny)->getLabelL(kParent));
-	if(absNeighbour == 0)
+	if(absNeighbour == 0 || absNeighbour->getNum() == absNode->getNum())
 	{
-		absNeighbour = nodeCluster->nextNodeInRow(minx, ny, this, false);
+		absNeighbour = nodeCluster->nextNodeInRow(minx-1, ny, this, false);
 		if(absNeighbour)
 		   	connectSGToNeighbour(absNode, absNeighbour);
 	}
 
 	absNeighbour = absg->getNode(this->getNodeFromMap(maxx-1, ny)->getLabelL(kParent));
-	if(absNeighbour == 0)
+	if(absNeighbour == 0 || absNeighbour->getNum() == absNode->getNum())
 	{
-		absNeighbour = nodeCluster->nextNodeInRow(maxx-1, ny, this, true);
+		absNeighbour = nodeCluster->nextNodeInRow(maxx, ny, this, true);
 		if(absNeighbour)
 		   	connectSGToNeighbour(absNode, absNeighbour);
 	}
@@ -405,17 +405,17 @@ void EmptyClusterAbstraction::connectSG(node* absNode)
 
 	// connect to nearest nodes outside fan area (if necessary)
 	absNeighbour = absg->getNode(this->getNodeFromMap(nx, miny)->getLabelL(kParent));
-	if(absNeighbour == 0)
+	if(absNeighbour == 0 || absNeighbour->getNum() == absNode->getNum())
 	{
-		absNeighbour = nodeCluster->nextNodeInColumn(nx, miny, this, false);
+		absNeighbour = nodeCluster->nextNodeInColumn(nx, miny-1, this, false);
 		if(absNeighbour)
 		   	connectSGToNeighbour(absNode, absNeighbour);
 	}
 
 	absNeighbour = absg->getNode(this->getNodeFromMap(nx, maxy-1)->getLabelL(kParent));
-	if(absNeighbour == 0)
+	if(absNeighbour == 0 || absNeighbour->getNum() == absNode->getNum())
 	{
-		absNeighbour = nodeCluster->nextNodeInColumn(nx, maxy-1, this, true);
+		absNeighbour = nodeCluster->nextNodeInColumn(nx, maxy, this, true);
 		if(absNeighbour)
 		   	connectSGToNeighbour(absNode, absNeighbour);
 	}
@@ -438,17 +438,17 @@ void EmptyClusterAbstraction::connectSG(node* absNode)
 
 	// connect to nearest nodes outside fan area (if necessary)
 	absNeighbour = absg->getNode(this->getNodeFromMap(nx, miny)->getLabelL(kParent));
-	if(absNeighbour == 0)
+	if(absNeighbour == 0 || absNeighbour->getNum() == absNode->getNum())
 	{
-		absNeighbour = nodeCluster->nextNodeInColumn(nx, miny, this, false);
+		absNeighbour = nodeCluster->nextNodeInColumn(nx, miny-1, this, false);
 		if(absNeighbour)
 		   	connectSGToNeighbour(absNode, absNeighbour);
 	}
 
 	absNeighbour = absg->getNode(this->getNodeFromMap(nx, maxy-1)->getLabelL(kParent));
-	if(absNeighbour == 0)
+	if(absNeighbour == 0 || absNeighbour->getNum() == absNode->getNum())
 	{
-		absNeighbour = nodeCluster->nextNodeInColumn(nx, maxy-1, this, true);
+		absNeighbour = nodeCluster->nextNodeInColumn(nx, maxy, this, true);
 		if(absNeighbour)
 		   	connectSGToNeighbour(absNode, absNeighbour);
 	}
@@ -468,13 +468,13 @@ void EmptyClusterAbstraction::cardinalConnectSG(node* absNode)
 	int ny = nodeCluster->getVOrigin();
 	int nx = x;
 	node* absNeighbour = absg->getNode(this->getNodeFromMap(nx, ny)->getLabelL(kParent));
-	if(absNeighbour == 0)
+	if(absNeighbour == 0 || absNeighbour->getNum() == absNode->getNum())
 	{
-		absNeighbour = nodeCluster->nextNodeInRow(nx, ny, this, true);
+		absNeighbour = nodeCluster->nextNodeInRow(nx+1, ny, this, true);
 		if(absNeighbour)
 			connectSGToNeighbour(absNode, absNeighbour);
 
-		absNeighbour =  nodeCluster->nextNodeInRow(nx, ny, this, false);
+		absNeighbour =  nodeCluster->nextNodeInRow(nx-1, ny, this, false);
 		if(absNeighbour)
 			connectSGToNeighbour(absNode, absNeighbour);
 	}
@@ -485,13 +485,13 @@ void EmptyClusterAbstraction::cardinalConnectSG(node* absNode)
 	ny = nodeCluster->getVOrigin()+nodeCluster->getHeight()-1;
 	nx = x;
 	absNeighbour = absg->getNode(this->getNodeFromMap(nx, ny)->getLabelL(kParent));
-	if(absNeighbour == 0)
+	if(absNeighbour == 0 || absNeighbour->getNum() == absNode->getNum())
 	{
-		absNeighbour = nodeCluster->nextNodeInRow(nx, ny, this, true);
+		absNeighbour = nodeCluster->nextNodeInRow(nx+1, ny, this, true);
 		if(absNeighbour)
 			connectSGToNeighbour(absNode, absNeighbour);
 
-		absNeighbour =  nodeCluster->nextNodeInRow(nx, ny, this, false);
+		absNeighbour =  nodeCluster->nextNodeInRow(nx-1, ny, this, false);
 		if(absNeighbour)
 			connectSGToNeighbour(absNode, absNeighbour);
 	}
@@ -503,13 +503,13 @@ void EmptyClusterAbstraction::cardinalConnectSG(node* absNode)
 	ny = y; 
 	nx = nodeCluster->getHOrigin();
 	absNeighbour = absg->getNode(this->getNodeFromMap(nx, ny)->getLabelL(kParent));
-	if(absNeighbour == 0)
+	if(absNeighbour == 0 || absNeighbour->getNum() == absNode->getNum())
 	{
-		absNeighbour = nodeCluster->nextNodeInColumn(nx, ny, this, true);
+		absNeighbour = nodeCluster->nextNodeInColumn(nx, ny+1, this, true);
 		if(absNeighbour)
 			connectSGToNeighbour(absNode, absNeighbour);
 
-		absNeighbour =  nodeCluster->nextNodeInColumn(nx, ny, this, false);
+		absNeighbour =  nodeCluster->nextNodeInColumn(nx, ny-1, this, false);
 		if(absNeighbour)
 			connectSGToNeighbour(absNode, absNeighbour);
 	}
@@ -521,13 +521,13 @@ void EmptyClusterAbstraction::cardinalConnectSG(node* absNode)
 	ny = y; 
 	nx = nodeCluster->getHOrigin()+nodeCluster->getWidth()-1;
 	absNeighbour = absg->getNode(this->getNodeFromMap(nx, ny)->getLabelL(kParent));
-	if(absNeighbour == 0)
+	if(absNeighbour == 0 || absNeighbour->getNum() == absNode->getNum())
 	{
-		absNeighbour = nodeCluster->nextNodeInColumn(nx, ny, this, true);
+		absNeighbour = nodeCluster->nextNodeInColumn(nx, ny+1, this, true);
 		if(absNeighbour)
 			connectSGToNeighbour(absNode, absNeighbour);
 
-		absNeighbour =  nodeCluster->nextNodeInColumn(nx, ny, this, false);
+		absNeighbour =  nodeCluster->nextNodeInColumn(nx, ny-1, this, false);
 		if(absNeighbour)
 			connectSGToNeighbour(absNode, absNeighbour);
 	}
