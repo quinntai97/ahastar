@@ -76,7 +76,10 @@ path* HPAStar2::getPath(graphAbstraction* aMap, node* _from, node* _to, reservat
 	if(thepath==0)
 	{
 		if(verbose)
+		{
 			std::cout << "trying to find abstract path; inserting s+g"<<std::endl;
+			hpamap->setVerbose(true);
+		}
 
 		hpamap->insertStartAndGoalNodesIntoAbstractGraph(from, to);		
 		this->nodesExpanded += hpamap->getNodesExpanded();
