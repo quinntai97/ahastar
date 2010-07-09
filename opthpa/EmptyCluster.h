@@ -50,6 +50,9 @@ class EmptyCluster : public HPACluster
 		virtual void addNodesToCluster(HPAClusterAbstraction*, int** clearance) 
 			throw(std::invalid_argument);
 
+		virtual void addParent(node *, HPAClusterAbstraction*) 
+			throw(std::invalid_argument);
+
 		void extend(HPAClusterAbstraction*);
 		void extend(HPAClusterAbstraction*, int** clearance);
 
