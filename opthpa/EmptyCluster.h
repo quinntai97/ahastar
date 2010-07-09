@@ -53,6 +53,7 @@ class EmptyCluster : public HPACluster
 		void extend(HPAClusterAbstraction*);
 		void extend(HPAClusterAbstraction*, int** clearance);
 
+
 		node* nextNodeInColumn(int x, int y, HPAClusterAbstraction* hpamap,
 				bool leftToRight);
 		node* nextNodeInRow(int x, int y, HPAClusterAbstraction* hpamap,
@@ -75,22 +76,24 @@ class EmptyCluster : public HPACluster
 	private:
 		void initOpenGLCoordinates(HPAClusterAbstraction*);
 		void frameCluster(HPAClusterAbstraction*);
+
+		void addSingleMacroEdge(node* from, node* to, double weight, graph* absg);
 		void addMacroEdges(HPAClusterAbstraction *aMap);
 		void addCardinalMacroEdges(HPAClusterAbstraction *aMap);
-		void addSingleMacroEdge(node* from, node* to, double weight, graph* absg);
-		bool canExtendClearanceSquare(HPAClusterAbstraction* hpamap);
-		bool canExtendHorizontally(HPAClusterAbstraction* hpamap); 
-		bool canExtendVertically(HPAClusterAbstraction* hpamap);
-		bool isIncidentWithInterEdge(node* n, HPAClusterAbstraction* hpamap);
-		int findVerticalLength(int x, int y, HPAClusterAbstraction* hpamap);
-		int findHorizontalLength(int x, int y, HPAClusterAbstraction* hpamap);
+		void addMacroEdgesBetweenLeftRightEntrances(
+				HPAClusterAbstraction* hpamap);
 		void addDiagonalMacroEdges(HPAClusterAbstraction* hpamap);
 		void addDiagonalFanMacroEdges(HPAClusterAbstraction* hpamap);
 		void addMacroEdgesBetweenTopAndBottomEntrances(
 				HPAClusterAbstraction* hpamap);
-		void addMacroEdgesBetweenLeftRightEntrances(
-				HPAClusterAbstraction* hpamap);
 
+		bool canExtendClearanceSquare(HPAClusterAbstraction* hpamap);
+		bool canExtendHorizontally(HPAClusterAbstraction* hpamap); 
+		bool canExtendVertically(HPAClusterAbstraction* hpamap);
+
+		bool isIncidentWithInterEdge(node* n, HPAClusterAbstraction* hpamap);
+		int findVerticalLength(int x, int y, HPAClusterAbstraction* hpamap);
+		int findHorizontalLength(int x, int y, HPAClusterAbstraction* hpamap);
 
 		GLdouble glx, gly, glz;  // OpenGL origin coordinates
 		GLdouble glHeight, glWidth;
