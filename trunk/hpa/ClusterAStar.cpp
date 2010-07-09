@@ -158,6 +158,8 @@ void AbstractClusterAStar::expand(node* current, node* to, heap* openList, std::
 		int neighbourid = e->getFrom()==current->getNum()?e->getTo():e->getFrom();
 		ClusterNode* neighbour = dynamic_cast<ClusterNode*>(g->getNode(neighbourid));
 
+		assert(neighbour->getUniqueID() != current->getUniqueID());
+
 		
 		if(closedList.find(neighbour->getUniqueID()) == closedList.end()) // ignore nodes on the closed list
 		{
@@ -167,9 +169,11 @@ void AbstractClusterAStar::expand(node* current, node* to, heap* openList, std::
 			{	
 				if(evaluate(current, neighbour, e)) 
 				{		
-					if(verbose) std::cout << "\t\trelaxing";
+					if(verbose) std::cout << "\t\trelaxing; ";
 					relaxEdge(openList, g, e, current->getNum(), neighbourid, to); 
 					nodesTouched++;
+					if(verbose)
+						std::cout << " f: "<<neighbour->getLabelF(kTemporaryLabel)<<std::endl;
 				}
 				else
 				{
@@ -182,12 +186,17 @@ void AbstractClusterAStar::expand(node* current, node* to, heap* openList, std::
 				if(evaluate(current, neighbour, e)) 
 				{
 					if(verbose) std::cout << "\t\tadding to open list";
+
 					neighbour->setLabelF(kTemporaryLabel, MAXINT); // initial fCost = inifinity
 					neighbour->setKeyLabel(kTemporaryLabel); // an initial key value for prioritisation in the openlist
 					neighbour->reset();  // reset any marked edges from previous searches 
 					openList->add(neighbour);
 					relaxEdge(openList, g, e, current->getNum(), neighbourid, to); 
 					nodesTouched++;
+
+					if(verbose)
+						std::cout << "; f: "<<neighbour->getLabelF(kTemporaryLabel);
+
 				}
 				else
 				{
@@ -232,7 +241,11 @@ void AbstractClusterAStar::expand(node* current, node* to, heap* openList, std::
 	if(markForVis)
 		current->drawColor = 2; // visualise expanded
 
-	//if(verbose) printNode(string("closing... "), current);
+	if(verbose)
+	{	
+		printNode(string("closing... "), current);
+		std::cout << " f: "<<current->getLabelF(kTemporaryLabel) <<std::endl;
+	}
 	closedList[current->getUniqueID()] = current;	
 }
 

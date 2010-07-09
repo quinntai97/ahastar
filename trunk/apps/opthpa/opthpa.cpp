@@ -176,8 +176,8 @@ void createSimulation(unitSimulation * &unitSim)
 			map, new EmptyClusterFactory(), 
 			new MacroNodeFactory(), new EdgeFactory());
 
-	//ecmap->setVerbose(true);
-	ecmap->setAllowDiagonals(true);
+	ecmap->setVerbose(true);
+	ecmap->setAllowDiagonals(false);
 	ecmap->buildClusters2();
 	ecmap->buildEntrances();
 	//ecmap->setDrawClusters(true);
@@ -253,6 +253,7 @@ void gogoGadgetNOGUIScenario(HPAClusterAbstraction* ecmap)
 		stats.clearAllStats();
 		delete p;
 		
+		hpastar.verbose = true;
 		p = hpastar.getPath(ecmap, from, to);
 		distanceTravelled = ecmap->distance(p);
 		pslen = distanceTravelled;
