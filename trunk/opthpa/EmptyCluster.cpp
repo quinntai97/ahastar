@@ -48,7 +48,7 @@ void EmptyCluster::addNodesToCluster(HPAClusterAbstraction* aMap, int** clearanc
 		}
 	}
 
-	//frameCluster(aMap);
+	frameCluster(aMap);
 	//if(aMap->getAllowDiagonals())
 	//	addMacroEdges(aMap);
 //	else
@@ -131,7 +131,7 @@ void EmptyCluster::frameCluster(HPAClusterAbstraction* aMap)
 			assert(n);
 			if(isIncidentWithInterEdge(n, aMap))
 			{
-				addParent(n);
+				addParent(n, aMap);
 				if(last)
 				{
 					if(n->getUniqueID() != last->getUniqueID() &&
@@ -157,7 +157,7 @@ void EmptyCluster::frameCluster(HPAClusterAbstraction* aMap)
 			assert(n);
 			if(isIncidentWithInterEdge(n, aMap))
 			{
-				addParent(n);
+				addParent(n, aMap);
 				if(last)
 				{
 					if(n->getUniqueID() != last->getUniqueID() &&
@@ -186,7 +186,7 @@ void EmptyCluster::frameCluster(HPAClusterAbstraction* aMap)
 				assert(n);
 				if(isIncidentWithInterEdge(n, aMap))
 				{
-					addParent(n);
+					addParent(n, aMap);
 					if(last)
 					{
 						if(n->getUniqueID() != last->getUniqueID() &&
@@ -212,7 +212,7 @@ void EmptyCluster::frameCluster(HPAClusterAbstraction* aMap)
 				assert(n);
 				if(isIncidentWithInterEdge(n, aMap))
 				{
-					addParent(n);
+					addParent(n, aMap);
 					if(last)
 					{
 						if(n->getUniqueID() != last->getUniqueID() &&
@@ -230,28 +230,12 @@ void EmptyCluster::frameCluster(HPAClusterAbstraction* aMap)
 				}
 			}
 
-		   //  TODO: implement addParent to also add abstract nodes
-		   //  if passed a node that isn't in the abstract graph
-		   //
-		   //
+		   
 			// connect the first and last nodes to be considered
 			if(first && last && first->getUniqueID() != last->getUniqueID())
 			{
 				addTransitionPoint(first, last, aMap, aMap->h(first, last));
 			}
-        }
-
-        // frame single-node clusters
-        if(getWidth() == 1 && getHeight() == 1)
-        {
-                ClusterNode* n = dynamic_cast<ClusterNode*>(
-                                aMap->getNodeFromMap(getHOrigin(), getVOrigin()));
-                ClusterNode* absn = dynamic_cast<ClusterNode*>(n->clone());
-                absn->setLabelL(kAbstractionLevel, 1);
-                graph* g = aMap->getAbstractGraph(1);
-                g->addNode(absn);
-                addParent(absn, aMap); // also creates intra-edges
-                n->setLabelL(kParent, absn->getNum());
         }
 }
 
@@ -1193,4 +1177,25 @@ EmptyCluster::nextNodeInColumn(int x, int y, HPAClusterAbstraction* hpamap,
 	}
 
 	return retVal;
+}
+
+void EmptyCluster::addParent(node *n, HPAClusterAbstraction* hpamap) 
+	throw(std::invalid_argument)
+{
+	assert(n->getLabelL(kParent) == -1);
+
+	int absLevel =  n->getLabelL(kAbstractionLevel);
+	if(absLevel > 0)
+	{
+		HPACluster::addParent(n, hpamap);
+	}
+	else
+	{
+		ClusterNode* absn = dynamic_cast<ClusterNode*>(n->clone());
+		absn->setLabelL(kAbstractionLevel, 1);
+		graph* g = hpamap->getAbstractGraph(1);
+		g->addNode(absn);
+		addParent(absn, hpamap); // also creates intra-edges
+		n->setLabelL(kParent, absn->getNum());
+	}
 }
