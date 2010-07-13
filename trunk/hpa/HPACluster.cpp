@@ -414,6 +414,11 @@ void HPACluster::addTransitionPoint(node* from, node* to,
 		HPAClusterAbstraction* hpamap, double edgeweight)
 {
 
+	if(to->getUniqueID() == from->getUniqueID())
+	{
+		std::cout << "break plz"<<std::endl;
+	}
+
 	// add internodes; first try to reuse existing nodes from the abstract graph, else create new ones.
 	int abstractionLevel = 1;
 	graph *g = hpamap->getAbstractGraph(abstractionLevel);

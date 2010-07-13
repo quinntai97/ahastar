@@ -99,10 +99,10 @@ BT
 /F3 1 Tf 16.00 0.00 -0.00 16.00 58.69 334.77 Tm [(A) 40 (vera) 10 (g) -10 (e Speedup: Adaptive Depth)] TJ
 ET
 BT
-/F2 1 Tf 14.00 0.00 -0.00 14.00 168.09 12.36 Tm [(P) 40 (ath Length)] TJ
+/F2 1 Tf 8.00 0.00 -0.00 8.00 168.09 12.36 Tm [(P) 40 (ath Length)] TJ
 ET
 BT
-/F2 1 Tf 0.00 14.00 -14.00 0.00 8.55 147.54 Tm [(A) 40 (vg. Speedup F) 50 (actor)] TJ
+/F2 1 Tf 0.00 8.00 -8.00 0.00 8.55 147.54 Tm [(A) 40 (vg. Speedup F) 50 (actor)] TJ
 ET
 Q q 38.97 48.47 301.08 272.56 re W n
 0.000 0.000 0.000 RG
@@ -238,10 +238,10 @@ BT
 /F3 1 Tf 16.00 0.00 -0.00 16.00 425.82 334.77 Tm [(A) 40 (vera) 10 (g) -10 (e Speedup: Baldur') 60 (s Gate)] TJ
 ET
 BT
-/F2 1 Tf 14.00 0.00 -0.00 14.00 528.09 12.36 Tm [(P) 40 (ath Length)] TJ
+/F2 1 Tf 8.00 0.00 -0.00 8.00 528.09 12.36 Tm [(P) 40 (ath Length)] TJ
 ET
 BT
-/F2 1 Tf 0.00 14.00 -14.00 0.00 368.55 147.54 Tm [(A) 40 (vg. Speedup F) 50 (actor)] TJ
+/F2 1 Tf 0.00 8.00 -8.00 0.00 368.55 147.54 Tm [(A) 40 (vg. Speedup F) 50 (actor)] TJ
 ET
 Q q 398.97 48.47 301.08 272.56 re W n
 0.000 0.000 0.000 RG
@@ -414,10 +414,10 @@ BT
 /F3 1 Tf 16.00 0.00 -0.00 16.00 810.25 334.77 Tm [(A) 40 (vera) 10 (g) -10 (e Speedup: Rooms)] TJ
 ET
 BT
-/F2 1 Tf 14.00 0.00 -0.00 14.00 888.09 12.36 Tm [(P) 40 (ath Length)] TJ
+/F2 1 Tf 8.00 0.00 -0.00 8.00 888.09 12.36 Tm [(P) 40 (ath Length)] TJ
 ET
 BT
-/F2 1 Tf 0.00 14.00 -14.00 0.00 728.55 147.54 Tm [(A) 40 (vg. Speedup F) 50 (actor)] TJ
+/F2 1 Tf 0.00 8.00 -8.00 0.00 728.55 147.54 Tm [(A) 40 (vg. Speedup F) 50 (actor)] TJ
 ET
 Q q 758.97 48.47 301.08 272.56 re W n
 0.000 0.000 0.000 RG
