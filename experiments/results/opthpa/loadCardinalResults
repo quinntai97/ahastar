@@ -14,10 +14,10 @@ graphsize <- rbind(graphsize, read.table("adaptive-depth/results_graphsize",
 col.names=gsnames, colClasses=gsclasses, header=FALSE, se=","))
 graphsize$map <- sub("\t([a-z])*/(([a-z])*/)*", "", graphsize$map)
 
-astar <- astar <- read.table("bgmaps/results_CardinalAStar", col.names=astarnames, colClasses=astarclasses, header=FALSE, sep=",")
-astar <- rbind(astar, read.table("rooms/results_CardinalAStar",
+astar <- astar <- read.table("bgmaps/results_ClusterAStar", col.names=astarnames, colClasses=astarclasses, header=FALSE, sep=",")
+astar <- rbind(astar, read.table("rooms/results_ClusterAStar",
 col.names=astarnames, colClasses=astarclasses, header=FALSE, sep=","))
-astar <- rbind(astar, read.table("adaptive-depth/results_CardinalAStar",
+astar <- rbind(astar, read.table("adaptive-depth/results_ClusterAStar",
 col.names=astarnames, colClasses=astarclasses, header=FALSE, sep=","))
 astar$map <- sub("\t([a-z])*/(([a-z])*/)*", "", astar$map)
 
@@ -29,14 +29,10 @@ col.names=ohanames, colClasses=ohaclasses, header=FALSE, sep=","))
 ohastar$map <- sub("\t([a-z])*/(([a-z])*/)*", "", ohastar$map)
 
 
-r8_astar <- astar[grep("8room*", astar$map),]
-r16_astar <- astar[grep("16room*", astar$map),]
-r32_astar <- astar[grep("32room*", astar$map),]
+rooms_astar <- astar[grep("*room*", astar$map),]
 bg_astar <- astar[grep("AR*", astar$map),]
 ad_astar <- astar[grep("adaptive-depth*", astar$map),]
 
-r8_ohastar <- ohastar[grep("8room*", ohastar$map),]
-r16_ohastar <- ohastar[grep("16room*", ohastar$map),]
-r32_ohastar <- ohastar[grep("32room*", ohastar$map),]
+rooms_ohastar <- ohastar[grep("*room*", ohastar$map),]
 bg_ohastar <- ohastar[grep("AR*", ohastar$map),]
 ad_ohastar <- ohastar[grep("adaptive-depth*", ohastar$map),]
