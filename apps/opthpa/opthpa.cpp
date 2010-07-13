@@ -176,7 +176,7 @@ void createSimulation(unitSimulation * &unitSim)
 			map, new EmptyClusterFactory(), 
 			new MacroNodeFactory(), new EdgeFactory());
 
-	ecmap->setVerbose(true);
+//	ecmap->setVerbose(true);
 	ecmap->setAllowDiagonals(false);
 	ecmap->buildClusters2();
 	ecmap->buildEntrances();
@@ -231,8 +231,13 @@ void createSimulation(unitSimulation * &unitSim)
 
 void gogoGadgetNOGUIScenario(HPAClusterAbstraction* ecmap)
 {
+//	std::cout << "\n diagonals? "<<ecmap->getAllowDiagonals()<<std::endl;
 	ClusterAStar astar;
-	HPAStar2 hpastar(false, false, new ClusterAStarFactory);
+	astar.cardinal = !ecmap->getAllowDiagonals();
+
+	ClusterAStarFactory* caf = new ClusterAStarFactory();
+	caf->setCardinal(!ecmap->getAllowDiagonals());
+	HPAStar2 hpastar(false, false, caf);
 	statCollection stats;
 	double optlen=0;
 	double pslen=0;
@@ -244,6 +249,8 @@ void gogoGadgetNOGUIScenario(HPAClusterAbstraction* ecmap)
 		node* from = ecmap->getNodeFromMap(nextExperiment->getStartX(), nextExperiment->getStartY());
 		node* to = ecmap->getNodeFromMap(nextExperiment->getGoalX(), nextExperiment->getGoalY());
 		
+//		std::cout << "ASTAR!!"<<std::endl;
+//		astar.verbose = true;
 		path* p = astar.getPath(ecmap, from, to);
 		double distanceTravelled = ecmap->distance(p);
 		optlen = distanceTravelled;
@@ -252,8 +259,9 @@ void gogoGadgetNOGUIScenario(HPAClusterAbstraction* ecmap)
 		processStats(&stats, astar.getName());
 		stats.clearAllStats();
 		delete p;
+//		std::cout << "FINASTAR!!"<<std::endl;
 		
-		hpastar.verbose = true;
+//		hpastar.verbose = true;
 		p = hpastar.getPath(ecmap, from, to);
 		distanceTravelled = ecmap->distance(p);
 		pslen = distanceTravelled;

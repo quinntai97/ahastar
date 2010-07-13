@@ -1,6 +1,6 @@
 poster.ps: *.tex 
 	pdflatex poster.tex
-	bibtex poster
+#	bibtex poster
 	pdflatex  poster.tex
 	#dvips -t letter -Ppdf -G0 -o poster.ps poster.dvi
 	#ps2pdf14 -dPDFSETTINGS=/prepress poster.ps

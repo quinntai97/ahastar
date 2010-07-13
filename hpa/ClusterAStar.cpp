@@ -158,6 +158,11 @@ void AbstractClusterAStar::expand(node* current, node* to, heap* openList, std::
 		int neighbourid = e->getFrom()==current->getNum()?e->getTo():e->getFrom();
 		ClusterNode* neighbour = dynamic_cast<ClusterNode*>(g->getNode(neighbourid));
 
+		if(neighbour->getUniqueID() == current->getUniqueID())
+		{
+			std::cout << "break here plox"<<std::endl;
+		}
+
 		assert(neighbour->getUniqueID() != current->getUniqueID());
 
 		

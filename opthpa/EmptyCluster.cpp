@@ -151,7 +151,7 @@ void EmptyCluster::frameCluster(HPAClusterAbstraction* aMap)
 
         // add nodes along bottom border
         y = this->getVOrigin()+this->getHeight()-1;
-        for(x=this->getHOrigin(); x<this->getHOrigin()+this->getWidth(); x++)
+        for(x=this->getHOrigin()+1; x<this->getHOrigin()+this->getWidth(); x++)
         {
 			ClusterNode* n = dynamic_cast<ClusterNode*>(aMap->getNodeFromMap(x,y));
 			assert(n);
@@ -180,7 +180,7 @@ void EmptyCluster::frameCluster(HPAClusterAbstraction* aMap)
         {
 			// add nodes along right border
 			x = this->getHOrigin()+this->getWidth()-1;
-			for(y=this->getVOrigin()+this->getHeight()-1; y>=this->getVOrigin(); y--)
+			for(y=this->getVOrigin()+this->getHeight()-2; y>=this->getVOrigin(); y--)
 			{
 				ClusterNode* n = dynamic_cast<ClusterNode*>(aMap->getNodeFromMap(x,y));
 				assert(n);
@@ -206,7 +206,7 @@ void EmptyCluster::frameCluster(HPAClusterAbstraction* aMap)
 
 			// add nodes along top border
 			y = this->getVOrigin();
-			for(x=this->getHOrigin()+this->getWidth()-1; x>=this->getHOrigin(); x--)
+			for(x=this->getHOrigin()+this->getWidth()-2; x>=this->getHOrigin()+1; x--)
 			{
 				ClusterNode* n = dynamic_cast<ClusterNode*>(aMap->getNodeFromMap(x,y));
 				assert(n);
@@ -287,8 +287,11 @@ void EmptyCluster::addCardinalMacroEdges(HPAClusterAbstraction *aMap)
 	}
 
 	// connect entrances on directly opposite sides
-	addMacroEdgesBetweenTopAndBottomEntrances(aMap);
-	addMacroEdgesBetweenLeftRightEntrances(aMap);
+	if(this->getHeight() > 1 && this->getWidth() > 1)
+	{
+		addMacroEdgesBetweenTopAndBottomEntrances(aMap);
+		addMacroEdgesBetweenLeftRightEntrances(aMap);
+	}
 
 	if(getVerbose())
 		std::cout << macro << " macro edges added for cluster "<<getId()<<std::endl;
@@ -471,6 +474,8 @@ void
 EmptyCluster::addMacroEdgesBetweenLeftRightEntrances(
 		HPAClusterAbstraction* hpamap)
 {
+	if(getVerbose())
+		std::cout << "addMacroEdgesBetweenLeftRightEntrances for cluster "<<this->getClusterId()<<std::endl;
 	// connect entrances along the left of the cluster to entrances along
 	// the right.
 	graph* absg = hpamap->getAbstractGraph(1);
@@ -479,27 +484,31 @@ EmptyCluster::addMacroEdgesBetweenLeftRightEntrances(
 	{
 		int lx = this->getHOrigin();
 		int rx = this->getHOrigin()+this->getWidth()-1;
+
 		int length = findVerticalLength(lx, ly, hpamap);
-		//std::cout << "@ :"<<lx<<", "<<ly<< " found vent of length "<<length;
-		//std::cout << std::endl;
 
 		if(length == 0)
 		{
 			ly++;
 			continue;
 		}
+		if(getVerbose())
+		{
+			std::cout << "@ :"<<lx<<", "<<ly<< " found vent of length "<<length;
+			std::cout << std::endl;
+		}
 
-		int rymin = (ly - (this->getWidth()-1));
+		int rymin = getAllowDiagonals()?(ly - (this->getWidth()-1)):ly;
 		if(rymin >= this->getVOrigin())
 		{
-			//std::cout << "connecting top... lx: "<<lx<<"ly: "<<ly;
-			//std::cout << " rymin: "<<rymin<<" width-1: "<<this->getWidth()-1;
-			//std::cout << " wtf: "<<ly - this->getWidth()-1;
-			//std::cout << std::endl;
+			if(getVerbose())
+				std::cout << "connecting down. rymin: "<<rymin<<std::endl;
 
 			for(int ry = rymin; ry >= this->getVOrigin(); ry--)
 			{
-			//	std::cout << "ry: "<<ry<<" rx: "<<rx<<std::endl;
+				if(getVerbose())
+					std::cout << "ry: "<<ry<<" rx: "<<rx<<std::endl;
+
 				node* absNeighbour = 0;
 				assert(hpamap->getNodeFromMap(rx, ry));
 				absNeighbour = absg->getNode(hpamap->getNodeFromMap(rx, 
@@ -519,7 +528,10 @@ EmptyCluster::addMacroEdgesBetweenLeftRightEntrances(
 			}
 		}
 
-		rymin = (ly + length-1)+(this->getWidth()-1);
+
+		// connect the node at the end of the entrance area to the nearest 
+		// node on the opposite side of the cluster
+		rymin = getAllowDiagonals()?((ly + length-1)+(this->getWidth()-1)):(ly + length-1);
 		if(rymin < (this->getVOrigin()+this->getHeight()))
 		{
 			//std::cout << "connecting bottom..."<<std::endl;
@@ -546,7 +558,6 @@ EmptyCluster::addMacroEdgesBetweenLeftRightEntrances(
 							hpamap->h(absNode, absNeighbour), absg);
 					break;
 				}
-
 			}
 		}
 
@@ -567,8 +578,8 @@ EmptyCluster::addMacroEdgesBetweenTopAndBottomEntrances(
 		int ty = this->getVOrigin();
 		int by = this->getVOrigin()+this->getHeight()-1;
 		int length = findHorizontalLength(tx, ty, hpamap);
-		//std::cout << "@ :"<<tx<<", "<<ty<< " found hent of length "<<length;
-		//std::cout << std::endl;
+//		std::cout << "@ :"<<tx<<", "<<ty<< " found hent of length "<<length;
+//		std::cout << std::endl;
 
 		if(length == 0)
 		{
@@ -576,16 +587,16 @@ EmptyCluster::addMacroEdgesBetweenTopAndBottomEntrances(
 			continue;
 		}
 
-		int bxmin = tx - (this->getHeight()-1);
+		int bxmin = getAllowDiagonals()?(tx - (this->getHeight()-1)):tx;
 		if(bxmin > this->getHOrigin())
 		{
-			//std::cout << "connecting left... tx: "<<tx<<"ty: "<<ty;
-			//std::cout << " bxmin: "<<bxmin<<" height-1: "<<this->getHeight()-1;
-			//std::cout << std::endl;
+//			std::cout << "top... tx: "<<tx<<"ty: "<<ty;
+//			std::cout << " bxmin: "<<bxmin;
+//			std::cout << std::endl;
 
 			for(int bx = bxmin; bx >= this->getHOrigin(); bx--)
 			{
-				//std::cout << "by: "<<by<<" bx: "<<bx;
+//				std::cout << "by: "<<by<<" bx: "<<bx;
 				node* absNeighbour = 0;
 				assert(hpamap->getNodeFromMap(bx, by));
 				absNeighbour = absg->getNode(hpamap->getNodeFromMap(bx, 
@@ -593,7 +604,7 @@ EmptyCluster::addMacroEdgesBetweenTopAndBottomEntrances(
 
 				if(absNeighbour)
 				{
-					//std::cout << " exists!"<<std::endl;
+//					std::cout << " exists!"<<std::endl;
 					assert(hpamap->getNodeFromMap(bx, by)->getLabelL(kParent) 
 							!= -1);
 					assert((int)absNeighbour->getNum() < absg->getNumNodes());
@@ -603,21 +614,21 @@ EmptyCluster::addMacroEdgesBetweenTopAndBottomEntrances(
 							hpamap->h(absNode, absNeighbour), absg);
 					break;
 				}
-				//std::cout << std::endl;
+//				std::cout << std::endl;
 			}
 		}
 
-		bxmin = (tx + length-1)+(this->getHeight()-1);
+		bxmin = getAllowDiagonals()?((tx + length-1)+(this->getHeight()-1)):(tx+length-1);
 		if(bxmin < (this->getHOrigin()+this->getWidth()))
 		{
-			//std::cout << "connecting right... tx: "<<tx<<"ty: "<<ty;
-			//std::cout << " bxmin: "<<bxmin<<" height-1: "<<this->getHeight()-1;
-			//std::cout << std::endl;
+//			std::cout << "top... tx: "<<tx<<"ty: "<<ty;
+//			std::cout << " bxmin: "<<bxmin;
+//			std::cout << std::endl;
 			for(int bx = bxmin; 
 					bx < (this->getHOrigin()+this->getWidth());
 					bx++)
 			{
-				//std::cout << "by: "<<by<<" bx: "<<bx;
+//				std::cout << "by: "<<by<<" bx: "<<bx;
 				node* absNeighbour = 0;
 				assert(hpamap->getNodeFromMap(bx, by));
 				absNeighbour = absg->getNode(hpamap->getNodeFromMap(bx, 
@@ -625,7 +636,7 @@ EmptyCluster::addMacroEdgesBetweenTopAndBottomEntrances(
 
 				if(absNeighbour)
 				{
-					//std::cout << " exists!"<<std::endl;
+//					std::cout << " exists!"<<std::endl;
 					assert(hpamap->getNodeFromMap(bx, by)->getLabelL(kParent) 
 							!= -1);
 					assert((int)absNeighbour->getNum() < absg->getNumNodes());
@@ -635,7 +646,7 @@ EmptyCluster::addMacroEdgesBetweenTopAndBottomEntrances(
 							hpamap->h(absNode, absNeighbour), absg);
 					break;
 				}
-				//std::cout << std::endl;
+//				std::cout << std::endl;
 
 			}
 		}
@@ -702,6 +713,8 @@ bool EmptyCluster::isIncidentWithInterEdge(node* n_, HPAClusterAbstraction* hpam
 void EmptyCluster::addSingleMacroEdge(node* from_, node* to_, double weight, graph* absg)
 {
 	assert(from_ && to_);
+	assert(from_->getUniqueID() != to_->getUniqueID());
+
 	MacroNode* from = dynamic_cast<MacroNode*>(from_);
 	MacroNode* to = dynamic_cast<MacroNode*>(to_);
 
@@ -1199,3 +1212,4 @@ void EmptyCluster::addParent(node *n, HPAClusterAbstraction* hpamap)
 		n->setLabelL(kParent, absn->getNum());
 	}
 }
+
