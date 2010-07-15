@@ -50,9 +50,9 @@ class EmptyClusterAbstraction : public HPAClusterAbstraction
 		int getNumMacro();
 
 	private:
-		void connectSG(node* absNode);
-		void cardinalConnectSG(node* absNode);
-		void connectSGToNeighbour(node* absNode, node* absNeighbour);
+		void connectSG(MacroNode* absNode);
+		void cardinalConnectSG(MacroNode* absNode);
+		void connectSGToNeighbour(MacroNode* absNode, MacroNode* absNeighbour);
 
 		void computeClearance(int** clearance);
 		edge* sgEdge;

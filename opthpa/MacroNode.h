@@ -31,7 +31,18 @@ class MacroNode : public ClusterNode
 		inline double getDistanceToMacroParent() { return pdist; }
 		inline void setDistanceToMacroParent(double _dist) { pdist = _dist; }
 
+		void addPrimaryNeighbourId(int nodeId) { primary.push_back(nodeId); }
+		void addSecondaryNeighbour(int nodeId) { secondary.push_back(nodeId); }
+		void removePrimaryNeighbourId(int nodeId);
+		void removeSecondaryNeighbourId(int nodeId);
+
+		std::vector<int>* getPrimaryNeighbourIds() { return &primary; }
+		std::vector<int>* getSecondaryNeighbourIds() { return &secondary; }
+
 	private:
+		std::vector<int> primary;
+		std::vector<int> secondary;
+
 		MacroNode* p;
 		double pdist;
 };

@@ -30,6 +30,7 @@
 class graph;
 class HPAClusterAbstraction;
 class Entrance;
+class MacroNode;
 
 class EmptyCluster : public HPACluster
 {
@@ -57,9 +58,9 @@ class EmptyCluster : public HPACluster
 		void extend(HPAClusterAbstraction*, int** clearance);
 
 
-		node* nextNodeInColumn(int x, int y, HPAClusterAbstraction* hpamap,
+		MacroNode* nextNodeInColumn(int x, int y, HPAClusterAbstraction* hpamap,
 				bool leftToRight);
-		node* nextNodeInRow(int x, int y, HPAClusterAbstraction* hpamap,
+		MacroNode* nextNodeInRow(int x, int y, HPAClusterAbstraction* hpamap,
 				bool topToBottom);
 
 		virtual void openGLDraw();
@@ -80,7 +81,8 @@ class EmptyCluster : public HPACluster
 		void initOpenGLCoordinates(HPAClusterAbstraction*);
 		void frameCluster(HPAClusterAbstraction*);
 
-		void addSingleMacroEdge(node* from, node* to, double weight, graph* absg);
+		void addSingleMacroEdge(node* from, node* to, double weight, 
+				graph* absg, bool primaryEdge = false);
 		void addMacroEdges(HPAClusterAbstraction *aMap);
 		void addCardinalMacroEdges(HPAClusterAbstraction *aMap);
 		void addMacroEdgesBetweenLeftRightEntrances(
