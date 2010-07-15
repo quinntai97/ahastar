@@ -8,12 +8,13 @@ contain as many interior nodes as possible:
 \begin{enumerate}
 \item{\label{step1} For each traversable tile $t$, build a maximal size empty square which has
 $t$ as its upper left corner.}
-\item{\label{step2} Form a maximal size rectangle by extending the square, first horizontally then
-vertically such that the resulting room contains no obstacles. }
+\item{\label{step2} Form a rectangle by extending the square,
+either horizontally or vertically, such that the resulting room is of maximum
+size and contains no obstacles. }
 \item{\label{step3} Using a Max-Heap, sort the list of traversable tiles using the number of
 interior nodes in the rectangle of each $t$ as its priority.}
-\item{\label{step4} Take from the heap the tile $t$ with highest priority,
-discarding any tiles which have already been assigned to a room. }
+\item{\label{step4} Take from the heap the tile $t$ with highest priority
+which has not already been assigned to a room. }
 \item{\label{step5} Build a maximal size empty room (as outlined in Steps
 \ref{step1} and \ref{step2}) which has $t$ as its upper-left corner and 
 contains no obstacles or nodes already assigned to another room.}

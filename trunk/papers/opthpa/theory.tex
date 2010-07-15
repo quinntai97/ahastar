@@ -19,7 +19,9 @@ on the placement of the obstacles.}
 \item{Prune all nodes from the interior but not the perimeter of each empty
 room.}
 \item{Add a series of \emph{macro edges} that connect each node on the perimeter of an empty room
-with a node on the directly opposite side of the room.
+with a node on the directly opposite side of the room 
+\footnote{Alternatively, macro edges could be generated on-the-fly during search. 
+This obviates the need to store them explicitly.}.
 Trivial rooms (where the width $w$ or the height $h$ is $\leq 2$) which contain
 no interior nodes are left unmodified.}
 \end{enumerate}
@@ -41,9 +43,9 @@ a macro edge.
 There are two distinct cases to consider.
 Case 1 is when $m$ and $n$ are placed on the same side of the perimeter, or
 on two orthogonal sides. 
-To obtain an optimal path we can simply travel along the perimeter from $s$ to $g$.
+To obtain an optimal path we can simply travel along the perimeter from $m$ to $n$.
 Case 2 is when $m$ and $n$ are placed on opposite sides of the perimeter.
-To obtain an optimal path we can simply follow the macro edge at $s$ 
+To obtain an optimal path we can simply follow the macro edge at $m$ 
 to navigate directly to a node $m'$ located on
 the same side of the perimeter as $n$. Then, go from $m'$ to $n$ along the perimeter.
 \end{proof}
