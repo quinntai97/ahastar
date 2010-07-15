@@ -1,9 +1,9 @@
 \section{Introduction}
-In the context of single-agent path finding A* \cite{hart68} is regarded as 
+In the context of single-agent pathfinding A* \cite{hart68} is regarded as 
 the gold standard search algorithm.
 It is complete, optimal and optimally efficient which makes it very attractive 
 to researchers in the area.
-Many studies exist which have attempted to improve on the performance of A* in pathfinding. 
+Many studies exist which have attempted to improve on the performance of A*.
 The majority focus in one of two directions: reducing the search space through hierarchical 
 decomposition and identifying better heuristics to guide search. 
 In the case of hierarchical decomposition, techniques such as
@@ -18,9 +18,9 @@ Manhattan heuristic usually incurs significant memory overhead
 \cite{sturtevant09,goldberg05,Cazenave:06,bjornsson06}.
 Furthermore it is well known that even heuristics which differ from perfect information 
 by at most a (small) additive constant, can still exhibit poor performance on a range of 
-problems such as AI planning and path finding \cite{helmert08,pohl77}.
+problems such as AI planning and pathfinding \cite{helmert08,pohl77}.
 %Our simple example shown in Figure \ref{fig-emptymap}, which we discuss later,
-%shows a similar behaviour in path finding.
+%shows a similar behaviour in pathfinding.
 \par
 %When compared to a standard pathfinding method, such as A* with a Manhattan heuristic,
 %all techniques outlined so far involve some kind of performance trade-off.
@@ -32,9 +32,10 @@ Our work focuses on eliminating symmetric path segments from 4-connected grid ma
 which allow straight but not diagonal movement. 
 Although less popular than the 8-connected variant, this domain appears regularly in the 
 literature  \cite{yap02,wang08,pochter09} and is often found in the pathfinding systems of modern video games.
-Some recent examples include Square Enix's \emph{Heroes of Mana} (released for the Nintendo DS),
-Astraware's \emph{My Little Tank} (iPhone) and Atari's \emph{Dragon Ball Z: Legacy of Goku} 
-(Gameboy Advance). 
+Some recent examples include Square Enix's \emph{Heroes of Mana} (released in
+2007 for the Nintendo DS),
+Astraware's \emph{My Little Tank} (2008, iPhone) and Atari's \emph{Dragon Ball Z: Legacy of Goku} 
+(2002, Gameboy Advance). 
 \par
 Consider as a motivating example the simple map in Figure \ref{fig-overview}.
 %, which

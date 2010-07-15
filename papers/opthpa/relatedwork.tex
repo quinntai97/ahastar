@@ -12,17 +12,18 @@ One recent result on the problem of eliminating unnecessary path fragments on gr
 \citeauthor{pochter09}~\shortcite{pochter09}.
 They introduce \emph{swamps}, which are areas that don't have to be searched
 because crossing them would not improve the length of paths.
-One important difference from our work is that swamps are shown to be most effective in areas featuring a
-large number of obstacles and less effective on maps featuring wide open areas.
+The identification of swamps is quite different to our empty room decomposition.
+Additionally, swamps are shown to be most effective in areas featuring a large number of obstacles 
+and less effective on maps featuring wide open areas.
 By comparison, our algorithm is most effective when large empty rooms can be identified and less
 effective when this is not the case.
 Thus the two methods are in some sense complementary.
 %Another important difference is that swamps are identified online and thus introduce additional 
 %overhead to a running search.
 %By comparison, our pruning method is offline and has no such overhead.
-Also, keeping track of swamps requires an additional memory overhead.
-By comparison, our method can often reduce the amount of
-memory required to store the map.
+%Also, keeping track of swamps requires an additional memory overhead.
+%By comparison, our method can often reduce the amount of
+%memory required to store the map.
 \par
 Our work also bears some similarity to new heuristic methods aimed at improving the 
 performance of standard A* on grid maps \cite{bjornsson06}.

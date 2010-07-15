@@ -30,12 +30,13 @@ However, since our method is orthogonal to existing search techniques, it could 
 as part of a larger framework involving specialised heuristics or other speedup techniques; 
 for example as described in \cite{botea04,bjornsson05,bjornsson06}. 
 \par
-One main direction for further work is to study breaking path symmetries
-in 8-connected grid maps.
-One approach involving macro edges has already been tried 
-\cite{bolanca09} but we believe a different method, that does not involve
-exploring the interior of empty rooms, could be promising.
-Another direction for future work is to develop decomposition algorithms that identify maximally
-sized empty areas on a given grid map.
-We believe better decompositions would produce bigger rooms and could significantly improve 
-the performance of the current method.
+One direction for further work is to study breaking path symmetries
+in 8-connected grid maps. 
+This domain also exhibits a high degree of path symmetry but the problem is more
+challenging because each tile has a higher branching factor. 
+%%One approach involving macro edges has already been tried 
+%%\cite{bolanca09} but we believe a different method, that does not involve
+%%exploring the interior of empty rooms, could be promising.
+Another direction for future work is to investigate alternative decomposition
+algorithms which produce bigger rooms and improve the performance of the current
+method.
