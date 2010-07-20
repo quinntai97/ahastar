@@ -18,6 +18,7 @@
 #ifndef CLUSTERASTAR_H
 #define CLUSTERASTAR_H
 
+#include <ext/hash_map>
 #include <string>
 #include <map>
 #include "aStar3.h"
@@ -46,6 +47,10 @@ class AbstractClusterAStar : public aStarOld
 		}
 
 		void printPath(path* p); // debugging function
+		virtual void printStats();
+
+		virtual void expand(node* current_, node* goal, edge_iterator begin, unsigned int card, 
+				heap* openList, std::map<int, node*>& closedList, graph* g);
 
 		bool markForVis;	
 		//bool verbose;
@@ -53,12 +58,18 @@ class AbstractClusterAStar : public aStarOld
 	protected:
 		void printNode(std::string msg, node* n, node* goal=0);
 		bool isInCorridor(node* n);
-		virtual void expand(node* current, node* to, heap* openList, std::map<int, node*>& closedList, graph* g);
+
+		virtual void processNeighbour(node* current, edge* e, 
+				node* to,heap* openList, std::map<int, node*>& closedList, graph* g);
+		virtual void closeNode(node* current, std::map<int, node*>& closedList);
+
 		virtual bool evaluate(node* current, node* target, edge* e) = 0; 
 		virtual path *search(graph* g, node *from, node *to);
 		
 		long peakmemory;
 		std::map<int, node*> *corridorNodes;
+		__gnu_cxx::hash_map<int,node*> openmirror;
+		__gnu_cxx::hash_map<int,node*> closedmirror;
 };
 
 class ClusterAStar : public AbstractClusterAStar
@@ -78,11 +89,9 @@ class ClusterAStar : public AbstractClusterAStar
 		bool cardinal;
 
 	protected:
+
 		virtual bool evaluate(node* current, node* target, edge* e=0);
 		bool checkParameters(graphAbstraction* aMap, node* from, node* to);
-		
-
-
 };
 
 #endif

@@ -356,6 +356,9 @@ int HPACluster::findHorizontalEntranceLength(int x, int y, HPAClusterAbstraction
 // look for entrances between diagonally adjacent clusters
 void HPACluster::buildDiagonalEntrances(HPAClusterAbstraction* hpamap)
 {
+	if(getVerbose())
+		std::cout << "buildDiagonalEntrances"<<std::endl;
+
 	int y = this->getVOrigin();
 	int x = this->getHOrigin();
 
@@ -364,9 +367,6 @@ void HPACluster::buildDiagonalEntrances(HPAClusterAbstraction* hpamap)
 	node* endpoint2 = hpamap->getNodeFromMap(x-1, y-1);
 	if(endpoint1 && endpoint2)
 	{
-		if(verbose)
-			std::cout << "adding diagonal transition point at: "
-				" ("<<x<<", "<<y<<") <-> ("<<x-1<<", "<<y-1<<")"<<std::endl;
 		addTransitionPoint(endpoint1, endpoint2, hpamap);
 	}
 
@@ -376,9 +376,6 @@ void HPACluster::buildDiagonalEntrances(HPAClusterAbstraction* hpamap)
 	endpoint2 = hpamap->getNodeFromMap(x+1, y-1);
 	if(endpoint1 && endpoint2)
 	{
-		if(verbose)
-			std::cout << "adding diagonal transition point at: "
-				" ("<<x<<", "<<y<<") <-> ("<<x+1<<", "<<y-1<<")"<<std::endl;
 		addTransitionPoint(endpoint1, endpoint2, hpamap);
 	}
 
@@ -388,9 +385,6 @@ void HPACluster::buildDiagonalEntrances(HPAClusterAbstraction* hpamap)
 	endpoint2 = hpamap->getNodeFromMap(x+1, y+1);
 	if(endpoint1 && endpoint2)
 	{
-		if(verbose)
-			std::cout << "adding diagonal transition point at: "
-				" ("<<x<<", "<<y<<") <-> ("<<x+1<<", "<<y+1<<")"<<std::endl;
 		addTransitionPoint(endpoint1, endpoint2, hpamap);
 	}
 
@@ -400,9 +394,6 @@ void HPACluster::buildDiagonalEntrances(HPAClusterAbstraction* hpamap)
 	endpoint2 = hpamap->getNodeFromMap(x-1, y+1);
 	if(endpoint1 && endpoint2)
 	{
-		if(verbose)
-			std::cout << "adding diagonal transition point at: "
-				" ("<<x<<", "<<y<<") <-> ("<<x-1<<", "<<y+1<<")"<<std::endl;
 		addTransitionPoint(endpoint1, endpoint2, hpamap);
 	}
 }
@@ -461,16 +452,30 @@ void HPACluster::addTransitionPoint(node* from, node* to,
 		}
 	}
 
-	edge* e = hpamap->getEdgeFactory()->newEdge(
-			absfrom->getNum(), absto->getNum(), edgeweight);
-	g->addEdge(e);
-
-	if(getVerbose())
+	edge* e = g->findEdge(absfrom->getNum(), absto->getNum());
+	if(!e)
 	{
-		std::cout << "addTransitionPoint: ";
-		from->Print(std::cout);
-		to->Print(std::cout);
-		std::cout << " cost: "<<edgeweight<<std::endl;
+		edge* e = hpamap->getEdgeFactory()->newEdge(
+				absfrom->getNum(), absto->getNum(), edgeweight);
+		g->addEdge(e);
+
+		if(getVerbose())
+		{
+			std::cout << "addTransitionPoint: ";
+			from->Print(std::cout);
+			to->Print(std::cout);
+			std::cout << " cost: "<<edgeweight<<std::endl;
+		}
+	}
+	else
+	{
+		if(getVerbose())
+		{
+			std::cout << "transition point already exists: : ";
+			from->Print(std::cout);
+			to->Print(std::cout);
+			std::cout << " cost: "<<e->getWeight()<<std::endl;
+		}
 	}
 }
 

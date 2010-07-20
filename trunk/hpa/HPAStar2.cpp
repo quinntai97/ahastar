@@ -53,6 +53,7 @@ path* HPAStar2::getPath(graphAbstraction* aMap, node* _from, node* _to, reservat
 		
 	HPAClusterAbstraction* hpamap = dynamic_cast<HPAClusterAbstraction*>(aMap);
 	assert(hpamap != 0); 		
+	this->setGraphAbstraction(hpamap);
 	ClusterNode* from = dynamic_cast<ClusterNode*>(_from);
 	ClusterNode* to = dynamic_cast<ClusterNode*>(_to);
 					
