@@ -31,6 +31,7 @@ class graph;
 class HPAClusterAbstraction;
 class Entrance;
 class MacroNode;
+class edge;
 
 class EmptyCluster : public HPACluster
 {
@@ -82,7 +83,7 @@ class EmptyCluster : public HPACluster
 		void frameCluster(HPAClusterAbstraction*);
 
 		void addSingleMacroEdge(node* from, node* to, double weight, 
-				graph* absg, bool primaryEdge = false);
+				graph* absg, bool secondaryEdge = false);
 		void addMacroEdges(HPAClusterAbstraction *aMap);
 		void addCardinalMacroEdges(HPAClusterAbstraction *aMap);
 		void addMacroEdgesBetweenLeftRightEntrances(
@@ -102,6 +103,8 @@ class EmptyCluster : public HPACluster
 
 		GLdouble glx, gly, glz;  // OpenGL origin coordinates
 		GLdouble glHeight, glWidth;
+
+		std::vector<edge*> secondaryEdges;
 };
 
 #endif

@@ -19,6 +19,12 @@ class MacroEdge : public edge
 		MacroEdge(unsigned int from, unsigned int to, double weight);
 		MacroEdge(MacroEdge& e);
 		~MacroEdge(); 
+
+		bool isSecondary() { return this->secondary; }
+		void setSecondary(bool secondary_) { this->secondary = secondary_; }
+
+	private:
+		bool secondary;
 };
 
 #endif

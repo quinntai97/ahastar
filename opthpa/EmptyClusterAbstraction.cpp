@@ -308,37 +308,6 @@ EmptyClusterAbstraction::removeStartAndGoalNodesFromAbstractGraph()
 		sgEdge = 0;
 	}
 
-	// remove references to s+g
-	if(this->getStartId() != -1)
-	{
-		MacroNode* start = dynamic_cast<MacroNode*>(
-				absg->getNode(this->getStartId()));
-		std::vector<int>* primary = start->getPrimaryNeighbourIds();	
-		while(primary->size() > 0)
-		{
-			int nId = *(primary->begin());
-			MacroNode* absNeighbour = dynamic_cast<MacroNode*>(
-					absg->getNode(nId));
-			absNeighbour->removePrimaryNeighbourId(start->getNum());
-			start->removePrimaryNeighbourId(absNeighbour->getNum());
-		}
-	}
-
-	if(this->getGoalId() != -1)
-	{
-		MacroNode* goal = dynamic_cast<MacroNode*>(
-				absg->getNode(this->getGoalId()));
-		std::vector<int>* primary = goal->getPrimaryNeighbourIds();	
-		while(primary->size() > 0)
-		{
-			int nId = *(primary->begin());
-			MacroNode* absNeighbour = dynamic_cast<MacroNode*>(
-					absg->getNode(nId));
-			absNeighbour->removePrimaryNeighbourId(goal->getNum());
-			goal->removePrimaryNeighbourId(absNeighbour->getNum());
-		}
-	}
-
 	HPAClusterAbstraction::removeStartAndGoalNodesFromAbstractGraph();	
 }
 
@@ -352,16 +321,19 @@ void EmptyClusterAbstraction::connectSG(MacroNode* absNode)
 	if(getVerbose())
 		std::cout << "inserting node ("<<x<<", "<<y<<") into abstract graph"<<std::endl;
 
+	if(getVerbose())
+		std::cout << "connecting to nodes along the top of the cluster"<<std::endl;
+
 	// connect to nodes along top perimeter of cluster
 	int maxDiagonalSteps = y - nodeCluster->getVOrigin();
 	int minx = (x-maxDiagonalSteps)<nodeCluster->getHOrigin()?nodeCluster->getHOrigin():(x-maxDiagonalSteps);
-	int maxx = (x+maxDiagonalSteps+1)>(nodeCluster->getHOrigin()+nodeCluster->getWidth())?
-		(nodeCluster->getHOrigin()+nodeCluster->getWidth()):(x+maxDiagonalSteps+1);
+	int maxx = (x+maxDiagonalSteps)>(nodeCluster->getHOrigin()+nodeCluster->getWidth()-1)?
+		(nodeCluster->getHOrigin()+nodeCluster->getWidth()-1):(x+maxDiagonalSteps);
 
 	MacroNode* absNeighbour = 0;
 	int ny = nodeCluster->getVOrigin();
-	int nx = minx;
-	for( ; nx < maxx; nx++)
+	int nx = minx+1;
+	for( ; nx <= maxx-1; nx++)
 	{
 		assert(this->getNodeFromMap(nx, ny));
 		absNeighbour = dynamic_cast<MacroNode*>(
@@ -371,33 +343,36 @@ void EmptyClusterAbstraction::connectSG(MacroNode* absNode)
 	}
 
 	// try to connect to nearest entrance along the top border not in the fan of absNode
-	absNeighbour = dynamic_cast<MacroNode*>(
-		absg->getNode(this->getNodeFromMap(minx, ny)->getLabelL(kParent)));
-	if(absNeighbour == 0 || absNeighbour->getNum() == absNode->getNum())
+	if(nodeCluster->getHeight() > 1 && nodeCluster->getWidth() > 1)
 	{
-		absNeighbour = nodeCluster->nextNodeInRow(minx-1, ny, this, false);
+		if(maxDiagonalSteps == 0)
+			absNeighbour = nodeCluster->nextNodeInRow(minx-1, ny, this, false);
+		else
+			absNeighbour = nodeCluster->nextNodeInRow(minx, ny, this, false);
+
+		if(absNeighbour)
+		   	connectSGToNeighbour(absNode, absNeighbour);
+
+		if(maxDiagonalSteps == 0)
+			absNeighbour = nodeCluster->nextNodeInRow(maxx+1, ny, this, true);
+		else
+			absNeighbour = nodeCluster->nextNodeInRow(maxx, ny, this, true);
+
 		if(absNeighbour)
 		   	connectSGToNeighbour(absNode, absNeighbour);
 	}
 
-	absNeighbour = dynamic_cast<MacroNode*>(
-			absg->getNode(this->getNodeFromMap(maxx-1, ny)->getLabelL(kParent)));
-	if(absNeighbour == 0 || absNeighbour->getNum() == absNode->getNum())
-	{
-		absNeighbour = nodeCluster->nextNodeInRow(maxx, ny, this, true);
-		if(absNeighbour)
-		   	connectSGToNeighbour(absNode, absNeighbour);
-	}
-
+	if(getVerbose())
+		std::cout << "connecting to nodes along the bottom of the cluster"<<std::endl;
 	// connect to nodes along the bottom perimeter of cluster
 	maxDiagonalSteps = (nodeCluster->getVOrigin()+nodeCluster->getHeight()-1) - y;
 	minx = (x-maxDiagonalSteps)<nodeCluster->getHOrigin()?nodeCluster->getHOrigin():(x-maxDiagonalSteps);
-	maxx = (x+maxDiagonalSteps+1)>(nodeCluster->getHOrigin()+nodeCluster->getWidth())?
-		(nodeCluster->getHOrigin()+nodeCluster->getWidth()):(x+maxDiagonalSteps+1);
+	maxx = (x+maxDiagonalSteps)>(nodeCluster->getHOrigin()+nodeCluster->getWidth()-1)?
+		(nodeCluster->getHOrigin()+nodeCluster->getWidth()-1):(x+maxDiagonalSteps);
 
-	nx = minx;
+	nx = minx+1;
 	ny = nodeCluster->getVOrigin()+nodeCluster->getHeight()-1;
-	for( ; nx < maxx; nx++)
+	for( ; nx <= maxx-1; nx++)
 	{
 		assert(this->getNodeFromMap(nx, ny));
 		absNeighbour = dynamic_cast<MacroNode*>(
@@ -405,35 +380,39 @@ void EmptyClusterAbstraction::connectSG(MacroNode* absNode)
 		if(absNeighbour && &*absNeighbour != &*absNode)
 			connectSGToNeighbour(absNode, absNeighbour);
 	}
-	
+
 	// try to connect to nearest entrance along the bottom border not in the fan of absNode
-	absNeighbour = dynamic_cast<MacroNode*>(
-			absg->getNode(this->getNodeFromMap(minx, ny)->getLabelL(kParent)));
-	if(absNeighbour == 0 || absNeighbour->getNum() == absNode->getNum())
+	if(nodeCluster->getHeight() > 1 && nodeCluster->getWidth() > 1)
 	{
-		absNeighbour = nodeCluster->nextNodeInRow(minx-1, ny, this, false);
+		if(maxDiagonalSteps == 0)
+			absNeighbour = nodeCluster->nextNodeInRow(minx-1, ny, this, false);
+		else
+			absNeighbour = nodeCluster->nextNodeInRow(minx, ny, this, false);
+
 		if(absNeighbour)
 		   	connectSGToNeighbour(absNode, absNeighbour);
-	}
 
-	absNeighbour = dynamic_cast<MacroNode*>(
-			absg->getNode(this->getNodeFromMap(maxx-1, ny)->getLabelL(kParent)));
-	if(absNeighbour == 0 || absNeighbour->getNum() == absNode->getNum())
-	{
-		absNeighbour = nodeCluster->nextNodeInRow(maxx, ny, this, true);
+		if(maxDiagonalSteps == 0)
+			absNeighbour = nodeCluster->nextNodeInRow(maxx+1, ny, this, true);
+		else
+			absNeighbour = nodeCluster->nextNodeInRow(maxx, ny, this, true);
+
 		if(absNeighbour)
 		   	connectSGToNeighbour(absNode, absNeighbour);
-	}
 
+	}
+	
+	if(getVerbose())
+		std::cout << "connecting to nodes along the left of the cluster"<<std::endl;
 	// connect to nodes along the left perimeter of cluster
 	maxDiagonalSteps = x - nodeCluster->getHOrigin();	
 	int miny = (y-maxDiagonalSteps)<nodeCluster->getVOrigin()?nodeCluster->getVOrigin():(y-maxDiagonalSteps);
-	int maxy = (y+maxDiagonalSteps+1)>(nodeCluster->getVOrigin()+nodeCluster->getHeight())?
-		(nodeCluster->getVOrigin()+nodeCluster->getHeight()):(y+maxDiagonalSteps+1);
+	int maxy = (y+maxDiagonalSteps)>(nodeCluster->getVOrigin()+nodeCluster->getHeight()-1)?
+		(nodeCluster->getVOrigin()+nodeCluster->getHeight()-1):(y+maxDiagonalSteps);
 
 	nx = nodeCluster->getHOrigin();
-	ny = miny;
-	for( ; ny < maxy; ny++)
+	ny = miny+1;
+	for( ; ny <= maxy-1; ny++)
 	{
 		assert(this->getNodeFromMap(nx, ny));
 		absNeighbour = dynamic_cast<MacroNode*>(
@@ -443,33 +422,36 @@ void EmptyClusterAbstraction::connectSG(MacroNode* absNode)
 	}
 
 	// connect to nearest nodes outside fan area (if necessary)
-	absNeighbour = dynamic_cast<MacroNode*>(
-			absg->getNode(this->getNodeFromMap(nx, miny)->getLabelL(kParent)));
-	if(absNeighbour == 0 || absNeighbour->getNum() == absNode->getNum())
+	if(nodeCluster->getHeight() > 1 && nodeCluster->getWidth() > 1)
 	{
-		absNeighbour = nodeCluster->nextNodeInColumn(nx, miny-1, this, false);
+		if(maxDiagonalSteps == 0)
+			absNeighbour = nodeCluster->nextNodeInColumn(nx, miny-1, this, false);
+		else
+			absNeighbour = nodeCluster->nextNodeInColumn(nx, miny, this, false);
+
+		if(absNeighbour)
+		   	connectSGToNeighbour(absNode, absNeighbour);
+
+		if(maxDiagonalSteps == 0)
+			absNeighbour = nodeCluster->nextNodeInColumn(nx, maxy+1, this, true);
+		else
+			absNeighbour = nodeCluster->nextNodeInColumn(nx, maxy, this, true);
+
 		if(absNeighbour)
 		   	connectSGToNeighbour(absNode, absNeighbour);
 	}
 
-	absNeighbour = dynamic_cast<MacroNode*>(
-			absg->getNode(this->getNodeFromMap(nx, maxy-1)->getLabelL(kParent)));
-	if(absNeighbour == 0 || absNeighbour->getNum() == absNode->getNum())
-	{
-		absNeighbour = nodeCluster->nextNodeInColumn(nx, maxy, this, true);
-		if(absNeighbour)
-		   	connectSGToNeighbour(absNode, absNeighbour);
-	}
-
+	if(getVerbose())
+		std::cout << "connecting to nodes along the right of the cluster"<<std::endl;
 	// connect to nodes along the right perimeter of cluster
 	maxDiagonalSteps = (nodeCluster->getHOrigin()+nodeCluster->getWidth()-1) - x;
 	miny = (y-maxDiagonalSteps)<nodeCluster->getVOrigin()?nodeCluster->getVOrigin():(y-maxDiagonalSteps);
-	maxy = (y+maxDiagonalSteps+1)>(nodeCluster->getVOrigin()+nodeCluster->getHeight())?
-		(nodeCluster->getVOrigin()+nodeCluster->getHeight()):(y+maxDiagonalSteps+1);
+	maxy = (y+maxDiagonalSteps)>(nodeCluster->getVOrigin()+nodeCluster->getHeight()-1)?
+		(nodeCluster->getVOrigin()+nodeCluster->getHeight()-1):(y+maxDiagonalSteps);
 
 	nx = nodeCluster->getHOrigin()+nodeCluster->getWidth()-1;
-	ny = miny;
-	for( ; ny < maxy; ny++)
+	ny = miny+1;
+	for( ; ny <= maxy-1; ny++)
 	{
 		assert(this->getNodeFromMap(nx, ny));
 		absNeighbour = dynamic_cast<MacroNode*>(
@@ -479,20 +461,21 @@ void EmptyClusterAbstraction::connectSG(MacroNode* absNode)
 	}
 
 	// connect to nearest nodes outside fan area (if necessary)
-	absNeighbour = dynamic_cast<MacroNode*>(
-			absg->getNode(this->getNodeFromMap(nx, miny)->getLabelL(kParent)));
-	if(absNeighbour == 0 || absNeighbour->getNum() == absNode->getNum())
+	if(nodeCluster->getHeight() > 1 && nodeCluster->getWidth() > 1)
 	{
-		absNeighbour = nodeCluster->nextNodeInColumn(nx, miny-1, this, false);
+		if(maxDiagonalSteps == 0)
+			absNeighbour = nodeCluster->nextNodeInColumn(nx, miny-1, this, false);
+		else
+			absNeighbour = nodeCluster->nextNodeInColumn(nx, miny, this, false);
+
 		if(absNeighbour)
 		   	connectSGToNeighbour(absNode, absNeighbour);
-	}
 
-	absNeighbour = dynamic_cast<MacroNode*>(
-			absg->getNode(this->getNodeFromMap(nx, maxy-1)->getLabelL(kParent)));
-	if(absNeighbour == 0 || absNeighbour->getNum() == absNode->getNum())
-	{
-		absNeighbour = nodeCluster->nextNodeInColumn(nx, maxy, this, true);
+		if(maxDiagonalSteps == 0)
+			absNeighbour = nodeCluster->nextNodeInColumn(nx, maxy+1, this, true);
+		else
+			absNeighbour = nodeCluster->nextNodeInColumn(nx, maxy, this, true);
+
 		if(absNeighbour)
 		   	connectSGToNeighbour(absNode, absNeighbour);
 	}
@@ -590,15 +573,16 @@ void EmptyClusterAbstraction::connectSGToNeighbour(MacroNode* absNode, MacroNode
 	assert(this->getNodeFromMap(absNeighbour->getLabelL(kFirstData), 
 					absNeighbour->getLabelL(kFirstData+1))->getLabelL(kParent) != -1);
 
+	if(absNode->getUniqueID() == absNeighbour->getUniqueID())
+		return;
+
 	graph* absg = this->getAbstractGraph(1);
 
 	assert((int)absNeighbour->getNum() < absg->getNumNodes());
 	assert((int)absNode->getNum() < absg->getNumNodes());
 
-	edge* e = new MacroEdge(absNode->getNum(), absNeighbour->getNum(), h(absNode, absNeighbour));
+	MacroEdge* e = new MacroEdge(absNode->getNum(), absNeighbour->getNum(), h(absNode, absNeighbour));
 	absg->addEdge(e);
-	absNode->addPrimaryNeighbourId(absNeighbour->getNum());
-	absNeighbour->addPrimaryNeighbourId(absNode->getNum());
 	if(getVerbose())
 	{
 		std::cout << "absNeighbour ("<<absNeighbour->getLabelL(kFirstData)<<", "

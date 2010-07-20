@@ -21,30 +21,17 @@ void MacroNode::reset()
 	setMacroParent(0);
 }
 
-void MacroNode::removePrimaryNeighbourId(int nodeId)
+void MacroNode::removeSecondaryEdge(int edgeNum)
 {
-	std::vector<int>::iterator it = primary.begin();
-	while(it != primary.end())
+	std::vector<edge*>::iterator iter = secondaryEdges.begin();
+	while(iter != secondaryEdges.end())
 	{
-		if(*it == nodeId)
+		edge* e = *iter; 
+		if(e->getEdgeNum() == edgeNum)
 		{
-			primary.erase(it);
+			secondaryEdges.erase(iter);
 			break;
 		}
-		it++;
-	}
-}
-
-void MacroNode::removeSecondaryNeighbourId(int nodeId)
-{
-	std::vector<int>::iterator it = secondary.begin();
-	while(it != secondary.end())
-	{
-		if(*it == nodeId)
-		{
-			secondary.erase(it);
-			break;
-		}
-		it++;
+		iter++;
 	}
 }

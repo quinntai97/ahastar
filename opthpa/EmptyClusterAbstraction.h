@@ -24,6 +24,7 @@ class INodeFactory;
 class IEdgeFactory;
 class Map;
 class node;
+class MacroEdge;
 
 class EmptyClusterAbstraction : public HPAClusterAbstraction
 {
@@ -46,6 +47,7 @@ class EmptyClusterAbstraction : public HPAClusterAbstraction
 		virtual void removeStartAndGoalNodesFromAbstractGraph() 
 			throw(std::runtime_error);
 
+
 		//virtual double h(node* from, node* to);
 		int getNumMacro();
 
@@ -55,7 +57,7 @@ class EmptyClusterAbstraction : public HPAClusterAbstraction
 		void connectSGToNeighbour(MacroNode* absNode, MacroNode* absNeighbour);
 
 		void computeClearance(int** clearance);
-		edge* sgEdge;
+		MacroEdge* sgEdge;
 };
 
 #endif
