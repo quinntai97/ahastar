@@ -39,6 +39,8 @@
 #include "HPAStar2.h"
 #include "clusterAbstraction.h"
 #include "MacroNodeFactory.h"
+#include "PerimeterSearch.h"
+#include "PerimeterSearchFactory.h"
 #include "ScenarioManager.h"
 #include "searchUnit.h"
 #include "statCollection.h"
@@ -176,8 +178,8 @@ void createSimulation(unitSimulation * &unitSim)
 			map, new EmptyClusterFactory(), 
 			new MacroNodeFactory(), new EdgeFactory());
 
-//	ecmap->setVerbose(true);
-	ecmap->setAllowDiagonals(false);
+	//ecmap->setVerbose(true);
+	ecmap->setAllowDiagonals(true);
 	ecmap->buildClusters2();
 	ecmap->buildEntrances();
 	//ecmap->setDrawClusters(true);
@@ -235,7 +237,7 @@ void gogoGadgetNOGUIScenario(HPAClusterAbstraction* ecmap)
 	ClusterAStar astar;
 	astar.cardinal = !ecmap->getAllowDiagonals();
 
-	ClusterAStarFactory* caf = new ClusterAStarFactory();
+	PerimeterSearchFactory* caf = new PerimeterSearchFactory();
 	caf->setCardinal(!ecmap->getAllowDiagonals());
 	HPAStar2 hpastar(false, false, caf);
 	statCollection stats;
@@ -499,7 +501,7 @@ void myNewUnitKeyHandler(unitSimulation *unitSim, tKeyboardModifier mod, char)
 	switch (mod)
 	{
 		case kShiftDown: 
-			astar = new HPAStar2(new ClusterAStarFactory());
+			astar = new HPAStar2(new PerimeterSearchFactory());
 			unitSim->addUnit(u=new searchUnit(x2, y2, targ, astar)); 
 			u->setColor(0.3,0.7,0.3);
 			targ->setColor(0.3,0.7,0.3);
@@ -560,7 +562,7 @@ void runNextExperiment(unitSimulation *unitSim)
 	unit* nextTarget = new unit(nextExperiment->getGoalX(), nextExperiment->getGoalY());
 	if(runAStar)
 	{
-		HPAStar2* hpastar = new HPAStar2(new ClusterAStarFactory());
+		HPAStar2* hpastar = new HPAStar2(new PerimeterSearchFactory());
 		nextUnit = new searchUnit(nextExperiment->getStartX(), nextExperiment->getStartY(), nextTarget, hpastar); 
 		nextUnit->setColor(0.1,0.1,0.5);
 		nextTarget->setColor(0.1,0.1,0.5);

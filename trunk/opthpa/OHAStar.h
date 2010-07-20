@@ -44,7 +44,8 @@ class OHAStar : public ClusterAStar
 		virtual path *getPath(graphAbstraction *aMap, node *from, node *to, reservationProvider *rp = 0);
 
 	protected:
-		virtual void expand(node* current, node* to, heap* openList, std::map<int, node*>& closedList, graph* g);
+		virtual void expand(node* current, node* to, edge_iterator iter, unsigned int card, 
+				heap* openList, std::map<int, node*>& closedList, graph* g);
 		virtual void expandMacro(node* current, node* to, heap* openList, std::map<int, node*>& closedList, graph* g);
 //		virtual bool evaluate(node* current, node* target, edge* e);
 		virtual void relaxEdge(heap *nodeHeap, graph *g, edge *e, int source, 

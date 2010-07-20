@@ -391,9 +391,10 @@ node* OHAStar::closestNeighbour(node* from, node* to)
 
 // expand all nodes along the perimeter of the current rectangle
 void 
-OHAStar::expand(node* current_, node* goal_, heap* openList, std::map<int, node*>& closedList, graph* g)
+OHAStar::expand(node* current_, node* goal_, edge_iterator iter, unsigned int card, 
+		heap* openList, std::map<int, node*>& closedList, graph* g)
 {
-	AbstractClusterAStar::expand(current_, goal_, openList, closedList, g);
+	AbstractClusterAStar::expand(current_, goal_, iter, card, openList, closedList, g);
 	expandMacro(current_, goal_, openList, closedList, g);
 }
 
