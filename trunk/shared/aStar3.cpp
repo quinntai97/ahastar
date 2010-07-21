@@ -54,6 +54,7 @@ path *aStarOld::getPath(graphAbstraction *aMap, node *from, node *to, reservatio
 	nodesExpanded = 0;
 	nodesTouched = 0;
 	searchTime = 0;
+	nodesGenerated = 0;
 	
 	if ((from == 0) || (to == 0) || (!aMap->pathable(from, to)) || (from == to))
 		return 0;
@@ -97,7 +98,6 @@ path *aStarOld::getPath(graphAbstraction *aMap, node *from, node *to, reservatio
 			// if it's on the open list, we can still update the weight
 			if (openList->isIn(nextChild))
 			{
-				//nodesExpanded++;
 				relaxEdge(openList, g, e, n->getNum(), which, to);
 			}
 			else if (rp && (from->getLabelL(kAbstractionLevel)==0) && (nextChild != to) &&
@@ -118,8 +118,8 @@ path *aStarOld::getPath(graphAbstraction *aMap, node *from, node *to, reservatio
 				openList->add(nextChild);
 				if (verbose)
 					printf("Adding neighbor/child %d\n", which);
-				//nodesExpanded++;
 				relaxEdge(openList, g, e, n->getNum(), which, to);
+				nodesGenerated++;
 			}
 		}
 		

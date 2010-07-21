@@ -91,6 +91,7 @@ path* ClusterAStar::getPath(graphAbstraction *aMap, node* from, node* to, reserv
 		nodesTouched=0;
 		peakmemory = 0;
 		searchTime =0;
+		nodesGenerated = 0;
 		return NULL;
 	}
 	this->setGraphAbstraction(aMap);
@@ -101,12 +102,11 @@ path* ClusterAStar::getPath(graphAbstraction *aMap, node* from, node* to, reserv
 
 path* AbstractClusterAStar::search(graph* g, node* from, node* goal)
 {
-	openmirror.clear();
-	closedmirror.clear();
 	nodesExpanded=0;
 	nodesTouched=0;
 	peakmemory = 0;
 	searchTime =0;
+	nodesGenerated=0;
 
 	// label start node cost 0 
 	from->setLabelF(kTemporaryLabel, h(from, goal));
@@ -199,8 +199,6 @@ void AbstractClusterAStar::closeNode(node* current,
 		std::cout << " f: "<<current->getLabelF(kTemporaryLabel) <<std::endl;
 	}
 	closedList[current->getUniqueID()] = current;	
-//	closedmirror[current->getUniqueID()] = current;	
-//	openmirror.erase(current->getUniqueID());
 
 }
 
@@ -211,6 +209,7 @@ void AbstractClusterAStar::processNeighbour(node* current, edge* e,
 	ClusterNode* neighbour = dynamic_cast<ClusterNode*>(
 			g->getNode(neighbourid));
 	assert(neighbour->getUniqueID() != current->getUniqueID());
+	nodesTouched++;
 	
 	if(closedList.find(neighbour->getUniqueID()) == closedList.end()) 
 	{
@@ -227,7 +226,6 @@ void AbstractClusterAStar::processNeighbour(node* current, edge* e,
 				}
 
 				relaxEdge(openList, g, e, current->getNum(), neighbourid, to); 
-				nodesTouched++;
 			}
 			else
 			{
@@ -249,7 +247,7 @@ void AbstractClusterAStar::processNeighbour(node* current, edge* e,
 				neighbour->reset();  // reset any marked edges 
 				openList->add(neighbour);
 				relaxEdge(openList, g, e, current->getNum(), neighbourid, to); 
-				nodesTouched++;
+				nodesGenerated++;
 			}
 			else
 			{

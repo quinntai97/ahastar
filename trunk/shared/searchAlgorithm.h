@@ -51,6 +51,7 @@ public:
 	//protected:
 	long nodesExpanded;
 	long nodesTouched;
+	long nodesGenerated;
 	double searchTime;
 
 	int verbose;
