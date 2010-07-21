@@ -104,11 +104,9 @@ ylim=c(0,15))
 lines(abf_trend_bg$astar ~ abf_trend_bg$dist, type="l", lty=2)
 legend("topright", c("Perimeter Search", "A*"), lty=c(1, 2))
 
-
 plot(abf_trend_rooms$ps ~ abf_trend_rooms$dist, type="l", lty=1, 
 main="Rooms: Avg. Branching Factor (8C PR BFR)", xlab="Path Length", ylab="Avg. Branching Factor", ylim=c(0,15))
 lines(abf_trend_rooms$astar ~ abf_trend_rooms$dist, type="l", lty=2)
 legend("topright", c("Perimeter Search", "A*"), lty=c(1, 2))
 
 dev.off()
-
