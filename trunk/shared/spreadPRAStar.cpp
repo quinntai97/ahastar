@@ -145,7 +145,7 @@ path *spreadPRAStar::buildNextAbstractPath(graphAbstraction *_aMap, path *lastPt
 	fromChain.pop_back();
 	
 	if (verbose)
-		printf("Expanded %d nodes before doing level %d\n", nodesExpanded, (int)from->getLabelL(kAbstractionLevel));		
+		printf("Expanded %ld nodes before doing level %d\n", nodesExpanded, (int)from->getLabelL(kAbstractionLevel));		
 	
 	if (verbose)
 		printf("Building path from %d to %d (%ld/%ld)\n",

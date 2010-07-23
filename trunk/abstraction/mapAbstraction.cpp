@@ -320,10 +320,10 @@ graph *getMapGraph(Map *m)
 	NodeFactory nf;
 	EdgeFactory ef;
 	
-	return getMapGraph(m, &nf, &ef);
+	return getMapGraph(m, &nf, &ef, true);
 }
 
-graph* getMapGraph(Map* m, INodeFactory* nf, IEdgeFactory* ef)
+graph* getMapGraph(Map* m, INodeFactory* nf, IEdgeFactory* ef, bool allowDiagonals)
 {
 	// printf("Getting graph representation of world\n");
 	char name[32];
@@ -394,7 +394,7 @@ graph* getMapGraph(Map* m, INodeFactory* nf, IEdgeFactory* ef)
 		for (int x = 0; x < m->getMapWidth(); x++)
 		{
 			//cout << "Trying (x, y) = (" << x << ", " << y << ")" << endl;
-			addMapEdges(m, g, ef, x, y);
+			addMapEdges(m, g, ef, x, y, allowDiagonals);
 			//			if (!g->verifyGraph())
 			//			{
 			//				cerr << "Broken at (x, y) = (" << x << ", " << y << ")" << endl;
@@ -440,7 +440,7 @@ graph* getMapGraph(Map* m, INodeFactory* nf, IEdgeFactory* ef)
 static const int gEdgeProb = 100;
 static const int gStraightEdgeProb = 100;
 
-void addMapEdges(Map *m, graph *g, IEdgeFactory* ef, int x, int y)
+void addMapEdges(Map *m, graph *g, IEdgeFactory* ef, int x, int y, bool allowDiagonals)
 {
 	// check 4 surrounding edges
 	// when we get two of them, we add the corresponding diagonal edge(?)...not yet
@@ -523,6 +523,10 @@ void addMapEdges(Map *m, graph *g, IEdgeFactory* ef, int x, int y)
 		if (e)
 			e->setLabelL(kEdgeCapacity, 1);
 	}
+
+	if(allowDiagonals == false)
+		return;
+
 	e = 0;
 	// diagonal UpperLeft edge, always node 1...
 	// (1) we can cross each of the boundaries between tiles
