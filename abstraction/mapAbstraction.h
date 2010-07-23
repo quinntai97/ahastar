@@ -74,8 +74,8 @@ private:
 	unsigned long levelDraw;
 };
 
-graph* getMapGraph(Map* m, INodeFactory* nf, IEdgeFactory* ef);
+graph* getMapGraph(Map* m, INodeFactory* nf, IEdgeFactory* ef, bool allowDiagonals);
 graph *getMapGraph(Map *m);
-void addMapEdges(Map *m, graph *g, IEdgeFactory* ef, int x, int y);
+void addMapEdges(Map *m, graph *g, IEdgeFactory* ef, int x, int y, bool allowDiagonals);
 
 #endif

@@ -26,9 +26,10 @@ const unsigned int DEFAULTCLUSTERSIZE = 10;
 
 // TODO: throw an exception if anything of the parameter pointers are NULL.
 HPAClusterAbstraction::HPAClusterAbstraction(Map* m, IHPAClusterFactory* _cf, 
-	INodeFactory* _nf, IEdgeFactory* _ef) 
+	INodeFactory* _nf, IEdgeFactory* _ef, bool allowDiagonals_) 
 	throw(std::invalid_argument)
-	: mapAbstraction(m), cf(_cf), nf(_nf), ef(_ef), clustersize(DEFAULTCLUSTERSIZE) 
+	: mapAbstraction(m), cf(_cf), nf(_nf), ef(_ef), allowDiagonals(allowDiagonals_), 
+      clustersize(DEFAULTCLUSTERSIZE) 
 {	
 	
 	node* n = nf->newNode("test");
@@ -40,7 +41,7 @@ HPAClusterAbstraction::HPAClusterAbstraction(Map* m, IHPAClusterFactory* _cf,
 	}
 	delete n;
 		
-	abstractions.push_back(getMapGraph(this->getMap(), nf, ef)); 
+	abstractions.push_back(getMapGraph(this->getMap(), nf, ef, allowDiagonals)); 
 	abstractions.push_back(new graph());	
 	startid = goalid = -1;
 	drawClusters=true;
@@ -48,7 +49,6 @@ HPAClusterAbstraction::HPAClusterAbstraction(Map* m, IHPAClusterFactory* _cf,
 	nodesExpanded = nodesTouched = peakMemory = 0;
 	searchTime = 0;
 	verbose = false;
-	allowDiagonals = false;
 }
 
 HPAClusterAbstraction::~HPAClusterAbstraction()
@@ -441,3 +441,27 @@ void HPAClusterAbstraction::verifyClusters()
 		cluster = clusterIterNext(iter);
 	}
 }
+
+//// turn a standard grid map into a 4-connected grid map
+//void HPAClusterAbstraction::removeDiagonalEdges()
+//{
+//	std::vector<edge*> toRemove;
+//	graph* g = this->getAbstractGraph(0);
+//	edge_iterator iter = g->getEdgeIter();
+//	edge* e = g->edgeIterNext(iter);
+//	while(e)
+//	{
+//		if(e->getWeight() > 1)
+//			toRemove.push_back(e);
+//		e = g->edgeIterNext(iter);
+//	}
+//
+//	for(unsigned int i=0; i < toRemove.size(); i++)
+//		g->removeEdge(toRemove.at(i));
+//}
+//
+//// turn a 4-connected grid map into an 8-connected grid map
+//void HPAClusterAbstraction::addDiagonalEdges()
+//{
+//
+//}

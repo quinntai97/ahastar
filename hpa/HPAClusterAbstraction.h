@@ -37,7 +37,7 @@ class HPAClusterAbstraction : public mapAbstraction
 
 	public:
 		HPAClusterAbstraction(Map* m, IHPAClusterFactory* cf, INodeFactory* nf, 
-				IEdgeFactory* ef) 
+				IEdgeFactory* ef, bool allowDiagonals=true) 
 			throw(std::invalid_argument);
 		virtual ~HPAClusterAbstraction();
 		
@@ -98,7 +98,7 @@ class HPAClusterAbstraction : public mapAbstraction
 		inline bool getVerbose() { return verbose; }
 		inline void setVerbose(bool _v) { verbose = _v; }
 
-		inline void setAllowDiagonals(bool value) { allowDiagonals = value; }
+//		inline void setAllowDiagonals(bool value) { allowDiagonals = value; }
 		inline bool getAllowDiagonals() { return allowDiagonals; }
 
 		void print(std::ostream& out);

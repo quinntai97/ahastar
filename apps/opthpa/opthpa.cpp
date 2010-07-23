@@ -56,8 +56,8 @@ int expnum=0;
 bool runAStar=false;
 bool scenario=false;
 bool hog_gui=true;
-bool highquality=true;
-int CLUSTERSIZE=10;
+bool verbose = false;
+bool allowDiagonals = true;
 
 /**
  * This function is called each time a unitSimulation is deallocated to
@@ -174,14 +174,11 @@ void createSimulation(unitSimulation * &unitSim)
 	Map* map = new Map(gDefaultMap);
 	//map->scale(100, 100);
 
-	bool allowDiagonals = false;
-
 	EmptyClusterAbstraction* ecmap = new EmptyClusterAbstraction(
 			map, new EmptyClusterFactory(), 
 			new MacroNodeFactory(), new EdgeFactory(), allowDiagonals);
 
-	//ecmap->setVerbose(true);
-//	ecmap->setAllowDiagonals(true);
+	ecmap->setVerbose(verbose);
 	ecmap->buildClusters2();
 	ecmap->buildEntrances();
 	//ecmap->setDrawClusters(true);
@@ -255,7 +252,7 @@ void gogoGadgetNOGUIScenario(HPAClusterAbstraction* ecmap)
 		node* to = ecmap->getNodeFromMap(nextExperiment->getGoalX(), nextExperiment->getGoalY());
 		
 //		std::cout << "ASTAR!!"<<std::endl;
-//		astar.verbose = true;
+		astar.verbose = verbose;
 		path* p = astar.getPath(ecmap, from, to);
 		double distanceTravelled = ecmap->distance(p);
 		optlen = distanceTravelled;
@@ -266,7 +263,7 @@ void gogoGadgetNOGUIScenario(HPAClusterAbstraction* ecmap)
 		delete p;
 //		std::cout << "FINASTAR!!"<<std::endl;
 		
-//		hpastar.verbose = true;
+		hpastar.verbose = verbose;
 		p = hpastar.getPath(ecmap, from, to);
 		distanceTravelled = ecmap->distance(p);
 		pslen = distanceTravelled;
@@ -344,13 +341,70 @@ void initializeHandlers()
 	installKeyboardHandler(myNewUnitKeyHandler, "Add simple Unit", "Deploys a right-hand-rule unit", kControlDown, 1);
 
 	installCommandLineHandler(myCLHandler, "-map", "-map filename", "Selects the default map to be loaded.");
-	installCommandLineHandler(myScenarioGeneratorCLHandler, "-genscenarios", "-genscenarios [.map filename] [number of scenarios] [clearance]", "Generates a scenario; a set of path problems on a given map");
-	installCommandLineHandler(myExecuteScenarioCLHandler, "-scenario", "-scenario filename", "Execute all experiments in a given .scenario file");
-	installCommandLineHandler(myGUICLHandler, "-gui", "-gui enable/disable", "Run the app without a pretty interface (used in conjunction with -scenario). Defaults to enable if not specified or if a non-valid argument is given ");	
-	installCommandLineHandler(myClustersizeCLHandler, "-clustersize", "-clustersize [num]", "Size of clusters to split up map into. Larger clusters are faster to create but less accurate. Default = 10.");		
+	installCommandLineHandler(myScenarioGeneratorCLHandler, "-genscenarios", 
+			"-genscenarios [.map filename] [number of scenarios]", 
+			"Generates a scenario; a set of path problems on a given map");
+	installCommandLineHandler(myExecuteScenarioCLHandler, "-scenario", "-scenario filename", 
+			"Execute all experiments in a given .scenario file");
+	installCommandLineHandler(myGUICLHandler, "-gui", "-gui enable/disable", 
+			"Run the app without a pretty interface (used in conjunction with -scenario). "
+			"Defaults to enable if not specified or if a non-valid argument is given ");	
+	installCommandLineHandler(myVerboseCLHandler, "-v", "-v enable/disable", 
+			"Turn on verbose (debugging) mode.");
+	installCommandLineHandler(myAllowDiagonalsCLHandler, "-diagonals", "-diagonals enable/disable", 
+			"Allow (or disallow) diagonal moves during search. Default = enabled");
 	
 	installMouseClickHandler(myClickHandler);
 }
+
+int myVerboseCLHandler(char* argument[], int maxNumArgs)
+{
+	if(maxNumArgs != 1)
+	{
+		std::cout << "-v invoked with incorrect parameters"<<std::endl;
+		printCommandLineArguments();
+		exit(-1);
+	}
+
+	std::string value(argument[1]);
+	if(strcmp(argument[1], "disable") == 0)
+		verbose=false;
+	else if(strcmp(argument[1], "enable") == 0)
+		verbose=true;
+	else
+	{
+		std::cout << "-v invoked with incorrect parameters"<<std::endl;
+		printCommandLineArguments();
+		exit(-1);
+	}
+
+	return 2;
+}
+
+int myAllowDiagonalsCLHandler(char* argument[], int maxNumArgs)
+{
+	if(maxNumArgs != 1)
+	{
+		std::cout << "-v invoked with incorrect parameters"<<std::endl;
+		printCommandLineArguments();
+		exit(-1);
+	}
+
+	std::string value(argument[1]);
+	if(strcmp(argument[1], "disable") == 0)
+		allowDiagonals=false;
+	else if(strcmp(argument[1], "enable") == 0)
+		allowDiagonals=true;
+	else
+	{
+		std::cout << "-diagonals invoked with incorrect parameters"<<std::endl;
+		printCommandLineArguments();
+		exit(-1);
+	}
+
+	return 2;
+}
+
 
 int myCLHandler(char *argument[], int maxNumArgs)
 {
@@ -362,7 +416,7 @@ int myCLHandler(char *argument[], int maxNumArgs)
 
 int myScenarioGeneratorCLHandler(char *argument[], int maxNumArgs)
 {
-	if (maxNumArgs < 3)
+	if (maxNumArgs < 2)
 	{
 		std::cout << "-genscenarios invoked with insufficient parameters"<<std::endl;
 		printCommandLineArguments();
@@ -376,7 +430,6 @@ int myScenarioGeneratorCLHandler(char *argument[], int maxNumArgs)
 	ScenarioManager scenariomgr;
 	int numScenarios = atoi(argument[2]);
 
-	bool allowDiagonals = true;
 	EmptyClusterAbstraction ecmap(new Map(map.c_str()), new EmptyClusterFactory(),
 			new MacroNodeFactory(), new EdgeFactory(), allowDiagonals);
 	
@@ -411,39 +464,6 @@ int myGUICLHandler(char *argument[], int maxNumArgs)
 
 	return 2;
 }
-
-int myQualityCLHandler(char *argument[], int maxNumArgs)
-{
-	std::string value(argument[1]);
-	if(strcmp(argument[1], "high") == 0)
-	{
-		highquality=true;
-		return 2;
-	}
-	else 
-		if(strcmp(argument[1], "low") == 0)
-		{
-			highquality=false;
-			return 2;
-		}
-		
-	return 0;
-}
-
-int myClustersizeCLHandler(char *argument[], int maxNumArgs)
-{
-	std::string value(argument[1]);
-	int val = atoi(value.c_str());
-	if(val>0)
-	{
-		CLUSTERSIZE=val;
-		return 2;
-	}
-
-	return 0;
-}
-
-
 
 void myDisplayHandler(unitSimulation *unitSim, tKeyboardModifier mod, char key)
 {
@@ -567,6 +587,7 @@ void runNextExperiment(unitSimulation *unitSim)
 	if(runAStar)
 	{
 		HPAStar2* hpastar = new HPAStar2(new PerimeterSearchFactory());
+		hpastar->verbose = verbose;
 		nextUnit = new searchUnit(nextExperiment->getStartX(), nextExperiment->getStartY(), nextTarget, hpastar); 
 		nextUnit->setColor(0.1,0.1,0.5);
 		nextTarget->setColor(0.1,0.1,0.5);
@@ -577,6 +598,7 @@ void runNextExperiment(unitSimulation *unitSim)
 	else
 	{
 		ClusterAStar* astar = new ClusterAStar();
+		astar->verbose = verbose;
 		nextUnit = new searchUnit(nextExperiment->getStartX(), nextExperiment->getStartY(), nextTarget, astar); 
 		nextUnit->setColor(0.5,0.1,0.1);
 		nextTarget->setColor(0.5,0.1,0.1);
