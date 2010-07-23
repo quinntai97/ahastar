@@ -236,8 +236,8 @@ void gogoGadgetNOGUIScenario(HPAClusterAbstraction* ecmap)
 	ClusterAStar astar;
 	astar.cardinal = !ecmap->getAllowDiagonals();
 
-//	PerimeterSearchFactory* caf = new PerimeterSearchFactory();
-	ClusterAStarFactory* caf = new ClusterAStarFactory();
+	PerimeterSearchFactory* caf = new PerimeterSearchFactory();
+//	ClusterAStarFactory* caf = new ClusterAStarFactory();
 	caf->setCardinal(!ecmap->getAllowDiagonals());
 	HPAStar2 hpastar(false, false, caf);
 	statCollection stats;
@@ -359,13 +359,6 @@ void initializeHandlers()
 
 int myVerboseCLHandler(char* argument[], int maxNumArgs)
 {
-	if(maxNumArgs != 1)
-	{
-		std::cout << "-v invoked with incorrect parameters"<<std::endl;
-		printCommandLineArguments();
-		exit(-1);
-	}
-
 	std::string value(argument[1]);
 	if(strcmp(argument[1], "disable") == 0)
 		verbose=false;
@@ -373,7 +366,7 @@ int myVerboseCLHandler(char* argument[], int maxNumArgs)
 		verbose=true;
 	else
 	{
-		std::cout << "-v invoked with incorrect parameters"<<std::endl;
+		std::cout << "\n-v invoked with incorrect parameters"<<std::endl;
 		printCommandLineArguments();
 		exit(-1);
 	}
@@ -383,13 +376,6 @@ int myVerboseCLHandler(char* argument[], int maxNumArgs)
 
 int myAllowDiagonalsCLHandler(char* argument[], int maxNumArgs)
 {
-	if(maxNumArgs != 1)
-	{
-		std::cout << "-v invoked with incorrect parameters"<<std::endl;
-		printCommandLineArguments();
-		exit(-1);
-	}
-
 	std::string value(argument[1]);
 	if(strcmp(argument[1], "disable") == 0)
 		allowDiagonals=false;
@@ -397,7 +383,7 @@ int myAllowDiagonalsCLHandler(char* argument[], int maxNumArgs)
 		allowDiagonals=true;
 	else
 	{
-		std::cout << "-diagonals invoked with incorrect parameters"<<std::endl;
+		std::cout << "\n-diagonals invoked with incorrect parameters"<<std::endl;
 		printCommandLineArguments();
 		exit(-1);
 	}
