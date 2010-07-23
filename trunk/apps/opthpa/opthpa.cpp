@@ -174,12 +174,14 @@ void createSimulation(unitSimulation * &unitSim)
 	Map* map = new Map(gDefaultMap);
 	//map->scale(100, 100);
 
+	bool allowDiagonals = false;
+
 	EmptyClusterAbstraction* ecmap = new EmptyClusterAbstraction(
 			map, new EmptyClusterFactory(), 
-			new MacroNodeFactory(), new EdgeFactory());
+			new MacroNodeFactory(), new EdgeFactory(), allowDiagonals);
 
 	//ecmap->setVerbose(true);
-	ecmap->setAllowDiagonals(true);
+//	ecmap->setAllowDiagonals(true);
 	ecmap->buildClusters2();
 	ecmap->buildEntrances();
 	//ecmap->setDrawClusters(true);
@@ -237,7 +239,8 @@ void gogoGadgetNOGUIScenario(HPAClusterAbstraction* ecmap)
 	ClusterAStar astar;
 	astar.cardinal = !ecmap->getAllowDiagonals();
 
-	PerimeterSearchFactory* caf = new PerimeterSearchFactory();
+//	PerimeterSearchFactory* caf = new PerimeterSearchFactory();
+	ClusterAStarFactory* caf = new ClusterAStarFactory();
 	caf->setCardinal(!ecmap->getAllowDiagonals());
 	HPAStar2 hpastar(false, false, caf);
 	statCollection stats;
@@ -373,8 +376,9 @@ int myScenarioGeneratorCLHandler(char *argument[], int maxNumArgs)
 	ScenarioManager scenariomgr;
 	int numScenarios = atoi(argument[2]);
 
+	bool allowDiagonals = true;
 	EmptyClusterAbstraction ecmap(new Map(map.c_str()), new EmptyClusterFactory(),
-			new MacroNodeFactory(), new EdgeFactory());
+			new MacroNodeFactory(), new EdgeFactory(), allowDiagonals);
 	
 	scenariomgr.generateExperiments(&ecmap, numScenarios);
 	std::cout << "generated: "<<scenariomgr.getNumExperiments()<< " experiments"<<std::endl;
