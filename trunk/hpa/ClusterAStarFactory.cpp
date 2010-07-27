@@ -13,6 +13,5 @@
 AbstractClusterAStar* ClusterAStarFactory::newClusterAStar()
 {
 	ClusterAStar* castar = new ClusterAStar();
-	castar->cardinal = this->cardinal;
 	return castar;
 }

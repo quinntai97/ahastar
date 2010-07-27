@@ -26,34 +26,42 @@ void PerimeterSearch::expand(node* current_, node* goal, edge_iterator begin,
 			current->getNumEdges(), openList, closedList, g);
 
 	
-	// if parent of 'current' is in a different cluster, also process
-	// neighbours connected via secondary edges
-	edge* markedEdge = current->getMarkedEdge();
-	if(markedEdge) // only start node has no marked edge (i.e. parent)
+	// process any neighbours connected via secondary edges
+	if(current->numSecondaryEdges() > 0)
 	{
-		int parentId = markedEdge->getFrom() == current->getNum()?markedEdge->getTo():markedEdge->getFrom();
-		MacroNode* parent = dynamic_cast<MacroNode*>(
-				g->getNode(parentId));
-		assert(parent);
-
-		if(parent->getParentClusterId() != current->getParentClusterId())
+		edge* markedEdge = current->getMarkedEdge();
+		if(markedEdge) // only start node has no marked edge (i.e. parent)
 		{
-			if(verbose)
-				std::cout << "processing secondary edges; ";
+			int parentId = markedEdge->getFrom()==current->getNum()?
+				markedEdge->getTo():markedEdge->getFrom();
+			MacroNode* parent = dynamic_cast<MacroNode*>(
+					g->getNode(parentId));
+			assert(parent);
+
+			if(parent->getParentClusterId() != current->getParentClusterId())
+			{
+				if(verbose)
+					std::cout << "processing secondary edges; ";
+				AbstractClusterAStar::expand(current, goal, current->secondaryEdgeIter(), 
+						current->numSecondaryEdges(), openList, closedList, g);
+				nodesExpanded--; // no double counting
+			}
+		}
+		else if(nodesExpanded == 1) // process secondary edges associated with start node 
+		{
 			AbstractClusterAStar::expand(current, goal, current->secondaryEdgeIter(), 
 					current->numSecondaryEdges(), openList, closedList, g);
 			nodesExpanded--; // no double counting
 		}
+		else
+		{
+			if(verbose)
+				std::cout << "node has secondary edges but no marked edge?!"<<std::endl;
+		}
 	}
-	else if(nodesExpanded == 1)
+	else
 	{
-		AbstractClusterAStar::expand(current, goal, current->secondaryEdgeIter(), 
-				current->numSecondaryEdges(), openList, closedList, g);
-		nodesExpanded--; // no double counting
+		if(verbose)
+			std::cout << "no secondary edges; moving on"<<std::endl;
 	}
-}
-
-bool PerimeterSearch::evaluate(node* current, node* target, edge* e)
-{
-	return ClusterAStar::evaluate(current, target, e);
 }

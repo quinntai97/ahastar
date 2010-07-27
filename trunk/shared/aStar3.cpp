@@ -142,8 +142,9 @@ void aStarOld::relaxEdge(heap *nodeHeap, graph *g, edge *e, int source, int next
 	double weight;
 	node *from = g->getNode(source);
 	node *to = g->getNode(nextNode);
-	
-	weight = from->getLabelF(kTemporaryLabel)-wh*h(from, d)+wh*h(to, d)+e->getWeight(); 
+
+	weight = from->getLabelF(kTemporaryLabel)-
+		wh*h(from, d)+wh*h(to, d)+e->getWeight(); 
 	if (fless(weight, to->getLabelF(kTemporaryLabel)))
 	{
 		if (verbose)

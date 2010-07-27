@@ -33,7 +33,9 @@ class EmptyClusterAbstraction : public HPAClusterAbstraction
 	#endif
 
 	public:
-		EmptyClusterAbstraction(Map* m, IHPAClusterFactory* cf, INodeFactory* nf, IEdgeFactory* ef) 
+		EmptyClusterAbstraction(Map* m, IHPAClusterFactory* cf, INodeFactory* nf, 
+				IEdgeFactory* ef, bool allowDiagonals=true, 
+				bool perimeterReduction=true, bool bfReduction=false)
 			throw(std::invalid_argument);
 		virtual ~EmptyClusterAbstraction();
 
@@ -47,9 +49,14 @@ class EmptyClusterAbstraction : public HPAClusterAbstraction
 		virtual void removeStartAndGoalNodesFromAbstractGraph() 
 			throw(std::runtime_error);
 
+		bool usingPerimeterRedction() { return perimeterReduction; }
+
 
 		//virtual double h(node* from, node* to);
 		int getNumMacro();
+		double getAverageClusterSize();
+		double getAverageNodesPruned();
+		int getNumAbsEdges();
 
 	private:
 		void connectSG(MacroNode* absNode);
@@ -58,6 +65,9 @@ class EmptyClusterAbstraction : public HPAClusterAbstraction
 
 		void computeClearance(int** clearance);
 		MacroEdge* sgEdge;
+
+		bool perimeterReduction;
+		bool bfReduction;
 };
 
 #endif

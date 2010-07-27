@@ -1,7 +1,8 @@
 load("../Rscripts/Rhelpers.Rdata")
 
-gsnames <- c("nodes", "edges", "absnodes", "absedges", "macroedges", "map")
-gsclasses <- c("integer", "integer", "integer", "integer", "integer", "character")
+gsnames <- c("nodes", "edges", "absnodes", "absedges", "avg_room",
+"avg_pruned", "map")
+gsclasses <- c("integer", "integer", "integer", "integer", "double", "double", "character")
 astarnames <- c("id", "name", "ne", "nt", "pm", "st", "opl", "map")
 astarclasses <- c("integer", "character", "integer", "integer", "integer", "double", "double", "character")
 ohanames <- c("exp", "name", "ne", "nt", "pm", "st", "insne", "insnt", "inspm", "insst", "opl", "map")

@@ -16,13 +16,8 @@ class ClusterAStar;
 class ClusterAStarFactory : public IClusterAStarFactory 
 {
 	public:
-		ClusterAStarFactory() { cardinal = false; }
+		ClusterAStarFactory() {}
 		virtual AbstractClusterAStar* newClusterAStar();
-		void setCardinal(bool _cardinal) { this->cardinal = _cardinal; }
-		bool getCardinal() { return cardinal; }
-
-	private:
-		bool cardinal;
 };
 
 #endif
