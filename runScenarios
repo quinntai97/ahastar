@@ -1,5 +1,5 @@
 #!/bin/bash
 for i in $(ls $1*.scenario);
 do
-	   ./bin/opthpa -scenario $i -gui disable 
+	   ./bin/opthpa -scenario $i -nogui $2
 done

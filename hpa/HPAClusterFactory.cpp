@@ -14,14 +14,11 @@
 
 HPAClusterFactory::HPAClusterFactory() 
 {
-	cardinal = false;
 }
 
 HPACluster* HPAClusterFactory::createCluster(int xpos, int ypos)
 {
 	ClusterAStar* castar = new ClusterAStar();
-	if(cardinal)
-		castar->cardinal = true;
 	return createCluster(xpos, ypos, 10, 10, castar);
 }
 

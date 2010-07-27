@@ -12,9 +12,11 @@
 #include "MacroNode.h"
 
 EmptyClusterAbstraction::EmptyClusterAbstraction(Map* m, IHPAClusterFactory* cf, 
-	INodeFactory* nf, IEdgeFactory* ef) 
+	INodeFactory* nf, IEdgeFactory* ef, bool allowDiagonals, bool perimeterReduction_,
+	bool bfReduction_) 
 	throw(std::invalid_argument)
-	: HPAClusterAbstraction(m, cf, nf, ef) 
+	: HPAClusterAbstraction(m, cf, nf, ef, allowDiagonals),
+	  perimeterReduction(perimeterReduction_), bfReduction(bfReduction_)
 {
 	sgEdge = 0;
 }
@@ -71,7 +73,7 @@ void EmptyClusterAbstraction::buildClusters()
 			ClusterNode* cur = dynamic_cast<ClusterNode*>(this->getNodeFromMap(x, y));
 			if(cur && cur->getParentClusterId() == -1)
 			{
-				EmptyCluster* cluster = new EmptyCluster(x, y);	
+				EmptyCluster* cluster = new EmptyCluster(x, y, perimeterReduction, bfReduction);	
 				cluster->setVerbose(getVerbose());
 				cluster->setAllowDiagonals(getAllowDiagonals());
 				addCluster(cluster);
@@ -126,7 +128,7 @@ void EmptyClusterAbstraction::buildClusters2()
 	// set initial priorities of all potential cluster origins
 	// based on # of interior nodes in maximal clearance square of each tile
 	heap clusterheap(30, false);
-	EmptyCluster* cluster = new EmptyCluster(0, 0);
+	EmptyCluster* cluster = new EmptyCluster(0, 0, perimeterReduction, bfReduction);
 	for(int y=0; y<mapheight; y++)
 		for(int x=0; x<mapwidth; x++)
 		{
@@ -160,7 +162,7 @@ void EmptyClusterAbstraction::buildClusters2()
 		if(cur->getParentClusterId() == -1)
 		{
 			if(!cluster)
-				cluster = new EmptyCluster(x, y);
+				cluster = new EmptyCluster(x, y, perimeterReduction, bfReduction);
 			else
 			{
 				cluster->setHOrigin(x);
@@ -619,3 +621,45 @@ EmptyCluster* EmptyClusterAbstraction::getCluster(int cid)
        return dynamic_cast<EmptyCluster*>(HPAClusterAbstraction::getCluster(cid));
 }
 
+double EmptyClusterAbstraction::getAverageClusterSize()
+{
+	double total;
+	cluster_iterator iter = this->getClusterIter();
+	EmptyCluster* cluster = 0;
+	while((cluster = this->clusterIterNext(iter)))
+	{
+		total += cluster->getHeight()*cluster->getWidth();
+	}
+
+	return total/this->getNumClusters();
+}
+
+double EmptyClusterAbstraction::getAverageNodesPruned()
+{
+	double total;
+	cluster_iterator iter = this->getClusterIter();
+	EmptyCluster* cluster = 0;
+	while((cluster = this->clusterIterNext(iter)))
+	{
+		if(cluster->getHeight() > 2 && cluster->getWidth() > 2)
+			total += (cluster->getHeight()-2)*(cluster->getWidth()-2);
+	}
+
+	return total/this->getNumClusters();
+	
+}
+
+int EmptyClusterAbstraction::getNumAbsEdges()
+{
+	graph* g = this->getAbstractGraph(1);
+	int numEdges = g->getNumEdges();
+
+	cluster_iterator iter = this->getClusterIter();
+	EmptyCluster* cluster = 0;
+	while((cluster = this->clusterIterNext(iter)))
+	{
+		numEdges += cluster->getNumSecondaryEdges();
+	}
+	
+	return numEdges;
+}

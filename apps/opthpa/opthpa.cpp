@@ -58,6 +58,8 @@ bool scenario=false;
 bool hog_gui=true;
 bool verbose = false;
 bool allowDiagonals = true;
+bool reducePerimeter = false;
+bool bfReduction = false;
 
 /**
  * This function is called each time a unitSimulation is deallocated to
@@ -176,7 +178,7 @@ void createSimulation(unitSimulation * &unitSim)
 
 	EmptyClusterAbstraction* ecmap = new EmptyClusterAbstraction(
 			map, new EmptyClusterFactory(), 
-			new MacroNodeFactory(), new EdgeFactory(), allowDiagonals);
+			new MacroNodeFactory(), new EdgeFactory(), allowDiagonals, reducePerimeter, bfReduction);
 
 	ecmap->setVerbose(verbose);
 	ecmap->buildClusters2();
@@ -192,18 +194,21 @@ void createSimulation(unitSimulation * &unitSim)
 	FILE *f = fopen(ss.str().c_str(), "a+");
 
 	fprintf(f, "%i,\t%i,\t", g->getNumNodes(), g->getNumEdges());
-	fprintf(f, "%i,\t%i,\t", absg->getNumNodes(), absg->getNumEdges());
-	fprintf(f, "%i,\t", ecmap->getNumMacro());
+	fprintf(f, "%i,\t%i,\t", absg->getNumNodes(), ecmap->getNumAbsEdges()); 
+	fprintf(f, "%f,\t%f,\t", ecmap->getAverageClusterSize(), ecmap->getAverageNodesPruned());
 	fprintf(f, "%s\n", map->getMapName());
 	fflush(f);
 	fclose(f);
 	
-	std::cout << "map: "<<gDefaultMap<<" original map: nodes: "<<g->getNumNodes()<<" edges: "<<g->getNumEdges();
-	std::cout << " absnodes: "<<absg->getNumNodes()<<" absedges: "<<absg->getNumEdges()<<std::endl;
-	edge_iterator ei = absg->getEdgeIter();
+	std::cout << "map: "<<gDefaultMap;
+	std::cout << "\noriginal map: nodes: "<<g->getNumNodes()<<" edges: "<<g->getNumEdges();
+	std::cout << " absnodes: "<<absg->getNumNodes()<<" absedges: "<<ecmap->getNumAbsEdges();
+	std::cout << "\navg_room_size: "<<ecmap->getAverageClusterSize();
+	std::cout <<" avg_nodes_pruned: "<<ecmap->getAverageNodesPruned()<<std::endl;
 	 
 	// debugging
-/*	edge* e = absg->edgeIterNext(ei);
+/*	edge_iterator ei = absg->getEdgeIter();
+	edge* e = absg->edgeIterNext(ei);
 	while(e)
 	{
 		node* f = absg->getNode(e->getFrom());
@@ -234,11 +239,13 @@ void gogoGadgetNOGUIScenario(HPAClusterAbstraction* ecmap)
 {
 //	std::cout << "\n diagonals? "<<ecmap->getAllowDiagonals()<<std::endl;
 	ClusterAStar astar;
-	astar.cardinal = !ecmap->getAllowDiagonals();
 
-	PerimeterSearchFactory* caf = new PerimeterSearchFactory();
-//	ClusterAStarFactory* caf = new ClusterAStarFactory();
-	caf->setCardinal(!ecmap->getAllowDiagonals());
+	IClusterAStarFactory* caf;
+	if(bfReduction)
+		caf = new PerimeterSearchFactory();
+	else
+	 	caf = new ClusterAStarFactory();
+
 	HPAStar2 hpastar(false, false, caf);
 	statCollection stats;
 	double optlen=0;
@@ -346,51 +353,42 @@ void initializeHandlers()
 			"Generates a scenario; a set of path problems on a given map");
 	installCommandLineHandler(myExecuteScenarioCLHandler, "-scenario", "-scenario filename", 
 			"Execute all experiments in a given .scenario file");
-	installCommandLineHandler(myGUICLHandler, "-gui", "-gui enable/disable", 
-			"Run the app without a pretty interface (used in conjunction with -scenario). "
-			"Defaults to enable if not specified or if a non-valid argument is given ");	
-	installCommandLineHandler(myVerboseCLHandler, "-v", "-v enable/disable", 
-			"Turn on verbose (debugging) mode.");
-	installCommandLineHandler(myAllowDiagonalsCLHandler, "-diagonals", "-diagonals enable/disable", 
-			"Allow (or disallow) diagonal moves during search. Default = enabled");
-	
+
+	installCommandLineHandler(myAllPurposeCLHandler, "-nogui", "-nogui", 
+			"Run the app without a pretty interface (default = false). ");
+	installCommandLineHandler(myAllPurposeCLHandler, "-v", "-v", 
+			"Turn on verbose (debugging) mode (default = off)");
+	installCommandLineHandler(myAllPurposeCLHandler, "-cardinal", "-cardinal", 
+			"Disallow diagonal moves during search (default = false)");
+	installCommandLineHandler(myAllPurposeCLHandler, "-pr", "-pr", 
+			"Enable perimeter minimisation (default = false)");
+	installCommandLineHandler(myAllPurposeCLHandler, "-bfr", "-bfr", 
+			"Enable branching factor reduction using secondary edges (default = false)");
+
 	installMouseClickHandler(myClickHandler);
 }
 
-int myVerboseCLHandler(char* argument[], int maxNumArgs)
+int myAllPurposeCLHandler(char* argument[], int maxNumArgs)
 {
-	std::string value(argument[1]);
-	if(strcmp(argument[1], "disable") == 0)
-		verbose=false;
-	else if(strcmp(argument[1], "enable") == 0)
-		verbose=true;
+	if(strcmp(argument[0], "-cardinal") == 0)
+		allowDiagonals = false;
+	else if(strcmp(argument[0], "-nogui") == 0)
+		hog_gui = false;
+	else if(strcmp(argument[0], "-v") == 0)
+		verbose = true;
+	else if(strcmp(argument[0], "-pr") == 0)
+		reducePerimeter = true;
+	else if(strcmp(argument[0], "-bfr") == 0)
+		bfReduction = true;
 	else
 	{
-		std::cout << "\n-v invoked with incorrect parameters"<<std::endl;
+		std::cout << "program invoked with incorrect parameters"<<std::endl;
 		printCommandLineArguments();
 		exit(-1);
 	}
 
-	return 2;
+	return 1;
 }
-
-int myAllowDiagonalsCLHandler(char* argument[], int maxNumArgs)
-{
-	std::string value(argument[1]);
-	if(strcmp(argument[1], "disable") == 0)
-		allowDiagonals=false;
-	else if(strcmp(argument[1], "enable") == 0)
-		allowDiagonals=true;
-	else
-	{
-		std::cout << "\n-diagonals invoked with incorrect parameters"<<std::endl;
-		printCommandLineArguments();
-		exit(-1);
-	}
-
-	return 2;
-}
-
 
 int myCLHandler(char *argument[], int maxNumArgs)
 {
@@ -417,7 +415,7 @@ int myScenarioGeneratorCLHandler(char *argument[], int maxNumArgs)
 	int numScenarios = atoi(argument[2]);
 
 	EmptyClusterAbstraction ecmap(new Map(map.c_str()), new EmptyClusterFactory(),
-			new MacroNodeFactory(), new EdgeFactory(), allowDiagonals);
+			new MacroNodeFactory(), new EdgeFactory(), allowDiagonals, reducePerimeter, bfReduction);
 	
 	scenariomgr.generateExperiments(&ecmap, numScenarios);
 	std::cout << "generated: "<<scenariomgr.getNumExperiments()<< " experiments"<<std::endl;
@@ -433,21 +431,12 @@ int myExecuteScenarioCLHandler(char *argument[], int maxNumArgs)
 	if(maxNumArgs < 1)
 		return 0;
 	
-	std::cout << "\n -scenario call: "<<argument[1];
+	//std::cout << "\n -scenario call: "<<argument[1] << std::endl;
 	std::string infile(argument[1]);
 	scenariomgr.loadScenarioFile(infile.c_str());	
 	strncpy(gDefaultMap, scenariomgr.getNthExperiment(0)->getMapName(), 1024);
 	
 	scenario=true;
-	return 2;
-}
-
-int myGUICLHandler(char *argument[], int maxNumArgs)
-{
-	std::string value(argument[1]);
-	if(strcmp(argument[1], "disable") == 0)
-		hog_gui=false;
-
 	return 2;
 }
 
@@ -508,10 +497,16 @@ void myNewUnitKeyHandler(unitSimulation *unitSim, tKeyboardModifier mod, char)
 	
 	unitSim->addUnit(targ = new unit(x1, y1));
 
+	IClusterAStarFactory* caf;
+	if(bfReduction)
+		caf = new PerimeterSearchFactory();
+	else
+	 	caf = new ClusterAStarFactory();
+
 	switch (mod)
 	{
 		case kShiftDown: 
-			astar = new HPAStar2(new PerimeterSearchFactory());
+			astar = new HPAStar2(caf);
 			unitSim->addUnit(u=new searchUnit(x2, y2, targ, astar)); 
 			u->setColor(0.3,0.7,0.3);
 			targ->setColor(0.3,0.7,0.3);
@@ -572,7 +567,13 @@ void runNextExperiment(unitSimulation *unitSim)
 	unit* nextTarget = new unit(nextExperiment->getGoalX(), nextExperiment->getGoalY());
 	if(runAStar)
 	{
-		HPAStar2* hpastar = new HPAStar2(new PerimeterSearchFactory());
+		IClusterAStarFactory* caf;
+		if(bfReduction)
+			caf = new PerimeterSearchFactory();
+		else
+			caf = new ClusterAStarFactory();
+
+		HPAStar2* hpastar = new HPAStar2(caf);
 		hpastar->verbose = verbose;
 		nextUnit = new searchUnit(nextExperiment->getStartX(), nextExperiment->getStartY(), nextTarget, hpastar); 
 		nextUnit->setColor(0.1,0.1,0.5);

@@ -53,14 +53,18 @@ void AbstractClusterAStar::printPath(path* p)
 
 	graphAbstraction* aMap = this->getGraphAbstraction();
 	node* goal = p->tail()->n;
+	node* last = 0;
+	double g=0;
 	while(p)
 	{
 		node* n = p->n;
 		
-		double f = n->getLabelF(kTemporaryLabel);
-		double g = f - aMap->h(n, goal);
+		double h = aMap->h(n, goal);
+		if(last)
+			g += aMap->h(n, last);
 		std::cout << "id: "<<n->getUniqueID()<<" node @ "<<n->getName();
-		std::cout << " g: "<<g<<" f: "<<f<<std::endl;
+		std::cout << " g: "<<g<<" f: "<<g+h<<std::endl;
+		last = n;
 		p = p->next;
 	}		
 }
@@ -248,6 +252,11 @@ void AbstractClusterAStar::processNeighbour(node* current, edge* e,
 				openList->add(neighbour);
 				relaxEdge(openList, g, e, current->getNum(), neighbourid, to); 
 				nodesGenerated++;
+
+				double gParent = current->getLabelF(kTemporaryLabel) - h(current, to);
+				assert(gParent >= 0);
+				double gNeighbour = neighbour->getLabelF(kTemporaryLabel) - h(neighbour, to);
+				assert((gParent + e->getWeight()) == gNeighbour);
 			}
 			else
 			{
@@ -292,7 +301,6 @@ void AbstractClusterAStar::processNeighbour(node* current, edge* e,
 
 ClusterAStar::ClusterAStar() : AbstractClusterAStar()
 {
-	cardinal = false;
 }
 
 ClusterAStar::~ClusterAStar()
@@ -328,15 +336,6 @@ bool ClusterAStar::evaluate(node* current, node* target, edge* e)
 		return false;
 	}
 
-	if(cardinal && e->getWeight() != (int)e->getWeight())
-	{
-		//if(verbose)
-		//{
-		//	std::cout << " ::evaluate: cardinal set and edge weight not integer!";
-		//}
-		return false;
-	}
-
 	return true;
 }
 
@@ -361,6 +360,32 @@ bool ClusterAStar::checkParameters(graphAbstraction* aMap, node* from, node* to)
 		return false;
 
 	return true;
+	
+}
+
+double ClusterAStar::h(node* a, node* b) 
+	throw(std::invalid_argument)
+{
+//	double answer = 0;
+//		int ax = a->getLabelL(kFirstData);
+//		int ay = a->getLabelL(kFirstData+1);
+//		int bx = b->getLabelL(kFirstData);
+//		int by = b->getLabelL(kFirstData+1);
+//		//std::cout << "from: "<<ax<<","<<ay<<") to: ("<<bx<<","<<by<<") ";
+//
+//		int deltax = ax - bx;
+//		if(deltax < 0) deltax *=-1;
+//
+//		int deltay = ay - by;
+//		if(deltay < 0) deltay *=-1;
+//
+//		//std::cout << "deltax: "<<deltax<<" deltay: "<<deltay<<std::endl;
+//		answer = deltax + deltay;
+//
+//	return answer;
+	graphAbstraction* aMap = this->getGraphAbstraction();
+	return aMap->h(a, b);
+//	return aStarOld::h(a, b);
 }
 
 void AbstractClusterAStar::printNode(string msg, node* n, node* goal)
@@ -398,3 +423,4 @@ void AbstractClusterAStar::printStats()
 {
 	std::cout << "st: "<<this->searchTime<<" ne: "<<this->nodesExpanded<<std::endl;
 }
+

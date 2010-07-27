@@ -86,11 +86,10 @@ class ClusterAStar : public AbstractClusterAStar
 		virtual const char* getName() { return "ClusterAStar"; }
 		virtual void logFinalStats(statCollection *stats);
 
-		bool cardinal;
+		virtual double h(node* a, node* b) throw(std::invalid_argument);
 
 	protected:
-
-		virtual bool evaluate(node* current, node* target, edge* e=0);
+		bool evaluate(node* current, node* target, edge* e=0);
 		bool checkParameters(graphAbstraction* aMap, node* from, node* to);
 };
 

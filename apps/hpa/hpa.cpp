@@ -35,7 +35,6 @@
 #include "EdgeFactory.h"
 #include "ClusterNodeFactory.h"
 #include "ClusterAStar.h"
-#include "CardinalAStar.h"
 #include "ClusterAStarFactory.h"
 #include "HPAStar2.h"
 #include "clusterAbstraction.h"
@@ -173,7 +172,6 @@ void createSimulation(unitSimulation * &unitSim)
 	//map->scale(100, 100);
 
 	HPAClusterFactory* hcf = new HPAClusterFactory();
-	hcf->cardinal = true;
 	HPAClusterAbstraction* ecmap = new HPAClusterAbstraction(
 			map, hcf, 
 			new ClusterNodeFactory(), new EdgeFactory());
@@ -230,9 +228,8 @@ void createSimulation(unitSimulation * &unitSim)
 
 void gogoGadgetNOGUIScenario(HPAClusterAbstraction* ecmap)
 {
-	CardinalAStar astar;
+	ClusterAStar astar;
 	ClusterAStarFactory* caf = new ClusterAStarFactory();
-	caf->setCardinal(true);
 	HPAStar2 hpastar(false, false, caf);
 	statCollection stats;
 	
@@ -470,7 +467,6 @@ void myNewUnitKeyHandler(unitSimulation *unitSim, tKeyboardModifier mod, char)
 		case kShiftDown: 
 		{
 			ClusterAStarFactory* caf = new ClusterAStarFactory();
-			caf->setCardinal(true);
 			astar = new HPAStar2(caf);
 			unitSim->addUnit(u=new searchUnit(x2, y2, targ, astar)); 
 			u->setColor(1,0.98,0.8);
@@ -480,7 +476,7 @@ void myNewUnitKeyHandler(unitSimulation *unitSim, tKeyboardModifier mod, char)
 
 		default:
 		{
-			astar = new CardinalAStar();
+			astar = new ClusterAStar();
 			unitSim->addUnit(u=new searchUnit(x2, y2, targ, astar)); 
 			u->setColor(1,1,0);
 			targ->setColor(1,1,0);
@@ -538,7 +534,6 @@ void runNextExperiment(unitSimulation *unitSim)
 	if(runAStar)
 	{
 		ClusterAStarFactory* caf = new ClusterAStarFactory();
-		caf->setCardinal(true);
 		HPAStar2* hpastar = new HPAStar2(caf);
 		nextUnit = new searchUnit(nextExperiment->getStartX(), nextExperiment->getStartY(), nextTarget, hpastar); 
 		nextUnit->setColor(1,0.98,0.8);
@@ -549,7 +544,7 @@ void runNextExperiment(unitSimulation *unitSim)
 	}
 	else
 	{
-		CardinalAStar* astar = new CardinalAStar();
+		ClusterAStar* astar = new ClusterAStar();
 		nextUnit = new searchUnit(nextExperiment->getStartX(), nextExperiment->getStartY(), nextTarget, astar); 
 		nextUnit->setColor(1,1,0);
 		nextTarget->setColor(1,1,0);

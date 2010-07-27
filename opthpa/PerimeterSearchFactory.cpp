@@ -13,6 +13,5 @@
 AbstractClusterAStar* PerimeterSearchFactory::newClusterAStar()
 {
 	PerimeterSearch* ps = new PerimeterSearch();
-	ps->cardinal = this->getCardinal();
 	return ps;
 }

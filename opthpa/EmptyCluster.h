@@ -40,7 +40,8 @@ class EmptyCluster : public HPACluster
 	#endif
 
 	public:
-		EmptyCluster(const int x, const int y) throw(std::invalid_argument);
+		EmptyCluster(const int x, const int y, bool perimeterReduction=true, bool bfReduction = false)
+			throw(std::invalid_argument);
 		virtual ~EmptyCluster();
 
 		virtual void buildEntrances(HPAClusterAbstraction* hpamap)
@@ -64,6 +65,8 @@ class EmptyCluster : public HPACluster
 		MacroNode* nextNodeInRow(int x, int y, HPAClusterAbstraction* hpamap,
 				bool topToBottom);
 
+		unsigned int getNumSecondaryEdges() { return secondaryEdges.size(); }
+
 		virtual void openGLDraw();
 
 		int macro;
@@ -86,12 +89,8 @@ class EmptyCluster : public HPACluster
 				graph* absg, bool secondaryEdge = false);
 		void addMacroEdges(HPAClusterAbstraction *aMap);
 		void addCardinalMacroEdges(HPAClusterAbstraction *aMap);
-		void addMacroEdgesBetweenLeftRightEntrances(
-				HPAClusterAbstraction* hpamap);
 		void addDiagonalMacroEdges(HPAClusterAbstraction* hpamap);
 		void addDiagonalFanMacroEdges(HPAClusterAbstraction* hpamap);
-		void addMacroEdgesBetweenTopAndBottomEntrances(
-				HPAClusterAbstraction* hpamap);
 
 		bool canExtendClearanceSquare(HPAClusterAbstraction* hpamap);
 		bool canExtendHorizontally(HPAClusterAbstraction* hpamap); 
@@ -105,6 +104,9 @@ class EmptyCluster : public HPACluster
 		GLdouble glHeight, glWidth;
 
 		std::vector<edge*> secondaryEdges;
+
+		bool perimeterReduction;
+		bool bfReduction;
 };
 
 #endif

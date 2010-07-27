@@ -12,8 +12,6 @@ class PerimeterSearch : public ClusterAStar
 	protected:
 		virtual void expand(node* current_, node* goal, edge_iterator begin, unsigned int card, 
 				heap* openList, std::map<int, node*>& closedList, graph* g);
-
-		virtual bool evaluate(node* current, node* target, edge* e);
 };
 
 #endif

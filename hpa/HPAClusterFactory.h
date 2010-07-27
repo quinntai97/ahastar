@@ -19,8 +19,6 @@ class HPAClusterFactory : public IHPAClusterFactory
 		HPAClusterFactory();
 		virtual HPACluster* createCluster(int xpos, int ypos);
 		virtual HPACluster* createCluster(int xpos, int ypos, int width, int height, AbstractClusterAStar* castar);	
-
-		bool cardinal;
 };
 
 #endif
