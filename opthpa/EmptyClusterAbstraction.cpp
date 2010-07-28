@@ -641,8 +641,9 @@ double EmptyClusterAbstraction::getAverageNodesPruned()
 	EmptyCluster* cluster = 0;
 	while((cluster = this->clusterIterNext(iter)))
 	{
-		if(cluster->getHeight() > 2 && cluster->getWidth() > 2)
-			total += (cluster->getHeight()-2)*(cluster->getWidth()-2);
+		int all = cluster->getHeight()*cluster->getWidth();
+		int nparents = cluster->getNumParents();
+		total += all - nparents;
 	}
 
 	return total/this->getNumClusters();
