@@ -518,11 +518,47 @@ EmptyCluster::addDiagonalFanMacroEdges(HPAClusterAbstraction* aMap)
 		// check if nodes exist at fan edges; if not, extend the fan area until we hit something
 		second = nextNodeInRow(minx, sy, aMap, false);
 		if(second)
-			addSingleMacroEdge(first, second, aMap->h(first, second), absg);
+			addSingleMacroEdge(first, second, aMap->h(first, second), absg, true);
 
 		second = nextNodeInRow(maxx, sy, aMap, true);
 		if(second)
-			addSingleMacroEdge(first, second, aMap->h(first, second), absg);
+			addSingleMacroEdge(first, second, aMap->h(first, second), absg, true);
+	}
+
+	// when using perimeter reduction we also need to connect bottom to top
+	// in this case we only try to connect neighbours at the edge of the fan
+	if(getVerbose())
+	{
+		std::cout << "adding fan edges between bottom and top"<<std::endl;
+		std::cout << "max diagonal steps: "<<max<<std::endl;
+	}
+	for(int fx=this->getHOrigin(); 
+			fx<this->getHOrigin()+this->getWidth(); 
+			fx++)
+	{
+		int fy = this->getVOrigin()+this->getHeight()-1;
+		node* first = absg->getNode(
+				aMap->getNodeFromMap(fx, fy)->getLabelL(kParent));
+
+		if(!first) continue;
+
+		// nodes in the fan are in the range [minx, maxx] 
+		int minx = (fx-max)<this->getHOrigin()?
+			(this->getHOrigin()):(fx-max); 
+		int maxx = (fx+max)>(this->getHOrigin()+this->getWidth()-1)?
+			(this->getHOrigin()+this->getWidth()-1):(fx+max);
+
+		int sy = this->getVOrigin();
+		node* second = 0;
+		
+		// check if nodes exist at fan edges; if not, extend the fan area until we hit something
+		second = nextNodeInRow(minx, sy, aMap, false);
+		if(second)
+			addSingleMacroEdge(first, second, aMap->h(first, second), absg, true);
+
+		second = nextNodeInRow(maxx, sy, aMap, true);
+		if(second)
+			addSingleMacroEdge(first, second, aMap->h(first, second), absg, true);
 	}
 
 	if(getVerbose())
@@ -562,11 +598,45 @@ EmptyCluster::addDiagonalFanMacroEdges(HPAClusterAbstraction* aMap)
 		// check if nodes exist at fan edges; if not, extend the fan area until we hit something
 		second = nextNodeInColumn(sx, miny, aMap, false);
 		if(second)
-			addSingleMacroEdge(first, second, aMap->h(first, second), absg);
+			addSingleMacroEdge(first, second, aMap->h(first, second), absg, true);
 
 		second = nextNodeInColumn(sx, maxy, aMap, true);
 		if(second)
-			addSingleMacroEdge(first, second, aMap->h(first, second), absg);
+			addSingleMacroEdge(first, second, aMap->h(first, second), absg, true);
+	}
+
+	if(getVerbose())
+	{
+		std::cout << "adding fan edges between right and left"<<std::endl;
+	}
+	// add edges connecting nodes on the left side to nodes on the right 
+	// side of the cluster
+	for(int fy=this->getVOrigin();
+			fy<this->getVOrigin()+this->getHeight();
+			fy++)
+	{
+		int fx = this->getHOrigin()+this->getWidth()-1;
+		node* first = absg->getNode(
+				aMap->getNodeFromMap(fx, fy)->getLabelL(kParent));
+
+		if(!first) continue;
+
+		int miny = (fy-max)<this->getVOrigin()?
+			(this->getVOrigin()):(fy-max); 
+		int maxy = (fy+max)>(this->getVOrigin()+this->getHeight()-1)?
+			(this->getVOrigin()+this->getHeight()-1):(fy+max);
+
+		int sx = this->getHOrigin();
+		node* second = 0;
+		
+		// check if nodes exist at fan edges; if not, extend the fan area until we hit something
+		second = nextNodeInColumn(sx, miny, aMap, false);
+		if(second)
+			addSingleMacroEdge(first, second, aMap->h(first, second), absg, true);
+
+		second = nextNodeInColumn(sx, maxy, aMap, true);
+		if(second)
+			addSingleMacroEdge(first, second, aMap->h(first, second), absg, true);
 	}
 }
 
@@ -639,22 +709,27 @@ void EmptyCluster::addSingleMacroEdge(node* from_, node* to_, double weight, gra
 			absg->findEdge(from->getNum(), to->getNum()));
 	if(e == 0 && from->getParentClusterId() == to->getParentClusterId())
 	{
-		e = new MacroEdge(from->getNum(), to->getNum(), weight);
-		if(secondaryEdge && bfReduction)
+		e = static_cast<MacroEdge*>(findSecondaryEdge(from->getNum(), to->getNum()));
+		if(e == 0 && secondaryEdge && bfReduction)
 		{
+			e = new MacroEdge(from->getNum(), to->getNum(), weight);
 			from->addSecondaryEdge(e);
 			to->addSecondaryEdge(e);
 			secondaryEdges.push_back(e);
 		}
 		else
 		{
+			e = new MacroEdge(from->getNum(), to->getNum(), weight);
 			absg->addEdge(e);
 		}
 
 		macro++;
 		if(getVerbose())
 		{
-			std::cout << "added macro edge: [("<<from->getLabelL(kFirstData)<<", ";
+			std::cout << "added";
+			if(secondaryEdge)
+				std::cout << " secondary ";
+			std::cout << " macro edge: [("<<from->getLabelL(kFirstData)<<", ";
 			std::cout <<from->getLabelL(kFirstData+1)<<") <-> (";
 			std::cout << to->getLabelL(kFirstData) << ", ";
 			std::cout << to->getLabelL(kFirstData+1);
@@ -1139,3 +1214,18 @@ void EmptyCluster::addParent(node *n, HPAClusterAbstraction* hpamap)
 	}
 }
 
+edge* EmptyCluster::findSecondaryEdge(unsigned int fromId, unsigned int toId)
+{
+	edge* retVal = 0;
+	for(unsigned int i=0; i<secondaryEdges.size(); i++)
+	{
+		edge* e = secondaryEdges.at(i);
+		if((e->getFrom() == fromId && e->getTo() == toId) ||
+			(e->getTo() == fromId && e->getFrom() == toId))
+		{
+			e = retVal;
+			break;
+		}
+	}
+	return retVal;
+}
