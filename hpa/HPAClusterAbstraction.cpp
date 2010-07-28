@@ -220,8 +220,8 @@ void HPAClusterAbstraction::removeStartAndGoalNodesFromAbstractGraph() throw(std
 
 void HPAClusterAbstraction::insertStartAndGoalNodesIntoAbstractGraph(node* _start, node* _goal) throw(std::invalid_argument)
 {
-	ClusterNode* start = dynamic_cast<ClusterNode*>(_start);
-	ClusterNode* goal = dynamic_cast<ClusterNode*>(_goal);
+	ClusterNode* start = static_cast<ClusterNode*>(_start);
+	ClusterNode* goal = static_cast<ClusterNode*>(_goal);
 	
 	if(start == NULL || goal == NULL)
 		throw std::invalid_argument("insertion error: null start or goal");
@@ -237,7 +237,7 @@ void HPAClusterAbstraction::insertStartAndGoalNodesIntoAbstractGraph(node* _star
 		ClusterNode* absstart;
 		HPACluster* startCluster = clusters[start->getParentClusterId()];
 	
-		absstart = dynamic_cast<ClusterNode*>(start->clone());
+		absstart = static_cast<ClusterNode*>(start->clone());
 		absstart->setLabelL(kAbstractionLevel, start->getLabelL(kAbstractionLevel)+1);
 		abstractions[1]->addNode(absstart);
 		startid = absstart->getNum();
@@ -257,7 +257,7 @@ void HPAClusterAbstraction::insertStartAndGoalNodesIntoAbstractGraph(node* _star
 		ClusterNode* absgoal;
 		HPACluster* goalCluster = clusters[goal->getParentClusterId()];
 
-		absgoal = dynamic_cast<ClusterNode*>(goal->clone());
+		absgoal = static_cast<ClusterNode*>(goal->clone());
 		absgoal->setLabelL(kAbstractionLevel, goal->getLabelL(kAbstractionLevel)+1);
 		abstractions[1]->addNode(absgoal);
 		goalid = absgoal->getNum();

@@ -18,7 +18,7 @@ void PerimeterSearch::expand(node* current_, node* goal, edge_iterator begin,
 	if(verbose)
 		std::cout << "PerimeterSearch expand..."<<std::endl;
 
-	MacroNode* current = dynamic_cast<MacroNode*>(
+	MacroNode* current = static_cast<MacroNode*>(
 			current_);
 	assert(current);
 
@@ -34,7 +34,7 @@ void PerimeterSearch::expand(node* current_, node* goal, edge_iterator begin,
 		{
 			int parentId = markedEdge->getFrom()==current->getNum()?
 				markedEdge->getTo():markedEdge->getFrom();
-			MacroNode* parent = dynamic_cast<MacroNode*>(
+			MacroNode* parent = static_cast<MacroNode*>(
 					g->getNode(parentId));
 			assert(parent);
 
