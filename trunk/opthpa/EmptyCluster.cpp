@@ -594,7 +594,7 @@ void EmptyCluster::addMacroEdges(HPAClusterAbstraction *aMap)
 bool EmptyCluster::isIncidentWithInterEdge(node* n_, HPAClusterAbstraction* hpamap)
 {
 	bool retVal = false;
-	MacroNode* n = dynamic_cast<MacroNode*>(n_);
+	MacroNode* n = static_cast<MacroNode*>(n_);
 	assert(n);
 
 	int nx = n->getLabelL(kFirstData);
@@ -602,7 +602,7 @@ bool EmptyCluster::isIncidentWithInterEdge(node* n_, HPAClusterAbstraction* hpam
 	for(int nbx = nx-1; nbx < nx+2; nbx++)
 		for(int nby = ny-1; nby < ny+2; nby++)
 		{
-			MacroNode* nb = dynamic_cast<MacroNode*>(
+			MacroNode* nb = static_cast<MacroNode*>(
 					hpamap->getNodeFromMap(nbx, nby));
 			if(!getAllowDiagonals() && nbx != nx && nby != ny)
 				continue;
@@ -628,14 +628,14 @@ void EmptyCluster::addSingleMacroEdge(node* from_, node* to_, double weight, gra
 	assert(from_ && to_);
 	assert(from_->getUniqueID() != to_->getUniqueID());
 
-	MacroNode* from = dynamic_cast<MacroNode*>(from_);
-	MacroNode* to = dynamic_cast<MacroNode*>(to_);
+	MacroNode* from = static_cast<MacroNode*>(from_);
+	MacroNode* to = static_cast<MacroNode*>(to_);
 
 
 	assert(from && to);
 	assert(from->getParentClusterId() == to->getParentClusterId());
 
-	MacroEdge* e = dynamic_cast<MacroEdge*>(
+	MacroEdge* e = static_cast<MacroEdge*>(
 			absg->findEdge(from->getNum(), to->getNum()));
 	if(e == 0 && from->getParentClusterId() == to->getParentClusterId())
 	{
@@ -1062,7 +1062,7 @@ EmptyCluster::nextNodeInRow(int x, int y, HPAClusterAbstraction* hpamap,
 			int nodeId = hpamap->getNodeFromMap(x, y)->getLabelL(kParent);
 			if(nodeId != -1)
 			{
-				retVal = dynamic_cast<MacroNode*>(absg->getNode(nodeId));
+				retVal = static_cast<MacroNode*>(absg->getNode(nodeId));
 				break;
 			}
 		}
@@ -1074,7 +1074,7 @@ EmptyCluster::nextNodeInRow(int x, int y, HPAClusterAbstraction* hpamap,
 			int nodeId = hpamap->getNodeFromMap(x, y)->getLabelL(kParent);
 			if(nodeId != -1)
 			{
-				retVal = dynamic_cast<MacroNode*>(absg->getNode(nodeId));
+				retVal = static_cast<MacroNode*>(absg->getNode(nodeId));
 				break;
 			}
 		}
@@ -1097,7 +1097,7 @@ EmptyCluster::nextNodeInColumn(int x, int y, HPAClusterAbstraction* hpamap,
 			int nodeId = hpamap->getNodeFromMap(x, y)->getLabelL(kParent);
 			if(nodeId != -1)
 			{
-				retVal = dynamic_cast<MacroNode*>(absg->getNode(nodeId));
+				retVal = static_cast<MacroNode*>(absg->getNode(nodeId));
 				break;
 			}
 		}
@@ -1109,7 +1109,7 @@ EmptyCluster::nextNodeInColumn(int x, int y, HPAClusterAbstraction* hpamap,
 			int nodeId = hpamap->getNodeFromMap(x, y)->getLabelL(kParent);
 			if(nodeId != -1)
 			{
-				retVal = dynamic_cast<MacroNode*>(absg->getNode(nodeId));
+				retVal = static_cast<MacroNode*>(absg->getNode(nodeId));
 				break;
 			}
 		}
@@ -1130,7 +1130,7 @@ void EmptyCluster::addParent(node *n, HPAClusterAbstraction* hpamap)
 	}
 	else
 	{
-		ClusterNode* absn = dynamic_cast<ClusterNode*>(n->clone());
+		ClusterNode* absn = static_cast<ClusterNode*>(n->clone());
 		absn->setLabelL(kAbstractionLevel, 1);
 		graph* g = hpamap->getAbstractGraph(1);
 		g->addNode(absn);

@@ -28,7 +28,7 @@ using namespace std;
 
 bool AbstractClusterAStar::isInCorridor(node* _n)
 {
-/*	ClusterNode* n = dynamic_cast<ClusterNode*>(_n);
+/*	ClusterNode* n = static_cast<ClusterNode*>(_n);
 	if(n->getParentClusterId() != corridorClusterId) 
 		return false; 
 	return true; */
@@ -178,7 +178,7 @@ AbstractClusterAStar::expand(node* current, node* goal, edge_iterator iter, unsi
 		assert(e);
 
 		int neighbourid = e->getFrom()==current->getNum()?e->getTo():e->getFrom();
-		ClusterNode* neighbour = dynamic_cast<ClusterNode*>(
+		ClusterNode* neighbour = static_cast<ClusterNode*>(
 				g->getNode(neighbourid));
 
 		if(evaluate(current, neighbour, e)) 
@@ -210,7 +210,7 @@ void AbstractClusterAStar::processNeighbour(node* current, edge* e,
 		node* to, heap* openList, std::map<int, node*>& closedList, graph* g)
 {
 	int neighbourid = e->getFrom()==current->getNum()?e->getTo():e->getFrom();
-	ClusterNode* neighbour = dynamic_cast<ClusterNode*>(
+	ClusterNode* neighbour = static_cast<ClusterNode*>(
 			g->getNode(neighbourid));
 	assert(neighbour->getUniqueID() != current->getUniqueID());
 	nodesTouched++;
@@ -383,9 +383,9 @@ double ClusterAStar::h(node* a, node* b)
 //		answer = deltax + deltay;
 //
 //	return answer;
-	graphAbstraction* aMap = this->getGraphAbstraction();
-	return aMap->h(a, b);
-//	return aStarOld::h(a, b);
+//	graphAbstraction* aMap = this->getGraphAbstraction();
+//	return aMap->h(a, b);
+	return aStarOld::h(a, b);
 }
 
 void AbstractClusterAStar::printNode(string msg, node* n, node* goal)
@@ -393,12 +393,12 @@ void AbstractClusterAStar::printNode(string msg, node* n, node* goal)
 	std::cout << msg <<"addr: "<<&(*n)<<" num: "<<n->getUniqueID();
 	std::cout <<" ("<<n->getLabelL(kFirstData)<<","<<n->getLabelL(kFirstData+1)<<") ";
 
-	if(dynamic_cast<MacroNode*>(n))
+	if(static_cast<MacroNode*>(n))
 	{
-		MacroNode* mp = dynamic_cast<MacroNode*>(n)->getMacroParent();
+		MacroNode* mp = static_cast<MacroNode*>(n)->getMacroParent();
 		if(mp)
 		{
-			std::cout << " mp: "<<dynamic_cast<MacroNode*>(n)->getMacroParent()->getName()<<" ";
+			std::cout << " mp: "<<static_cast<MacroNode*>(n)->getMacroParent()->getName()<<" ";
 		}
 			if(n->getMarkedEdge())
 			{

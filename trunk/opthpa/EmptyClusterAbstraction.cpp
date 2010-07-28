@@ -256,8 +256,8 @@ EmptyClusterAbstraction::insertStartAndGoalNodesIntoAbstractGraph(node* s, node*
 	HPAClusterAbstraction::insertStartAndGoalNodesIntoAbstractGraph(s, g);
 
 	graph* absg = this->getAbstractGraph(1);
-	MacroNode* absStart = dynamic_cast<MacroNode*>(absg->getNode(s->getLabelL(kParent)));
-	MacroNode* absGoal = dynamic_cast<MacroNode*>(absg->getNode(g->getLabelL(kParent)));
+	MacroNode* absStart = static_cast<MacroNode*>(absg->getNode(s->getLabelL(kParent)));
+	MacroNode* absGoal = static_cast<MacroNode*>(absg->getNode(g->getLabelL(kParent)));
 
 	assert(absStart->getLabelL(kFirstData) == s->getLabelL(kFirstData));
 	assert(absStart->getLabelL(kFirstData+1) == s->getLabelL(kFirstData+1));
@@ -338,7 +338,7 @@ void EmptyClusterAbstraction::connectSG(MacroNode* absNode)
 	for( ; nx <= maxx-1; nx++)
 	{
 		assert(this->getNodeFromMap(nx, ny));
-		absNeighbour = dynamic_cast<MacroNode*>(
+		absNeighbour = static_cast<MacroNode*>(
 				absg->getNode(this->getNodeFromMap(nx, ny)->getLabelL(kParent)));
 		if(absNeighbour && &*absNeighbour != &*absNode)
 			connectSGToNeighbour(absNode, absNeighbour);
@@ -377,7 +377,7 @@ void EmptyClusterAbstraction::connectSG(MacroNode* absNode)
 	for( ; nx <= maxx-1; nx++)
 	{
 		assert(this->getNodeFromMap(nx, ny));
-		absNeighbour = dynamic_cast<MacroNode*>(
+		absNeighbour = static_cast<MacroNode*>(
 				absg->getNode(this->getNodeFromMap(nx, ny)->getLabelL(kParent)));
 		if(absNeighbour && &*absNeighbour != &*absNode)
 			connectSGToNeighbour(absNode, absNeighbour);
@@ -417,7 +417,7 @@ void EmptyClusterAbstraction::connectSG(MacroNode* absNode)
 	for( ; ny <= maxy-1; ny++)
 	{
 		assert(this->getNodeFromMap(nx, ny));
-		absNeighbour = dynamic_cast<MacroNode*>(
+		absNeighbour = static_cast<MacroNode*>(
 				absg->getNode(this->getNodeFromMap(nx, ny)->getLabelL(kParent)));
 		if(absNeighbour && &*absNeighbour != &*absNode)
 			connectSGToNeighbour(absNode, absNeighbour);
@@ -456,7 +456,7 @@ void EmptyClusterAbstraction::connectSG(MacroNode* absNode)
 	for( ; ny <= maxy-1; ny++)
 	{
 		assert(this->getNodeFromMap(nx, ny));
-		absNeighbour = dynamic_cast<MacroNode*>(
+		absNeighbour = static_cast<MacroNode*>(
 				absg->getNode(this->getNodeFromMap(nx, ny)->getLabelL(kParent)));
 		if(absNeighbour && &*absNeighbour != &*absNode)
 			connectSGToNeighbour(absNode, absNeighbour);
@@ -496,7 +496,7 @@ void EmptyClusterAbstraction::cardinalConnectSG(MacroNode* absNode)
 	// connect to neighbour above
 	int ny = nodeCluster->getVOrigin();
 	int nx = x;
-	MacroNode* absNeighbour = dynamic_cast<MacroNode*>(
+	MacroNode* absNeighbour = static_cast<MacroNode*>(
 			absg->getNode(this->getNodeFromMap(nx, ny)->getLabelL(kParent)));
 	if(absNeighbour == 0 || absNeighbour->getNum() == absNode->getNum())
 	{
@@ -514,7 +514,7 @@ void EmptyClusterAbstraction::cardinalConnectSG(MacroNode* absNode)
 	// connect to neighbour below
 	ny = nodeCluster->getVOrigin()+nodeCluster->getHeight()-1;
 	nx = x;
-	absNeighbour = dynamic_cast<MacroNode*>(
+	absNeighbour = static_cast<MacroNode*>(
 			absg->getNode(this->getNodeFromMap(nx, ny)->getLabelL(kParent)));
 	if(absNeighbour == 0 || absNeighbour->getNum() == absNode->getNum())
 	{
@@ -533,7 +533,7 @@ void EmptyClusterAbstraction::cardinalConnectSG(MacroNode* absNode)
 	// connect to neighbour to the left
 	ny = y; 
 	nx = nodeCluster->getHOrigin();
-	absNeighbour = dynamic_cast<MacroNode*>(
+	absNeighbour = static_cast<MacroNode*>(
 			absg->getNode(this->getNodeFromMap(nx, ny)->getLabelL(kParent)));
 	if(absNeighbour == 0 || absNeighbour->getNum() == absNode->getNum())
 	{
@@ -552,7 +552,7 @@ void EmptyClusterAbstraction::cardinalConnectSG(MacroNode* absNode)
 	// connect to neighbour to the right
 	ny = y; 
 	nx = nodeCluster->getHOrigin()+nodeCluster->getWidth()-1;
-	absNeighbour = dynamic_cast<MacroNode*>(
+	absNeighbour = static_cast<MacroNode*>(
 			absg->getNode(this->getNodeFromMap(nx, ny)->getLabelL(kParent)));
 	if(absNeighbour == 0 || absNeighbour->getNum() == absNode->getNum())
 	{
@@ -613,12 +613,12 @@ void EmptyClusterAbstraction::connectSGToNeighbour(MacroNode* absNode, MacroNode
 
 EmptyCluster* EmptyClusterAbstraction::clusterIterNext(cluster_iterator& it) const
 {
-       return dynamic_cast<EmptyCluster*>(HPAClusterAbstraction::clusterIterNext(it));
+       return static_cast<EmptyCluster*>(HPAClusterAbstraction::clusterIterNext(it));
 }
 
 EmptyCluster* EmptyClusterAbstraction::getCluster(int cid)
 {
-       return dynamic_cast<EmptyCluster*>(HPAClusterAbstraction::getCluster(cid));
+       return static_cast<EmptyCluster*>(HPAClusterAbstraction::getCluster(cid));
 }
 
 double EmptyClusterAbstraction::getAverageClusterSize()
