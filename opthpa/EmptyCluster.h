@@ -66,6 +66,7 @@ class EmptyCluster : public HPACluster
 				bool topToBottom);
 
 		unsigned int getNumSecondaryEdges() { return secondaryEdges.size(); }
+		edge* findSecondaryEdge(unsigned int fromId, unsigned int toId);
 
 		virtual void openGLDraw();
 

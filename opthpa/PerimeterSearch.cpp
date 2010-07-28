@@ -46,6 +46,11 @@ void PerimeterSearch::expand(node* current_, node* goal, edge_iterator begin,
 						current->numSecondaryEdges(), openList, closedList, g);
 				nodesExpanded--; // no double counting
 			}
+			else
+			{
+				if(verbose)
+					std::cout << "skipping secondary edges (same cluster as parent)"<<std::endl;
+			}
 		}
 		else if(nodesExpanded == 1) // process secondary edges associated with start node 
 		{
