@@ -6,24 +6,29 @@ We will try to build large rooms before small ones and prefer rooms which
 contain as many interior nodes as possible:
 
 \begin{enumerate}
-\item{\label{step1} For each traversable tile $t$, build a maximal size empty square which has
-$t$ as its upper left corner.}
-\item{\label{step2} Form a rectangle by extending the square,
-either horizontally or vertically, such that the resulting room is of maximum
-size and contains no obstacles. }
-\item{\label{step3} Using a Max-Heap, sort the list of traversable tiles using the number of
+
+\item{\label{rooms_alg:step1} For each traversable tile $t$, build a maximal size empty
+rectangle which has $t$ as its upper left corner. Each such rectangle should contain only
+traversable tiles which have not already been assigned to a room.}
+
+\item{\label{rooms_alg:step2} Using a Max-Heap, sort the list of traversable tiles using the number of
 interior nodes in the rectangle of each $t$ as its priority.}
-\item{\label{step4} Take from the heap the tile $t$ with highest priority
+
+\item{\label{roomsalg:step3} Take from the heap the tile $t$ with highest priority
 which has not already been assigned to a room. }
-\item{\label{step5} Build a maximal size empty room (as outlined in Steps
-\ref{step1} and \ref{step2}) which has $t$ as its upper-left corner and 
-contains no obstacles or nodes already assigned to another room.}
-\item{\label{step6} If the number of interior nodes in the empty room is at least equal to the priority 
-of $t$ we add the room to our decomposition. 
-Otherwise, we discard the room and update the priority of $t$ with the number of interior 
-nodes the room contained. }
-\item{\label{step7} Repeat Steps \ref{step3} to \ref{step6} until the heap is
+
+\item{\label{rommsalg:step4} Verify the priority of $t$ by building another maximal size
+empty rectangle (as per Step \ref{roomsalg:step1}) which has $t$ as its upper
+left corner and contains no obstacles or tiles already been assigned to another room.}
+
+\item{\label{roomsalg:step5} If the number of interior nodes in the new rectangle is equal to the 
+priority of $t$ we say that the rectangle forms a room and add it to our decomposition. 
+Otherwise, we update the priority of $t$ with the number of interior 
+nodes contained in the new rectangle. }
+
+\item{\label{step6} Repeat Steps \ref{roomsalg:step3} to \ref{roomsalg:step5} until the heap is
 empty and all nodes have been assigned to a room in the decomposition.}
+
 \end{enumerate}
 
 The construction of empty rooms is similar to the computation of \emph{clearance
