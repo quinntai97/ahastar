@@ -64,6 +64,11 @@ rooms_trend <- cbind(rooms_trend[,1:2], ams(rooms_astar$st/rooms_ohastar$st, roo
 25)[,2:3])
 names(rooms_trend) <- c("opl", "ne_speedup", "st_speedup", "num_exp")
 
+# drop points for which we have insufficient experiments
+ad_trend <- ad_trend[1:11,]
+bg_trend <- bg_trend[1:18,]
+rooms_trend <- rooms_trend[1:20, ] # remaining buckets have < 10 data points
+
 pdf(width=15, height=5, file="speedup.pdf")
 par(mfrow=c(1,3))
 
@@ -88,8 +93,8 @@ legend("topleft", c("Nodes Expanded", "Search Time"),  lty=c(1,2), cex=1.25)
 dev.off()
 
 # branching factor stats
-abf_trend_ad <- ams(ad_ohastar$nt / ad_ohastar$ne, ad_ohastar$opl, 25)[,1:2]
-abf_trend_ad <- cbind(abf_trend_ad, ams(ad_astar$nt/ad_astar$ne, ad_astar$opl, 25)[,2:3])
+abf_trend_ad <- ams(ad_ohastar$nt / ad_ohastar$ne, ad_ohastar$opl, 15)[,1:2]
+abf_trend_ad <- cbind(abf_trend_ad, ams(ad_astar$nt/ad_astar$ne, ad_astar$opl, 15)[,2:3])
 names(abf_trend_ad) <- c("dist", "ps", "astar")
 
 abf_trend_bg <- ams(bg_ohastar$nt / bg_ohastar$ne, bg_ohastar$opl, 25)[,1:2]
@@ -100,24 +105,29 @@ abf_trend_rooms <- ams(rooms_ohastar$nt / rooms_ohastar$ne, rooms_ohastar$opl, 2
 abf_trend_rooms <- cbind(abf_trend_rooms, ams(rooms_astar$nt/rooms_astar$ne, rooms_astar$opl, 25)[,2:3])
 names(abf_trend_rooms) <- c("dist", "ps", "astar")
 
+#drop points for which we have insufficient experiments
+abf_trend_ad <- abf_trend_ad[1:11,]
+abf_trend_bg <- abf_trend_bg[1:18,]
+abf_trend_rooms <- abf_trend_rooms[1:20, ] # remaining buckets have < 10 data points
+
 # branching factor graphs
 pdf(width=15, height=5, file="branching.pdf")
 par(mfrow=c(1,3))
 
 plot(abf_trend_ad$ps ~ abf_trend_ad$dist, type="l", lty=1, 
 main="Adaptive Depth: Avg. Branching Factor (8C PR BFR)", xlab="Path Length", ylab="Avg. Branching Factor", 
-ylim=c(0,8))
+ylim=c(0,12))
 lines(abf_trend_ad$astar ~ abf_trend_ad$dist, type="l", lty=2)
 legend("topright", c("Perimeter Search", "A*"), lty=c(1, 2))
 
 plot(abf_trend_bg$ps ~ abf_trend_bg$dist, type="l", lty=1, 
 main="Baldur's Gate: Avg. Branching Factor (8C PR BFR)", xlab="Path Length", ylab="Avg. Branching Factor", 
-ylim=c(0,8))
+ylim=c(0,12))
 lines(abf_trend_bg$astar ~ abf_trend_bg$dist, type="l", lty=2)
 legend("topright", c("Perimeter Search", "A*"), lty=c(1, 2))
 
 plot(abf_trend_rooms$ps ~ abf_trend_rooms$dist, type="l", lty=1, 
-main="Rooms: Avg. Branching Factor (8C PR BFR)", xlab="Path Length", ylab="Avg. Branching Factor", ylim=c(0,8))
+main="Rooms: Avg. Branching Factor (8C PR BFR)", xlab="Path Length", ylab="Avg. Branching Factor", ylim=c(0,12))
 lines(abf_trend_rooms$astar ~ abf_trend_rooms$dist, type="l", lty=2)
 legend("topright", c("Perimeter Search", "A*"), lty=c(1, 2))
 
