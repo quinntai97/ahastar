@@ -1,6 +1,6 @@
 \section{Experimental Setup}
 To evaluate the effectiveness of our symmetry elimination technique we performed
-a comparative analysis using A* on a number of benchmarks taken from the
+a comparative analysis using A* on a number of benchmarks taken from
 the freely available pathfinding library 
 Hierarchical Open Graph (HOG)\footnote{\url{http://www.googlecode.com/p/hog2}}:
 \begin{itemize}
@@ -26,8 +26,7 @@ rectangular areas that are connected by randomly placed entrances.}
         \label{fig-bgmap}
  \end{figure}
 \par
-For each map we restricted movement to the four cardinal directions and generated 100 experiments by 
-randomly creating valid problem instances between arbitrarily chosen pairs of start and goal locations.
+For each map we removed all diagonal edges and randomly generated 100 valid problem instances. 
 We then ran A* twice: once on the original maps and again on our modified maps making for
 a total of 86400 (432$\times$100$\times$2) distinct experiments.
 Our test machine had a 2.93GHz Intel Core 2 Duo processor, 4GB RAM and

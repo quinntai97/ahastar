@@ -1,17 +1,20 @@
 \section{Results}
 \label{sec-results}
-Table \ref{table-graphsize} reports on the effectiveness of our
-symmetry breaking algorithm by measuring the percentage of nodes
+Our main results are given in Table \ref{table-graphsize} and
+Figure \ref{fig-speedup}.
+We will briefly introduce both and then discuss them in the context
+of each of our three benchmarks.
+\par
+Table \ref{table-graphsize} measures the percentage of nodes
 pruned from each set of maps.  We give figures for the minimum,
-maximum and average number of nodes pruned in each of the three
-benchmarks.  We also give the standard deviation as an indicator
-for the level of variability associated with each result.  Meanwhile,
-in Figure \ref{fig-speedup} we present the average speedup experienced
-by A\* when running on our modified grid maps as compared to the
+maximum and average number of nodes pruned.  
+We also give the standard deviation as an indicator
+for the level of variability associated with each result. 
+Meanwhile, Figure \ref{fig-speedup} shows the average speedup experienced
+by A* when running on our modified grid maps as compared to the
 original.  We measure speedup in terms of node expansions and search
 times.  For example, a search time speedup of 2.0 is twice as fast and
-a node expansion speedup of 2.0 indicates 50\% fewer nodes were
-We will discuss our results on each benchmark in turn.
+a node expansion speedup of 2.0 indicates 50\% fewer nodes were expanded.
 \input graphsize
 \textbf{Adaptive Depth:} 
 The topography of the maps in this benchmark were favourable for
@@ -19,10 +22,10 @@ our symmetry breaking technique.  Our decomposition algorithm was
 able to identify many large open areas and pruned between 58\%
 to 67\% of all nodes.  Its average performance was just over
 63\%.  We also observed up to a factor of 3.4 reduction in the average 
-number of nodes expanded by A\* and a similar search time speedup.
+number of nodes expanded by A* and a similar search time speedup.
 It is interesting to note that for short instances, for example
 those with path lengths $<$ 15, we observed search times that were only 1.7
-times faster on average than running A\* on the original map.  
+times faster on average. 
 By comparison, instances with
 longer path lengths were solved 2.6 to 3.5 times faster.  
 This is because in many cases, though not in general, longer paths 
@@ -36,38 +39,34 @@ opportunities to take advantage of the pruning enhancement.
 %the map.
 \par
 \textbf{Baldur's Gate: }
-The maps in this benchmark are a mixture of large open areas,
-sometimes interspersed with large obstacles, and small to medium
-rooms connected by long and narrow corridors.  Performance on this
-benchmark is quite different from that observed on Adaptive Depth.
-Though our decomposition algorithm prunes as many as 78\% of all
-traversable nodes on some maps, its average performance was only
-42\%.  There was also a reasonably high level of variability in the
-effectiveness of the decomposition from one map to the next, as
-indicated by the standard deviation of 11.80\%.  Upon investigation
-we found that the 45-degree orientation of the maps in this benchmark
-makes it difficult to exactly decompose the traversable areas into
- rectangular rooms.
-Nevertheless, we observed that on average search times were improved by a factor
-of between 1.8 to 2.3. 
-Similar savings were also observed when measuring the average number of nodes
-expanded by A\*.
+The maps in this benchmark are a mixture of large and small areas
+which sometimes contain obstacles and may be connected by long narrow 
+corridors.
+They also have a distinct 45-degree orientation which makes
+it difficult to decompose traversable areas into rectangular rooms.
+For example, though our decomposition algorithm can prune as many as 78\% of all
+traversable nodes on some maps, its average performance is only
+42\%.  There is also a reasonably high level of variability associated with this result;
+we measured a standard deviation of almost 12\%. 
+Nevertheless, we observed that average A* search times and average A* node expansions
+were both improved by a factor of between 1.8 to 2.3. 
 We expect that these results could be
 further improved given a more effective decomposition algorithm.
 \par 
 \textbf{Rooms:} 
 The maps in this benchmark were all very similar, comprising of
 32$\times$32 rectangular rooms connected by randomly placed entrances.
-Each room is of size 7$\times$7 and contains 49 nodes.  24 of these
+Each room is of size 7$\times$7 and contains 49 nodes.  
+24 of these
 (or just under 50\%) are interior nodes which we expected would be
-pruned.  This was indeed the case: 49.7\% of all nodes were pruned
-on average with a standard deviation of just 0.2\%.  
-When we ran A\* on these grid maps we observed a factor of 2 reduction 
+pruned.  
+Table \ref{table-graphsize} shows that this was indeed the case.
+When we ran A* on these grid maps we observed a factor of 2 reduction 
 in the average number of nodes expanded and a corresponding search time
 speedup of just under 2.1.
 Given rooms with proportionally larger dimensions
 we would expect to see a proportionally larger improvement in the
-performance of A\*.  We expect the same is also true as rooms become
+performance of A*.  We expect the same is also true as rooms become
 smaller where in the worst case there are no interior nodes to prune
 from any room.
 
@@ -75,7 +74,7 @@ from any room.
        \begin{center}
                        \includegraphics[width=1.95\columnwidth, trim = 10mm 10mm 10mm 0mm]{diagrams/speedup.pdf}
        \end{center}
-       \caption{Average A\* speedup on each of our three benchmarks. 
+       \caption{Average A* speedup on each of our three benchmarks. 
 		Results are given in terms of nodes expanded and search time.}
 \label{fig-speedup}
 \end{figure*}
