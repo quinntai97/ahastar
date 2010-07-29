@@ -12,6 +12,7 @@
 #include "IClusterAStarFactory.h"
 #include "ClusterNode.h"
 #include "HPACluster.h"
+#include "timer.h"
 #include <stdexcept>
 
 HPAStar2::HPAStar2(bool _refine, bool _fastRefinement, IClusterAStarFactory* _caf) 
@@ -72,7 +73,8 @@ path* HPAStar2::getPath(graphAbstraction* aMap, node* _from, node* _to, reservat
 		thepath = castar->getPath(aMap, from, to, rp);
 		updateMetrics(*castar);
 	}
-	
+
+	Timer t;
 	// no direct path or from/goal not in the same cluster
 	if(thepath==0)
 	{
@@ -82,12 +84,15 @@ path* HPAStar2::getPath(graphAbstraction* aMap, node* _from, node* _to, reservat
 			hpamap->setVerbose(true);
 		}
 
+		t.startTimer();
+
 		hpamap->insertStartAndGoalNodesIntoAbstractGraph(from, to);		
-		this->nodesExpanded += hpamap->getNodesExpanded();
-		this->nodesTouched += hpamap->getNodesTouched();
-		this->searchTime += hpamap->getSearchTime();
-		if(this->peakmemory < hpamap->getPeakMemory())
-			this->peakmemory = hpamap->getPeakMemory();
+
+		this->insertSearchTime = t.endTimer();
+		this->insertNodesExpanded = hpamap->getNodesExpanded();
+		this->insertNodesTouched = hpamap->getNodesTouched();
+		this->insertPeakMemory = hpamap->getPeakMemory();
+
 				
 		// find a path in the abstract graph
 		graph *absg = hpamap->getAbstractGraph(1); 
@@ -139,11 +144,16 @@ path* HPAStar2::getPath(graphAbstraction* aMap, node* _from, node* _to, reservat
 			if(verbose) std::cout << "no solution found!" <<std::endl;
 
 
+		t.startTimer();
 		hpamap->removeStartAndGoalNodesFromAbstractGraph();
-		insertNodesExpanded = hpamap->getNodesExpanded(); // record insertion separately also.
-		insertNodesTouched = hpamap->getNodesTouched();
-		insertPeakMemory = hpamap->getPeakMemory();
-		insertSearchTime = hpamap->getSearchTime();
+		this->insertSearchTime += t.endTimer();
+
+		this->searchTime += this->insertSearchTime; 
+		this->nodesExpanded += this->insertNodesExpanded;
+		this->nodesTouched += this->insertNodesTouched;
+		if(this->peakmemory < this->insertPeakMemory)
+			this->peakmemory = this->insertPeakMemory;	
+
 	}
 		
 	//std::cout << "\n thepath distance: "<<aMap->distance(thepath);

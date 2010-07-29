@@ -247,10 +247,10 @@ void HPAClusterAbstraction::insertStartAndGoalNodesIntoAbstractGraph(node* _star
 		int numnodes = abstractions[1]->getNumNodes();
 		assert(startid+1 == numnodes);
 
-//		nodesExpanded = startCluster->getSearchAlgorithm()->getNodesExpanded();
-//		nodesTouched = startCluster->getSearchAlgorithm()->getNodesTouched();
-//		peakMemory = startCluster->getSearchAlgorithm()->getPeakMemory();
-//		searchTime = startCluster->getSearchAlgorithm()->getSearchTime();
+		nodesExpanded = startCluster->getSearchAlgorithm()->getNodesExpanded();
+		nodesTouched = startCluster->getSearchAlgorithm()->getNodesTouched();
+		peakMemory = startCluster->getSearchAlgorithm()->getPeakMemory();
+		searchTime = startCluster->getSearchAlgorithm()->getSearchTime();
 	}
 	if(goal->getLabelL(kParent) == -1)
 	{
@@ -265,10 +265,10 @@ void HPAClusterAbstraction::insertStartAndGoalNodesIntoAbstractGraph(node* _star
 		goal->setLabelL(kParent, goalid);
 		this->goalid = goalid;
 		
-		//nodesExpanded+= goalCluster->getSearchAlgorithm()->getNodesExpanded();
-		//nodesTouched+= goalCluster->getSearchAlgorithm()->getNodesTouched();
-		//peakMemory+= goalCluster->getSearchAlgorithm()->getPeakMemory();
-		//searchTime+= goalCluster->getSearchAlgorithm()->getSearchTime();
+		nodesExpanded+= goalCluster->getSearchAlgorithm()->getNodesExpanded();
+		nodesTouched+= goalCluster->getSearchAlgorithm()->getNodesTouched();
+		peakMemory+= goalCluster->getSearchAlgorithm()->getPeakMemory();
+		searchTime+= goalCluster->getSearchAlgorithm()->getSearchTime();
 	}
 }
 
