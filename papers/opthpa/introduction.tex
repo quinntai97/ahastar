@@ -9,8 +9,7 @@ decomposition and identifying better heuristics to guide search.
 In the case of hierarchical decomposition, techniques such as
 HPA*~\cite{botea04} and PRA*~\cite{sturtevant05} seek to construct and explore
 a much reduced approximate state space.
-This makes them very fast. 
-They also require no significant extra-memory when compared to A*.
+These methods are fast and require no significant extra-memory when compared to A*.
 However, they have the disadvantage that solutions are not guaranteed to be optimal.
 Meanwhile, in case of the improved heuristics, it has been frequently shown
 that obtaining better informed results than than the popular
@@ -81,11 +80,12 @@ Our method is easy to understand and implement.
 It produces grid maps that are often much smaller than the original grid map
 (and never larger), have the same branching factor and preserve the same completeness and optimality 
 guaranteeing characteristics.
-Further, since our method is focused on eliminating symmetries in the search space, it is orthogonal to existing 
-search techniques, including both hierarchical and low level pathfinding systems as well as memory-based heuristics.
+Further, since our method is focused on eliminating symmetries in the search space, it is orthogonal to, 
+and can be used in conjunction with, existing 
+search techniques including hierarchical and low level pathfinding systems as well as memory-based heuristics.
 We demonstrate its effectiveness by undertaking an empirical analysis on a wide range of maps, 
 including a well known set from the popular roleplaying game \emph{Baldur's Gate II}. 
-On our test data the average performance of A\* is increased by a factor of up to 3.5, depending on the 
+On our test data the average performance of A* is increased by a factor of up to 3.5, depending on the 
 topography of the map being used.
 % \par
 % The rest of the paper is structured as follows.

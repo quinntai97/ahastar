@@ -21,13 +21,16 @@ room.}
 \item{Add a series of \emph{macro edges} that connect each node on the perimeter of an empty room
 with a node on the directly opposite side of the room 
 \footnote{Alternatively, macro edges could be generated on-the-fly during search. 
-This obviates the need to store them explicitly.}.}
+This obviates the need to store them explicitly.}.
+The cost of each edge is equal to the Manhattan distance between its two endpoints.
+}
 \end{enumerate}
 Trivial rooms which contain no interior nodes (for example rooms with a width $w$ or height $h$ 
 $\leq 2$) are left unmodified by steps 2 and 3.
 Figure \ref{fig-overview} shows an example of this process.
-It is easy see to see that we eliminate a large number of symmetric paths
-that exist between arbitrary pairs of nodes on the perimeter of each room.
+For each non-trivial room we prune $(w-2)\times(h-2)$ interior
+nodes and, in the proceess, eliminate a large number of symmetric paths between 
+nodes on the perimeter.
 We claim that this approach preserves optimality when traversing across any arbitrary room.
 
 \begin{lemma}
@@ -48,6 +51,7 @@ Case 2 is when $m$ and $n$ are placed on opposite sides of the perimeter.
 To obtain an optimal path we can simply follow the macro edge at $m$ 
 and navigate directly to a node $m'$ located on
 the same side of the perimeter as $n$. Then, go from $m'$ to $n$ along the perimeter.
+The resultant path is optimal as its length is equal to the Manhattan distance between $m$ and $n$.
 \end{proof}
 
 A direct corollary to Lemma \ref{thm-roomtraversal} is that we can prune from consideration
