@@ -61,9 +61,8 @@ Each room is of size 7$\times$7 and contains 49 nodes.
 (or just under 50\%) are interior nodes which we expected would be
 pruned.  
 Table \ref{table-graphsize} shows that this was indeed the case.
-When we ran A* on these grid maps we observed a factor of 2 reduction 
-in the average number of nodes expanded and a corresponding search time
-speedup of just under 2.1.
+When we ran A* on these grid maps we observed in most cases a factor of 2 
+reduction in both the average number of nodes expanded and average search time.
 Given rooms with proportionally larger dimensions
 we would expect to see a proportionally larger improvement in the
 performance of A*.  We expect the same is also true as rooms become
