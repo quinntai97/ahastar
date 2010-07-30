@@ -22,7 +22,7 @@ our symmetry breaking technique.  Our decomposition algorithm was
 able to identify many large open areas and pruned between 58\%
 to 67\% of all nodes.  Its average performance was just over
 63\%.  We also observed up to a factor of 3.5 reduction in the average 
-number of nodes expanded by A* and a similar search time speedup.
+number of nodes expanded by A* and a similar maximum search time speedup.
 It is interesting to note that for short instances, for example
 those with path lengths $<$ 15, we observed search times that were only 1.7
 times faster on average. 
@@ -46,7 +46,7 @@ They also have a distinct 45-degree orientation which makes
 it difficult to decompose traversable areas into rectangular rooms.
 For example, though our decomposition algorithm can prune as many as 78\% of all
 traversable nodes on some maps, its average performance is only
-42\%.  There is also a reasonably high level of variability associated with this result;
+42\%.  There is also a reasonably high level of variability associated with this result:
 we measured a standard deviation of almost 12\%. 
 Nevertheless, we observed that average A* search times and average A* node expansions
 were both improved by a factor of between 1.8 to 2.3. 
