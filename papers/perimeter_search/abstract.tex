@@ -1,0 +1,13 @@
+In this paper we introduce Perimeter Search: a new symmetry breaking 
+pathfinding technique specific to 4-connected and 8-connected grid maps.
+Our method involves decomposing a grid map into a set of empty rectangular rooms
+and removing from each such room all interior tiles, leaving only a boundary perimeter.
+We then add a series of macro edges between pairs of tiles on the perimeter to facilitate
+provably optimal traversal through each room and to any other room.
+We evaluate our technique on a range of different grid maps, including one well known set from
+the popular video game Baldur's Gate II.
+We show that A*, running on our modified grid maps, can be up to an order of magnitude faster
+than otherwise. 
+We achieve this result without requiring any significant extra memory and retain the same 
+optimality guantees as searching on an original, umodified, grid map.
+
