@@ -1,0 +1,21 @@
+Pathfinding systems which operate on regular grids are commonly found in modern video games.
+Some recent examples include \emph{Company of Heroes} (Relic Entertainment, 2006), \emph{Dawn of War II} (Relic
+Entertainment, 2009) and \emph{Dragon Age: Origins} (BioWare, 2010).
+Regular grids are also the subject of academic study, for example in areas such as robotics \cite{latombe92} and
+single-agent pathfinding \cite{yap02,botea04,sturtevant07, harabor08}.
+\par
+%In the context of single-agent pathfinding the A* algorithm is regarded as the gold standard.
+%It is complete, optimal and optimally-efficient which makes it very popular with game developers and researchers alike.
+In the context of single-agent pathfinding, and real-time video games in particular, it is often the case that queries sent to
+the pathfinding system  need to be solved as quickly as possible.
+Traditionally, this requirement is met in one of two ways: ether by building and searching within a much smaller approximate
+state space or by developing new heuristics to better guide the search.
+
+%through the application of hierarchical pathfinding methods or the
+%development of improved heuristics.
+Although both are highly effective at speeding up search, each suffers from 
+Hiearchical pathfinding algorithms, such as HPA* \cite{botea04} and PRA* \cite{sturtevant05}, proceed by
+building a much smaller approximate search space which is used in favour of the original grid map.
+This approach is very fast and uses little memory in practice but has the disadvantage that computed solutions are not
+guaranteed to be optimal. 
+
