@@ -1,8 +1,8 @@
 Pathfinding systems which operate on regular grids are commonly found in modern video games.
 Some recent examples include \emph{Company of Heroes} (Relic Entertainment, 2006), \emph{Dawn of War II} (Relic
 Entertainment, 2009) and \emph{Dragon Age: Origins} (BioWare, 2010).
-Additionally, regular grids often appear in academic literature; for example in areas such as robotics \cite{latombe92} and
-single-agent pathfinding \cite{yap02,botea04,sturtevant07,harabor10}.
+Additionally, regular grids often appear in academic literature; for example in areas such as robotics \cite{choset05} and
+single-agent pathfinding \cite{yap02,botea04,sturtevant07,harabor08}.
 \par
 In the context of single-agent pathfinding, and real-time video games in particular, it is often the case that queries sent to
 the pathfinding system  need to be solved as quickly as possible.
@@ -22,7 +22,7 @@ Furthermore it is well known that even heuristics which differ from perfect info
 by at most a (small) additive constant, can still exhibit poor performance on a range of 
 problems such as AI planning and graph search \cite{helmert08,pohl77}.
 \par
-In recent years a third method for speeding up search has emerged: symmetry breaking \cite{pochter10,harabor10}.
+Very recently a third method for speeding up search has emerged: symmetry breaking \cite{pochter10,harabor10}.
 This approach recognises that there are often many paths of identical length between arbitrary pairs of tiles on a map.
 The main idea then is to decompose the search space in such a way that, given a particular pathfinding problem, it is possible to
 discard from consideration tiles which are on a path of identical length to the one ultimately returned as the solution\footnote{
@@ -36,7 +36,8 @@ on certain types of maps, with suboptimal methods such as HPA* and PRA*.
 In this work we present Perimeter Search; a new symmetry breaking search algorithm which generalises the method described in \cite{harabor10}.
 That work uses an Empty Rooms decomposition (see Figure \ref{fig-overview}) to convert an arbitrary grid map into an
 equivalent grid map where only tiles on the perimeter of each empty room, and never the interior, need to be explored during search. 
-Though effective, the method is limited to 4-connected grid maps (which allow straight but not diagonal moves).
+Though effective, the method is limited to 4-connected grid maps where only straight moves, and not diagonal, are
+allowed.
 We extend their approach to 8-connected grid maps, which are much more common, and show how the higher branching factor associated 
 with this domain makes effective symmetry elimination more challenging.
 In the process we develop two novel methods for reducing the branching factor during search.
@@ -55,8 +56,8 @@ On our test data the average performance of A* is increased by up to 9 times on 
        \end{center}
 	\vspace{-3pt}
        \caption{(Top) A highly symmetric pathfinding instance. Many solutions exist; we highlight three. 
-				(Bottom) The same map with our symmetry elimination method applied. We decompose the map
-				into a set of obstacle-free rooms from which we prune all nodes except those on the perimeter.
-				We replace them with a small set of macro edges that connect the perimeter nodes directly.} 
+				(Bottom) The same map with the Empty Rooms symmetry elimination method applied. 
+				The map is decomposed into a set of obstacle-free rooms from which are pruned all nodes except those on the perimeter.
+				They are replaced with a small set of macro edges that connect the perimeter nodes directly.}
        \label{fig-overview}
 \end{figure}
