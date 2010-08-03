@@ -1,21 +1,36 @@
 Pathfinding systems which operate on regular grids are commonly found in modern video games.
 Some recent examples include \emph{Company of Heroes} (Relic Entertainment, 2006), \emph{Dawn of War II} (Relic
 Entertainment, 2009) and \emph{Dragon Age: Origins} (BioWare, 2010).
-Regular grids are also the subject of academic study, for example in areas such as robotics \cite{latombe92} and
-single-agent pathfinding \cite{yap02,botea04,sturtevant07, harabor08}.
+Additionally, regular grids often appear in academic literature; for example in areas such as robotics \cite{latombe92} and
+single-agent pathfinding \cite{yap02,botea04,sturtevant07,harabor10}.
 \par
-%In the context of single-agent pathfinding the A* algorithm is regarded as the gold standard.
-%It is complete, optimal and optimally-efficient which makes it very popular with game developers and researchers alike.
 In the context of single-agent pathfinding, and real-time video games in particular, it is often the case that queries sent to
 the pathfinding system  need to be solved as quickly as possible.
-Traditionally, this requirement is met in one of two ways: ether by building and searching within a much smaller approximate
-state space or by developing new heuristics to better guide the search.
-
-%through the application of hierarchical pathfinding methods or the
-%development of improved heuristics.
-Although both are highly effective at speeding up search, each suffers from 
-Hiearchical pathfinding algorithms, such as HPA* \cite{botea04} and PRA* \cite{sturtevant05}, proceed by
-building a much smaller approximate search space which is used in favour of the original grid map.
-This approach is very fast and uses little memory in practice but has the disadvantage that computed solutions are not
-guaranteed to be optimal. 
+Traditionally, this requirement is met in one of two ways: (i) by reducing the size of the search space through hierarchical 
+decomposition or (ii) through the development of improved heuristics to guide search.
+In the case of hierarchical decomposition, techniques such as
+HPA*~\cite{botea04} and PRA*~\cite{sturtevant05} seek to construct and explore
+a much reduced approximate state space.
+These methods are fast and require no significant extra-memory when compared to the classical
+A* algorithm \cite{hart68}.
+However, they have the disadvantage that solutions are not guaranteed to be optimal.
+Meanwhile, in case of the improved heuristics, it has been frequently shown
+that obtaining better informed results than than the popular
+Manhattan heuristic usually incurs significant memory overhead 
+\cite{sturtevant09,goldberg05,Cazenave:06,bjornsson06}.
+Furthermore it is well known that even heuristics which differ from perfect information 
+by at most a (small) additive constant, can still exhibit poor performance on a range of 
+problems such as AI planning and graph search \cite{helmert08,pohl77}.
+\par
+In recent years however a third method has emerged: symmetry breaking.
+Approaches such as Swamp Hierarchies \cite{pochter10} and Empty Room Decomposition \cite{harabor10} have shown that,
+on a grid map, there are often many identical paths between any arbitrary pairs of tiles.
+They both proceed in a similar way: decompose a grid map in such a way that, given a particular pathfinding problem, it is possible to
+discard from consideration a large number of tiles which cannot appear on any optimal path -- or which lie on a symmetric
+path of identical length to the one ultimately returned as the solution.
+Algorithms based on symmetry breaking have been shown to be both optimal and memory efficient, particularly when
+compared with memory-based heuristics.
+They can also significantly improve the search-time performance of the classical A* algorithm; making it competitive,
+in some cases, with suboptimal methods such as HPA* and PRA*.
+\par
 

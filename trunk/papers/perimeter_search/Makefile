@@ -1,4 +1,4 @@
-aticle.ps: *.tex ref.bib
+aticle.ps: *.tex references.bib
 	pdflatex article
 	bibtex article
 	pdflatex article
