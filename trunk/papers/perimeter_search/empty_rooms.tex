@@ -1,4 +1,12 @@
-\section{Empty Rooms Symmetry Elimination}
+\section{Breaking Symmetries on 8-connected Grid Maps}
+Symmetric search spaces appear in many areas of Artificial Intelligence (for example, constraint programming \cite{walsh07})
+and in almost all cases they are undesirable. 
+This is because symmetry forces search algorithms to waste time by evaluating
+large numbers of identical states without making any real progress towards the goal.
+A recent method for breaking path symmetries in 4-connected grid maps is described in \cite{harabor10}.
+It relies on an Empty Rooms decomposition which we will briefly present here due to its central importance to the
+remainder of this paper.
+\par
 Explain how we extend this to 8-connected grids.
 We will discuss the changes necessary to the offline
 pruning step as well as the online re-insertion procedure.
