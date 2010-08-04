@@ -8,8 +8,8 @@
 %By comparison, we study the much more specific problem of eliminating path symmetries that 
 %appear between pairs of nodes on a grid map. 
 %\par
-One recent result on the problem of eliminating unnecessary path fragments on grid maps is due to
-\citeauthor{pochter09}~\shortcite{pochter09}.
+One recent result on the problem of symmetry elimination on grid maps is due to
+\citeauthor{pochter10}~\shortcite{pochter10}.
 They introduce \emph{swamps}, which are areas that don't have to be searched
 because crossing them would not improve the length of paths.
 The identification of swamps is quite different to our empty room decomposition.
@@ -48,14 +48,16 @@ shown to expand a large number of nodes from the interior of empty rooms, which 
 It is also worth noting that MSA* uses a different empty room decomposition method
 from the one described in our work.
 \par
-Fringe Search \cite{bjornsson05} is a general purpose iterative deepening technique which also
+Fringe Search \cite{bjornsson05} is a general purpose graph search algorithm which also
 aims to improve on the performance of A*.
 This work is quite different from others we have discussed in that it does not
 rely on any specific decomposition technique nor on the development of any new heuristics
 to guide the search.
+Rather, it uses a novel iterative deepening technique that resumes each subsequent iteration from where the last
+iteration left off. 
 It is provably optimal if maximum search depth is sufficiently large and 
 it has been shown to run between 25-40\% faster than A*.
-As our work is an offline graph-pruning technique, it could be combined with any search algorithm, including
+As our work is predominately an offline graph-pruning technique, it could be combined with any search algorithm, including
 Fringe Search.
 \par
 Another effective method for solving path planning problems is to reformulate the original problem
