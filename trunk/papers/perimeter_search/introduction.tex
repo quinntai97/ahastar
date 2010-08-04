@@ -25,12 +25,13 @@ problems such as AI planning and graph search \cite{helmert08,pohl77}.
 Very recently a third method for speeding up search has emerged: symmetry breaking \cite{pochter10,harabor10}.
 This approach recognises that there are often many paths of identical length between arbitrary pairs of tiles on a map.
 The main idea then is to decompose the search space in such a way that, given a particular pathfinding problem, it is possible to
-discard from consideration tiles which are on a path of identical length to the one ultimately returned as the solution\footnote{
+discard from consideration tiles which are on a symmetric path of identical length to the one ultimately returned 
+as the solution\footnote{
 As we will see, this process also has the added advantage of discarding tiles 
-that cannot appear on any optimal path.}.
+that cannot appear on any optimal path but which must nevertheless be expanded.}
 Algorithms of this type have been  shown to produce results that are not only optimal but also memory efficient, 
 particularly when compared with memory-based heuristics.
-Additionally, they can significantly improve the search-time performance of the classical A* algorithm; making it competitive,
+Additionally, they can significantly improve search-time performance of the classical A* algorithm; making it competitive,
 on certain types of maps, with suboptimal methods such as HPA* and PRA*.
 \par
 In this work we present Perimeter Search; a new symmetry breaking search algorithm which generalises the method described in \cite{harabor10}.
@@ -43,7 +44,7 @@ with this domain makes effective symmetry elimination more challenging.
 In the process we develop two novel methods for reducing the branching factor during search.
 The first is an offline pruning technique that minimises the size of the perimeter associated with an empty room.
 The second is an online optimisation which speeds up node expansion by selectively evaluating either all neighbours
-associated with a particular tile or only a subset.
+associated with a particular tile or only a small subset.
 We show that in each case both optimality and completeness are preserved.
 We then evaluate our technique experimentally on a number of synthetic and realistic benchmarks, including one well known set 
 from the popular roleplaying game \emph{Baldur's Gate II}.
