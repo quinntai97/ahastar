@@ -1,18 +1,30 @@
-\section{Breaking Symmetries on 8-connected Grid Maps}
-Symmetric search spaces appear in many areas of Artificial Intelligence (for example, constraint programming \cite{walsh07})
-and in almost all cases they are undesirable. 
-This is because symmetry forces search algorithms to waste time by evaluating
-large numbers of identical states without making any real progress towards the goal.
+\section{Breaking Symmetries in 4-connected Grid Maps}
+Symmetry is an undesirable characteristic in a search space because it forces
+search algorithms to evaluate many identical states and prevents real progress toward the goal.
+\par
 A recent method for breaking path symmetries in 4-connected grid maps is described in \cite{harabor10}.
-It relies on an Empty Rooms decomposition which we will briefly present here due to its central importance to the
-remainder of this paper.
-\par
-Explain how we extend this to 8-connected grids.
-We will discuss the changes necessary to the offline
-pruning step as well as the online re-insertion procedure.
-
-We might also need a short description of how rooms are identified to begin with.
-
-\textbf{Offline Pruning} foo bar baz.
-\par
-\textbf{Online Re-insertion} foo bar baz.
+That work relies on an Empty Rooms decomposition which prunes tiles from a grid map and, in the process, 
+also eliminates symmetric path segments. 
+We gave an example of this approach in Figure \ref{fig-overview}; we now provide a more detailed overview
+as the technique is central to the remainder of this paper.
+The algorithm proceeds as follows:
+\begin{enumerate}
+\item{Decompose the grid map into a series of empty rooms, rectangular in shape, which are free of any obstacles.}
+\item{Prune all tiles from the interior of each room, leaving only a small set to form a boundary perimeter.} 
+\item{Add a series of \emph{macro edges} to connect each tile on the perimeter with another tile on the directly opposite side
+of the room. 
+The cost of each edge is equal to the Manhattan distance between its endpoints.}
+\end{enumerate}
+To handle cases when the start or goal location is a tile which has been previously pruned, a simple constant-time
+re-insertion procedure is used. 
+%There are two distinct cases to consider: the first is when the start and goal are in the same room;
+%the second is when they are in different rooms.
+\begin{enumerate}
+\item{If both the start and goal are in the same room no insertion is necessary.
+The length of the optimal path is equal to the Manhattan distance between the two locations.}
+\item{If the start and goal are in different rooms, add an extra node into the graph to represent each one.
+Then, connect each newly inserted node to the closest node on each of the 4 sides of the room's perimeter.}
+\end{enumerate}
+From here it is a simple matter to show that for any optimal length path which exists in the original, unmodified, grid
+map, there is at least one equivalent length path in the pruned grid map. 
+In the next section we will adapt this technique to 8-connected grid maps. 
