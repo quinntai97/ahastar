@@ -34,14 +34,15 @@ particularly when compared with memory-based heuristics.
 Additionally, they can significantly improve search-time performance of the classical A* algorithm; making it competitive,
 on certain types of maps, with suboptimal methods such as HPA* and PRA*.
 \par
-In this work we present Perimeter Search; a new symmetry breaking search algorithm which generalises the method described in \cite{harabor10}.
-That work uses an Empty Rooms decomposition (see Figure \ref{fig-overview}) to convert an arbitrary grid map into an
-equivalent grid map where only tiles on the perimeter of each empty room, and never the interior, need to be explored during search. 
-Though effective, the method is limited to 4-connected grid maps where only straight moves, and not diagonal, are
-allowed.
-We extend their approach to 8-connected grid maps, which are much more common, and show how the higher branching factor associated 
+In this paper we present Perimeter Search; a new symmetry breaking search algorithm which generalises the method described in \cite{harabor10}.
+That work uses an Empty Rooms decomposition to convert an arbitrary grid map into an
+equivalent grid map where only tiles on the perimeter of each empty room, and never the interior, need to be explored
+during search (see Figure \ref{fig-overview}).
+%Though effective, the method is limited to 4-connected grid maps where only straight moves, and not diagonal, are
+%allowed.
+We extend their approach from 4-connected grid maps to the much more common 8-connected case and show how the higher branching factor associated 
 with this domain makes effective symmetry elimination more challenging.
-In the process we develop two novel methods for reducing the branching factor during search.
+In the process we develop two novel methods for reducing branching factor during search.
 The first is an offline pruning technique that minimises the size of the perimeter associated with an empty room.
 The second is an online optimisation which speeds up node expansion by selectively evaluating either all neighbours
 associated with a particular tile or only a small subset.
@@ -56,9 +57,7 @@ On our test data the average performance of A* is increased by up to 9 times on 
                        \includegraphics[scale=0.30, trim = 10mm 10mm 10mm 0mm]{diagrams/overview.png}
        \end{center}
 	\vspace{-3pt}
-       \caption{(Top) A highly symmetric pathfinding instance. Many solutions exist; we highlight three. 
-				(Bottom) The same map with the Empty Rooms symmetry elimination method applied. 
-				The map is decomposed into a set of obstacle-free rooms from which are pruned all nodes except those on the perimeter.
+       \caption{In \cite{harabor10} a 4-connected map is decomposed into a set of obstacle-free rooms from which are pruned all nodes except those on the perimeter.
 				They are replaced with a small set of macro edges that connect the perimeter nodes directly.}
        \label{fig-overview}
 \end{figure}
