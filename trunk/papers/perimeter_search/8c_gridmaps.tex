@@ -8,26 +8,48 @@ However, if the map consists of 8-connected tiles this strategy is no longer opt
 In particular, the original (unmodified) map may contain a more direct path to $n$ using one or more diagonal
 transtions.
 \par
-We will address this problem by adding to $R$ a series of additional macro edges that will facilitate optimal
-traversal between any arbitrary pair of tiles on the perimeter.
-Our method (the results of which we highlight in Figure \ref{fig-fan}) is simple
+We will address this problem by adding to $R$ a minimal set of additional macro edges
+which facilitate optimal traversal between arbitrary pairs of tiles on the perimeter.
+Our method is a simple 2 step process (with examples in Figure \ref{fig-macroedges}):
+%which we will call the \emph{fan} of $m$ (or simply $\Gamma_{m}$).
+%The main idea then is to show that for any pair of tiles appearing on the perimeter of $R$ an optimal length
+%path exists which involves only nodes from the perimeter of $R$ and possibly one macro edge.
+%Figure \ref{fig-fan} shows some examples of our approach. 
+%The method itself is simple:
 
 \begin{enumerate}
-\item{For each tile $m \in R$ identify $\Gamma_{m}$, a minimum set of perimeter tiles where 
-each $n \in \Gamma_{m}$ can be reached from $m$ by a path involving one or more diagonal transitions.}
-\item{Add an edge connecting $m$ to each $n \in \Gamma_{m}$ where the weight of each edge is equal to the 
-octile distance between $m$ and $n$.}
+\item{First, add a series of macro edges between pairs of perimeter tiles on orthogonal sides of $R$. 
+We connect two tiles only if the proposed macro edge represents a path through the interior of $R$ that involves
+only diagonal steps. }
+\item{Next, add a series of macro edges between pairs of perimeter tiles on opposite sides of $R$.
+We connect two tiles only if the proposed macro edge represents a path through the interior of $R$ which is shorter
+than any alternative path involving only tiles from the perimeter and possibly one (other) macro edge.
+}
 \end{enumerate}
-There are many ways to compute $\Gamma_{m}$.
-Conceptually, the simplest method is to compute a non-dominated
-set of paths, each of which contains at least one diagonal transition, between $m$ and every perimeter tile $n$.
-We say that a path $\pi_{m, n}$ dominates another $\pi_{m, p}$ if $\pi_{m, n} + \pi_{n, p} \leq \pi_{m, p}$.
-\par
-It is easy to see that our method preserves optimality: when traversing from some perimeter node $m$ to any other
-perimeter node $n$ we can either follow a macro edge at $m$ and reach $n$ directly (if such an edge exists) 
-or else follow a different macro edge to an intermediate node $m'$ which is on the same side of the perimeter as $n$.
-Since the path from $m$ to $m'$ involves a maximum number of diagonal steps the total distance from $m$ to $m'$ and
-finally to $n$ is equal to the octile distance between $m$ and $n$ and thus optimal. 
+%It is easy to see that our method preserves optimality when traversing from some perimeter node $m \in R$ to any other
+%perimeter node $n \in R$.
+We claim this method preserves optimality when traversing arbitrary rooms in an 8-connected grid map.
+\begin{lemma}
+Let $R$ be an empty rectangular room in an 8-connected grid map.
+Further, let $m$ and $n$ be two locations along its perimeter.
+Then, $m$ and $n$ can be connected optimally through a path that mentions only nodes on the perimeter of $R$ and
+possibly involves one macro edge.
+\end{lemma}
+
+\begin{proof}
+There are three cases to consider:
+\begin{enumerate}
+\item{$m$ and $n$ are on the same side of the perimeter.}
+\item{$m$ and $n$ are on orthogonal sides of the perimeter.}
+\item{$m$ and $n$ are on opposite sides of the perimeter.}
+\end{enumerate}
+In the first case we can simply walk along the perimeter from $m$ to $n$; the optimality of this path is immediate. 
+In the second and third case we argue as follows: if $m$ and $n$ are not connected by a macro edge
+we can walk along the perimeter from $m$ to an intermediate node $m'$ and follow a macro edge to a node $n'$ on the 
+same side of the perimeter as $n$. Finally, we walk along the perimeter from $n'$ to $n$.
+The length of this path is equal to the octile distance between $m$ and $n$ and therefore optimal
+\footnote{Note that in some cases $m' = m$ or $n' = n$ (or both).}.
+\end{proof}
 
 
 \begin{figure}[tb]
