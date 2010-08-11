@@ -1,6 +1,27 @@
 \section{Reducing The Branching Factor}
-In this section we discuss our branching factor optimisation.
-It will be split into two sections:
-\textbf{Perimeter Reduction} this is the offline speedup. 
+Though the symmetry breaking method discussed thus far is optimal our experiments show that
+ the average branching factor of each expanded node is almost two times larger than searching
+on an umodified grid map.
+Generally speaking, a high branching factor is undesirable for two reasons:
+(i) invididual node expansion operations take longer and (ii) additional neighbours usually 
+add more branches to the search tree and make it more difficult to reach the goal.
 \par
+In this section we discuss two novel optimality preserving methods for reducing branching factor. 
+The first is an offline perimeter reduction method while the second is an online optimisation which speeds up 
+node expansion when traveling along the perimeter of an empty room.
+We will discuss both methods in the context of 8-connected grid maps however analogous algorithms, suitable to
+ 4-connected grid maps, are easily derived.
+\par \noindent \newline
+\textbf{Perimeter Reduction} this is the offline speedup. 
+\par \noindent \newline
 \textbf{Faster Node Expansion} this is the online speedup.
+
+The branching factor associated with each tile on the perimeter of a room is dependent
+on the dimensions of the room.
+Consider a room of width $w$ and height $h$ where $w > h$.
+After adding all non-dominated macro edges each tile is incident with at least $h$ macro edges and up to $2h-1$
+depending on its positon on the perimeter.
+Further, each tile is adjacent with 2 other tiles in the same room and up to 3 tiles from an adjacent room.
+Thus the total branching factor for each tile on the perimeter of an empty room is at least $h + 2$ and can be as high
+as $2h + 4$.
+
