@@ -1,4 +1,6 @@
 \section{Breaking Symmetries in 8-connected Grids}
+
+
 Consider a path which enters an empty room $R$ at some perimeter node $m$ and exits at some other
 node $n$ located on the opposite side of the room.
 On a 4-connected map we can optimally traverse the room by expanding $m$, following
@@ -8,14 +10,14 @@ However, if the map consists of 8-connected tiles this strategy is no longer opt
 In particular, the original (unmodified) map may contain a more direct path to $n$ using one or more diagonal
 transtions.
 \par
-We will address this problem by adding to $R$ a minimal set of additional macro edges
-which facilitate optimal traversal between arbitrary pairs of tiles on the perimeter.
-Our method is a simple 2 step process (with examples in Figure \ref{fig-macroedges}):
-%which we will call the \emph{fan} of $m$ (or simply $\Gamma_{m}$).
-%The main idea then is to show that for any pair of tiles appearing on the perimeter of $R$ an optimal length
-%path exists which involves only nodes from the perimeter of $R$ and possibly one macro edge.
-%Figure \ref{fig-fan} shows some examples of our approach. 
-%The method itself is simple:
+We address this problem as follows:
+First, we give an offline procedure which adds to $R$ a set of additional macro edges
+to facilitate optimal travel between arbitrary pairs of tiles on the perimeter.
+Second, we give an online re-insertion procedure which deals with cases where the start or
+goal is a tile that has been previously removed.
+\\ \newline
+\textbf{Offline Procedure: }
+Our method is a simple 2 step process (shown in Figure \ref{fig-macroedges}):
 
 \begin{enumerate}
 \item{First, add a series of macro edges between pairs of perimeter tiles on orthogonal sides of $R$. 
@@ -26,10 +28,21 @@ We connect two tiles only if the proposed macro edge represents a path through t
 than any alternative path involving only tiles from the perimeter and possibly one (other) macro edge.
 }
 \end{enumerate}
-%It is easy to see that our method preserves optimality when traversing from some perimeter node $m \in R$ to any other
-%perimeter node $n \in R$.
+
+\begin{figure}[tb]
+       \begin{center}
+                       \includegraphics[scale=0.5, trim = 10mm 10mm 10mm 0mm]{diagrams/macroedges.png}
+       \end{center}
+	\vspace{-3pt}
+       \caption{(Top) Macro edges between tiles on orthogonal sides of an empty room. 
+(Bottom) Each tile on the perimeter is connected to a set of tiles on the opposite side of the room.
+Dominated edges are skipped; in this case the path $\lbrace t1, t2, t3 \rbrace$
+dominates the proposed edge $(t1, t3)$.}
+       \label{fig-macroedges}
+\end{figure}
 We claim this method preserves optimality when traversing arbitrary rooms in an 8-connected grid map.
 \begin{lemma}
+\label{lemma-rooms}
 Let $R$ be an empty rectangular room in an 8-connected grid map.
 Further, let $m$ and $n$ be two locations along its perimeter.
 Then, $m$ and $n$ can be connected optimally through a path that mentions only nodes on the perimeter of $R$ and
@@ -41,7 +54,7 @@ There are three cases to consider:
 \begin{enumerate}
 \item{$m$ and $n$ are on the same side of the perimeter.}
 \item{$m$ and $n$ are on orthogonal sides of the perimeter.}
-\item{$m$ and $n$ are on opposite sides of the perimeter.}
+\item{\label{lemma-rooms-step3} $m$ and $n$ are on opposite sides of the perimeter.}
 \end{enumerate}
 In the first case we can simply walk along the perimeter from $m$ to $n$; the optimality of this path is immediate. 
 In the second and third case we argue as follows: if $m$ and $n$ are not connected by a macro edge
@@ -51,12 +64,24 @@ The length of this path is equal to the octile distance between $m$ and $n$ and 
 \footnote{Note that in some cases $m' = m$ or $n' = n$ (or both).}.
 \end{proof}
 
+\noindent
+\textbf{Online Insertion:}
+It is often the case that a tile from the interior of an empty room is required as a start or goal location for an
+agent. 
+To handle such situations we give an online procedure that temporarily re-inserts tiles back into the map for the duration
+of a search. 
+Our method is a variation on the re-insertion alogorithm described in \cite{harabor10}. It proceeds as follows:
 
-\begin{figure}[tb]
-       \begin{center}
-                       \includegraphics[scale=0.5, trim = 10mm 10mm 10mm 0mm]{diagrams/fan.png}
-       \end{center}
-	\vspace{-3pt}
-       \caption{Some examples.}
-       \label{fig-fan}
-\end{figure}
+\begin{enumerate}
+\item{If the start and goal are interior nodes in the same room no insertion is necessary; an optimal
+path is trivially available. }
+\item{If the start and goal are not in the same room, add to $R$ a series of non-dominated macro edges that connects
+the inserted tile to a set of nodes on each side of the room's perimeter. This is similar to Step 2 of our offline procedure.}
+\end{enumerate}
+%It is possible to identify, in constant time, the set of tiles which the start or goal must be connected to.
+%Further, in an efficient implementation, we could generate these neighbours on the fly.
+%This means the time complexity associated with insertion can be as low as $O(1)$.
+
+We claim that using the temporary macro edges added by this algorithm it is possible to travel optimally from the start or goal 
+location to any tile on the perimeter of the start or goal room. 
+The (omitted) proof uses a similar argument to the one given for Step \ref{lemma-rooms-step3} of Lemma \ref{lemma-rooms}.
