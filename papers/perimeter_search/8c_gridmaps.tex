@@ -15,6 +15,7 @@ First, we give an offline procedure which adds to $R$ a set of additional macro 
 to facilitate optimal travel between arbitrary pairs of tiles on the perimeter.
 Second, we give an online re-insertion procedure which deals with cases where the start or
 goal is a tile that has been previously removed.
+Finally, we give a proof which shows this method is optimal.
 \\ \newline
 \textbf{Offline Procedure: }
 Our method is a simple 2 step process (shown in Figure \ref{fig-macroedges}):
@@ -81,7 +82,21 @@ the inserted tile to a set of nodes on each side of the room's perimeter. This i
 %It is possible to identify, in constant time, the set of tiles which the start or goal must be connected to.
 %Further, in an efficient implementation, we could generate these neighbours on the fly.
 %This means the time complexity associated with insertion can be as low as $O(1)$.
-
-We claim that using the temporary macro edges added by this algorithm it is possible to travel optimally from the start or goal 
-location to any tile on the perimeter of the start or goal room. 
+\begin{lemma}
+\label{lemma-insertion}
+Let $R$ be an empty rectangular room in an 8-connected grid map.
+For any nodes $m$, $n$, with $m$ a re-inserted interior node and $n$ a node on the perimeter, it is always possible to
+find an optimal length path which mentions no interior nodes except for $m$.
+\end{lemma}
 The (omitted) proof uses a similar argument to the one given for Step \ref{lemma-rooms-step3} of Lemma \ref{lemma-rooms}.
+
+%We claim that using the temporary macro edges added by this algorithm it is possible to travel optimally from the start or goal 
+%location to any tile on the perimeter of the start or goal room. 
+\par \noindent
+\newline
+\textbf{Optimality:} We claim the symmetry elimination procedure outlined in this section is sufficient to guarantee
+that A*, running on a modified 8-connected grid map, will always find an optimal length solution if one exists.
+Our (omitted) proof follows from Lemma \ref{lemma-rooms} and Lemma \ref{lemma-insertion}.
+It is based on the observation that for every segment of an optimal length path, which enters a room at some tile $m$
+and exits at some tile $n$, there is an equivalent length path that mentions only nodes from the perimeter of that room 
+and possibly one macro edge.

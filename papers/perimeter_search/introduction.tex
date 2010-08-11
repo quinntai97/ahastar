@@ -23,9 +23,9 @@ by at most a (small) additive constant, can still exhibit poor performance on a 
 problems such as AI planning and graph search \cite{helmert08,pohl77}.
 \par
 Very recently a third method for speeding up search has emerged: symmetry breaking \cite{pochter10,harabor10}.
-This approach recognises that there are often many paths of identical length between arbitrary pairs of tiles on a map.
+This approach recognises that there are often many paths of equal length between arbitrary pairs of tiles on a map.
 The main idea then is to decompose the search space in such a way that, given a particular pathfinding problem, it is possible to
-discard from consideration tiles which are on a symmetric path of identical length to the one ultimately returned 
+discard from consideration tiles which are on a symmetric path of equal length to the one ultimately returned 
 as the solution\footnote{
 As we will see, this process also has the added advantage of discarding tiles 
 that cannot appear on any optimal path but which must nevertheless be expanded.}.
