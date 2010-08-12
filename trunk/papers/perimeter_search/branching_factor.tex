@@ -1,10 +1,10 @@
 \section{Reducing The Branching Factor}
-The branching factor associated with each tile on the perimeter of an empty room is dependent
-on the dimensions of the room.
+The branching factor associated with each tile on the perimeter of an empty room (in an 8-connected 
+grid map) is dependent on the dimensions of the room.
 Consider an empty room of width $w$ and height $h$ where $w > h$.
 After adding all non-dominated macro edges to the room, each tile is incident with at least $h$ macro edges and up to $2h-1$ 
 depending on its positon on the perimeter.
-Further, each tile is adjacent with 2 other tiles in the same room and up to 3 tiles from an adjacent room.
+Further, each tile is adjacent with 2 other tiles from the perimeter of the same room and up to 3 tiles from an adjacent room.
 Thus the total branching factor for each tile is at least $h + 2$ and can be as high
 as $2h + 4$.
 Generally speaking, a large branching factor is undesirable for two reasons:
@@ -17,7 +17,16 @@ node expansion when searching along the perimeter of an empty room.
 We will discuss both methods in the context of 8-connected grid maps.
 Analogous algorithms, suitable to 4-connected grid maps, are easily derived.
 \par \noindent \newline
-\textbf{Perimeter Reduction} this is the offline speedup. 
+\textbf{Perimeter Reduction:}
+We observe that in many cases there are tiles on the perimeter of an empty room which have no neighbours from any 
+adjacent room. 
+These tiles represent intermediate locations between entry and exit points that lead into and out of each empty room.
+To speed up search we propose pruning from the perimeter of each room all such nodes.
+To preserve optimality, we will connect the neighbours of each pruned node directly to each other.
+The weight of each new edge is therefore equal to the octile distance between the two neighbours.
+Figure \ref{fig-reduction} shows an example.
+This is a very simple optimisation but as we will see, it can have a dramatic effect on the average performance of
+A* on certain types of maps.
 \par \noindent \newline
-\textbf{Faster Node Expansion} this is the online speedup.
+\textbf{Faster Node Expansion:} 
 
