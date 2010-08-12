@@ -27,14 +27,8 @@ The weight of each new edge is therefore equal to the octile distance between th
 Figure \ref{fig-reduction} shows an example.
 This is a very simple optimisation but as we will see, it can have a dramatic effect on the average performance of
 A* on certain types of maps.
-\par \noindent \newline
-\textbf{Faster Node Expansion:} 
-We propose the following online symmetry elimination tehcnique:
-\begin{enumerate}
-\item{}
-\end{enumerate}
 
-\begin{figure}[tb]
+\begin{figure}[t]
        \begin{center}
                        \includegraphics[scale=0.5, trim = 10mm 10mm 10mm 0mm]{diagrams/branching.png}
        \end{center}
@@ -44,5 +38,50 @@ We prune these nodes and connect their neighbours directly (not all macro edges 
 		(Bottom) A path enters an empty room at tile $t1$ and exits at tile $t2$. Notice that once
 $t1$ is expanded every path to $t2$ is dominated by a path that starts at $t1$ and mentions one of its macro edges.
 }
-       \label{fig-macroedges}
+       \label{fig-branching}
 \end{figure}
+
+\par \noindent \newline
+\textbf{Faster Node Expansion:} 
+We noted earlier that the number of neighbours associated with a tile on the perimeter of an empty room grows linearly
+with the dimensions of the room. 
+However, as Figure \ref{fig-branching} (Bottom) shows, many of these neighbours are often on a dominated or symmetric
+path during the search instance at hand.
+We therefore propose the following symmetry elimination technique to speed up node expansion:
+\begin{enumerate}
+\item{Divide the set of neighbours associated with each tile on the perimeter of an empty room into two distinct sets:
+\emph{primary neighbours} and \emph{secondary neighbours}.
+Secondary neighbours are those which are located on the opposite side of the room to the current tile. 
+Primary neighbours are all the rest.}
+\item{When expanding a node, determine which room the parent of the current node belongs to.}
+\item{If the parent and the current node belong to different rooms process all primary and secondary neighbours.
+However, if the parent and the current node belong to the same room, process only primary neighbours.}
+\end{enumerate}
+
+\begin{lemma}
+The ''Fast Node Expansion'' algorithm preserves optimality during search.
+\end{lemma}
+\begin{proof}
+There are three cases to consider:
+\begin{enumerate}
+\item{$m$ and $n$ are on the same side of the room}
+\item{$m$ and $n$ are on orthogonal sides of the room}
+\item{$m$ and $n$ are on opposite sides of the room}
+\end{enumerate}
+In all cases we begin by expanding $m$ and process all its primary and secondary neighbours.
+Subsequent nodes from the same room, which are descendants of $m$ in the search tree, 
+only have their primary neighbours evaluated during expansion.
+In the first and second case the optimal path from $m$ to $n$ involves no tiles from the opposite side of the room;
+the decision to ignore all secondary neighbours has no effect on the optimality of the solution.
+In the third case we argue as follows:
+if $m$ and $n$ are connected by a macro edge, an optimal path is found when we expand $m$.
+When this is not the case we can simply follow one of the macro edges at $m$ to a node $n'$ which on the same side
+of the room as $n$ and from there travel along the perimeter to $n$.
+The only alternative way to reach $n$ is to travel along the perimeter from $m$ to some node $m'$ and follow
+a macro edge from $m'$ directly to $n$. 
+It is simple to show however that the length of these two paths are equal.
+Thus, the decision to ignore all secondary neighbours for all possible choices of $m'$ has no effect on the optimality
+of the solution.
+\end{proof}
+
+
