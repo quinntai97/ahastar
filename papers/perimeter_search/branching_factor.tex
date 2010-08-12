@@ -29,4 +29,20 @@ This is a very simple optimisation but as we will see, it can have a dramatic ef
 A* on certain types of maps.
 \par \noindent \newline
 \textbf{Faster Node Expansion:} 
+We propose the following online symmetry elimination tehcnique:
+\begin{enumerate}
+\item{}
+\end{enumerate}
 
+\begin{figure}[tb]
+       \begin{center}
+                       \includegraphics[scale=0.5, trim = 10mm 10mm 10mm 0mm]{diagrams/branching.png}
+       \end{center}
+	\vspace{-3pt}
+       \caption{(Top) An empty room. Dark grey tiles have no neighbours from any adjacent room. 
+We prune these nodes and connect their neighbours directly (not all macro edges shown).
+		(Bottom) A path enters an empty room at tile $t1$ and exits at tile $t2$. Notice that once
+$t1$ is expanded every path to $t2$ is dominated by a path that starts at $t1$ and mentions one of its macro edges.
+}
+       \label{fig-macroedges}
+\end{figure}
