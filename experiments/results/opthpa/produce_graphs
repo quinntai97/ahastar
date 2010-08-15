@@ -1,39 +1,17 @@
 #### Graph Size Table ####
 ### graphsize table ####
-gs_trendmean <- mean(100-(graphsize[grep("AR*", graphsize$map), 3]/graphsize[grep("AR*", graphsize$map), 1])*100)
-gs_trendmean <- rbind(gs_trendmean, 
+gs_trendmean <- as.data.frame(mean(100-(graphsize[grep("AR*", graphsize$map), 3]/graphsize[grep("AR*", graphsize$map), 1])*100))
+gs_trendmean <- cbind(gs_trendmean,
+mean(100-(graphsize[grep("AR*", graphsize$map), 4]/graphsize[grep("AR*", graphsize$map), 2])*100))
+gs_trendmean <- cbind(gs_trendmean, 
 mean(100-(graphsize[grep("adaptive*", graphsize$map), 3]/graphsize[grep("adaptive*", graphsize$map), 1])*100))
-gs_trendmean <- rbind(gs_trendmean, 
+gs_trendmean <- cbind(gs_trendmean, 
+mean(100-(graphsize[grep("adaptive*", graphsize$map), 4]/graphsize[grep("adaptive*", graphsize$map), 2])*100))
+gs_trendmean <- cbind(gs_trendmean, 
 mean(100-(graphsize[grep("*room*", graphsize$map), 3]/graphsize[grep("*room*", graphsize$map), 1])*100))
-row.names(gs_trendmean) <- c("BG", "AD", "Rooms")
-names(gs_trendmean) <- c("pctnodes")
-
-gs_trendmin <- min(100-(graphsize[grep("AR*", graphsize$map), 3]/graphsize[grep("AR*", graphsize$map), 1])*100)
-gs_trendmin <- rbind(gs_trendmin, 
-min(100-(graphsize[grep("adaptive*", graphsize$map), 3]/graphsize[grep("adaptive*", graphsize$map), 1])*100))
-gs_trendmin <- rbind(gs_trendmin, 
-min(100-(graphsize[grep("*room*", graphsize$map), 3]/graphsize[grep("*room*", graphsize$map), 1])*100))
-row.names(gs_trendmin) <- c("BG", "AD", "Rooms")
-names(gs_trendmin) <- c("min")
-
-gs_trendmax <- max(100-(graphsize[grep("AR*", graphsize$map), 3]/graphsize[grep("AR*", graphsize$map), 1])*100)
-gs_trendmax <- rbind(gs_trendmax, 
-max(100-(graphsize[grep("adaptive*", graphsize$map), 3]/graphsize[grep("adaptive*", graphsize$map), 1])*100))
-gs_trendmax <- rbind(gs_trendmax, 
-max(100-(graphsize[grep("*room*", graphsize$map), 3]/graphsize[grep("*room*", graphsize$map), 1])*100))
-row.names(gs_trendmax) <- c("BG", "AD", "Rooms")
-names(gs_trendmax) <- c("max")
-
-gs_trendsd <- sd(100-(graphsize[grep("AR*", graphsize$map), 3]/graphsize[grep("AR*", graphsize$map), 1])*100)
-gs_trendsd <- rbind(gs_trendsd, 
-sd(100-(graphsize[grep("adaptive*", graphsize$map), 3]/graphsize[grep("adaptive*", graphsize$map), 1])*100))
-gs_trendsd <- rbind(gs_trendsd, 
-sd(100-(graphsize[grep("*room*", graphsize$map), 3]/graphsize[grep("*room*", graphsize$map), 1])*100))
-row.names(gs_trendsd) <- c("BG", "AD", "Rooms")
-names(gs_trendsd) <- c("sd")
-
-gs_trend <- as.data.frame(cbind(gs_trendmean, gs_trendmin, gs_trendmax, gs_trendsd))
-names(gs_trend) <- c("mean", "min", "max", "sd");
+gs_trendmean <- cbind(gs_trendmean, 
+mean(100-(graphsize[grep("*room*", graphsize$map), 4]/graphsize[grep("*room*", graphsize$map), 2])*100))
+names(gs_trendmean) <- c("BG-n", "BG-e", "AD-n", "AD-e", "Rooms-n", "Rooms-e")
 
 # decomposition performance (avg room size and avg nodes pruned per room)
 gs_trendanr <- as.data.frame(mean(graphsize[grep("AR*", graphsize$map), 5]))
@@ -49,6 +27,13 @@ row.names(gs_trendanp) <- c("BG", "AD", "Rooms")
 names(gs_trendanp) <- c("avg_pruned")
 
 #### Speedup Graphs #### 
+
+# don't need to measure insertion time in this case (this can be 0 in an
+# efficient implementation)
+ad_ohastar$st <- ad_ohastar$st - ad_ohastar$insst
+bg_ohastar$st <- bg_ohastar$st - bg_ohastar$insst
+rooms_ohastar$st <- rooms_ohastar$st - rooms_ohastar$insst
+
 ad_trend <- as.data.frame(ams(ad_astar$ne/ad_ohastar$ne, ad_astar$opl, 15))
 ad_trend <- cbind(ad_trend[,1:2], ams(ad_astar$st/ad_ohastar$st, ad_astar$opl,
 15)[,2:3])
@@ -64,10 +49,18 @@ rooms_trend <- cbind(rooms_trend[,1:2], ams(rooms_astar$st/rooms_ohastar$st, roo
 25)[,2:3])
 names(rooms_trend) <- c("opl", "ne_speedup", "st_speedup", "num_exp")
 
+speedup_trendmean <- as.data.frame(mean(bg_astar$ne / bg_ohastar$ne))
+speedup_trendmean <- cbind(speedup_trendmean, mean(bg_astar$st / bg_ohastar$st))
+speedup_trendmean <- cbind(speedup_trendmean, mean(ad_astar$ne / ad_ohastar$ne))
+speedup_trendmean <- cbind(speedup_trendmean, mean(ad_astar$st / ad_ohastar$st))
+speedup_trendmean <- cbind(speedup_trendmean, mean(rooms_astar$ne / rooms_ohastar$ne))
+speedup_trendmean <- cbind(speedup_trendmean, mean(rooms_astar$st / rooms_ohastar$st))
+names(speedup_trendmean) <- c("BG_ne", "BG_st", "AD_ne", "AD_st", "Rooms_ne", "Rooms_st")
+
 # drop points for which we have insufficient experiments
-ad_trend <- ad_trend[1:11,]
-bg_trend <- bg_trend[1:18,]
-rooms_trend <- rooms_trend[1:20, ] # remaining buckets have < 10 data points
+ad_trend <- ad_trend[ad_trend$num_exp >= 10,]
+bg_trend <- bg_trend[bg_trend$num_exp >= 10,]
+rooms_trend <- rooms_trend[rooms_trend$num_exp >= 10, ] # remaining buckets have < 10 data points
 
 pdf(width=15, height=5, file="speedup.pdf")
 par(mfrow=c(1,3))
