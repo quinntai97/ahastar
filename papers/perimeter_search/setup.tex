@@ -25,9 +25,15 @@ rectangular areas that are connected by randomly placed entrances.}
 %        \label{fig-bgmap}
 % \end{figure}
 %\par
-For each map we generated 100 valid problem instances. 
-We then ran A* twice: once on the original maps and again on our modified maps making for
-a total of 86400 (432$\times$100$\times$2) distinct experiments.
+Since our work is applicable to both 4 and 8 connected grid maps we used two
+copies each map: one in which diagonal transitions are allowed and another
+in which they are not.
+For each map we generated 100 valid problem instances, checking that every
+instance could be solved both with and without the use of diagonal
+transitions.
+We then ran A* twice: once on the original (4 and 8 connected) maps and again 
+on our modified (4 and 8 connected) maps. 
+This makes for a total of 172800 (864$\times$100$\times$2) distinct experiments.
 Our test machine had a 2.93GHz Intel Core 2 Duo processor, 4GB RAM and
 ran OSX 10.6.2.
 We use the A* implementation provided in HOG.
