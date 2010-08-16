@@ -1,2 +1,19 @@
 \section{Conclusion}
-Concluding remarks go here
+We presented a novel technique for symmetric path elimination in 4 and 8-connected grid maps.
+Our method extends the work in \cite{harabor10} from 4-connected grid maps to the much more common
+8-connected case.
+In the process we also develop two novel methods for reducing branching factor and significantly
+improve the performance search on a wide range of realistic game maps -- including one well known 
+set from the game \emph{Baldur's Gate II}. 
+\par
+The performance of our method depends on the topography of individual maps: 
+in the presence of large rooms or wide open areas we can often compute optimal paths much faster 
+than searching on the original map. 
+On less favourable map topographies we achieve more modest improvements.
+However, since our method is orthogonal to existing search techniques, it could be integrated
+as part of a larger framework involving specialised heuristics or other speedup techniques; 
+for example as described in \cite{botea04,bjornsson05,bjornsson06}. 
+\par
+One direction for future work is to investigate alternative decomposition
+algorithms which produce bigger rooms and improve the performance of the current
+method.
