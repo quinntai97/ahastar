@@ -2,14 +2,14 @@ Pathfinding systems which operate on regular grids are commonly found in modern 
 Some recent examples include \emph{Company of Heroes} (Relic Entertainment, 2006), \emph{Dawn of War II} (Relic
 Entertainment, 2009) and \emph{Dragon Age: Origins} (BioWare, 2010).
 Additionally, regular grids often appear in academic literature; for example in areas such as robotics \cite{choset05} and
-single-agent pathfinding \cite{yap02,botea04,sturtevant07,harabor08}.
+single-agent pathfinding \cite{botea04,bjornsson06,sturtevant07}.
 \par
 In the context of single-agent pathfinding, and real-time video games in particular, it is often the case that queries sent to
 the pathfinding system  need to be solved as quickly as possible.
 Traditionally, this requirement is met in one of two ways: (i) by reducing the size of the search space through hierarchical 
 decomposition or (ii) through the development of improved heuristics to guide search.
 In the case of hierarchical decomposition, techniques such as
-HPA*~\cite{botea04} and PRA*~\cite{sturtevant05} seek to construct and explore
+HPA*~\cite{botea04} and MM-Abstraction~\cite{sturtevant07} seek to construct and explore
 a much reduced approximate state space.
 These methods are fast and require no significant extra-memory when compared to the classical
 A* algorithm \cite{hart68}.
