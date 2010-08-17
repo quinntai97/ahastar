@@ -22,7 +22,8 @@ Furthermore it is well known that even heuristics which differ from perfect info
 by at most a (small) additive constant, can still exhibit poor performance on a range of 
 problems such as AI planning and graph search \cite{helmert08,pohl77}.
 \par
-Very recently a third method for speeding up search has emerged: symmetry breaking \cite{pochter10,harabor10}.
+Very recently a third method for speeding up search has emerged: symmetry
+breaking \cite{bjornsson06,pochter10,harabor10}.
 This approach recognises that there are often many paths of equal length between arbitrary pairs of tiles on a map.
 The main idea then is to decompose the search space in such a way that, given a particular pathfinding problem, it is possible to
 discard from consideration tiles which are on a symmetric path of equal length to the one ultimately returned 
@@ -34,8 +35,8 @@ particularly when compared with memory-based heuristics.
 Additionally, they can significantly improve search-time performance of the classical A* algorithm; making it competitive,
 on certain types of maps, with suboptimal methods such as HPA* and PRA*.
 \par
-In this paper we present Perimeter Search; a new symmetry breaking search algorithm which generalises the method described in \cite{harabor10}.
-That work uses an Empty Rooms decomposition to convert an arbitrary grid map into an
+In this paper we present Perimeter Search; a new symmetry breaking algorithm which generalises the method described in \cite{harabor10}.
+That work uses an Empty Rectangular Rooms decomposition to convert an arbitrary grid map into an
 equivalent grid map where only tiles on the perimeter of each empty room, and never the interior, need to be explored
 during search (see Figure \ref{fig-overview}).
 %Though effective, the method is limited to 4-connected grid maps where only straight moves, and not diagonal, are

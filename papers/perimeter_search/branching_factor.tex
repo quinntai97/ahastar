@@ -48,15 +48,15 @@ tree (e.g $t_{4}, t_{5}, t_{6}$).
 
 \par \noindent \newline
 \textbf{Faster Node Expansion:} 
-Ensuring optimality during search requires adding a large number of edges between tiles on the perimeter of an empty
+Ensuring optimality during search requires connecting each tile on the perimeter
+of an empty room to a linear number of neighbours on the opposite side of the
 room.
-In particular, for any given tile the number of neighbours from the opposite side of the room grows linearly with the
-dimensions of the room.
 This is undesirable as each node expansion then becomes a linear time operation. 
 %By comparison, on an unmodified 8-connected grid map, each node expansion takes constant time.
 We will improve this situation by developing a node expansion strategy which can, in many cases, skip all neighbours from 
 the opposite side of the room (and therefore run in constant time).
-Our strategy is straightforward (an example is given in Figure \ref{fig-branching}.):
+Our strategy is straightforward; an example is given in Figure
+\ref{fig-branching} (Bottom):
 
 %We can improve this situation by observing that when the search enters an empty room an optimal length path to a node on
 %the opposite side of the room is immediately found.
@@ -66,9 +66,9 @@ Our strategy is straightforward (an example is given in Figure \ref{fig-branchin
 \begin{enumerate}
 \item{Divide the set of neighbours associated with each tile on the perimeter of an empty room into two distinct sets:
 \emph{primary neighbours} and \emph{secondary neighbours}.
-Secondary neighbours are those which are located on the opposite side of the room to the current tile. 
-Primary neighbours are all the rest\footnote{Including any neighbours located in the corners of the
-room.}.}
+Secondary neighbours are those which are located on the opposite side of the
+room to the current tile  (excluding any corner tiles).
+Primary neighbours are all the rest.}
 \item{During node expansion, determine which room the parent of the current node belongs to.}
 \item{If the parent and the current node belong to different rooms (or if the current node has no parent) 
 process all primary and secondary neighbours.
@@ -92,10 +92,18 @@ In the first and second case the optimal path from $m$ to $n$ involves no tiles 
 the decision to ignore all secondary neighbours has no effect on the optimality of the solution.
 In the third case we argue as follows:
 when we expand $m$ we generate a node $n'$ on the same side of the perimeter as $n$.
-The edge $(m, n')$ is an optimal length transition from one side of the room to the other.
+The edge $(m, n')$ represents a path that crosses the room from $m$ to $n'$
+using a maximum number of diagonal steps. 
 From this it is trivial to derive that the path $\lbrace m, n', n \rbrace$ is itself optimal.
 Thus we can ignore all secondary neighbours of nodes descended from $m$ in the search tree
 (evaluating them could not possibly improve the length of any path from $m$ to $n$).
 \end{proof}
+%It is worth noting that on 4-connected maps the branching factor of each tile on
+%the perimeter is already constant. 
+%Applying Fast Node Expansion in this case often results in an average branching
+%factor smaller than 4. 
+%On 8-connected maps the effectiveness of this approach is dependent on how well
+%we can decomposde the grid map into large rectangular rooms.
+
 
 
