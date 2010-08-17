@@ -1,19 +1,19 @@
 \section{Conclusion}
-We presented a novel technique for symmetric path elimination in 4 and 8-connected grid maps.
-Our method extends the work in \cite{harabor10} from 4-connected grid maps to the much more common
-8-connected case.
-In the process we also develop two novel methods for reducing branching factor and significantly
-improve the performance search on a wide range of realistic game maps -- including one well known 
-set from the game \emph{Baldur's Gate II}. 
-\par
-The performance of our method depends on the topography of individual maps: 
-in the presence of large rooms or wide open areas we can often compute optimal paths much faster 
-than searching on the original map. 
+Perimeter Search is a symmetric path elimination technique which extends the the
+work of \citeauthor{harabor10}~\shortcite{harabor10} from 4-connected grid maps
+to the much more common 8-connected case.
+We speed up optimal pathfinding by applying an offline decompostion algorithm to
+divide a grid map into a series of empty rectangular rooms.
+We then show that it is possible to traverse optimally from one side of a room
+to another without exploring any tiles from the interior of any room.
+Our experiments show that in the presence of large rooms or wide open areas we can 
+compute optimal paths very quickly: up to 16 times faster, on average for 4-connected maps and up to
+6.5 times faster, on average, for 8-connected maps.
 On less favourable map topographies we achieve more modest improvements.
-However, since our method is orthogonal to existing search techniques, it could be integrated
-as part of a larger framework involving specialised heuristics or other speedup techniques; 
+Our method is simple to understand, very effective and can be combined with
+existing speedup techniques such as memory heuristics or hierarchical methods;
 for example as described in \cite{botea04,bjornsson05,bjornsson06}. 
 \par
-One direction for future work is to investigate alternative decomposition
-algorithms which produce bigger rooms and improve the performance of the current
-method.
+%One direction for future work is to investigate alternative decomposition
+%algorithms which produce bigger rooms and improve the performance of the current
+%method.
