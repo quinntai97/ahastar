@@ -11,16 +11,16 @@
 %\label{fig-speedup}
 %\end{figure*}
 
-Our main results are given in Table \ref{table-graphsize}, Table
+Our main results are given in Table \ref{table-graphsize} and Table
 \ref{table-speedup}.
 %and Figure \ref{fig-speedup}.
 We will briefly introduce each and then discuss them in the context
 of our three benchmarks.
 \par
 Table \ref{table-graphsize} measures the size of our modified grid maps.
-We give figures for the average number of nodes and average number of edges
-as a proportion of the number of nodes and edges in the unmodified grid maps
-from each benchmark. 
+We give average figures for the number of nodes and number of edges
+as a proportion of the total number of nodes and edges found in the 
+unmodified grid maps from each benchmark. 
 Table \ref{table-speedup} meanwhile shows the average speedup experienced
 by A* when running on our modified grid maps as compared to the
 original.  We measure speedup in terms of node expansions and search
@@ -43,7 +43,7 @@ each empty room.
 Despite this, the overall savings in graph size are substantial and we achieve a significant speedup.
 Table \ref{table-speedup} shows that on 4-connected maps A* runs 4.5 times faster on average and expands 4.4 times fewer nodes.
 When we turn our attention to 8-connected maps we see that 4.7 times fewer nodes were expanded but the average
-search time increased by only 3.5 times on average.
+search time was improved by only 3.5 times on average.
 This difference is directly attributable to the linear branching factor which results when we apply our decomposition
 technique to this domain. 
 The effectiveness of each of our Fast Node Expansion and Perimeter Reduction strategies in mitigating this problem can
@@ -60,8 +60,11 @@ On 8-connected maps the savings for nodes are similar but, as expected, we add m
 The performance of our decomposition algorithm on this benchmark is reflected in the associated figures measuring search performance:
 on 4-connected maps we speed up A* by almost 2.5 times, both in terms of node expansions and search times.
 On 8-connected maps we expand almost 2.7 times fewer nodes but improve search times by a more modest factor of 1.8.
-We expect that these results could be further improved given a more effective decomposition algorithm.
-However, even in its current form, the algorithm is competitive with the performance of A* using Swamps.
+We constrast this with the performance of the Swamps based decomposition where A* expands 
+2.9 times fewer nodes and search times are improved by a factor of 2.4 on
+average.
+Although still competitive, we expect that our method could be further improved
+given a more effective decomposition algorithm.
 
 \textbf{Rooms:}
 The maps in this benchmark are comprised of 32$\times$32 adjacent rectangular rooms. Each room is of size 7$\times$7
@@ -78,8 +81,9 @@ When dealing with large instances with long path lengths it was not unusual to o
 faster.
 On 8-connected maps our gains were more modest: A* expands up to 5.8 times fewer nodes on average and runs
 up to 6.5 times faster. 
-In both cases however our method is competitibe with A* using Swamps -- which expands 6.5 times fewer nodes and improves search 
-times by a factor of 7.4.
+In both cases however our method is competitive with Swamps where we see an
+average 6.5 time reduction in node expansions and factor of 7.4 reduction in average search
+time.
 %The smaller gains, in comparison to the 4-connected case, are directly attributable to the fact that less tiles could be
 %pruned. 
 %This is in stark contrast to the other two benchmarks where performance was largely limited by having a comparatively
