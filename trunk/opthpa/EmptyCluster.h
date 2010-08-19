@@ -72,6 +72,11 @@ class EmptyCluster : public HPACluster
 
 		int macro;
 
+		void resetBest() { bestLeft = bestRight = bestTop = bestBottom = 0; }
+		
+		// expanded node with lowest g-cost along each side of the perimeter
+		node* bestLeft, bestRight, bestTop, bestBottom; 
+
 	protected:
 		virtual void connectParent(node*, HPAClusterAbstraction*);
 		virtual void buildHorizontalEntrances(HPAClusterAbstraction* hpamap);
@@ -105,6 +110,7 @@ class EmptyCluster : public HPACluster
 		GLdouble glHeight, glWidth;
 
 		std::vector<edge*> secondaryEdges;
+		
 
 		bool perimeterReduction;
 		bool bfReduction;
