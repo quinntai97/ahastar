@@ -487,8 +487,8 @@ EmptyCluster::addDiagonalFanMacroEdges(HPAClusterAbstraction* aMap)
 		std::cout << "adding fan edges between top and bottom"<<std::endl;
 		std::cout << "max diagonal steps: "<<max<<std::endl;
 	}
-	for(int fx=this->getHOrigin()+1; // -1 to skip corner tiles
-			fx<this->getHOrigin()+this->getWidth()-1; // -1 to skip corner tiles
+	for(int fx=this->getHOrigin(); 
+			fx<this->getHOrigin()+this->getWidth(); 
 			fx++)
 	{
 		int fy = this->getVOrigin();
@@ -532,8 +532,8 @@ EmptyCluster::addDiagonalFanMacroEdges(HPAClusterAbstraction* aMap)
 		std::cout << "adding fan edges between bottom and top"<<std::endl;
 		std::cout << "max diagonal steps: "<<max<<std::endl;
 	}
-	for(int fx=this->getHOrigin()-1; // -1 to skip corner tiles
-			fx<this->getHOrigin()+this->getWidth()-1;  // -1 to skip corner tiles
+	for(int fx=this->getHOrigin(); 
+			fx<this->getHOrigin()+this->getWidth(); 
 			fx++)
 	{
 		int fy = this->getVOrigin()+this->getHeight()-1;
@@ -567,8 +567,8 @@ EmptyCluster::addDiagonalFanMacroEdges(HPAClusterAbstraction* aMap)
 	}
 	// add edges connecting nodes on the left side to nodes on the right 
 	// side of the cluster
-	for(int fy=this->getVOrigin()-1; // -1 to skip corner tiles
-			fy<this->getVOrigin()+this->getHeight()-1; // -1 to skip corner tiles
+	for(int fy=this->getVOrigin();
+			fy<this->getVOrigin()+this->getHeight();
 			fy++)
 	{
 		int fx = this->getHOrigin();
@@ -611,8 +611,8 @@ EmptyCluster::addDiagonalFanMacroEdges(HPAClusterAbstraction* aMap)
 	}
 	// add edges connecting nodes on the left side to nodes on the right 
 	// side of the cluster
-	for(int fy=this->getVOrigin()-1; // -1 to skip corner tiles
-			fy<this->getVOrigin()+this->getHeight()-1; // -1 to skip corner tiles
+	for(int fy=this->getVOrigin();
+			fy<this->getVOrigin()+this->getHeight();
 			fy++)
 	{
 		int fx = this->getHOrigin()+this->getWidth()-1;
