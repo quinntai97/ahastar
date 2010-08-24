@@ -75,7 +75,7 @@ class EmptyCluster : public HPACluster
 		void resetBest() { bestLeft = bestRight = bestTop = bestBottom = 0; }
 		
 		// expanded node with lowest g-cost along each side of the perimeter
-		node* bestLeft, bestRight, bestTop, bestBottom; 
+		node *bestLeft, *bestRight, *bestTop, *bestBottom; 
 
 	protected:
 		virtual void connectParent(node*, HPAClusterAbstraction*);
