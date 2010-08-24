@@ -33,6 +33,7 @@ class Entrance;
 class MacroNode;
 class edge;
 
+
 class EmptyCluster : public HPACluster
 {
 	#ifdef UNITTEST
@@ -71,11 +72,13 @@ class EmptyCluster : public HPACluster
 		virtual void openGLDraw();
 
 		int macro;
+		enum RoomSide {LEFT, RIGHT, TOP, BOTTOM, NONE};
 
 		void resetBest() { bestLeft = bestRight = bestTop = bestBottom = 0; }
+		void setBestExpandedNode(node* n);
+		node* getBestExpandedNode(RoomSide side);
+		RoomSide whichSide(node* n);
 		
-		// expanded node with lowest g-cost along each side of the perimeter
-		node *bestLeft, *bestRight, *bestTop, *bestBottom; 
 
 	protected:
 		virtual void connectParent(node*, HPAClusterAbstraction*);
@@ -114,6 +117,9 @@ class EmptyCluster : public HPACluster
 
 		bool perimeterReduction;
 		bool bfReduction;
+		
+		// expanded node with lowest g-cost along each side of the perimeter
+		node *bestLeft, *bestRight, *bestTop, *bestBottom;
 };
 
 #endif

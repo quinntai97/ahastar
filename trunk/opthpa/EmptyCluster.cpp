@@ -1229,3 +1229,64 @@ edge* EmptyCluster::findSecondaryEdge(unsigned int fromId, unsigned int toId)
 	}
 	return retVal;
 }
+
+// calculate which side of the room's perimeter this node belongs to
+EmptyCluster::RoomSide EmptyCluster::whichSide(node* n_)
+{
+	MacroNode* n = static_cast<MacroNode*>(n_);
+
+	int nx = n->getLabelL(kFirstData);
+	int ny = n->getLabelL(kFirstData+1);
+
+	if(ny == this->getVOrigin() && nx >= this->getHOrigin())
+		return TOP;
+	if(ny == (this->getVOrigin()+this->getHeight()-1) && nx >= this->getHOrigin())
+		return BOTTOM;
+	if(nx == this->getHOrigin() && ny >= this->getVOrigin())
+		return LEFT;
+	if(nx == (this->getHOrigin()+this->getWidth()-1) && ny >= this->getVOrigin())
+		return RIGHT;	
+	
+	return NONE;
+}
+
+// nb: nodes from the corners of each room belong to 2 sides simultaneously
+void EmptyCluster::setBestExpandedNode(node *n)
+{
+	int nx = n->getLabelL(kFirstData);
+	int ny = n->getLabelL(kFirstData+1);
+
+	if(ny == this->getVOrigin() && nx >= this->getHOrigin())
+	{
+		bestTop = n;
+	}
+	if(ny == (this->getVOrigin()+this->getHeight()-1) && nx >= this->getHOrigin())
+	{
+		bestBottom = n;
+	}
+	if(nx == this->getHOrigin() && ny >= this->getVOrigin())
+	{
+		bestLeft = n;
+	}
+	if(nx == (this->getHOrigin()+this->getWidth()-1) && ny >= this->getVOrigin())
+	{
+		bestRight = n;
+	}
+}
+
+node* EmptyCluster::getBestExpandedNode(RoomSide side)
+{
+	switch(side)
+	{
+		case TOP:
+			return bestTop;
+		case BOTTOM:
+			return bestBottom;
+		case LEFT:
+			return bestLeft;
+		case RIGHT: 
+			return bestRight;
+		default:
+			return 0;
+	}
+}
