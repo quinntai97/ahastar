@@ -1,4 +1,7 @@
 #include "PerimeterSearch.h"
+
+#include "EmptyCluster.h"
+#include "EmptyClusterAbstraction.h"
 #include "MacroNode.h"
 #include "MacroEdge.h"
 #include <string>
@@ -10,6 +13,12 @@ PerimeterSearch::PerimeterSearch()
 PerimeterSearch::~PerimeterSearch()
 {
 
+}
+
+path* PerimeterSearch::getPath(graphAbstraction *aMap, node *from, node *to, reservationProvider *rp)
+{
+	visitedClusters.clear();
+	return ClusterAStar::getPath(aMap, from, to, rp);
 }
 
 void PerimeterSearch::expand(node* current_, node* goal, edge_iterator begin, 
@@ -29,31 +38,10 @@ void PerimeterSearch::expand(node* current_, node* goal, edge_iterator begin,
 	// process any neighbours connected via secondary edges
 	if(current->numSecondaryEdges() > 0)
 	{
-		edge* markedEdge = current->getMarkedEdge();
-		if(markedEdge) // only start node has no marked edge (i.e. parent)
+		if(expandSecondary(current))
 		{
-			int parentId = markedEdge->getFrom()==current->getNum()?
-				markedEdge->getTo():markedEdge->getFrom();
-			MacroNode* parent = static_cast<MacroNode*>(
-					g->getNode(parentId));
-			assert(parent);
-
-			if(parent->getParentClusterId() != current->getParentClusterId())
-			{
-				if(verbose)
-					std::cout << "processing secondary edges; ";
-				AbstractClusterAStar::expand(current, goal, current->secondaryEdgeIter(), 
-						current->numSecondaryEdges(), openList, closedList, g);
-				nodesExpanded--; // no double counting
-			}
-			else
-			{
-				if(verbose)
-					std::cout << "skipping secondary edges (same cluster as parent)"<<std::endl;
-			}
-		}
-		else if(nodesExpanded == 1) // process secondary edges associated with start node 
-		{
+			if(verbose)
+				std::cout << "processing secondary edges; ";
 			AbstractClusterAStar::expand(current, goal, current->secondaryEdgeIter(), 
 					current->numSecondaryEdges(), openList, closedList, g);
 			nodesExpanded--; // no double counting
@@ -61,7 +49,7 @@ void PerimeterSearch::expand(node* current_, node* goal, edge_iterator begin,
 		else
 		{
 			if(verbose)
-				std::cout << "node has secondary edges but no marked edge?!"<<std::endl;
+				std::cout << "skipping secondary edges"<<std::endl;
 		}
 	}
 	else
@@ -70,3 +58,52 @@ void PerimeterSearch::expand(node* current_, node* goal, edge_iterator begin,
 			std::cout << "no secondary edges; moving on"<<std::endl;
 	}
 }
+
+bool PerimeterSearch::expandSecondary(MacroNode* current)
+{
+	bool retVal = true;
+	EmptyClusterAbstraction* aMap = dynamic_cast<EmptyClusterAbstraction*>(this->getGraphAbstraction());
+	EmptyCluster* parentCluster = aMap->getCluster(current->getParentClusterId());
+
+
+	if(visitedClusters.find(parentCluster->getId()) != visitedClusters.end())
+	{
+		EmptyCluster::RoomSide side = parentCluster->whichSide(current);
+		node* best = parentCluster->getBestExpandedNode(side);
+
+		if(best)
+		{
+			double g_cur = current->getLabelF(kTemporaryLabel) - h(current, best);
+			double g_best = best->getLabelF(kTemporaryLabel) - h(current, best);
+
+			double g_delta = g_cur - g_best;
+			if(g_delta < 0)
+				g_delta*=-1;
+
+			double dist = h(current, best)*(ROOT_TWO-1);
+			if(g_delta >= dist)
+			{
+				retVal = false;
+			}
+			else
+			{
+				if(g_cur < g_best)
+				{
+					parentCluster->setBestExpandedNode(current);
+				}
+			}
+		}
+		else
+		{
+			parentCluster->setBestExpandedNode(current);
+		}
+	}
+	else
+	{
+		visitedClusters[parentCluster->getId()] = true;
+		parentCluster->setBestExpandedNode(current);
+	}
+
+	return true;
+}
+
