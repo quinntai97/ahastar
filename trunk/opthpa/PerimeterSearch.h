@@ -18,7 +18,7 @@ class PerimeterSearch : public ClusterAStar
 				heap* openList, std::map<int, node*>& closedList, graph* g);
 
 	private:
-		bool expandSecondary(MacroNode* current);
+		bool expandSecondary(MacroNode* current, node* goal);
 		__gnu_cxx::hash_map<int, bool> visitedClusters;
 };
 

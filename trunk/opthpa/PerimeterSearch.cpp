@@ -36,9 +36,11 @@ void PerimeterSearch::expand(node* current_, node* goal, edge_iterator begin,
 
 	
 	// process any neighbours connected via secondary edges
-	if(current->numSecondaryEdges() > 0)
+	if(verbose)
+		std::cout << "any secondary edges? "<<current->numSecondaryEdges()<<std::endl;
+	if(current->numSecondaryEdges() > 0 && expandSecondary(current, goal))
 	{
-		edge* markedEdge = current->getMarkedEdge();
+/*		edge* markedEdge = current->getMarkedEdge();
 		if(markedEdge) // only start node has no marked edge (i.e. parent)
 		{
 				int parentId = markedEdge->getFrom()==current->getNum()?
@@ -50,12 +52,13 @@ void PerimeterSearch::expand(node* current_, node* goal, edge_iterator begin,
 				if(parent->getParentClusterId() != current->getParentClusterId() && 
 						expandSecondary(current))
 				{
+*/
 					if(verbose)
 						std::cout << "processing secondary edges; ";
 					AbstractClusterAStar::expand(current, goal, current->secondaryEdgeIter(), 
 							current->numSecondaryEdges(), openList, closedList, g);
 					nodesExpanded--; // no double counting
-				}
+/*				}
 		}
 		else if(nodesExpanded == 1) // process secondary edges associated with start node 
 		{
@@ -68,6 +71,7 @@ void PerimeterSearch::expand(node* current_, node* goal, edge_iterator begin,
 			if(verbose)
 				std::cout << "skipping secondary edges"<<std::endl;
 		}
+		*/
 	}
 	else
 	{
@@ -76,30 +80,44 @@ void PerimeterSearch::expand(node* current_, node* goal, edge_iterator begin,
 	}
 }
 
-bool PerimeterSearch::expandSecondary(MacroNode* current)
+bool PerimeterSearch::expandSecondary(MacroNode* current, node* goal)
 {
 	bool retVal = true;
 	EmptyClusterAbstraction* aMap = dynamic_cast<EmptyClusterAbstraction*>(this->getGraphAbstraction());
 	EmptyCluster* parentCluster = aMap->getCluster(current->getParentClusterId());
-
 
 	if(visitedClusters.find(parentCluster->getId()) != visitedClusters.end())
 	{
 		EmptyCluster::RoomSide side = parentCluster->whichSide(current);
 		node* best = parentCluster->getBestExpandedNode(side);
 
+		if(verbose)
+			std::cout << "best node along side "<<side<<" of cluster "<<parentCluster->getId()<<"... ";
+
 		if(best)
 		{
-			double g_cur = current->getLabelF(kTemporaryLabel) - h(current, best);
-			double g_best = best->getLabelF(kTemporaryLabel) - h(current, best);
+			if(verbose)
+				std::cout << "exists! dominated? ";
+			double g_cur = current->getLabelF(kTemporaryLabel) - h(current, goal);
+			double g_best = best->getLabelF(kTemporaryLabel) - h(best, goal);
 
-			double g_delta = g_cur - g_best;
+			double g_delta = g_best - g_cur;
 			if(g_delta < 0)
 				g_delta*=-1;
 
 			double dist = h(current, best)*(ROOT_TWO-1);
-			if(g_delta >= dist)
+			int mds = parentCluster->getHeight()<parentCluster->getWidth()?
+				parentCluster->getHeight():parentCluster->getWidth();
+			mds-=2; // max # of diagonal steps required to reach one side of the perimeter from another
+
+			if(h(current, best) <= mds && g_delta > dist)
 			{
+				if(verbose)
+				{
+					printNode("dominated by", best, goal);
+					std::cout <<"g_best: "<<g_best<<" g_cur "<<g_cur<<" g_delta: "<<g_delta<<" dist(cur, best) "<<dist;
+					std::cout <<std::endl;
+				}
 				retVal = false;
 			}
 			else
@@ -109,18 +127,28 @@ bool PerimeterSearch::expandSecondary(MacroNode* current)
 					parentCluster->setBestExpandedNode(current);
 				}
 			}
+			if(verbose)
+				std::cout << (g_delta > dist) <<std::endl;
 		}
 		else
 		{
+			if(verbose)
+				std::cout << "null! setting current."<<std::endl;
 			parentCluster->setBestExpandedNode(current);
 		}
 	}
 	else
 	{
+		if(verbose)
+			std::cout << "cluster "<<parentCluster->getId()<<" not visited before. adding to list."<<std::endl;
 		visitedClusters[parentCluster->getId()] = true;
+		assert(visitedClusters.find(parentCluster->getId()) != visitedClusters.end());
 		parentCluster->resetBest();
 		parentCluster->setBestExpandedNode(current);
 	}
+
+	if(verbose)
+		std::cout<<"expandSecondary result: "<<retVal<<std::endl;
 	return retVal;
 }
 

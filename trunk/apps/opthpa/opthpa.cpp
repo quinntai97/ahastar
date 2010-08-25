@@ -173,6 +173,13 @@ void processStats(statCollection* stat, const char* unitname)
  */
 void createSimulation(unitSimulation * &unitSim)
 {
+	std::cout << "createSimulation.";
+	std::cout << " nogui="<<(bfReduction?"true":"false");
+	std::cout << " cardinal="<<(!allowDiagonals?"true":"false");
+	std::cout << " pr="<<(reducePerimeter?"true":"false");
+	std::cout << " bfr="<<(bfReduction?"true":"false");
+	std::cout << std::endl;
+
 	Map* map = new Map(gDefaultMap);
 	//map->scale(100, 100);
 
