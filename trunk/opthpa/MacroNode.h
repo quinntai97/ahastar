@@ -1,13 +1,5 @@
 // MacroNode.h
 // 
-// MacroNode is a specialisation of HOG's node class.
-// It adds a "macro parent" attribute so that a node may be related 
-// to another node without necessarily having an edge connecting them.
-// 
-// Macro parents are useful for implementing OHA* [1]
-// 
-// [1] D. Harabor & A. Botea, Fast and Optimal Hierarchical Pathfinding, 2010
-// 
 //	@author: dharabor
 //	@created: 03-04-2010
 // 
@@ -26,10 +18,8 @@ class MacroNode : public ClusterNode
 		virtual graph_object* clone() const { return new MacroNode(this); }
 		virtual void reset();
 
-		inline void	setMacroParent(MacroNode* _p) { p = _p; }
-		inline MacroNode* getMacroParent() { return p; }
-		inline double getDistanceToMacroParent() { return pdist; }
-		inline void setDistanceToMacroParent(double _dist) { pdist = _dist; }
+		inline void	setParent(MacroNode* _p) { p = _p; }
+		inline MacroNode* getParent() { return p; }
 
 		std::vector<edge*>::iterator secondaryEdgeIter() { return secondaryEdges.begin(); }
 		void addSecondaryEdge(edge* e) { secondaryEdges.push_back(e); }

@@ -18,7 +18,7 @@ MacroNode::~MacroNode()
 void MacroNode::reset()
 {
 	ClusterNode::reset();
-	setMacroParent(0);
+	setParent(0);
 }
 
 void MacroNode::removeSecondaryEdge(int edgeNum)
