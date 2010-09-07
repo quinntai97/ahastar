@@ -62,7 +62,7 @@ path* OHAStar::getPath(graphAbstraction *_aMap, node *from, node *to, reservatio
 		assert(mfrom && mto);
 	}
 
-	mfrom->setMacroParent(mfrom);
+	mfrom->setParent(mfrom);
 	double insertTime = t.endTimer();
 
 	if(verbose)
@@ -119,7 +119,7 @@ path* OHAStar::getPath(graphAbstraction *_aMap, node *from, node *to, reservatio
 	//	if(verbose)
 	//		std::cout << " dynamic cast successful... ";
 
-		if(&*current->getMacroParent() == &*current )
+		if(&*current->getParent() == &*current )
 		{
 			retVal = true;
 	//		if(verbose)
@@ -162,7 +162,7 @@ path* OHAStar::getPath(graphAbstraction *_aMap, node *from, node *to, reservatio
 	assert(from && to);
 
 	double f_to = DBL_MAX; 
-	MacroNode* mp = from->getMacroParent(); // macro parent 
+	MacroNode* mp = from->getParent(); // macro parent 
 
 	// if 'from' has a macro parent, we relax the edge with respect to its macro parent
 	// otherwise, standard A* relaxation is used
@@ -194,7 +194,7 @@ path* OHAStar::getPath(graphAbstraction *_aMap, node *from, node *to, reservatio
 
 
 	// minimise number of macro parents
-	if(f_to == to->getLabelF(kTemporaryLabel) && &*to->getMacroParent() == &*to)
+	if(f_to == to->getLabelF(kTemporaryLabel) && &*to->getParent() == &*to)
 	{
 		//if(verbose)
 		//{
@@ -202,7 +202,7 @@ path* OHAStar::getPath(graphAbstraction *_aMap, node *from, node *to, reservatio
 		//	std::cout << "new parent: "<<from->getName();
 		//}
 		if(mp->getParentClusterId() == to->getParentClusterId())
-			to->setMacroParent(mp);
+			to->setParent(mp);
 	}
 
 	// update priority and macro parent if necessary 
@@ -231,7 +231,7 @@ path* OHAStar::getPath(graphAbstraction *_aMap, node *from, node *to, reservatio
 		to->setLabelF(kTemporaryLabel, f_to);
 		openList->decreaseKey(to);
 		to->markEdge(e);
-		to->setMacroParent(mp);
+		to->setParent(mp);
 	}
 //	else
 //		if(verbose)
@@ -263,7 +263,7 @@ path* OHAStar::extractBestPath(graph *g, unsigned int current)
 		if(verbose)
 			std::cout << current <<"cn: "<<cn->getName();
 
-		MacroNode* mp = cn->getMacroParent();
+		MacroNode* mp = cn->getParent();
 		if(mp)
 		{
 			if(cn->getNum() != mp->getNum())
@@ -452,7 +452,7 @@ OHAStar::expandMacro(node* current_, node* goal_, heap* openList,
 				if(verbose) std::cout << "\t\tadding to open list"<<std::endl;
 				neighbour->setLabelF(kTemporaryLabel, MAXINT); // initial fCost = inifinity
 				neighbour->setKeyLabel(kTemporaryLabel); // an initial key value for prioritisation in the openlist
-				neighbour->setMacroParent(current);
+				neighbour->setParent(current);
 				neighbour->reset();
 				openList->add(neighbour);
 				relaxMacro(openList, current, neighbour, goal); 
@@ -510,7 +510,7 @@ OHAStar::relaxMacro(heap *openList, MacroNode* from, MacroNode* to, node* goal)
 	if(f_to < to->getLabelF(kTemporaryLabel))
 	{
 		to->setLabelF(kTemporaryLabel, f_to);
-		to->setMacroParent(from);
+		to->setParent(from);
 		to->markEdge(0);
 		openList->decreaseKey(to);
 	}
@@ -530,7 +530,7 @@ OHAStar::relaxEdge(heap* openList, graph* g, edge* e, int fromId,
 	if(f_to < to->getLabelF(kTemporaryLabel))
 	{
 		to->setLabelF(kTemporaryLabel, f_to);
-		to->setMacroParent(0);
+		to->setParent(0);
 		to->markEdge(e);
 		openList->decreaseKey(to);
 	}
