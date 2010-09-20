@@ -10,6 +10,7 @@ class FourConnectedExpansionPolicy : public ExpansionPolicy
 		virtual ~FourConnectedExpansionPolicy();
 
 		virtual node* n() const; 
+		virtual node* first();
 		virtual void next();
 
 	private:
