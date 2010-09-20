@@ -8,21 +8,10 @@ RRExpansionPolicy::RRExpansionPolicy(mapAbstraction* m, node* t) :
 
 node* RRExpansionPolicy::first()
 {
+	IncidentEdgesExpansionPolicy::which = 0;
 	which_macro = 0;
-	IncidentEdgesExpansionPolicy::first();
 
 	return n();
-
-	// better way to reset counters?
-	// does it make sense for first and next to not return anything?
-	//
-	/*
-	 *  policy = new policy();
-	 *  for(node* n = policy.n(); n != 0; n = policy->next())
-	 *
-	 *  maybe first and next should return nodes and drop n() ?
-	 *  or make n private? 
-	 */
 }
 
 node* RRExpansionPolicy::n()
@@ -36,10 +25,60 @@ node* RRExpansionPolicy::n()
 	return neighbour;
 }
 
-void RRExpansionPolicy::next()
+node* RRExpansionPolict::n_macro()
+{
+	EmptyClusterAbstraction* aMap = static_cast<EmptyClusterAbstraction*>(map);	
+	MacroNode* t = static_cast<MacroNode*>(target);
+
+	EmptyCluster* room = aMap->getCluster(t->getParentClusterId());
+	EmptyCluster::RoomSide side = room->whichSide(t);
+	
+	int tx = t->getLabelL(kFirstData);
+	int ty = t->getLabelL(kFirstData+1);
+
+	int nx, ny;
+	switch(side)
+	{
+		case TOP:
+			nx = tx;
+			ny = room->getVOrigin()+room->getHeight()-1;
+			break;
+		case BOTTOM:
+			nx = tx;
+			ny = room->getVOrigin();
+			break;
+		case RIGHT:
+			nx = room->getHOrigin();
+			ny = ty;
+			break;
+		case LEFT:
+			nx = room->getHOrigin()+room->getWidth()-1;
+			ny = ty;
+			break;
+		default:
+			nx = ny = -1;
+			break;
+	}
+
+	node* neighbour = aMap->getNodeFromMap(nx, ny);
+
+	if(neighbour->getLabelLk(kAbstractionLevel) != 
+			t->getLabelL(kAbstractionLevel))
+	{
+		graph* g = aMap->getAbstractGraph(t->getLabelL(kAbstractionLevel));
+		neighbour = g->getNode(neighbour->getLabelL(kParent));
+		assert(neighbour);
+	}
+	return neighbour;
+}
+
+node* RRExpansionPolicy::next()
 {
 	if(which_macro < max_macro)
 		which_macro++;
 	else
 		IncidentEdgesExpansionPolicy::next();
+
+	return n();
 }
+
