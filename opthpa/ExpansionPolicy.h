@@ -16,7 +16,8 @@ class ExpansionPolicy
 		virtual ~ExpansionPolicy();
 
 		node* target() const { return target;}
-		virtual node* next() const = 0;
+		virtual void next() = 0;
+		virtual node* first() = 0;
 		virtual node* n() const = 0;
 
 	protected:
