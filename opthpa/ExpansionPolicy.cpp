@@ -1,12 +1,11 @@
 #include "ExpansionPolicy.h"
-#include "graphAbstraction.h"
+#include "mapAbstraction.h"
 #include "graph.h"
 
-ExpansionPolicy::ExpansionPolicy(graphAbstraction* map_, node* target_)
+ExpansionPolicy::ExpansionPolicy(mapAbstraction* map_, node* target_)
 {
 	this->map = map_;
 	this->target = target_;
-	first();
 }
 
 ExpansionPolicy::~ExpansionPolicy() 
