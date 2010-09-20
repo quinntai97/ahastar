@@ -1,8 +1,10 @@
 #include "FourConnectedExpansionPolicy.h"
+#include "mapAbstraction.h"
 
 FourConnectedExpansionPolicy::FourConnectedExpansionPolicy(
-		graphAbstraction* map_, node* target_) : ExpansionPolicy(map_, target_)
+		mapAbstraction* map_, node* target_) : ExpansionPolicy(map_, target_)
 {
+	first();
 }
 
 FourConnectedExpansionPolicy::~FourConnectedExpansionPolicy()
@@ -10,7 +12,7 @@ FourConnectedExpansionPolicy::~FourConnectedExpansionPolicy()
 }
 
 // Each 4-connected target node has four neighbours: {above, below, left,
-// right}. This 
+// right}. 
 //
 // @return: the current neighbour -- or 0 if the neighbour does not exist.
 node* FourConnectedExpansionPolicy::n() const

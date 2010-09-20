@@ -7,22 +7,22 @@
 // of a node during expansion.
 
 class node;
-class graphAbstraction;
+class mapAbstraction;
 
 class ExpansionPolicy
 {
 	public:
-		ExpansionPolicy(graphAbstraction* map_, node* t);
+		ExpansionPolicy(mapAbstraction* map_, node* t);
 		virtual ~ExpansionPolicy();
 
-		node* target() const { return target;}
+		node* getTarget() const { return target;}
 		virtual void next() = 0;
 		virtual node* first() = 0;
 		virtual node* n() const = 0;
 
 	protected:
 		node* target; // node being expanded
-		graphAbstraction* map;
+		mapAbstraction* map;
 };
 
 #endif

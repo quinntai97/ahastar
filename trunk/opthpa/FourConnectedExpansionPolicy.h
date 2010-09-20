@@ -6,7 +6,7 @@
 class FourConnectedExpansionPolicy : public ExpansionPolicy
 {
 	public:
-		FourConnectedExpansionPolicy(graphAbstraction* map_, node* target_);
+		FourConnectedExpansionPolicy(mapAbstraction* map_, node* target_);
 		virtual ~FourConnectedExpansionPolicy();
 
 		virtual node* n() const; 
