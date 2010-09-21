@@ -9,9 +9,10 @@ class FourConnectedExpansionPolicy : public ExpansionPolicy
 		FourConnectedExpansionPolicy(mapAbstraction* map_, node* target_);
 		virtual ~FourConnectedExpansionPolicy();
 
-		virtual node* n() const; 
+		virtual node* n();
 		virtual node* first();
-		virtual void next();
+		virtual node* next();
+		virtual bool hasNext();
 
 	private:
 		int which;

@@ -1,84 +1,97 @@
 #include "RRExpansionPolicy.h"
 
+#include "IncidentEdgesExpansionPolicy.h"
+#include "EmptyCluster.h"
+#include "EmptyClusterAbstraction.h"
+#include "MacroNode.h"
+#include "graph.h"
+
 RRExpansionPolicy::RRExpansionPolicy(mapAbstraction* m, node* t) :
-	IncidentEdgesExpansionPolicy(m, t)
+	ExpansionPolicy(m, t)
 {
 	first();
+	edgesPolicy = new IncidentEdgesExpansionPolicy(m, t);
+}
+
+RRExpansionPolicy::~RRExpansionPolicy()
+{
+	delete edgesPolicy;
 }
 
 node* RRExpansionPolicy::first()
 {
-	IncidentEdgesExpansionPolicy::which = 0;
-	which_macro = 0;
-
-	return n();
+	which = 0;
+	return edgesPolicy->first();
 }
 
 node* RRExpansionPolicy::n()
 {
-	node* neighbour = 0;
-	if(which_macro < max_macro)
-		neighbour = n_macro();
-	else
-		neighbour = IncidentEdgesExpansionPolicy::n();
+	if(which >= max)
+		return 0;
 
-	return neighbour;
-}
-
-node* RRExpansionPolict::n_macro()
-{
-	EmptyClusterAbstraction* aMap = static_cast<EmptyClusterAbstraction*>(map);	
-	MacroNode* t = static_cast<MacroNode*>(target);
-
-	EmptyCluster* room = aMap->getCluster(t->getParentClusterId());
-	EmptyCluster::RoomSide side = room->whichSide(t);
-	
-	int tx = t->getLabelL(kFirstData);
-	int ty = t->getLabelL(kFirstData+1);
-
-	int nx, ny;
-	switch(side)
+	node* retVal = edgesPolicy->n();
+	if(retVal == 0)
 	{
-		case TOP:
-			nx = tx;
-			ny = room->getVOrigin()+room->getHeight()-1;
-			break;
-		case BOTTOM:
-			nx = tx;
-			ny = room->getVOrigin();
-			break;
-		case RIGHT:
-			nx = room->getHOrigin();
-			ny = ty;
-			break;
-		case LEFT:
-			nx = room->getHOrigin()+room->getWidth()-1;
-			ny = ty;
-			break;
-		default:
-			nx = ny = -1;
-			break;
-	}
+		EmptyClusterAbstraction* aMap = static_cast<EmptyClusterAbstraction*>(map);	
+		MacroNode* t = static_cast<MacroNode*>(target);
 
-	node* neighbour = aMap->getNodeFromMap(nx, ny);
+		EmptyCluster* room = aMap->getCluster(t->getParentClusterId());
+		EmptyCluster::RoomSide side = room->whichSide(t);
+		
+		int tx = t->getLabelL(kFirstData);
+		int ty = t->getLabelL(kFirstData+1);
 
-	if(neighbour->getLabelLk(kAbstractionLevel) != 
-			t->getLabelL(kAbstractionLevel))
-	{
-		graph* g = aMap->getAbstractGraph(t->getLabelL(kAbstractionLevel));
-		neighbour = g->getNode(neighbour->getLabelL(kParent));
-		assert(neighbour);
+		int nx, ny;
+		switch(side)
+		{
+			case EmptyCluster::TOP:
+				nx = tx;
+				ny = room->getVOrigin()+room->getHeight()-1;
+				break;
+			case EmptyCluster::BOTTOM:
+				nx = tx;
+				ny = room->getVOrigin();
+				break;
+			case EmptyCluster::RIGHT:
+				nx = room->getHOrigin();
+				ny = ty;
+				break;
+			case EmptyCluster::LEFT:
+				nx = room->getHOrigin()+room->getWidth()-1;
+				ny = ty;
+				break;
+			default:
+				nx = ny = -1;
+				break;
+		}
+
+		node* neighbour = aMap->getNodeFromMap(nx, ny);
+
+		if(neighbour->getLabelL(kAbstractionLevel) != 
+				t->getLabelL(kAbstractionLevel))
+		{
+			graph* g = aMap->getAbstractGraph(t->getLabelL(kAbstractionLevel));
+			neighbour = g->getNode(neighbour->getLabelL(kParent));
+			assert(neighbour);
+		}
 	}
-	return neighbour;
+	return retVal;
 }
 
 node* RRExpansionPolicy::next()
 {
-	if(which_macro < max_macro)
-		which_macro++;
-	else
-		IncidentEdgesExpansionPolicy::next();
-
-	return n();
+	node* retVal = edgesPolicy->next();
+	if(!retVal)
+	{
+		which++;
+		retVal = n();
+	}
+	return retVal;
 }
 
+bool RRExpansionPolicy::hasNext()
+{
+	if(which < max)
+		return true;
+	return false;
+}

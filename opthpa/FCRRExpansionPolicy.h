@@ -8,17 +8,18 @@
 // one neighbour on the directly opposite side of the current empty
 // rectangular room.
 
-#include "IncidentEdgesExpansionPolicy.h"
+#include "ExpansionPolicy.h"
 
-class FCRRExpansionPolicy : public IncidentEdgesExpansionPolicy
+class FCRRExpansionPolicy : public ExpansionPolicy
 {
 	public:
 		FCRRExpansionPolicy(mapAbstraction*, node*);
 		virtual ~FCRRExpansionPolicy();
 
-		virtual node* n() const;
+		virtual node* n();
 		virtual node* first(); 
-		virtual void next();
+		virtual node* next();
+		virtual bool hasNext();
 
 	private:
 		int which_macro;

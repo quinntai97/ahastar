@@ -16,9 +16,10 @@ class ExpansionPolicy
 		virtual ~ExpansionPolicy();
 
 		node* getTarget() const { return target;}
-		virtual void next() = 0;
 		virtual node* first() = 0;
-		virtual node* n() const = 0;
+		virtual node* next() = 0;
+		virtual node* n() = 0;
+		virtual bool hasNext() = 0;
 
 	protected:
 		node* target; // node being expanded
