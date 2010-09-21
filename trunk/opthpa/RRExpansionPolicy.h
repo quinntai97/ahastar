@@ -1,22 +1,24 @@
 #ifndef RREXPANSIONPOLICY_H
 #define RREXPANSIONPOLICY_H
 
-#include "IncidentEdgesExpansionPolicy.h"
+#include "ExpansionPolicy.h"
 
-class RRExpansionPolicy : public IncidentEdgesExpansionPolicy
+class IncidentEdgesExpansionPolicy;
+class RRExpansionPolicy : public ExpansionPolicy
 {
 	public:
-		RRExpansionPolicy();
-		virtual RRExpansionPolicy();
+		RRExpansionPolicy(mapAbstraction*, node*);
+		virtual ~RRExpansionPolicy();
 
 		virtual node* first();
 		virtual node* n();
-		virtual void next();
+		virtual node* next();
+		virtual bool hasNext();
 
-	protected:
-		int which_macro;
-		int max_macro;
-
+	private:
+		int which;
+		int max;
+		IncidentEdgesExpansionPolicy* edgesPolicy;
 };
 
 #endif

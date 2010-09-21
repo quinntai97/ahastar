@@ -15,7 +15,7 @@ FourConnectedExpansionPolicy::~FourConnectedExpansionPolicy()
 // right}. 
 //
 // @return: the current neighbour -- or 0 if the neighbour does not exist.
-node* FourConnectedExpansionPolicy::n() const
+node* FourConnectedExpansionPolicy::n()
 {
 	node* n = 0;
 	switch(which)
@@ -48,20 +48,13 @@ node* FourConnectedExpansionPolicy::n() const
 }
 
 // Iterates over the neighbours of the target node, one node at a time.
-// When all neighbours have been iterated over the current neighbour is set to 
-// an EOL character and no further iteration is performed for subsequent calls
-// of this function -- unless first() is invoked beforehand.
-//
-// NB: if the "next" neighbour does not exist, this method will be called
-// recursively until the next neighbour that does exist is found or the end of
-// the neighbours list is reached.
-void FourConnectedExpansionPolicy::next()
+// When all neighbours have been iterated over, 0 is returned.
+node* FourConnectedExpansionPolicy::next()
 {
 	which++;
 	if(0 <= which < 4)
-		if(n() == 0) next();
-	else
-		which = -2;
+		return n();
+	return 0;
 }
 
 // returns the first neighbour of the target node, resetting at the same time
@@ -70,7 +63,13 @@ void FourConnectedExpansionPolicy::next()
 // @return: first neighbour of the target node, or 0 if no neighbours exist
 node* FourConnectedExpansionPolicy::first()
 {
-	which = -1;
-	next();
+	which = 0;
 	return n();
+}
+
+bool FourConnectedExpansionPolicy::hasNext()
+{
+	if(0<= which < 4)
+		return true;
+	return false;
 }
