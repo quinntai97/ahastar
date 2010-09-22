@@ -363,29 +363,15 @@ bool ClusterAStar::checkParameters(graphAbstraction* aMap, node* from, node* to)
 	
 }
 
+// defer to h function in graphAbstraction
+// (implementation could differ if map is 4 or 8 connected)
 double ClusterAStar::h(node* a, node* b) 
 	throw(std::invalid_argument)
 {
-//	double answer = 0;
-//		int ax = a->getLabelL(kFirstData);
-//		int ay = a->getLabelL(kFirstData+1);
-//		int bx = b->getLabelL(kFirstData);
-//		int by = b->getLabelL(kFirstData+1);
-//		//std::cout << "from: "<<ax<<","<<ay<<") to: ("<<bx<<","<<by<<") ";
-//
-//		int deltax = ax - bx;
-//		if(deltax < 0) deltax *=-1;
-//
-//		int deltay = ay - by;
-//		if(deltay < 0) deltay *=-1;
-//
-//		//std::cout << "deltax: "<<deltax<<" deltay: "<<deltay<<std::endl;
-//		answer = deltax + deltay;
-//
-//	return answer;
-//	graphAbstraction* aMap = this->getGraphAbstraction();
-//	return aMap->h(a, b);
-	return aStarOld::h(a, b);
+	graphAbstraction* aMap = this->getGraphAbstraction();
+	return aMap->h(a, b);
+	
+	//return aStarOld::h(a, b);
 }
 
 void AbstractClusterAStar::printNode(string msg, node* n, node* goal)
@@ -395,10 +381,10 @@ void AbstractClusterAStar::printNode(string msg, node* n, node* goal)
 
 	if(static_cast<MacroNode*>(n))
 	{
-		MacroNode* mp = static_cast<MacroNode*>(n)->getMacroParent();
+		MacroNode* mp = static_cast<MacroNode*>(n)->getParent();
 		if(mp)
 		{
-			std::cout << " mp: "<<static_cast<MacroNode*>(n)->getMacroParent()->getName()<<" ";
+			std::cout << " mp: "<<static_cast<MacroNode*>(n)->getParent()->getName()<<" ";
 		}
 			if(n->getMarkedEdge())
 			{
