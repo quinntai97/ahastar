@@ -1,8 +1,8 @@
 #include "FourConnectedExpansionPolicy.h"
 #include "mapAbstraction.h"
 
-FourConnectedExpansionPolicy::FourConnectedExpansionPolicy(
-		mapAbstraction* map_, node* target_) : ExpansionPolicy(map_, target_)
+FourConnectedExpansionPolicy::FourConnectedExpansionPolicy() 
+	: ExpansionPolicy()
 {
 	first();
 }

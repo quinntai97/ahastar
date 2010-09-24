@@ -2,12 +2,18 @@
 #include "mapAbstraction.h"
 #include "graph.h"
 
-ExpansionPolicy::ExpansionPolicy(mapAbstraction* map_, node* target_)
+ExpansionPolicy::ExpansionPolicy()
 {
-	this->map = map_;
-	this->target = target_;
+	this->map = 0;
+	this->target = 0;
 }
 
 ExpansionPolicy::~ExpansionPolicy() 
 {
+}
+
+ExpansionPolicy::expand(node* t, mapAbstraction* m)
+{
+	this->target = t;
+	this->map = m;
 }
