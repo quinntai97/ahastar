@@ -254,6 +254,7 @@ public:
   edge* findAnnotatedEdge(node* to, int capability, int clearance, double dist);
 
   int drawColor;
+  node* backpointer;
   
 private:
   friend class graph;

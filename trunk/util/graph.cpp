@@ -693,6 +693,7 @@ node::node(const char *n)
 		
 	keyLabel = 0;
 	markedEdge = 0;
+	backpointer = 0;
 
 	clusterid = -1; // no parent cluster set
 	terraintype=0; // no default terraintype assumed (untraversable node)
@@ -714,6 +715,7 @@ node::node(const node* n)
 	width = n->width;
 	drawColor=0;
 	markedEdge = 0;
+	backpointer = 0;
 }
 
 // clones all labels, all annotations, nodeNum, weight etc. DOES NOT clone edges or parentclusterid
@@ -732,6 +734,7 @@ graph_object *node::clone() const
   n->width = width;
   n->drawColor=0;
   n->markedEdge = 0;
+  n->backpointer = 0;
   return n;
 }
 

@@ -1,7 +1,7 @@
 #include "FCRRExpansionPolicy.h"
 
-FCRRExpansionPolicy::FCRRExpansionPolicy(mapAbstraction* m, node* t) :
-	ExpansionPolicy(m, t)
+FCRRExpansionPolicy::FCRRExpansionPolicy() :
+	ExpansionPolicy()
 {
 }
 

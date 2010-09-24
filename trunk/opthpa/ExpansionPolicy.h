@@ -5,6 +5,9 @@
 //
 // Provides a generic interface for iterating over the neighbours
 // of a node during expansion.
+//
+// @author: dharabor
+// @created: 21/09/2010
 
 class node;
 class mapAbstraction;
@@ -12,18 +15,31 @@ class mapAbstraction;
 class ExpansionPolicy
 {
 	public:
-		ExpansionPolicy(mapAbstraction* map_, node* t);
+		ExpansionPolicy();
 		virtual ~ExpansionPolicy();
 
+		// initialises the policy with a target node and map
+		void expand(node* t, mapAbstraction* m);
 		node* getTarget() const { return target;}
+
+		// return the first neighbour
 		virtual node* first() = 0;
+
+		// return the next neighbour
 		virtual node* next() = 0;
+
+		// return the current neighbour
 		virtual node* n() = 0;
+
+		// cost of the edge (target, n)
+		virtual double cost_to_n() = 0;
+
+		// returns true until all remaining neighbours are iterated over
 		virtual bool hasNext() = 0;
 
 	protected:
-		node* target; // node being expanded
 		mapAbstraction* map;
+		node* target;
 };
 
 #endif

@@ -7,7 +7,7 @@ class IncidentEdgesExpansionPolicy;
 class RRExpansionPolicy : public ExpansionPolicy
 {
 	public:
-		RRExpansionPolicy(mapAbstraction*, node*);
+		RRExpansionPolicy();
 		virtual ~RRExpansionPolicy();
 
 		virtual node* first();

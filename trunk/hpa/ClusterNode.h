@@ -21,7 +21,7 @@ class ClusterNode : public node
 		ClusterNode(const ClusterNode* n);
 		~ClusterNode(); 
 		virtual graph_object* clone() const { return new ClusterNode(this); }
-		virtual void reset() { this->markEdge(0); }
+		virtual void reset();
 		int getParentClusterId() { return parentClusterId; }
 		void setParentClusterId(int _id) { parentClusterId = _id; }
 

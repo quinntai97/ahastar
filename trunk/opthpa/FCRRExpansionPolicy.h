@@ -13,7 +13,7 @@
 class FCRRExpansionPolicy : public ExpansionPolicy
 {
 	public:
-		FCRRExpansionPolicy(mapAbstraction*, node*);
+		FCRRExpansionPolicy();
 		virtual ~FCRRExpansionPolicy();
 
 		virtual node* n();

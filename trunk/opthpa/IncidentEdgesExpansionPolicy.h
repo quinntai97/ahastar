@@ -1,22 +1,25 @@
 #ifndef INCIDENTEDGESEXPANSIONPOLICY_H
 #define INCIDENTEDGESEXPANSIONPOLICY_H
 
-#include "ExpansionPolicy.h"
+#include "SelectiveExpansionPolicy.h"
 
 class graph;
 class mapAbstraction;
 class node;
 
-class IncidentEdgesExpansionPolicy : public ExpansionPolicy
+class IncidentEdgesExpansionPolicy : public SelectiveExpansionPolicy
 {
 	public:
-		IncidentEdgesExpansionPolicy(mapAbstraction*, node*);
+		IncidentEdgesExpansionPolicy();
 		virtual ~IncidentEdgesExpansionPolicy();
-
-		virtual node* next();
-		virtual node* first();
-		virtual node* n();
 		virtual bool hasNext();
+
+
+	protected:
+		virtual node* next_impl();
+		virtual node* first_impl();
+		virtual node* n_impl();
+		virtual bool evaluate(node* n);
 
 	private:
 		int which;

@@ -3,26 +3,26 @@
 #include "graph.h"
 #include "mapAbstraction.h"
 
-IncidentEdgesExpansionPolicy::IncidentEdgesExpansionPolicy(
-		mapAbstraction* map, node* t) : ExpansionPolicy(map, t)
+IncidentEdgesExpansionPolicy::IncidentEdgesExpansionPolicy() :
+	SelectiveExpansionPolicy()
 {
-	first();
+
 }
 
 IncidentEdgesExpansionPolicy::~IncidentEdgesExpansionPolicy()
 {
 }
 
-node* IncidentEdgesExpansionPolicy::first()
+node* IncidentEdgesExpansionPolicy::first_impl()
 {
 	which = 0;
 	return n();
 }
 
-node* IncidentEdgesExpansionPolicy::n()
+node* IncidentEdgesExpansionPolicy::n_impl()
 {
 	node* neighbour = 0;
-	if(which < target->getNumEdges())
+	if(map && target && which < target->getNumEdges())
 	{
 		edge* e = target->getEdge(which);
 		assert(e);
@@ -34,7 +34,7 @@ node* IncidentEdgesExpansionPolicy::n()
 	return neighbour;
 }
 
-node* IncidentEdgesExpansionPolicy::next()
+node* IncidentEdgesExpansionPolicy::next_impl()
 {
 	node* retVal = 0;
 	if(hasNext())
@@ -48,7 +48,12 @@ node* IncidentEdgesExpansionPolicy::next()
 
 bool IncidentEdgesExpansionPolicy::hasNext()
 {
-	if((which+1) < target->getNumEdges())
+	if(target && (which+1) < target->getNumEdges())
 		return true;
 	return false;
+}
+
+bool IncidentEdgesExpansionPolicy::evaluate(node* n)
+{
+	
 }

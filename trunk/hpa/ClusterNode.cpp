@@ -42,3 +42,9 @@ void ClusterNode::print(std::ostream& out)
 	out << getLabelL(kFirstData+1)<<") cId: "<<parentClusterId;
 	out <<std::endl;
 }
+
+void ClusterNode::reset()
+{
+	this->markEdge(0);
+	this->backpointer = 0;
+}

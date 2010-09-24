@@ -6,11 +6,11 @@
 #include "MacroNode.h"
 #include "graph.h"
 
-RRExpansionPolicy::RRExpansionPolicy(mapAbstraction* m, node* t) :
-	ExpansionPolicy(m, t)
+RRExpansionPolicy::RRExpansionPolicy() :
+	ExpansionPolicy()
 {
 	first();
-	edgesPolicy = new IncidentEdgesExpansionPolicy(m, t);
+	edgesPolicy = new IncidentEdgesExpansionPolicy();
 }
 
 RRExpansionPolicy::~RRExpansionPolicy()
@@ -21,6 +21,7 @@ RRExpansionPolicy::~RRExpansionPolicy()
 node* RRExpansionPolicy::first()
 {
 	which = 0;
+	edgesPolicy->expand(target, map);
 	return edgesPolicy->first();
 }
 
