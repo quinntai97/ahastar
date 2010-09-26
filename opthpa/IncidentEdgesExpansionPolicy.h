@@ -13,13 +13,13 @@ class IncidentEdgesExpansionPolicy : public SelectiveExpansionPolicy
 		IncidentEdgesExpansionPolicy();
 		virtual ~IncidentEdgesExpansionPolicy();
 		virtual bool hasNext();
+		virtual double cost_to_n();
 
 
 	protected:
 		virtual node* next_impl();
 		virtual node* first_impl();
 		virtual node* n_impl();
-		virtual bool evaluate(node* n);
 
 	private:
 		int which;

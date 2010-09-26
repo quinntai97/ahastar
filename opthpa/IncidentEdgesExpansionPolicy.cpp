@@ -53,7 +53,8 @@ bool IncidentEdgesExpansionPolicy::hasNext()
 	return false;
 }
 
-bool IncidentEdgesExpansionPolicy::evaluate(node* n)
+double IncidentEdgesExpansionPolicy::cost_to_n()
 {
-	
+	edge* e = target->getEdge(which);
+	return e->getWeight();
 }

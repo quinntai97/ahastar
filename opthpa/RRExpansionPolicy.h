@@ -1,19 +1,22 @@
 #ifndef RREXPANSIONPOLICY_H
 #define RREXPANSIONPOLICY_H
 
-#include "ExpansionPolicy.h"
+#include "SelectiveExpansionPolicy.h"
 
 class IncidentEdgesExpansionPolicy;
-class RRExpansionPolicy : public ExpansionPolicy
+class RRExpansionPolicy : public SelectiveExpansionPolicy
 {
 	public:
 		RRExpansionPolicy();
 		virtual ~RRExpansionPolicy();
 
-		virtual node* first();
-		virtual node* n();
-		virtual node* next();
 		virtual bool hasNext();
+		virtual double cost_to_n();
+
+	protected:
+		virtual node* first_impl();
+		virtual node* next_impl();
+		virtual node* n_impl();
 
 	private:
 		int which;
