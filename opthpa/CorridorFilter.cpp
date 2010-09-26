@@ -1,7 +1,10 @@
 #include "CorridorFilter.h"
 
+#include <cassert>
+
 CorridorFilter::CorridorFilter()
 {
+	corridorNodes = new std::map<int, node*>();
 }
 
 CorridorFilter::~CorridorFilter()
@@ -10,11 +13,11 @@ CorridorFilter::~CorridorFilter()
 
 bool CorridorFilter::filter(node* n)
 {
-	if(corridorNodes == NULL) // corridor not set. every node should be considered.
-		return true;
+	if(corridorNodes->size() == 0) 
+		return false; // no corridor set; filter nothing.
 	
-	if(corridorNodes->find(_n->getUniqueID()) != corridorNodes->end()) // already added
-		return true;
+	if(corridorNodes->find(n->getUniqueID()) == corridorNodes->end()) 
+		return true; // node not in corridor; filter it out
 
 	return false;
 }

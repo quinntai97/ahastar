@@ -12,7 +12,7 @@ ExpansionPolicy::~ExpansionPolicy()
 {
 }
 
-ExpansionPolicy::expand(node* t, mapAbstraction* m)
+void ExpansionPolicy::expand(node* t, mapAbstraction* m)
 {
 	this->target = t;
 	this->map = m;

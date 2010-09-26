@@ -1,6 +1,8 @@
 #ifndef NODEFILTER_H
 #define NODEFILTER_H
 
+#include "graph.h"
+
 class NodeFilter 
 {
 
@@ -8,7 +10,7 @@ class NodeFilter
 		NodeFilter() {}
 		virtual ~NodeFilter() { }
 
-		bool filter(node* n) = 0;
+		virtual bool filter(node* n) = 0;
 };
 
 #endif

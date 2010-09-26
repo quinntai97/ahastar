@@ -17,7 +17,7 @@ class NoFilter : public NodeFilter
 		NoFilter() { }
 		virtual ~NoFilter() { } 
 
-		bool filter(node* n) { return true; }
+		virtual bool filter(node* n) { return true; }
 };
 
 #endif

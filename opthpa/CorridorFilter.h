@@ -20,11 +20,11 @@ class CorridorFilter : public NodeFilter
 		CorridorFilter();
 		virtual ~CorridorFilter();
 
-		bool filter(node* n);
+		virtual bool filter(node* n);
 		void setCorridorNodes(std::map<int, node*>* _nodes);
 
 	private:
-		std::map<int, node*> corridorNodes;
+		std::map<int, node*>* corridorNodes;
 };
 
 #endif
