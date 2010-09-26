@@ -25,7 +25,7 @@ node* SelectiveExpansionPolicy::first()
 	if(filter(retVal))
 		retVal = next();
 
-	return retVal();
+	return retVal;
 }
 
 node* SelectiveExpansionPolicy::n()

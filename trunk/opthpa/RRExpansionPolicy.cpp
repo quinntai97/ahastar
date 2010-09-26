@@ -7,7 +7,7 @@
 #include "graph.h"
 
 RRExpansionPolicy::RRExpansionPolicy() :
-	ExpansionPolicy()
+	SelectiveExpansionPolicy()
 {
 	first();
 	edgesPolicy = new IncidentEdgesExpansionPolicy();
@@ -18,14 +18,14 @@ RRExpansionPolicy::~RRExpansionPolicy()
 	delete edgesPolicy;
 }
 
-node* RRExpansionPolicy::first()
+node* RRExpansionPolicy::first_impl()
 {
 	which = 0;
 	edgesPolicy->expand(target, map);
 	return edgesPolicy->first();
 }
 
-node* RRExpansionPolicy::n()
+node* RRExpansionPolicy::n_impl()
 {
 	if(which >= max)
 		return 0;
@@ -79,7 +79,7 @@ node* RRExpansionPolicy::n()
 	return retVal;
 }
 
-node* RRExpansionPolicy::next()
+node* RRExpansionPolicy::next_impl()
 {
 	node* retVal = edgesPolicy->next();
 	if(!retVal)
@@ -95,4 +95,12 @@ bool RRExpansionPolicy::hasNext()
 	if(which < max)
 		return true;
 	return false;
+}
+
+double RRExpansionPolicy::cost_to_n()
+{
+	if(edgesPolicy->n())
+		return edgesPolicy->cost_to_n();
+	else
+		return map->h(target, n());
 }
