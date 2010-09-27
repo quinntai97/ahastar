@@ -1,5 +1,6 @@
 #include "FlexibleAStar.h"
 
+#include "DebugUtility.h"
 #include "ExpansionPolicy.h"
 #include "graph.h"
 #include "heap.h"
@@ -28,9 +29,18 @@ const char* FlexibleAStar::getName()
 	return "FlexibleAStar";
 }
 
-path* FlexibleAStar::getPath(graphAbstraction *aMap, node *from, node *goal,
+path* FlexibleAStar::getPath(graphAbstraction *aMap, node *start, node *goal,
 		reservationProvider *rp)
 {
+	this->map = aMap;
+	graph *g = aMap->getAbstractGraph(start->getLabelL(kAbstractionLevel));
+
+	return search(g, start, goal);
+}
+
+path* FlexibleAStar::search(graph* g, node* start, node* goal)
+{
+	debug = new DebugUtility(g, heuristic);
 	nodesExpanded=0;
 	nodesTouched=0;
 	searchTime =0;
@@ -39,22 +49,19 @@ path* FlexibleAStar::getPath(graphAbstraction *aMap, node *from, node *goal,
 	if(verbose) 
 	{
 		std::cout << "getPath() mapLevel: ";
-		std::cout <<from->getLabelL(kAbstractionLevel)<<std::endl;
+		std::cout <<start->getLabelL(kAbstractionLevel)<<std::endl;
 	}
 
-	if(!checkParameters(aMap, from, goal))
+	if(!checkParameters(g, start, goal))
 		return NULL;
 
-	this->map = aMap;
-	graph *g = aMap->getAbstractGraph(from->getLabelL(kAbstractionLevel));
-
-	from->setLabelF(kTemporaryLabel, heuristic->h(from, goal));
-	from->backpointer = 0;
+	start->setLabelF(kTemporaryLabel, heuristic->h(start, goal));
+	start->backpointer = 0;
 	
 	heap openList(30);
 	std::map<int, node*> closedList;
 	
-	openList.add(from);
+	openList.add(start);
 	path *p = NULL;
 	
 	Timer t;
@@ -68,13 +75,13 @@ path* FlexibleAStar::getPath(graphAbstraction *aMap, node *from, node *goal,
 		{
 			p = extractBestPath(g, current->getNum());
 			if(verbose)
-				printNode(std::string("goal found! "), current);
+				debug->printNode(std::string("goal found! "), current);
 			break;
 		}
 		
 		// expand current node
 		expand(current, goal, &openList, &closedList);
-		closeNode(current, closedList);
+		closeNode(current, &closedList);
 				
 		// terminate when the open list is empty
 		if(openList.empty())
@@ -89,23 +96,25 @@ path* FlexibleAStar::getPath(graphAbstraction *aMap, node *from, node *goal,
 	if(verbose)
 	{
 		std::cout << "\n";
-		printPath(p);
+		debug->printPath(p); 
 	}
 
+	delete debug;
 	return p;	
 }
 
-void FlexibleAStar::closeNode(node* current, std::map<int, node*>& closedList)
+void FlexibleAStar::closeNode(node* current, std::map<int, node*>* closedList)
 {
 	if(markForVis)
 		current->drawColor = 2; // visualise expanded
 
 	if(verbose)
 	{	
-		printNode(std::string("closing... "), current);
+		debug->printNode(std::string("closing... "), current);
 		std::cout << " f: "<<current->getLabelF(kTemporaryLabel) <<std::endl;
 	}
-	closedList[current->getUniqueID()] = current;	
+	closedList->insert(std::pair<int, node*>(current->getUniqueID(), current));
+
 
 }
 
@@ -113,80 +122,54 @@ void FlexibleAStar::expand(node* current, node* goal, heap* openList,
 		std::map<int, node*>* closedList)
 {
 	// expand the current node
-	if(verbose) printNode(std::string("expanding... "), current, goal);
+	if(verbose) 
+		debug->printNode(std::string("expanding... "), goal);
+
 	nodesExpanded++;
 
-	policy->expand(current, map);
+	policy->expand(current, static_cast<mapAbstraction*>(map));
 	for(node* neighbour = policy->first(); neighbour != 0; 
 			neighbour = policy->next())
 	{
 		nodesTouched++;			
-		if(closedList.find(neighbour->getUniqueID()) == closedList.end()) 
+		if(closedList->find(neighbour->getUniqueID()) == closedList->end()) 
 		{
 			if(openList->isIn(neighbour)) 
 			{	
 				if(verbose) 
 				{
-					printNode("\t\trelaxing...", neighbour);
+					debug->printNode("\t\trelaxing...", neighbour);
 					std::cout << " f: "<<neighbour->getLabelF(kTemporaryLabel);
 				}
 
-				relax(openList); 
+				relaxNode(current, neighbour, goal, policy->cost_to_n(), openList); 
 			}
 			else
 			{
 				if(verbose) 
-					printNode("\t\tgenerating...", neighbour);
+					debug->printNode("\t\tgenerating...", neighbour);
 
 				neighbour->setLabelF(kTemporaryLabel, MAXINT); // initial fCost 
 				neighbour->setKeyLabel(kTemporaryLabel); // store priority here 
-				neighbour->reset();  // reset any marked edges 
+				neighbour->backpointer = 0;  // reset any marked edges 
 				openList->add(neighbour);
-				relax(openList, goal); 
+				relaxNode(current, neighbour, goal, policy->cost_to_n(), openList); 
 				nodesGenerated++;
 			}
 			if(markForVis)
 				neighbour->drawColor = 1; // visualise touched
 		}
 		else
-			debugClosedNode(current, neighbour, goal, neighbours);
+			debug->debugClosedNode(current, neighbour, policy->cost_to_n(), goal);
 
 		if(verbose)
 			std::cout << std::endl;
 	}
 }
 
-// a node is correctly closed only if its fCost is smaller than the cost of
-// of any path through an alternative parent.
-void FlexibleAStar::debugClosedNode(node* current, node* neighbour, node* goal)
+bool FlexibleAStar::checkParameters(graph* g, node* from, node* to)
 {
-	if(verbose) 
-		printNode("\t\tclosed! ", neighbour);
-
-	double fclosed = neighbour->getLabelF(kTemporaryLabel);
-	double gclosed =  fclosed - heuristic->h(neighbour, goal);
-
-	// alternate fcost
-	double alth = h(neighbour, goal);
-	double altg = current->getLabelF(kTemporaryLabel) - heuristic->h(current, goal);
-
-	if((altg + e->getWeight() + alth) < fclosed)
-	{
-		std::cout << "node "<<neighbour->getName()<<" expanded out of order! ";
-		std::cout << " fClosed = "<<fclosed;
-		std::cout << " fActual: "<<altg + e->getWeight() + alth;
-		std::cout << " gClosed = "<<gclosed;
-		std::cout << "; alternative: "<<altg+e->getWeight();
-		printNode("\nfaulty node: ", neighbour, goal); 
-		std::cout << std::endl;
-		printNode(" alt parent: ", current, goal);
-		std::cout << std::endl;
-	}
-}
-
-bool FlexibleAStar::checkParameters(graphAbstraction* aMap, node* from, node* to)
-{
-	if(aMap == NULL)
+	if(g == NULL)
 		return false;
 				
 	if(!from || !to)
@@ -206,13 +189,10 @@ bool FlexibleAStar::checkParameters(graphAbstraction* aMap, node* from, node* to
 	
 }
 
-void FlexibleAStar::relax(heap* openList, node* goal)
+void FlexibleAStar::relaxNode(node* from, node* to, node* goal, double cost, heap* openList)
 {
-	node* from = policy.getTarget();
-	node* to = policy.n();
-
 	double g_from = from->getLabelF(kTemporaryLabel) - heuristic->h(from, goal);
-	double f_to = g_from + policy.cost_to_n() + heuristic->h(to, goal);
+	double f_to = g_from + cost + heuristic->h(to, goal);
 	
 	if(f_to < to->getLabelF(kTemporaryLabel))
 	{
@@ -227,59 +207,3 @@ path* FlexibleAStar::extractBestPath(graph *g, unsigned int current)
 	return 0;
 }
 
-void FlexibleAStar::printNode(std::string msg, node* n, node* goal)
-{	
-	std::cout << msg <<"addr: "<<&(*n)<<" num: "<<n->getUniqueID();
-	std::cout <<" ("<<n->getLabelL(kFirstData)<<","<<n->getLabelL(kFirstData+1)<<") ";
-
-	if(static_cast<MacroNode*>(n))
-	{
-		MacroNode* mp = static_cast<MacroNode*>(n)->getParent();
-		if(mp)
-		{
-			std::cout << " mp: "<<static_cast<MacroNode*>(n)->getParent()->getName()<<" ";
-		}
-			if(n->getMarkedEdge())
-			{
-				graph* g =  getGraphAbstraction()->getAbstractGraph(n->getLabelL(kAbstractionLevel));
-				edge* e = n->getMarkedEdge();
-				int parentId = e->getTo() == n->getNum()?e->getFrom():e->getTo();
-				node* parent = g->getNode(parentId);
-				std::cout << " p: ("<<parent->getLabelL(kFirstData)<<", "<<parent->getLabelL(kFirstData+1)<<") ";
-			}
-	}
-
-	if(goal)
-	{
-		double hcost = h(n, goal);
-		//double hcost = 0; 
-		double gcost = n->getLabelF(kTemporaryLabel) - hcost;
-		std::cout << " f: "<<gcost+hcost<<" g: "<<gcost<<" h: "<<hcost<<std::endl;
-	}
-}
-
-void FlexibleAStar::printPath(path* p)
-{
-	if(!p)
-	{
-		std::cout << "search failed"<<std::endl;
-		return;
-	}
-
-	graphAbstraction* aMap = this->getGraphAbstraction();
-	node* goal = p->tail()->n;
-	node* last = 0;
-	double g=0;
-	while(p)
-	{
-		node* n = p->n;
-		
-		double h = aMap->h(n, goal);
-		if(last)
-			g += aMap->h(n, last);
-		std::cout << "id: "<<n->getUniqueID()<<" node @ "<<n->getName();
-		std::cout << " g: "<<g<<" f: "<<g+h<<std::endl;
-		last = n;
-		p = p->next;
-	}		
-}

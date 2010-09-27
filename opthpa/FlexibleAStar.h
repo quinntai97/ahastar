@@ -15,6 +15,7 @@
 #include <map>
 #include <string>
 
+class DebugUtility;
 class ExpansionPolicy;
 class heap;
 class Heuristic;
@@ -34,20 +35,17 @@ class FlexibleAStar : public searchAlgorithm
 		ExpansionPolicy* policy;
 		Heuristic* heuristic;
 		graphAbstraction* map;
-	
-	private:
+
 		path* search(graph* g, node* from, node* goal);
+		void relaxNode(node* from, node* to, node* goal, double cost, heap* openList);
 		void expand(node* current, node* goal, heap* openList,
 				std::map<int, node*>* closedList);
-		void closeNode(node* current, std::map<int, node*>& closedList);
+		path* extractBestPath(graph *g, unsigned int current);
 
-		void relax(heap* openList, node* goal);
-		path *extractBestPath(graph *g, unsigned int current);
-
-		void debugClosedNode(node* current, node* neighbour, node* goal);
-		bool checkParameters(graphAbstraction* aMap, node* from, node* to);
-		void printNode(std::string msg, node* n, node* goal=0);
-		void printPath(path* p);
+	private:
+		void closeNode(node* current, std::map<int, node*>* closedList);
+		bool checkParameters(graph* g, node* from, node* to);
+		DebugUtility* debug;
 };
 
 #endif
