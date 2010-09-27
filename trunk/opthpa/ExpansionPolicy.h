@@ -18,9 +18,8 @@ class ExpansionPolicy
 		ExpansionPolicy();
 		virtual ~ExpansionPolicy();
 
-		// initialises the policy with a target node and map
-		void expand(node* t, mapAbstraction* m);
-		node* getTarget() const { return target;}
+		// initialises the policy with a target node
+		virtual void expand(node* t);
 
 		// return the first neighbour
 		virtual node* first() = 0;
@@ -37,8 +36,9 @@ class ExpansionPolicy
 		// returns true until all remaining neighbours are iterated over
 		virtual bool hasNext() = 0;
 
+		node* getTarget() const { return target;}
+
 	protected:
-		mapAbstraction* map;
 		node* target;
 };
 

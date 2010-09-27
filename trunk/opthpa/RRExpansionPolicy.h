@@ -4,10 +4,11 @@
 #include "SelectiveExpansionPolicy.h"
 
 class IncidentEdgesExpansionPolicy;
+class EmptyClusterAbstraction;
 class RRExpansionPolicy : public SelectiveExpansionPolicy
 {
 	public:
-		RRExpansionPolicy();
+		RRExpansionPolicy(EmptyClusterAbstraction*);
 		virtual ~RRExpansionPolicy();
 
 		virtual bool hasNext();
@@ -22,6 +23,7 @@ class RRExpansionPolicy : public SelectiveExpansionPolicy
 		int which;
 		int max;
 		IncidentEdgesExpansionPolicy* edgesPolicy;
+		EmptyClusterAbstraction* map;
 };
 
 #endif

@@ -4,7 +4,6 @@
 
 ExpansionPolicy::ExpansionPolicy()
 {
-	this->map = 0;
 	this->target = 0;
 }
 
@@ -12,8 +11,7 @@ ExpansionPolicy::~ExpansionPolicy()
 {
 }
 
-void ExpansionPolicy::expand(node* t, mapAbstraction* m)
+void ExpansionPolicy::expand(node* t)
 {
 	this->target = t;
-	this->map = m;
 }

@@ -3,10 +3,10 @@
 #include "graph.h"
 #include "mapAbstraction.h"
 
-IncidentEdgesExpansionPolicy::IncidentEdgesExpansionPolicy() :
+IncidentEdgesExpansionPolicy::IncidentEdgesExpansionPolicy(mapAbstraction* map) :
 	SelectiveExpansionPolicy()
 {
-
+	this->map = map;
 }
 
 IncidentEdgesExpansionPolicy::~IncidentEdgesExpansionPolicy()

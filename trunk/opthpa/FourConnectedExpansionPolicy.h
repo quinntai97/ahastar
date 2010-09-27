@@ -3,10 +3,11 @@
 
 #include "ExpansionPolicy.h"
 
+class mapAbstraction;
 class FourConnectedExpansionPolicy : public ExpansionPolicy
 {
 	public:
-		FourConnectedExpansionPolicy();
+		FourConnectedExpansionPolicy(mapAbstraction* map);
 		virtual ~FourConnectedExpansionPolicy();
 
 		virtual node* n();
@@ -16,6 +17,7 @@ class FourConnectedExpansionPolicy : public ExpansionPolicy
 
 	private:
 		int which;
+		mapAbstraction* map;
 };
 
 #endif

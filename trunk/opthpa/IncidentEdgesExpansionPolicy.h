@@ -10,7 +10,7 @@ class node;
 class IncidentEdgesExpansionPolicy : public SelectiveExpansionPolicy
 {
 	public:
-		IncidentEdgesExpansionPolicy();
+		IncidentEdgesExpansionPolicy(mapAbstraction* map);
 		virtual ~IncidentEdgesExpansionPolicy();
 		virtual bool hasNext();
 		virtual double cost_to_n();
@@ -23,6 +23,7 @@ class IncidentEdgesExpansionPolicy : public SelectiveExpansionPolicy
 
 	private:
 		int which;
+		mapAbstraction* map;
 };
 
 #endif
