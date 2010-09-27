@@ -40,7 +40,7 @@ class FlexibleAStar : public searchAlgorithm
 		void relaxNode(node* from, node* to, node* goal, double cost, heap* openList);
 		void expand(node* current, node* goal, heap* openList,
 				std::map<int, node*>* closedList);
-		path* extractBestPath(graph *g, unsigned int current);
+		path* extractBestPath(node* goal);
 
 	private:
 		void closeNode(node* current, std::map<int, node*>* closedList);

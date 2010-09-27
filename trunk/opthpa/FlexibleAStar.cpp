@@ -73,7 +73,7 @@ path* FlexibleAStar::search(graph* g, node* start, node* goal)
 		// check if the current node is the goal (early termination)
 		if(current == goal)
 		{
-			p = extractBestPath(g, current->getNum());
+			p = extractBestPath(current);
 			if(verbose)
 				debug->printNode(std::string("goal found! "), current);
 			break;
@@ -202,8 +202,12 @@ void FlexibleAStar::relaxNode(node* from, node* to, node* goal, double cost, hea
 	}
 }
 
-path* FlexibleAStar::extractBestPath(graph *g, unsigned int current)
+path* FlexibleAStar::extractBestPath(node* goal)
 {
-	return 0;
+	path* p = 0;
+	for(node* n = goal; n != 0; n = n->backpointer)
+		p = new path(n, p);
+
+	return p;
 }
 
