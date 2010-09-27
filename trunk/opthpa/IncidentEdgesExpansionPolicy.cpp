@@ -1,12 +1,12 @@
 #include "IncidentEdgesExpansionPolicy.h"
 
 #include "graph.h"
-#include "mapAbstraction.h"
+#include <cassert>
 
-IncidentEdgesExpansionPolicy::IncidentEdgesExpansionPolicy(mapAbstraction* map) :
+IncidentEdgesExpansionPolicy::IncidentEdgesExpansionPolicy(graph* g) :
 	SelectiveExpansionPolicy()
 {
-	this->map = map;
+	this->g = g;
 }
 
 IncidentEdgesExpansionPolicy::~IncidentEdgesExpansionPolicy()
@@ -22,13 +22,12 @@ node* IncidentEdgesExpansionPolicy::first_impl()
 node* IncidentEdgesExpansionPolicy::n_impl()
 {
 	node* neighbour = 0;
-	if(map && target && which < target->getNumEdges())
+	if(g && target && which < target->getNumEdges())
 	{
 		edge* e = target->getEdge(which);
 		assert(e);
 
 		int neighbourid = e->getFrom()==target->getNum()?e->getTo():e->getFrom();
-		graph* g = map->getAbstractGraph(target->getLabelL(kAbstractionLevel));
 		neighbour = g->getNode(neighbourid);
 	}
 	return neighbour;
