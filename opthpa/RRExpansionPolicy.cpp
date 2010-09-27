@@ -13,7 +13,7 @@ RRExpansionPolicy::RRExpansionPolicy(EmptyClusterAbstraction* map) :
 	max = 1;
 
 	first();
-	edgesPolicy = new IncidentEdgesExpansionPolicy(map);
+	edgesPolicy = 0;
 }
 
 RRExpansionPolicy::~RRExpansionPolicy()
@@ -24,6 +24,12 @@ RRExpansionPolicy::~RRExpansionPolicy()
 node* RRExpansionPolicy::first_impl()
 {
 	which = 0;
+	if(edgesPolicy == 0)
+	{
+		edgesPolicy = new IncidentEdgesExpansionPolicy(
+			map->getAbstractGraph(target->getLabelL(kAbstractionLevel)));	
+	}
+	
 	edgesPolicy->expand(target);
 	return edgesPolicy->first();
 }
