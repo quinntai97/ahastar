@@ -32,15 +32,15 @@ const char* FlexibleAStar::getName()
 path* FlexibleAStar::getPath(graphAbstraction *aMap, node *start, node *goal,
 		reservationProvider *rp)
 {
-	this->map = aMap;
-	graph *g = aMap->getAbstractGraph(start->getLabelL(kAbstractionLevel));
-
-	return search(g, start, goal);
+	debug = new DebugUtility(aMap->getAbstractGraph(start->getLabelL(kAbstractionLevel)),
+		   	heuristic);
+	path* p = search(start, goal);
+	delete debug;
+	return p;
 }
 
-path* FlexibleAStar::search(graph* g, node* start, node* goal)
+path* FlexibleAStar::search(node* start, node* goal)
 {
-	debug = new DebugUtility(g, heuristic);
 	nodesExpanded=0;
 	nodesTouched=0;
 	searchTime =0;
@@ -52,7 +52,7 @@ path* FlexibleAStar::search(graph* g, node* start, node* goal)
 		std::cout <<start->getLabelL(kAbstractionLevel)<<std::endl;
 	}
 
-	if(!checkParameters(g, start, goal))
+	if(!checkParameters(start, goal))
 		return NULL;
 
 	start->setLabelF(kTemporaryLabel, heuristic->h(start, goal));
@@ -99,7 +99,6 @@ path* FlexibleAStar::search(graph* g, node* start, node* goal)
 		debug->printPath(p); 
 	}
 
-	delete debug;
 	return p;	
 }
 
@@ -127,7 +126,7 @@ void FlexibleAStar::expand(node* current, node* goal, heap* openList,
 
 	nodesExpanded++;
 
-	policy->expand(current, static_cast<mapAbstraction*>(map));
+	policy->expand(current);
 	for(node* neighbour = policy->first(); neighbour != 0; 
 			neighbour = policy->next())
 	{
@@ -167,11 +166,8 @@ void FlexibleAStar::expand(node* current, node* goal, heap* openList,
 	}
 }
 
-bool FlexibleAStar::checkParameters(graph* g, node* from, node* to)
+bool FlexibleAStar::checkParameters(node* from, node* to)
 {
-	if(g == NULL)
-		return false;
-				
 	if(!from || !to)
 		return false;
 

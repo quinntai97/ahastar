@@ -34,9 +34,8 @@ class FlexibleAStar : public searchAlgorithm
 	protected:
 		ExpansionPolicy* policy;
 		Heuristic* heuristic;
-		graphAbstraction* map;
 
-		path* search(graph* g, node* from, node* goal);
+		path* search(node* from, node* goal);
 		void relaxNode(node* from, node* to, node* goal, double cost, heap* openList);
 		void expand(node* current, node* goal, heap* openList,
 				std::map<int, node*>* closedList);
@@ -44,7 +43,7 @@ class FlexibleAStar : public searchAlgorithm
 
 	private:
 		void closeNode(node* current, std::map<int, node*>* closedList);
-		bool checkParameters(graph* g, node* from, node* to);
+		bool checkParameters(node* from, node* to);
 		DebugUtility* debug;
 };
 

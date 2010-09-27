@@ -6,11 +6,14 @@
 #include "MacroNode.h"
 #include "graph.h"
 
-RRExpansionPolicy::RRExpansionPolicy() :
+RRExpansionPolicy::RRExpansionPolicy(EmptyClusterAbstraction* map) :
 	SelectiveExpansionPolicy()
 {
+	this->map = map;
+	max = 1;
+
 	first();
-	edgesPolicy = new IncidentEdgesExpansionPolicy();
+	edgesPolicy = new IncidentEdgesExpansionPolicy(map);
 }
 
 RRExpansionPolicy::~RRExpansionPolicy()
@@ -21,7 +24,7 @@ RRExpansionPolicy::~RRExpansionPolicy()
 node* RRExpansionPolicy::first_impl()
 {
 	which = 0;
-	edgesPolicy->expand(target, map);
+	edgesPolicy->expand(target);
 	return edgesPolicy->first();
 }
 
@@ -33,10 +36,9 @@ node* RRExpansionPolicy::n_impl()
 	node* retVal = edgesPolicy->n();
 	if(retVal == 0)
 	{
-		EmptyClusterAbstraction* aMap = static_cast<EmptyClusterAbstraction*>(map);	
 		MacroNode* t = static_cast<MacroNode*>(target);
 
-		EmptyCluster* room = aMap->getCluster(t->getParentClusterId());
+		EmptyCluster* room = map->getCluster(t->getParentClusterId());
 		EmptyCluster::RoomSide side = room->whichSide(t);
 		
 		int tx = t->getLabelL(kFirstData);
@@ -66,12 +68,12 @@ node* RRExpansionPolicy::n_impl()
 				break;
 		}
 
-		node* neighbour = aMap->getNodeFromMap(nx, ny);
+		node* neighbour = map->getNodeFromMap(nx, ny);
 
 		if(neighbour->getLabelL(kAbstractionLevel) != 
 				t->getLabelL(kAbstractionLevel))
 		{
-			graph* g = aMap->getAbstractGraph(t->getLabelL(kAbstractionLevel));
+			graph* g = map->getAbstractGraph(t->getLabelL(kAbstractionLevel));
 			neighbour = g->getNode(neighbour->getLabelL(kParent));
 			assert(neighbour);
 		}

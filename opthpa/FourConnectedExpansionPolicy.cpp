@@ -1,9 +1,10 @@
 #include "FourConnectedExpansionPolicy.h"
 #include "mapAbstraction.h"
 
-FourConnectedExpansionPolicy::FourConnectedExpansionPolicy() 
+FourConnectedExpansionPolicy::FourConnectedExpansionPolicy(mapAbstraction* map) 
 	: ExpansionPolicy()
 {
+	this->map = map;
 	first();
 }
 
