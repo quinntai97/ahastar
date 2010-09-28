@@ -16,6 +16,7 @@
 #include "ExpansionPolicy.h"
 
 class EmptyClusterAbstraction;
+class TileExpansionPolicy;
 class FCRRExpansionPolicy : public ExpansionPolicy
 {
 	public:
@@ -30,6 +31,7 @@ class FCRRExpansionPolicy : public ExpansionPolicy
 	private:
 		int which_macro;
 		EmptyClusterAbstraction* map;
+		TileExpansionPolicy* policy;
 };
 
 #endif

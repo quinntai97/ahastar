@@ -1,8 +1,9 @@
 #include "TileExpansionPolicy.h"
+#include "ManhattanHeuristic.h"
 #include "mapAbstraction.h"
 
 TileExpansionPolicy::TileExpansionPolicy(mapAbstraction* map) 
-	: GridMapExpansionPolicy(map, 4)
+	: GridMapExpansionPolicy(map, new ManhattanHeuristic(), 4)
 {
 }
 
