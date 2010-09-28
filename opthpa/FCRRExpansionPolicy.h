@@ -4,16 +4,22 @@
 // FCRRExpansionPolicy.h
 //
 // Four Connected Rectangular Room expansion policy.
-// Iterates over all edges incident with the target node plus
-// one neighbour on the directly opposite side of the current empty
-// rectangular room.
+// Iterates over all neighbours of the target node which are reachable by 
+// taking a step in one cardinal directions (up, down, left, right).
+//
+// Also iterates over a macro neighbour on the directly opposite side of the rectangular
+// room.
+//
+// @author: dharabor
+// @created: 28/10/2010
 
 #include "ExpansionPolicy.h"
 
+class EmptyClusterAbstraction;
 class FCRRExpansionPolicy : public ExpansionPolicy
 {
 	public:
-		FCRRExpansionPolicy();
+		FCRRExpansionPolicy(EmptyClusterAbstraction*);
 		virtual ~FCRRExpansionPolicy();
 
 		virtual node* n();
@@ -23,6 +29,7 @@ class FCRRExpansionPolicy : public ExpansionPolicy
 
 	private:
 		int which_macro;
+		EmptyClusterAbstraction* map;
 };
 
 #endif
