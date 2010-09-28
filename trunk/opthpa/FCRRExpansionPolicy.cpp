@@ -1,8 +1,10 @@
 #include "FCRRExpansionPolicy.h"
+#include "EmptyClusterAbstraction.h"
 
-FCRRExpansionPolicy::FCRRExpansionPolicy() :
+FCRRExpansionPolicy::FCRRExpansionPolicy(EmptyClusterAbstraction* map) :
 	ExpansionPolicy()
 {
+	this->map = map;
 }
 
 FCRRExpansionPolicy::~FCRRExpansionPolicy()
