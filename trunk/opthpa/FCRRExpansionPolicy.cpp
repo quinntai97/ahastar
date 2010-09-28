@@ -1,10 +1,12 @@
 #include "FCRRExpansionPolicy.h"
 #include "EmptyClusterAbstraction.h"
+#include "TileExpansionPolicy.h"
 
 FCRRExpansionPolicy::FCRRExpansionPolicy(EmptyClusterAbstraction* map) :
 	ExpansionPolicy()
 {
 	this->map = map;
+	policy = new TileExpansionPolicy(map);
 }
 
 FCRRExpansionPolicy::~FCRRExpansionPolicy()

@@ -1,6 +1,7 @@
 #ifndef HEURISTIC_H
 #define HEURISTIC_H
 
+class node;
 class Heuristic
 {
 	public:

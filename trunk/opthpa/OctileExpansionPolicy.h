@@ -4,6 +4,7 @@
 #include "GridMapExpansionPolicy.h"
 
 class mapAbstraction;
+class OctileHeuristic;
 class OctileExpansionPolicy : public GridMapExpansionPolicy
 {
 	public:

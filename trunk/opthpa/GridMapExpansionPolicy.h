@@ -13,21 +13,27 @@
 
 #include "ExpansionPolicy.h"
 
+class Heuristic;
 class GridMapExpansionPolicy : public ExpansionPolicy
 {
 	public:
-		GridMapExpansionPolicy(mapAbstraction* map, int max);
+		GridMapExpansionPolicy(mapAbstraction* map, Heuristic* h, int max);
 		virtual ~GridMapExpansionPolicy();
 	
 		virtual node* first();
 		virtual node* next();
 		virtual node* n() = 0;
 		virtual bool hasNext();
+		virtual double cost_to_n();
 
 	protected:
 		mapAbstraction* map;
 		int which;
-		int max;
+		int max; // maximum degree of a grid node
+		Heuristic* heuristic;
+
+	private:
+		double cost; // heuristic cost estimate; d(target, n()) 
 };
 
 #endif

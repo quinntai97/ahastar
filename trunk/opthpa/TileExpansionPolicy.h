@@ -23,6 +23,7 @@ class TileExpansionPolicy : public GridMapExpansionPolicy
 		// right}. 
 		// @return: the current neighbour -- or 0 if the neighbour does not exist.
 		virtual node* n();
+		virtual double cost_to_n() { return 1; }
 };
 
 #endif

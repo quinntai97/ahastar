@@ -1,11 +1,11 @@
 #include "OctileExpansionPolicy.h"
 
 #include "mapAbstraction.h"
+#include "OctileHeuristic.h"
 
 OctileExpansionPolicy::OctileExpansionPolicy(mapAbstraction* map)
-	: GridMapExpansionPolicy(map, 8)
+	: GridMapExpansionPolicy(map, new OctileHeuristic(), 8)
 {
-
 }
 
 OctileExpansionPolicy::~OctileExpansionPolicy()
