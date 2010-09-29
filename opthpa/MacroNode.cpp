@@ -35,3 +35,11 @@ void MacroNode::removeSecondaryEdge(int edgeNum)
 		iter++;
 	}
 }
+
+edge* MacroNode::getSecondaryEdge(int index)
+{
+	if(0 <= index <= secondaryEdges.size())
+		return secondaryEdges.at(index);
+	return 0;
+
+}

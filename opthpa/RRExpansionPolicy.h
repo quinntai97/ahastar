@@ -35,13 +35,14 @@
 // @created: 28/11/2010
 
 class IncidentEdgesExpansionPolicy;
-class EmptyClusterAbstraction;
+class graph;
 class RRExpansionPolicy : public SelectiveExpansionPolicy
 {
 	public:
-		RRExpansionPolicy(EmptyClusterAbstraction*);
+		RRExpansionPolicy(graph* g);
 		virtual ~RRExpansionPolicy();
 
+		virtual void expand(node* t);
 		virtual bool hasNext();
 		virtual double cost_to_n();
 
@@ -51,10 +52,13 @@ class RRExpansionPolicy : public SelectiveExpansionPolicy
 		virtual node* n_impl();
 
 	private:
-		int which;
-		int max;
-		IncidentEdgesExpansionPolicy* edgesPolicy;
-		EmptyClusterAbstraction* map;
+		bool skipSecondary;
+		int whichSecondary;
+		int numSecondary;
+		double cost;
+
+		graph* g;
+		IncidentEdgesExpansionPolicy* primary;
 };
 
 #endif
