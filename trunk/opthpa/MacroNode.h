@@ -23,9 +23,16 @@ class MacroNode : public ClusterNode
 
 		std::vector<edge*>::iterator secondaryEdgeIter() { return secondaryEdges.begin(); }
 		void addSecondaryEdge(edge* e) { secondaryEdges.push_back(e); }
+		
+		// get an edge using its index in the secondaryEdges collection
+		edge* getSecondaryEdge(int index);
+
+		// find an edge with id = edgeNum and remove it from secondaryEdges
+		// NB: edgeNum != index of edge in collection
 		void removeSecondaryEdge(int edgeNum);
-		void clearSecondaryEdges() { secondaryEdges.clear(); }
+
 		unsigned int numSecondaryEdges() { return secondaryEdges.size(); }
+		void clearSecondaryEdges() { secondaryEdges.clear(); }
 
 	private:
 		std::vector<edge*> secondaryEdges;

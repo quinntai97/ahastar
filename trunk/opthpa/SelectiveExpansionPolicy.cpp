@@ -21,6 +21,9 @@ SelectiveExpansionPolicy::~SelectiveExpansionPolicy()
 
 node* SelectiveExpansionPolicy::first()
 {
+	if(!target) 
+		return 0;
+
 	node* retVal = first_impl();
 	if(filter(retVal))
 		retVal = next();
@@ -30,6 +33,9 @@ node* SelectiveExpansionPolicy::first()
 
 node* SelectiveExpansionPolicy::n()
 {
+	if(!target)
+		return 0;
+
 	node* retVal = n_impl();
 	if(!retVal && hasNext())
 		retVal = next();
@@ -39,6 +45,9 @@ node* SelectiveExpansionPolicy::n()
 
 node* SelectiveExpansionPolicy::next()
 {
+	if(!target)
+		return 0;
+
 	node *retVal = next_impl();
 	while(filter(retVal))
 	{
