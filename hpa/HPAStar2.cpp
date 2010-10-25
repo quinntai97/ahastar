@@ -9,22 +9,23 @@
 
 #include "HPAStar2.h"
 #include "HPAClusterAbstraction.h"
-#include "IClusterAStarFactory.h"
+#include "ISearchAlgorithmFactory.h"
 #include "ClusterNode.h"
 #include "HPACluster.h"
 #include "timer.h"
+#include "searchAlgorithm.h"
 #include <stdexcept>
 
-HPAStar2::HPAStar2(bool _refine, bool _fastRefinement, IClusterAStarFactory* _caf) 
+HPAStar2::HPAStar2(bool _refine, bool _fastRefinement, ISearchAlgorithmFactory* _caf) 
 { 
 	init(_refine, _fastRefinement, _caf); 
 }
 
-HPAStar2::HPAStar2(IClusterAStarFactory* caf) 
+HPAStar2::HPAStar2(ISearchAlgorithmFactory* caf) 
 { init(true, false, caf); 
 }
 		
-void HPAStar2::init(bool _refine, bool _fastRefinement, IClusterAStarFactory* _caf) 
+void HPAStar2::init(bool _refine, bool _fastRefinement, ISearchAlgorithmFactory* _caf) 
 { 
 	refineAbstractPath = _refine; fastRefinement = _fastRefinement; caf = _caf;
 }
@@ -58,7 +59,7 @@ path* HPAStar2::getPath(graphAbstraction* aMap, node* _from, node* _to, reservat
 	ClusterNode* from = dynamic_cast<ClusterNode*>(_from);
 	ClusterNode* to = dynamic_cast<ClusterNode*>(_to);
 					
-	AbstractClusterAStar* castar = caf->newClusterAStar();
+	searchAlgorithm* castar = caf->newSearchAlgorithm();
 	castar->verbose = verbose;
 	path* thepath=0;
 
@@ -163,7 +164,7 @@ path* HPAStar2::getPath(graphAbstraction* aMap, node* _from, node* _to, reservat
 	return thepath;
 }
 
-path* HPAStar2::refinePath(path* abspath, HPAClusterAbstraction* hpamap, AbstractClusterAStar& castar) 
+path* HPAStar2::refinePath(path* abspath, HPAClusterAbstraction* hpamap, searchAlgorithm& castar) 
 {
 	graph *absg = hpamap->getAbstractGraph(1); 
 	path* thepath = 0;
@@ -234,7 +235,7 @@ path* HPAStar2::refinePath(path* abspath, HPAClusterAbstraction* hpamap, Abstrac
 }
 
 
-void HPAStar2::updateMetrics(AbstractClusterAStar& castar)
+void HPAStar2::updateMetrics(searchAlgorithm& castar)
 {	
 	this->nodesExpanded += castar.getNodesExpanded();
 	this->nodesTouched += castar.getNodesTouched();
@@ -245,7 +246,7 @@ void HPAStar2::updateMetrics(AbstractClusterAStar& castar)
 
 void HPAStar2::logFinalStats(statCollection* stats)
 {
-	ClusterAStar::logFinalStats(stats);
+	searchAlgorithm::logFinalStats(stats);
 
 	stats->addStat("insNodesExpanded",getName(),getInsertNodesExpanded());
 	stats->addStat("insNodesTouched",getName(),getInsertNodesTouched());
