@@ -25,6 +25,9 @@
  *
  */
 
+#include "ClusterAStar.h"
+#include "ClusterAStar.h"
+#include "ClusterAStarFactory.h"
 #include "common.h"
 #include "opthpa.h"
 #include "HPAClusterAbstraction.h"
@@ -33,12 +36,13 @@
 #include "EmptyClusterAbstraction.h"
 #include "EmptyCluster.h"
 #include "EmptyClusterFactory.h"
-#include "ClusterAStar.h"
-#include "ClusterAStar.h"
-#include "ClusterAStarFactory.h"
+#include "FlexibleAStar.h"
 #include "HPAStar2.h"
+#include "IncidentEdgesExpansionPolicy.h"
 #include "clusterAbstraction.h"
 #include "MacroNodeFactory.h"
+#include "ManhattanHeuristic.h"
+#include "OctileHeuristic.h"
 #include "PerimeterSearch.h"
 #include "PerimeterSearchFactory.h"
 #include "ScenarioManager.h"
@@ -60,6 +64,7 @@ bool verbose = false;
 bool allowDiagonals = true;
 bool reducePerimeter = false;
 bool bfReduction = false;
+char* algName;
 
 /**
  * This function is called each time a unitSimulation is deallocated to
@@ -71,13 +76,7 @@ void processStats(statCollection *stat)
 	if(stat->getNumStats() == 0)
 		return;
 	
-	std::string unitname;
-	if(runAStar) // aha is next; we just finished aa* experiment
-		unitname = "CAStar";		
-	else
-		unitname = "HPAStar2";
-	
-	processStats(stat, unitname.c_str());
+	processStats(stat, algName);
 	stat->clearAllStats();
 }
 
@@ -91,7 +90,7 @@ void processStats(statCollection* stat, const char* unitname)
 	
 	statValue val;
 	
-	int ne, nt, pm, absne, absnt, abspm, insne, insnt, inspm;
+	int ne, nt, ng, absne, absnt, abspm, insne, insnt, inspm;
 	double st, absst, insst, pathdist;
 	int expId = expnum;
 	if(strcmp(unitname, "HPAStar2") == 0 && hog_gui)
@@ -102,7 +101,7 @@ void processStats(statCollection* stat, const char* unitname)
 	//std::cout << unitname;
 	FILE *f = fopen(ss.str().c_str(), "a+");
 
-	ne = nt = pm = absne = absnt = abspm = insne = insnt = inspm = 0;
+	ne = nt = ng = absne = absnt = abspm = insne = insnt = inspm = 0;
 	st = absst = insst = pathdist = 0;
 	bool exists;
 
@@ -120,10 +119,10 @@ void processStats(statCollection* stat, const char* unitname)
 	nt = val.lval;
 	fprintf(f, "%i,\t", nt);
 
-	exists = stat->lookupStat("peakMemory", unitname, val);
+	exists = stat->lookupStat("nodesGenerated", unitname, val);
 	assert(exists);
-	pm = val.lval;
-	fprintf(f, "%i,\t", pm);
+	ng = val.lval;	
+	fprintf(f, "%i,\t", ng);
 
 	exists = stat->lookupStat("searchTime", unitname, val);
 	assert(exists);
@@ -180,6 +179,7 @@ void createSimulation(unitSimulation * &unitSim)
 	std::cout << " bfr="<<(bfReduction?"true":"false");
 	std::cout << std::endl;
 
+	algName = (char*)"";
 	Map* map = new Map(gDefaultMap);
 	//map->scale(100, 100);
 
@@ -245,7 +245,13 @@ void createSimulation(unitSimulation * &unitSim)
 void gogoGadgetNOGUIScenario(HPAClusterAbstraction* ecmap)
 {
 //	std::cout << "\n diagonals? "<<ecmap->getAllowDiagonals()<<std::endl;
-	ClusterAStar astar;
+	Heuristic* h = 0;
+	if(allowDiagonals)
+		h = new OctileHeuristic();
+	else
+		h = new ManhattanHeuristic();
+	FlexibleAStar astar(new IncidentEdgesExpansionPolicy(
+				ecmap->getAbstractGraph(0)), h);
 
 	IClusterAStarFactory* caf;
 	if(bfReduction)
@@ -265,27 +271,32 @@ void gogoGadgetNOGUIScenario(HPAClusterAbstraction* ecmap)
 		node* from = ecmap->getNodeFromMap(nextExperiment->getStartX(), nextExperiment->getStartY());
 		node* to = ecmap->getNodeFromMap(nextExperiment->getGoalX(), nextExperiment->getGoalY());
 		
-//		std::cout << "ASTAR!!"<<std::endl;
+		//std::cout << "ASTAR!!"<<std::endl;
+		algName = (char*)astar.getName();
 		astar.verbose = verbose;
 		path* p = astar.getPath(ecmap, from, to);
 		double distanceTravelled = ecmap->distance(p);
 		optlen = distanceTravelled;
-		stats.addStat("distanceMoved", astar.getName(), distanceTravelled);
+
+		stats.addStat("distanceMoved", algName, distanceTravelled);
 		astar.logFinalStats(&stats);
 		processStats(&stats, astar.getName());
 		stats.clearAllStats();
 		delete p;
-//		std::cout << "FINASTAR!!"<<std::endl;
+		//std::cout << "FINASTAR!!"<<std::endl;
 		
+		//std::cout << "HPA*"<<std::endl;
+		algName = (char*)hpastar.getName();
 		hpastar.verbose = verbose;
 		p = hpastar.getPath(ecmap, from, to);
 		distanceTravelled = ecmap->distance(p);
 		pslen = distanceTravelled;
-		stats.addStat("distanceMoved", hpastar.getName(), distanceTravelled);
+		stats.addStat("distanceMoved", algName, distanceTravelled);
 		hpastar.logFinalStats(&stats);
 		processStats(&stats);
 		stats.clearAllStats();
 		delete p;
+		//std::cout << "Fin HPA*"<<std::endl;
 
 		if(optlen != pslen)
 		{
@@ -490,7 +501,7 @@ void myNewUnitKeyHandler(unitSimulation *unitSim, tKeyboardModifier mod, char)
 
 	int x1, y1, x2, y2;
 	unit *u, *targ;
-	ClusterAStar* astar;
+	searchAlgorithm* astar;
 	
 	//std::cout << "\n absnodes: "<<unitSim->getMapAbstraction()->getAbstractGraph(1)->getNumNodes()<< " edges: "<<unitSim->getMapAbstraction()->getAbstractGraph(1)->getNumEdges();
 	//std::cout << " cachesize: "<<((EmptyClusterAbstraction*)unitSim->getMapAbstraction())->getPathCacheSize();
@@ -519,12 +530,20 @@ void myNewUnitKeyHandler(unitSimulation *unitSim, tKeyboardModifier mod, char)
 			targ->setColor(0.3,0.7,0.3);
 			break;
 		default:
-			astar = new ClusterAStar();
+			Heuristic* h = 0;
+			if(allowDiagonals)
+				h = new OctileHeuristic();
+			else
+				h = new ManhattanHeuristic();
+
+			astar = new FlexibleAStar( 
+					new IncidentEdgesExpansionPolicy(aMap->getAbstractGraph(0)), h);	
 			unitSim->addUnit(u=new searchUnit(x2, y2, targ, astar)); 
 			u->setColor(1,1,0);
 			targ->setColor(1,1,0);
 			break;
 	}
+	algName = (char*)u->getName();
 	u->setSpeed(0.12);
 //	u->setSpeed(0.000001);
 	//unitSim->setmapAbstractionDisplay(1);
@@ -582,23 +601,31 @@ void runNextExperiment(unitSimulation *unitSim)
 
 		HPAStar2* hpastar = new HPAStar2(caf);
 		hpastar->verbose = verbose;
+		algName = (char*)hpastar->getName();
 		nextUnit = new searchUnit(nextExperiment->getStartX(), nextExperiment->getStartY(), nextTarget, hpastar); 
 		nextUnit->setColor(0.1,0.1,0.5);
 		nextTarget->setColor(0.1,0.1,0.5);
 		expnum++;
 		runAStar=false;
-		std::cout << "running "<<hpastar->getName()<<" experiment"<<std::endl;
 	}
 	else
 	{
-		ClusterAStar* astar = new ClusterAStar();
+		Heuristic* h = 0;
+		if(allowDiagonals)
+			h = new OctileHeuristic();
+		else
+			h = new ManhattanHeuristic();
+
+		searchAlgorithm* astar = new FlexibleAStar( 
+				new IncidentEdgesExpansionPolicy(aMap->getAbstractGraph(0)), h);	
 		astar->verbose = verbose;
+		algName = (char*)astar->getName();
 		nextUnit = new searchUnit(nextExperiment->getStartX(), nextExperiment->getStartY(), nextTarget, astar); 
 		nextUnit->setColor(0.5,0.1,0.1);
 		nextTarget->setColor(0.5,0.1,0.1);
 		runAStar=true;
-		std::cout << "running "<<astar->getName()<<" experiment"<<std::endl;
 	}
+	std::cout << "running "<<algName<<" experiment"<<std::endl;
 	nextUnit->setSpeed(0.05);
 
 	unitSim->clearAllUnits();

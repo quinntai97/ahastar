@@ -1,6 +1,15 @@
 #ifndef INCIDENTEDGESEXPANSIONPOLICY_H
 #define INCIDENTEDGESEXPANSIONPOLICY_H
 
+// IncidentEdgesExpansionPolicy.h
+//
+// An expansion policy which iterates over all edges incident with a node
+// in a graph.
+//
+// @author: dharabor
+// @created: ??/09/2010
+
+
 #include "SelectiveExpansionPolicy.h"
 
 class graph;

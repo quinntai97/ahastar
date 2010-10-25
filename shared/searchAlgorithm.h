@@ -45,6 +45,7 @@ public:
 	virtual path *getPath(graphAbstraction *aMap, node *from, node *to, reservationProvider *rp = 0) = 0;
 	long getNodesExpanded() { return nodesExpanded; }
 	long getNodesTouched() { return nodesTouched; }
+	long getNodesGenerated() { return nodesGenerated; }
 	double getSearchTime() { return searchTime; }
 	virtual void logFinalStats(statCollection *);
 

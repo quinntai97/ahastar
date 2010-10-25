@@ -146,5 +146,6 @@ void searchAlgorithm::logFinalStats(statCollection* stats)
 {
 	stats->addStat("nodesExpanded",getName(),getNodesExpanded());
 	stats->addStat("nodesTouched",getName(),getNodesTouched());
+	stats->addStat("nodesGenerated",getName(),getNodesGenerated());
 	stats->addStat("searchTime",getName(),getSearchTime());
 }
