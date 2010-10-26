@@ -37,9 +37,12 @@ class ExpansionPolicy
 		virtual bool hasNext() = 0;
 
 		node* getTarget() const { return target;}
+		void setVerbose(bool v) { verbose = v; }
+		bool getVerbose() { return verbose; }
 
 	protected:
 		node* target;
+		bool verbose;
 };
 
 #endif
