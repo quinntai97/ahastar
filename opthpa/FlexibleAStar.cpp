@@ -33,6 +33,7 @@ const char* FlexibleAStar::getName()
 path* FlexibleAStar::getPath(graphAbstraction *aMap, node *start, node *goal,
 		reservationProvider *rp)
 {
+	policy->setVerbose(verbose);
 	debug = new DebugUtility(aMap, heuristic);
 	path* p = search(start, goal);
 	delete debug;
