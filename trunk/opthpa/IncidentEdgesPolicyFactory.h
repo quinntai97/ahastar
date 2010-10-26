@@ -11,18 +11,18 @@
 
 #include "IExpansionPolicyFactory.h"
 
-class graph;
+class graphAbstraction;
 class ExpansionPolicy;
 class IncidentEdgesPolicyFactory : public IExpansionPolicyFactory
 {
 	public:
-		IncidentEdgesPolicyFactory(graph* g);
+		IncidentEdgesPolicyFactory(graphAbstraction* map);
 		virtual ~IncidentEdgesPolicyFactory();
 
 		virtual ExpansionPolicy* newExpansionPolicy();
 
 	private:
-		graph* g;
+		graphAbstraction* map;
 };
 
 #endif

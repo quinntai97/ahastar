@@ -10,48 +10,54 @@
 #ifndef HPASTAR2_H
 #define HPASTAR2_H
 
-#include "ClusterAStar.h"
+#include "searchAlgorithm.h"
 
+class ExpansionPolicy;
+class DebugUtility;
+class FlexibleAStar;
+class Heuristic;
 class HPAClusterAbstraction;
-class ISearchAlgorithmFactory;
-
-class HPAStar2 : public ClusterAStar
+class HPAStar2 : public searchAlgorithm 
 {
 	public:
-		HPAStar2(bool _refine, bool _fastRefinement, ISearchAlgorithmFactory* _caf); 
-		HPAStar2(ISearchAlgorithmFactory* caf); 
+		HPAStar2(ExpansionPolicy*, Heuristic*, bool _refine=true, bool _fastRefinement=false);
 		virtual ~HPAStar2();
 		virtual const char* getName() { return "HPAStar2"; }
 		virtual path *getPath(graphAbstraction *aMap, node *from, node *to, reservationProvider *rp = 0);	
 		
 		long getInsertNodesExpanded() { return insertNodesExpanded; }
 		long getInsertNodesTouched() { return insertNodesTouched; }
-		long getInsertPeakMemory() { return insertPeakMemory; }
+		long getInsertNodesGenerated() { return insertNodesGenerated; }
 		double getInsertSearchTime() { return insertSearchTime; }
 		virtual void logFinalStats(statCollection* sc);
 		
 		void setRefineAbstractPathFlag(bool _refine) { refineAbstractPath = _refine; }
 		bool getRefineAbstractPathFlag() { return refineAbstractPath; }
-
 		void setFastRefinement(bool _fastRefinement) { refineAbstractPath = true;  fastRefinement = _fastRefinement; }
 		bool getFastRefinement() { return fastRefinement; }
 
 		
 	protected:
-		virtual path* refinePath(path* abspath, HPAClusterAbstraction* hpamap, searchAlgorithm& castar);
+		virtual path* refinePath(path* abspath, HPAClusterAbstraction* hpamap);
 				
 	private:		
-		void init(bool _refine, bool _fastRefinement, ISearchAlgorithmFactory* _caf);
+		void updateMetrics();  
+		bool checkParameters(node* from, node* to);
+		void resetMetrics();
+
+		// A* implementation being used
+		FlexibleAStar* astar;
+
+		// insertion metrics
 		long insertNodesExpanded;
 		long insertNodesTouched;
-		long insertPeakMemory;
+		long insertNodesGenerated;
 		double insertSearchTime;
+
+		// search options
 		bool refineAbstractPath;
 		bool fastRefinement; // should we use the path cache in HPAClusterAbstraction to speed up refinement?
-		ISearchAlgorithmFactory* caf;
 		
-		void updateMetrics(searchAlgorithm& castar);  
-		void resetMetrics();
 };
 
 #endif

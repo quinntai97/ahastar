@@ -12,14 +12,17 @@
 
 #include "SelectiveExpansionPolicy.h"
 
-class graph;
 class node;
+class graph;
+class graphAbstraction;
 
 class IncidentEdgesExpansionPolicy : public SelectiveExpansionPolicy
 {
 	public:
-		IncidentEdgesExpansionPolicy(graph *g);
+		IncidentEdgesExpansionPolicy(graphAbstraction* map);
 		virtual ~IncidentEdgesExpansionPolicy();
+
+		virtual void expand(node* n);
 		virtual bool hasNext();
 		virtual double cost_to_n();
 
@@ -32,6 +35,7 @@ class IncidentEdgesExpansionPolicy : public SelectiveExpansionPolicy
 	private:
 		int which;
 		graph* g;
+		graphAbstraction* map;
 };
 
 #endif

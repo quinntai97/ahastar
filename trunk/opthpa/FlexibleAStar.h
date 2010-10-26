@@ -29,6 +29,7 @@ class FlexibleAStar : public searchAlgorithm
 		virtual path *getPath(graphAbstraction *aMap, node *from, node *goal,
 				reservationProvider *rp = 0);
 
+		Heuristic* getHeuristic() { return heuristic; }
 		bool markForVis;	
 
 	protected:

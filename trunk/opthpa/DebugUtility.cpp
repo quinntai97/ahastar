@@ -1,14 +1,14 @@
 #include "DebugUtility.h"
 
 #include "constants.h"
-#include "graph.h"
+#include "graphAbstraction.h"
 #include "Heuristic.h"
 #include "MacroNode.h"
 #include "path.h"
 
-DebugUtility::DebugUtility(graph* g, Heuristic* h)
+DebugUtility::DebugUtility(graphAbstraction* map, Heuristic* h)
 {
-	this->g = g;
+	this->map = map;
 	this->heuristic = h;
 }
 
@@ -43,6 +43,7 @@ void DebugUtility::printPath(path* p)
 
 void DebugUtility::printNode(std::string msg, node* n, node* goal)
 {	
+	graph* g = map->getAbstractGraph(n->getLabelL(kAbstractionLevel));
 	std::cout << msg <<"addr: "<<&(*n)<<" num: "<<n->getUniqueID();
 	std::cout <<" ("<<n->getLabelL(kFirstData)<<","<<n->getLabelL(kFirstData+1)<<") ";
 

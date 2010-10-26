@@ -200,7 +200,7 @@ void HPACluster::connectParent(node* absStart, HPAClusterAbstraction* hpamap)
 		/* record some metrics about the operation */
 		hpamap->setNodesExpanded(hpamap->getNodesExpanded() + alg->getNodesExpanded());
 		hpamap->setNodesTouched(hpamap->getNodesTouched() + alg->getNodesTouched());
-		hpamap->setPeakMemory(alg->getPeakMemory()>hpamap->getPeakMemory()?alg->getPeakMemory():hpamap->getPeakMemory());
+		hpamap->setNodesGenerated(hpamap->getNodesGenerated() + alg->getNodesGenerated());
 		hpamap->setSearchTime(hpamap->getSearchTime() + alg->getSearchTime());
 	}
 }

@@ -1,17 +1,17 @@
-#ifndef DEBUGUTILS_H
-#define DEBUGUTILS_H
+#ifndef DEBUGUTILITY_H
+#define DEBUGUTILITY_H
 
 #include <string>
 
 class Heuristic;
 class node;
 class path;
-class graph;
+class graphAbstraction;
 
 class DebugUtility
 {
 	public:
-		DebugUtility(graph* g, Heuristic* h);
+		DebugUtility(graphAbstraction* map, Heuristic* h);
 		virtual ~DebugUtility();
 	
 		void debugClosedNode(node* c, node* n, double c_to_n_cost, node* goal);
@@ -19,7 +19,7 @@ class DebugUtility
 		void printPath(path* p);
 
 	private:
-		graph* g;
+		graphAbstraction* map;
 		Heuristic* heuristic;
 };
 

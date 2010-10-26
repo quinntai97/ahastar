@@ -1,16 +1,23 @@
 #include "IncidentEdgesExpansionPolicy.h"
 
 #include "graph.h"
+#include "graphAbstraction.h"
 #include <cassert>
 
-IncidentEdgesExpansionPolicy::IncidentEdgesExpansionPolicy(graph* g) :
-	SelectiveExpansionPolicy()
+IncidentEdgesExpansionPolicy::IncidentEdgesExpansionPolicy(
+		graphAbstraction* map) : SelectiveExpansionPolicy()
 {
-	this->g = g;
+	this->map = map;
 }
 
 IncidentEdgesExpansionPolicy::~IncidentEdgesExpansionPolicy()
 {
+}
+
+void IncidentEdgesExpansionPolicy::expand(node* n)
+{
+	g = map->getAbstractGraph(n->getLabelL(kAbstractionLevel));
+	ExpansionPolicy::expand(n);
 }
 
 node* IncidentEdgesExpansionPolicy::first_impl()
