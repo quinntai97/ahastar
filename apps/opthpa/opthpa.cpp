@@ -261,6 +261,8 @@ void gogoGadgetNOGUIScenario(HPAClusterAbstraction* ecmap)
 		hpastar = new HPAStar2(new IncidentEdgesExpansionPolicy(ecmap),
 					new ManhattanHeuristic());
 	}
+	astar->verbose = verbose;
+	hpastar->verbose = verbose;
 
 //	IClusterAStarFactory* caf;
 //	if(bfReduction)
@@ -543,6 +545,7 @@ void myNewUnitKeyHandler(unitSimulation *unitSim, tKeyboardModifier mod, char)
 				heuristic = new ManhattanHeuristic();
 
 			astar = new HPAStar2(policy, heuristic);
+			astar->verbose = verbose;
 			unitSim->addUnit(u=new searchUnit(x2, y2, targ, astar)); 
 			u->setColor(0.3,0.7,0.3);
 			targ->setColor(0.3,0.7,0.3);
@@ -558,6 +561,7 @@ void myNewUnitKeyHandler(unitSimulation *unitSim, tKeyboardModifier mod, char)
 
 			astar = new FlexibleAStar( 
 					new IncidentEdgesExpansionPolicy(aMap), h);	
+			astar->verbose = verbose;
 			unitSim->addUnit(u=new searchUnit(x2, y2, targ, astar)); 
 			u->setColor(1,1,0);
 			targ->setColor(1,1,0);
