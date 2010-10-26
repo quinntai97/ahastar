@@ -1,11 +1,11 @@
 #include "IncidentEdgesPolicyFactory.h"
 
 #include "IncidentEdgesExpansionPolicy.h"
-#include "graph.h"
+#include "graphAbstraction.h"
 
-IncidentEdgesPolicyFactory::IncidentEdgesPolicyFactory(graph* g)
+IncidentEdgesPolicyFactory::IncidentEdgesPolicyFactory(graphAbstraction* map)
 {
-	this->g = g;
+	this->map = map;
 }
 
 IncidentEdgesPolicyFactory::~IncidentEdgesPolicyFactory()
@@ -14,6 +14,6 @@ IncidentEdgesPolicyFactory::~IncidentEdgesPolicyFactory()
 
 ExpansionPolicy* IncidentEdgesPolicyFactory::newExpansionPolicy()
 {
-	IncidentEdgesExpansionPolicy* policy = new IncidentEdgesExpansionPolicy(g);
+	IncidentEdgesExpansionPolicy* policy = new IncidentEdgesExpansionPolicy(map);
 	return policy;
 }

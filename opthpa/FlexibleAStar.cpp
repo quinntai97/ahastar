@@ -33,8 +33,7 @@ const char* FlexibleAStar::getName()
 path* FlexibleAStar::getPath(graphAbstraction *aMap, node *start, node *goal,
 		reservationProvider *rp)
 {
-	debug = new DebugUtility(aMap->getAbstractGraph(start->getLabelL(kAbstractionLevel)),
-		   	heuristic);
+	debug = new DebugUtility(aMap, heuristic);
 	path* p = search(start, goal);
 	delete debug;
 	return p;

@@ -61,13 +61,13 @@ class HPAClusterAbstraction : public mapAbstraction
 
 		/* measure insertion effort */
 		long getNodesExpanded() { return nodesExpanded; }
-		void setNodesExpanded(int num) {  nodesExpanded = num; }
+		void setNodesExpanded(long num) { nodesExpanded = num; } 
 		long getNodesTouched() { return nodesTouched; }
-		void setNodesTouched(int num) {  nodesTouched = num; }
-		long getPeakMemory() { return peakMemory; }
-		void setPeakMemory(int num) {  peakMemory = num; }
+		void setNodesTouched(long num) { nodesTouched = num; } 
+		long getNodesGenerated() { return nodesGenerated; }
+		void setNodesGenerated(long num) { nodesGenerated = num; } 
 		double getSearchTime() { return searchTime; }
-		void setSearchTime(double newtime) { searchTime = newtime; }
+		void setSearchTime(double num) { searchTime = num; }
 
 		/* path caching for quick refinement */
 		void addPathToCache(edge* e, path* p);
@@ -125,7 +125,7 @@ class HPAClusterAbstraction : public mapAbstraction
 		long nodesExpanded; 
 		long nodesTouched; 
 		double searchTime;
-		long peakMemory;
+		long nodesGenerated;
 		bool verbose;
 		bool allowDiagonals;
 };

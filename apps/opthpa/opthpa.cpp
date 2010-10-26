@@ -141,7 +141,7 @@ void processStats(statCollection* stat, const char* unitname)
 		insnt = val.lval;
 		fprintf(f, "%i,\t", insnt);
 		
-		exists = stat->lookupStat("insPeakMemory", unitname, val);
+		exists = stat->lookupStat("insNodesGenerated", unitname, val);
 		assert(exists);
 		inspm = val.lval;
 		fprintf(f, "%i,\t", inspm);
@@ -245,21 +245,29 @@ void createSimulation(unitSimulation * &unitSim)
 void gogoGadgetNOGUIScenario(HPAClusterAbstraction* ecmap)
 {
 //	std::cout << "\n diagonals? "<<ecmap->getAllowDiagonals()<<std::endl;
-	Heuristic* h = 0;
+	FlexibleAStar* astar;
+	HPAStar2* hpastar;
 	if(allowDiagonals)
-		h = new OctileHeuristic();
+	{
+		astar = new FlexibleAStar(new IncidentEdgesExpansionPolicy(ecmap), 
+					new OctileHeuristic());
+		hpastar = new HPAStar2(new IncidentEdgesExpansionPolicy(ecmap),
+					new OctileHeuristic());
+	}
 	else
-		h = new ManhattanHeuristic();
-	FlexibleAStar astar(new IncidentEdgesExpansionPolicy(
-				ecmap->getAbstractGraph(0)), h);
+	{
+		astar = new FlexibleAStar(new IncidentEdgesExpansionPolicy(ecmap), 
+					new ManhattanHeuristic());
+		hpastar = new HPAStar2(new IncidentEdgesExpansionPolicy(ecmap),
+					new ManhattanHeuristic());
+	}
 
-	IClusterAStarFactory* caf;
-	if(bfReduction)
-		caf = new PerimeterSearchFactory();
-	else
-	 	caf = new ClusterAStarFactory();
+//	IClusterAStarFactory* caf;
+//	if(bfReduction)
+//		caf = new PerimeterSearchFactory();
+//	else
+//	 	caf = new ClusterAStarFactory();
 
-	HPAStar2 hpastar(false, false, caf);
 	statCollection stats;
 	double optlen=0;
 	double pslen=0;
@@ -272,27 +280,27 @@ void gogoGadgetNOGUIScenario(HPAClusterAbstraction* ecmap)
 		node* to = ecmap->getNodeFromMap(nextExperiment->getGoalX(), nextExperiment->getGoalY());
 		
 		//std::cout << "ASTAR!!"<<std::endl;
-		algName = (char*)astar.getName();
-		astar.verbose = verbose;
-		path* p = astar.getPath(ecmap, from, to);
+		algName = (char*)astar->getName();
+		astar->verbose = verbose;
+		path* p = astar->getPath(ecmap, from, to);
 		double distanceTravelled = ecmap->distance(p);
 		optlen = distanceTravelled;
 
 		stats.addStat("distanceMoved", algName, distanceTravelled);
-		astar.logFinalStats(&stats);
-		processStats(&stats, astar.getName());
+		astar->logFinalStats(&stats);
+		processStats(&stats, astar->getName());
 		stats.clearAllStats();
 		delete p;
 		//std::cout << "FINASTAR!!"<<std::endl;
 		
 		//std::cout << "HPA*"<<std::endl;
-		algName = (char*)hpastar.getName();
-		hpastar.verbose = verbose;
-		p = hpastar.getPath(ecmap, from, to);
+		algName = (char*)hpastar->getName();
+		hpastar->verbose = verbose;
+		p = hpastar->getPath(ecmap, from, to);
 		distanceTravelled = ecmap->distance(p);
 		pslen = distanceTravelled;
 		stats.addStat("distanceMoved", algName, distanceTravelled);
-		hpastar.logFinalStats(&stats);
+		hpastar->logFinalStats(&stats);
 		processStats(&stats);
 		stats.clearAllStats();
 		delete p;
@@ -300,13 +308,13 @@ void gogoGadgetNOGUIScenario(HPAClusterAbstraction* ecmap)
 
 		if(optlen != pslen)
 		{
-			astar.verbose = true;
-			hpastar.verbose = true;
-			path* p = astar.getPath(ecmap, from, to);
+			astar->verbose = true;
+			hpastar->verbose = true;
+			path* p = astar->getPath(ecmap, from, to);
 			double tmp = ecmap->distance(p);
 			delete p;
 			p = 0;
-			p = hpastar.getPath(ecmap, from, to);
+			p = hpastar->getPath(ecmap, from, to);
 			double tmp2 = ecmap->distance(p);
 			delete p;
 
@@ -317,6 +325,8 @@ void gogoGadgetNOGUIScenario(HPAClusterAbstraction* ecmap)
 		}
 	}
 	
+	delete hpastar;
+	delete astar;
 	delete ecmap;
 //	sleep(20);
 	exit(0);
@@ -515,21 +525,31 @@ void myNewUnitKeyHandler(unitSimulation *unitSim, tKeyboardModifier mod, char)
 	
 	unitSim->addUnit(targ = new unit(x1, y1));
 
-	IClusterAStarFactory* caf;
-	if(bfReduction)
-		caf = new PerimeterSearchFactory();
-	else
-	 	caf = new ClusterAStarFactory();
+	//IClusterAStarFactory* caf;
+	//if(bfReduction)
+	//	caf = new PerimeterSearchFactory();
+	//else
+	// 	caf = new ClusterAStarFactory();
 
 	switch (mod)
 	{
 		case kShiftDown: 
-			astar = new HPAStar2(caf);
+		{
+			IncidentEdgesExpansionPolicy* policy = new IncidentEdgesExpansionPolicy(aMap);
+			Heuristic* heuristic;
+			if(allowDiagonals)
+				heuristic = new OctileHeuristic();
+			else
+				heuristic = new ManhattanHeuristic();
+
+			astar = new HPAStar2(policy, heuristic);
 			unitSim->addUnit(u=new searchUnit(x2, y2, targ, astar)); 
 			u->setColor(0.3,0.7,0.3);
 			targ->setColor(0.3,0.7,0.3);
 			break;
+		}
 		default:
+		{
 			Heuristic* h = 0;
 			if(allowDiagonals)
 				h = new OctileHeuristic();
@@ -537,11 +557,12 @@ void myNewUnitKeyHandler(unitSimulation *unitSim, tKeyboardModifier mod, char)
 				h = new ManhattanHeuristic();
 
 			astar = new FlexibleAStar( 
-					new IncidentEdgesExpansionPolicy(aMap->getAbstractGraph(0)), h);	
+					new IncidentEdgesExpansionPolicy(aMap), h);	
 			unitSim->addUnit(u=new searchUnit(x2, y2, targ, astar)); 
 			u->setColor(1,1,0);
 			targ->setColor(1,1,0);
 			break;
+		}
 	}
 	algName = (char*)u->getName();
 	u->setSpeed(0.12);
@@ -591,15 +612,16 @@ void runNextExperiment(unitSimulation *unitSim)
 	
 	searchUnit* nextUnit;
 	unit* nextTarget = new unit(nextExperiment->getGoalX(), nextExperiment->getGoalY());
+
 	if(runAStar)
 	{
-		IClusterAStarFactory* caf;
-		if(bfReduction)
-			caf = new PerimeterSearchFactory();
+		Heuristic* h = 0;
+		if(allowDiagonals)
+			h = new OctileHeuristic();
 		else
-			caf = new ClusterAStarFactory();
-
-		HPAStar2* hpastar = new HPAStar2(caf);
+			h = new ManhattanHeuristic();
+		ExpansionPolicy* policy = new IncidentEdgesExpansionPolicy(aMap);
+		HPAStar2* hpastar = new HPAStar2(policy, h);
 		hpastar->verbose = verbose;
 		algName = (char*)hpastar->getName();
 		nextUnit = new searchUnit(nextExperiment->getStartX(), nextExperiment->getStartY(), nextTarget, hpastar); 
@@ -615,9 +637,8 @@ void runNextExperiment(unitSimulation *unitSim)
 			h = new OctileHeuristic();
 		else
 			h = new ManhattanHeuristic();
-
-		searchAlgorithm* astar = new FlexibleAStar( 
-				new IncidentEdgesExpansionPolicy(aMap->getAbstractGraph(0)), h);	
+		ExpansionPolicy* policy = new IncidentEdgesExpansionPolicy(aMap);
+		FlexibleAStar* astar = new FlexibleAStar( policy, h);	
 		astar->verbose = verbose;
 		algName = (char*)astar->getName();
 		nextUnit = new searchUnit(nextExperiment->getStartX(), nextExperiment->getStartY(), nextTarget, astar); 

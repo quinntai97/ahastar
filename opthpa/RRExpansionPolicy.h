@@ -34,12 +34,13 @@
 // @author: dharabor
 // @created: 28/11/2010
 
-class IncidentEdgesExpansionPolicy;
 class graph;
+class graphAbstraction;
+class IncidentEdgesExpansionPolicy;
 class RRExpansionPolicy : public SelectiveExpansionPolicy
 {
 	public:
-		RRExpansionPolicy(graph* g);
+		RRExpansionPolicy(graphAbstraction* map);
 		virtual ~RRExpansionPolicy();
 
 		virtual void expand(node* t);
@@ -57,6 +58,7 @@ class RRExpansionPolicy : public SelectiveExpansionPolicy
 		int numSecondary;
 		double cost;
 
+		graphAbstraction* map;
 		graph* g;
 		IncidentEdgesExpansionPolicy* primary;
 };

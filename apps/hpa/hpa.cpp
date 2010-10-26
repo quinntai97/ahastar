@@ -41,6 +41,9 @@
 #include "ScenarioManager.h"
 #include "searchUnit.h"
 #include "statCollection.h"
+#include "IncidentEdgesExpansionPolicy.h"
+#include "OctileHeuristic.h"
+
 #include <cstdlib>
 #include <sstream>
 
@@ -448,7 +451,7 @@ void myNewUnitKeyHandler(unitSimulation *unitSim, tKeyboardModifier mod, char)
 
 	int x1, y1, x2, y2;
 	unit *u, *targ;
-	ClusterAStar* astar;
+	searchAlgorithm* astar;
 	
 	//std::cout << "\n absnodes: "<<unitSim->getMapAbstraction()->getAbstractGraph(1)->getNumNodes()<< " edges: "<<unitSim->getMapAbstraction()->getAbstractGraph(1)->getNumEdges();
 	//std::cout << " cachesize: "<<((HPAClusterAbstraction*)unitSim->getMapAbstraction())->getPathCacheSize();
@@ -466,8 +469,9 @@ void myNewUnitKeyHandler(unitSimulation *unitSim, tKeyboardModifier mod, char)
 	{
 		case kShiftDown: 
 		{
-			ClusterAStarFactory* caf = new ClusterAStarFactory();
-			astar = new HPAStar2(caf);
+			IncidentEdgesExpansionPolicy* policy = new IncidentEdgesExpansionPolicy(aMap);
+			OctileHeuristic* heuristic = new OctileHeuristic();
+			astar = new HPAStar2(policy, heuristic);
 			unitSim->addUnit(u=new searchUnit(x2, y2, targ, astar)); 
 			u->setColor(1,0.98,0.8);
 			targ->setColor(1,0.98,0.8);
@@ -533,8 +537,9 @@ void runNextExperiment(unitSimulation *unitSim)
 	unit* nextTarget = new unit(nextExperiment->getGoalX(), nextExperiment->getGoalY());
 	if(runAStar)
 	{
-		ClusterAStarFactory* caf = new ClusterAStarFactory();
-		HPAStar2* hpastar = new HPAStar2(caf);
+		IncidentEdgesExpansionPolicy* policy = new IncidentEdgesExpansionPolicy(aMap);
+		OctileHeuristic* heuristic = new OctileHeuristic();
+		HPAStar2* hpastar = new HPAStar2(policy, heuristic);
 		nextUnit = new searchUnit(nextExperiment->getStartX(), nextExperiment->getStartY(), nextTarget, hpastar); 
 		nextUnit->setColor(1,0.98,0.8);
 		nextTarget->setColor(1,0.98,0.8);

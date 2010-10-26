@@ -4,14 +4,16 @@
 #include "EmptyCluster.h"
 #include "EmptyClusterAbstraction.h"
 #include "MacroNode.h"
+#include "graphAbstraction.h"
 #include "graph.h"
 
-RRExpansionPolicy::RRExpansionPolicy(graph* g) :
+RRExpansionPolicy::RRExpansionPolicy(graphAbstraction* map) :
+
 	SelectiveExpansionPolicy()
 {
-	this->g = g;
+	this->map = map;	
 
-	primary = new IncidentEdgesExpansionPolicy(g);
+	primary = new IncidentEdgesExpansionPolicy(map);
 	skipSecondary = false;
 	whichSecondary = 0;
 	numSecondary = 0;
@@ -28,6 +30,7 @@ void RRExpansionPolicy::expand(node* t)
 	ExpansionPolicy::expand(t);
 	primary->expand(target);
 
+	this->g = map->getAbstractGraph(t->getLabelL(kAbstractionLevel));
 	MacroNode* mnTarget = dynamic_cast<MacroNode*>(target);
 	assert(mnTarget);
 	MacroNode* mnBackpointer = dynamic_cast<MacroNode*>(target->backpointer);

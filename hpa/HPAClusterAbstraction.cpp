@@ -46,7 +46,7 @@ HPAClusterAbstraction::HPAClusterAbstraction(Map* m, IHPAClusterFactory* _cf,
 	startid = goalid = -1;
 	drawClusters=true;
 	
-	nodesExpanded = nodesTouched = peakMemory = 0;
+	nodesExpanded = nodesTouched = nodesGenerated = 0;
 	searchTime = 0;
 	verbose = false;
 }
@@ -229,7 +229,7 @@ void HPAClusterAbstraction::insertStartAndGoalNodesIntoAbstractGraph(node* _star
 	if(start->getLabelL(kAbstractionLevel) != 0 || goal->getLabelL(kAbstractionLevel) != 0)
 		throw std::invalid_argument("insertion error: start or goal is an abstract node (only non-abstract nodes can be inserted into the abstract graph)");
 
-	nodesExpanded = nodesTouched = peakMemory = 0;
+	nodesExpanded = nodesTouched = nodesGenerated = 0;
 	searchTime = 0;
 
 	if(start->getLabelL(kParent) == -1) // only add nodes that don't already exist in the abstract graph
@@ -249,7 +249,7 @@ void HPAClusterAbstraction::insertStartAndGoalNodesIntoAbstractGraph(node* _star
 
 		nodesExpanded = startCluster->getSearchAlgorithm()->getNodesExpanded();
 		nodesTouched = startCluster->getSearchAlgorithm()->getNodesTouched();
-		peakMemory = startCluster->getSearchAlgorithm()->getPeakMemory();
+		nodesGenerated = startCluster->getSearchAlgorithm()->getNodesGenerated();
 		searchTime = startCluster->getSearchAlgorithm()->getSearchTime();
 	}
 	if(goal->getLabelL(kParent) == -1)
@@ -267,7 +267,7 @@ void HPAClusterAbstraction::insertStartAndGoalNodesIntoAbstractGraph(node* _star
 		
 		nodesExpanded+= goalCluster->getSearchAlgorithm()->getNodesExpanded();
 		nodesTouched+= goalCluster->getSearchAlgorithm()->getNodesTouched();
-		peakMemory+= goalCluster->getSearchAlgorithm()->getPeakMemory();
+		nodesGenerated+= goalCluster->getSearchAlgorithm()->getNodesGenerated();
 		searchTime+= goalCluster->getSearchAlgorithm()->getSearchTime();
 	}
 }
