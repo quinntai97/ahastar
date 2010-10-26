@@ -43,6 +43,7 @@ Find an abstract path and refine it using the path cache
 path* HPAStar2::getPath(graphAbstraction* aMap, node* from, node* to, reservationProvider *rp)
 {
 	resetMetrics();
+	astar->verbose = verbose;
 	if(!checkParameters(from, to))
 		return NULL;
 
@@ -134,6 +135,7 @@ path* HPAStar2::getPath(graphAbstraction* aMap, node* from, node* to, reservatio
 // This probably means storing a downward pointer with each abstract node.
 path* HPAStar2::refinePath(path* abspath, HPAClusterAbstraction* hpamap) 
 {
+	astar->verbose = false; // always off
 	graph *absg = hpamap->getAbstractGraph(1); 
 	path* thepath = 0;
 	while(abspath->next)
@@ -185,6 +187,7 @@ path* HPAStar2::refinePath(path* abspath, HPAClusterAbstraction* hpamap)
 		abspath = abspath->next;
 	}
 
+	astar->verbose = verbose;
 	return thepath;
 }
 

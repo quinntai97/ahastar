@@ -37,12 +37,6 @@ node* IncidentEdgesExpansionPolicy::n_impl()
 		int neighbourid = e->getFrom()==target->getNum()?e->getTo():e->getFrom();
 		neighbour = g->getNode(neighbourid);
 	}
-	if(verbose)
-	{
-		std::cout << "neighbour ";
-		neighbour->Print(std::cout);
-		std::cout << std::endl;
-	}
 	return neighbour;
 }
 
