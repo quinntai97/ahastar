@@ -18,6 +18,8 @@
  */
 
 class HPAClusterAbstraction;
+class Heuristic;
+class ExpansionPolicy;
 
 void myDisplayHandler(unitSimulation *, tKeyboardModifier, char key);
 void myNewUnitKeyHandler(unitSimulation *, tKeyboardModifier, char key);
@@ -30,3 +32,6 @@ void runNextExperiment(unitSimulation *unitSim);
 void runSimulationNoGUI();
 void processStats(statCollection* stat, const char* unitname);
 void gogoGadgetNOGUIScenario(HPAClusterAbstraction* ecmap);
+ExpansionPolicy* newExpansionPolicy(HPAClusterAbstraction* map);
+Heuristic* newHeuristic();
+
