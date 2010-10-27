@@ -25,20 +25,24 @@ RRExpansionPolicy::~RRExpansionPolicy()
 	delete primary;
 }
 
-void RRExpansionPolicy::expand(node* t)
+void RRExpansionPolicy::expand(node* target_)
 {
-	ExpansionPolicy::expand(t);
-	primary->expand(target);
+	primary->expand(target_);
 
-	this->g = map->getAbstractGraph(t->getLabelL(kAbstractionLevel));
-	MacroNode* mnTarget = dynamic_cast<MacroNode*>(target);
+	ExpansionPolicy::expand(target_);
+	this->g = map->getAbstractGraph(target_->getLabelL(kAbstractionLevel));
+	MacroNode* mnTarget = dynamic_cast<MacroNode*>(target_);
 	assert(mnTarget);
-	MacroNode* mnBackpointer = dynamic_cast<MacroNode*>(target->backpointer);
-	assert(mnBackpointer);
-	if(mnTarget->getParentClusterId() == mnBackpointer->getParentClusterId())
+	MacroNode* mnBackpointer = dynamic_cast<MacroNode*>(target_->backpointer);
+	if(mnTarget && mnBackpointer && 
+		mnTarget->getParentClusterId() == mnBackpointer->getParentClusterId())
+	{
 		skipSecondary = true;
+	}
 	else
+	{
 		skipSecondary = false;
+	}
 
 	whichSecondary = 0;
 	numSecondary = mnTarget->numSecondaryEdges();
@@ -47,7 +51,9 @@ void RRExpansionPolicy::expand(node* t)
 node* RRExpansionPolicy::first_impl()
 {
 	whichSecondary = 0;
-	return primary->first();
+	node* retVal = primary->first();
+	cost = primary->cost_to_n();
+	return retVal;
 }
 
 node* RRExpansionPolicy::n_impl()
@@ -76,12 +82,23 @@ node* RRExpansionPolicy::next_impl()
 {
 	node* retVal = 0;
 	if(primary->hasNext())
+	{
 		retVal = primary->next();
+		cost = primary->cost_to_n();
+	}
 	else if(skipSecondary == false)
 	{
-		whichSecondary++;
 		if(whichSecondary < numSecondary)
-			retVal = n_impl();
+		{
+			MacroNode* mnTarget = dynamic_cast<MacroNode*>(target);
+			edge* e = mnTarget->getSecondaryEdge(whichSecondary);
+			assert(e);
+			int neighbourid = e->getFrom()==mnTarget->getNum()?e->getTo():e->getFrom();
+			retVal = g->getNode(neighbourid);
+			assert(retVal);
+			cost = e->getWeight();
+			whichSecondary++;
+		}
 	}
 
 	return retVal;

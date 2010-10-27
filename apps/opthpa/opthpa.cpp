@@ -45,6 +45,7 @@
 #include "OctileHeuristic.h"
 #include "PerimeterSearch.h"
 #include "PerimeterSearchFactory.h"
+#include "RRExpansionPolicy.h"
 #include "ScenarioManager.h"
 #include "searchUnit.h"
 #include "statCollection.h"
@@ -246,22 +247,11 @@ void gogoGadgetNOGUIScenario(HPAClusterAbstraction* ecmap)
 {
 //	std::cout << "\n diagonals? "<<ecmap->getAllowDiagonals()<<std::endl;
 	FlexibleAStar* astar;
-	HPAStar2* hpastar;
-	if(allowDiagonals)
-	{
-		astar = new FlexibleAStar(new IncidentEdgesExpansionPolicy(ecmap), 
-					new OctileHeuristic());
-		hpastar = new HPAStar2(new IncidentEdgesExpansionPolicy(ecmap),
-					new OctileHeuristic());
-	}
-	else
-	{
-		astar = new FlexibleAStar(new IncidentEdgesExpansionPolicy(ecmap), 
-					new ManhattanHeuristic());
-		hpastar = new HPAStar2(new IncidentEdgesExpansionPolicy(ecmap),
-					new ManhattanHeuristic());
-	}
+	astar = new FlexibleAStar(newExpansionPolicy(ecmap), newHeuristic());
 	astar->verbose = verbose;
+
+	HPAStar2* hpastar;
+	hpastar = new HPAStar2(newExpansionPolicy(ecmap), newHeuristic());
 	hpastar->verbose = verbose;
 
 //	IClusterAStarFactory* caf;
@@ -537,14 +527,7 @@ void myNewUnitKeyHandler(unitSimulation *unitSim, tKeyboardModifier mod, char)
 	{
 		case kShiftDown: 
 		{
-			IncidentEdgesExpansionPolicy* policy = new IncidentEdgesExpansionPolicy(aMap);
-			Heuristic* heuristic;
-			if(allowDiagonals)
-				heuristic = new OctileHeuristic();
-			else
-				heuristic = new ManhattanHeuristic();
-
-			astar = new HPAStar2(policy, heuristic);
+			astar = new HPAStar2(newExpansionPolicy(aMap), newHeuristic());
 			astar->verbose = verbose;
 			unitSim->addUnit(u=new searchUnit(x2, y2, targ, astar)); 
 			u->setColor(0.3,0.7,0.3);
@@ -553,14 +536,7 @@ void myNewUnitKeyHandler(unitSimulation *unitSim, tKeyboardModifier mod, char)
 		}
 		default:
 		{
-			Heuristic* h = 0;
-			if(allowDiagonals)
-				h = new OctileHeuristic();
-			else
-				h = new ManhattanHeuristic();
-
-			astar = new FlexibleAStar( 
-					new IncidentEdgesExpansionPolicy(aMap), h);	
+			astar = new FlexibleAStar(newExpansionPolicy(aMap), newHeuristic());	
 			astar->verbose = verbose;
 			unitSim->addUnit(u=new searchUnit(x2, y2, targ, astar)); 
 			u->setColor(1,1,0);
@@ -619,13 +595,7 @@ void runNextExperiment(unitSimulation *unitSim)
 
 	if(runAStar)
 	{
-		Heuristic* h = 0;
-		if(allowDiagonals)
-			h = new OctileHeuristic();
-		else
-			h = new ManhattanHeuristic();
-		ExpansionPolicy* policy = new IncidentEdgesExpansionPolicy(aMap);
-		HPAStar2* hpastar = new HPAStar2(policy, h);
+		HPAStar2* hpastar = new HPAStar2(newExpansionPolicy(aMap), newHeuristic());
 		hpastar->verbose = verbose;
 		algName = (char*)hpastar->getName();
 		nextUnit = new searchUnit(nextExperiment->getStartX(), nextExperiment->getStartY(), nextTarget, hpastar); 
@@ -636,13 +606,7 @@ void runNextExperiment(unitSimulation *unitSim)
 	}
 	else
 	{
-		Heuristic* h = 0;
-		if(allowDiagonals)
-			h = new OctileHeuristic();
-		else
-			h = new ManhattanHeuristic();
-		ExpansionPolicy* policy = new IncidentEdgesExpansionPolicy(aMap);
-		FlexibleAStar* astar = new FlexibleAStar( policy, h);	
+		FlexibleAStar* astar = new FlexibleAStar(newExpansionPolicy(aMap), newHeuristic());	
 		astar->verbose = verbose;
 		algName = (char*)astar->getName();
 		nextUnit = new searchUnit(nextExperiment->getStartX(), nextExperiment->getStartY(), nextTarget, astar); 
@@ -661,4 +625,25 @@ void runNextExperiment(unitSimulation *unitSim)
 void runSimulationNoGUI()
 {
 	std::cout << "\nok, no gui";
+}
+
+ExpansionPolicy* newExpansionPolicy(HPAClusterAbstraction* map)
+{
+	ExpansionPolicy* policy;
+	if(bfReduction)
+		policy = new RRExpansionPolicy(map);
+	else
+		policy = new IncidentEdgesExpansionPolicy(map);
+	return policy;
+}
+
+Heuristic* newHeuristic()
+{
+	Heuristic* h;
+	if(allowDiagonals)
+		h = new OctileHeuristic();
+	else
+		h = new ManhattanHeuristic();
+
+	return h;
 }

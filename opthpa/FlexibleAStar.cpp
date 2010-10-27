@@ -122,7 +122,10 @@ void FlexibleAStar::expand(node* current, node* goal, heap* openList,
 {
 	// expand the current node
 	if(verbose) 
-		debug->printNode(std::string("expanding... "), goal);
+	{
+		debug->printNode(std::string("expanding... "), current);
+		std::cout << std::endl;
+	}
 
 	nodesExpanded++;
 
@@ -138,10 +141,15 @@ void FlexibleAStar::expand(node* current, node* goal, heap* openList,
 				if(verbose) 
 				{
 					debug->printNode("\t\trelaxing...", neighbour);
-					std::cout << " f: "<<neighbour->getLabelF(kTemporaryLabel);
+					std::cout << " fOld: "<<neighbour->getLabelF(kTemporaryLabel);
 				}
 
 				relaxNode(current, neighbour, goal, policy->cost_to_n(), openList); 
+
+				if(verbose)
+				{
+					std::cout << " fNew: "<<neighbour->getLabelF(kTemporaryLabel);
+				}
 			}
 			else
 			{
@@ -154,6 +162,9 @@ void FlexibleAStar::expand(node* current, node* goal, heap* openList,
 				openList->add(neighbour);
 				relaxNode(current, neighbour, goal, policy->cost_to_n(), openList); 
 				nodesGenerated++;
+
+				if(verbose)
+					std::cout << " fNew: "<<neighbour->getLabelF(kTemporaryLabel);
 			}
 			if(markForVis)
 				neighbour->drawColor = 1; // visualise touched
