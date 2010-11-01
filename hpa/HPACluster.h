@@ -22,7 +22,7 @@ class AbstractClusterAStar;
 typedef std::map<int, node*> nodeTable;
 const int MAX_SINGLE_TRANSITION_ENTRANCE_SIZE = 6;
 
-class HPACluster
+class HPACluster : public Cluster
 {
 	#ifdef UNITTEST
 		friend class HPAClusterAbstractionTest; 
@@ -44,6 +44,7 @@ class HPACluster
 		
 		inline	void setSearchAlgorithm(AbstractClusterAStar* _alg) { alg = _alg; }
 		inline AbstractClusterAStar* getSearchAlgorithm() { return alg; }
+
 		inline void setVOrigin(int starty_) { starty = starty_; }
 		inline void setHOrigin(int startx_) { startx = startx_; }
 		inline int getVOrigin() { return starty; }
@@ -52,24 +53,10 @@ class HPACluster
 		inline void setWidth(int _width) { width = _width; }
 		inline int getHeight() { return height; }
 		inline void setHeight(int _height) { height = _height; }
-		inline int getId() { return clusterId; }
-		inline int getClusterId() { return clusterId; }
-		inline void setClusterId(const int newid) { clusterId = newid; }
-		inline int getNumParents() { return parents.size(); }
-		inline int getNumNodes() { return nodes.size(); }
-		inline nodeTable* getNodes() { return &nodes; }
-		inline nodeTable* getParents() { return &parents; }
 
 		inline void setAllowDiagonals(bool value) { allowDiagonals = value; }
 		inline bool getAllowDiagonals() { return allowDiagonals; }
 
-		inline bool getVerbose() { return verbose; }
-		inline void setVerbose(bool _v) { verbose = _v; }
-		
-
-		virtual bool verifyCluster();
-		void print(std::ostream& out);
-		void printParents();
 		virtual void openGLDraw() { }
 
 	protected:
@@ -96,15 +83,10 @@ class HPACluster
 		void init(const int x, const int y, const int _width, const int _height, AbstractClusterAStar* _alg) throw(std::invalid_argument);
 		void insertNodeIntoAbstractGraph(node* n);
 
-		int clusterId;
 		int startx, starty, width, height;
-		nodeTable nodes;
-		nodeTable parents; // transition points
 		AbstractClusterAStar* alg;
-		bool verbose;
 		bool allowDiagonals;
 		
-		static unsigned int uniqueClusterIdCnt;
 };
 
 #endif

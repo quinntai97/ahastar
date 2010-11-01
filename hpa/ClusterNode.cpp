@@ -1,29 +1,22 @@
-/*
- *  ClusterNode.cpp
- *  hog
- *
- *  Created by dharabor on 13/11/08.
- *  Copyright 2008 __MyCompanyName__. All rights reserved.
- *
- */
-
 #include "ClusterNode.h"
+
+#include "Cluster.h"
 #include "constants.h"
 
 ClusterNode::ClusterNode(const ClusterNode* n) : node(n)
 {
-	this->parentClusterId = n->parentClusterId;
+	this->parentCluster = n->parentCluster;
 }
 
-ClusterNode::ClusterNode(const char* name, int _parentClusterId) : node(name)
+ClusterNode::ClusterNode(const char* name, Cluster* c) : node(name)
 {
-	this->parentClusterId = _parentClusterId;
+	this->parentCluster = c; 
 	init();
 }
 
 ClusterNode::ClusterNode(const char* name) : node(name) 
 { 
-	parentClusterId = -1; 
+	parentCluster = 0;
 	init();
 }
 
@@ -39,12 +32,23 @@ void ClusterNode::init()
 void ClusterNode::print(std::ostream& out)
 {
 	out << "node @ ("<<getLabelL(kFirstData)<<",";
-	out << getLabelL(kFirstData+1)<<") cId: "<<parentClusterId;
-	out <<std::endl;
+	out << getLabelL(kFirstData+1)<<") cluster: ";
+	if(parentCluster != 0)
+		out << parentCluster->getId();
+	else
+		out << "NULL";
+	out << std::endl;
 }
 
 void ClusterNode::reset()
 {
 	this->markEdge(0);
 	this->backpointer = 0;
+}
+
+void ClusterNode::getParentClusterId()
+{
+	if(parentCluster)
+		return parentCluster->getId();
+	return -1;
 }
