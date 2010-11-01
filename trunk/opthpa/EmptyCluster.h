@@ -1,122 +1,74 @@
-/*
- * EmptyCluster.h
- *
- *  Creates a maximal size cluster which is obstacle free. 
- *  Nodes and edges which appear along the perimeter of such clusters are
- *  added to the abstract graph. 
- *
- * 	NB: Clusters are extended in size using a floodfill approach.
- * 	NB2: Every possible transition point is created when an entrance
- * 	between two adjacent clusters is identified.
- *
- * @author: dharabor
- * @created: 10/02/2010
- */
-
 #ifndef EMPTYCLUSTER_H
 #define EMPTYCLUSTER_H
 
-#ifdef OS_MAC
-	#include "GLUT/glut.h"
-	#include <OpenGL/gl.h>
-#else
-	#include <GL/glut.h>
-	#include <GL/gl.h>
-#endif
+// EmptyCluster.h
+//
+// An empty cluster is one which contains no obstacles.
+// It features a perimeter of abstract nodes connected to each other 
+// such that an optimal traversal is always possible from any perimeter node 
+// to any other.
+//
+// NB: This is an abstract class. To make it concrete it is necessary to
+// implement the following functions:
+//		- growCluster: Starting from an initial seed node, this function grows
+//
+// For concrete examples of empty clusters, see:
+// 	[Harabor and Botea, 2010] 
+// 	[Harabor and Botea, 2011]
+//
+// @author: dharabor
+// @created: 29/10/2010
 
-#include "HPACluster.h"
-#include <vector>
+#include "Cluster.h"
 
-class graph;
-class HPAClusterAbstraction;
-class Entrance;
-class MacroNode;
-class edge;
-
-
-class EmptyCluster : public HPACluster
+namespace EmptyClusterNS
 {
-	#ifdef UNITTEST
-		friend class EmptyClusterTest;
-	#endif
+	typedef enum 
+	{LEFT, RIGHT, TOP, BOTTOM, NONE} 
+	RoomSide;
 
+	typedef enum 
+	{N, S, E, W, NE, NW, SE, SW} 
+	Direction;
+}
+
+using EmptyClusterNS;
+class EmptyCluster : public Cluster
+{
 	public:
-		EmptyCluster(const int x, const int y, bool perimeterReduction=true, bool bfReduction = false)
-			throw(std::invalid_argument);
+		EmptyCluster(graphAbstraction*, bool pr=false, bool bfr=false);
 		virtual ~EmptyCluster();
 
-		virtual void buildEntrances(HPAClusterAbstraction* hpamap)
-			throw(std::invalid_argument);
+		virtual void buildCluster(); // grow cluster + add macro edges
+		virtual void buildEntrances(); // process all nodes; identify parents, add transitions
+		virtual void connectParent(node*, HPAClusterAbstraction*);
 
-		virtual void addNodesToCluster(HPAClusterAbstraction*) 
-			throw(std::invalid_argument);
-
-		virtual void addNodesToCluster(HPAClusterAbstraction*, int** clearance) 
-			throw(std::invalid_argument);
-
-		virtual void addParent(node *, HPAClusterAbstraction*) 
-			throw(std::invalid_argument);
-
-		void extend(HPAClusterAbstraction*);
-		void extend(HPAClusterAbstraction*, int** clearance);
-
-
-		MacroNode* nextNodeInColumn(int x, int y, HPAClusterAbstraction* hpamap,
-				bool leftToRight);
-		MacroNode* nextNodeInRow(int x, int y, HPAClusterAbstraction* hpamap,
-				bool topToBottom);
-
-		unsigned int getNumSecondaryEdges() { return secondaryEdges.size(); }
 		edge* findSecondaryEdge(unsigned int fromId, unsigned int toId);
-
+		unsigned int getNumSecondaryEdges() { return secondaryEdges.size(); }
 		virtual void openGLDraw();
 
-		int macro;
-		enum RoomSide {LEFT, RIGHT, TOP, BOTTOM, NONE};
 
+	protected:
+		void addMacroEdges(HPAClusterAbstraction *aMap);
+		virtual void growCluster() = 0;
 		void resetBest() { bestLeft = bestRight = bestTop = bestBottom = 0; }
 		void setBestExpandedNode(node* n);
 		node* getBestExpandedNode(RoomSide side);
 		RoomSide whichSide(node* n);
-		
 
-	protected:
-		virtual void connectParent(node*, HPAClusterAbstraction*);
-		virtual void buildHorizontalEntrances(HPAClusterAbstraction* hpamap);
-		virtual void buildVerticalEntrances(HPAClusterAbstraction* hpamap);
-
-		virtual void processVerticalEntrance(HPAClusterAbstraction* hpamap,
-				int x, int y, int length);
-		virtual void processHorizontalEntrance(HPAClusterAbstraction* hpamap,
-				int x, int y, int length);
+		int macro;
 
 	private:
-		void initOpenGLCoordinates(HPAClusterAbstraction*);
-		void frameCluster(HPAClusterAbstraction*);
-
 		void addSingleMacroEdge(node* from, node* to, double weight, 
 				graph* absg, bool secondaryEdge = false);
-		void addMacroEdges(HPAClusterAbstraction *aMap);
 		void addCardinalMacroEdges(HPAClusterAbstraction *aMap);
 		void addDiagonalMacroEdges(HPAClusterAbstraction* hpamap);
 		void addDiagonalFanMacroEdges(HPAClusterAbstraction* hpamap);
-
-		bool canExtendClearanceSquare(HPAClusterAbstraction* hpamap);
-		bool canExtendHorizontally(HPAClusterAbstraction* hpamap); 
-		bool canExtendVertically(HPAClusterAbstraction* hpamap);
-
 		bool isIncidentWithInterEdge(node* n, HPAClusterAbstraction* hpamap);
-		int findVerticalLength(int x, int y, HPAClusterAbstraction* hpamap);
-		int findHorizontalLength(int x, int y, HPAClusterAbstraction* hpamap);
-
-		GLdouble glx, gly, glz;  // OpenGL origin coordinates
-		GLdouble glHeight, glWidth;
-
-		std::vector<edge*> secondaryEdges;
-		
 
 		bool perimeterReduction;
 		bool bfReduction;
+		std::vector<edge*> secondaryEdges;
 		
 		// expanded node with lowest g-cost along each side of the perimeter
 		node *bestLeft, *bestRight, *bestTop, *bestBottom;
