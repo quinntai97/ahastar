@@ -5,11 +5,11 @@
 #include <vector>
 #include <fstream>
 #include <iostream>
-
+#include <sstream>
 
 namespace ScenarioManagerNS
 {
-	const int MAXTRIES=1000000;
+	const int MAXTRIES=10000000;
 }
 
 using namespace ScenarioManagerNS;
@@ -20,10 +20,10 @@ class TooManyTriesException : public std::exception
 		TooManyTriesException(int _generated, int _target) : generated(_generated), target(_target) { }
 		const char* what() const throw()
 		{
-			std::string errmsg("\n well, this sucks. can't generate enough experiments for the given map. I managed to create ");
-			//errmsg = errmsg + generated +" of " + target;
-			//std::cout<<errmsg;
-			return errmsg.c_str();
+			std::stringstream errmsg;
+			errmsg << "\n well, this sucks. can't generate enough experiments for the given map. ";
+			errmsg << "I managed to create " << generated << " of "<<target;
+			return errmsg.str().c_str();
 		}
 	
 	private:
