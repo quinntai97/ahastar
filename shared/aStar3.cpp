@@ -56,7 +56,7 @@ path *aStarOld::getPath(graphAbstraction *aMap, node *from, node *to, reservatio
 	searchTime = 0;
 	nodesGenerated = 0;
 	
-	if ((from == 0) || (to == 0) || (!aMap->pathable(from, to)) || (from == to))
+	if ((from == 0) || (to == 0) || (from == to))
 		return 0;
 	map = aMap;
 	graph *g = map->getAbstractGraph(from->getLabelL(kAbstractionLevel));
