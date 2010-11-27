@@ -30,7 +30,15 @@ For comparison, we also summarise results on 8-connected maps previously publish
 That work describes a similar algorithm to ours which breaks symmetries by identifying ``Swamps'' --
 areas that do not have to be searched because crossing them could not improve the length of any path.
  
-\input speedup_table
+\begin{figure*}[t]
+       \begin{center}
+                       \includegraphics[width=1.95\columnwidth, trim = 10mm 10mm 10mm 0mm]{diagrams/speedup.pdf}
+       \end{center}
+       \caption{Average A* speedup on each of our three benchmarks. 
+		Results are given in terms of nodes expanded and search time.}
+\label{fig-speedup}
+\end{figure*}
+
 
 \textbf{Adaptive Depth:}
 The maps in this benchmark were generally favourable for our decomposition algorithm. 
