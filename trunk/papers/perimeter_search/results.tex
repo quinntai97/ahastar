@@ -76,14 +76,52 @@ Finally, on Rooms (Figure \ref{fig-speedup}F) RSRR+PR+OP is again shown to be fa
 usually by a factor of between 2 and 3 across most problem instances.
 \par
 It is interesting to observe that on the benchmarks which RRSR+PR+OP does best (Rooms, Adaptive Depth) 
-there are usually large open areas and the terrain can be naturally decomposed into rectangular areas. 
+there are usually large open areas and the terrain can often be naturally decomposed into rectangular rooms.
 At the same time, Swamps-based reduction appears to be much better suited for identifying symmetric paths 
 in graphs where this is not the case.
-It seesms reasonable then to try and answer whether this trend is true more generally.
-To accomplish this we scaled up each map in every benchmark by a factor of 3 and randomly generated a new
-set of 100 problem instances per map and observe the effect this has on average speedup for problems of the 
-same length as those generated on the un-scaled maps.
-
-
-
+\par
+\textbf{Effect of Obstacle Density On Performance:}
+To better understand the effect that obstacle density has on the search performance of the two algorithms
+we scaled up each map in every benchmark by a factor of 3.
+We then randomly generated a new set of 100 problem instances per map.
+We will once again measure and compare average search time speedup but this time we will contrast the new
+results with the observed speedup for problems of the same length on the un-scaled maps (results for
+which are given in Figure \ref{fig-speedup} (D to F)).
+\par
+Figure \ref{fig-speedup} (G to I) gives search time speedup performance for both RRSR+PR+OP and Swamps
+on each of the scaled-up benchmarks.
+On Adaptive Depth (Figure \ref{fig-speedup}G), the average search time speedup of RRSR+PR+OP reaches a maximum of 10. 
+By comparison, Swamps reaches a maximum speedup factor of 3.
+When we limit our attention to problem instances of length less than 170 we observe that the speedup 
+for RRSR+PR+OP has increased, from 4 to 9, when compared to its performance for similar-length problems on the original 
+unscaled maps (Figure \ref{fig-speedup}D). 
+At the same time, the performance of Swamps has decreased: from 2.8 to 1.2.
+Turning our attention to Baldur's Gate (Figure \ref{fig-speedup}H) we observe a similar trend.
+Although Swamps has a higher maximum speedup than RRSR+PR+OP, 6.4 vs. 5.3) the performance of the two 
+algorithms is very similar across a wide range of problem instances (450-1000).
+When we limit our attention to problem of length less than 450 we observe that the speedup experienced by
+RRSR+PR+OP has increased, from 2 to 4.5, when compared to its performance on the original unscaled maps
+(Figure \ref{fig-speedup}E).
+Meanwhile, the performance of Swamps has decreased and is now dominated by RRSR+PR+OP.
+Finally we turn our attention to the scaled-up Rooms benchmark (Figure \ref{fig-speedup}I).
+Here, the increase in size and naturally rectangular topography of the maps in this benchmark
+has had a dramatic effect on RRSR+PR+OP speedup, increasing it to over 30 for many instances.
+Swamps also exhibits up to a 10 times speedup but if we limit our attention to problems of
+length less than 500 we again see a reduction in performance when compared to Swamps speedup
+on the original unscaled maps (Figure \ref{fig-speedup}F). 
+\par
+It is interesting to note that the observed performance characteristics of both Swamps and RRSR+PR+OP
+are not unexpected.
+In the case of RRSR+PR+OP we would expect performance on an arbitrary grid map to improve as bigger
+rooms can be identified and constructed. 
+Larger rooms allow us to prune a larger number of interior tiles and we would expect this to be reflected
+by an associated increase in speedup. This was indeed the case.
+In the case of Swamps, we would expect the opposite to occur. As the average size of each swamp increases
+there are more tiles to be considered per search. Since the algorithm does not attempt to eliminate symmetries
+\emph{inside} a swamp, each swamp traversal takes longer and we would expect to see this reflected
+by an associated decrease in speedup. As before, this was indeed the case.
+It therefore appears that the two algorithms are exactly orthogonal.
+A natural extension of this work would thus be to create a new symmetry-based search space reduction
+which combines the two: first, apply RRSR+PR to a grid in order to eliminate as many interior tiles 
+as possible; then, apply a Swamps-based decomposition to the resultant graph.
 
