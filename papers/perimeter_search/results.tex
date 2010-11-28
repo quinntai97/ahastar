@@ -2,6 +2,15 @@
 \label{sec-results}
 \input graphsize_table
 
+\begin{figure*}[t]
+       \begin{center}
+                       \includegraphics[width=1.95\columnwidth, trim = 10mm 10mm 10mm 0mm]{diagrams/speedup.pdf}
+       \end{center}
+       \caption{Average A* speedup on each of our three benchmarks. 
+		Results are given in terms of nodes expanded and search time.}
+\label{fig-speedup}
+\end{figure*}
+
 We begin our analysis with Figure \ref{fig-speedup} A-C in which we study the 
 effectiveness of our offline perimeter reduction technique (PR) and on-the-fly 
 pruning strategy (OP) to speeding up A* search. 
