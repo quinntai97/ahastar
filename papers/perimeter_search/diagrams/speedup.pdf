@@ -2,8 +2,8 @@
 %âãÏÓ\r
 1 0 obj
 <<
-/CreationDate (D:20101128021125)
-/ModDate (D:20101128021125)
+/CreationDate (D:20101128121811)
+/ModDate (D:20101128121811)
 /Title (R Graphics Output)
 /Producer (R 2.11.1)
 /Creator (R)
@@ -101,7 +101,7 @@ S
 Q q 0.00 720.00 360.00 360.00 re W n
 BT
 0.000 0.000 0.000 rg
-/F3 1 Tf 12.00 0.00 -0.00 12.00 78.06 1056.21 Tm [(A) 40 (vera) 10 (g) -10 (e Speedup: Adaptive Depth \(4C\))] TJ
+/F3 1 Tf 12.00 0.00 -0.00 12.00 58.33 1056.21 Tm [(A. Sear) 20 (c) 10 (h Time Speedup: Adaptive Depth \(4C\))] TJ
 ET
 BT
 /F2 1 Tf 8.00 0.00 -0.00 8.00 168.09 732.36 Tm [(P) 40 (ath Length)] TJ
@@ -280,7 +280,7 @@ S
 Q q 360.00 720.00 360.00 360.00 re W n
 BT
 0.000 0.000 0.000 rg
-/F3 1 Tf 12.00 0.00 -0.00 12.00 443.41 1056.21 Tm [(A) 40 (vera) 10 (g) -10 (e Speedup: Baldur') 60 (s Gate \(4C\))] TJ
+/F3 1 Tf 12.00 0.00 -0.00 12.00 423.68 1056.21 Tm [(B. Sear) 20 (c) 10 (h Time Speedup: Baldur') 60 (s Gate \(4C\))] TJ
 ET
 BT
 /F2 1 Tf 8.00 0.00 -0.00 8.00 528.09 732.36 Tm [(P) 40 (ath Length)] TJ
@@ -492,7 +492,7 @@ S
 Q q 720.00 720.00 360.00 360.00 re W n
 BT
 0.000 0.000 0.000 rg
-/F3 1 Tf 12.00 0.00 -0.00 12.00 821.73 1056.21 Tm [(A) 40 (vera) 10 (g) -10 (e Speedup: Rooms \(4C\))] TJ
+/F3 1 Tf 12.00 0.00 -0.00 12.00 802.00 1056.21 Tm [(C. Sear) 20 (c) 10 (h Time Speedup: Rooms \(4C\))] TJ
 ET
 BT
 /F2 1 Tf 8.00 0.00 -0.00 8.00 888.09 732.36 Tm [(P) 40 (ath Length)] TJ
@@ -719,7 +719,7 @@ S
 Q q 0.00 360.00 360.00 360.00 re W n
 BT
 0.000 0.000 0.000 rg
-/F3 1 Tf 12.00 0.00 -0.00 12.00 78.06 696.21 Tm [(A) 40 (vera) 10 (g) -10 (e Speedup: Adaptive Depth \(8C\))] TJ
+/F3 1 Tf 12.00 0.00 -0.00 12.00 58.33 696.21 Tm [(D. Sear) 20 (c) 10 (h Time Speedup: Adaptive Depth \(8C\))] TJ
 ET
 BT
 /F2 1 Tf 8.00 0.00 -0.00 8.00 168.09 372.36 Tm [(P) 40 (ath Length)] TJ
@@ -846,7 +846,7 @@ S
 Q q 360.00 360.00 360.00 360.00 re W n
 BT
 0.000 0.000 0.000 rg
-/F3 1 Tf 12.00 0.00 -0.00 12.00 443.41 696.21 Tm [(A) 40 (vera) 10 (g) -10 (e Speedup: Baldur') 60 (s Gate \(8C\))] TJ
+/F3 1 Tf 12.00 0.00 -0.00 12.00 424.01 696.21 Tm [(E. Sear) 20 (c) 10 (h Time Speedup: Baldur') 60 (s Gate \(8C\))] TJ
 ET
 BT
 /F2 1 Tf 8.00 0.00 -0.00 8.00 528.09 372.36 Tm [(P) 40 (ath Length)] TJ
@@ -986,7 +986,7 @@ S
 Q q 720.00 360.00 360.00 360.00 re W n
 BT
 0.000 0.000 0.000 rg
-/F3 1 Tf 12.00 0.00 -0.00 12.00 821.73 696.21 Tm [(A) 40 (vera) 10 (g) -10 (e Speedup: Rooms \(8C\))] TJ
+/F3 1 Tf 12.00 0.00 -0.00 12.00 802.66 696.21 Tm [(F. Sear) 20 (c) 10 (h Time Speedup: Rooms \(8C\))] TJ
 ET
 BT
 /F2 1 Tf 8.00 0.00 -0.00 8.00 888.09 372.36 Tm [(P) 40 (ath Length)] TJ
@@ -1128,7 +1128,7 @@ S
 Q q 0.00 0.00 360.00 360.00 re W n
 BT
 0.000 0.000 0.000 rg
-/F3 1 Tf 12.00 0.00 -0.00 12.00 54.82 336.21 Tm [(A) 40 (vera) 10 (g) -10 (e Speedup: Adaptive Depth Blo) 15 (wup \(8C\))] TJ
+/F3 1 Tf 12.00 0.00 -0.00 12.00 34.75 336.21 Tm [(G. Sear) 20 (c) 10 (h Time Speedup: Adaptive Depth Blo) 15 (wup \(8C\))] TJ
 ET
 BT
 /F2 1 Tf 8.00 0.00 -0.00 8.00 168.09 12.36 Tm [(P) 40 (ath Length)] TJ
@@ -1310,7 +1310,7 @@ S
 Q q 360.00 0.00 360.00 360.00 re W n
 BT
 0.000 0.000 0.000 rg
-/F3 1 Tf 12.00 0.00 -0.00 12.00 420.17 336.21 Tm [(A) 40 (vera) 10 (g) -10 (e Speedup: Baldur') 60 (s Gate Blo) 15 (wup \(8C\))] TJ
+/F3 1 Tf 12.00 0.00 -0.00 12.00 400.43 336.21 Tm [(H. Sear) 20 (c) 10 (h Time Speedup: Baldur') 60 (s Gate Blo) 15 (wup \(8C\))] TJ
 ET
 BT
 /F2 1 Tf 8.00 0.00 -0.00 8.00 528.09 12.36 Tm [(P) 40 (ath Length)] TJ
@@ -1535,7 +1535,7 @@ S
 Q q 720.00 0.00 360.00 360.00 re W n
 BT
 0.000 0.000 0.000 rg
-/F3 1 Tf 12.00 0.00 -0.00 12.00 798.49 336.21 Tm [(A) 40 (vera) 10 (g) -10 (e Speedup: Rooms Blo) 15 (wup \(8C\))] TJ
+/F3 1 Tf 12.00 0.00 -0.00 12.00 781.42 336.21 Tm [(I. Sear) 20 (c) 10 (h Time Speedup: Rooms Blo) 15 (wup \(8C\))] TJ
 ET
 BT
 /F2 1 Tf 8.00 0.00 -0.00 8.00 888.09 12.36 Tm [(P) 40 (ath Length)] TJ
