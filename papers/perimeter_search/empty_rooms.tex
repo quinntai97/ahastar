@@ -25,10 +25,17 @@ start or goal is a location which has been previously pruned.}
 %The cost of each edge is equal to the Manhattan distance between its endpoints.}
 \end{enumerate}
 A similar approach is used in \cite{harabor10} but that work is specific to
-4-connected grid maps. 
+4-connected grid maps.
 Our new method, which we term Room-based Symmetry Reduction (or RSR for short),
-is a generalisation of their algorithm to the much more common 8-connected
-grid map case.
+extends \citeauthor{harabor10}'s work in two directions.
+We extend the applicability to the much more common 8-connected grid map case.
+In addition, we introduce in the next section speed-up techniques that
+are applicable to both 4-connected and 8-connected grid maps.
+On 4-connected maps, the branching factor remains low after applying empty room abstraction.
+No tile requires more than one macro-edge to retain optimality on 4-connected maps.
+The generalization to 8-connected grids is challenging as
+the branching factor can become much larger. Keeping the branching factor within reasonable
+limits is a main motivation for the enhancements that we describe in this and the next section.
 \newline \\
 \textbf{Symmetry Reduction in 8-connected Grid Maps:}
 Consider a path which enters an empty room $R$ at some perimeter node $m$ and exits at some other
@@ -48,16 +55,21 @@ goal is a tile that has been previously removed.
 Finally, we show that this method preserves optimality.
 \\ \newline
 \textbf{Offline Procedure: }
-Our method is a simple 2 step process (shown in Figure \ref{fig-macroedges}):
+Our method is a 2-step process (shown in Figure \ref{fig-macroedges}):
 
 \begin{enumerate}
-\item{First, add a series of macro edges between pairs of perimeter tiles on orthogonal sides of $R$. 
+\item{First, add a series of macro edges between pairs of perimeter tiles on orthogonal sides of $R$
+(Figure \ref{fig-macroedges} top). 
 We connect two tiles only if the proposed macro edge represents a path through the interior of $R$ that involves
-only diagonal steps. }
+only diagonal steps. Notice that this operation maintains the branching factor low.
+It introduces no more than one macro-edge per tile.}
 \item{Next, add a series of macro edges between pairs of perimeter tiles on opposite sides of $R$.
 We connect two tiles only if the proposed macro edge represents a path through the interior of $R$ which is shorter
 than any alternative path involving only tiles from the perimeter and possibly one (other) macro edge.
-}
+For a perimeter tile such as $t_1$ we generate a ``fan'' of neighbours on the opposite side. The end tile $t_2$
+in the fan is placed diagonally with respect to $t_1$. There is no need to add a macro-edge between $t_1$
+and nodes beyond $t_2$ (e.g., $t_3$). Tile $t_3$ can be reached optimally from $t_1$ via the path
+$\lbrace t_1, t_2, t_3 \rbrace$.}
 \end{enumerate}
 
 \begin{figure}[tb]
@@ -66,9 +78,7 @@ than any alternative path involving only tiles from the perimeter and possibly o
        \end{center}
 	\vspace{-3pt}
        \caption{(Top) Macro edges between tiles on orthogonal sides of an empty room. 
-(Bottom) Each tile on the perimeter is connected to a set of tiles on the opposite side of the room.
-Dominated edges are skipped; in this case the path $\lbrace t1, t2, t3 \rbrace$
-dominates the proposed edge $(t1, t3)$.}
+(Bottom) Each tile on the perimeter is connected to a set of tiles on the opposite side of the room.}
        \label{fig-macroedges}
 \end{figure}
 We claim this method preserves optimality when traversing arbitrary rooms in an 8-connected grid map.
@@ -92,7 +102,7 @@ In the second and third case we argue as follows: if $m$ and $n$ are not connect
 we can walk along the perimeter from $m$ to an intermediate node $m'$ and follow a macro edge to a node $n'$ on the 
 same side of the perimeter as $n$. Finally, we walk along the perimeter from $n'$ to $n$.
 The length of this path is equal to the octile distance between $m$ and $n$ and therefore optimal
-\footnote{Note that in some cases $m' = m$ or $n' = n$ (or both).}.
+\footnote{Note that $m' = m$ or $n' = n$ (or both).}.
 \end{proof}
 
 \noindent
@@ -101,14 +111,16 @@ It is often the case that a tile from the interior of an empty room is required 
 agent. 
 To handle such situations we give an online procedure that temporarily re-inserts tiles back into the map for the duration
 of a search. 
-Our method is a variation on the re-insertion alogorithm described in \cite{harabor10}. It proceeds as follows:
+Our method is an adaptation of \citeauthor{harabor10}'s re-insertion algorithm to 8-connected grids.
+It proceeds as follows:
 
 \begin{enumerate}
 \item{If the start and goal are interior nodes in the same room no insertion is necessary; an optimal
 path is trivially available. }
-\item{If the start and goal are not in the same room, add to $R$ a series of non-dominated macro edges that connects
-the inserted tile to a set of nodes on each side of the room's perimeter. We achieve this by repeatedly applying Step 2
-of our offline procedure (the newly inserted tile is ``opposite'' to all 4 sides of the room's perimeter).}
+\item{If the start and goal are not in the same room, add four ``fans'' (collections) of macro edges.
+Each fan connects the start (target) node to a set of nodes on one side of the room's perimeter.
+The procedure is very similar to step 2 in the offline procedure: the fan should not go beyond tiles
+placed diagonally with respect to the start (goal) tile at hand.}
 \end{enumerate}
 %It is possible to identify, in constant time, the set of tiles which the start or goal must be connected to.
 %Further, in an efficient implementation, we could generate these neighbours on the fly.
@@ -128,11 +140,27 @@ node on the perimeter of $R$, in each case substituting $m$ for the newly insert
 
 %We claim that using the temporary macro edges added by this algorithm it is possible to travel optimally from the start or goal 
 %location to any tile on the perimeter of the start or goal room. 
-\par \noindent
-\newline
-\textbf{Optimality:} We claim the symmetry elimination procedure outlined in this section is sufficient to guarantee
-that A*, running on a modified 8-connected grid map, will always find an optimal length solution if one exists.
-Our argument follows from Lemma \ref{lemma-rooms} and Lemma \ref{lemma-insertion}.
-It is based on the observation that for every segment of an optimal length path, which enters a room at some tile $m$,
-traverses through the interior of the room and exits at some tile $n$, there is an equivalent length path that mentions only 
-nodes from the perimeter of that room and possibly one macro edge.
+%\par \noindent
+%\newline
+We claim that the symmetry elimination procedure outlined in this section does not affect the optimality of solutions:
+\begin{theorem}
+For every optimal path $\pi$ on an original grid, there exists an optimal path $\pi'$ on the modfied graph with the property
+that $\pi$ and $\pi'$ have the same cost.
+\end{theorem}
+\begin{proof}
+Consider an optimal path $\pi$ on the original map and a room $R$ that is crossed by $\pi$.
+Let $m$ and $n$ be the two perimeter points along $\pi$. According to Lemma~\ref{lemma-rooms},
+there is a way to connect $m$ and $n$ optimally in the modified graph. Thus, we can replace the
+original segment $[m \dots n]$ in $\pi$ with the cost-wise equivalent segment that corresponds to the modified graph.
+The case when $m$ (or $n$) is the start or target node is addressed similarly using Lemma~\ref{lemma-insertion}.
+By performing such a path segment replacement for all rooms intersected by $\pi$, we obtain a path $\pi'$
+that satisfies the desired properties.
+\end{proof}
+
+%\textbf{Optimality:} We claim the symmetry elimination procedure outlined in this section is sufficient to guarantee
+%that A*, running on a modified 8-connected grid map, will always find an optimal length solution if one exists.
+%Our argument follows from Lemma \ref{lemma-rooms} and Lemma \ref{lemma-insertion}.
+%It is based on the observation that for every segment of an optimal length path, which enters a room at some tile $m$,
+%traverses through the interior of the room and exits at some tile $n$, there is an equivalent length path that mentions only 
+%nodes from the perimeter of that room and possibly one macro edge.
+
