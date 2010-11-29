@@ -129,16 +129,27 @@ Swamps also exhibits up to a 10 times speedup but if we limit our attention to p
 length less than 500 we again see a reduction in performance when compared to Swamps speedup
 on the original unscaled maps (Figure \ref{fig-speedup}F). 
 \par
-It is interesting to note that the observed performance characteristics of both Swamps and RRSR+PR+OP
+The observed performance characteristics of both Swamps and RRSR+PR+OP
 are not unexpected.
+The complementary tendencies of the two algorithms
+are consistent with the fact that 
+the basic ideas behind swamps and empty room abstraction are quite different.
+By definition, a swamp requires that any two nodes adjacent to the swamp
+can be connected through an optimal path that does not intersect with the swamp.
+In contrast, in the case of empty rectangular rooms, 
+crossing the room is the only way to connect optimally nodes on (distinct edges of) the perimeter.
+Swamps prune out areas that can be avoided without introducing a detour.
+Rectangle abstraction allows for a faster exploration of areas that need to be searched.
+
 In the case of RRSR+PR+OP we would expect performance on an arbitrary grid map to improve as bigger
 rooms can be identified and constructed. 
 Larger rooms allow us to prune a larger number of interior tiles and we would expect this to be reflected
-by an associated increase in speedup. This was indeed the case.
+by an associated increase in speedup. This was indeed the case in our measurements.
 In the case of Swamps, we would expect the opposite to occur. As the average size of each swamp increases
-there are more tiles to be considered per search. Since the algorithm does not attempt to eliminate symmetries
+there are more tiles to be considered per search. Since the algorithm does not attempt to speed up searching
 \emph{inside} a swamp, each swamp traversal takes longer and we would expect to see this reflected
 by an associated decrease in speedup. As before, this was indeed the case.
+
 It therefore appears that the two algorithms are exactly orthogonal.
 A natural extension of this work would thus be to create a new symmetry-based search space reduction
 which combines the two: first, apply RRSR+PR to a grid in order to eliminate as many interior tiles 
