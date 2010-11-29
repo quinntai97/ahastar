@@ -1,36 +1,50 @@
 \section{Conclusion}
-
-Traditional speed-up techniques for pathfinding on grid maps 
-include hierarchical abstraction and memory-based heuristics.
-While effective, both types of approaches have their shortcomings.
-Hierarchical algorithms such as HPA*~\cite{botea04} and PRA*~\cite{sturtevant07}
-are fast and memory-effective but produce sub-optimal paths.
+We introduce RSR, a new search space reduction algorithm
+which makes use of an Empty Rectangular Rooms decomposition
+to identify and reduce path symmetries in 4 and 8 connected
+grid maps.
+We undertake an analysis of RSR on a range of benchmarks from the
+literature and show our new algorithm is up to 36 times faster than
+traditional A* running on an umodified grid map.
+Further, we show that RSR is up to five times faster than two recent
+state-of-the-art search space reduction techniques.
+\par
+We demonstrate that RSR is not only more generally applicable
+than the algorithm of \citeauthor{harabor10}~\shortcite{harabor10} 
+(on which it is based) but also significantly faster on the set of 
+instances where both methods can be applied (i.e., 4-connected maps).
+We also compare RSR with the swamps-based reduction
+of \citeauthor{pochter10}~\shortcite{pochter10}.
+We show that the two algorithms have complementary strengths and that there are many
+instances where RSR is the better choice.
+In our experiments swamps appear to be more useful in areas with small open areas
+while RSR becomes more effective as larger open areas are available on a map.
+\par
+Our speedup technique is quite different from traditional approaches 
+that include hierarchical abstraction and memory-based heuristics.
+While also effective, both of these methods have their shortcomings.
+For example, hierarchical algorithm such as HPA*~\cite{botea04} and 
+PRA*~\cite{sturtevant07} are fast and memory-effective but produce 
+sub-optimal paths.
 Memory-based admissible heuristics preserve the optimality of 
 solutions but carry a significant memory overhead~
 \cite{sturtevant09,goldberg05,Cazenave:06,bjornsson06}.
+By comparison, RSR is not only fast and optimal but also has very little
+memory overhead.
 
-Recent work~\cite{pochter10,harabor10} has introduced
-techniques that are fast, produce optimal solutions and
-require little additional memory.
-In this paper we have introduced RSR,
-an algorithm that converts an initial map
-into a smaller search graph without sacrificing the optimality of solutions.
-Similarly to \citeauthor{harabor10}'s approach~\shortcite{harabor10},
-our algorithm uses a decomposition of a map into disjoint rectangular
-rooms with the property that no room contains obstacle tiles.
-All interior tiles and some of the perimeter tiles 
-(except for start and target locations)
-are pruned from search.
+%Recent work~\cite{pochter10,harabor10} has introduced
+%techniques that are fast, produce optimal solutions and
+%require little additional memory.
+%In this paper we have introduced RSR,
+%an algorithm that converts an initial map
+%into a smaller search graph without sacrificing the optimality of solutions.
+%Similarly to \citeauthor{harabor10}'s approach~\shortcite{harabor10},
+%our algorithm uses a decomposition of a map into disjoint rectangular
+%rooms with the property that no room contains obstacle tiles.
+%All interior tiles and some of the perimeter tiles 
+%(except for start and target locations)
+%are pruned from search.
 
-In experiments our algorithm is not only more generally applicable
-than \citeauthor{harabor10}'s algorithm~\shortcite{harabor10},
-but also significantly faster on the set of instances where both
-methods can be applied (i.e., 4-connected maps).
-Our analysis reveals that RSR and swamps~\cite{pochter10}
-have complementary strengths and therefore there are many
-instances where RSR is the better choice.
-Swamps appear to be more useful in areas with small open areas.
-RSR becomes more effective as larger open areas are available on a map.
 
 %OPTIONAL: 
 %Have here a brief summary of speed-up numbers:
@@ -38,13 +52,15 @@ RSR becomes more effective as larger open areas are available on a map.
 %On the same data, swamps achieve a maximal speed-up of blah.
 %Harabor and Botea's method has a speed-up of blah.
 
-Future work includes reducing the branching factor in RSR further.
-We have observed cases where the number of expanded nodes is reasonably small
-but a relatively large branching factor increases the number of visited nodes significantly.
+\par
+Future work includes reducing the branching factor in RSR further through the 
+development of better map decompositions and stronger online node pruning
+strategies.
+%We have observed cases where the number of expanded nodes is reasonably small
+%but a relatively large branching factor increases the number of visited nodes significantly.
 Another interesting topic is combining swamps and RSR, which tend to complement each other.
 We are also interested in applying our ideas to more general types of graphs that exhibit
 (local) symmetry, such as the search graphs of planning instances.
-
 
 %Perimeter Search is a symmetric path elimination technique which extends the the
 %work of \citeauthor{harabor10}~\shortcite{harabor10} from 4-connected grid maps
