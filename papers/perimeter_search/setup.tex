@@ -1,6 +1,6 @@
 \section{Experimental Setup}
-To evaluate the effectiveness of our symmetry elimination technique we performed
-a comparative analysis using A* on a number of benchmarks taken from
+To evaluate the effectiveness of our ideas we performed
+an analysis on a number of benchmarks taken from
 the freely available pathfinding library 
 Hierarchical Open Graph (HOG)\footnote{\url{http://www.googlecode.com/p/hog2}}:
 \begin{itemize}
@@ -17,6 +17,11 @@ size from 50$\times$50 to 320$\times$320 and have a distinctive 45-degree orient
 rectangular areas that are connected by randomly placed entrances.}
 \end{itemize}
 
+As discussed later, we also used a blown up version of these maps,
+where each tile on the original map is replaced with $3\times3$ tiles of the same type
+(i.e., blocked or traversable). In effect, our input data contains 864 maps in total,
+with sizes up to $960\times960$.
+
 % \begin{figure}[t]
 %        \begin{center}
 %                        \includegraphics[width=0.6\columnwidth, trim = 10mm 10mm 10mm 0mm]{diagrams/bgmap.png}
@@ -31,9 +36,13 @@ in which they are not.
 For each map we generated 100 valid problem instances, checking that every
 instance could be solved both with and without the use of diagonal
 transitions.
-We then ran A* twice: once on the original (4 and 8 connected) maps and again 
-on our modified (4 and 8 connected) maps. 
-This makes for a total of 172800 (432$\times$2$\times$100$\times$2) distinct experiments.
+%The text below ignores a few things: 
+%1. Swamps
+%2. blown up maps
+%
+%We then ran A* twice: once on the original (4 and 8 connected) maps and again 
+%on our modified (4 and 8 connected) maps. 
+%This makes for a total of 172800 (432$\times$2$\times$100$\times$2) distinct experiments.
 Our test machine had a 2.93GHz Intel Core 2 Duo processor, 4GB RAM and
 ran OSX 10.6.2.
 We use the A* implementation provided in HOG.
