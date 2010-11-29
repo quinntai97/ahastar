@@ -98,7 +98,7 @@ there are usually large open areas and the terrain can often be naturally decomp
 At the same time, Swamps-based reduction appears to be much better suited for identifying symmetric paths 
 in graphs where this is not the case.
 \par
-\textbf{Effect of Obstacle Density On Performance:}
+\textbf{Effect of Obstacle Density:}
 To better understand the effect that obstacle density has on the search performance of the two algorithms
 we scaled up each map in every benchmark by a factor of 3.
 We then randomly generated a new set of 100 problem instances per map.
@@ -150,7 +150,7 @@ there are more tiles to be considered per search. Since the algorithm does not a
 \emph{inside} a swamp, each swamp traversal takes longer and we would expect to see this reflected
 by an associated decrease in speedup. As before, this was indeed the case.
 
-It therefore appears that the two algorithms are exactly orthogonal.
+It therefore appears that the two algorithms are orthogonal.
 A natural extension of this work would thus be to create a new symmetry-based search space reduction
 which combines the two: first, apply RRSR+PR to a grid in order to eliminate as many interior tiles 
 as possible; then, apply a Swamps-based decomposition to the resultant graph.
