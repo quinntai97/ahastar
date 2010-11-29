@@ -79,31 +79,46 @@ However, if the parent and the current node belong to the same room, process onl
 The ``Fast Node Expansion'' strategy preserves optimality during search.
 \end{lemma}
 \begin{proof}
-Let $R$ be an empty room in an 8-connected grid map.
-Further, let $m$ and $n$ be two arbitrarily selected tiles from the perimeter of $R$.
-There are three cases to consider when searching for an optimal path between $m$ and $n$:
-\begin{enumerate}
-\item{$m$ and $n$ are on the same side of the room.}
-\item{$m$ and $n$ are on orthogonal sides of the room.}
-\item{$m$ and $n$ are on opposite sides of the room.}
-\end{enumerate}
-In all cases we begin by expanding $m$ and process all its primary and secondary neighbours.
-In the first and second case the optimal path from $m$ to $n$ involves no tiles from the opposite side of the room;
-the decision to ignore all secondary neighbours has no effect on the optimality of the solution.
-In the third case we argue as follows:
-when we expand $m$ we generate a node $n'$ on the same side of the perimeter as $n$.
-The edge $(m, n')$ represents a path that crosses the room from $m$ to $n'$
-using a maximum number of diagonal steps. 
-From this it is trivial to derive that the path $\lbrace m, n', n \rbrace$ is itself optimal.
-Thus we can ignore all secondary neighbours of nodes descended from $m$ in the search tree
-(evaluating them could not possibly improve the length of any path from $m$ to $n$).
-\end{proof}
-%It is worth noting that on 4-connected maps the branching factor of each tile on
-%the perimeter is already constant. 
-%Applying Fast Node Expansion in this case often results in an average branching
-%factor smaller than 4. 
-%On 8-connected maps the effectiveness of this approach is dependent on how well
-%we can decomposde the grid map into large rectangular rooms.
+Let $m$ be a node on the perimeter of a room. Assume that its parent $p$ belongs
+to the same room.
+Let $n$ be a secondary successor of $m$.
+Recall that $n$ and $m$ are on opposite sides of the room.
+We argue below that passing through $m$ cannot possibly improve the 
+best path between $p$ and $n$.
+Therefore, there is no need to consider $m,n$ macro-edges in search.
+
+There are four cases when a node $m$ and its parent $p$ belong to the
+same room. In case 1, $p$ is the start node and is placed inside the room.
+Obviously, the path segment $p,m,n$ is suboptimal, as we zigzag from $p$ to one
+edge and then to the opposite edge. 
+In case 2, 3, and 4, $p$ and $m$ are opposite edges, on ortoghonal edges, and on the same
+edge, respectively.
+
+%Let $R$ be an empty room in an 8-connected grid map.
+%Further, let $m$ and $n$ be two arbitrarily selected tiles from the perimeter of $R$.
+%There are three cases to consider when searching for an optimal path between $m$ and $n$:
+%\begin{enumerate}
+%\item{$m$ and $n$ are on the same side of the room.}
+%\item{$m$ and $n$ are on orthogonal sides of the room.}
+%\item{$m$ and $n$ are on opposite sides of the room.}
+%\end{enumerate}
+%In all cases we begin by expanding $m$ and process all its primary and secondary neighbours.
+%In the first and second case the optimal path from $m$ to $n$ involves no tiles from the opposite side of the room;
+%the decision to ignore all secondary neighbours has no effect on the optimality of the solution.
+%In the third case we argue as follows:
+%when we expand $m$ we generate a node $n'$ on the same side of the perimeter as $n$.
+%The edge $(m, n')$ represents a path that crosses the room from $m$ to $n'$
+%using a maximum number of diagonal steps. 
+%From this it is trivial to derive that the path $\lbrace m, n', n \rbrace$ is itself optimal.
+%Thus we can ignore all secondary neighbours of nodes descended from $m$ in the search tree
+%(evaluating them could not possibly improve the length of any path from $m$ to $n$).
+%\end{proof}
+%%It is worth noting that on 4-connected maps the branching factor of each tile on
+%%the perimeter is already constant. 
+%%Applying Fast Node Expansion in this case often results in an average branching
+%%factor smaller than 4. 
+%%On 8-connected maps the effectiveness of this approach is dependent on how well
+%%we can decomposde the grid map into large rectangular rooms.
 
 
 
