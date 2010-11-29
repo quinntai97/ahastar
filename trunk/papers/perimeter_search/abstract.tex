@@ -1,18 +1,19 @@
 \begin{abstract}
 Pathfinding is a widely studied problem in the AI literature with broad 
 applicability in areas such as planning, robotics and video games. 
-In this paper we explore a symmetry-based search space reduction technique
- which speeds up optimal pathfinding on uniform cost grid maps.
-A pre-processing method decomposes each map into a set of empty rectangular 
-rooms and removes from each such room all interior tiles and possibly some 
-from along the perimeter. We then add a series of macro edges between selected 
-pairs of remaining tiles to facilitate provably optimal traversal through each 
-room and to any other room. In addition, we introduce on-the-fly pruning 
-techniques to further speed up search.
-We evaluate our technique on a range of different grid maps, including one 
-well known set from the popular video game Baldur's Gate II. We show that a 
-standard search algorithm such as A*, running on our modified graphs, can be 
-up to an order of magnitude faster than otherwise. We achieve this result 
-without requiring any significant extra memory and retain the same optimality 
-guarantees as searching on an original, unmodified, search graph.
+In this paper, we explore a symmetry-based search space reduction technique
+ which can speed up optimal pathfinding by up to 30 times on 
+a range of uniform cost grid maps taken from the literature.
+Additionally, we report up to a factor of five decrease in average search 
+times when we compare our work with two recent state-of-the-art
+search space reduction algorithms.
+Our technique makes use of a two stage offline pre-processing method:
+First, we decompose an arbitrary grid map into a set of empty rectangular 
+rooms, removing from each such room all interior tiles and possibly 
+some from along the perimeter. 
+Second, we add a series of edges between selected pairs of remaining 
+perimeter tiles to facilitate provably optimal traversal through each room.
+We also introduce a novel online pruning technique to further speed up search.
+Our algorithm does not require any significant extra memory and retains the 
+same optimality and completeness guarantees as searching on an unmodified graph.
 \end{abstract}

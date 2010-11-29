@@ -1,29 +1,24 @@
 \section{Introduction}
-Pathfinding systems which operate on regular grids are commonly found in modern video games.
-Some recent examples include \emph{Company of Heroes} (Relic Entertainment, 2006), \emph{Dawn of War II} (Relic
-Entertainment, 2009) and \emph{Dragon Age: Origins} (BioWare, 2010).
-Additionally, regular grids often appear in academic literature; for example in areas such as robotics \cite{choset05} and
-single-agent pathfinding \cite{botea04,bjornsson06,sturtevant07}.
-Pathfinding on grid maps is a rather common theme in the ICAPS conference
-\cite{DBLP:conf/aips/HernandezMSK09,DBLP:conf/aips/ThayerR09,DBLP:conf/aips/WangB08,DBLP:conf/aips/ThayerR08,DBLP:conf/aips/BulitkoBLSS07}.
-
-
+Pathfinding systems which operate on regular grids are commonly found in
+academic literature; for example in application areas such as robotics 
+\cite{choset05}, video games \cite{botea04,bjornsson06,sturtevant07} and 
+planning \cite{DBLP:conf/aips/HernandezMSK09,DBLP:conf/aips/ThayerR09,DBLP:conf/aips/WangB08,DBLP:conf/aips/ThayerR08,DBLP:conf/aips/BulitkoBLSS07}.
 \par
-In the context of single-agent pathfinding, and real-time video games in particular, it is often the case that queries sent to
-the pathfinding system  need to be solved as quickly as possible.
+In the context of single-agent pathfinding, and real-time video games in particular, 
+it is often the case that queries sent to the pathfinding system  need to be solved as quickly as possible.
 Traditionally, this requirement is met in one of two ways: (i) by reducing the size of the search space through hierarchical 
 decomposition or (ii) through the development of improved heuristics to guide search.
 In the case of hierarchical decomposition, techniques such as
 HPA*~\cite{botea04} and PRA* (MM-Abstraction)~\cite{sturtevant07} seek to construct and explore
 a much reduced approximate state space.
-These methods are fast and require no significant extra-memory when compared to the classical
+These methods are fast and require no significant extra memory when compared to the classical
 A* algorithm \cite{hart68}.
 However, they have the disadvantage that solutions are not guaranteed to be optimal.
-Meanwhile, in case of the improved heuristics, it has been frequently shown
-that obtaining better informed results than than the popular
-Manhattan heuristic usually incurs significant memory overhead 
+Meanwhile, in case of the improved heuristics, it has frequently been shown
+that obtaining better informed results than the popular
+Manhattan or Octile heuristic usually incurs significant memory overhead 
 \cite{sturtevant09,goldberg05,Cazenave:06,bjornsson06}.
-Furthermore it is well known that even heuristics which differ from perfect information 
+Furthermore, it is well known that even heuristics which differ from perfect information 
 by at most a (small) additive constant, can still exhibit poor performance on a range of 
 problems such as AI planning and graph search \cite{helmert08,pohl77}.
 \par
@@ -33,9 +28,7 @@ In high-level terms, such methods can be seen as performing symmetry breaking.
 This approach recognises that there are often many paths of equal length between arbitrary pairs of tiles on a map.
 The main idea then is to decompose the search space in such a way that, given a particular pathfinding problem, it is possible to
 discard from consideration tiles which are on a symmetric path of equal length to the one ultimately returned 
-as the solution\footnote{
-As we will see, this process also has the added advantage of discarding tiles 
-that cannot appear on any optimal path but which must nevertheless be expanded.}.
+as the solution.
 Algorithms of this type have been  shown to produce results that are not only optimal but also memory efficient, 
 particularly when compared with memory-based heuristics.
 Additionally, they can significantly improve search-time performance of the classical A* algorithm; making it competitive,
@@ -44,7 +37,7 @@ on certain types of maps, with suboptimal methods such as HPA* and PRA*.
 In this paper we present Room-based Symmetry Reduction (RSR),
 a new symmetry breaking algorithm which generalises the method described in \cite{harabor10}.
 That work uses an Empty Rectangular Rooms decomposition to convert an arbitrary grid map into an
-equivalent grid map where only tiles on the perimeter of each empty room, and never the interior, need to be explored
+equivalent grid map where only tiles from the perimeter of each empty room need to be explored
 during search (see Figure \ref{fig-overview}).
 %Though effective, the method is limited to 4-connected grid maps where only straight moves, and not diagonal, are
 %allowed.
@@ -52,31 +45,25 @@ We extend their approach from 4-connected grid maps to the much more common 8-co
 and show how the higher branching factor associated 
 with this domain makes effective symmetry elimination more challenging.
 In the process we develop two novel methods for reducing branching factor during search.
-The first is an offline pruning technique that minimises the size of the perimeter associated with an empty room
-that needs to be explored during search.
+The first is an offline pruning technique that reduces the number of nodes which
+need to be explored during search.
 The second is an online optimisation which speeds up node expansion by selectively evaluating either all neighbours
 associated with a particular tile or only a small subset.
 We show that in each case both optimality and completeness are preserved.
 
-We perform a thorough empirical analysis, comparing RSR with existing algorithms~\cite{pochter10,harabor10}
+We perform a thorough empirical analysis, comparing RSR with existing
+symmetry-breaking algorithms~\cite{pochter10,harabor10}
 on a number of synthetic and realistic benchmarks, including one well known set 
 from the popular roleplaying game \emph{Baldur's Gate II}.
-Our analysis allows to identify distinct advantages over both benchmark algorithms.
-
-%
-%
-%Notice that no direct comparison between these methods has been available previously.
-%In previous work, the authors measured their improvements only in comparison
-%with A* on the original, non-abstracted maps.
-%
+Our analysis allows us to identify distinct advantages over both benchmark algorithms.
 Compared to Harabor and Botea's method \shortcite{harabor10}, 
-we both extend the applicablility and improve the speed
+we both extend the applicability and improve the speed
 on the subset of instances where both methods are applicable.
-Furthermore, we show that RSR and the swamp-based method of 
+Furthermore, we show that RSR and the Swamp-based method of 
 \citeauthor{pochter10}~\shortcite{pochter10}
 have complementary strengths but often RSR reaches a better speed-up.
-A closer analysis indicates that swamps are more effective in areas with
-small open areas and their effectivenes reduces on maps with larger open areas.
+A closer analysis indicates that Swamps are more effective in areas with
+small open areas and their effectiveness reduces on maps with larger open areas.
 In contrast, larger open areas allow RSR to build larger empty rooms,
 with a corresponding improvement in its speed performance.
 
@@ -92,7 +79,7 @@ with a corresponding improvement in its speed performance.
        \end{center}
 	\vspace{-3pt}
        \caption{In \cite{harabor10} a 4-connected map is decomposed into a set of obstacle-free rooms from which are pruned all nodes except those on the perimeter.
-				They are replaced with a small set of macro edges that connect the perimeter nodes directly.}
+				They are replaced with a small set of macro edges (arrows) that connect the perimeter nodes directly.}
        \label{fig-overview}
 \end{figure}
 
