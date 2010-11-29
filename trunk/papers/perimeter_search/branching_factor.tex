@@ -5,11 +5,11 @@ Consider an empty room of width $w$ and height $h$ where $w > h$.
 After adding all non-dominated macro edges, each tile has (depending on its position on the perimeter) 
 between $h$ and $2h - 1$ neighbours from the opposite side 
 of the room. 
-In addition, each tile has up to 4 other neighbours from elsewhere inside the same room and up to 3 neighbours located in
-an adjacent room.
+In addition, each tile has up to 4 other neighbours from elsewhere on the perimeter of the same room and
+up to 3 neighbours located in an adjacent room.
 Thus the total branching factor can be as high as $2h + 6$.
 Generally speaking, a linear branching factor is undesirable for two reasons:
-(i) invididual node expansion operations take longer and (ii) additional neighbours usually 
+invididual node expansion operations take longer and additional neighbours usually 
 add more branches to the search tree and make it more difficult to reach the goal.
 \par
 We will address this problem in two ways: (i) by reducing the number of tiles that must be evaluated during search and 
