@@ -1,0 +1,18 @@
+\begin{algorithm}
+\caption{Empty Room Symmetry Reduction}
+\label{alg:rsr}
+\begin{algorithmic}
+\REQUIRE $Map$
+\begin{enumerate}
+\item{\label{alg:rsr:1} Decompose the grid map into a series of empty rooms, rectangular in shape, which are free of any obstacles.}
+\item{\label{alg:rsr:2} Prune all tiles from the interior of each room $R$.}
+%, and any tiles from the
+%perimeter which have no neighbours in any adjacent room.} 
+\item{\label{alg:rsr:3} Add to each empty room $R$ a series of \emph{macro edges} between 
+selected pairs of tiles from the perimeter. The cost of each edge is equal to
+the Octile (or Manhattan, as appropriate) distance between endpoints.}
+\item{\label{alg:rsr:4} During search, temporarily re-insert tiles back into the map to handle cases where the
+start or goal is a location which has been previously pruned.}
+\end{enumerate}
+\end{algorithmic}
+\end{algorithm}
