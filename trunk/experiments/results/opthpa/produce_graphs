@@ -49,13 +49,6 @@ rooms_trend <- cbind(rooms_trend[,1:2], ams(rooms_astar$st/rooms_ohastar$st, roo
 25)[,2:3])
 names(rooms_trend) <- c("opl", "ne_speedup", "st_speedup", "num_exp")
 
-speedup_trendmean <- as.data.frame(mean(bg_astar$ne / bg_ohastar$ne))
-speedup_trendmean <- cbind(speedup_trendmean, mean(bg_astar$st / bg_ohastar$st))
-speedup_trendmean <- cbind(speedup_trendmean, mean(ad_astar$ne / ad_ohastar$ne))
-speedup_trendmean <- cbind(speedup_trendmean, mean(ad_astar$st / ad_ohastar$st))
-speedup_trendmean <- cbind(speedup_trendmean, mean(rooms_astar$ne / rooms_ohastar$ne))
-speedup_trendmean <- cbind(speedup_trendmean, mean(rooms_astar$st / rooms_ohastar$st))
-names(speedup_trendmean) <- c("BG_ne", "BG_st", "AD_ne", "AD_st", "Rooms_ne", "Rooms_st")
 
 # drop points for which we have insufficient experiments
 ad_trend <- ad_trend[ad_trend$num_exp >= 10,]
@@ -136,21 +129,21 @@ ylab="Avg. Speedup Factor", ylim=c(1,10), cex.main=1.5)
 lines(ad4rsr_bfr$st_speedup ~ ad4rsr_bfr$opl, lty=6, type="l")
 lines(ad4rsr_pr$st_speedup ~ ad4rsr_pr$opl, lty=3, type="l")
 lines(ad4rsr_pr_bfr$st_speedup ~ ad4rsr_pr_bfr$opl, lty=4, type="l")
-legend("topleft", c("RRSR", "RRSR+OP", "RRSR+PR", "RRSR+PR+OP"), lty=c(1,6,3,4))
+legend("topleft", c("4ERA", "4ERA+OP", "4ERA+PR", "RSR"), lty=c(1,6,3,4))
 
 plot(bg4rsr$st_speedup ~ bg4rsr$opl, lty=1, type="l", main="B. Search Time Speedup: Baldur's Gate (4C)", xlab="Path Length", 
 ylab="Avg. Speedup Factor", ylim=c(1,5), cex.main=1.5)
 lines(bg4rsr_bfr$st_speedup ~ bg4rsr_bfr$opl, lty=6, type="l")
 lines(bg4rsr_pr$st_speedup ~ bg4rsr_pr$opl, lty=3, type="l")
 lines(bg4rsr_pr_bfr$st_speedup ~ bg4rsr_pr_bfr$opl, lty=4, type="l")
-legend("topleft", c("RRSR", "RRSR+OP", "RRSR+PR", "RRSR+PR+OP"), lty=c(1,6,3,4))
+legend("topleft", c("4ERA", "4ERA+OP", "4ERA+PR", "RSR"), lty=c(1,6,3,4))
 
 plot(rooms4rsr$st_speedup ~ rooms4rsr$opl, lty=1, type="l", main="C. Search Time Speedup: Rooms (4C)", xlab="Path Length", 
 ylab="Avg. Speedup Factor", ylim=c(1,25), cex.main=1.5)
 lines(rooms4rsr_bfr$st_speedup ~ rooms4rsr_bfr$opl, lty=6, type="l")
 lines(rooms4rsr_pr$st_speedup ~ rooms4rsr_pr$opl, lty=3, type="l")
 lines(rooms4rsr_pr_bfr$st_speedup ~ rooms4rsr_pr_bfr$opl, lty=4, type="l")
-legend("topleft", c("RRSR", "RRSR+OP", "RRSR+PR", "RRSR+PR+OP"), lty=c(1,6,3,4))
+legend("topleft", c("4ERA", "4ERA+OP", "4ERA+PR", "RSR"), lty=c(1,6,3,4))
 #dev.off()
 #
 #pdf(width=15, height=5, file="8c_speedup.pdf")
@@ -158,34 +151,34 @@ legend("topleft", c("RRSR", "RRSR+OP", "RRSR+PR", "RRSR+PR+OP"), lty=c(1,6,3,4))
 plot(ad8rsr_pr_bfr$st_speedup ~ ad8rsr_pr_bfr$opl, lty=1, type="l", main="D. Search Time Speedup: Adaptive Depth (8C)",
 xlab="Path Length", ylab="Avg. Speedup Factor", cex.main=1.5, ylim=c(1,10))
 lines(ad8swamps_r6_nc2$st_speedup ~ ad8swamps_r6_nc2$opl, lty=2, type="l")
-legend("topleft", c("RRSR+PR+OP", "Swamps"), lty=c(1,2))
+legend("topleft", c("RSR", "Swamps"), lty=c(1,2))
 
 plot(bg8rsr_pr_bfr$st_speedup ~ bg8rsr_pr_bfr$opl, lty=1, type="l", main="E. Search Time Speedup: Baldur's Gate (8C)",
 xlab="Path Length", ylab="Avg. Speedup Factor", cex.main=1.5, ylim=c(1,10))
 lines(bg8swamps_r6_nc2$st_speedup ~ bg8swamps_r6_nc2$opl, lty=2, type="l")
-legend("topleft", c("RRSR+PR+OP", "Swamps"), lty=c(1,2))
+legend("topleft", c("RSR", "Swamps"), lty=c(1,2))
 
 plot(rooms8rsr_pr_bfr$st_speedup ~ rooms8rsr_pr_bfr$opl, lty=1, type="l", main="F. Search Time Speedup: Rooms (8C)",
 xlab="Path Length", ylab="Avg. Speedup Factor", cex.main=1.5, ylim=c(1,10))
 lines(rooms8swamps_r6_nc2$st_speedup ~ rooms8swamps_r6_nc2$opl, lty=2, type="l")
-legend("topleft", c("RRSR+PR+OP", "Swamps"), lty=c(1,2))
+legend("topleft", c("RSR", "Swamps"), lty=c(1,2))
 #dev.off()
 
 
 plot(ad8rsr_3x3_pr_bfr$st_speedup ~ ad8rsr_3x3_pr_bfr$opl, lty=1, type="l", main="G. Search Time Speedup: Adaptive Depth Blowup (8C)",
 xlab="Path Length", ylab="Avg. Speedup Factor", cex.main=1.5, ylim=c(1,20))
 lines(ad8swamps_3x3_r6_nc2$st_speedup ~ ad8swamps_3x3_r6_nc2$opl, lty=2, type="l")
-legend("topleft", c("RRSR+PR+OP", "Swamps"), lty=c(1,2))
+legend("topleft", c("RSR", "Swamps"), lty=c(1,2))
 
 plot(bg8rsr_3x3_pr_bfr$st_speedup ~ bg8rsr_3x3_pr_bfr$opl, lty=1, type="l", main="H. Search Time Speedup: Baldur's Gate Blowup (8C)",
 xlab="Path Length", ylab="Avg. Speedup Factor", cex.main=1.5, ylim=c(1,10))
 lines(bg8swamps_3x3_r6_nc2$st_speedup ~ bg8swamps_3x3_r6_nc2$opl, lty=2, type="l")
-legend("topleft", c("RRSR+PR+OP", "Swamps"), lty=c(1,2))
+legend("topleft", c("RSR", "Swamps"), lty=c(1,2))
 
 plot(rooms8rsr_3x3_pr_bfr$st_speedup ~ rooms8rsr_3x3_pr_bfr$opl, lty=1, type="l", main="I. Search Time Speedup: Rooms Blowup (8C)",
 xlab="Path Length", ylab="Avg. Speedup Factor", cex.main=1.5, ylim=c(1,40))
 lines(rooms8swamps_3x3_r6_nc2$st_speedup ~ rooms8swamps_3x3_r6_nc2$opl, lty=2, type="l")
-legend("topleft", c("RRSR+PR+OP", "Swamps"), lty=c(1,2))
+legend("topleft", c("RSR", "Swamps"), lty=c(1,2))
 dev.off()
 
 
@@ -195,7 +188,7 @@ lines(ad8rsr_bfr$st_speedup ~ ad8rsr_bfr$opl, lty=6, type="l")
 lines(ad8rsr_pr$st_speedup ~ ad8rsr_pr$opl, lty=3, type="l")
 lines(ad8rsr_pr_bfr$st_speedup ~ ad8rsr_pr_bfr$opl, lty=4, type="l")
 lines(ad8swamps_r6_nc2$st_speedup ~ ad8swamps_r6_nc2$opl, lty=2, type="l")
-legend("topleft", c("RRSR", "RRSR+OP", "RRSR+PR", "RRSR+PR+OP", "Swamps"), lty=c(1,6,3,4,2))
+legend("topleft", c("RRSR", "RRSR+OP", "RRSR+PR", "RSR", "Swamps"), lty=c(1,6,3,4,2))
 
 plot(bg8rsr$st_speedup ~ bg8rsr$opl, lty=1, type="l", main="E. Search Time Speedup: Baldur's Gate (8C)", xlab="Path Length", 
 ylab="Avg. Speedup Factor", ylim=c(1,10), cex.main=1.5)
@@ -203,7 +196,7 @@ lines(bg8rsr_bfr$st_speedup ~ bg8rsr_bfr$opl, lty=6, type="l")
 lines(bg8rsr_pr$st_speedup ~ bg8rsr_pr$opl, lty=3, type="l")
 lines(bg8rsr_pr_bfr$st_speedup ~ bg8rsr_pr_bfr$opl, lty=4, type="l")
 lines(bg8swamps_r6_nc2$st_speedup ~ bg8swamps_r6_nc2$opl, lty=2, type="l")
-legend("topleft", c("RRSR", "RRSR+OP", "RRSR+PR", "RRSR+PR+OP", "Swamps"), lty=c(1,2,3,4,5))
+legend("topleft", c("RRSR", "RRSR+OP", "RRSR+PR", "RSR", "Swamps"), lty=c(1,2,3,4,5))
 
 plot(rooms8rsr$st_speedup ~ rooms8rsr$opl, lty=1, type="l", main="F. Search Time Speedup: Rooms (8C)", xlab="Path Length", 
 ylab="Avg. Speedup Factor", ylim=c(1,10), cex.main=1.5)
@@ -211,4 +204,4 @@ lines(rooms8rsr_bfr$st_speedup ~ rooms8rsr_bfr$opl, lty=6, type="l")
 lines(rooms8rsr_pr$st_speedup ~ rooms8rsr_pr$opl, lty=3, type="l")
 lines(rooms8rsr_pr_bfr$st_speedup ~ rooms8rsr_pr_bfr$opl, lty=4, type="l")
 lines(rooms8swamps_r6_nc2$st_speedup ~ rooms8swamps_r6_nc2$opl, lty=2, type="l")
-legend("topleft", c("RRSR", "RRSR+OP", "RRSR+PR", "RRSR+PR+OP", "Swamps"), lty=c(1,6,3,4,2))
+legend("topleft", c("RRSR", "RRSR+OP", "RRSR+PR", "RSR", "Swamps"), lty=c(1,6,3,4,2))
