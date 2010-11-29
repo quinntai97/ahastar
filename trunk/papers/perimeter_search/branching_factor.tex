@@ -79,20 +79,23 @@ However, if the parent and the current node belong to the same room, process onl
 The ``Fast Node Expansion'' strategy preserves optimality during search.
 \end{lemma}
 \begin{proof}
+We just provide a proof sketch. 
 Let $m$ be a node on the perimeter of a room. Assume that its parent $p$ belongs
 to the same room.
 Let $n$ be a secondary successor of $m$.
 Recall that $n$ and $m$ are on opposite sides of the room.
 We argue below that passing through $m$ cannot possibly improve the 
 best path between $p$ and $n$.
-Therefore, there is no need to consider $m,n$ macro-edges in search.
+Therefore, there is no need to consider $(m,n)$ macro-edges
+when $m$ and $p$ belong to the same room.
 
 There are four cases when a node $m$ and its parent $p$ belong to the
 same room. In case 1, $p$ is the start node and is placed inside the room.
 Obviously, the path segment $p,m,n$ is suboptimal, as we zigzag from $p$ to one
-edge and then to the opposite edge. 
-In case 2, 3, and 4, $p$ and $m$ are opposite edges, on ortoghonal edges, and on the same
-edge, respectively.
+edge and then to the opposite edge of the room.
+In cases 2, 3, and 4, $p$ and $m$ are on opposite edges, on ortoghonal edges, and on the same
+edge, respectively. As in case 1, it is possible to check in each case that
+taking a detour through $m$ does not improve the shortest path between $p$ and $n$.
 \end{proof}
 
 %Let $R$ be an empty room in an 8-connected grid map.
