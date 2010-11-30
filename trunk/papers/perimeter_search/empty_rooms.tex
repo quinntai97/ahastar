@@ -5,7 +5,7 @@
        \end{center}
        \caption{A pathfinding instance with high symmetry. We highlight the
 eventual solution returned by A* (strong line) and a number of symmetric 
-alternatives (dashed lines). Grey tiles are expanded during search. }
+alternatives (dashed lines). All but one grey tiles must expanded during search. }
        \label{fig-symmetry}
 		\vspace{-0.5em}
 \end{figure}
@@ -14,21 +14,27 @@ length paths connecting arbitrary pairs of nodes in a graph.
 Symmetry is undesirable in this case as it forces search algorithms to evaluate 
 many equivalent states and prevents real progress toward the goal.
 
-As a motivating example, consider the pathfinding instance in Figure
-\ref{fig-symmetry}. Notice that this problem has many solutions and that A* will
+As a motivating example, consider the pathfinding instance in Figure~\ref{fig-symmetry}. 
+Notice that this problem has many solutions and that A* will
 discover them all before returning even one. This situation is typical in many
 types of grid maps but particularly in cases where large open areas must be
 traversed in order to reach the goal.
-We will deal with this problem by using the following high-level strategy to
+In addition, notice that most (all but one) gray locations must be expanded
+in standard A* search, since their $f$
+value is smaller than the $f$ value of the target. Yet, the Octile heuristic
+for these tiles is almost perfect, differing from the perfect value by at most 2.
+Therefore, an almost perfect heuristic in pathfinding could still require
+expanding many nodes on the map.
+
+We will deal with symmetries by using the following high-level strategy to
 identify and eliminate path symmetries from uniform cost grid maps:
 \input alg_rsr
-
 
 In \cite{harabor10} the same approach is used to develop the 4ERR algorithm.
 Here, we extend that work as follows:
 \begin{enumerate}
 \item{
-We modify Step \ref{alg:rsr:2} of Algorithm \ref{alg:rsr} 
+We extend Step \ref{alg:rsr:2} of Algorithm \ref{alg:rsr} 
 to include pruning of nodes from the perimeter of an empty room.
 }
 \item{
@@ -46,8 +52,9 @@ In particular, the branching factor associated with each remaining perimeter til
 can become linear in the size of the largest dimension (length or width) of the local room. 
 This number is often much larger than 8. 
 By comparison, on a 4-connected map no tile requires more than one macro-edge 
-to retain optimality and thus the branching factor remains low. 
-Keeping the branching factor within reasonable limits is the primary motivation
+to retain optimality and thus the branching factor remains low.
+Keeping the branching factor within reasonable limits on 8-connected maps
+is the primary motivation
 for our final enhancement: a novel online pruning strategy which attempts to
 reduce the number of neighbours that need to be considered during each node 
 expansion operation.

@@ -28,7 +28,7 @@ $\lbrace t_1, t_2, t_3 \rbrace$.
 (Bottom) Each tile on the perimeter is connected to a set of tiles on the opposite side of the room.}
        \label{fig-macroedges}
 \end{figure}
-We claim this method preserves optimality when traversing arbitrary rooms in an 8-connected grid map.
+We claim this method preserves optimality when traversing arbitrary empty rooms in an 8-connected grid map.
 \begin{lemma}
 \label{lemma-rooms}
 Let $R$ be an empty rectangular room in an 8-connected grid map.
@@ -72,7 +72,8 @@ Each fan connects the start (target) node to a set of nodes on one side of the r
 The procedure is very similar to step 2 in the offline procedure: the fan should not go beyond tiles
 placed diagonally with respect to the start (goal) tile at hand.}
 \end{enumerate}
-In an efficient implementation it is possible to identify in constant time the set of tiles which 
+Given the simple geometry of rectangular rooms,
+in an efficient implementation it is possible to identify in constant time the set of tiles which 
 the start or goal must be connected to.
 Further, these neighbours could be generated on the fly.
 This means the time complexity associated with insertion can be as low as $O(1)$.
@@ -93,7 +94,7 @@ node on the perimeter of $R$, in each case substituting $m$ for the newly insert
 %location to any tile on the perimeter of the start or goal room. 
 %\par \noindent
 %\newline
-We claim that the symmetry elimination procedure outlined in this section does not affect the optimality of solutions:
+We claim that the symmetry elimination procedure outlined in this section preserves the optimality of solutions:
 \begin{theorem}
 For every optimal path $\pi$ on an original grid, there exists an optimal path $\pi'$ on the modified graph with the property
 that $\pi$ and $\pi'$ have the same cost.

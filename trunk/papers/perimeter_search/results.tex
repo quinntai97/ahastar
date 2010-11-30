@@ -29,11 +29,12 @@ a speedup of 2.0 is twice as fast, 3.0 is three times as fast and so on
 In Figure \ref{fig-speedup} (A to C) we report on the 
 effectiveness of offline perimeter reduction (PR) and online 
 node pruning (OP) to speeding up A*.
-Our baseline is the 4ERR algorithm originally described by \citeauthor{harabor10}~\shortcite{harabor10}.
+The comparison includes not only our system
+but also the 4ERR algorithm originally described by \citeauthor{harabor10}~\shortcite{harabor10}.
+Furtheremore, to measure the individual impact of each of our speedup enhancements
+we develop and include in the comparison two intermediate algorithms: 4ERR+OP and 4ERR+PR.
 Here we restrict our attention to 4-connected grid maps,
 since 4ERR does not work on the 8-connected variant.
-In order to measure the individual impact of each of our speedup enhancements
-we develop two intermediate algorithms: 4ERR+OP and 4ERR+PR.
 \par
 Perhaps the first thing to note is that RSR shows a convincing 
 speed-up improvement over 4ERR and all its variants across all input maps.
@@ -79,10 +80,11 @@ This leads to larger search spaces and reduced performance.
 Next, we compare the speedup performance of RSR with the swamps algorithm
 of \citeauthor{pochter10}~\shortcite{pochter10}.
 To undertake our evaluation, we used the authors' source code and ran all experiments 
-using their recommended running parameters\footnote{To the best of our knowledge 
-these parameters are unpublished; they were recommended to us in a private
-communication.}:
- a swamp seed radius of 6 and ``no change limit'' of 2.
+using their recommended running parameters:
+%\footnote{To the best of our knowledge 
+%these parameters are unpublished; they were recommended to us in a private
+%communication.}:
+a swamp seed radius of 6 and ``no change limit'' of 2.
 \par
 Figure \ref{fig-speedup} (D to F) gives search time speedup results for both 
 RSR and swamps running on the 8-connected variants of our three benchmark 
