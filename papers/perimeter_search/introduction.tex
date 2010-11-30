@@ -1,9 +1,10 @@
 \section{Introduction}
 Pathfinding systems which operate on regular grids are commonly found in
 academic literature; for example in application areas such as robotics 
-\cite{choset05}, video games \cite{botea04,sturtevant05,bjornsson06} and 
+\cite{choset05} and video games \cite{botea04,sturtevant05,bjornsson06}.
 %planning \cite{thayer10,DBLP:conf/aips/HernandezMSK09,DBLP:conf/aips/WangB08,DBLP:conf/aips/BulitkoBLSS07}.
-planning \cite{DBLP:conf/aips/ThayerR09,DBLP:conf/aips/HernandezMSK09,DBLP:conf/aips/WangB08,DBLP:conf/aips/BulitkoBLSS07}.
+Path planning on grid maps has been a common theme in the ICAPS 
+conference~\cite{DBLP:conf/aips/ThayerR09,DBLP:conf/aips/HernandezMSK09,DBLP:conf/aips/WangB08,DBLP:conf/aips/BulitkoBLSS07}.
 \par
 In the context of single-agent pathfinding, and real-time video games in particular, 
 it is often the case that queries sent to the pathfinding system  need to be solved as quickly as possible.
@@ -18,19 +19,31 @@ However, they have the disadvantage that solutions are not guaranteed to be opti
 Meanwhile, in case of the improved heuristics, it has frequently been shown
 that obtaining better informed results than the popular
 Manhattan or Octile heuristic usually incurs significant memory overhead 
-\cite{sturtevant09,goldberg05,Cazenave:06,bjornsson06}.
+\cite{sturtevant09,goldberg05,Cazenave:06}. %,bjornsson06}.
 Furthermore, it is well known that even heuristics which differ from perfect information 
 by at most a (small) additive constant, can still exhibit poor performance on a range of 
 problems such as AI planning and graph search \cite{helmert08,pohl77}.
+We will illustrate with an example (Figure~\ref{fig-symmetry})
+that a similar phenomenon could be observed in pathfinding on grids.
 \par
-Very recently a third class of methods, based on the idea of search space
-reduction, has emerged as a promising alternative for speeding up pathfinding
-search.
-Algorithms of this type \cite{bjornsson06,pochter10,harabor10} are shown to produce 
+Recent work \cite{bjornsson06,pochter10,harabor10}
+has introduced techniques that aim at eliminating drawbacks
+such as a large memory overhead or solution suboptimality.
+Algorithms of this type are shown to produce 
 results that are not only optimal but also memory efficient, particularly when compared 
 with memory-based heuristics.
 Additionally, they can significantly improve the performance of well known graph
 search algorithms such as A*.
+Our contributions fit into this category.
+%
+%Very recently a third class of methods, based on the idea of search space
+%reduction, has emerged as a promising alternative for speeding up pathfinding
+%search.
+%Algorithms of this type \cite{bjornsson06,pochter10,harabor10} are shown to produce 
+%results that are not only optimal but also memory efficient, particularly when compared 
+%with memory-based heuristics.
+%Additionally, they can significantly improve the performance of well known graph
+%search algorithms such as A*.
 \par
 In this paper we present Room-based Symmetry Reduction (RSR): a
 symmetry-breaking search space reduction algorithm which recognises 
@@ -70,6 +83,8 @@ We conclude that swamps are better suited for maps with
 small open areas and their effectiveness reduces on maps with larger open areas.
 In contrast, larger open areas allow RSR to build larger empty rooms and in such
 cases there is a corresponding improvement in its search performance.
+In particular, our results show a wide range of instances where
+RSR is clearly the better choice, dominating convincingly the benchmark algorithms.
 
 
 %TODO bring up to date and integrate in text

@@ -2,7 +2,7 @@
 The branching factor associated with each tile on the perimeter of an empty room (in an 8-connected 
 grid map) is dependent on the dimensions of the room.
 Consider an empty room of width $w$ and height $h$ where $w > h$.
-After adding all non-dominated macro edges, each tile has (depending on its position on the perimeter) 
+After adding all macro edges, each tile has (depending on its position on the perimeter) 
 between $h$ and $2h - 1$ neighbours from the opposite side 
 of the room. 
 In addition, each tile has up to 4 other neighbours from elsewhere on the perimeter of the same room and
@@ -18,7 +18,8 @@ The first method is an offline technique that prunes tiles from the perimeter of
 The second is an online pruning strategy which we apply during individual node expansions.
 We will discuss both methods in the context of 8-connected grid maps however
 they are equally applicable to 4-connected grid maps also.
-\par \noindent \newline
+%\par \noindent \newline
+
 \textbf{Perimeter Reduction:}
 We observe that in many cases there are tiles on the perimeter of an empty room which have no neighbours from any 
 adjacent room. 
@@ -38,22 +39,21 @@ A* on certain types of maps.
        \caption{(Top) From each empty room we prune all (dark grey) tiles which have no neighbours in any adjacent room. 
 Remaining tiles are then connected directly.
 \\
-		(Bottom) A path enters an empty room at tile $t_{1}$ and exits at tile $t_{3}$. Notice that once
-$t_{1}$ is expanded we generate $t_{2}$. The edge ($t_{1}$, $t_{2}$) is an optimal traversal to the opposite side of the room.
-This allows us to ignore all secondary neighbours of nodes descended from $t_{1}$ in the search
-tree (e.g $t_{4}, t_{5}, t_{6}$).
+		(Bottom) Assume that $t_{1}$ is the parent of $t_2$. When $t_2$ is expanded,
+there is no need to generate its secondary neighbors, which are on the same side as $t_1$.
+These can be reached on a shorter path directly from $t_1$ without passing through $t_2$.
 }
        \label{fig-branching}
 \end{figure}
 
-\par \noindent \newline
+%\par \noindent \newline
 \textbf{Online Node Pruning:} 
 Ensuring optimality during search requires connecting each tile on the perimeter
 of an empty room to a linear number of neighbours on the opposite side of the
 room.
 This is undesirable as each node expansion then becomes a linear time operation. 
 %By comparison, on an unmodified 8-connected grid map, each node expansion takes constant time.
-We will improve this situation by developing a node expansion strategy which can, in many cases, skip all neighbours from 
+We develop a node expansion strategy which can, in many cases, skip all neighbours from 
 the opposite side of the room (and therefore run in constant time).
 Our strategy works as follows (an example is given in Figure \ref{fig-branching}
 (Bottom)):
@@ -94,8 +94,8 @@ same room. In case 1, $p$ is a re-inserted tile from the interior of the room.
 Obviously, the path segment $p,m,n$ is suboptimal, as we zigzag from $p$ to $m$
 on one side of the room and then via a secondary edge to $n$ on the opposite
 side of the room.
-In cases 2, 3, and 4, $p$ and $m$ are on opposite or orthogonal sides of the
-room. As in case 1, it is possible to check in each case that
+In cases 2, 3, and 4, $p$ and $m$ are on opposite sides, on orthogonal sides or 
+on the same side of the room. As in case 1, it is possible to check in each case that
 taking a detour through $m$ does not improve the shortest path between $p$ and $n$.
 \end{proof}
 
