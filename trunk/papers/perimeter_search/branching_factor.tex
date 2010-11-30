@@ -8,7 +8,7 @@ of the room.
 In addition, each tile has up to 4 other neighbours from elsewhere on the perimeter of the same room and
 up to 3 neighbours located in an adjacent room.
 Thus the total branching factor can be as high as $2h + 6$.
-Generally speaking, a linear branching factor is undesirable as invididual node expansion operations 
+Generally speaking, a linear branching factor is undesirable as individual node expansion operations 
 take longer and additional neighbours usually add more branches to the search tree and make it more 
 difficult to reach the goal.
 \par
@@ -94,7 +94,7 @@ same room. In case 1, $p$ is a re-inserted tile from the interior of the room.
 Obviously, the path segment $p,m,n$ is suboptimal, as we zigzag from $p$ to $m$
 on one side of the room and then via a secondary edge to $n$ on the opposite
 side of the room.
-In cases 2, 3, and 4, $p$ and $m$ are on opposite or ortoghonal sides of the
+In cases 2, 3, and 4, $p$ and $m$ are on opposite or orthogonal sides of the
 room. As in case 1, it is possible to check in each case that
 taking a detour through $m$ does not improve the shortest path between $p$ and $n$.
 \end{proof}
