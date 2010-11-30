@@ -1,23 +1,31 @@
 \section{Rooms-based Symmetry Reduction}
+\begin{figure}[]
+       \begin{center}
+                       \includegraphics[scale=0.30]{diagrams/symmetry_example.png}
+       \end{center}
+       \caption{A pathfinding instance with high symmetry. We highlight the
+eventual solution returned by A* (strong line) and a number of symmetric 
+alternatives (dashed lines). Grey tiles are expanded during search. }
+       \label{fig-symmetry}
+		\vspace{-0.5em}
+\end{figure}
 In a pathfinding context, search space symmetry manifests itself as identical
 length paths connecting arbitrary pairs of nodes in a graph. 
 Symmetry is undesirable in this case as it forces search algorithms to evaluate 
 many equivalent states and prevents real progress toward the goal.
-For example, the $f$-value associated with a node $n$ lying along an arbitrary
- path segment is identical to the $f$-values of all its symmetric counterparts.
-In order to gurantee optimality, search algorithms such as A* will always prioritise
-nodes with smaller $f$-values over those with higher $f$-values. This leads to
-necessarily expanding $n$ and all its counterparts before examining any other
-nodes which may lie closer to the goal.
-\par
-%% DH: Do we need to discuss/motivate symmetry in grid maps?
-% Would an example/figure be helpful here? 
-We will use the following high-level strategy to identify and eliminate 
-path symmetries from arbitrary uniform-cost grid maps: 
+
+As a motivating example, consider the pathfinding instance in Figure
+\ref{fig-symmetry}. Notice that this problem has many solutions and that A* will
+discover them all before returning even one. This situation is typical in many
+types of grid maps but particularly in cases where large open areas must be
+traversed in order to reach the goal.
+We will deal with this problem by using the following high-level strategy to
+identify and eliminate path symmetries from uniform cost grid maps:
 \input alg_rsr
-\\
-In \cite{harabor10} the same approach is used to develop the 4ERA algorithm.
-Here, we extend that work in two directions:
+
+
+In \cite{harabor10} the same approach is used to develop the 4ERR algorithm.
+Here, we extend that work as follows:
 \begin{enumerate}
 \item{
 We modify Step \ref{alg:rsr:2} of Algorithm \ref{alg:rsr} 
@@ -27,10 +35,12 @@ to include pruning of nodes from the perimeter of an empty room.
 We modify Steps \ref{alg:rsr:3} and \ref{alg:rsr:4} of Algorithm
 \ref{alg:rsr} in order to facilitate optimal room traversal in 8-connected grid
 maps. 
+\item{We introduce a new online pruning strategy that allows faster node
+expansion and further speeds up search.}
 }
 \end{enumerate}
 As we will see, the first enhancement can significantly reduce the number of nodes
-in the search space and results in a considerable speedup when compared to 4ERA.
+in the search space and results in a considerable speedup when compared to 4ERR.
 The genralisation to 8-connected grids however is more challenging.
 In particular, the branching factor associated with each remaining perimeter tile 
 can become linear in the size of the largest dimension (length or width) of the local room. 
@@ -42,7 +52,7 @@ for our final enhancement: a novel online pruning strategy which attempts to
 reduce the number of neighbours that need to be considered during each node 
 expansion operation.
 \par
-Both speedup enhancements, which we introduce in the following two sections, 
+Both speedup enhancements, which we discuss in an upcoming section,
 are applicable to 4 and 8-connected grid maps and both preserve optimality
 during search.
 We term the resultant algorithm \emph{Rooms-based Symmetry Reduction} 

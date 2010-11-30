@@ -6,7 +6,7 @@ grid maps.
 We undertake an analysis of RSR on a range of benchmarks from the
 literature and show our new algorithm is up to 36 times faster than
 traditional A* running on an umodified grid map.
-Further, we show that RSR is up to five times faster than two recent
+Further, we show that RSR can be up to five times faster than two recent
 state-of-the-art search space reduction techniques.
 \par
 We demonstrate that RSR is not only more generally applicable
@@ -15,16 +15,16 @@ than the algorithm of \citeauthor{harabor10}~\shortcite{harabor10}
 instances where both methods can be applied (i.e., 4-connected maps).
 We also compare RSR with the swamps-based reduction
 of \citeauthor{pochter10}~\shortcite{pochter10}.
-We show that the two algorithms have complementary strengths and that there are many
-instances where RSR is the better choice.
-In our experiments swamps appear to be more useful in areas with small open areas
+We show that the two algorithms have complementary strengths and identify 
+classes of instances where either RSR or swamps is more suitable.
+In our experiments swamps appear to be more useful on maps with small open areas
 while RSR becomes more effective as larger open areas are available on a map.
 \par
 Our speedup technique is quite different from traditional approaches 
 that include hierarchical abstraction and memory-based heuristics.
 While also effective, both of these methods have their shortcomings.
 For example, hierarchical algorithm such as HPA*~\cite{botea04} and 
-PRA*~\cite{sturtevant07} are fast and memory-effective but produce 
+PRA*~\cite{sturtevant05} are fast and memory-effective but produce 
 sub-optimal paths.
 Memory-based admissible heuristics preserve the optimality of 
 solutions but carry a significant memory overhead~

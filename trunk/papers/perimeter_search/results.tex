@@ -25,44 +25,44 @@ grid maps as compared to the original. Using this metric
 a speedup of 2.0 is twice as fast, 3.0 is three times as fast and so on
 (higher is better).
 
-\textbf{Comparison with 4ERA and Impact of PR and OP:}
+\textbf{Comparison with 4ERR and Impact of PR and OP:}
 In Figure \ref{fig-speedup} (A to C) we report on the 
 effectiveness of offline perimeter reduction (PR) and online 
 node pruning (OP) to speeding up A*.
-Our baseline is the 4ERA algorithm originally described by \citeauthor{harabor10}~\shortcite{harabor10}.
+Our baseline is the 4ERR algorithm originally described by \citeauthor{harabor10}~\shortcite{harabor10}.
 Here we restrict our attention to 4-connected grid maps,
-since 4ERA does not work on the 8-connected variant.
+since 4ERR does not work on the 8-connected variant.
 In order to measure the individual impact of each of our speedup enhancements
-we develop two intermediate algorithms: 4ERA+OP and 4ERA+PR.
+we develop two intermediate algorithms: 4ERR+OP and 4ERR+PR.
 \par
 Perhaps the first thing to note is that RSR shows a convincing 
-speed-up improvement over 4ERA and all its variants across all input maps.
+speed-up improvement over 4ERR and all its variants across all input maps.
 %In addition, our work broadens the applicability of empty room abstraction
 %to 8-connected maps.
 %These two features allow us to conclude that using our enhancements is a better
-%choice than using 4ERA alone.
-This allows us to conclude that that RSR is a better choice than 4ERA on
+%choice than using 4ERR alone.
+This allows us to conclude that that RSR is a better choice than 4ERR on
 4-connected maps.
 \par
 When analysing the impact of each enhancement,
 we note that the single biggest improvement on each
-benchmark is observed when applying perimeter reduction to the basic 4ERA method.
-In the case of the Rooms benchmark (Figure \ref{fig-speedup}C) 4ERA+PR is over
+benchmark is observed when applying perimeter reduction to the basic 4ERR method.
+In the case of the Rooms benchmark (Figure \ref{fig-speedup}C) 4ERR+PR is over
 18 times faster than A* search on an unmodified grid map.
-Meanwhile, 4ERA alone only manages a 2 times speedup.
+Meanwhile, 4ERR alone only manages a 2 times speedup.
 Smaller but still significant gains are also observed on the remaining two benchmarks:
-on Adaptive Depth (Figure \ref{fig-speedup}A) 4ERA+PR is twice as fast as 4ERA alone
-and on Baldur's Gate (Figure \ref{fig-speedup}B) 4ERA+PR improves on
-the performance of 4ERA by over 10\%.
-By comparison, 4ERA+OP yields much smaller gains across the same
-benchmarks: usually beating 4ERA by between 10-12\%
+on Adaptive Depth (Figure \ref{fig-speedup}A) 4ERR+PR is twice as fast as 4ERR alone
+and on Baldur's Gate (Figure \ref{fig-speedup}B) 4ERR+PR improves on
+the performance of 4ERR by over 10\%.
+By comparison, 4ERR+OP yields much smaller gains across the same
+benchmarks: usually beating 4ERR by between 10-12\%
 In an additional experiment, we evaluated the impact of OP on 8-connected
 grids and observed that its contribution to speedup was more significant than in 
 the 4-connected case.
-This can be explained as follows: on 4-connected maps, 4ERA maintains a very low
+This can be explained as follows: on 4-connected maps, 4ERR maintains a very low
 branching factor, which is comparable (and even slightly better) than the branching
 factor on the original map. 
-On the other hand, 8ERA (i.e. RSR without OP and PR speedup enhancements) 
+On the other hand, 8ERR (i.e. RSR without OP and PR speedup enhancements) 
 can introduce larger branching factors. Therefore, there are more opportunities for 
 online pruning in the latter case. 
 Other details (and charts) are left out because of room limitations.
@@ -108,7 +108,7 @@ we scaled up each map in every benchmark by a factor of 3 and generated a new
 set of 100 random problem instances per map.
 Scaling each of the benchmarks in this way has the effect of producing larger open areas and allows 
 us to measure the impact of this variable on search time speedup.
-In fhe following analysis we will contrast the new
+In the following analysis we will contrast the new
 results with the observed speedup for problems of the same length on the un-scaled maps.
 \par
 Figure \ref{fig-speedup} (G to I) gives search time speedup performance for both RSR and swamps
@@ -139,13 +139,13 @@ The observed performance characteristics of both swamps and RSR
 are not unexpected.
 The complementary tendencies of the two algorithms
 are consistent with the fact that 
-the basic ideas behind swamps and Empty Room Abstraction are quite different:
+the basic ideas behind swamps and Empty Rectangular Rooms are quite different:
 %By definition, a swamp requires that any two nodes adjacent to the swamp
 %can be connected through an optimal path that does not intersect with the swamp.
 %In contrast, in the case of empty rectangular rooms, 
 %crossing the room is the only way to connect optimally nodes on (distinct edges of) the perimeter.
 swamps prune out areas that can be avoided without introducing a detour while 
-rectangle abstraction allows for a faster exploration of areas that need to be searched.
+rectangle-based symmetry reduction allows for a faster exploration of areas that need to be searched.
 %\par
 %In the case of RSR we would expect performance to improve as the average size of
 %rectangular rooms increases.
@@ -158,5 +158,5 @@ rectangle abstraction allows for a faster exploration of areas that need to be s
 %\par
 Since it appears that the two algorithms are orthogonal, a natural extension of this work would 
 be to create a new symmetry-based search space reduction which combines the two: 
-first, apply 4(or 8)ERA+PR (as appropriate) to a grid in order to eliminate as many interior tiles 
+first, apply 4(or 8)ERR+PR (as appropriate) to a grid in order to eliminate as many interior tiles 
 as possible; then, apply a swamps-based decomposition to the resultant graph.
