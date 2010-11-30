@@ -1,6 +1,6 @@
 \section{Generalising to 8-Connected Grid Maps}
 Successfully applying Algorithm \ref{alg:rsr} to 8-connected grid maps 
-involves adding a minimum set of macro-edges between selected pairs of 
+involves adding a set of macro-edges between selected pairs of 
 tiles on the perimeter of each empty rectangular room. 
 We outline this process in two steps: 
 \par
@@ -8,7 +8,7 @@ In the first step (Figure \ref{fig-macroedges} top), we add a series of macro
 edges between pairs of perimeter tiles on orthogonal sides of $R$. 
 We connect two tiles only if the proposed macro edge represents a path through the interior of $R$ that involves
 only diagonal transitions. Notice that this operation maintains the branching factor low.
-It introduces no more than one macro-edge per tile.
+It introduces no more than two macro-edges per tile.
 \par
 In the second step (Figure \ref{fig-macroedges} bottom), we add a series of macro 
 edges between pairs of perimeter tiles on opposite sides of $R$.
@@ -46,10 +46,12 @@ There are three cases to consider:
 \end{enumerate}
 In the first case we can simply walk along the perimeter from $m$ to $n$; the optimality of this path is immediate. 
 In the second and third case we argue as follows: if $m$ and $n$ are not connected by a macro edge
-we can walk along the perimeter from $m$ to an intermediate node $m'$ and follow a macro edge to a node $n'$ on the 
-same side of the perimeter as $n$. Finally, we walk along the perimeter from $n'$ to $n$.
-The length of this path is equal to the octile distance between $m$ and $n$ and therefore optimal
-\footnote{Note that $m' = m$ or $n' = n$ (or both).}.
+we can walk along the perimeter from $m$ to the first intermediate node $m'$
+which has a macro-edge incident with $n$. 
+Since $m'$ is the first such node, the weight of the macro-edge $(m', n)$ is equal to
+the diagonal distance between $m'$ and $n$. 
+It is now easy to show that the length of the resultant path ${m, m', n}$ is equal to the octile distance between 
+$m$ and $n$ and therefore optimal.
 \end{proof}
 
 \noindent
@@ -58,7 +60,8 @@ It is often the case that a tile from the interior of an empty room is required 
 agent. 
 To handle such situations we give an online procedure that temporarily re-inserts tiles back into the map for the duration
 of a search. 
-Our method is an adaptation of \citeauthor{harabor10}'s re-insertion algorithm to 8-connected grids.
+Our method is an adaptation of \citeauthor{harabor10}'s re-insertion algorithm
+that specifically deals with 8-connected grids.
 It proceeds as follows:
 
 \begin{enumerate}
@@ -69,9 +72,10 @@ Each fan connects the start (target) node to a set of nodes on one side of the r
 The procedure is very similar to step 2 in the offline procedure: the fan should not go beyond tiles
 placed diagonally with respect to the start (goal) tile at hand.}
 \end{enumerate}
-%It is possible to identify, in constant time, the set of tiles which the start or goal must be connected to.
-%Further, in an efficient implementation, we could generate these neighbours on the fly.
-%This means the time complexity associated with insertion can be as low as $O(1)$.
+In an efficient implementation it is possible to identify in constant time the set of tiles which 
+the start or goal must be connected to.
+Further, these neighbours could be generated on the fly.
+This means the time complexity associated with insertion can be as low as $O(1)$.
 \begin{lemma}
 \label{lemma-insertion}
 Let $R$ be an empty rectangular room in an 8-connected grid map.
