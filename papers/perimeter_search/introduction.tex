@@ -2,7 +2,8 @@
 Pathfinding systems which operate on regular grids are commonly found in
 academic literature; for example in application areas such as robotics 
 \cite{choset05}, video games \cite{botea04,sturtevant05,bjornsson06} and 
-planning \cite{thayer10,DBLP:conf/aips/HernandezMSK09,DBLP:conf/aips/WangB08,DBLP:conf/aips/BulitkoBLSS07}.
+%planning \cite{thayer10,DBLP:conf/aips/HernandezMSK09,DBLP:conf/aips/WangB08,DBLP:conf/aips/BulitkoBLSS07}.
+planning \cite{DBLP:conf/aips/ThayerR09,DBLP:conf/aips/HernandezMSK09,DBLP:conf/aips/WangB08,DBLP:conf/aips/BulitkoBLSS07}.
 \par
 In the context of single-agent pathfinding, and real-time video games in particular, 
 it is often the case that queries sent to the pathfinding system  need to be solved as quickly as possible.
@@ -38,7 +39,7 @@ grid map.
 The main idea then is to decompose the map in such a way that, 
 given a particular pathfinding problem, it is possible to discard from consideration tiles which are on 
 a symmetric path of equal length to the one ultimately returned as the solution.
-RSR which uses an Empty Rectangular Rooms (ERR) decomposition, originally described in
+RSR uses an Empty Rectangular Rooms (ERR) decomposition, originally described in
 \cite{harabor10}, to convert an arbitrary grid map into an equivalent grid map where only tiles from the 
 perimeter of each empty room need to be explored during search (see Figure
 \ref{fig-overview} for an overview).
@@ -46,9 +47,9 @@ perimeter of each empty room need to be explored during search (see Figure
 %allowed.
 We extend that approach in several directions: (i) we generalise the method from 4-connected grid maps to 
 the much more common 8-connected case and show how the higher branching factor associated 
-with this domain makes effective symmetry elimination more challenging.
+with this domain makes effective symmetry elimination more challenging;
 (ii) we develop a new offline pruning technique that reduces the number of nodes which
-need to be explored during search.
+need to be explored during search;
 (iii) we give a novel online pruning strategy which speeds up node expansion by selectively 
 evaluating either all neighbours associated with a particular tile or only a small subset.
 We show that in each case both optimality and completeness are preserved.
@@ -57,7 +58,7 @@ We perform a thorough empirical analysis, comparing RSR with existing
 symmetry-breaking algorithms~\cite{pochter10,harabor10}
 on a number of synthetic and realistic benchmarks, including one well known set 
 from the popular roleplaying game \emph{Baldur's Gate II}.
-Our analysis allows us to identify distinct advantages over both benchmark algorithms.
+%Our analysis allows us to identify distinct advantages over both benchmark algorithms.
 Compared to Harabor and Botea's method \shortcite{harabor10}, 
 we both extend the applicability and improve the speed
 on the subset of instances where both methods are applicable.
