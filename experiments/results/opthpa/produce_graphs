@@ -129,21 +129,21 @@ ylab="Avg. Speedup Factor", ylim=c(1,10), cex.main=1.5)
 lines(ad4rsr_bfr$st_speedup ~ ad4rsr_bfr$opl, lty=6, type="l")
 lines(ad4rsr_pr$st_speedup ~ ad4rsr_pr$opl, lty=3, type="l")
 lines(ad4rsr_pr_bfr$st_speedup ~ ad4rsr_pr_bfr$opl, lty=4, type="l")
-legend("topleft", c("4ERA", "4ERA+OP", "4ERA+PR", "RSR"), lty=c(1,6,3,4))
+legend("topleft", c("4ERR", "4ERR+OP", "4ERR+PR", "RSR"), lty=c(1,6,3,4))
 
 plot(bg4rsr$st_speedup ~ bg4rsr$opl, lty=1, type="l", main="B. Search Time Speedup: Baldur's Gate (4C)", xlab="Path Length", 
 ylab="Avg. Speedup Factor", ylim=c(1,5), cex.main=1.5)
 lines(bg4rsr_bfr$st_speedup ~ bg4rsr_bfr$opl, lty=6, type="l")
 lines(bg4rsr_pr$st_speedup ~ bg4rsr_pr$opl, lty=3, type="l")
 lines(bg4rsr_pr_bfr$st_speedup ~ bg4rsr_pr_bfr$opl, lty=4, type="l")
-legend("topleft", c("4ERA", "4ERA+OP", "4ERA+PR", "RSR"), lty=c(1,6,3,4))
+legend("topleft", c("4ERR", "4ERR+OP", "4ERR+PR", "RSR"), lty=c(1,6,3,4))
 
 plot(rooms4rsr$st_speedup ~ rooms4rsr$opl, lty=1, type="l", main="C. Search Time Speedup: Rooms (4C)", xlab="Path Length", 
 ylab="Avg. Speedup Factor", ylim=c(1,25), cex.main=1.5)
 lines(rooms4rsr_bfr$st_speedup ~ rooms4rsr_bfr$opl, lty=6, type="l")
 lines(rooms4rsr_pr$st_speedup ~ rooms4rsr_pr$opl, lty=3, type="l")
 lines(rooms4rsr_pr_bfr$st_speedup ~ rooms4rsr_pr_bfr$opl, lty=4, type="l")
-legend("topleft", c("4ERA", "4ERA+OP", "4ERA+PR", "RSR"), lty=c(1,6,3,4))
+legend("topleft", c("4ERR", "4ERR+OP", "4ERR+PR", "RSR"), lty=c(1,6,3,4))
 #dev.off()
 #
 #pdf(width=15, height=5, file="8c_speedup.pdf")
