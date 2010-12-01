@@ -54,6 +54,8 @@ public:
 
   // returns true if (priority of) first >= second; else false
   virtual bool rotate(graph_object* first, graph_object* second);
+  virtual bool lessThan(graph_object* first, graph_object* second);
+  virtual bool greaterThan(graph_object* first, graph_object* second);
 
   bool isMinHeap() { return minheap; } 
 

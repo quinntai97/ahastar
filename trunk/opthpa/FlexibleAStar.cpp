@@ -1,9 +1,10 @@
 #include "FlexibleAStar.h"
 
+#include "altheap.h"
 #include "DebugUtility.h"
 #include "ExpansionPolicy.h"
+#include "fpUtil.h"
 #include "graph.h"
-#include "heap.h"
 #include "Heuristic.h"
 #include "mapAbstraction.h"
 #include "path.h"
@@ -25,12 +26,14 @@ FlexibleAStar::~FlexibleAStar()
 	delete heuristic;
 }
 
-const char* FlexibleAStar::getName()
+const char* 
+FlexibleAStar::getName()
 {
 	return "FlexibleAStar";
 }
 
-path* FlexibleAStar::getPath(graphAbstraction *aMap, node *start, node *goal,
+path* 
+FlexibleAStar::getPath(graphAbstraction *aMap, node *start, node *goal,
 		reservationProvider *rp)
 {
 	debug = new DebugUtility(aMap, heuristic);
@@ -39,7 +42,8 @@ path* FlexibleAStar::getPath(graphAbstraction *aMap, node *start, node *goal,
 	return p;
 }
 
-path* FlexibleAStar::search(node* start, node* goal)
+path* 
+FlexibleAStar::search(node* start, node* goal)
 {
 	nodesExpanded=0;
 	nodesTouched=0;
@@ -58,7 +62,7 @@ path* FlexibleAStar::search(node* start, node* goal)
 	start->setLabelF(kTemporaryLabel, heuristic->h(start, goal));
 	start->backpointer = 0;
 	
-	heap openList(30);
+	altheap openList(heuristic, goal, 30);
 	std::map<int, node*> closedList;
 	
 	openList.add(start);
@@ -102,7 +106,8 @@ path* FlexibleAStar::search(node* start, node* goal)
 	return p;	
 }
 
-void FlexibleAStar::closeNode(node* current, std::map<int, node*>* closedList)
+void 
+FlexibleAStar::closeNode(node* current, std::map<int, node*>* closedList)
 {
 	if(markForVis)
 		current->drawColor = 2; // visualise expanded
@@ -117,7 +122,8 @@ void FlexibleAStar::closeNode(node* current, std::map<int, node*>* closedList)
 
 }
 
-void FlexibleAStar::expand(node* current, node* goal, heap* openList,
+void 
+FlexibleAStar::expand(node* current, node* goal, altheap* openList,
 		std::map<int, node*>* closedList)
 {
 	// expand the current node
@@ -177,7 +183,8 @@ void FlexibleAStar::expand(node* current, node* goal, heap* openList,
 	}
 }
 
-bool FlexibleAStar::checkParameters(node* from, node* to)
+bool 
+FlexibleAStar::checkParameters(node* from, node* to)
 {
 	if(!from || !to)
 		return false;
@@ -196,12 +203,14 @@ bool FlexibleAStar::checkParameters(node* from, node* to)
 	
 }
 
-void FlexibleAStar::relaxNode(node* from, node* to, node* goal, double cost, heap* openList)
+void 
+FlexibleAStar::relaxNode(node* from, node* to, node* goal, double cost, 
+		altheap* openList)
 {
 	double g_from = from->getLabelF(kTemporaryLabel) - heuristic->h(from, goal);
 	double f_to = g_from + cost + heuristic->h(to, goal);
 	
-	if(f_to < to->getLabelF(kTemporaryLabel))
+	if(fless(f_to, to->getLabelF(kTemporaryLabel)))
 	{
 		to->setLabelF(kTemporaryLabel, f_to);
 		to->backpointer = from;
@@ -209,7 +218,8 @@ void FlexibleAStar::relaxNode(node* from, node* to, node* goal, double cost, hea
 	}
 }
 
-path* FlexibleAStar::extractBestPath(node* goal)
+path* 
+FlexibleAStar::extractBestPath(node* goal)
 {
 	path* p = 0;
 	for(node* n = goal; n != 0; n = n->backpointer)

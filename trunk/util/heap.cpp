@@ -165,14 +165,26 @@ bool heap::rotate(graph_object* first, graph_object* second)
 {
   if(minheap)
   {
-	if (fless(second->getKey(), first->getKey()))
+	if (lessThan(second, first)) // NB: arg order (swapped)
 	  return true;
 	return false;
   }
   else
   {
-	  if(fgreater(second->getKey(), first->getKey()))
+	  if(greaterThan(second, first)) // NB: arg order 
 		  return true;
 	  return false;
   }
+}
+
+// returns true if key(first) < key(second)
+bool heap::lessThan(graph_object* first, graph_object* second)
+{
+	return fless(first->getKey(), second->getKey());
+}
+
+// returns true if key(first) > key(second)
+bool heap::greaterThan(graph_object* first, graph_object* second)
+{
+	return fgreater(first->getKey(), second->getKey());
 }
