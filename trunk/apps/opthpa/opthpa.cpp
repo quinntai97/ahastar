@@ -251,7 +251,7 @@ void gogoGadgetNOGUIScenario(HPAClusterAbstraction* ecmap)
 	astar->verbose = verbose;
 
 	HPAStar2* hpastar;
-	hpastar = new HPAStar2(newExpansionPolicy(ecmap), newHeuristic());
+	hpastar = new HPAStar2(newExpansionPolicy(ecmap), newHeuristic(), false, false);
 	hpastar->verbose = verbose;
 
 //	IClusterAStarFactory* caf;
