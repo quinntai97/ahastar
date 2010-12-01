@@ -2,9 +2,11 @@
 #include "constants.h"
 #include "fpUtil.h"
 #include "HPAUtil.h"
+#include "Heuristic.h"
 
-altheap::altheap(node* goal, int s) : heap(s)
+altheap::altheap(Heuristic* heuristic, node* goal, int s) : heap(s)
 {
+	this->heuristic = heuristic;
 	this->goal = goal;
 }
 
@@ -13,29 +15,44 @@ altheap::~altheap()
 
 }
 
-// returns true when:
-//  - priority of second < priority of first
-//  - priorities are equal but gcost of second < gcost of first
-// 
-// otherwise, returns false
-bool altheap::rotate(graph_object* first, graph_object* second)
+// Returns true if key(first) < key(second).
+// In case of a tie, the method returns true if g(first) > g(second)
+// and false at all other times. 
+bool 
+altheap::lessThan(graph_object* first, graph_object* second)
 {
-  if (fless(second->getKey(), first->getKey()))
-	  return true;
-
-  if(fequal(first->getKey(), second->getKey()))
-  {
-	if(dynamic_cast<node*>(first) && dynamic_cast<node*>(second))
+	if(fless(first->getKey(), second->getKey()))
+		return true;
+	else if(fequal(first->getKey(), second->getKey()))
 	{
-		// break ties in favour of the node with smallest gcost
-		double gcost_f = dynamic_cast<node*>(first)->getLabelF(kTemporaryLabel) - 
-			HPAUtil::h(dynamic_cast<node*>(first), goal);	
-		double gcost_s = dynamic_cast<node*>(second)->getLabelF(kTemporaryLabel) - 
-			HPAUtil::h(dynamic_cast<node*>(second), goal);
+		double gcost_first = first->getKey() - heuristic->h(
+					dynamic_cast<node*>(first), dynamic_cast<node*>(goal));	
+		double gcost_second = second->getKey() - heuristic->h(
+					dynamic_cast<node*>(second), dynamic_cast<node*>(goal));
 
-		if(fless(gcost_s, gcost_f))
+		if(fgreater(gcost_first, gcost_second))
 			return true;
-	}
-  }
-  return false;
+	}	
+	return false;
+}
+
+// Returns true if key(first) > key(second).
+// In case of a tie, the method returns true if g(first) < g(second)
+// and false at all other times. 
+bool 
+altheap::greaterThan(graph* object* first, graph_object* second)
+{
+	if(fgreater(first->getKey(), second->getKey()))
+		return true;
+	else if(fequal(first->getKey(), second->getKey()))
+	{
+		double gcost_first = first->getKey() - heuristic->h(
+					dynamic_cast<node*>(first), dynamic_cast<node*>(goal));	
+		double gcost_second = second->getKey() - heuristic->h(
+					dynamic_cast<node*>(second), dynamic_cast<node*>(goal));
+
+		if(fless(gcost_first, gcost_second))
+			return true;
+	}	
+	return false;
 }
