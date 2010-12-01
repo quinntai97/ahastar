@@ -123,7 +123,8 @@ path* HPAStar2::getPath(graphAbstraction* aMap, node* from, node* to, reservatio
 
 	t.startTimer();
 	hpamap->removeStartAndGoalNodesFromAbstractGraph();
-	searchTime = (insertSearchTime += t.endTimer());
+	insertSearchTime += t.endTimer();
+	searchTime += insertSearchTime;
 
 	//std::cout << "\n thepath distance: "<<aMap->distance(thepath);
 	//std::cout << "the path: "<<std::endl;
