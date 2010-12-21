@@ -11,6 +11,7 @@
 #define HPASTAR2_H
 
 #include "searchAlgorithm.h"
+#include <stdexcept>
 
 class ExpansionPolicy;
 class DebugUtility;
@@ -20,7 +21,9 @@ class HPAClusterAbstraction;
 class HPAStar2 : public searchAlgorithm 
 {
 	public:
-		HPAStar2(ExpansionPolicy*, Heuristic*, bool _refine=true, bool _fastRefinement=false);
+		HPAStar2(ExpansionPolicy*, Heuristic*, bool _refine=true, 
+				bool _fastRefinement=false) 
+			throw(std::invalid_argument);
 		virtual ~HPAStar2();
 		virtual const char* getName() { return "HPAStar2"; }
 		virtual path *getPath(graphAbstraction *aMap, node *from, node *to, reservationProvider *rp = 0);	

@@ -14,7 +14,6 @@
 #include "ClusterNodeFactory.h"
 #include "ClusterAStar.h"
 
-#include "IClusterAStarFactory.h"
 #include "map.h"
 #include "NodeFactory.h"
 #include "EdgeFactory.h"
@@ -24,63 +23,22 @@
 
 const unsigned int DEFAULTCLUSTERSIZE = 10;
 
-// TODO: throw an exception if anything of the parameter pointers are NULL.
-HPAClusterAbstraction::HPAClusterAbstraction(Map* m, IHPAClusterFactory* _cf, 
-	INodeFactory* _nf, IEdgeFactory* _ef, bool allowDiagonals_) 
-	throw(std::invalid_argument)
-	: mapAbstraction(m), cf(_cf), nf(_nf), ef(_ef), 
-	clustersize(DEFAULTCLUSTERSIZE), allowDiagonals(allowDiagonals_)
+HPAClusterAbstraction::HPAClusterAbstraction(Map* m, HPAClusterFactory* _cf, 
+	INodeFactory* _nf, IEdgeFactory* _ef, bool allowDiagonals_) :
+		GenericClusterAbstraction(m, _cf, _nf, _ef, allowDiagonals_),
+		clustersize(DEFAULTCLUSTERSIZE)
 {	
-	
-	node* n = nf->newNode("test");
-	if(!dynamic_cast<ClusterNode*>(n))
-	{
-		delete n;
-		throw std::invalid_argument("HPAClusterAbstraction requires a node factory"
-				"that produces ClusterNode objects");
-	}
-	delete n;
-		
-	abstractions.push_back(getMapGraph(this->getMap(), nf, ef, allowDiagonals)); 
-	abstractions.push_back(new graph());	
-	startid = goalid = -1;
-	drawClusters=true;
-	
 	nodesExpanded = nodesTouched = nodesGenerated = 0;
 	searchTime = 0;
-	verbose = false;
 }
 
 HPAClusterAbstraction::~HPAClusterAbstraction()
 {
-	delete ef;
-	delete cf;
-	delete nf;
-	
-	for(HPAUtil::pathTable::iterator it = pathCache.begin(); it != pathCache.end(); it++)
-		delete (*it).second;
-	pathCache.erase(pathCache.begin(), pathCache.end());
-
-	for(HPAUtil::clusterTable::iterator it = clusters.begin(); it != clusters.end(); it++)
-		delete (*it).second;
-	clusters.erase(clusters.begin(), clusters.end());
 }
 
-HPACluster* HPAClusterAbstraction::getCluster(int cid)
-{		
-	HPAUtil::clusterTable::iterator it = clusters.find(cid);
-	if(it != clusters.end())
-		return (*it).second;
-	
-	return 0;
-}
 
-void HPAClusterAbstraction::addCluster(HPACluster* cluster) 
-{ 
-	clusters[cluster->getClusterId()] = cluster;
-} 
-
-void HPAClusterAbstraction::buildClusters()
+void 
+HPAClusterAbstraction::buildClusters()
 {
 	int mapwidth = this->getMap()->getMapWidth();
 	int mapheight= this->getMap()->getMapHeight();
@@ -97,65 +55,21 @@ void HPAClusterAbstraction::buildClusters()
 			if(y+cheight > mapheight)
 				cheight = mapheight - y;
 				
-			HPACluster *cluster = cf->createCluster(x,y);
+			HPACluster *cluster = static_cast<HPACluster*>(
+					getClusterFactory()->createCluster(x,y,this));
 			cluster->setWidth(cwidth);
 			cluster->setHeight(cheight);
 			addCluster( cluster ); // nb: also assigns a new id to cluster
-			cluster->addNodesToCluster(this);
+			cluster->buildCluster();
 		}
-}
-
-void HPAClusterAbstraction::buildEntrances()
-{
-	cluster_iterator it = this->getClusterIter();
-	HPACluster* cluster = this->clusterIterNext(it);
-	while(cluster)
-	{
-		cluster->setVerbose(getVerbose());
-		cluster->setAllowDiagonals(allowDiagonals);
-		cluster->buildEntrances(this);
-		cluster = this->clusterIterNext(it);
-	}
-}
-
-/* paths are cached in the direction of the edge (from, to) */
-void HPAClusterAbstraction::addPathToCache(edge* e, path* p)
-{
-	if(e == NULL || p == NULL)
-		return;
-	
-	pathCache[e->getUniqueID()] = p;
-}
-
-/* Cache for known paths. Stores one path for each abstract edge. */
-path* HPAClusterAbstraction::getPathFromCache(edge* e)
-{
-	if(e == NULL)
-		return 0;
-
-	HPAUtil::pathTable::iterator it = pathCache.find(e->getUniqueID());
-	if(it != pathCache.end())
-		return (*it).second;
-	
-	return 0;
-}
-
-HPACluster* HPAClusterAbstraction::clusterIterNext(cluster_iterator &iter) const
-{
-	if (iter != clusters.end())
-	{
-		HPACluster* c = (*iter).second;
-		iter++;
-		return c;
-	}
-  return 0;
 }
 
 /* Remove any nodes we added into the abstract graph to facilitate some search 
  * query. 
  * NB: nodes removed in reverse order to creation (i.e. goal, then start)
  */
-void HPAClusterAbstraction::removeStartAndGoalNodesFromAbstractGraph() throw(std::runtime_error)
+void 
+HPAClusterAbstraction::removeStartAndGoalNodesFromAbstractGraph() throw(std::runtime_error)
 {
 	graph* g = abstractions[1];
 	ClusterNode* start = dynamic_cast<ClusterNode*>(g->getNode(startid));
@@ -169,14 +83,14 @@ void HPAClusterAbstraction::removeStartAndGoalNodesFromAbstractGraph() throw(std
 		while(e)
 		{
 			g->removeEdge(e);
-			delete pathCache[e->getUniqueID()];
-			pathCache.erase(e->getUniqueID());
+			deletePathFromCache(e);
 			delete e;
 			ei = goal->getEdgeIter();
 			e = goal->edgeIterNext(ei);
 		}
 		
-		HPACluster* goalCluster = clusters[goal->getParentClusterId()];
+		HPACluster* goalCluster = static_cast<HPACluster*>(
+				this->getCluster(goal->getParentClusterId()));
 		goalCluster->removeParent(goal->getUniqueID());
 		g->removeNode(goal->getNum()); 
 
@@ -195,15 +109,15 @@ void HPAClusterAbstraction::removeStartAndGoalNodesFromAbstractGraph() throw(std
 		edge* e = start->edgeIterNext(ei);
 		while(e)
 		{
-			delete pathCache[e->getUniqueID()];
-			pathCache.erase(e->getUniqueID());
+			this->deletePathFromCache(e);
 			g->removeEdge(e);
 			delete e;
 			ei = start->getEdgeIter();
 			e = start->edgeIterNext(ei);
 		}
 		
-		HPACluster* startCluster = clusters[start->getParentClusterId()];
+		HPACluster* startCluster = static_cast<HPACluster*>(this->getCluster(
+				start->getParentClusterId()));
 		startCluster->removeParent(start->getUniqueID()); 
 		g->removeNode(startid); 
 		
@@ -214,11 +128,11 @@ void HPAClusterAbstraction::removeStartAndGoalNodesFromAbstractGraph() throw(std
 		delete start;
 		start=0;
 	}
-
-
 }
 
-void HPAClusterAbstraction::insertStartAndGoalNodesIntoAbstractGraph(node* _start, node* _goal) throw(std::invalid_argument)
+void 
+HPAClusterAbstraction::insertStartAndGoalNodesIntoAbstractGraph(node* _start, 
+		node* _goal) throw(std::invalid_argument)
 {
 	ClusterNode* start = static_cast<ClusterNode*>(_start);
 	ClusterNode* goal = static_cast<ClusterNode*>(_goal);
@@ -235,13 +149,14 @@ void HPAClusterAbstraction::insertStartAndGoalNodesIntoAbstractGraph(node* _star
 	if(start->getLabelL(kParent) == -1) // only add nodes that don't already exist in the abstract graph
 	{	
 		ClusterNode* absstart;
-		HPACluster* startCluster = clusters[start->getParentClusterId()];
+		HPACluster* startCluster = static_cast<HPACluster*>(
+				this->getCluster(start->getParentClusterId()));
 	
 		absstart = static_cast<ClusterNode*>(start->clone());
 		absstart->setLabelL(kAbstractionLevel, start->getLabelL(kAbstractionLevel)+1);
 		abstractions[1]->addNode(absstart);
 		startid = absstart->getNum();
-		startCluster->addParent(absstart, this);
+		startCluster->addParent(absstart);
 		start->setLabelL(kParent, startid);
 		this->startid = startid;
 		int numnodes = abstractions[1]->getNumNodes();
@@ -255,13 +170,14 @@ void HPAClusterAbstraction::insertStartAndGoalNodesIntoAbstractGraph(node* _star
 	if(goal->getLabelL(kParent) == -1)
 	{
 		ClusterNode* absgoal;
-		HPACluster* goalCluster = clusters[goal->getParentClusterId()];
+		HPACluster* goalCluster =  static_cast<HPACluster*>(
+				this->getCluster(goal->getParentClusterId()));
 
 		absgoal = static_cast<ClusterNode*>(goal->clone());
 		absgoal->setLabelL(kAbstractionLevel, goal->getLabelL(kAbstractionLevel)+1);
 		abstractions[1]->addNode(absgoal);
 		goalid = absgoal->getNum();
-		goalCluster->addParent(absgoal, this);
+		goalCluster->addParent(absgoal);
 		goal->setLabelL(kParent, goalid);
 		this->goalid = goalid;
 		
@@ -272,126 +188,19 @@ void HPAClusterAbstraction::insertStartAndGoalNodesIntoAbstractGraph(node* _star
 	}
 }
 
-
-void HPAClusterAbstraction::openGLDraw()
+void 
+HPAClusterAbstraction::print(std::ostream& out)
 {
-	Map* map = this->getMap();
-	map->setDrawLand(false);
-	GLdouble xx, yy, zz, zzg, rr;
-	
-	double depthmod = 0.4;
-	for(int level=0; level<2; level++)
-	{
-		graph* mygraph = getAbstractGraph(level);
-		node_iterator ni = mygraph->getNodeIter();	
-		node* cur = mygraph->nodeIterNext(ni);
-		while(cur)
-		{
-			glBegin(GL_QUADS);
-			int x = cur->getLabelL(kFirstData);
-			int y = cur->getLabelL(kFirstData+1);
-			map->getOpenGLCoord(x, y, xx, yy, zz, rr);
-			zzg = zz-rr*0.5;
-			zz = zz-rr*depthmod;
-
-			if(cur->drawColor == 0)
-			{
-				glColor3f(0.9, 0.9, 0.9);
-				glVertex3f(xx-rr, yy-rr, zz+0.01);
-				glVertex3f(xx-rr, yy+rr, zz+0.01);
-				glVertex3f(xx+rr, yy+rr, zz+0.01);
-				glVertex3f(xx+rr, yy-rr, zz+0.01);
-			}
-			if(cur->drawColor == 1)
-			{
-				glColor3f(0.4, 0.4, 0.4);
-				glVertex3f(xx-rr, yy-rr, zz);
-				glVertex3f(xx-rr, yy+rr, zz);
-				glVertex3f(xx+rr, yy+rr, zz);
-				glVertex3f(xx+rr, yy-rr, zz);
-			}
-			if(cur->drawColor == 2)
-			{
-				glColor3f(0.6, 0.6, 0.6);
-				glVertex3f(xx-rr, yy-rr, zz);
-				glVertex3f(xx-rr, yy+rr, zz);
-				glVertex3f(xx+rr, yy+rr, zz);
-				glVertex3f(xx+rr, yy-rr, zz);
-			}
-			glEnd();
-
-			glColor3f (0.5F, 0.5F, 0.5F);
-			glLineWidth(0.3f);
-			glBegin(GL_LINE_STRIP);
-			glVertex3f(xx-rr, yy-rr, zzg);
-			glVertex3f(xx+rr, yy-rr, zzg);
-			glVertex3f(xx+rr, yy+rr, zzg);
-			glVertex3f(xx-rr, yy+rr, zzg);
-			glVertex3f(xx-rr, yy-rr, zzg);
-			glEnd();
-
-			cur = mygraph->nodeIterNext(ni);
-		}
-	}
-	
-
-	cluster_iterator it = getClusterIter();
-	HPACluster *cluster = clusterIterNext(it);
-	while(cluster)
-	{
-		cluster->openGLDraw();
-		cluster = clusterIterNext(it);
-	}
+	GenericClusterAbstraction::print(out);
+	out << std::endl << " Cluster Size: "<<getClusterSize()<<std::endl;
 }
 
-void HPAClusterAbstraction::clearColours()
-{
-	for(unsigned int i=0; i<getNumAbstractGraphs(); i++)
-	{
-		graph* g = getAbstractGraph(i);
-		node_iterator ni = g->getNodeIter();	
-		node* n = g->nodeIterNext(ni);
-		while(n)
-		{
-			n->drawColor = 0;
-			n = g->nodeIterNext(ni);
-		}
-	}
-}
-
-
-
-// debugging method
-void HPAClusterAbstraction::printUniqueIdsOfAllNodesInGraph(graph *g)
-{
-	node_iterator it = g->getNodeIter();
-	node* n = (*it);
-	while(n)
-	{
-		std::cout << "addr: "<<&(*n) << "uid: "<< n->getUniqueID() <<" ("<< n->getLabelL(kFirstData)<<","<< n->getLabelL(kFirstData+1)<<")"<<std::endl;
-		n = g->nodeIterNext(it);
-	}
-}
-
-void HPAClusterAbstraction::print(std::ostream& out)
-{
-	out << "HPAClusterAbstraction. "<<getNumClusters()<<" clusters.";
-	out << " csize: "<<getClusterSize()<<std::endl;
-	cluster_iterator it = getClusterIter();
-	HPACluster* cluster = clusterIterNext(it);
-	while(cluster)
-	{
-		cluster->print(out);
-		out<<std::endl;
-		cluster = clusterIterNext(it);
-	}
-
-}
 
 // returns heuristic lowerbound on the distance between two tiles.
 // if diagonal moves are allowed this is the octile distance.
 // if diagonal moves are not allowed, this is the manhattan distance.
-double HPAClusterAbstraction::h(node* a, node* b)
+double 
+HPAClusterAbstraction::h(node* a, node* b)
 {
 	if(a == NULL || b == NULL) 
 		throw std::invalid_argument("null node");
@@ -431,15 +240,14 @@ double HPAClusterAbstraction::h(node* a, node* b)
 	return answer;
 }
 
-void HPAClusterAbstraction::verifyClusters()
+void 
+HPAClusterAbstraction::verifyClusters()
 {
-	cluster_iterator iter = getClusterIter();
-	HPACluster* cluster = clusterIterNext(iter);
-	while(cluster)
-	{
-		cluster->verifyCluster();
-		cluster = clusterIterNext(iter);
-	}
+//	cluster_iterator iter = getClusterIter();
+//	HPACluster* cluster = clusterIterNext(iter);
+//	while(cluster)
+//	{
+//		cluster->verifyCluster();
+//		cluster = clusterIterNext(iter);
+//	}
 }
-
-

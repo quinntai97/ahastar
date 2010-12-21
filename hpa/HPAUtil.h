@@ -15,13 +15,15 @@
 
 class node;
 class path;
-class HPACluster;
+class AbstractCluster;
 
 namespace HPAUtil
 {
+	const int MAX_SINGLE_TRANSITION_ENTRANCE_SIZE = 6;
+
 	typedef std::map<int, path*> pathTable;
 	typedef std::map<int, node*> nodeTable;
-	typedef std::map<int, HPACluster*> clusterTable;
+	typedef std::map<int, AbstractCluster*> clusterTable;
 
 	double h(node* from, node* to) throw(std::invalid_argument);
 }

@@ -30,12 +30,10 @@
 #include "ClusterAStarFactory.h"
 #include "common.h"
 #include "opthpa.h"
-#include "HPAClusterAbstraction.h"
-#include "HPAClusterFactory.h"
 #include "EdgeFactory.h"
 #include "EmptyClusterAbstraction.h"
 #include "EmptyCluster.h"
-#include "EmptyClusterFactory.h"
+#include "RectangularRoomFactory.h"
 #include "FlexibleAStar.h"
 #include "HPAStar2.h"
 #include "IncidentEdgesExpansionPolicy.h"
@@ -185,11 +183,12 @@ void createSimulation(unitSimulation * &unitSim)
 	//map->scale(100, 100);
 
 	EmptyClusterAbstraction* ecmap = new EmptyClusterAbstraction(
-			map, new EmptyClusterFactory(), 
-			new MacroNodeFactory(), new EdgeFactory(), allowDiagonals, reducePerimeter, bfReduction);
+			map, new RectangularRoomFactory(), 
+			new MacroNodeFactory(), new EdgeFactory(), allowDiagonals, 
+			reducePerimeter, bfReduction);
 
 	ecmap->setVerbose(verbose);
-	ecmap->buildClusters2();
+	ecmap->buildClusters();
 	ecmap->buildEntrances();
 	//ecmap->setDrawClusters(true);
 	graph* absg = ecmap->getAbstractGraph(1);
@@ -243,7 +242,7 @@ void createSimulation(unitSimulation * &unitSim)
 	}
 }
 
-void gogoGadgetNOGUIScenario(HPAClusterAbstraction* ecmap)
+void gogoGadgetNOGUIScenario(EmptyClusterAbstraction* ecmap)
 {
 //	std::cout << "\n diagonals? "<<ecmap->getAllowDiagonals()<<std::endl;
 	FlexibleAStar* astar;
@@ -434,8 +433,9 @@ int myScenarioGeneratorCLHandler(char *argument[], int maxNumArgs)
 	ScenarioManager scenariomgr;
 	int numScenarios = atoi(argument[2]);
 
-	EmptyClusterAbstraction ecmap(new Map(map.c_str()), new EmptyClusterFactory(),
-			new MacroNodeFactory(), new EdgeFactory(), allowDiagonals, reducePerimeter, bfReduction);
+	EmptyClusterAbstraction ecmap(new Map(map.c_str()), 
+			new RectangularRoomFactory(), new MacroNodeFactory(), 
+			new EdgeFactory(), allowDiagonals, reducePerimeter, bfReduction);
 	
 	scenariomgr.generateExperiments(&ecmap, numScenarios);
 	std::cout << "generated: "<<scenariomgr.getNumExperiments()<< " experiments"<<std::endl;
@@ -487,7 +487,7 @@ void myDisplayHandler(unitSimulation *unitSim, tKeyboardModifier mod, char key)
 
 void myNewUnitKeyHandler(unitSimulation *unitSim, tKeyboardModifier mod, char)
 {
-	HPAClusterAbstraction* aMap = dynamic_cast<HPAClusterAbstraction*>(
+	EmptyClusterAbstraction* aMap = dynamic_cast<EmptyClusterAbstraction*>(
 			unitSim->getMapAbstraction());
 	aMap->clearColours();
 	for(int i=0; i<unitSim->getNumUnits(); i++)
@@ -583,7 +583,7 @@ void runNextExperiment(unitSimulation *unitSim)
 		exit(0);
 	}
 
-	HPAClusterAbstraction* aMap = dynamic_cast<HPAClusterAbstraction*>(
+	EmptyClusterAbstraction* aMap = dynamic_cast<EmptyClusterAbstraction*>(
 			unitSim->getMapAbstraction());
 	aMap->clearColours();
 	
@@ -627,7 +627,7 @@ void runSimulationNoGUI()
 	std::cout << "\nok, no gui";
 }
 
-ExpansionPolicy* newExpansionPolicy(HPAClusterAbstraction* map)
+ExpansionPolicy* newExpansionPolicy(EmptyClusterAbstraction* map)
 {
 	ExpansionPolicy* policy;
 	if(bfReduction)

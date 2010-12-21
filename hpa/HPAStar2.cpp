@@ -1,12 +1,3 @@
-/*
- *  HPAStar.cpp
- *  hog
- *
- *  Created by dharabor on 17/11/08.
- *  Copyright 2008 __MyCompanyName__. All rights reserved.
- *
- */
-
 #include "HPAStar2.h"
 
 #include "ExpansionPolicy.h"
@@ -18,12 +9,20 @@
 #include "ISearchAlgorithmFactory.h"
 #include "timer.h"
 #include "searchAlgorithm.h"
-#include <stdexcept>
 
 HPAStar2::HPAStar2(ExpansionPolicy* policy, Heuristic* heuristic,
-		bool _refine, bool _fastRefinement) : searchAlgorithm()
+		bool _refine, bool _fastRefinement) throw(std::invalid_argument)
+	: searchAlgorithm()
 { 
-	refineAbstractPath = _refine; fastRefinement = _fastRefinement; 
+	if(policy == 0)
+		throw std::invalid_argument("HPAStar2 requires a non-null "
+				"ExpansionPolicy argument");
+	if(heuristic == 0)
+		throw std::invalid_argument("HPAStar2 requires a non-null "
+				"ExpansionPolicy argument");
+
+	refineAbstractPath = _refine; 
+	fastRefinement = _fastRefinement; 
 	astar = new FlexibleAStar(policy, heuristic);
 }
 
@@ -32,15 +31,18 @@ HPAStar2::~HPAStar2()
 	delete astar;
 }
 
-/* 
-Find an abstract path and refine it using the path cache
-
- NB: sometimes we may require a cached path which was obtained by planning in the reverse direction to current requirements
- ie. we store the path from n1 -> n2, but we may require the path from n2 -> n1. 
- In such cases, we specify the id of the node that should be at the head of the path. if the cached path doesn't meet those
- requirements, we reverse it. 
-*/
-path* HPAStar2::getPath(graphAbstraction* aMap, node* from, node* to, reservationProvider *rp)
+//Find an abstract path and refine it using the path cache
+//
+// NB: sometimes we may require a cached path which was obtained by planning 
+// in the reverse direction to current requirements
+// ie. we store the path from n1 -> n2, but we may require the path from n2 -> n1. 
+// In such cases, we specify the id of the node that should be at the head of 
+// the path. if the cached path doesn't meet those
+// requirements, we reverse it. 
+//
+path* 
+HPAStar2::getPath(graphAbstraction* aMap, node* from, node* to, 
+		reservationProvider *rp)
 {
 	resetMetrics();
 	astar->verbose = verbose;
@@ -77,6 +79,9 @@ path* HPAStar2::getPath(graphAbstraction* aMap, node* from, node* to, reservatio
 		std::cout << "searching for path in abstract graph"<<std::endl;
 
 	path* abspath = astar->getPath(hpamap, absstart, absgoal);
+	for(path* tmp = abspath; tmp != 0; tmp = tmp->next)
+		assert(tmp->n->drawColor == 2);
+
 	updateMetrics();
 	
 	// refine the path
@@ -129,6 +134,7 @@ path* HPAStar2::getPath(graphAbstraction* aMap, node* from, node* to, reservatio
 	//std::cout << "\n thepath distance: "<<aMap->distance(thepath);
 	//std::cout << "the path: "<<std::endl;
 	//printPath(thepath);
+
 	return thepath;
 }
 
@@ -139,25 +145,29 @@ path* HPAStar2::refinePath(path* abspath, HPAClusterAbstraction* hpamap)
 	astar->verbose = false; // always off
 	graph *absg = hpamap->getAbstractGraph(1); 
 	path* thepath = 0;
-	while(abspath->next)
+	for(path* mypath = abspath; mypath->next != 0; mypath = mypath->next)
 	{
-		path* segment;
+		path* segment = 0;
 		if(fastRefinement)
 		{
-			edge* e = absg->findEdge(abspath->n->getNum(), abspath->next->n->getNum());
+			edge* e = absg->findEdge(mypath->n->getNum(), 
+					mypath->next->n->getNum());
 			if(e == NULL)
-				throw std::runtime_error("HPAStar2::getPath -- something went horribly wrong; couldn't find cached path. ");
+				throw std::runtime_error("HPAStar2::getPath -- something went "
+					   "horribly wrong; couldn't find cached path. ");
 
 			segment = hpamap->getPathFromCache(e)->clone();
-			if(e->getFrom() != abspath->n->getNum()) // fix segments if necessary
+			if(e->getFrom() != mypath->n->getNum()) // fix segments if necessary
 				segment = segment->reverse();				
 		}
 		else
 		{
-			node* llstart = hpamap->getNodeFromMap(abspath->n->getLabelL(kFirstData), 
-					abspath->n->getLabelL(kFirstData+1));
-			node* llgoal =  hpamap->getNodeFromMap(abspath->next->n->getLabelL(kFirstData), 
-					abspath->next->n->getLabelL(kFirstData+1));
+			node* llstart = hpamap->getNodeFromMap(
+					mypath->n->getLabelL(kFirstData), 
+					mypath->n->getLabelL(kFirstData+1));
+			node* llgoal =  hpamap->getNodeFromMap(
+					mypath->next->n->getLabelL(kFirstData), 
+					mypath->next->n->getLabelL(kFirstData+1));
 
 			segment = astar->getPath(hpamap, llstart, llgoal); 
 			assert(segment != 0);
@@ -171,29 +181,35 @@ path* HPAStar2::refinePath(path* abspath, HPAClusterAbstraction* hpamap)
 				std::cout << " distance: "<<hpamap->distance(segment)<<std::endl; 
 			}
 		}
-		
+
 		// append segment to refined path
 		if(thepath == 0)
 			thepath = segment;										
 		path* tail = thepath->tail();	
 
-		// avoid overlap between successive segments (i.e one segment ends with the same node as the next begins)
+		 //avoid overlap between successive segments 
+		 //(i.e one segment ends with the same node as the next begins)
 		if(tail->n->getNum() == segment->n->getNum()) 
 		{
 			tail->next = segment->next;
 			segment->next = 0;
 			delete segment;
 		}
-		
-		abspath = abspath->next;
 	}
 
+
 	astar->verbose = verbose;
+	
+	// fix a visualisation bug 
+	for(path* tmp = thepath; tmp != 0; tmp = tmp->next)
+		tmp->n->drawColor = 2;
+
 	return thepath;
 }
 
 
-void HPAStar2::updateMetrics()
+void 
+HPAStar2::updateMetrics()
 {	
 	this->nodesExpanded += this->astar->getNodesExpanded();
 	this->nodesTouched += this->astar->getNodesTouched();
@@ -201,7 +217,8 @@ void HPAStar2::updateMetrics()
 	this->searchTime += this->astar->getSearchTime();
 }
 
-void HPAStar2::logFinalStats(statCollection* stats)
+void 
+HPAStar2::logFinalStats(statCollection* stats)
 {
 	searchAlgorithm::logFinalStats(stats);
 
@@ -211,14 +228,16 @@ void HPAStar2::logFinalStats(statCollection* stats)
 	stats->addStat("insSearchTime",getName(),getInsertSearchTime());
 }
 
-void HPAStar2::resetMetrics()
+void 
+HPAStar2::resetMetrics()
 {
 	insertNodesExpanded = insertNodesTouched = insertNodesGenerated = 0;
 	nodesExpanded = nodesTouched = nodesGenerated = 0;
 	insertSearchTime = searchTime = 0;
 }
 
-bool HPAStar2::checkParameters(node* from, node* to)
+bool 
+HPAStar2::checkParameters(node* from, node* to)
 {
 	if(!from || !to)
 		return false;

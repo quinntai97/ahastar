@@ -43,7 +43,7 @@ path* OHAStar::getPath(graphAbstraction *_aMap, node *from, node *to, reservatio
 		return 0;
 	}
 
-	aMap->verifyClusters();
+	//aMap->verifyClusters();
 
 	// abstract or low-level search? this decision affects the behaviour of ::relaxEdge
 	if(mfrom->getLabelL(kAbstractionLevel) == 0 || 
@@ -80,7 +80,7 @@ path* OHAStar::getPath(graphAbstraction *_aMap, node *from, node *to, reservatio
 	t.startTimer();
 	p = refinePath(p);
 	aMap->removeStartAndGoalNodesFromAbstractGraph();
-	aMap->verifyClusters();
+	//aMap->verifyClusters();
 
 	double refineTime = t.endTimer();
 	searchTime+=insertTime + refineTime;
@@ -418,12 +418,14 @@ OHAStar::expandMacro(node* current_, node* goal_, heap* openList,
 	assert(ecmap);
 
 	EmptyCluster* parentCluster  = ecmap->getCluster(current->getParentClusterId());
-	nodeTable* perimeter = parentCluster->getParents();
+	HPAUtil::nodeTable* perimeter = parentCluster->getParents();
 
 
 //	std::cout << "perimeter size: "<<perimeter->size()<<std::endl;
 	unsigned int count=0;
-	for(nodeTable::iterator it = perimeter->begin(); it != perimeter->end(); it++)
+	for(	HPAUtil::nodeTable::iterator it = perimeter->begin(); 
+		it != perimeter->end(); 
+		it++)
 	{
 		assert(count < perimeter->size());
 		node* nb = it->second;

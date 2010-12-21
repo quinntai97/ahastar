@@ -3,6 +3,7 @@
 #include "fpUtil.h"
 #include "HPAUtil.h"
 #include "Heuristic.h"
+#include "graph.h"
 
 altheap::altheap(Heuristic* heuristic, node* goal, int s) : heap(s)
 {
@@ -40,7 +41,7 @@ altheap::lessThan(graph_object* first, graph_object* second)
 // In case of a tie, the method returns true if g(first) < g(second)
 // and false at all other times. 
 bool 
-altheap::greaterThan(graph* object* first, graph_object* second)
+altheap::greaterThan(graph_object* first, graph_object* second)
 {
 	if(fgreater(first->getKey(), second->getKey()))
 		return true;

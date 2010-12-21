@@ -17,7 +17,7 @@
  *
  */
 
-class HPAClusterAbstraction;
+class EmptyClusterAbstraction;
 class Heuristic;
 class ExpansionPolicy;
 
@@ -31,7 +31,7 @@ bool myClickHandler(unitSimulation *, int x, int y, point3d loc, tButtonType, tM
 void runNextExperiment(unitSimulation *unitSim);
 void runSimulationNoGUI();
 void processStats(statCollection* stat, const char* unitname);
-void gogoGadgetNOGUIScenario(HPAClusterAbstraction* ecmap);
-ExpansionPolicy* newExpansionPolicy(HPAClusterAbstraction* map);
+void gogoGadgetNOGUIScenario(EmptyClusterAbstraction* ecmap);
+ExpansionPolicy* newExpansionPolicy(EmptyClusterAbstraction* map);
 Heuristic* newHeuristic();
 

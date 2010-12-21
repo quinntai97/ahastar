@@ -16,21 +16,20 @@ class Cluster;
 class ClusterNode : public node
 {
 	public:
-		ClusterNode(const char* name, Cluster*);
+		ClusterNode(const char* name, int clusterId);
 		ClusterNode(const char* name);
 		ClusterNode(const ClusterNode* n);
 		~ClusterNode(); 
 		virtual graph_object* clone() const { return new ClusterNode(this); }
 		virtual void reset();
-		int getParentCluster() { return parentCluster; }
-		void setParentCluster(Cluster* c) { parentCluster = c; }
-		int getParentClusterId();
+		int getParentClusterId() { return parentClusterId; }
+		void setParentClusterId(int c) { parentClusterId = c; }
 
 		void print(std::ostream& out);
 
 	private:
 		void init();
-		Cluster* parentCluster; // bad, but convenient
+		int parentClusterId;
 };
 
 #endif

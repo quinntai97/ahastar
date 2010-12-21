@@ -17,7 +17,7 @@
 
 class DebugUtility;
 class ExpansionPolicy;
-class heap;
+class altheap;
 class Heuristic;
 class FlexibleAStar : public searchAlgorithm
 {
@@ -37,8 +37,9 @@ class FlexibleAStar : public searchAlgorithm
 		Heuristic* heuristic;
 
 		path* search(node* from, node* goal);
-		void relaxNode(node* from, node* to, node* goal, double cost, heap* openList);
-		void expand(node* current, node* goal, heap* openList,
+		void relaxNode(node* from, node* to, node* goal, double cost, 
+			altheap* openList);
+		void expand(node* current, node* goal, altheap* openList,
 				std::map<int, node*>* closedList);
 		path* extractBestPath(node* goal);
 

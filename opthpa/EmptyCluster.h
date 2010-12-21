@@ -9,8 +9,8 @@
 // to any other.
 //
 // NB: This is an abstract class. To make it concrete it is necessary to
-// implement the following functions:
-//		- growCluster: Starting from an initial seed node, this function grows
+// implement ::buildCluster, which is responsible for adding a set of nodes 
+// to the cluster. 
 //
 // For concrete examples of empty clusters, see:
 // 	[Harabor and Botea, 2010] 
@@ -19,59 +19,64 @@
 // @author: dharabor
 // @created: 29/10/2010
 
-#include "Cluster.h"
+#include "AbstractCluster.h"
+#include <vector>
 
 namespace EmptyClusterNS
 {
-	typedef enum 
-	{LEFT, RIGHT, TOP, BOTTOM, NONE} 
-	RoomSide;
-
 	typedef enum 
 	{N, S, E, W, NE, NW, SE, SW} 
 	Direction;
 }
 
-using EmptyClusterNS;
-class EmptyCluster : public Cluster
+class graph;
+class node;
+class edge;
+class EmptyClusterAbstraction;
+class EmptyCluster : public AbstractCluster
 {
 	public:
-		EmptyCluster(graphAbstraction*, bool pr=false, bool bfr=false);
+		EmptyCluster(int x, int y, EmptyClusterAbstraction*, 
+				bool pr=false, bool bfr=false);
 		virtual ~EmptyCluster();
 
-		virtual void buildCluster(); // grow cluster + add macro edges
-		virtual void buildEntrances(); // process all nodes; identify parents, add transitions
-		virtual void connectParent(node*, HPAClusterAbstraction*);
+		virtual void buildCluster() = 0; 
+		virtual void openGLDraw() = 0;
+
+		virtual void buildEntrances(); 
+		virtual void connectParent(node*) throw(std::invalid_argument);
+		virtual void removeParent(int nodeId);
+
+		void setPerimeterReduction(bool pr) { this->perimeterReduction = pr; }
+		void setBFReduction(bool bfr) { this->bfReduction = bfr; }
 
 		edge* findSecondaryEdge(unsigned int fromId, unsigned int toId);
 		unsigned int getNumSecondaryEdges() { return secondaryEdges.size(); }
-		virtual void openGLDraw();
+		int macro; // macro edge refcount
 
-
-	protected:
-		void addMacroEdges(HPAClusterAbstraction *aMap);
-		virtual void growCluster() = 0;
-		void resetBest() { bestLeft = bestRight = bestTop = bestBottom = 0; }
-		void setBestExpandedNode(node* n);
-		node* getBestExpandedNode(RoomSide side);
-		RoomSide whichSide(node* n);
-
-		int macro;
 
 	private:
+		void reducePerimeter();
+
+		void addMacroEdges(node* parent);
+		void addCardinalMacroEdges(node* n);
+		void addAdjacentEdges(node* parent);
+		void addDiagonalMacroEdgeSet(node* parent, 
+				EmptyClusterNS::Direction cd, 
+				EmptyClusterNS::Direction dd);
+		void addCardinalMacroEdgeSet(node* n);
+
+		node* findPerimeterNode(node* n, EmptyClusterNS::Direction d);
+		bool isIncidentWithInterEdge(node* n);
+
 		void addSingleMacroEdge(node* from, node* to, double weight, 
 				graph* absg, bool secondaryEdge = false);
-		void addCardinalMacroEdges(HPAClusterAbstraction *aMap);
-		void addDiagonalMacroEdges(HPAClusterAbstraction* hpamap);
-		void addDiagonalFanMacroEdges(HPAClusterAbstraction* hpamap);
-		bool isIncidentWithInterEdge(node* n, HPAClusterAbstraction* hpamap);
+		int DiagonalStepsBetween(node* n1, node* n2);
 
 		bool perimeterReduction;
 		bool bfReduction;
-		std::vector<edge*> secondaryEdges;
-		
-		// expanded node with lowest g-cost along each side of the perimeter
-		node *bestLeft, *bestRight, *bestTop, *bestBottom;
+		std::vector<edge*> secondaryEdges; 
+
 };
 
 #endif

@@ -77,6 +77,7 @@ FlexibleAStar::search(node* start, node* goal)
 		// check if the current node is the goal (early termination)
 		if(current == goal)
 		{
+			closeNode(current, &closedList);
 			p = extractBestPath(current);
 			if(verbose)
 				debug->printNode(std::string("goal found! "), current);
@@ -223,7 +224,10 @@ FlexibleAStar::extractBestPath(node* goal)
 {
 	path* p = 0;
 	for(node* n = goal; n != 0; n = n->backpointer)
+	{
 		p = new path(n, p);
+		assert(n->drawColor == 2);
+	}
 
 	return p;
 }

@@ -78,7 +78,7 @@ void path::print(bool beginning)
 		printf("[");
 	
 	if (n != NULL)
-		printf("[%ud](%ld, %ld)",n->getNum(),n->getLabelL(kFirstData), n->getLabelL(kFirstData+1));
+		printf("0x%p [%ud](%ld, %ld)",n, n->getNum(),n->getLabelL(kFirstData), n->getLabelL(kFirstData+1));
 	else
 		printf("NULL");
 	

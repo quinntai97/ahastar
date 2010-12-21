@@ -22,14 +22,13 @@
 #include <string>
 #include <map>
 #include "aStar3.h"
+#include "graph.h"
 
 class statCollection;
 class path;
 class graphAbstraction;
-class node;
 class edge;
 class statCollection;
-class graph;
 
 class AbstractClusterAStar : public aStarOld
 {
@@ -39,7 +38,6 @@ class AbstractClusterAStar : public aStarOld
 		virtual const char* getName() = 0;
 		virtual path *getPath(graphAbstraction *aMap, node *from, node *to, reservationProvider *rp = 0) = 0;
 		
-		long getPeakMemory() { return peakmemory; }
 		void setCorridorNodes(std::map<int, node*>* _nodes) 
 		{ 
 			corridorNodes = _nodes; 
@@ -66,7 +64,6 @@ class AbstractClusterAStar : public aStarOld
 		virtual bool evaluate(node* current, node* target, edge* e) = 0; 
 		virtual path *search(graph* g, node *from, node *to);
 		
-		long peakmemory;
 		std::map<int, node*> *corridorNodes;
 		__gnu_cxx::hash_map<int,node*> openmirror;
 		__gnu_cxx::hash_map<int,node*> closedmirror;

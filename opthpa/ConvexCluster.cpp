@@ -1,7 +1,8 @@
 #include "ConvexCluster.h"
+#include "EmptyClusterAbstraction.h"
 
-ConvexCluster::ConvexCluster(graphAbstraction* map) 
-	: Cluster(map)
+ConvexCluster::ConvexCluster(int x, int y, EmptyClusterAbstraction* map) 
+	: EmptyCluster(x, y, map)
 {
 
 }
@@ -14,11 +15,6 @@ void ConvexCluster::buildCluster()
 {
 }
 
-void ConvexCluster::buildEntrances()
-{
-}
-
-void ConvexCluster::connectParent(node*) 
-	throw(std::invalid_argument)
+void ConvexCluster::openGLDraw()
 {
 }

@@ -1,20 +1,23 @@
-/*
- * RectangularRoom.h
- *
- *  Creates a maximal size cluster which is obstacle free. 
- *  Nodes and edges which appear along the perimeter of such clusters are
- *  added to the abstract graph. 
- *
- * 	NB: Clusters are extended in size using a floodfill approach.
- * 	NB2: Every possible transition point is created when an entrance
- * 	between two adjacent clusters is identified.
- *
- * @author: dharabor
- * @created: 10/02/2010
- */
-
 #ifndef RECTANGULARROOM_H
 #define RECTANGULARROOM_H
+
+// RectangularRoom.h
+//
+//  Creates a maximal size cluster which is obstacle free. 
+//  Nodes and edges which appear along the perimeter of such clusters are
+//  added to the abstract graph. 
+//
+// 	NB1: Clusters are grown by first computing a maximal size empty square
+// 	beginning at the cluster originl (x, y) and then extended into a maximal 
+// 	size rectangle.
+//
+// 	NB2: Both straight and diagonal transitions are considered when computing
+// 	entrances between two adjacent clusters.
+//
+// @author: dharabor
+// @created: 10/02/2010
+//
+
 
 #ifdef OS_MAC
 	#include "GLUT/glut.h"
@@ -24,16 +27,17 @@
 	#include <GL/gl.h>
 #endif
 
-#include "HPACluster.h"
+#include "EmptyCluster.h"
 #include <vector>
 
-class graph;
-class HPAClusterAbstraction;
-class Entrance;
-class MacroNode;
-class edge;
+namespace RectangularRoomNS
+{
+	typedef enum 
+	{LEFT, RIGHT, TOP, BOTTOM, NONE} 
+	RoomSide;
+}
 
-
+using namespace RectangularRoomNS; 
 class RectangularRoom : public EmptyCluster
 {
 	#ifdef UNITTEST
@@ -41,35 +45,36 @@ class RectangularRoom : public EmptyCluster
 	#endif
 
 	public:
-		RectangularRoom(const int x, const int y, bool perimeterReduction=true, bool bfReduction = false)
+		RectangularRoom(const int x, const int y, EmptyClusterAbstraction* map, 
+				bool perimeterReduction=true, bool bfReduction=false)
 			throw(std::invalid_argument);
 		virtual ~RectangularRoom();
 
-		void growCluster(HPAClusterAbstraction*);
-		void growCluster(HPAClusterAbstraction*, int** clearance);
+		virtual void buildCluster();
 
-		MacroNode* nextNodeInColumn(int x, int y, HPAClusterAbstraction* hpamap,
-				bool leftToRight);
-		MacroNode* nextNodeInRow(int x, int y, HPAClusterAbstraction* hpamap,
-				bool topToBottom);
+		int getHeight() { return height; }
+		int getWidth() { return width; }
+	
+		// methods supporting online node pruning
+		void resetBest();
+		void setBestExpandedNode(node* n);
+		node* getBestExpandedNode(RoomSide side);
+		node *bestLeft, *bestRight, *bestTop, *bestBottom;
+		RoomSide whichSide(node* n);
+
+		virtual void openGLDraw();
 
 	protected:
-		virtual void buildHorizontalEntrances(HPAClusterAbstraction* hpamap);
-		virtual void buildVerticalEntrances(HPAClusterAbstraction* hpamap);
-
-		virtual void processVerticalEntrance(HPAClusterAbstraction* hpamap,
-				int x, int y, int length);
-		virtual void processHorizontalEntrance(HPAClusterAbstraction* hpamap,
-				int x, int y, int length);
 
 	private:
-		void initOpenGLCoordinates(HPAClusterAbstraction*);
-		bool canExtendClearanceSquare(HPAClusterAbstraction* hpamap);
-		bool canExtendHorizontally(HPAClusterAbstraction* hpamap); 
-		bool canExtendVertically(HPAClusterAbstraction* hpamap);
+		void initOpenGLCoordinates();
+		bool canExtendClearanceSquare();
+		bool canExtendHorizontally(); 
+		bool canExtendVertically();
 
 		GLdouble glx, gly, glz;  // OpenGL origin coordinates
 		GLdouble glHeight, glWidth;
+		int width, height;
 
 };
 
