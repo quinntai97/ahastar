@@ -21,6 +21,11 @@ void MacroNode::reset()
 	setParent(0);
 }
 
+void MacroNode::addSecondaryEdge(edge* e)
+{
+	secondaryEdges.push_back(e); 
+}
+
 void MacroNode::removeSecondaryEdge(int edgeNum)
 {
 	std::vector<edge*>::iterator iter = secondaryEdges.begin();

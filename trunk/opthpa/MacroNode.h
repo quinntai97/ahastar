@@ -15,14 +15,21 @@ class MacroNode : public ClusterNode
 		MacroNode(const char* _n);
 		MacroNode(const MacroNode* n);		
 		virtual ~MacroNode();
-		virtual graph_object* clone() const { return new MacroNode(this); }
+		virtual graph_object* clone() const 
+		{ 
+			return new MacroNode(this); 
+		}
 		virtual void reset();
 
 		inline void	setParent(MacroNode* _p) { p = _p; }
 		inline MacroNode* getParent() { return p; }
 
-		std::vector<edge*>::iterator secondaryEdgeIter() { return secondaryEdges.begin(); }
-		void addSecondaryEdge(edge* e) { secondaryEdges.push_back(e); }
+		std::vector<edge*>::iterator secondaryEdgeIter() 
+		{ 
+			return secondaryEdges.begin(); 
+		}
+
+		void addSecondaryEdge(edge* e); 
 		
 		// get an edge using its index in the secondaryEdges collection
 		edge* getSecondaryEdge(int index);

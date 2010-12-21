@@ -1,6 +1,6 @@
 #include "PerimeterSearch.h"
 
-#include "EmptyCluster.h"
+#include "RectangularRoom.h"
 #include "EmptyClusterAbstraction.h"
 #include "MacroNode.h"
 #include "MacroEdge.h"
@@ -21,7 +21,8 @@ path* PerimeterSearch::getPath(graphAbstraction *aMap, node *from, node *to, res
 	return ClusterAStar::getPath(aMap, from, to, rp);
 }
 
-void PerimeterSearch::expand(node* current_, node* goal, edge_iterator begin, 
+void 
+PerimeterSearch::expand(node* current_, node* goal, edge_iterator begin, 
 		unsigned int card, heap* openList, std::map<int, node*>& closedList, graph* g)
 {
 	if(verbose)
@@ -80,15 +81,17 @@ void PerimeterSearch::expand(node* current_, node* goal, edge_iterator begin,
 	}
 }
 
-bool PerimeterSearch::expandSecondary(MacroNode* current, node* goal)
+bool 
+PerimeterSearch::expandSecondary(MacroNode* current, node* goal)
 {
 	bool retVal = true;
 	EmptyClusterAbstraction* aMap = dynamic_cast<EmptyClusterAbstraction*>(this->getGraphAbstraction());
-	EmptyCluster* parentCluster = aMap->getCluster(current->getParentClusterId());
+	RectangularRoom* parentCluster = dynamic_cast<RectangularRoom*>(
+			aMap->getCluster(current->getParentClusterId()));
 
 	if(visitedClusters.find(parentCluster->getId()) != visitedClusters.end())
 	{
-		EmptyCluster::RoomSide side = parentCluster->whichSide(current);
+		RectangularRoomNS::RoomSide side = parentCluster->whichSide(current);
 		node* best = parentCluster->getBestExpandedNode(side);
 
 		if(verbose)

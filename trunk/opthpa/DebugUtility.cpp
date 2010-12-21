@@ -34,8 +34,9 @@ void DebugUtility::printPath(path* p)
 		double hcost = heuristic->h(n, goal);
 		if(last)
 			gcost += heuristic->h(n, last);
-		std::cout << "id: "<<n->getUniqueID()<<" node @ "<<n->getName();
-		std::cout << " g: "<<gcost<<" f: "<<gcost+hcost<<std::endl;
+		std::cout << "0x"<<*&n<<" id: "<<n->getUniqueID()<<" node @ "<<n->getName();
+		std::cout << " g: "<<gcost<<" f: "<<gcost+hcost;
+		std::cout << " drawColor: "<<n->drawColor<<std::endl;
 		last = n;
 		p = p->next;
 	}		

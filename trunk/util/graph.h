@@ -168,6 +168,7 @@ class edge : public graph_object {
 	
  private:
 	friend class graph;
+	friend class EmptyCluster;
 	bool mark;
 	unsigned int from, to;
 //	double weight;

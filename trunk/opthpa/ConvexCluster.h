@@ -16,18 +16,17 @@
 //	@author: dharabor
 //	@created: 28/10/2010
 
+#include "EmptyCluster.h"
 
-class ConvexCluster : public Cluster
+class EmptyClusterAbstraction;
+class ConvexCluster : public EmptyCluster
 {
 	public:
-		ConvexCluster();
+		ConvexCluster(int x, int y, EmptyClusterAbstraction* map);
 		virtual ~ConvexCluster();
 
 		virtual void buildCluster();
-		virtual void buildEntrances();
-		virtual void connectParent(node*) 
-			throw(std::invalid_argument);
-
+		virtual void openGLDraw();
 };
 
 #endif

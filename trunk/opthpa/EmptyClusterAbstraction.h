@@ -16,31 +16,32 @@
 #define EMPTYCLUSTERABSTRACTION_H
 
 #include "HPAUtil.h"
-#include "HPAClusterAbstraction.h"
+#include "GenericClusterAbstraction.h"
 #include "EmptyCluster.h"
 
-class IHPAClusterFactory;
+class IClusterFactory;
 class INodeFactory;
 class IEdgeFactory;
 class Map;
 class node;
 class MacroEdge;
+class MacroNode;
 
-class EmptyClusterAbstraction : public HPAClusterAbstraction
+class EmptyClusterAbstraction : public GenericClusterAbstraction
 {
 	#ifdef UNITTEST
 		friend class EmptyClusterTest;
 	#endif
 
 	public:
-		EmptyClusterAbstraction(Map* m, IHPAClusterFactory* cf, INodeFactory* nf, 
+		EmptyClusterAbstraction(Map* m, IClusterFactory* cf, INodeFactory* nf, 
 				IEdgeFactory* ef, bool allowDiagonals=true, 
 				bool perimeterReduction=true, bool bfReduction=false)
 			throw(std::invalid_argument);
 		virtual ~EmptyClusterAbstraction();
 
 		virtual void buildClusters();
-		virtual void buildClusters2();
+
 		virtual	EmptyCluster* clusterIterNext(cluster_iterator&) const;
 		virtual EmptyCluster* getCluster(int cid);
 		
@@ -63,7 +64,6 @@ class EmptyClusterAbstraction : public HPAClusterAbstraction
 		void cardinalConnectSG(MacroNode* absNode);
 		void connectSGToNeighbour(MacroNode* absNode, MacroNode* absNeighbour);
 
-		void computeClearance(int** clearance);
 		MacroEdge* sgEdge;
 
 		bool perimeterReduction;

@@ -1,31 +1,39 @@
-/*
- *  ClusterFactory.cpp
- *  hog
- *
- *  Created by dharabor on 11/11/08.
- *  Copyright 2008 __MyCompanyName__. All rights reserved.
- *
- */
-
 #include "HPAClusterFactory.h"
-#include "HPACluster.h"
 #include "ClusterAStar.h"
+#include "HPAClusterAbstraction.h"
+#include "HPACluster.h"
 #include <stdexcept>
 
 HPAClusterFactory::HPAClusterFactory() 
 {
 }
 
-HPACluster* HPAClusterFactory::createCluster(int xpos, int ypos)
+AbstractCluster* 
+HPAClusterFactory::createCluster(int xpos, int ypos, 
+		GenericClusterAbstraction* map_)
 {
+	HPAClusterAbstraction *map = dynamic_cast<HPAClusterAbstraction*>(map_);
+	if(map == 0)
+		throw std::invalid_argument("HPAClusterFactory: new cluster "
+				"requires a map abstraction of type HPAClusterAbstraction");
+
 	ClusterAStar* castar = new ClusterAStar();
-	return createCluster(xpos, ypos, 10, 10, castar);
+	return createCluster(xpos, ypos, 10, 10, castar, map);
 }
 
-HPACluster* HPAClusterFactory::createCluster(int xpos, int ypos, int width, int height, AbstractClusterAStar* castar)
+HPACluster* 
+HPAClusterFactory::createCluster(int xpos, int ypos, 
+		int width, int height, AbstractClusterAStar* castar,
+		HPAClusterAbstraction* map)
 {
-		if(castar == NULL)
-			throw std::invalid_argument("HPAClusterFactory: new cluster requires a non-null AbstractClusterAStar object");
-		return new HPACluster(xpos, ypos, width, height, castar);
+	if(castar == 0)
+		throw std::invalid_argument("HPAClusterFactory: new cluster "
+				"requires a non-null AbstractClusterAStar object");
+	if(map == 0)
+		throw std::invalid_argument("HPAClusterFactory: new cluster "
+				"requires a non-null HPAClusterAbstraction object");
+
+
+	return new HPACluster(xpos, ypos, width, height, castar, map);
 }
 

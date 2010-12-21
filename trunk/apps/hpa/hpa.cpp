@@ -59,23 +59,9 @@ bool hog_gui=true;
 bool highquality=true;
 int CLUSTERSIZE=10;
 
-/**
- * This function is called each time a unitSimulation is deallocated to
- * allow any necessary stat processing beforehand
- */
-
+// useless legacy function; use overloaded version instead
 void processStats(statCollection *stat)
 {
-	if(stat->getNumStats() == 0)
-		return;
-	
-	std::string unitname;
-	if(runAStar) // aha is next; we just finished aa* experiment
-		unitname = "CAStar";		
-	else
-		unitname = "HPAStar2";
-	
-	processStats(stat, unitname.c_str());
 	stat->clearAllStats();
 }
 
@@ -118,7 +104,7 @@ void processStats(statCollection* stat, const char* unitname)
 	nt = val.lval;
 	fprintf(f, "%i,\t", nt);
 
-	exists = stat->lookupStat("peakMemory", unitname, val);
+	exists = stat->lookupStat("nodesGenerated", unitname, val);
 	assert(exists);
 	pm = val.lval;
 	fprintf(f, "%i,\t", pm);
@@ -140,7 +126,7 @@ void processStats(statCollection* stat, const char* unitname)
 		insnt = val.lval;
 		fprintf(f, "%i,\t", insnt);
 		
-		exists = stat->lookupStat("insPeakMemory", unitname, val);
+		exists = stat->lookupStat("insNodesGenerated", unitname, val);
 		assert(exists);
 		inspm = val.lval;
 		fprintf(f, "%i,\t", inspm);
@@ -163,6 +149,7 @@ void processStats(statCollection* stat, const char* unitname)
 
 	fflush(f);
 	fclose(f);
+	stat->clearAllStats();
 }
 
 /**
@@ -181,6 +168,7 @@ void createSimulation(unitSimulation * &unitSim)
 
 	ecmap->buildClusters();
 	ecmap->buildEntrances();
+	ecmap->clearColours();
 	//ecmap->setDrawClusters(true);
 	graph* absg = ecmap->getAbstractGraph(1);
 	graph* g = ecmap->getAbstractGraph(0);
@@ -232,16 +220,19 @@ void createSimulation(unitSimulation * &unitSim)
 void gogoGadgetNOGUIScenario(HPAClusterAbstraction* ecmap)
 {
 	ClusterAStar astar;
-	ClusterAStarFactory* caf = new ClusterAStarFactory();
-	HPAStar2 hpastar(false, false, caf);
+	HPAStar2 hpastar(new IncidentEdgesExpansionPolicy(ecmap), 
+			new OctileHeuristic());
+
 	statCollection stats;
 	
 	for(int i=0; i< scenariomgr.getNumExperiments(); i++)
 	{
 		expnum = i;
 		nextExperiment = (Experiment*)scenariomgr.getNthExperiment(i);
-		node* from = ecmap->getNodeFromMap(nextExperiment->getStartX(), nextExperiment->getStartY());
-		node* to = ecmap->getNodeFromMap(nextExperiment->getGoalX(), nextExperiment->getGoalY());
+		node* from = ecmap->getNodeFromMap(nextExperiment->getStartX(), 
+				nextExperiment->getStartY());
+		node* to = ecmap->getNodeFromMap(nextExperiment->getGoalX(), 
+				nextExperiment->getGoalY());
 		
 		path* p = astar.getPath(ecmap, from, to);
 		double distanceTravelled = ecmap->distance(p);
@@ -252,10 +243,17 @@ void gogoGadgetNOGUIScenario(HPAClusterAbstraction* ecmap)
 		delete p;
 		
 		p = hpastar.getPath(ecmap, from, to);
+		if(ecmap->distance(p) < distanceTravelled)
+		{
+			std::cerr << "FATAL: HPA* path length < A* path length\n";
+			delete p;
+			break;
+		}
+
 		distanceTravelled = ecmap->distance(p);
 		stats.addStat("distanceMoved", hpastar.getName(), distanceTravelled);
 		hpastar.logFinalStats(&stats);
-		processStats(&stats);
+		processStats(&stats, hpastar.getName());
 		stats.clearAllStats();
 		delete p;
 	}
@@ -440,11 +438,12 @@ void myNewUnitKeyHandler(unitSimulation *unitSim, tKeyboardModifier mod, char)
 	aMap->clearColours();
 	for(int i=0; i<unitSim->getNumUnits(); i++)
 	{
-		unit* lastunit = dynamic_cast<searchUnit*>(unitSim->getUnit(0));
+		searchUnit* lastunit = dynamic_cast<searchUnit*>(unitSim->getUnit(0));
 		if(lastunit)
 		{
 			lastunit->logFinalStats(unitSim->getStats());
-			processStats(unitSim->getStats());
+			processStats(unitSim->getStats(), 
+					lastunit->getAlgorithm()->getName());
 		}
 	}
 	unitSim->clearAllUnits();
@@ -520,7 +519,9 @@ void runNextExperiment(unitSimulation *unitSim)
 {	
 	if(expnum == scenariomgr.getNumExperiments()) 
 	{
-		processStats(unitSim->getStats());
+		searchUnit* lastunit = dynamic_cast<searchUnit*>(unitSim->getUnit(0));
+		processStats(unitSim->getStats(), 
+				lastunit->getAlgorithm()->getName());
 		delete unitSim;	
 		assert(graph_object::gobjCount == 0);
 		exit(0);
@@ -537,10 +538,15 @@ void runNextExperiment(unitSimulation *unitSim)
 	unit* nextTarget = new unit(nextExperiment->getGoalX(), nextExperiment->getGoalY());
 	if(runAStar)
 	{
-		IncidentEdgesExpansionPolicy* policy = new IncidentEdgesExpansionPolicy(aMap);
+		IncidentEdgesExpansionPolicy* policy = 
+			new IncidentEdgesExpansionPolicy(aMap);
+
 		OctileHeuristic* heuristic = new OctileHeuristic();
 		HPAStar2* hpastar = new HPAStar2(policy, heuristic);
-		nextUnit = new searchUnit(nextExperiment->getStartX(), nextExperiment->getStartY(), nextTarget, hpastar); 
+
+		nextUnit = new searchUnit(nextExperiment->getStartX(), 
+				nextExperiment->getStartY(), nextTarget, hpastar); 
+
 		nextUnit->setColor(1,0.98,0.8);
 		nextTarget->setColor(1,0.98,0.8);
 		expnum++;
@@ -550,7 +556,9 @@ void runNextExperiment(unitSimulation *unitSim)
 	else
 	{
 		ClusterAStar* astar = new ClusterAStar();
-		nextUnit = new searchUnit(nextExperiment->getStartX(), nextExperiment->getStartY(), nextTarget, astar); 
+		nextUnit = new searchUnit(nextExperiment->getStartX(), 
+				nextExperiment->getStartY(), nextTarget, astar); 
+
 		nextUnit->setColor(1,1,0);
 		nextTarget->setColor(1,1,0);
 		runAStar=true;

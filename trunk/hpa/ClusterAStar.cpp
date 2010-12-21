@@ -62,7 +62,7 @@ void AbstractClusterAStar::printPath(path* p)
 		double h = aMap->h(n, goal);
 		if(last)
 			g += aMap->h(n, last);
-		std::cout << "id: "<<n->getUniqueID()<<" node @ "<<n->getName();
+		std::cout << "0x"<<*&n<< " id: "<<n->getUniqueID()<<" node @ "<<n->getName();
 		std::cout << " g: "<<g<<" f: "<<g+h<<std::endl;
 		last = n;
 		p = p->next;
@@ -93,7 +93,6 @@ path* ClusterAStar::getPath(graphAbstraction *aMap, node* from, node* to, reserv
 	{
 		nodesExpanded=0;
 		nodesTouched=0;
-		peakmemory = 0;
 		searchTime =0;
 		nodesGenerated = 0;
 		return NULL;
@@ -108,7 +107,6 @@ path* AbstractClusterAStar::search(graph* g, node* from, node* goal)
 {
 	nodesExpanded=0;
 	nodesTouched=0;
-	peakmemory = 0;
 	searchTime =0;
 	nodesGenerated=0;
 
@@ -128,7 +126,6 @@ path* AbstractClusterAStar::search(graph* g, node* from, node* goal)
 	while(1) 
 	{
 		/* get the current node on the open list and check if it contains the goal */
-		peakmemory = openList->size()>peakmemory?openList->size():peakmemory;
 		node* current = ((node*)openList->remove()); 
 
 		if(current == goal)
@@ -342,7 +339,6 @@ bool ClusterAStar::evaluate(node* current, node* target, edge* e)
 void ClusterAStar::logFinalStats(statCollection *stats)
 {
 	searchAlgorithm::logFinalStats(stats);
-	stats->addStat("peakMemory",getName(),getPeakMemory());
 }
 
 bool ClusterAStar::checkParameters(graphAbstraction* aMap, node* from, node* to)
