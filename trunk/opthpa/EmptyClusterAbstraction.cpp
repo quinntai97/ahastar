@@ -56,7 +56,7 @@ void EmptyClusterAbstraction::buildClusters()
 
 	// set initial priorities of all potential cluster origins
 	// based on # of interior nodes in maximal clearance square of each tile
-	heap clusterseeds(30, false);
+	heap clusterseeds(30, false); // maxheap
 	for(int y=0; y<mapheight; y++)
 		for(int x=0; x<mapwidth; x++)
 		{
@@ -70,8 +70,13 @@ void EmptyClusterAbstraction::buildClusters()
 				cluster->buildCluster();
 				cluster->setVerbose(getVerbose());
 
-				double ratio = cluster->getNumNodes() / cluster->getNumParents();
-				n->setLabelF(kTemporaryLabel, ratio);
+				double priority = cluster->getNumNodes();
+//				n->Print(std::cout);
+//				std::cout << "cluster size: "<<cluster->getNumNodes() << 
+//					" priority: "<<priority;
+//				std::cout << std::endl;
+
+				n->setLabelF(kTemporaryLabel, priority);
 				n->setKeyLabel(kTemporaryLabel);
 				clusterseeds.add(n);
 				delete cluster;
@@ -83,6 +88,14 @@ void EmptyClusterAbstraction::buildClusters()
 	while(!clusterseeds.empty())
 	{
 		ClusterNode* cur = dynamic_cast<ClusterNode*>(clusterseeds.peek());
+		assert(cur);
+		if(getVerbose())
+		{
+			std::cout << "cluster seed ";
+			cur->Print(std::cout);
+			std::cout << " priority: "<<cur->getLabelF(kTemporaryLabel);
+			std::cout << std::endl;
+		}
 
 		if(cur->getParentClusterId() == -1)
 		{
@@ -96,13 +109,13 @@ void EmptyClusterAbstraction::buildClusters()
 			cluster->buildCluster();
 			cluster->setVerbose(getVerbose());
 
-			double ratio = cluster->getNumNodes() / cluster->getNumParents();
-			if(ratio >= cur->getLabelF(kTemporaryLabel))
+			double priority = cluster->getNumNodes();
+			if(priority >= cur->getLabelF(kTemporaryLabel))
 			{
 				addCluster(cluster);
 				if(this->getVerbose())
 				{
-					std::cout << "new cluster w/ priority "<<ratio<<":\n";
+					std::cout << "new cluster w/ priority "<<priority<<":\n";
 				    cluster->print(std::cout);	
 				}
 				clusterseeds.remove();
@@ -110,97 +123,26 @@ void EmptyClusterAbstraction::buildClusters()
 			}
 			else
 			{
-				cur->setLabelF(kTemporaryLabel, ratio); 
+				cur->setLabelF(kTemporaryLabel, priority); 
 				clusterseeds.decreaseKey(cur);
+				if(this->getVerbose())
+					std::cout << " updating; new priority "<<priority<<"\n";
 				delete cluster;
 			}
 		}
 		else
 		{
+			if(this->getVerbose())
+				std::cout << " seed already assigned; removing\n";
 			clusterseeds.remove();
 		}
 		
 	}
-}
 
-// each start/goal node is connected to the nearest abstract node along each border
-// of the cluster. i.e. it has 4 neighbours (one above, below, to the left and right).
-void
-EmptyClusterAbstraction::insertStartAndGoalNodesIntoAbstractGraph(node* s, node* g)
-	throw(std::invalid_argument)
-{
-	if(s->getLabelL(kParent) == -1)
+	if(this->getVerbose())
 	{
-		ClusterNode* start = dynamic_cast<ClusterNode*>(s);
-		AbstractCluster* cluster = this->getCluster(
-			start->getParentClusterId());
-
-		if(getVerbose())
-		{
-			const int x = start->getLabelL(kFirstData);
-			const int y = start->getLabelL(kFirstData+1);
-			std::cout << "inserting start node ("<<x<<", "<<y<<") "
-				"into abstract graph"<<std::endl;
-		}
-
-		cluster->addParent(start);
-		startid = start->getLabelL(kParent);
-		assert(startid != -1);
-	}
-
-	if(g->getLabelL(kParent) == -1)
-	{
-		ClusterNode* goal = dynamic_cast<ClusterNode*>(g);
-		AbstractCluster* cluster = this->getCluster(
-			goal->getParentClusterId());
-
-		if(getVerbose())
-		{
-			const int x = goal->getLabelL(kFirstData);
-			const int y = goal->getLabelL(kFirstData+1);
-			std::cout << "inserting goal node ("<<x<<", "<<y<<") "
-				"into abstract graph"<<std::endl;
-		}
-
-		cluster->addParent(goal);
-		goalid = goal->getLabelL(kParent);
-		assert(goalid != -1);
-	}
-}
-
-void 
-EmptyClusterAbstraction::removeStartAndGoalNodesFromAbstractGraph() 
-	throw(std::runtime_error)
-{
-	graph* absg = this->getAbstractGraph(1);
-	if(startid != -1)
-	{
-		ClusterNode* start = dynamic_cast<ClusterNode*>(
-				absg->getNode(startid));
-		AbstractCluster* cluster = this->getCluster(
-				start->getParentClusterId());
-
-		if(getVerbose())
-			std::cout << "removing inserted start node"<<std::endl;
-
-		cluster->removeParent(startid);
-		startid = -1;
-		delete start;
-	}
-
-	if(goalid != -1)
-	{
-		ClusterNode* goal = dynamic_cast<ClusterNode*>(
-				absg->getNode(goalid));
-		AbstractCluster* cluster = this->getCluster(
-				goal->getParentClusterId());
-
-		if(getVerbose())
-			std::cout << "removing inserted start node"<<std::endl;
-
-		cluster->removeParent(goalid);
-		goalid = -1;
-		delete goal;
+		std::cout << "EmptyClusterAbstaction::buildClusters created"
+			<< getNumClusters() << " clusters\n";
 	}
 }
 

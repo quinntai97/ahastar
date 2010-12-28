@@ -1,10 +1,17 @@
 #include "EmptyCluster.h"
-#include "EmptyClusterAbstraction.h"
+
 #include "ClusterNode.h"
 #include "constants.h"
+#include "EmptyClusterAbstraction.h"
+#include "FlexibleAStar.h"
+#include "fpUtil.h"
 #include "IEdgeFactory.h"
+#include "IncidentEdgesExpansionPolicy.h"
 #include "MacroEdge.h"
 #include "MacroNode.h"
+#include "MacroNodeFactory.h"
+#include "ManhattanHeuristic.h"
+#include "OctileHeuristic.h"
 
 EmptyCluster::EmptyCluster(int x, int y, EmptyClusterAbstraction* map, 
 		bool pr, bool bfr) : AbstractCluster(x, y, map)
@@ -25,33 +32,112 @@ EmptyCluster::~EmptyCluster()
 void 
 EmptyCluster::buildEntrances()
 {
-	for(HPAUtil::nodeTable::iterator it = nodes.begin(); it != nodes.end(); it++)
-	{
-		ClusterNode* n = dynamic_cast<ClusterNode*>((*it).second);
-		assert(n);
+	if(verbose)
+		std::cout << "EmptyCluster::buildEntrances\n";
 
-		// perimeter nodes either have a smaller branching factor
-		// than expected (being next to obstacles) 
-		// or they're adjacent to nodes from an adjoining cluster
+	frameCluster();
+	int before = map->getAbstractGraph(1)->getNumNodes();
+		
+	graph* absg = map->getAbstractGraph(1);
+	for(HPAUtil::nodeTable::iterator it = nodes.begin(); 
+			it != nodes.end(); 
+			it++)
+	{
+		MacroNode* n = dynamic_cast<MacroNode*>((*it).second);
+		assert(n);
+		
+		if(n->getLabelL(kParent) != -1)
+		{
+			node* parent = absg->getNode(n->getLabelL(kParent));
+			assert(parent);
+			addParent(parent);
+		}
+	}
+	assert(before == map->getAbstractGraph(1)->getNumNodes());
+}
+
+//void 
+//EmptyCluster::buildEntrances()
+//{
+//	for(HPAUtil::nodeTable::iterator it = nodes.begin(); it != nodes.end(); it++)
+//	{
+//		ClusterNode* n = dynamic_cast<ClusterNode*>((*it).second);
+//		assert(n);
+//
+//		// perimeter nodes either have a smaller branching factor
+//		// than expected (being next to obstacles) 
+//		// or they're adjacent to nodes from an adjoining cluster
+//		bool allowDiagonals = getMap()->getAllowDiagonals();
+//		if((allowDiagonals && n->getNumEdges() < 8) ||
+//				(!allowDiagonals && n->getNumEdges() < 4))
+//		{
+//				addParent(n);
+//		}
+//		else
+//		{
+//			neighbor_iterator iter = n->getNeighborIter();
+//			for(int neighbourId = n->nodeNeighborNext(iter);
+//					neighbourId != -1; 
+//					neighbourId = n->nodeNeighborNext(iter))
+//			{
+//					ClusterNode* neighbour = dynamic_cast<ClusterNode*>(
+//									map->getAbstractGraph(0)->getNode(neighbourId));
+//					assert(neighbour);
+//					if(neighbour->getParentClusterId() != this->getId())
+//							addParent(n);   
+//			}
+//		}
+//	}
+//}
+
+
+void
+EmptyCluster::frameCluster()
+{
+	MacroNodeFactory* nf = dynamic_cast<MacroNodeFactory*>(
+			map->getNodeFactory());
+	graph* absg = map->getAbstractGraph(1);
+	assert(nf);
+
+	for(HPAUtil::nodeTable::iterator it = nodes.begin(); 
+			it != nodes.end(); 
+			it++)
+	{
+		MacroNode* n = dynamic_cast<MacroNode*>((*it).second);
+		assert(n);
+		assert(n->getLabelL(kParent) == -1);
+
 		bool allowDiagonals = getMap()->getAllowDiagonals();
 		if((allowDiagonals && n->getNumEdges() < 8) ||
 			(!allowDiagonals && n->getNumEdges() < 4))
 		{
-			addParent(n);
+			MacroNode* parent = nf->newNode(n); 
+			assert(parent);
+			parent->setLabelL(kAbstractionLevel, 1);
+			absg->addNode(parent);
+			n->setLabelL(kParent, parent->getNum());
 		}
 		else
 		{
 			neighbor_iterator iter = n->getNeighborIter();
-			int neighbourId = n->nodeNeighborNext(iter);
-			while(neighbourId != -1)
+			for(int neighborId = n->nodeNeighborNext(iter);
+					neighborId != -1; 
+					neighborId = n->nodeNeighborNext(iter))
 			{
-				ClusterNode* neighbour = dynamic_cast<ClusterNode*>(
-						map->getAbstractGraph(0)->getNode(neighbourId));
-				assert(neighbour);
-				if(neighbour->getParentClusterId() != this->getId())
-					addParent(neighbour);	
+				ClusterNode* neighbor = dynamic_cast<ClusterNode*>(
+						map->getAbstractGraph(0)->getNode(neighborId));
+				assert(neighbor);
+				if(neighbor->getParentClusterId() != n->getParentClusterId())
+				{
+					MacroNode* parent = nf->newNode(n);
+					assert(parent);
+					parent->setLabelL(kAbstractionLevel, 1);
+					absg->addNode(parent);
+					n->setLabelL(kParent, parent->getNum());
+					break;
+				}
 			}
-		}
+		}	
 	}
 }
 
@@ -64,14 +150,13 @@ EmptyCluster::connectParent(node* n)
 }
 
 void 
-EmptyCluster::removeParent(int nodeId)
+EmptyCluster::removeParent(node* n_)
 {
-	AbstractCluster::removeParent(nodeId);
-
-	graph* absg = map->getAbstractGraph(1);
-	MacroNode* n = dynamic_cast<MacroNode*>(absg->getNode(nodeId));
+	MacroNode* n = dynamic_cast<MacroNode*>(n_);
 	assert(n);
 
+	AbstractCluster::removeParent(n);
+	graph* absg = map->getAbstractGraph(1);
 	for(unsigned int i=0; i<n->numSecondaryEdges(); i++)
 	{
 		edge* e = n->getSecondaryEdge(i);
@@ -216,14 +301,15 @@ EmptyCluster::addMacroEdges(node* n)
 {
 	if(getMap()->getAllowDiagonals())
 	{
-		addDiagonalMacroEdgeSet(n, EmptyClusterNS::N, EmptyClusterNS::NW);
-		addDiagonalMacroEdgeSet(n, EmptyClusterNS::N, EmptyClusterNS::NE);
-		addDiagonalMacroEdgeSet(n, EmptyClusterNS::E, EmptyClusterNS::NE);
-		addDiagonalMacroEdgeSet(n, EmptyClusterNS::E, EmptyClusterNS::SE);
-		addDiagonalMacroEdgeSet(n, EmptyClusterNS::S, EmptyClusterNS::SE);
-		addDiagonalMacroEdgeSet(n, EmptyClusterNS::S, EmptyClusterNS::SW);
-		addDiagonalMacroEdgeSet(n, EmptyClusterNS::W, EmptyClusterNS::SW);
-		addDiagonalMacroEdgeSet(n, EmptyClusterNS::W, EmptyClusterNS::NW);
+		addShortcutMacroEdges(n);
+		addDiagonalFanMacroEdgeSet(n, EmptyClusterNS::N, EmptyClusterNS::NE);
+		addDiagonalFanMacroEdgeSet(n, EmptyClusterNS::E, EmptyClusterNS::NE);
+		addDiagonalFanMacroEdgeSet(n, EmptyClusterNS::E, EmptyClusterNS::SE);
+		addDiagonalFanMacroEdgeSet(n, EmptyClusterNS::S, EmptyClusterNS::SE);
+		addDiagonalFanMacroEdgeSet(n, EmptyClusterNS::S, EmptyClusterNS::SW);
+		addDiagonalFanMacroEdgeSet(n, EmptyClusterNS::W, EmptyClusterNS::SW);
+		addDiagonalFanMacroEdgeSet(n, EmptyClusterNS::W, EmptyClusterNS::NW);
+		addDiagonalFanMacroEdgeSet(n, EmptyClusterNS::N, EmptyClusterNS::NW);
 	}
 	else
 		addCardinalMacroEdgeSet(n);
@@ -283,7 +369,7 @@ EmptyCluster::addCardinalMacroEdgeSet(node* n)
 // NB: assumes the cluster is convex and perimeter reduction has not been
 // applied.
 void 
-EmptyCluster::addDiagonalMacroEdgeSet(node* n, EmptyClusterNS::Direction cd, 
+EmptyCluster::addDiagonalFanMacroEdgeSet(node* n, EmptyClusterNS::Direction cd, 
 		EmptyClusterNS::Direction dd)
 {
 	assert( cd == EmptyClusterNS::N || cd == EmptyClusterNS::S || 
@@ -298,7 +384,14 @@ EmptyCluster::addDiagonalMacroEdgeSet(node* n, EmptyClusterNS::Direction cd,
 	if(!first || !second)
 		return;
 
-	int dsteps_max = DiagonalStepsBetween(first, second);
+	Heuristic* h = 0;
+	if(map->getAllowDiagonals())
+		h = new OctileHeuristic();
+	else
+		h = new ManhattanHeuristic();
+
+	FlexibleAStar astar(new IncidentEdgesExpansionPolicy(map), h); 
+	int dsteps_max = DiagonalStepsBetween(n, second);
 	for(int dsteps = 0; dsteps <= dsteps_max; dsteps++)
 	{	
 		int x = n->getLabelL(kFirstData);
@@ -324,13 +417,63 @@ EmptyCluster::addDiagonalMacroEdgeSet(node* n, EmptyClusterNS::Direction cd,
 			y += dsteps;
 		}
 
-		node* neighbour = map->getNodeFromMap(x, y);
-		if(neighbour && dsteps > 0)
-			dsteps = dsteps_max; // stop early to avoid adding symmetric edges
-		else
-			neighbour = findPerimeterNode(map->getNodeFromMap(x, y), cd);
+		graph* absg = map->getAbstractGraph(1);
+		node* neighbour = absg->getNode(
+				map->getNodeFromMap(x, y)->getLabelL(kParent));
 
-		assert(neighbour);
+		// stop early if we've hit a perimeter node using only diagonal steps;
+		// else keep looking for it by walking in a cardinal direction
+		if(neighbour && dsteps > 0)
+			break;
+		else
+		{
+			neighbour = findPerimeterNode(map->getNodeFromMap(x, y), cd); 
+			assert(neighbour);
+			assert(neighbour->getLabelL(kAbstractionLevel) == 1);
+
+			// add non-dominated edges
+			double dist = map->h(n, neighbour);
+			path* p = astar.getPath(map, n, neighbour);
+			double plen = map->distance(p);
+			if(fless(dist, plen))
+			{
+				addSingleMacroEdge(n, neighbour, map->h(n, neighbour), 
+						map->getAbstractGraph(1), true);
+			}
+		}
+	}
+}
+
+// Connects each node to a set of primary neighbours that are reachable by
+// only travelling in a diagonal direction (NE, SE, SW, NW)
+void
+EmptyCluster::addShortcutMacroEdges(node *n)
+{
+	node* neighbour = 0;
+	neighbour = findPerimeterNode(n, EmptyClusterNS::NE);
+	if(neighbour)
+	{
+		addSingleMacroEdge(n, neighbour, map->h(n, neighbour), 
+				map->getAbstractGraph(1), false);
+	}
+
+	neighbour = findPerimeterNode(n, EmptyClusterNS::SE);
+	if(neighbour)
+	{
+		addSingleMacroEdge(n, neighbour, map->h(n, neighbour), 
+				map->getAbstractGraph(1), false);
+	}
+
+	neighbour = findPerimeterNode(n, EmptyClusterNS::SW);
+	if(neighbour)
+	{
+		addSingleMacroEdge(n, neighbour, map->h(n, neighbour), 
+				map->getAbstractGraph(1), false);
+	}
+
+	neighbour = findPerimeterNode(n, EmptyClusterNS::NW);
+	if(neighbour)
+	{
 		addSingleMacroEdge(n, neighbour, map->h(n, neighbour), 
 				map->getAbstractGraph(1), false);
 	}
@@ -351,15 +494,14 @@ EmptyCluster::addSingleMacroEdge(node* from_, node* to_, double weight,
 	assert(from && to);
 	assert(from->getParentClusterId() == to->getParentClusterId());
 
-	MacroEdge* e = static_cast<MacroEdge*>(
-			absg->findEdge(from->getNum(), to->getNum()));
+	edge* e = absg->findEdge(from->getNum(), to->getNum());
 	if(e == 0 && from->getParentClusterId() == to->getParentClusterId())
 	{
-		e = static_cast<MacroEdge*>(findSecondaryEdge(from->getNum(), to->getNum()));
+		e = findSecondaryEdge(from->getNum(), to->getNum());
 		if(e == 0 && secondaryEdge && bfReduction)
 		{
-			e = dynamic_cast<MacroEdge*>(map->getEdgeFactory()->newEdge(
-					from->getNum(), to->getNum(), weight));
+			e = map->getEdgeFactory()->newEdge(from->getNum(), 
+					to->getNum(), weight);
 			assert(e);
 			from->addSecondaryEdge(e);
 			to->addSecondaryEdge(e);
@@ -368,8 +510,8 @@ EmptyCluster::addSingleMacroEdge(node* from_, node* to_, double weight,
 		}
 		else
 		{
-			e = dynamic_cast<MacroEdge*>(map->getEdgeFactory()->newEdge(
-					from->getNum(), to->getNum(), weight));
+			e = map->getEdgeFactory()->newEdge(from->getNum(), 
+					to->getNum(), weight);
 			assert(e);
 			absg->addEdge(e);
 		}
@@ -386,10 +528,6 @@ EmptyCluster::addSingleMacroEdge(node* from_, node* to_, double weight,
 			std::cout << to->getLabelL(kFirstData+1);
 			std::cout <<") wt: "<<weight<< " ] "<<std::endl;
 		}
-	}
-	else
-	{
-		e->setSecondary(secondaryEdge);
 	}
 }
 
@@ -448,7 +586,7 @@ EmptyCluster::findPerimeterNode(node* n, EmptyClusterNS::Direction d)
 				x--;
 				break;
 			case EmptyClusterNS::SE:
-				y--;
+				y++;
 				x++;
 				break;
 		}
@@ -458,6 +596,9 @@ EmptyCluster::findPerimeterNode(node* n, EmptyClusterNS::Direction d)
 		if(neighbour && 
 		   neighbour->getParentClusterId() == this->getId())
 		{
+//			if(neighbour->getLabelL(kFirstData) == 18 &&
+//					neighbour->getLabelL(kFirstData+1) == 2)
+//				std::cout << "stop here plz\n";
 			int parentId = neighbour->getLabelL(kParent);
 			if(parentId != -1)
 			{
@@ -486,3 +627,62 @@ int EmptyCluster::DiagonalStepsBetween(node* n1, node* n2)
 	return maxdiagonal;
 }
 
+void 
+EmptyCluster::openGLDraw()
+{
+	Map* themap = map->getMap();
+	double depthmod = 0.4;
+	for(HPAUtil::nodeTable::iterator it = nodes.begin();
+			it != nodes.end(); it++)
+	{
+		node* cur = (*it).second;
+		if(isPerimeterNode(cur))
+		{
+			glBegin(GL_QUADS);
+			GLdouble xx, yy, zz, rr;
+			int x = cur->getLabelL(kFirstData);
+			int y = cur->getLabelL(kFirstData+1);
+			themap->getOpenGLCoord(x, y, xx, yy, zz, rr);
+			rr*=0.5;
+			zz = zz-rr*depthmod;
+
+			glColor3f(0.2, 0.6, 0.2);
+			glVertex3f(xx-rr, yy-rr, zz);
+			glVertex3f(xx-rr, yy+rr, zz);
+			glVertex3f(xx+rr, yy+rr, zz);
+			glVertex3f(xx+rr, yy-rr, zz);
+			glEnd();
+		}
+	}
+}
+
+bool
+EmptyCluster::isPerimeterNode(node* n_)
+{
+	bool retVal = false;
+	ClusterNode* n = static_cast<ClusterNode*>(n_);
+	assert(n);
+
+	if(map->getAllowDiagonals() && n->getNumEdges() < 8)
+		retVal = true;
+	else if(!map->getAllowDiagonals() && n->getNumEdges() < 4)
+		retVal = true;
+	else
+	{
+		neighbor_iterator it = n->getNeighborIter();
+		for( int nodeId = n->nodeNeighborNext(it);
+				nodeId != -1; 
+				nodeId = n->nodeNeighborNext(it) )
+		{
+			ClusterNode* nb = static_cast<ClusterNode*>(
+					map->getAbstractGraph(0)->getNode(nodeId));
+			if(nb->getParentClusterId() != n->getParentClusterId())
+			{
+				retVal = true;
+				break;
+			}
+		}
+	}
+
+	return retVal;
+}

@@ -130,8 +130,10 @@ FlexibleAStar::expand(node* current, node* goal, altheap* openList,
 	// expand the current node
 	if(verbose) 
 	{
+		double fVal = current->getLabelF(kTemporaryLabel);
+		double gVal = fVal - heuristic->h(current, goal);
 		debug->printNode(std::string("expanding... "), current);
-		std::cout << std::endl;
+		std::cout << " g: "<<gVal<<" f: "<<fVal<<std::endl;
 	}
 
 	nodesExpanded++;
@@ -145,23 +147,32 @@ FlexibleAStar::expand(node* current, node* goal, altheap* openList,
 		{
 			if(openList->isIn(neighbour)) 
 			{	
-				if(verbose) 
-				{
-					debug->printNode("\t\trelaxing...", neighbour);
-					std::cout << " fOld: "<<neighbour->getLabelF(kTemporaryLabel);
-				}
-
+				double fVal = neighbour->getLabelF(kTemporaryLabel);
 				relaxNode(current, neighbour, goal, policy->cost_to_n(), openList); 
 
-				if(verbose)
+				if(verbose) 
 				{
-					std::cout << " fNew: "<<neighbour->getLabelF(kTemporaryLabel);
+					if(neighbour->getLabelF(kTemporaryLabel) < fVal)
+					{
+						debug->printNode("\trelaxing...", neighbour);
+						std::cout << " gOld: "<< 
+							(fVal - heuristic->h(neighbour, goal)) <<
+							" fOld: "<< fVal;
+						double fVal = neighbour->getLabelF(kTemporaryLabel);
+						std::cout << " gNew: " <<
+							(fVal - heuristic->h(neighbour, goal)) <<
+							" fNew: "<<neighbour->getLabelF(kTemporaryLabel);
+					}
+					else
+					{
+						debug->printNode("\tcannot relax node...", neighbour);
+					}
 				}
 			}
 			else
 			{
 				if(verbose) 
-					debug->printNode("\t\tgenerating...", neighbour);
+					debug->printNode("\tgenerating...", neighbour);
 
 				neighbour->setLabelF(kTemporaryLabel, MAXINT); // initial fCost 
 				neighbour->setKeyLabel(kTemporaryLabel); // store priority here 
@@ -171,13 +182,29 @@ FlexibleAStar::expand(node* current, node* goal, altheap* openList,
 				nodesGenerated++;
 
 				if(verbose)
-					std::cout << " fNew: "<<neighbour->getLabelF(kTemporaryLabel);
+				{
+					double fVal = neighbour->getLabelF(kTemporaryLabel);
+					std::cout << " g: "<<(fVal - heuristic->h(neighbour, goal))
+							<< " fNew: "<< fVal;
+				}
 			}
 			if(markForVis)
 				neighbour->drawColor = 1; // visualise touched
 		}
 		else
+		{
+			if(verbose)
+			{
+				debug->printNode("\tclosed...", neighbour);
+				double fCur = current->getLabelF(kTemporaryLabel);
+				double gCur =  fCur - heuristic->h(current, goal);
+				double gAlt = gCur + policy->cost_to_n();
+				double fAlt = gAlt + heuristic->h(neighbour, goal);
+				double fClosed = neighbour->getLabelF(kTemporaryLabel);
+				std::cout << " (fClosed: "<<fClosed<<"; fAlt: "<<fAlt<<")";
+			}
 			debug->debugClosedNode(current, neighbour, policy->cost_to_n(), goal);
+		}
 
 		if(verbose)
 			std::cout << std::endl;

@@ -4,8 +4,8 @@
 #include "DebugUtility.h"
 #include "FlexibleAStar.h"
 #include "Heuristic.h"
-#include "HPACluster.h"
-#include "HPAClusterAbstraction.h"
+#include "AbstractCluster.h"
+#include "GenericClusterAbstraction.h"
 #include "ISearchAlgorithmFactory.h"
 #include "timer.h"
 #include "searchAlgorithm.h"
@@ -49,7 +49,7 @@ HPAStar2::getPath(graphAbstraction* aMap, node* from, node* to,
 	if(!checkParameters(from, to))
 		return NULL;
 
-	HPAClusterAbstraction* hpamap = dynamic_cast<HPAClusterAbstraction*>(aMap);
+	GenericClusterAbstraction* hpamap = dynamic_cast<GenericClusterAbstraction*>(aMap);
 	assert(hpamap != 0); 		
 
 	Timer t;
@@ -140,7 +140,7 @@ HPAStar2::getPath(graphAbstraction* aMap, node* from, node* to,
 
 // TODO: add support for refining paths across multliple levels of hierarchy.
 // This probably means storing a downward pointer with each abstract node.
-path* HPAStar2::refinePath(path* abspath, HPAClusterAbstraction* hpamap) 
+path* HPAStar2::refinePath(path* abspath, GenericClusterAbstraction* hpamap) 
 {
 	astar->verbose = false; // always off
 	graph *absg = hpamap->getAbstractGraph(1); 

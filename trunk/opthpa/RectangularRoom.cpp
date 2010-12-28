@@ -150,9 +150,11 @@ RectangularRoom::initOpenGLCoordinates()
 	glWidth+=2*rr;
 }
 
-void 
+/*void 
 RectangularRoom::openGLDraw()
 {
+	EmptyCluster::openGlDraw();
+
 //	glColor3f (0.6F, 0.9F, 0.4F);
 	glColor3f (0.0F, 0.6F, 0.0F);
 	//glColor3f(0.1, 0.1, 0.7);
@@ -166,6 +168,7 @@ RectangularRoom::openGLDraw()
 	glEnd();
 	glLineWidth(1.0f);
 }
+*/
 
 
 void 

@@ -4,6 +4,7 @@
 #include "constants.h"
 #include "HPAUtil.h"
 #include "IEdgeFactory.h"
+#include "INodeFactory.h"
 
 #include <cassert>
 unsigned AbstractCluster::uniqueClusterIdCnt = 0;
@@ -12,7 +13,7 @@ AbstractCluster::AbstractCluster(const int x, const int y,
 		GenericClusterAbstraction* map)
 {
 	if(x < 0 || y < 0)
-		throw std::invalid_argument("HPACluster::HPACluster: cluster (x,y) coordinates must be >= 0");
+		throw std::invalid_argument("AbstractCluster::AbstractCluster: cluster (x,y) coordinates must be >= 0");
 
 	this->startx = x;
 	this->starty = y;
@@ -27,21 +28,18 @@ AbstractCluster::~AbstractCluster()
 			it != nodes.end(); it = nodes.begin())
 	{
 		ClusterNode* n = dynamic_cast<ClusterNode*>((*it).second);
-		n->setParentCluster(0); if(n->getLabelL(kParent) != -1)
-		{
-			node* parent = map->getAbstractGraph(1)->getNode(n->getLabelL(kParent));
-			parent->setParentCluster(0);
-		}
+		n->setParentClusterId(-1); 
 		nodes.erase(it);
 	}
+	assert(nodes.size() == 0);
 
 	for(HPAUtil::nodeTable::iterator it = parents.begin();
 			it != parents.end(); it = parents.begin())
 	{
 		node* n = (*it).second;
-		this->removeParent(n->getNum());
-		parents.erase(it);
+		this->removeParent(n);
 	}
+	assert(parents.size() == 0);
 }
 
 // addParent is responsible for adding new abstract nodes to the cluster and
@@ -64,8 +62,10 @@ AbstractCluster::addParent(node* _p) throw(std::invalid_argument)
 
 	if(p->getLabelL(kAbstractionLevel) == 0)
 	{
-		ClusterNode* p2 = dynamic_cast<ClusterNode*>(p->clone());
+		ClusterNode* p2 = dynamic_cast<ClusterNode*>(
+				map->getNodeFactory()->newNode(p));
 		p2->setLabelL(kAbstractionLevel, 1);
+		p2->setLabelL(kParent, -1);
 		map->getAbstractGraph(1)->addNode(p2);
 		p->setLabelL(kParent, p2->getNum());
 		p = p2;
@@ -79,43 +79,43 @@ AbstractCluster::addParent(node* _p) throw(std::invalid_argument)
 	}
 
 	p->setParentClusterId(this->getId());
-	connectParent(p);
 	parents[p->getUniqueID()] = p;
+	connectParent(p);
 }
 
 void 
-AbstractCluster::removeParent(int nodeid)
+AbstractCluster::removeParent(node* n_)
 {
-	HPAUtil::nodeTable::iterator p_it = parents.find(nodeid);
-	if(p_it != parents.end())
-	{
-		ClusterNode* n = dynamic_cast<ClusterNode*>((*p_it).second);
-		
-		// disconnect parent from nodes in this cluster
-		edge_iterator it = n->getEdgeIter();
-		graph* g = getMap()->getAbstractGraph(
-				n->getLabelL(kAbstractionLevel));
-		for(    edge* e = n->edgeIterNext(it); 
-			e != 0; 
-			e = n->edgeIterNext(it))
-		{
-			ClusterNode* neighbour = dynamic_cast<ClusterNode*>(
-					     g->getNode(
-						e->getFrom()==n->getNum()?
-						e->getTo() : e->getFrom()));	
-			if(neighbour->getParentClusterId() == 
-				n->getParentClusterId())
-			{
-				g->removeEdge(e);
-			}
-		}
+	assert(n_->getLabelL(kAbstractionLevel) == 1);
 
-		// remove parent from parents list
-		n->setParentClusterId(0);
-		unsigned int numParents= parents.size();
-		parents.erase(p_it);
-		assert(parents.size() == --numParents);
-	}	
+	HPAUtil::nodeTable::iterator p_it = parents.find(n_->getUniqueID());
+	if(p_it == parents.end())
+		return;
+	
+	// remove the node from this cluster 
+	ClusterNode* n = dynamic_cast<ClusterNode*>(n_);
+	n->setParentClusterId(-1);
+
+	unsigned int numParents= parents.size();
+	parents.erase(p_it);
+	assert(parents.size() == --numParents);
+	
+	// disconnect parent from the rest of the abstract graph 
+	graph* g = getMap()->getAbstractGraph(
+			n->getLabelL(kAbstractionLevel));
+	edge_iterator it = n->getEdgeIter();
+	for(edge* e = n->edgeIterNext(it); 
+			e != 0; 
+			e = n->edgeIterNext(it = n->getEdgeIter()))
+	{
+			g->removeEdge(e);
+			delete e;
+	}
+	
+	// remove labels pointing to this node as a parent
+	map->getNodeFromMap(n->getLabelL(kFirstData),
+			n->getLabelL(kFirstData+1))->setLabelL(kParent, -1);
+
 }
 
 // argNode is responsible for assigning nodes to the cluster
@@ -229,3 +229,4 @@ AbstractCluster::printParents()
 		it++;
 	}
 }
+

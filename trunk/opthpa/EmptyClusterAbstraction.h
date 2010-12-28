@@ -45,11 +45,6 @@ class EmptyClusterAbstraction : public GenericClusterAbstraction
 		virtual	EmptyCluster* clusterIterNext(cluster_iterator&) const;
 		virtual EmptyCluster* getCluster(int cid);
 		
-		virtual void insertStartAndGoalNodesIntoAbstractGraph(node*, node*) 
-			throw(std::invalid_argument);
-		virtual void removeStartAndGoalNodesFromAbstractGraph() 
-			throw(std::runtime_error);
-
 		bool usingPerimeterRedction() { return perimeterReduction; }
 
 
