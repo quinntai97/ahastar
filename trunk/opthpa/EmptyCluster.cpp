@@ -440,6 +440,7 @@ EmptyCluster::addDiagonalFanMacroEdgeSet(node* n, EmptyClusterNS::Direction cd,
 				addSingleMacroEdge(n, neighbour, map->h(n, neighbour), 
 						map->getAbstractGraph(1), true);
 			}
+			delete p;
 		}
 	}
 }
