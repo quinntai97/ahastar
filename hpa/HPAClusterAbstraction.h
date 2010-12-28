@@ -34,22 +34,7 @@ class HPAClusterAbstraction : public GenericClusterAbstraction
 		
 		// need to make GenericClusterAbstraction concrete
 		virtual void buildClusters();
-		virtual void insertStartAndGoalNodesIntoAbstractGraph(node*, node*) 
-			throw(std::invalid_argument);
-		virtual void removeStartAndGoalNodesFromAbstractGraph() 
-			throw(std::runtime_error);
 
-		// measure insertion effort 
-		long getNodesExpanded() { return nodesExpanded; }
-		void setNodesExpanded(long num) { nodesExpanded = num; } 
-		long getNodesTouched() { return nodesTouched; }
-		void setNodesTouched(long num) { nodesTouched = num; } 
-		long getNodesGenerated() { return nodesGenerated; }
-		void setNodesGenerated(long num) { nodesGenerated = num; } 
-		double getSearchTime() { return searchTime; }
-		void setSearchTime(double num) { searchTime = num; }
-
-		virtual double h(node *a, node *b);
 		virtual void print(std::ostream& out);
 		void verifyClusters();
 
@@ -58,11 +43,6 @@ class HPAClusterAbstraction : public GenericClusterAbstraction
 
 	private:
 		unsigned int clustersize;
-
-		long nodesExpanded; 
-		long nodesTouched; 
-		double searchTime;
-		long nodesGenerated;
 };
 
 #endif

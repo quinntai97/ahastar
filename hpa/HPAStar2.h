@@ -17,7 +17,7 @@ class ExpansionPolicy;
 class DebugUtility;
 class FlexibleAStar;
 class Heuristic;
-class HPAClusterAbstraction;
+class GenericClusterAbstraction;
 class HPAStar2 : public searchAlgorithm 
 {
 	public:
@@ -41,7 +41,7 @@ class HPAStar2 : public searchAlgorithm
 
 		
 	protected:
-		virtual path* refinePath(path* abspath, HPAClusterAbstraction* hpamap);
+		virtual path* refinePath(path* abspath, GenericClusterAbstraction* hpamap);
 				
 	private:		
 		void updateMetrics();  
@@ -59,7 +59,7 @@ class HPAStar2 : public searchAlgorithm
 
 		// search options
 		bool refineAbstractPath;
-		bool fastRefinement; // should we use the path cache in HPAClusterAbstraction to speed up refinement?
+		bool fastRefinement; // should we use the path cache in GenericClusterAbstraction to speed up refinement?
 		
 };
 

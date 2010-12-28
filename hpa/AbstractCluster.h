@@ -33,14 +33,13 @@ class AbstractCluster
 		virtual void buildEntrances() = 0;
 		virtual void connectParent(node*) 
 			throw(std::invalid_argument) = 0;
-		virtual void openGLDraw() = 0;
 	
 		// methods for managing nodes associated with the cluster
 		virtual void addNode(node* n) 
 			throw(std::invalid_argument);
 		virtual void addParent(node*) 
 			throw(std::invalid_argument);
-		virtual void removeParent(int nodeId);
+		virtual void removeParent(node* n);
 		virtual void addTransition(node* from, node* to, double edgeweight)
 			throw(std::invalid_argument);
 
@@ -61,6 +60,7 @@ class AbstractCluster
 		// debugging and display functions
 		void printParents();
 		virtual void print(std::ostream& out);
+		virtual void openGLDraw() = 0;
 
 		GenericClusterAbstraction* getMap() const { return map; }
 

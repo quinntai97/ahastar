@@ -62,7 +62,7 @@ class RectangularRoom : public EmptyCluster
 		node *bestLeft, *bestRight, *bestTop, *bestBottom;
 		RoomSide whichSide(node* n);
 
-		virtual void openGLDraw();
+		//virtual void openGLDraw();
 
 	protected:
 

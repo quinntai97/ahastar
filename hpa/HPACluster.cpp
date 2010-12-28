@@ -138,8 +138,12 @@ HPACluster::connectParent(node* absStart) throw(std::invalid_argument)
 		alg->setCorridorNodes(&nodes);
 
 		// get low-level nodes
-		node* from = map->getNodeFromMap(absStart->getLabelL(kFirstData),absStart->getLabelL(kFirstData+1)); 
-		node* to = map->getNodeFromMap(absGoal->getLabelL(kFirstData),absGoal->getLabelL(kFirstData+1)); 
+		node* from = map->getNodeFromMap(
+				absStart->getLabelL(kFirstData),
+				absStart->getLabelL(kFirstData+1)); 
+		node* to = map->getNodeFromMap(
+				absGoal->getLabelL(kFirstData),
+				absGoal->getLabelL(kFirstData+1)); 
 
 		path* solution = alg->getPath(map, from, to);
 		if(solution != 0)
@@ -151,10 +155,14 @@ HPACluster::connectParent(node* absStart) throw(std::invalid_argument)
 		}
 
 		/* record some metrics about the operation */
-		HPAClusterAbstraction* mymap = dynamic_cast<HPAClusterAbstraction*>(getMap());
-		mymap->setNodesExpanded(mymap->getNodesExpanded() + alg->getNodesExpanded());
-		mymap->setNodesTouched(mymap->getNodesTouched() + alg->getNodesTouched());
-		mymap->setNodesGenerated(mymap->getNodesGenerated() + alg->getNodesGenerated());
+		HPAClusterAbstraction* mymap = dynamic_cast<HPAClusterAbstraction*>(
+				getMap());
+		mymap->setNodesExpanded(mymap->getNodesExpanded() + 
+				alg->getNodesExpanded());
+		mymap->setNodesTouched(mymap->getNodesTouched() + 
+				alg->getNodesTouched());
+		mymap->setNodesGenerated(mymap->getNodesGenerated() + 
+				alg->getNodesGenerated());
 		mymap->setSearchTime(mymap->getSearchTime() + alg->getSearchTime());
 	}
 }

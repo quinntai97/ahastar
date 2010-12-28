@@ -41,11 +41,10 @@ class EmptyCluster : public AbstractCluster
 		virtual ~EmptyCluster();
 
 		virtual void buildCluster() = 0; 
-		virtual void openGLDraw() = 0;
 
 		virtual void buildEntrances(); 
-		virtual void connectParent(node*) throw(std::invalid_argument);
-		virtual void removeParent(int nodeId);
+		virtual void connectParent(node* n) throw(std::invalid_argument);
+		virtual void removeParent(node* n);
 
 		void setPerimeterReduction(bool pr) { this->perimeterReduction = pr; }
 		void setBFReduction(bool bfr) { this->bfReduction = bfr; }
@@ -54,20 +53,24 @@ class EmptyCluster : public AbstractCluster
 		unsigned int getNumSecondaryEdges() { return secondaryEdges.size(); }
 		int macro; // macro edge refcount
 
+		virtual void openGLDraw();
+
 
 	private:
+		void frameCluster();
 		void reducePerimeter();
 
 		void addMacroEdges(node* parent);
 		void addCardinalMacroEdges(node* n);
 		void addAdjacentEdges(node* parent);
-		void addDiagonalMacroEdgeSet(node* parent, 
+		void addDiagonalFanMacroEdgeSet(node* parent, 
 				EmptyClusterNS::Direction cd, 
 				EmptyClusterNS::Direction dd);
+		void addShortcutMacroEdges(node *n);
 		void addCardinalMacroEdgeSet(node* n);
 
 		node* findPerimeterNode(node* n, EmptyClusterNS::Direction d);
-		bool isIncidentWithInterEdge(node* n);
+		bool isPerimeterNode(node* n);
 
 		void addSingleMacroEdge(node* from, node* to, double weight, 
 				graph* absg, bool secondaryEdge = false);
