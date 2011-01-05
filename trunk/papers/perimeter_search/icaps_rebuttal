@@ -55,9 +55,9 @@ algorithm, we simply build smaller rooms and the speed-up achieved is more modes
 
 Pre-processing times: 
 In our experience, the largest non-scaled map (320x320) takes less than a second
-to pre-process. Scaled maps take significantly longer, but never more than 30
-seconds. This cost is amortised over each of the many subsequent searches. 
-This is much faster than Swamps, which takes BLAH and BLAH respectively
+to pre-process. Scaled maps take significantly longer, but never more than 30s. 
+This cost is amortised over each of the many subsequent searches. 
+This is much faster than Swamps, which takes 20s and 200s respectively
 on the largest map (original and scaled).
 
 Comparison with MSA*: We compared RSR with this algorithm but as its speedup 
