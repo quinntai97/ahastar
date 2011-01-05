@@ -23,6 +23,11 @@ under the optimistic assumption that there are no obstacles between the two poin
 Review 2:
 **********
 
+Effect of decomposition on performance: The decomposition method we use is
+described in [Harabor and Botea, 2010] and like that work we find that larger rooms 
+yield better performance. Finding better / alternative decomposition methods is
+ the subject of future work.
+
 Are there enough macro edges in a fan to preserve optimality? Provably yes.
 
 Are they too many? We are unaware of any other method for further reducing 
@@ -36,6 +41,8 @@ these available as part of a later technical report.
 More varied benchmarks: The Baldur's Gate benchmark is a de-facto standard in modern 
 pathfinding works. We also include comparisons on benchmarks taken from a HOG, a popular 
 pathfinding library which appears regularly in the literature.
+We are unaware of other standard problem sets, involving grids, which appear
+regularly in the literature.
 
 **********
 Review 3:
@@ -47,8 +54,7 @@ automatically. If the topography of the grid is unfriendly for our decomposition
 algorithm, we simply build smaller rooms and the speed-up achieved is more modest.
 
 Pre-processing times: It is common in the pathfinding literature to have an 
-offline and online phase. We excluded times for the offline phase due to space 
-constraints but agree it is useful data. 
+offline and online phase, but we nevertheless agree this is useful data. 
 In our experience, preprocessing for even the largest maps (960*960) takes only a 
 small number of seconds. This cost is amortised over each of the many subsequent 
 searches. 
