@@ -2,7 +2,7 @@ We thank all the reviewers for their time and valuable comments.
 We will respond to each in turn.
 
 **********
-Review 1:
+Review1:
 **********
 
 1. Scholarship: We agree that such references, although not directly relevant 
@@ -20,12 +20,11 @@ The Octile Heuristic is the cost of a shortest path on 8-connected grid maps
 under the optimistic assumption that there are no obstacles between the two points at hand.
 
 **********
-Review 2:
+Review2:
 **********
 
-Effect of decomposition on performance: The decomposition method we use is
-described in [Harabor and Botea, 2010] and like that work we find that larger rooms 
-yield better performance. Finding better / alternative decomposition methods is
+Decomposition: We use the decomposition method described in [Harabor and Botea, 2010] and 
+find that larger rooms yield better performance. Finding alternative decomposition methods is
  the subject of future work.
 
 Are there enough macro edges in a fan to preserve optimality? Provably yes.
@@ -38,14 +37,13 @@ A more detailed theoretical analysis of our algorithm, including
 detailed proofs, is available but was omitted due to space constraints. We will make 
 these available as part of a later technical report.
 
-More varied benchmarks: The Baldur's Gate benchmark is a de-facto standard in modern 
-pathfinding works. We also include comparisons on benchmarks taken from a HOG, a popular 
-pathfinding library which appears regularly in the literature.
-We are unaware of other standard problem sets, involving grids, which appear
-regularly in the literature.
+More varied benchmarks: There are very few standard problem sets, involving
+grids, which appear regularly in the literature. 
+Baldur's Gate is a de-facto standard that appears in many papers. We also used 2 
+other benchmarks taken from HOG, a popular pathfinding library. 
 
 **********
-Review 3:
+Review3:
 **********
 
 Narrow applicability: We believe this comment is a misunderstanding.
@@ -55,13 +53,14 @@ algorithm, we simply build smaller rooms and the speed-up achieved is more modes
 
 Pre-processing times: It is common in the pathfinding literature to have an 
 offline and online phase, but we nevertheless agree this is useful data. 
-In our experience, preprocessing for even the largest maps (960*960) takes only a 
-small number of seconds. This cost is amortised over each of the many subsequent 
-searches. 
+In our experience, the largest non-scaled map (320*320) takes less than a second
+to pre-process. Scaled maps take significantly longer, but never more than 30
+seconds.
+This cost is amortised over each of the many subsequent searches. 
 
-Comparison with MSA*: We compared our performance with this algorithm but as
-it's speedup over A* is so small (never more than 2x and often less), we did not 
-include these results in the paper.
+Comparison with MSA*: We compared RSR with this algorithm but as it's speedup 
+over A* is so small (20% or less in most cases), we did not include these 
+results in our paper. 
 
 Path length: The maps for Figure 5D are of size 100x100; there simply do not exist 
 many problems we could generate with solution length much larger than 150. 
