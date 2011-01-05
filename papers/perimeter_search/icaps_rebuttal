@@ -23,23 +23,25 @@ under the optimistic assumption that there are no obstacles between the two poin
 Review2:
 **********
 
-Decomposition: We use the decomposition method described in [Harabor and Botea, 2010] and 
-find that larger rooms yield better performance. Finding alternative decomposition methods is
- the subject of future work.
+Decomposition: We use the decomposition method from [Harabor and Botea, 2010].
+It greedily constructs the largest possible empty rectangle from 
+tiles not assigned yet to a rectangle.
+We find that larger rooms yield better performance. 
 
 Are there enough macro edges in a fan to preserve optimality? Provably yes.
 
 Are they too many? We are unaware of any other method for further reducing 
-the fan size. We made a number of such attempts but in each case found counter-examples where 
+the fan size. We made a number of attempts but always found counter-examples where 
 optimality was not preserved.
 
-A more detailed theoretical analysis of our algorithm, including 
-detailed proofs, is available but was omitted due to space constraints. We will make 
+A more detailed theoretical analysis of our algorithm, including optimality
+proofs for perimeter reduction,
+is available but was omitted due to space constraints. We will make 
 these available as part of a later technical report.
 
 More varied benchmarks: There are very few standard problem sets, involving
 grids, which appear regularly in the literature. 
-Baldur's Gate is a de-facto standard that appears in many papers. We also used 2 
+Baldur's Gate is a de-facto standard appearing in many papers. We also used 2 
 other benchmarks taken from HOG, a popular pathfinding library. 
 
 **********
@@ -51,15 +53,15 @@ Our algorithm is applicable to ANY grid map, as empty rooms are discovered
 automatically. If the topography of the grid is unfriendly for our decomposition 
 algorithm, we simply build smaller rooms and the speed-up achieved is more modest.
 
-Pre-processing times: It is common in the pathfinding literature to have an 
-offline and online phase, but we nevertheless agree this is useful data. 
-In our experience, the largest non-scaled map (320*320) takes less than a second
+Pre-processing times: 
+In our experience, the largest non-scaled map (320x320) takes less than a second
 to pre-process. Scaled maps take significantly longer, but never more than 30
-seconds.
-This cost is amortised over each of the many subsequent searches. 
+seconds. This cost is amortised over each of the many subsequent searches. 
+This is much faster than Swamps, which takes BLAH and BLAH respectively
+on the largest map (original and scaled).
 
-Comparison with MSA*: We compared RSR with this algorithm but as it's speedup 
-over A* is so small (20% or less in most cases), we did not include these 
+Comparison with MSA*: We compared RSR with this algorithm but as its speedup 
+over A* is so small (20% or less in most cases on Baldur's Gate), we did not include these 
 results in our paper. 
 
 Path length: The maps for Figure 5D are of size 100x100; there simply do not exist 
