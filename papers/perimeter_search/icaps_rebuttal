@@ -10,28 +10,30 @@ to our problem, would better contextualise the paper. We would be happy to
 comment on and contrast these works to ours.
 
 2. Symmetry: We define two paths to be symmetric if they:
-  (a) Have the same start and end point.
-  (b) Have the same number of straight and diagonal moves.
-  (c) Differ only in the order in which the moves appear.
+  (a) Have the same start and end point; and
+  (b) One can be obtained from the other by reordering the moves.
+      E.g., north, north, northeast --> north, northeast, north.
 
-Detailed comments: An octile is an atomic node on an 8-connected grid map.
-The Octile Heuristic is similar to Euclidean distance for octile grid maps
-(and analogous to the Manhattan Heuristic on 4-connected grid maps).
+Detailed comments: A tile is an atomic node on a grid map.
+Rooms are obstacle-free rectangles discovered by our method.
+The Octile Heuristic is the cost of a shortest path on 8-connected grid maps
+under the optimistic assumption that there are no obstacles between the two points at hand.
 
 **********
 Review 2:
 **********
 
-1. Are there enough macro edges: We are unaware of any other method for further reducing 
-the number of macro edges incident with each node on the perimeter of an empty room.
-We made a number of such attempts but in each case found counter-examples where 
+Are there enough macro edges in a fan to preserve optimality? Provably yes.
+
+Are they too many? We are unaware of any other method for further reducing 
+the fan size. We made a number of such attempts but in each case found counter-examples where 
 optimality was not preserved.
 
-2. Missing proofs: A more detailed theoretical analysis of our algorithm, including 
+A more detailed theoretical analysis of our algorithm, including 
 detailed proofs, is available but was omitted due to space constraints. We will make 
 these available as part of a later technical report.
 
-3. More varied benchmarks: The Baldur's Gate benchmark is a de-facto standard in modern 
+More varied benchmarks: The Baldur's Gate benchmark is a de-facto standard in modern 
 pathfinding works. We also include comparisons on benchmarks taken from a HOG, a popular 
 pathfinding library which appears regularly in the literature.
 
@@ -39,23 +41,23 @@ pathfinding library which appears regularly in the literature.
 Review 3:
 **********
 
-1. Narrow applicability: We believe this comment is a misunderstanding.
+Narrow applicability: We believe this comment is a misunderstanding.
 Our algorithm is applicable to ANY grid map, as empty rooms are discovered 
 automatically. If the topography of the grid is unfriendly for our decomposition 
 algorithm, we simply build smaller rooms and the speed-up achieved is more modest.
 
-2. Pre-processing times: It is common in the pathfinding literature to have an 
+Pre-processing times: It is common in the pathfinding literature to have an 
 offline and online phase. We excluded times for the offline phase due to space 
 constraints but agree it is useful data. 
 In our experience, preprocessing for even the largest maps (960*960) takes only a 
 small number of seconds. This cost is amortised over each of the many subsequent 
 searches. 
 
-3. Comparison with MSA*:  We compared our performance with this algorithm but as
+Comparison with MSA*: We compared our performance with this algorithm but as
 it's speedup over A* is so small (never more than 2x and often less), we did not 
 include these results in the paper.
 
-4. Path length: The maps for Figure 5D are of size 100x100; there simply do not exist 
+Path length: The maps for Figure 5D are of size 100x100; there simply do not exist 
 many problems we could generate with solution length much larger than 150. 
 We did increase the size of these maps by a factor of 3 however and ran a similar set 
 of experiements; these results are available in Figure 5G.
