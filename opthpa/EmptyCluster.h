@@ -69,12 +69,12 @@ class EmptyCluster : public AbstractCluster
 		void addShortcutMacroEdges(node *n);
 		void addCardinalMacroEdgeSet(node* n);
 
-		node* findPerimeterNode(node* n, EmptyClusterNS::Direction d);
+		ClusterNode* findPerimeterNode(node* n, EmptyClusterNS::Direction d, 
+				unsigned int maxsteps = UINT_MAX);
 		bool isPerimeterNode(node* n);
 
 		void addSingleMacroEdge(node* from, node* to, double weight, 
 				graph* absg, bool secondaryEdge = false);
-		int DiagonalStepsBetween(node* n1, node* n2);
 
 		bool perimeterReduction;
 		bool bfReduction;

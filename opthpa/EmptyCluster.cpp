@@ -53,7 +53,9 @@ EmptyCluster::buildEntrances()
 			addParent(parent);
 		}
 	}
-	assert(before == map->getAbstractGraph(1)->getNumNodes());
+
+	if(perimeterReduction)
+		reducePerimeter();
 }
 
 //void 
@@ -107,11 +109,13 @@ EmptyCluster::frameCluster()
 		assert(n);
 		assert(n->getLabelL(kParent) == -1);
 
-		bool allowDiagonals = getMap()->getAllowDiagonals();
-		if((allowDiagonals && n->getNumEdges() < 8) ||
-			(!allowDiagonals && n->getNumEdges() < 4))
+		// nodes with branching factors < 8 (4 if diagonals are disallowed) are
+		// next to some kind of obstacle and automatically added to the
+		// perimeter set
+		if(n->getNumEdges() < 4 ||
+			(map->getAllowDiagonals() && n->getNumEdges() < 8))
 		{
-			MacroNode* parent = nf->newNode(n); 
+			MacroNode* parent = nf->newNode(n);
 			assert(parent);
 			parent->setLabelL(kAbstractionLevel, 1);
 			absg->addNode(parent);
@@ -119,6 +123,8 @@ EmptyCluster::frameCluster()
 		}
 		else
 		{
+			// add nodes with neighbours in adjacent clusters to the 
+			// perimeter nodes set
 			neighbor_iterator iter = n->getNeighborIter();
 			for(int neighborId = n->nodeNeighborNext(iter);
 					neighborId != -1; 
@@ -127,17 +133,22 @@ EmptyCluster::frameCluster()
 				ClusterNode* neighbor = dynamic_cast<ClusterNode*>(
 						map->getAbstractGraph(0)->getNode(neighborId));
 				assert(neighbor);
+
 				if(neighbor->getParentClusterId() != n->getParentClusterId())
 				{
-					MacroNode* parent = nf->newNode(n);
-					assert(parent);
-					parent->setLabelL(kAbstractionLevel, 1);
-					absg->addNode(parent);
-					n->setLabelL(kParent, parent->getNum());
-					break;
+					if(map->getAllowDiagonals() || 
+						map->h(n, neighbor) == 1)
+					{
+						MacroNode* parent = nf->newNode(n);
+						assert(parent);
+						parent->setLabelL(kAbstractionLevel, 1);
+						absg->addNode(parent);
+						n->setLabelL(kParent, parent->getNum());
+						break;
+					}
 				}
 			}
-		}	
+		}
 	}
 }
 
@@ -232,34 +243,54 @@ EmptyCluster::reducePerimeter()
 	std::vector<ClusterNode*> pruneSet;
 	graph* absg = map->getAbstractGraph(1);
 
+	int numParents = getNumParents();
+	int numAbsNodes = absg->getNumNodes();
+	std::cout << " before prune; absnodes: "<<numAbsNodes;
+	std::cout << " parents: "<<numParents<<std::endl;
+
 	// add to pruneSet any nodes not adjacent to a parent in another cluster
-	HPAUtil::nodeTable *parents = this->getParents();
-	for(HPAUtil::nodeTable::iterator it = parents->begin(); 
-		it != parents->end(); 
+	for(HPAUtil::nodeTable::iterator it = parents.begin(); 
+		it != parents.end(); 
 		it++)
 	{
 		ClusterNode* n = dynamic_cast<ClusterNode*>((*it).second);
+		assert(n);
+		std::cout << "reducePerimeter: evaluating parent ";
+		n->Print(std::cout);
+		std::cout << std::endl;
+		bool prune = true;
+		if(n->getLabelL(kFirstData == 11) && n->getLabelL(kFirstData+1) == 7)
+			std::cout << "stop plz";
+
 		neighbor_iterator iter = n->getNeighborIter();
 		int neighbourId = n->nodeNeighborNext(iter);
-		bool prune = true;
 		while(neighbourId != -1)
 		{
 			ClusterNode* neighbour = dynamic_cast<ClusterNode*>(
 					absg->getNode(neighbourId));
 			assert(neighbour);
 			if(neighbour->getParentClusterId() != this->getId())
+			{
+				n->Print(std::cout);
+				std::cout << " from cluster "<<n->getParentClusterId() <<
+				" has neighbour in cluster "<<neighbour->getParentClusterId();
+				neighbour->Print(std::cout);
 				prune = false;
+				break;
+			}
 			neighbourId = n->nodeNeighborNext(iter);
 		}
 		if(prune)
 			pruneSet.push_back(n);
 	}
 
+	std::cout << " nodes to prune: "<<pruneSet.size()<<std::endl;
+
 	// connect to each other all neighbours of each node to be pruned.
 	// then, delete the node from the parents collection
-	for(unsigned int i=0; i< pruneSet.size(); i++)
+	while(pruneSet.size() > 0)
 	{
-		ClusterNode* n = pruneSet.at(i);
+		ClusterNode* n = pruneSet.at(0);
 
 		neighbor_iterator firstIter = n->getNeighborIter();
 		for(int firstId = n->nodeNeighborNext(firstIter); 
@@ -277,23 +308,44 @@ EmptyCluster::reducePerimeter()
 				ClusterNode* second = dynamic_cast<ClusterNode*>(
 						absg->getNode(secondId));
 				
-				assert(absg->findEdge(first->getNum(), second->getNum()) == 0);
-				assert(findSecondaryEdge(first->getNum(), second->getNum()) == 0);
-
 				if(absg->findEdge(n->getNum(), first->getNum()) &&
 						absg->findEdge(n->getNum(), second->getNum()))
 				{
-					addSingleMacroEdge(first, second, map->h(first, second),
-							absg, false);
+					edge* e = map->getEdgeFactory()->newEdge(first->getNum(),
+							second->getNum(), map->h(first, second));
+					absg->addEdge(e);
 				}
-				else
+				else if(findSecondaryEdge(first->getNum(), second->getNum()))
 				{
 					addSingleMacroEdge(first, second, map->h(first, second),
 							absg, true);
 				}
+				else
+					throw std::logic_error("while reducing perimeter: "
+						"found an edge that's neither primary nor seconday!");
 			}
 		}
+
+		numParents = parents.size();
+		numAbsNodes = absg->getNumNodes();
+		node* ll = map->getNodeFromMap(n->getLabelL(kFirstData),
+				n->getLabelL(kFirstData+1));
+		std::cout << "pruning node ";
+		n->Print(std::cout);
+		std::cout << std::endl;
+
+		this->removeParent(n);
+		absg->removeNode(n->getNum());
+		pruneSet.erase(pruneSet.begin());
+
+		assert(parents.size() == numParents -1);
+		assert(absg->getNumNodes() == numAbsNodes -1);
+		assert(ll->getLabelL(kParent) == -1);
+		delete n;
 	}
+
+	std::cout << "ok, done prunning; numParents: "<<parents.size() <<
+		" absg nodes: "<<absg->getNumNodes()<<std::endl;
 }
 
 void 
@@ -312,7 +364,9 @@ EmptyCluster::addMacroEdges(node* n)
 		addDiagonalFanMacroEdgeSet(n, EmptyClusterNS::N, EmptyClusterNS::NW);
 	}
 	else
+	{
 		addCardinalMacroEdgeSet(n);
+	}
 }
 
 
@@ -344,103 +398,98 @@ EmptyCluster::addCardinalMacroEdgeSet(node* n)
 		addSingleMacroEdge(n, neighbour, map->h(n, neighbour), g, true);
 }
 
-// Connects the argument node with a set of nodes from the orthogonal or
-// opposite sides of the cluster. Two Direction arguments specify which nodes 
-// are in the target set. The first direction is cardinal. i.e. one of 
-// {N, S, E, W} while the second direction is diagonal but adjacent to the 
-// cardinal direction. i.e. one of {NE, NW, SE, SW}. 
-// 
-// Example: if cd = N, dd is restricted to one of {NE, NW}
+// Connects a node n with a set of seconday neighbours that lie 
+// on the perimeter of the cluster.
+// Two Direction arguments (fd and sd) specify which nodes are in the 
+// target set. 
+//
+// If fd = {NE, SE, SW, NW}, sd cannot be any direction more than 45 degrees
+// from fd. This is increased to 90 degrees if fd is cardinal.
+//
+// e.g. if fd = NE, sd must be one of {N, E}
+// however if fd = E, sd can be any of {N, NE, SE, S}
 //
 // OUTLINE:
-// We travel from node n, in diagonal direction dd, taking up to x steps, 
-// where x <= max_diagonal_steps needed to cross the cluster.
-// If we find such a node, we connect n to this node.
-// If we do not find a perimeter node after x steps, we travel further
-// only in direction 'cd', looking for a perimeter node to connect to.
-//
-// We then repeat the process, each time taking 1 fewer diagonal step than last
-// time until we take no diagonal steps at all (after this iteration we stop).
+// From node n, we cross the cluster in direction fd, one step at a time.
+// After each step we look for a perimeter node in direction sd. 
+// If such a node is found, we add a secondary edge between node n and it.
+// The process is repeated until we can take no more steps in direction fd.
 //
 // The aim is to connect each node on the perimeter with a set of neighbours
 // s.t. an optimal traveral from one side of the cluster to the other is always
 // possible without stepping inside the cluster.
-//
-// NB: assumes the cluster is convex and perimeter reduction has not been
-// applied.
 void 
-EmptyCluster::addDiagonalFanMacroEdgeSet(node* n, EmptyClusterNS::Direction cd, 
-		EmptyClusterNS::Direction dd)
+EmptyCluster::addDiagonalFanMacroEdgeSet(node* n, EmptyClusterNS::Direction sd, 
+		EmptyClusterNS::Direction fd)
 {
-	assert( cd == EmptyClusterNS::N || cd == EmptyClusterNS::S || 
-			cd == EmptyClusterNS::E || cd == EmptyClusterNS::W);
-
-	assert( dd == EmptyClusterNS::NE || dd == EmptyClusterNS::NW || 
-			dd == EmptyClusterNS::SE || dd == EmptyClusterNS::SW);
-
-	node* first = findPerimeterNode(n, cd);
-	node* second = findPerimeterNode(n, dd);
-
-	if(!first || !second)
-		return;
-
 	Heuristic* h = 0;
 	if(map->getAllowDiagonals())
 		h = new OctileHeuristic();
 	else
 		h = new ManhattanHeuristic();
-
 	FlexibleAStar astar(new IncidentEdgesExpansionPolicy(map), h); 
-	int dsteps_max = DiagonalStepsBetween(n, second);
-	for(int dsteps = 0; dsteps <= dsteps_max; dsteps++)
-	{	
-		int x = n->getLabelL(kFirstData);
-		int y = n->getLabelL(kFirstData+1);
-		if(dd == EmptyClusterNS::NW)
-		{
-			x -= dsteps;
-			y -= dsteps;
-		}
-		else if(dd == EmptyClusterNS::NE)
-		{
-			x += dsteps;
-			y -= dsteps;
-		}
-		else if(dd == EmptyClusterNS::SE)
-		{
-			x += dsteps;
-			y += dsteps;
-		}
-		else if(dd == EmptyClusterNS::SW)
-		{
-			x -= dsteps;
-			y += dsteps;
-		}
 
-		graph* absg = map->getAbstractGraph(1);
-		node* neighbour = absg->getNode(
-				map->getNodeFromMap(x, y)->getLabelL(kParent));
+	int x = n->getLabelL(kFirstData);
+	int y = n->getLabelL(kFirstData+1);
+	while(true)
+	{
+		ClusterNode* fdn = dynamic_cast<ClusterNode*>(
+				map->getNodeFromMap(x, y));
 
-		// stop early if we've hit a perimeter node using only diagonal steps;
-		// else keep looking for it by walking in a cardinal direction
-		if(neighbour && dsteps > 0)
+		// stop if we step outside the cluster 
+		if(!fdn || fdn->getParentClusterId() != this->getId())
 			break;
-		else
-		{
-			neighbour = findPerimeterNode(map->getNodeFromMap(x, y), cd); 
-			assert(neighbour);
-			assert(neighbour->getLabelL(kAbstractionLevel) == 1);
 
-			// add non-dominated edges
-			double dist = map->h(n, neighbour);
-			path* p = astar.getPath(map, n, neighbour);
+		// try to find a perimeter node one by stepping
+		// only in direction sd.
+		ClusterNode* sdn = findPerimeterNode(fdn, sd); 
+		if(sdn)
+		{
+			assert(sdn->getLabelL(kAbstractionLevel) == 1);
+
+			// add (only non-dominated) secondary macro edges
+			double dist = map->h(n, sdn);
+			path* p = astar.getPath(map, n, sdn);
 			double plen = map->distance(p);
 			if(fless(dist, plen))
 			{
-				addSingleMacroEdge(n, neighbour, map->h(n, neighbour), 
+				addSingleMacroEdge(n, sdn, map->h(n, sdn), 
 						map->getAbstractGraph(1), true);
 			}
 			delete p;
+		}
+
+		// take one step in direction fd and repeat
+		switch(fd)
+		{
+			case EmptyClusterNS::N:
+				y--;
+				break;
+			case EmptyClusterNS::S:
+				y++;
+				break;
+			case EmptyClusterNS::W:
+				x--;
+				break;
+			case EmptyClusterNS::E:
+				x++;
+				break;
+			case EmptyClusterNS::NW:
+				y--;
+				x--;
+				break;
+			case EmptyClusterNS::NE:
+				y--;
+				x++;
+				break;
+			case EmptyClusterNS::SW:
+				y++;
+				x--;
+				break;
+			case EmptyClusterNS::SE:
+				y++;
+				x++;
+				break;
 		}
 	}
 }
@@ -550,15 +599,18 @@ EmptyCluster::findSecondaryEdge(unsigned int fromId, unsigned int toId)
 }
 
 // Finds another perimeter node by traveling in one of the eight
-// main compass directions away from arg node 'n'
-node* 
-EmptyCluster::findPerimeterNode(node* n, EmptyClusterNS::Direction d)
+// main compass directions away from arg node 'n'.
+// The function terminates when the maximum number of allowable steps
+// have been taken or when the search extends beyond the current cluster. 
+ClusterNode* 
+EmptyCluster::findPerimeterNode(node* n, EmptyClusterNS::Direction d, 
+		unsigned int maxsteps)
 {
 	int x = n->getLabelL(kFirstData);
 	int y = n->getLabelL(kFirstData+1);
-	node* retVal = 0;
+	ClusterNode* retVal = 0;
 
-	while(true)
+	for(unsigned int numsteps = 0; numsteps < maxsteps; numsteps++)
 	{
 		switch(d)
 		{
@@ -592,40 +644,21 @@ EmptyCluster::findPerimeterNode(node* n, EmptyClusterNS::Direction d)
 				break;
 		}
 
-		ClusterNode* neighbour = 
-			dynamic_cast<ClusterNode*>(map->getNodeFromMap(x, y));
-		if(neighbour && 
-		   neighbour->getParentClusterId() == this->getId())
-		{
-//			if(neighbour->getLabelL(kFirstData) == 18 &&
-//					neighbour->getLabelL(kFirstData+1) == 2)
-//				std::cout << "stop here plz\n";
-			int parentId = neighbour->getLabelL(kParent);
-			if(parentId != -1)
-			{
-				graph* g = map->getAbstractGraph(1);
-				retVal = g->getNode(parentId);
-				assert(retVal);
-				break;
-			}
-		}
-		else
+		ClusterNode* neighbour = dynamic_cast<ClusterNode*>(
+				map->getNodeFromMap(x, y));
+		if(!neighbour || neighbour->getParentClusterId() != this->getId())
 			break;
+
+		int parentId = neighbour->getLabelL(kParent);
+		if(parentId != -1)
+		{
+			graph* g = map->getAbstractGraph(1);
+			retVal = dynamic_cast<ClusterNode*>(g->getNode(parentId));
+			assert(retVal);
+			break;
+		}
 	}
 	return retVal;
-}
-
-int EmptyCluster::DiagonalStepsBetween(node* n1, node* n2)
-{
-	int deltax = n1->getLabelL(kFirstData) - n2->getLabelL(kFirstData);
-	int deltay = n1->getLabelL(kFirstData+1) - n2->getLabelL(kFirstData+1);
-	if(deltax < 0)
-		deltax *= -1;
-	if(deltay < 0)
-		deltay *= -1;
-
-	int maxdiagonal = deltax<deltay?deltax:deltay;
-	return maxdiagonal;
 }
 
 void 
@@ -637,7 +670,7 @@ EmptyCluster::openGLDraw()
 			it != nodes.end(); it++)
 	{
 		node* cur = (*it).second;
-		if(isPerimeterNode(cur))
+		if(isPerimeterNode(cur) && cur->getLabelL(kParent) != -1)
 		{
 			glBegin(GL_QUADS);
 			GLdouble xx, yy, zz, rr;
