@@ -41,33 +41,47 @@ RectangularRoom::buildCluster()
 
 	height++;
 	width++;
-	//std::cout << "cluster: "<<getHOrigin()<<", "<<getVOrigin()<<" ht: "<<height<<" wt: "<<width<<std::endl;
+
+	// find the size of the largest possible square 
 	while(canExtendClearanceSquare())
 	{
 		height++;
 		width++;
 	}
-	//std::cout << "csq done; height: "
-	//	<<height<<" width: "<<width<<std::endl;
 
-
+	// try to extend the square, first vertically then horizontally.
+	// goal: find the size of the largest possible rectangle
+	int squareheight = height;
+	int sqaurewidth = width;
 	while(canExtendHorizontally())
 	{
 		width++;
-	//	std::cout << " extending horizontally!"<<std::endl;
 	}
+	int maxwidth = width;
 
+	width = squarewidth;
 	while(canExtendVertically())
 	{
 		height++;
-	//	std::cout << " extending vertically!"<<std::endl;
+	}
+	int maxheight = height;
+
+	// build the largest possible rectangle
+	if(maxheight*squarewidth > squareheight*maxwidth)
+	{
+		height = maxheight
+		width = squarewidth;
+	}
+	else
+	{
+		height = squareheight;
+		width = maxwidth;
 	}
 
 	// assign nodes to the cluster
 	for(int x=getHOrigin(); x<getHOrigin()+width; x++)
 		for(int y=getVOrigin(); y<getVOrigin()+height; y++)
 			addNode(map->getNodeFromMap(x, y));
-
 
 	initOpenGLCoordinates();
 }

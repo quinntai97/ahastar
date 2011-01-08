@@ -190,6 +190,7 @@ void createSimulation(unitSimulation * &unitSim)
 	ecmap->setVerbose(verbose);
 	ecmap->buildClusters();
 	ecmap->buildEntrances();
+	ecmap->clearColours();
 	//ecmap->setDrawClusters(true);
 	graph* absg = ecmap->getAbstractGraph(1);
 	graph* g = ecmap->getAbstractGraph(0);
@@ -615,7 +616,7 @@ void runNextExperiment(unitSimulation *unitSim)
 		runAStar=true;
 	}
 	std::cout << "running "<<algName<<" experiment"<<std::endl;
-	nextUnit->setSpeed(0.05);
+	nextUnit->setSpeed(0.15);
 
 	unitSim->clearAllUnits();
 	unitSim->addUnit(nextTarget);

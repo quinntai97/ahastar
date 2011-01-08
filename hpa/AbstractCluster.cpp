@@ -79,7 +79,7 @@ AbstractCluster::addParent(node* _p) throw(std::invalid_argument)
 	}
 
 	p->setParentClusterId(this->getId());
-	parents[p->getUniqueID()] = p;
+	parents.insert(std::pair<int, node*>(p->getUniqueID(), p));
 	connectParent(p);
 }
 
