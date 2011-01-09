@@ -313,22 +313,6 @@ GenericClusterAbstraction::openGLDraw()
 	}
 }
 
-void 
-GenericClusterAbstraction::clearColours()
-{
-	for(unsigned int i=0; i<getNumAbstractGraphs(); i++)
-	{
-		graph* g = getAbstractGraph(i);
-		node_iterator ni = g->getNodeIter();	
-		node* n = g->nodeIterNext(ni);
-		while(n)
-		{
-			n->drawColor = 0;
-			n = g->nodeIterNext(ni);
-		}
-	}
-}
-
 // debugging method
 void 
 GenericClusterAbstraction::printUniqueIdsOfAllNodesInGraph(graph *g)

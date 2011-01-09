@@ -385,7 +385,7 @@ HPACluster::openGLDraw()
 	Map* themap = map->getMap();
 	GLdouble xx, yy, zz,rr;
 	glLineWidth(2.0f);
-	glColor3f (0.6F, 0.9F, 0.4F);
+	glColor3f(0.2, 0.6, 0.2);
 
 	glBegin(GL_LINE_STRIP);
 
@@ -408,5 +408,7 @@ HPACluster::openGLDraw()
 	glVertex3f(xx, yy, zz-rr*0.5);
 
 	glEnd();
+
+	glLineWidth(1.0f);
 }
 

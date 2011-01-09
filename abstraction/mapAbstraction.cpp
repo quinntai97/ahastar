@@ -74,6 +74,22 @@ void mapAbstraction::toggleDrawAbstraction(int which)
 		levelDraw = levelDraw&(~(1<<which));
 }
 
+void 
+mapAbstraction::clearColours()
+{
+	for(unsigned int i=0; i<getNumAbstractGraphs(); i++)
+	{
+		graph* g = getAbstractGraph(i);
+		node_iterator ni = g->getNodeIter();	
+		node* n = g->nodeIterNext(ni);
+		while(n)
+		{
+			n->drawColor = 0;
+			n = g->nodeIterNext(ni);
+		}
+	}
+}
+
 void mapAbstraction::openGLDraw()
 {
 	for (unsigned int x = 0; x < abstractions.size(); x++)
