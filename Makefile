@@ -1,4 +1,4 @@
-VPATH = tests/util/:tests/hpa/:tests/aha/:opthpa/:hpa/:aha/:abstraction/:driver/:shared/:simulation/:util/:objs/:apps/libs:bin/
+VPATH = tests/util/:tests/hpa/:tests/aha/:jump/:opthpa/:hpa/:aha/:abstraction/:driver/:shared/:simulation/:util/:objs/:apps/libs:bin/
 
 # source targets
 ABSTRACTION_SRC = $(wildcard abstraction/*.cpp)
@@ -9,6 +9,7 @@ UTIL_SRC = $(wildcard util/*.cpp)
 AHASTAR_SRC = $(wildcard aha/*.cpp)
 HPASTAR_SRC = $(wildcard hpa/*.cpp)
 OPTHPA_SRC = $(wildcard opthpa/*.cpp)
+JUMP_SRC = $(wildcard jump/*.cpp)
 UTILTESTS_SRC = $(wildcard tests/util/*.cpp)
 AHASTARTESTS_SRC = $(wildcard tests/aha/*.cpp)
 HPASTARTESTS_SRC = $(wildcard tests/hpa/*.cpp)
@@ -23,19 +24,20 @@ UTIL_OBJ = $(subst .cpp,.o,$(addprefix objs/, $(notdir $(UTIL_SRC))))
 AHASTAR_OBJ = $(subst .cpp,.o,$(addprefix objs/, $(notdir $(AHASTAR_SRC))))
 HPASTAR_OBJ = $(subst .cpp,.o,$(addprefix objs/, $(notdir $(HPASTAR_SRC))))
 OPTHPA_OBJ = $(subst .cpp,.o,$(addprefix objs/, $(notdir $(OPTHPA_SRC))))
+JUMP_OBJ = $(subst .cpp,.o,$(addprefix objs/, $(notdir $(JUMP_SRC))))
 UTILTESTS_OBJ = $(subst .cpp,.o,$(addprefix objs/, $(notdir $(UTILTESTS_SRC))))
 AHASTARTESTS_OBJ = $(subst .cpp,.o,$(addprefix objs/, $(notdir $(AHASTARTESTS_SRC))))
 HPASTARTESTS_OBJ = $(subst .cpp,.o,$(addprefix objs/, $(notdir $(HPASTARTESTS_SRC))))
 OPTHPATESTS_OBJ = $(subst .cpp,.o,$(addprefix objs/, $(notdir $(OPTHPATESTS_SRC))))
 
 # header file locations
-HOGINCLUDES = -I./hpa -I./aha -I./opthpa -I./abstraction -I./driver -I./shared -I./simulation -I./util
+HOGINCLUDES = -I./jump -I./hpa -I./aha -I./opthpa -I./abstraction -I./driver -I./shared -I./simulation -I./util
 TESTINCLUDES = -I./tests/util -I./tests/aha -I./tests/hpa -I./tests/opthpa 
 
 # compiler flags
 CC = c++
-#CFLAGS = -Wall -Wno-long-long -g -ggdb -ansi -pedantic $(HOGINCLUDES) $(TESTINCLUDES)
-CFLAGS = -O3 $(HOGINCLUDES) -ansi
+CFLAGS = -Wall -Wno-long-long -g -ggdb -ansi -pedantic $(HOGINCLUDES) $(TESTINCLUDES)
+#CFLAGS = -O3 $(HOGINCLUDES) -ansi
 
 # locations of library files program depends on
 LIBFLAGS = -Lapps/libs 
@@ -79,7 +81,7 @@ targets: cleanapps $(TARGETS)
 $(TARGETS) : % : lib%.a hog
 	$(CC)	$(CFLAGS) $(LIBFLAGS) -o $(addprefix bin/,$(@)) \
 		$(DRIVER_OBJ) $(UTIL_OBJ) $(SIMULATION_OBJ) $(ABSTRACTION_OBJ) $(SHARED_OBJ) \
-		$(AHASTAR_OBJ) $(HPASTAR_OBJ) $(OPTHPA_OBJ) \
+		$(AHASTAR_OBJ) $(HPASTAR_OBJ) $(OPTHPA_OBJ) $(JUMP_OBJ) \
 		-l$(@:.mk=)
 
 $(addprefix lib, $(addsuffix .a, $(TARGETS))) :
@@ -88,7 +90,7 @@ $(addprefix lib, $(addsuffix .a, $(TARGETS))) :
 
 .PHONY: hog
 hog : $(DRIVER_OBJ) $(UTIL_OBJ) $(SIMULATION_OBJ) $(ABSTRACTION_OBJ) $(SHARED_OBJ) \
-	  $(AHASTAR_OBJ) $(HPASTAR_OBJ) $(OPTHPA_OBJ)
+	  $(AHASTAR_OBJ) $(HPASTAR_OBJ) $(OPTHPA_OBJ) $(JUMP_OBJ)
 
 $(UTIL_OBJ) : $(UTIL_SRC) $(UTIL_SRC:.cpp=.h)
 	$(CC) $(CFLAGS) -c -o $(@) $(subst .o,.cpp, $(subst objs/,util/,$(@)))
@@ -113,6 +115,9 @@ $(HPASTAR_OBJ) : $(HPASTAR_SRC) $(HPASTAR_SRC:.cpp=.h)
 
 $(OPTHPA_OBJ) : $(OPTHPA_SRC) $(OPTHPA_SRC:.cpp=.h)
 	$(CC) $(CFLAGS) -c -o $(@) $(subst .o,.cpp, $(subst objs/,opthpa/,$(@)))
+
+$(JUMP_OBJ) : $(JUMP_SRC) $(JUMP_SRC:.cpp=.h)
+	$(CC) $(CFLAGS) -c -o $(@) $(subst .o,.cpp, $(subst objs/,jump/,$(@)))
 
 .PHONY: tests
 tests : hog $(UTILTESTS_OBJ) $(AHASTARTESTS_OBJ) $(HPASTARTESTS_OBJ) \
