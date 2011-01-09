@@ -25,7 +25,7 @@ RRExpansionPolicy::~RRExpansionPolicy()
 	delete primary;
 }
 
-void RRExpansionPolicy::expand(node* target_)
+void RRExpansionPolicy::expand(node* target_) throw(std::logic_error)
 {
 	primary->expand(target_);
 

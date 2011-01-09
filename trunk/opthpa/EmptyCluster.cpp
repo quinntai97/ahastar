@@ -36,7 +36,6 @@ EmptyCluster::buildEntrances()
 		std::cout << "EmptyCluster::buildEntrances\n";
 
 	frameCluster();
-	int before = map->getAbstractGraph(1)->getNumNodes();
 		
 	graph* absg = map->getAbstractGraph(1);
 	for(HPAUtil::nodeTable::iterator it = nodes.begin(); 
@@ -243,8 +242,8 @@ EmptyCluster::reducePerimeter()
 	std::vector<ClusterNode*> pruneSet;
 	graph* absg = map->getAbstractGraph(1);
 
-	int numParents = getNumParents();
-	int numAbsNodes = absg->getNumNodes();
+	unsigned int numParents = getNumParents();
+	unsigned int numAbsNodes = absg->getNumNodes();
 	std::cout << " before prune; absnodes: "<<numAbsNodes;
 	std::cout << " parents: "<<numParents<<std::endl;
 
@@ -339,7 +338,7 @@ EmptyCluster::reducePerimeter()
 		pruneSet.erase(pruneSet.begin());
 
 		assert(parents.size() == numParents -1);
-		assert(absg->getNumNodes() == numAbsNodes -1);
+		assert((unsigned int)absg->getNumNodes() == numAbsNodes -1);
 		assert(ll->getLabelL(kParent) == -1);
 		delete n;
 	}

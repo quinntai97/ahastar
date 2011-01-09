@@ -2,9 +2,10 @@
 
 #include "mapAbstraction.h"
 #include "OctileHeuristic.h"
+#include "ProblemInstance.h"
 
-OctileExpansionPolicy::OctileExpansionPolicy(mapAbstraction* map)
-	: GridMapExpansionPolicy(map, new OctileHeuristic(), 8)
+OctileExpansionPolicy::OctileExpansionPolicy()
+	: GridMapExpansionPolicy(8)
 {
 }
 
@@ -16,6 +17,7 @@ OctileExpansionPolicy::~OctileExpansionPolicy()
 node* OctileExpansionPolicy::n()
 {
 	node* n = 0;
+	mapAbstraction* map = problem->getMap();
 	switch(which)
 	{
 		case 0: // n

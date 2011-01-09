@@ -9,9 +9,10 @@
 // @author: dharabor
 // @created: 21/09/2010
 
-class node;
-class mapAbstraction;
+#include <stdexcept>
 
+class node;
+class ProblemInstance;
 class ExpansionPolicy
 {
 	public:
@@ -19,7 +20,7 @@ class ExpansionPolicy
 		virtual ~ExpansionPolicy();
 
 		// initialises the policy with a target node
-		virtual void expand(node* t);
+		virtual void expand(node* t) throw(std::logic_error);
 
 		// return the first neighbour
 		virtual node* first() = 0;
@@ -37,9 +38,12 @@ class ExpansionPolicy
 		virtual bool hasNext() = 0;
 
 		node* getTarget() const { return target;}
+		void setProblemInstance(ProblemInstance* p);
+		ProblemInstance* getProblemInstance(); 
 
 	protected:
 		node* target;
+		ProblemInstance* problem;
 };
 
 #endif

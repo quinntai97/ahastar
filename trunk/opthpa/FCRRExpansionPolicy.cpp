@@ -1,16 +1,28 @@
 #include "FCRRExpansionPolicy.h"
 #include "EmptyClusterAbstraction.h"
+#include "ProblemInstance.h"
 #include "TileExpansionPolicy.h"
 
-FCRRExpansionPolicy::FCRRExpansionPolicy(EmptyClusterAbstraction* map) :
+FCRRExpansionPolicy::FCRRExpansionPolicy() :
 	ExpansionPolicy()
 {
-	this->map = map;
-	policy = new TileExpansionPolicy(map);
+	policy = new TileExpansionPolicy();
 }
 
 FCRRExpansionPolicy::~FCRRExpansionPolicy()
 {
+}
+
+void
+FCRRExpansionPolicy::expand(node* n) throw(std::logic_error)
+{
+	ExpansionPolicy::expand(n);
+
+	policy->setProblemInstance(
+			new ProblemInstance(problem->getStartNode(), 
+				problem->getGoalNode(),
+				problem->getMap(),
+				problem->getHeuristic()));
 }
 
 node* FCRRExpansionPolicy::first()

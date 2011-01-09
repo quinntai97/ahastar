@@ -16,7 +16,7 @@ class mapAbstraction;
 class TileExpansionPolicy : public GridMapExpansionPolicy
 {
 	public:
-		TileExpansionPolicy(mapAbstraction* map);
+		TileExpansionPolicy();
 		virtual ~TileExpansionPolicy();
 
 		// Each 4-connected target node has four neighbours: {above, below, left,

@@ -1,10 +1,9 @@
 #include "GridMapExpansionPolicy.h"
 #include "Heuristic.h"
+#include "ProblemInstance.h"
 
-GridMapExpansionPolicy::GridMapExpansionPolicy(mapAbstraction* map, 
-		Heuristic* h, int max)
+GridMapExpansionPolicy::GridMapExpansionPolicy(unsigned int max)
 {
-	this->map = map;
 	this->max = max;	
 	which = 0;
 	cost = 0;
@@ -22,7 +21,7 @@ node* GridMapExpansionPolicy::first()
 {
 	which = 0;
 	node* retVal = n();
-	cost = heuristic->h(target, retVal);
+	cost = problem->getHeuristic()->h(target, retVal);
 
 	if(retVal == 0)
 		retVal = next();
@@ -39,7 +38,7 @@ node* GridMapExpansionPolicy::next()
 		which++;
 		retVal = n();
 	}
-	cost = heuristic->h(target, retVal);
+	cost = problem->getHeuristic()->h(target, retVal);
 	return retVal;
 }
 

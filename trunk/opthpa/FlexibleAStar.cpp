@@ -8,6 +8,7 @@
 #include "Heuristic.h"
 #include "mapAbstraction.h"
 #include "path.h"
+#include "ProblemInstance.h"
 #include "reservationProvider.h"
 #include "timer.h"
 #include "unitSimulation.h"
@@ -37,6 +38,8 @@ FlexibleAStar::getPath(graphAbstraction *aMap, node *start, node *goal,
 		reservationProvider *rp)
 {
 	debug = new DebugUtility(aMap, heuristic);
+	policy->setProblemInstance(new ProblemInstance(start, goal, 
+				dynamic_cast<mapAbstraction*>(aMap), heuristic));
 	path* p = search(start, goal);
 	delete debug;
 	return p;

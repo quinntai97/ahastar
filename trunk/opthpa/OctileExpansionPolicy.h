@@ -8,7 +8,7 @@ class OctileHeuristic;
 class OctileExpansionPolicy : public GridMapExpansionPolicy
 {
 	public:
-		OctileExpansionPolicy(mapAbstraction*);
+		OctileExpansionPolicy();
 		virtual ~OctileExpansionPolicy();
 
 		virtual node* n();
