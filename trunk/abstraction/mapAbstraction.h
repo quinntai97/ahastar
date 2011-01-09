@@ -65,6 +65,8 @@ public:
 	void toggleDrawAbstraction(int which);
 	void clearMarkedNodes();
 	recVec getNodeLoc(node *n);
+	void clearColours(); // stop visualising touched and expanded nodes
+
 private:
 		
 	void drawLevelConnections(node *n);
