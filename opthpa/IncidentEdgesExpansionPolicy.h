@@ -11,6 +11,7 @@
 
 
 #include "SelectiveExpansionPolicy.h"
+#include <stdexcept>
 
 class node;
 class graph;
@@ -22,7 +23,7 @@ class IncidentEdgesExpansionPolicy : public SelectiveExpansionPolicy
 		IncidentEdgesExpansionPolicy(graphAbstraction* map);
 		virtual ~IncidentEdgesExpansionPolicy();
 
-		virtual void expand(node* n);
+		virtual void expand(node* n) throw(std::logic_error);
 		virtual bool hasNext();
 		virtual double cost_to_n();
 

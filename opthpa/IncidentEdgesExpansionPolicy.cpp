@@ -14,19 +14,22 @@ IncidentEdgesExpansionPolicy::~IncidentEdgesExpansionPolicy()
 {
 }
 
-void IncidentEdgesExpansionPolicy::expand(node* n)
+void 
+IncidentEdgesExpansionPolicy::expand(node* n) throw(std::logic_error)
 {
 	g = map->getAbstractGraph(n->getLabelL(kAbstractionLevel));
 	ExpansionPolicy::expand(n);
 }
 
-node* IncidentEdgesExpansionPolicy::first_impl()
+node* 
+IncidentEdgesExpansionPolicy::first_impl()
 {
 	which = 0;
 	return n();
 }
 
-node* IncidentEdgesExpansionPolicy::n_impl()
+node* 
+IncidentEdgesExpansionPolicy::n_impl()
 {
 	node* neighbour = 0;
 	if(g && target && which < target->getNumEdges())
@@ -40,7 +43,8 @@ node* IncidentEdgesExpansionPolicy::n_impl()
 	return neighbour;
 }
 
-node* IncidentEdgesExpansionPolicy::next_impl()
+node* 
+IncidentEdgesExpansionPolicy::next_impl()
 {
 	node* retVal = 0;
 	if(hasNext())
@@ -52,14 +56,16 @@ node* IncidentEdgesExpansionPolicy::next_impl()
 	return retVal;
 }
 
-bool IncidentEdgesExpansionPolicy::hasNext()
+bool 
+IncidentEdgesExpansionPolicy::hasNext()
 {
 	if(target && (which+1) < target->getNumEdges())
 		return true;
 	return false;
 }
 
-double IncidentEdgesExpansionPolicy::cost_to_n()
+double 
+IncidentEdgesExpansionPolicy::cost_to_n()
 {
 	edge* e = target->getEdge(which);
 	return e->getWeight();

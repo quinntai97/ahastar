@@ -14,15 +14,17 @@
 // @created: 28/10/2010
 
 #include "ExpansionPolicy.h"
+#include <stdexcept>
 
 class EmptyClusterAbstraction;
 class TileExpansionPolicy;
 class FCRRExpansionPolicy : public ExpansionPolicy
 {
 	public:
-		FCRRExpansionPolicy(EmptyClusterAbstraction*);
+		FCRRExpansionPolicy();
 		virtual ~FCRRExpansionPolicy();
 
+		virtual void expand(node* n) throw(std::logic_error);
 		virtual node* n();
 		virtual node* first(); 
 		virtual node* next();
@@ -30,7 +32,6 @@ class FCRRExpansionPolicy : public ExpansionPolicy
 
 	private:
 		int which_macro;
-		EmptyClusterAbstraction* map;
 		TileExpansionPolicy* policy;
 };
 

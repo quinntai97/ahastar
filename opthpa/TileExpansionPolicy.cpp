@@ -1,9 +1,10 @@
 #include "TileExpansionPolicy.h"
 #include "ManhattanHeuristic.h"
 #include "mapAbstraction.h"
+#include "ProblemInstance.h"
 
-TileExpansionPolicy::TileExpansionPolicy(mapAbstraction* map) 
-	: GridMapExpansionPolicy(map, new ManhattanHeuristic(), 4)
+TileExpansionPolicy::TileExpansionPolicy() 
+	: GridMapExpansionPolicy(4)
 {
 }
 
@@ -14,6 +15,7 @@ TileExpansionPolicy::~TileExpansionPolicy()
 node* TileExpansionPolicy::n()
 {
 	node* n = 0;
+	mapAbstraction* map = problem->getMap();
 	switch(which)
 	{
 		case 0:

@@ -34,6 +34,8 @@
 // @author: dharabor
 // @created: 28/11/2010
 
+#include <stdexcept>
+
 class graph;
 class graphAbstraction;
 class IncidentEdgesExpansionPolicy;
@@ -43,7 +45,7 @@ class RRExpansionPolicy : public SelectiveExpansionPolicy
 		RRExpansionPolicy(graphAbstraction* map);
 		virtual ~RRExpansionPolicy();
 
-		virtual void expand(node* t);
+		virtual void expand(node* t) throw(std::logic_error);
 		virtual bool hasNext();
 		virtual double cost_to_n();
 

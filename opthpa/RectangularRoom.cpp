@@ -52,7 +52,7 @@ RectangularRoom::buildCluster()
 	// try to extend the square, first vertically then horizontally.
 	// goal: find the size of the largest possible rectangle
 	int squareheight = height;
-	int sqaurewidth = width;
+	int squarewidth = width;
 	while(canExtendHorizontally())
 	{
 		width++;
@@ -69,7 +69,7 @@ RectangularRoom::buildCluster()
 	// build the largest possible rectangle
 	if(maxheight*squarewidth > squareheight*maxwidth)
 	{
-		height = maxheight
+		height = maxheight;
 		width = squarewidth;
 	}
 	else
