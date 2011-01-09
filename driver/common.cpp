@@ -202,7 +202,7 @@ void processCommandLineArgs(int argc, char *argv[])
 			printf("Error: unhandled command-line parameter (%s)\n\n", argv[y]);
 			printCommandLineArguments();
 			y++;
-			//exit(10);
+			exit(10);
 		}
 	}
 }
