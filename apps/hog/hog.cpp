@@ -30,6 +30,7 @@
 #include "EmptyClusterAbstraction.h"
 #include "EmptyCluster.h"
 #include "FlexibleAStar.h"
+#include "fpUtil.h"
 #include "HPAClusterAbstraction.h"
 #include "HPAClusterFactory.h"
 #include "HPAStar2.h"
@@ -326,7 +327,7 @@ gogoGadgetNOGUIScenario(mapAbstraction* aMap)
 		delete p;
 		//std::cout << "Fin HPA*"<<std::endl;
 
-		if(optlen != distanceTravelled)
+		if(!fequal(optlen, distanceTravelled))
 		{
 			astar->verbose = true;
 			alg->verbose = true;
@@ -338,6 +339,7 @@ gogoGadgetNOGUIScenario(mapAbstraction* aMap)
 			double tmp2 = aMap->distance(p);
 			delete p;
 
+			std::cout << optlen << " vs " << distanceTravelled<<std::endl;
 			std::cout << "\n opt: "<<tmp;
 			std::cout << " distanceTravelled: "<<tmp2<<std::endl;
 			std::cout << " previously, opt: "<<optlen<<" distanceTravelled: "
