@@ -34,6 +34,7 @@
 #include "HPAClusterFactory.h"
 #include "HPAStar2.h"
 #include "IncidentEdgesExpansionPolicy.h"
+#include "JumpPointsExpansionPolicy.h"
 #include "mapFlatAbstraction.h"
 #include "MacroNodeFactory.h"
 #include "ManhattanHeuristic.h"
@@ -55,7 +56,7 @@ int absDispType = 3;
 ScenarioManager scenariomgr;
 Experiment* nextExperiment;
 int expnum=0;
-bool runAStar=false;
+bool runAStar=true;
 bool scenario=false;
 bool hog_gui=true;
 bool verbose = false;
@@ -191,8 +192,12 @@ createSimulation(unitSimulation * &unitSim)
 		case HOG::FLAT:
 			std::cout << "FLAT";
 			break;
+		case HOG::FLATJUMP:
+			std::cout << "FLATJUMP";
+			break;
 		default:
 			std::cout << "Unknown?? Fix me!!";
+			break;
 	}
 	std::cout << std::endl;
 
@@ -435,10 +440,11 @@ initializeHandlers()
 			"Disallow diagonal moves during search "
 			"(default = false)");
 
-	installCommandLineHandler(myAllPurposeCLHandler, "-abs", "-abs", 
-			"Abstraction Type. Must be one of: "
-			"[flat | hpa | err | err_pr | err_bfr | err_pr_bfr] where: \n"
+	installCommandLineHandler(myAllPurposeCLHandler, "-abs", 
+			"-abs [flat | flatjump | hpa | err | err_pr | err_bfr | err_pr_bfr]", 
+			"Abstraction Type:\n"
 			"\tflat = no abstraction (default)\n"
+			"\tflatjump = like flat but use jump points to speed search\n"
 			"\thpa = hpa cluster abstraction (cluster size = 10x10)\n"
 			"\terr = empty rectangular rooms abstraction\n"
 			"\terr_pr = err with perimeter reduction\n"
@@ -504,6 +510,11 @@ myAllPurposeCLHandler(char* argument[], int maxNumArgs)
 		{
 			argsParsed++;
 			absType = HOG::FLAT;
+		}
+		else if(strcmp(argument[1], "flatjump") == 0)
+		{
+			argsParsed++;
+			absType = HOG::FLATJUMP;
 		}
 		else
 		{
@@ -708,10 +719,8 @@ runNextExperiment(unitSimulation *unitSim)
 		exit(0);
 	}
 
-	EmptyClusterAbstraction* aMap = dynamic_cast<EmptyClusterAbstraction*>(
-			unitSim->getMapAbstraction());
+	mapAbstraction* aMap = unitSim->getMapAbstraction();
 	aMap->clearColours();
-	
 
 	Experiment* nextExperiment = dynamic_cast<Experiment*>(
 			scenariomgr.getNthExperiment(expnum));
@@ -793,12 +802,20 @@ newSearchAlgorithm(mapAbstraction* aMap, bool refineAbsPath)
 			alg = new HPAStar2(newExpansionPolicy(aMap), newHeuristic(), 
 					refineAbsPath, false);
 			alg->verbose = verbose;
+			break;
+		}
+		case HOG::FLATJUMP:
+		{
+			alg = new FlexibleAStar(new JumpPointsExpansionPolicy(), 
+					newHeuristic());
+			break;
 		}
 
 		default:
 		{
 			alg = new FlexibleAStar(newExpansionPolicy(aMap), newHeuristic());
 			alg->verbose = verbose;
+			break;
 		}
 	}
 	return alg;
