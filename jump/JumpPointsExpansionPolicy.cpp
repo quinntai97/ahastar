@@ -7,6 +7,7 @@ JumpPointsExpansionPolicy::JumpPointsExpansionPolicy()
 	: ExpansionPolicy()
 {
 	jumplimit = INT_MAX;
+	neighbourIndex = 0;
 }
 
 JumpPointsExpansionPolicy::~JumpPointsExpansionPolicy()
@@ -15,14 +16,11 @@ JumpPointsExpansionPolicy::~JumpPointsExpansionPolicy()
 }
 
 
-void JumpPointsExpansionPolicy::expand(node* t) throw(std::logic_error)
+void 
+JumpPointsExpansionPolicy::expand(node* t) throw(std::logic_error)
 {
 	ExpansionPolicy::expand(t);
 
-	x = t->getLabelL(kFirstData);
-	y = t->getLabelL(kFirstData+1);
-	goalx = problem->getGoalNode()->getLabelL(kFirstData);
-	goaly = problem->getGoalNode()->getLabelL(kFirstData+1);
 
 	neighbours.clear();
 	computeNeighbourSet();
@@ -30,9 +28,12 @@ void JumpPointsExpansionPolicy::expand(node* t) throw(std::logic_error)
 	neighbourIndex = 0;
 }
 
-void JumpPointsExpansionPolicy::computeNeighbourSet()
+void 
+JumpPointsExpansionPolicy::computeNeighbourSet()
 {
 	mapAbstraction* map = problem->getMap();
+	int x = target->getLabelL(kFirstData);
+	int y = target->getLabelL(kFirstData+1);
 
 	if(target->backpointer != 0)
 	{
@@ -41,18 +42,20 @@ void JumpPointsExpansionPolicy::computeNeighbourSet()
 		{
 			case JPEP::N:
 			{
-				addJumpNodes(JPEP::S);
+				node* n = findJumpNode(JPEP::S);
+				if(n)
+					neighbours.push_back(n);
 
 				// check if we also need to add diagonal neighbours
 				if(!map->getNodeFromMap(x+1, y))
 				{
-					node* n = map->getNodeFromMap(x+1, y+1);
+					n = map->getNodeFromMap(x+1, y+1);
 					if(n)
 						neighbours.push_back(n);
 				}
 				if(!map->getNodeFromMap(x-1, y))
 				{
-					node* n = map->getNodeFromMap(x-1, y+1);
+					n = map->getNodeFromMap(x-1, y+1);
 					if(n)
 						neighbours.push_back(n);
 				}
@@ -61,12 +64,14 @@ void JumpPointsExpansionPolicy::computeNeighbourSet()
 
 			case JPEP::NE:
 			{
-				addJumpNodes(JPEP::SW);
+				node* n = findJumpNode(JPEP::SW);
+				if(n)
+					neighbours.push_back(n);
 
 				// add NW neighbour only if N neighbour is null
 				if(!map->getNodeFromMap(x, y-1))
 				{
-					node* n = map->getNodeFromMap(x-1, y-1);
+					n = map->getNodeFromMap(x-1, y-1);
 					if(n)
 						neighbours.push_back(n);
 				}
@@ -74,7 +79,7 @@ void JumpPointsExpansionPolicy::computeNeighbourSet()
 				// add SE neighbour only if E neighbour is null
 				if(!map->getNodeFromMap(x+1, y))
 				{
-					node* n = map->getNodeFromMap(x+1, y+1); 
+					n = map->getNodeFromMap(x+1, y+1); 
 					if(n)
 						neighbours.push_back(n);
 				}
@@ -83,18 +88,20 @@ void JumpPointsExpansionPolicy::computeNeighbourSet()
 
 			case JPEP::E:
 			{
-				addJumpNodes(JPEP::W);
+				node* n = findJumpNode(JPEP::W);
+				if(n)
+					neighbours.push_back(n);
 
 				// check if we also need to add diagonal neighbours
 				if(!map->getNodeFromMap(x, y-1))
 				{
-					node* n = map->getNodeFromMap(x-1, y-1);
+					n = map->getNodeFromMap(x-1, y-1);
 					if(n)
 						neighbours.push_back(n);
 				}
 				if(!map->getNodeFromMap(x, y+1))
 				{
-					node* n = map->getNodeFromMap(x-1, y+1);
+					n = map->getNodeFromMap(x-1, y+1);
 					if(n)
 						neighbours.push_back(n);
 				}
@@ -103,12 +110,14 @@ void JumpPointsExpansionPolicy::computeNeighbourSet()
 
 			case JPEP::SE:
 			{
-				addJumpNodes(JPEP::NW); 
+				node* n = findJumpNode(JPEP::NW); 
+				if(n)
+					neighbours.push_back(n);
 
 				// add SW neighbour only if S neighbour is null
 				if(!map->getNodeFromMap(x, y+1))
 				{
-					node* n = map->getNodeFromMap(x-1, y+1);
+					n = map->getNodeFromMap(x-1, y+1);
 					if(n)
 						neighbours.push_back(n);
 				}
@@ -116,7 +125,7 @@ void JumpPointsExpansionPolicy::computeNeighbourSet()
 				// add NE neighbour only if E neighbour is null
 				if(!map->getNodeFromMap(x+1, y))
 				{
-					node* n = map->getNodeFromMap(x+1, y-1); 
+					n = map->getNodeFromMap(x+1, y-1); 
 					if(n)
 						neighbours.push_back(n);
 				}
@@ -125,18 +134,20 @@ void JumpPointsExpansionPolicy::computeNeighbourSet()
 
 			case JPEP::S:
 			{
-				addJumpNodes(JPEP::N);
+				node* n = findJumpNode(JPEP::N);
+				if(n)
+					neighbours.push_back(n);
 
 				// check if we also need to add diagonal neighbours
 				if(!map->getNodeFromMap(x+1, y))
 				{
-					node* n = map->getNodeFromMap(x+1, y-1);
+					n = map->getNodeFromMap(x+1, y-1);
 					if(n)
 						neighbours.push_back(n);
 				}
 				if(!map->getNodeFromMap(x-1, y))
 				{
-					node* n = map->getNodeFromMap(x-1, y-1);
+					n = map->getNodeFromMap(x-1, y-1);
 					if(n)
 						neighbours.push_back(n);
 				}
@@ -145,12 +156,14 @@ void JumpPointsExpansionPolicy::computeNeighbourSet()
 
 			case JPEP::SW:
 			{
-				addJumpNodes(JPEP::NE); 
+				node* n = findJumpNode(JPEP::NE); 
+				if(n)
+					neighbours.push_back(n);
 
 				// add SE neighbour only if S neighbour is null
 				if(!map->getNodeFromMap(x, y+1))
 				{
-					node* n = map->getNodeFromMap(x+1, y+1);
+					n = map->getNodeFromMap(x+1, y+1);
 					if(n)
 						neighbours.push_back(n);
 				}
@@ -158,7 +171,7 @@ void JumpPointsExpansionPolicy::computeNeighbourSet()
 				// add NW neighbour only if W neighbour is null
 				if(!map->getNodeFromMap(x-1, y))
 				{
-					node* n = map->getNodeFromMap(x-1, y-1); 
+					n = map->getNodeFromMap(x-1, y-1); 
 					if(n)
 						neighbours.push_back(n);
 				}
@@ -167,18 +180,20 @@ void JumpPointsExpansionPolicy::computeNeighbourSet()
 
 			case JPEP::W:
 			{
-				addJumpNodes(JPEP::E);
+				node* n = findJumpNode(JPEP::E);
+				if(n)
+					neighbours.push_back(n);
 
 				// check if we also need to add diagonal neighbours
 				if(!map->getNodeFromMap(x, y-1))
 				{
-					node* n = map->getNodeFromMap(x+1, y-1);
+					n = map->getNodeFromMap(x+1, y-1);
 					if(n)
 						neighbours.push_back(n);
 				}
 				if(!map->getNodeFromMap(x, y+1))
 				{
-					node* n = map->getNodeFromMap(x+1, y+1);
+					n = map->getNodeFromMap(x+1, y+1);
 					if(n)
 						neighbours.push_back(n);
 				}
@@ -187,12 +202,14 @@ void JumpPointsExpansionPolicy::computeNeighbourSet()
 
 			case JPEP::NW:
 			{
-				addJumpNodes(JPEP::SE);
+				node* n = findJumpNode(JPEP::SE);
+				if(n)
+					neighbours.push_back(n);
 
 				// add NE neighbour only if N neighbour is null
 				if(!map->getNodeFromMap(x, y-1))
 				{
-					node* n = map->getNodeFromMap(x+1, y-1);
+					n = map->getNodeFromMap(x+1, y-1);
 					if(n)
 						neighbours.push_back(n);
 				}
@@ -200,7 +217,7 @@ void JumpPointsExpansionPolicy::computeNeighbourSet()
 				// add SW neighbour only if W neighbour is null
 				if(!map->getNodeFromMap(x-1, y))
 				{
-					node* n = map->getNodeFromMap(x-1, y+1); 
+					n = map->getNodeFromMap(x-1, y+1); 
 					if(n)
 						neighbours.push_back(n);
 				}
@@ -208,16 +225,31 @@ void JumpPointsExpansionPolicy::computeNeighbourSet()
 			}
 		}
 	}
+	else
+	{
+		graph* g = map->getAbstractGraph(0);
+		neighbor_iterator iter = target->getNeighborIter();
+		for(int nodeId = target->nodeNeighborNext(iter); 
+				nodeId != -1 ;
+				nodeId = target->nodeNeighborNext(iter))
+		{
+			node* n = g->getNode(nodeId);
+			assert(n);
+			neighbours.push_back(n);
+		}
+	}
 }
 
-node* JumpPointsExpansionPolicy::first()
+node* 
+JumpPointsExpansionPolicy::first()
 {
 	if(neighbours.size() > 0)
 		return neighbours.at(0);
 	return 0;
 }
 
-node* JumpPointsExpansionPolicy::next()
+node* 
+JumpPointsExpansionPolicy::next()
 {
 	node* nextnode = 0;
 
@@ -230,7 +262,8 @@ node* JumpPointsExpansionPolicy::next()
 	return nextnode;
 }
 
-node* JumpPointsExpansionPolicy::n()
+node* 
+JumpPointsExpansionPolicy::n()
 {
 	node* retVal = 0;
 	unsigned int numNeighbours = neighbours.size();
@@ -241,13 +274,15 @@ node* JumpPointsExpansionPolicy::n()
 	return retVal;
 }
 
-double JumpPointsExpansionPolicy::cost_to_n()
+double 
+JumpPointsExpansionPolicy::cost_to_n()
 {
 	node* current = n();
 	return problem->getHeuristic()->h(target, current);
 }
 
-bool JumpPointsExpansionPolicy::hasNext()
+bool 
+JumpPointsExpansionPolicy::hasNext()
 {
 	if(neighbourIndex+1 < neighbours.size())
 		return true;
@@ -255,9 +290,12 @@ bool JumpPointsExpansionPolicy::hasNext()
 }
 
 
-JPEP::Direction JumpPointsExpansionPolicy::directionToParent(node* n)
+JPEP::Direction 
+JumpPointsExpansionPolicy::directionToParent(node* n)
 {
 	node* parent = target->backpointer;	
+	int x = target->getLabelL(kFirstData);
+	int y = target->getLabelL(kFirstData+1);
 	int px = parent->getLabelL(kFirstData);
 	int py = parent->getLabelL(kFirstData+1);
 	
@@ -294,15 +332,20 @@ JPEP::Direction JumpPointsExpansionPolicy::directionToParent(node* n)
 			" failed to determine direction to parent!");
 }
 
-// Populates the set of neighbours associated with the target node with
-// reachable jump points in the Direction d.
+// Finds the nearest jump node neighbour (if any) for the target node
+// in a given direction.
 //
-// @return: true if a jump node was found, otherwise false
-bool
-JumpPointsExpansionPolicy::addJumpNodes(JPEP::Direction d)
+// @return: a jump node (null  if none is found)
+node*
+JumpPointsExpansionPolicy::findJumpNode(JPEP::Direction d)
 {
 	node* n = 0; // jump node in Direction d
 	mapAbstraction* map = problem->getMap();
+	int x = target->getLabelL(kFirstData);
+	int y = target->getLabelL(kFirstData+1);
+	int goalx = problem->getGoalNode()->getLabelL(kFirstData);
+	int goaly = problem->getGoalNode()->getLabelL(kFirstData+1);
+
 	switch(d)
 	{
 		case JPEP::N:
@@ -344,12 +387,9 @@ JumpPointsExpansionPolicy::addJumpNodes(JPEP::Direction d)
 				if(n == 0)
 					break;
 
-				// (ny == goaly) implies n is a jump node 
 				if(ny == goaly)
 					break;
 
-				// n is a jump node if we cannot prove a shorter path to 
-				// a diagonal neighbour exists
 				if(!map->getNodeFromMap(x-1, ny) && 
 						map->getNodeFromMap(x-1, ny+1))
 				{
@@ -374,12 +414,9 @@ JumpPointsExpansionPolicy::addJumpNodes(JPEP::Direction d)
 				if(n == 0)
 					break;
 
-				// (nx == goalx) implies n is a jump node 
 				if(nx == goalx)
 					break;
 
-				// n is a jump node if we cannot prove a shorter path to 
-				// a diagonal neighbour exists
 				if(!map->getNodeFromMap(nx, y-1) && 
 						map->getNodeFromMap(nx+1, y-1))
 				{
@@ -405,12 +442,9 @@ JumpPointsExpansionPolicy::addJumpNodes(JPEP::Direction d)
 				if(n == 0)
 					break;
 
-				// (nx == goalx) implies n is a jump node 
 				if(nx == goalx)
 					break;
 
-				// n is a jump node if we cannot prove a shorter path to 
-				// a diagonal neighbour exists
 				if(!map->getNodeFromMap(nx, y-1) && 
 						map->getNodeFromMap(nx-1, y-1))
 				{
@@ -433,23 +467,19 @@ JumpPointsExpansionPolicy::addJumpNodes(JPEP::Direction d)
 				int nx = x+steps;
 				int ny = y-steps;
 				n = map->getNodeFromMap(nx, ny);
+
+				// stop if we hit an obstacle (no jump node exists)
 				if(n == 0)
 					break;
 
-				// continue diagonally only if there are no horizontal
-				// or vertical jump points reachable from n
-				if(addJumpNodes(JPEP::N))
-				{
-					addJumpNodes(JPEP::E);
-					break;
-				}
-
-				if(addJumpNodes(JPEP::E))
-					break;
-
+				// n is jump node if it share a row or column with the goal 
 				if(nx == goalx || ny == goaly)
 					break;
-
+				
+				// n is a jump node if we can reach other jump nodes by
+				// travelling vertically or horizontally 
+				if(findJumpNode(JPEP::N) || findJumpNode(JPEP::E))
+					break;
 			}
 			break;
 		}
@@ -464,16 +494,10 @@ JumpPointsExpansionPolicy::addJumpNodes(JPEP::Direction d)
 				if(n == 0)
 					break;
 
-				if(addJumpNodes(JPEP::S))
-				{
-					addJumpNodes(JPEP::E);
-					break;
-				}
-
-				if(addJumpNodes(JPEP::E))
-					break;
-
 				if(nx == goalx || ny == goaly)
+					break;
+
+				if(findJumpNode(JPEP::S) || findJumpNode(JPEP::E))
 					break;
 			}
 			break;
@@ -489,16 +513,10 @@ JumpPointsExpansionPolicy::addJumpNodes(JPEP::Direction d)
 				if(n == 0)
 					break;
 
-				if(addJumpNodes(JPEP::N))
-				{
-					addJumpNodes(JPEP::W);
-					break;
-				}
-
-				if(addJumpNodes(JPEP::W))
-					break;
-
 				if(nx == goalx || ny == goaly)
+					break;
+
+				if(findJumpNode(JPEP::N) || findJumpNode(JPEP::W))
 					break;
 			}
 			break;
@@ -514,27 +532,16 @@ JumpPointsExpansionPolicy::addJumpNodes(JPEP::Direction d)
 				if(n == 0)
 					break;
 
-				if(addJumpNodes(JPEP::S))
-				{
-					addJumpNodes(JPEP::W);
-					break;
-				}
-
-				if(addJumpNodes(JPEP::W))
-					break;
-
 				if(nx == goalx || ny == goaly)
+					break;
+
+				if(findJumpNode(JPEP::S) || findJumpNode(JPEP::W))
 					break;
 			}
 			break;
 		}
 	}
 
-	if(n)
-	{
-		neighbours.push_back(n);
-		return true;
-	}
-
-	return false;
+	return n;
 }
+

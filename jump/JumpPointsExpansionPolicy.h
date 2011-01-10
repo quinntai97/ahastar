@@ -49,11 +49,9 @@ class JumpPointsExpansionPolicy : public ExpansionPolicy
 	private:
 		JPEP::Direction directionToParent(node* n);
 		void computeNeighbourSet();
-		bool addJumpNodes(JPEP::Direction d);
+		node* findJumpNode(JPEP::Direction d);
 
 		std::vector<node*> neighbours;
-		int x, y; // target node coordinates
-		int goalx, goaly;
 		unsigned int neighbourIndex; 
 };
 
