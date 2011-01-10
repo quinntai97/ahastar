@@ -42,7 +42,7 @@ JumpPointsExpansionPolicy::computeNeighbourSet()
 		{
 			case JPEP::N:
 			{
-				node* n = findJumpNode(JPEP::S);
+				node* n = findJumpNode(JPEP::S, x, y);
 				if(n)
 					neighbours.push_back(n);
 
@@ -64,7 +64,15 @@ JumpPointsExpansionPolicy::computeNeighbourSet()
 
 			case JPEP::NE:
 			{
-				node* n = findJumpNode(JPEP::SW);
+				node* n = findJumpNode(JPEP::SW, x, y);
+				if(n)
+					neighbours.push_back(n);
+
+				n = findJumpNode(JPEP::S, x, y);
+				if(n)
+					neighbours.push_back(n);
+
+				n = findJumpNode(JPEP::W, x, y);
 				if(n)
 					neighbours.push_back(n);
 
@@ -88,7 +96,7 @@ JumpPointsExpansionPolicy::computeNeighbourSet()
 
 			case JPEP::E:
 			{
-				node* n = findJumpNode(JPEP::W);
+				node* n = findJumpNode(JPEP::W, x, y);
 				if(n)
 					neighbours.push_back(n);
 
@@ -110,7 +118,15 @@ JumpPointsExpansionPolicy::computeNeighbourSet()
 
 			case JPEP::SE:
 			{
-				node* n = findJumpNode(JPEP::NW); 
+				node* n = findJumpNode(JPEP::NW, x, y); 
+				if(n)
+					neighbours.push_back(n);
+
+				n = findJumpNode(JPEP::N, x, y);
+				if(n)
+					neighbours.push_back(n);
+
+				n = findJumpNode(JPEP::W, x, y);
 				if(n)
 					neighbours.push_back(n);
 
@@ -134,7 +150,7 @@ JumpPointsExpansionPolicy::computeNeighbourSet()
 
 			case JPEP::S:
 			{
-				node* n = findJumpNode(JPEP::N);
+				node* n = findJumpNode(JPEP::N, x, y);
 				if(n)
 					neighbours.push_back(n);
 
@@ -156,7 +172,15 @@ JumpPointsExpansionPolicy::computeNeighbourSet()
 
 			case JPEP::SW:
 			{
-				node* n = findJumpNode(JPEP::NE); 
+				node* n = findJumpNode(JPEP::NE, x, y); 
+				if(n)
+					neighbours.push_back(n);
+
+				n = findJumpNode(JPEP::N, x, y);
+				if(n)
+					neighbours.push_back(n);
+
+				n = findJumpNode(JPEP::E, x, y);
 				if(n)
 					neighbours.push_back(n);
 
@@ -180,7 +204,7 @@ JumpPointsExpansionPolicy::computeNeighbourSet()
 
 			case JPEP::W:
 			{
-				node* n = findJumpNode(JPEP::E);
+				node* n = findJumpNode(JPEP::E, x, y);
 				if(n)
 					neighbours.push_back(n);
 
@@ -202,7 +226,15 @@ JumpPointsExpansionPolicy::computeNeighbourSet()
 
 			case JPEP::NW:
 			{
-				node* n = findJumpNode(JPEP::SE);
+				node* n = findJumpNode(JPEP::SE, x, y);
+				if(n)
+					neighbours.push_back(n);
+
+				n = findJumpNode(JPEP::S, x, y);
+				if(n)
+					neighbours.push_back(n);
+
+				n = findJumpNode(JPEP::E, x, y);
 				if(n)
 					neighbours.push_back(n);
 
@@ -337,12 +369,10 @@ JumpPointsExpansionPolicy::directionToParent(node* n)
 //
 // @return: a jump node (null  if none is found)
 node*
-JumpPointsExpansionPolicy::findJumpNode(JPEP::Direction d)
+JumpPointsExpansionPolicy::findJumpNode(JPEP::Direction d, int x, int y)
 {
 	node* n = 0; // jump node in Direction d
 	mapAbstraction* map = problem->getMap();
-	int x = target->getLabelL(kFirstData);
-	int y = target->getLabelL(kFirstData+1);
 	int goalx = problem->getGoalNode()->getLabelL(kFirstData);
 	int goaly = problem->getGoalNode()->getLabelL(kFirstData+1);
 
@@ -478,7 +508,8 @@ JumpPointsExpansionPolicy::findJumpNode(JPEP::Direction d)
 				
 				// n is a jump node if we can reach other jump nodes by
 				// travelling vertically or horizontally 
-				if(findJumpNode(JPEP::N) || findJumpNode(JPEP::E))
+				if(findJumpNode(JPEP::N, nx, ny) || 
+						findJumpNode(JPEP::E, nx, ny))
 					break;
 			}
 			break;
@@ -497,7 +528,8 @@ JumpPointsExpansionPolicy::findJumpNode(JPEP::Direction d)
 				if(nx == goalx || ny == goaly)
 					break;
 
-				if(findJumpNode(JPEP::S) || findJumpNode(JPEP::E))
+				if(findJumpNode(JPEP::S, nx, ny) || 
+						findJumpNode(JPEP::E, nx, ny))
 					break;
 			}
 			break;
@@ -516,7 +548,8 @@ JumpPointsExpansionPolicy::findJumpNode(JPEP::Direction d)
 				if(nx == goalx || ny == goaly)
 					break;
 
-				if(findJumpNode(JPEP::N) || findJumpNode(JPEP::W))
+				if(findJumpNode(JPEP::N, nx, ny) || 
+						findJumpNode(JPEP::W, nx, ny))
 					break;
 			}
 			break;
@@ -535,7 +568,8 @@ JumpPointsExpansionPolicy::findJumpNode(JPEP::Direction d)
 				if(nx == goalx || ny == goaly)
 					break;
 
-				if(findJumpNode(JPEP::S) || findJumpNode(JPEP::W))
+				if(findJumpNode(JPEP::S, nx, ny) || 
+						findJumpNode(JPEP::W, nx, ny))
 					break;
 			}
 			break;
