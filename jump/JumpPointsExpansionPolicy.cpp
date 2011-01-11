@@ -505,7 +505,23 @@ JumpPointsExpansionPolicy::findJumpNode(JPEP::Direction d, int x, int y)
 				// n is jump node if it share a row or column with the goal 
 				if(nx == goalx || ny == goaly)
 					break;
-				
+
+				// n is a jump node if a SE neighbour exists which cannot be
+				// reached by a shorter path than one involving n.
+				if(!map->getNodeFromMap(nx, ny+1) && 
+						map->getNodeFromMap(nx+1, ny+1))
+				{
+					break;
+				}
+
+				// n is a jump node if a NW neighbour exists which cannot be
+				// reached by a shorter path than one involving n.
+				if(!map->getNodeFromMap(nx-1, ny) && 
+						map->getNodeFromMap(nx-1, ny-1))
+				{
+					break;
+				}
+			
 				// n is a jump node if we can reach other jump nodes by
 				// travelling vertically or horizontally 
 				if(findJumpNode(JPEP::N, nx, ny) || 
@@ -527,6 +543,18 @@ JumpPointsExpansionPolicy::findJumpNode(JPEP::Direction d, int x, int y)
 
 				if(nx == goalx || ny == goaly)
 					break;
+				
+				if(!map->getNodeFromMap(nx, ny-1) && 
+						map->getNodeFromMap(nx+1, ny-1))
+				{
+					break;
+				}
+
+				if(!map->getNodeFromMap(nx-1, ny) && 
+						map->getNodeFromMap(nx-1, ny+1))
+				{
+					break;
+				}
 
 				if(findJumpNode(JPEP::S, nx, ny) || 
 						findJumpNode(JPEP::E, nx, ny))
@@ -548,6 +576,18 @@ JumpPointsExpansionPolicy::findJumpNode(JPEP::Direction d, int x, int y)
 				if(nx == goalx || ny == goaly)
 					break;
 
+				if(!map->getNodeFromMap(nx, ny+1) && 
+						map->getNodeFromMap(nx-1, ny+1))
+				{
+					break;
+				}
+
+				if(!map->getNodeFromMap(nx+1, ny) && 
+						map->getNodeFromMap(nx+1, ny-1))
+				{
+					break;
+				}
+
 				if(findJumpNode(JPEP::N, nx, ny) || 
 						findJumpNode(JPEP::W, nx, ny))
 					break;
@@ -567,6 +607,18 @@ JumpPointsExpansionPolicy::findJumpNode(JPEP::Direction d, int x, int y)
 
 				if(nx == goalx || ny == goaly)
 					break;
+
+				if(!map->getNodeFromMap(nx, ny-1) && 
+						map->getNodeFromMap(nx-1, ny-1))
+				{
+					break;
+				}
+
+				if(!map->getNodeFromMap(nx+1, ny) && 
+						map->getNodeFromMap(nx+1, ny+1))
+				{
+					break;
+				}
 
 				if(findJumpNode(JPEP::S, nx, ny) || 
 						findJumpNode(JPEP::W, nx, ny))

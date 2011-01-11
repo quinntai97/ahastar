@@ -201,6 +201,7 @@ createSimulation(unitSimulation * &unitSim)
 			break;
 	}
 	std::cout << std::endl;
+	std::cout << "map: "<<gDefaultMap<<std::endl;
 
 	algName = (char*)"";
 	Map* map = new Map(gDefaultMap);
