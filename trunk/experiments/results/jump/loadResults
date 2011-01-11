@@ -1,15 +1,26 @@
 load("../Rscripts/Rhelpers.Rdata")
 
-jumpnames <- c("id", "name", "ne", "nt", "pm", "st", "opl", "map")
-jumpclasses <- c("integer", "character", "integer", "integer", "integer", "double", "double", "character")
+astarnames <- c("id", "name", "ne", "nt", "pm", "st", "opl", "map")
+astarclasses <- c("integer", "character", "integer", "integer", "integer", "double", "double", "character")
 
-jump <- jump <- read.table("bgmaps/results_ClusterAStar", col.names=jumpnames, colClasses=jumpclasses, header=FALSE, sep=",")
-jump <- rbind(jump, read.table("rooms/results_ClusterAStar",
-col.names=jumpnames, colClasses=jumpclasses, header=FALSE, sep=","))
-jump <- rbind(jump, read.table("adaptive-depth/results_ClusterAStar",
-col.names=jumpnames, colClasses=jumpclasses, header=FALSE, sep=","))
+jump <- jump <- read.table("bgmaps/results_FlexibleAStarJump", col.names=astarnames, colClasses=astarclasses, header=FALSE, sep=",")
+jump <- rbind(jump, read.table("rooms/results_FlexibleAStarJump",
+col.names=astarnames, colClasses=astarclasses, header=FALSE, sep=","))
+jump <- rbind(jump, read.table("ad/results_FlexibleAStarJump",
+col.names=astarnames, colClasses=astarclasses, header=FALSE, sep=","))
 jump$map <- sub("\t([a-z])*/(([a-z])*/)*", "", jump$map)
 
 rooms_jump <- jump[grep("*room*", jump$map),]
 bg_jump <- jump[grep("AR*", jump$map),]
 ad_jump <- jump[grep("adaptive-depth*", jump$map),]
+
+astar <- astar <- read.table("bgmaps/results_FlexibleAStar", col.names=astarnames, colClasses=astarclasses, header=FALSE, sep=",")
+astar <- rbind(astar, read.table("rooms/results_FlexibleAStar",
+col.names=astarnames, colClasses=astarclasses, header=FALSE, sep=","))
+astar <- rbind(astar, read.table("ad/results_FlexibleAStar",
+col.names=astarnames, colClasses=astarclasses, header=FALSE, sep=","))
+astar$map <- sub("\t([a-z])*/(([a-z])*/)*", "", astar$map)
+
+rooms_astar <- astar[grep("*room*", astar$map),]
+bg_astar <- astar[grep("AR*", astar$map),]
+ad_astar <- astar[grep("adaptive-depth*", astar$map),]
