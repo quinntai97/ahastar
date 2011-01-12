@@ -1,0 +1,11 @@
+#!/bin/bash
+rm results_*
+mkdir ad
+./runScenarios experiments/scenarios/adaptive-depth/ "-abs flat"
+mv results* ad/
+mkdir bgmaps
+./runScenarios experiments/scenarios/bgmaps/ "-abs flat"
+mv results* bgmaps/
+mkdir rooms
+./runScenarios experiments/scenarios/rooms/ "-abs flat"
+mv results* rooms/
