@@ -1,46 +1,53 @@
 #### Speedup Graphs #### 
 
-ad_trend <- as.data.frame(ams(ad_astar$ne/ad_jump$ne, ad_astar$opl, 15))
-ad_trend <- cbind(ad_trend[,1:2], ams(ad_astar$st/ad_jump$st, ad_astar$opl,
+ad8jump <- as.data.frame(ams(ad_astar$ne/ad_jump$ne, ad_astar$opl, 15))
+ad8jump <- cbind(ad8jump[,1:2], ams(ad_astar$st/ad_jump$st, ad_astar$opl,
 15)[,2:3])
-names(ad_trend) <- c("opl", "ne_speedup", "st_speedup", "num_exp")
+names(ad8jump) <- c("opl", "ne_speedup", "st_speedup", "num_exp")
 
-bg_trend <- as.data.frame(ams(bg_astar$ne/bg_jump$ne, bg_astar$opl, 25))
-bg_trend <- cbind(bg_trend[,1:2], ams(bg_astar$st/bg_jump$st, bg_astar$opl,
+bg8jump <- as.data.frame(ams(bg_astar$ne/bg_jump$ne, bg_astar$opl, 25))
+bg8jump <- cbind(bg8jump[,1:2], ams(bg_astar$st/bg_jump$st, bg_astar$opl,
 25)[,2:3])
-names(bg_trend) <- c("opl", "ne_speedup", "st_speedup", "num_exp")
+names(bg8jump) <- c("opl", "ne_speedup", "st_speedup", "num_exp")
 
-rooms_trend <- as.data.frame(ams(rooms_astar$ne/rooms_jump$ne, rooms_astar$opl, 25))
-rooms_trend <- cbind(rooms_trend[,1:2], ams(rooms_astar$st/rooms_jump$st, rooms_astar$opl,
+rooms8jump <- as.data.frame(ams(rooms_astar$ne/rooms_jump$ne, rooms_astar$opl, 25))
+rooms8jump <- cbind(rooms8jump[,1:2], ams(rooms_astar$st/rooms_jump$st, rooms_astar$opl,
 25)[,2:3])
-names(rooms_trend) <- c("opl", "ne_speedup", "st_speedup", "num_exp")
+names(rooms8jump) <- c("opl", "ne_speedup", "st_speedup", "num_exp")
 
 
 # drop points for which we have insufficient experiments
-ad_trend <- ad_trend[ad_trend$num_exp >= 10,]
-bg_trend <- bg_trend[bg_trend$num_exp >= 10,]
-rooms_trend <- rooms_trend[rooms_trend$num_exp >= 10, ] # remaining buckets have < 10 data points
+ad8jump <- ad8jump[ad8jump$num_exp >= 10,]
+bg8jump <- bg8jump[bg8jump$num_exp >= 10,]
+rooms8jump <- rooms8jump[rooms8jump$num_exp >= 10, ] # remaining buckets have < 10 data points
+
+# load comparative tables
+load("../opthpa/rsr_tables.RObject")
+load("../opthpa/swamp_tables.RObject")
 
 pdf(width=15, height=5, file="speedup.pdf")
 par(mfrow=c(1,3))
 
-plot(ad_trend$ne_speedup ~ ad_trend$opl, type="l", lty=1,   
-main="Average Speedup: Adaptive Depth", ylab="Avg. Speedup Factor", 
-xlab="Path Length", ylim=c(1,10), cex.main=2)
-lines(ad_trend$st_speedup ~ ad_trend$opl, type="l", lty=2)
-legend("topleft", c("Nodes Expanded", "Search Time"),  lty=c(1,2), cex=1.25)
+plot(ad8jump$st_speedup ~ ad8jump$opl, type="l", lty=1,   
+main="Average Speedup: Adaptive Depth (8C)", ylab="Avg. Speedup Factor", 
+xlab="Path Length", ylim=c(1,30), cex.main=1.6)
+lines(ad8rsr_pr_bfr$st_speedup ~ ad8rsr_pr_bfr$opl, type="l", lty=2)
+lines(ad8swamps_r6_nc2$st_speedup ~ ad8swamps_r6_nc2$opl, type="l", lty=3)
+legend("topleft", c("Jump Points", "RSR", "Swamps"),  lty=c(1,2,3), cex=1.25)
 
-plot(bg_trend$ne_speedup ~ bg_trend$opl, type="l", lty=1,   
-main="Average Speedup: Baldur's Gate", ylab="Avg. Speedup Factor", 
-xlab="Path Length", ylim=c(1,10), cex.main=2)
-lines(bg_trend$st_speedup ~ bg_trend$opl, type="l", lty=2)
-legend("topleft", c("Nodes Expanded", "Search Time"),  lty=c(1,2), cex=1.25)
+plot(bg8jump$st_speedup ~ bg8jump$opl, type="l", lty=1,   
+main="Average Speedup: Baldurs Gate (8C)", ylab="Avg. Speedup Factor", 
+xlab="Path Length", ylim=c(1,30), cex.main=1.6)
+lines(bg8rsr_pr_bfr$st_speedup ~ bg8rsr_pr_bfr$opl, type="l", lty=2)
+lines(bg8swamps_r6_nc2$st_speedup ~ bg8swamps_r6_nc2$opl, type="l", lty=3)
+legend("topleft", c("Jump Points", "RSR", "Swamps"),  lty=c(1,2,3), cex=1.25)
 
-plot(rooms_trend$ne_speedup ~ rooms_trend$opl, type="l", lty=1,   
-main="Average Speedup: Rooms", ylab="Avg. Speedup Factor", 
-xlab="Path Length", ylim=c(1,10), cex.main=2)
-lines(rooms_trend$st_speedup ~ rooms_trend$opl, type="l", lty=2)
-legend("topleft", c("Nodes Expanded", "Search Time"),  lty=c(1,2), cex=1.25)
+plot(rooms8jump$st_speedup ~ rooms8jump$opl, type="l", lty=1,   
+main="Average Speedup: Rooms (8C)", ylab="Avg. Speedup Factor", 
+xlab="Path Length", ylim=c(1,30), cex.main=1.6)
+lines(rooms8rsr_pr_bfr$st_speedup ~ rooms8rsr_pr_bfr$opl, type="l", lty=2)
+lines(rooms8swamps_r6_nc2$st_speedup ~ rooms8swamps_r6_nc2$opl, type="l", lty=3)
+legend("topleft", c("Jump Points", "RSR", "Swamps"),  lty=c(1,2,3), cex=1.25)
 
 dev.off()
 

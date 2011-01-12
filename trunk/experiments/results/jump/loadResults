@@ -1,6 +1,6 @@
 load("../Rscripts/Rhelpers.Rdata")
 
-astarnames <- c("id", "name", "ne", "nt", "pm", "st", "opl", "map")
+astarnames <- c("id", "name", "ne", "nt", "ng", "st", "opl", "map")
 astarclasses <- c("integer", "character", "integer", "integer", "integer", "double", "double", "character")
 
 jump <- jump <- read.table("bgmaps/results_FlexibleAStarJump", col.names=astarnames, colClasses=astarclasses, header=FALSE, sep=",")
