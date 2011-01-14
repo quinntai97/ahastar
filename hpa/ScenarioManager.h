@@ -74,6 +74,7 @@ class ScenarioManager : public AbstractScenarioManager
 
 	protected:
 		Experiment* generateSingleExperiment(mapAbstraction* absMap);
+		void loadV1ScenarioFile(std::ifstream& infile);
 		void loadV2ScenarioFile(std::ifstream& infile);
 		void loadV21ScenarioFile(std::ifstream& infile);
 		void loadV3ScenarioFile(std::ifstream& infile);
