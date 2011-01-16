@@ -306,29 +306,33 @@ void Map::loadOctile(FILE *f, int high, int wide)
 	//		if(upperWhat == '@')
 	//			upperWhat = 'W';
 				
+// dharabor: disabled terrain types (only traversable and obstacle exists)
 			switch (upperWhat)
 			{
+				case 'S':
+				case 'W': 
+				case 'T':
 				case '@':
 				case 'O':
 					for (int r = 0; r < sizeMultiplier; r++)
 						for (int s = 0; s < sizeMultiplier; s++)
 							setTerrainType(x*sizeMultiplier+r, y*sizeMultiplier+s,
 														 kOutOfBounds); break;
-				case 'S':
-					for (int r = 0; r < sizeMultiplier; r++)
-						for (int s = 0; s < sizeMultiplier; s++)
-							setTerrainType(x*sizeMultiplier+r, y*sizeMultiplier+s,
-														 kSwamp); break;
-				case 'W':
-					for (int r = 0; r < sizeMultiplier; r++)
-						for (int s = 0; s < sizeMultiplier; s++)
-							setTerrainType(x*sizeMultiplier+r, y*sizeMultiplier+s,
-														 kWater); break;
-				case 'T':
-					for (int r = 0; r < sizeMultiplier; r++)
-						for (int s = 0; s < sizeMultiplier; s++)
-							setTerrainType(x*sizeMultiplier+r, y*sizeMultiplier+s,
-														 kTrees); break;
+//				case 'S':
+//					for (int r = 0; r < sizeMultiplier; r++)
+//						for (int s = 0; s < sizeMultiplier; s++)
+//							setTerrainType(x*sizeMultiplier+r, y*sizeMultiplier+s,
+//														 kSwamp); break;
+//				case 'W':
+//					for (int r = 0; r < sizeMultiplier; r++)
+//						for (int s = 0; s < sizeMultiplier; s++)
+//							setTerrainType(x*sizeMultiplier+r, y*sizeMultiplier+s,
+//														 kWater); break;
+//				case 'T':
+//					for (int r = 0; r < sizeMultiplier; r++)
+//						for (int s = 0; s < sizeMultiplier; s++)
+//							setTerrainType(x*sizeMultiplier+r, y*sizeMultiplier+s,
+//														 kTrees); break;
 				default:
 					for (int r = 0; r < sizeMultiplier; r++)
 						for (int s = 0; s < sizeMultiplier; s++)
