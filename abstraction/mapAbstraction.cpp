@@ -546,9 +546,12 @@ void addMapEdges(Map *m, graph *g, IEdgeFactory* ef, int x, int y, bool allowDia
 	e = 0;
 	// diagonal UpperLeft edge, always node 1...
 	// (1) we can cross each of the boundaries between tiles
-	if ((x >= 1) && (y >= 1) && (m->adjacentEdges(x, y, kLeftEdge)) && (m->adjacentEdges(x, y, kTopEdge)) &&
-			(m->adjacentEdges(x, y-1, kLeftEdge)) && (m->adjacentEdges(x-1, y, kTopEdge)) &&
-			(m->getTile(x, y).tile1.node != kNoGraphNode))
+	if ((x >= 1) && (y >= 1) &&
+		(m->getTile(x, y).tile1.node != kNoGraphNode) &&
+		( 	// we can cut at least one corner 
+			(m->adjacentEdges(x, y, kLeftEdge) && m->adjacentEdges(x-1, y, kTopEdge))  ||
+			(m->adjacentEdges(x, y, kTopEdge) && m->adjacentEdges(x, y-1, kLeftEdge)) 
+		))
 	{
 		// (2) we can cross the inner tile boundaries
 		if (((m->adjacentEdges(x-1, y, kInternalEdge)) || (m->getSplit(x-1, y) == kBackwardSplit)) &&
@@ -583,9 +586,13 @@ void addMapEdges(Map *m, graph *g, IEdgeFactory* ef, int x, int y, bool allowDia
 	e = 0;
 	// diagonal UpperRight edge
 	// (1) we can cross each of the boundaries between tiles
-	if ((y >= 1) && (x < m->getMapWidth()-1) && (m->adjacentEdges(x, y, kRightEdge)) && (m->adjacentEdges(x, y, kTopEdge)) &&
-			(m->adjacentEdges(x, y-1, kRightEdge)) && (m->adjacentEdges(x+1, y, kTopEdge)) &&
-			(m->getTile(x+1, y-1).tile1.node != kNoGraphNode))
+	if ((y >= 1) && (x < m->getMapWidth()-1) && 
+		(m->getTile(x+1, y-1).tile1.node != kNoGraphNode) &&
+		(
+		 	// we can cut at least one corner
+			(m->adjacentEdges(x, y, kRightEdge) && m->adjacentEdges(x+1, y, kTopEdge)) ||
+			(m->adjacentEdges(x, y, kTopEdge) && m->adjacentEdges(x, y-1, kRightEdge))
+		))
 	{
 		// (2) we can cross the inner tile boundaries
 		if (((m->adjacentEdges(x+1, y, kInternalEdge)) || (m->getSplit(x+1, y) == kForwardSplit)) &&

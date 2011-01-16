@@ -64,6 +64,7 @@ bool verbose = false;
 bool allowDiagonals = true;
 bool reducePerimeter = false;
 bool bfReduction = false;
+bool checkOptimality = true;
 char* algName;
 HOG::AbstractionType absType = HOG::FLAT;
 
@@ -200,8 +201,6 @@ createSimulation(unitSimulation * &unitSim)
 			std::cout << "Unknown?? Fix me!!";
 			break;
 	}
-	std::cout << std::endl;
-	std::cout << "map: "<<gDefaultMap<<std::endl;
 
 	algName = (char*)"";
 	Map* map = new Map(gDefaultMap);
@@ -264,8 +263,8 @@ createSimulation(unitSimulation * &unitSim)
 		fflush(f);
 		fclose(f);
 		
-		std::cout << "map: "<<gDefaultMap;
-		std::cout << "\noriginal map: nodes: "<<g->getNumNodes()<<
+		std::cout << "map: "<<gDefaultMap << std::endl;
+		std::cout << "original map: nodes: "<<g->getNumNodes()<<
 			" edges: "<<g->getNumEdges();
 		std::cout << " absnodes: "<<absg->getNumNodes()<<" absedges: "
 			<<numAbsEdges;
@@ -328,7 +327,7 @@ gogoGadgetNOGUIScenario(mapAbstraction* aMap)
 		delete p;
 		//std::cout << "Fin HPA*"<<std::endl;
 
-		if(!fequal(optlen, distanceTravelled))
+		if(!fequal(optlen, distanceTravelled) && checkOptimality)
 		{
 			astar->verbose = true;
 			alg->verbose = true;
@@ -483,6 +482,7 @@ myAllPurposeCLHandler(char* argument[], int maxNumArgs)
 		if(strcmp(argument[1], "hpa") == 0)
 		{
 			absType = HOG::HPA; 
+			checkOptimality = false;
 			argsParsed++;
 		}
 		else if(strcmp(argument[1], "err") == 0)
