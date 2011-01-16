@@ -110,11 +110,8 @@ void ScenarioManager::loadScenarioFile(const char* filelocation)
 		version = 0.0;
 		infile.seekg(0,std::ios::beg);
 	}
-	else
-	{
-		infile >> version;
-	}
 
+	infile >> version;
 	if(version == 1.0 || version == 0)
 	{
 		loadV1ScenarioFile(infile);
