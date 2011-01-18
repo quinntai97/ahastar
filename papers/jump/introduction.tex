@@ -1,2 +1,60 @@
 \section{Introduction}
-The introduction goes here.
+The most popular and successful pathfinding algorithms, such as Bellman-Ford,
+Dijkstra's Algorithm and A*, have all been developed in the context of general
+purpose problem graphs.  Finding a shortest path in such domains usually
+requires only that the start and goal locations belong to the same connected
+component, that the graph contains no negative weight edges and, in the case of
+A*, that an admissible heuristic is available.  It is often the case however
+that these same algorithms are usually deployed on problem domains which are
+much less relaxed: undirected positively weighted graphs where each node
+corresponds to a location on a 2D Euclidean plane.  Perhaps the most common
+example of such a domain is the ubiquitous grid map.
+
+Frequently the object of academic study \cite{yap02,botea04,bjornsson06} and
+widely employed in application areas such as robotics \cite{choset05} and video
+games \cite{sturtevant07,jurney07}, grid maps are highly regular domains which
+typically feature a high degree of path symmetry \cite{harabor10,pochter10}.
+Symmetry in this case manifests itself as paths (or path segments) which share
+the same start and end point, have the same length and are otherwise identical
+save for the order in which moves occur; Figure \ref{fig:symmetry} shows a
+typical example.  Symmetry is usually undesirable as it forces search algorithms
+to waste time discovering identical solutions and prevents real progress toward
+the goal.
+
+In this paper we study a novel search strategy for dealing with path symmetries
+on grid maps. Our approach involves the development of a series of simple
+pruning rules for speeding up individual node expansion operations.  In
+particular, we identify and discard those neighbours that cannot appear on
+ the optimal path and neighbours that can be reached with the same cost via
+some alternative path involving the parent of the current node.  Unlike other
+recent methods for speeding up optimal search, such as the Dead-end Heuristic
+\cite{bjornsson05}, Empty Rectangular Rooms \cite{harabor10} and Swamp-based
+pathfinding \cite{pochter10}, our method is applied online and requires no
+pre-processing.  We also require no additional memory overhead, which is
+commonly the case with sub-optimal techniques that make use of abstraction to
+improve performance; for example HPA* \cite{botea04} and PRA*
+\cite{sturtevant05}.
+
+We give a detailed description of our new method and a theoretical analysis that
+proves its optimality preserving characteristics.  We then evaluate its
+effectiveness on a number of synthetic and real-world benchamrks taken from the
+literature, including two from the popular video games \emph{Dragon Age:
+Origins} and \emph{Baldur's Gate}.  Our results show that the method is highly
+effective; we achieve an more than a ten times improvement over standard A* and
+and report significant performance gains over the current state of the art.
+Perhaps most encouraging is that our technique is largely orthogonal to all
+existing speedup techniques which are applicable to grid maps.
+
+%In contrast to other techniques for representing
+%low-dimensional Euclidean planes, such as roadmap methods \cite{geraerts05} or
+%navigation mesh approaches \cite{demyen07}, grid maps are highly regular, less
+%sparse and typically require more memory to store.  However, grid maps have
+%several advantages that other map representations do not. Perhaps most obvious
+%is their simplicity; it is trivial to overlay a grid map over a
+%Euclidean plane for the purposes of finding shortest paths between points.
+%There also exist a number of well known and highly popular admissible
+%heuristics, such as Manhattan distance, which are specific to grid maps.
+%Finally, grid maps are guaranteed to have a fixed branching factor which
+%provides constant-time guarantees for the amount of time required to expand any
+%particular node during search. 
+% 
