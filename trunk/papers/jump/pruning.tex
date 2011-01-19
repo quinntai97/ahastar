@@ -1,6 +1,55 @@
 \section{Pruning Rules}
-Resea
-The most popular and successful pathfinding algorithms
-The most successful and popular pathfinding algorithms for general graphs, such 
-as A*, are also the most popular 
-Pathfinding algorithms applied to grid maps are the same as those ap
+Grid maps are highy regular problem domains. 
+In particular, each node in the grid has a fixed number of neighbours (usually
+8 but nodes on the perimeter of the map or next to an obstacle have less) and each
+neighbour is always located in the same position relative to the current node.
+We exploit this regularity to develop pruning rules that speed up individual 
+node expansion operations by proving that not all neighbours of the current node 
+need to be evaluated. 
+Consider for example Figure \ref{fig:pruningrules}(a), where the search is
+expanding node $x$ by following a straight edge \footnote{We distinguish between
+straight edges and diagonal edges, depending on the type of transition being
+made.} from $p(x)$.
+In this case we would normally have to evaluate all 8 neighbours of $x$.
+However, if we consider the direction of travel from $p(x)$ to $x$, we can 
+immediatly prune the following moves:
+\renewcommand{\descriptionlabel}[1]%
+{{\labelsep}\textsf{#1}}
+\begin{enumerate}
+\item[4    ] This move returns to $p(x)$ with cost $(c + 1)$; 
+yet we already expanded this node earlier with cost $c$. 
+\item[1 (7)] Each of these moves has cost $(c + 1) + \sqrt2$ yet both neighbours
+can be reached with cost $c + 1$ fom $p(x)$.
+\item[2 (8)] Each of these moves has cost $(c + 1) + 1$ yet both neighbours can
+be reached with cost $c + \sqrt2$ from $p(x)$.
+\item[3 (9)] Each of these moves has cost $(c + \sqrt2) + \sqrt2$; however this is
+symmetric to an alternative path via $p(x)$ which does not mention $x$.
+Note that this is only true if neighbours 2 (8) are not blocked. 
+When this is not the case, we must consider
+\end{enumerate}
+
+Notice that in this case we eliminate 7 of the possible 8 neighbours; leaving
+only move 6 to be evaluated. However, this assumes that move 2 (8) is not
+blocked. If this is the case we must also 
+
+A similar process can be applied when following a diagonal edge from $p(x)$ to 
+$x$; this case is illustrated in Figure \ref{fig:pruningrules}(b).
+Using the same kind of reasoning as before we argue that only moves 2, 3 and 6
+need to be evaluated and the rest can be discarded:
+\begin{enumerate}
+\item[7    ] This move returns to $p(x)$ with cost $(c + \sqrt2)$ when we already
+expanded this node with cost $c$.
+\item[4 (8)] Each of these moves has a cost $(c + \sqrt2) + 1$ yet both
+neighbours can be reached with cost $c + 1$ from $p(x)$.
+\item[1 (9)] Each of these moves has a cost $(c + \sqrt2) + \sqrt2$ yet both
+can be reached via an alternative path from $p(x)$ with cost $c + 2$;
+\end{enumerate}
+
+Up to this point we have assumed that when $x$ is expanded all its neighbours
+are present and traversable. This is not true in all cases; for example, $x$ may
+have fewer than 8 neighbours if it is located on the perimeter of a map or
+adjacent to an obstacle.
+In the case of a straight transition, 
+
+A special case of this pruning rule appears when one or more of the neighbours
+of $x$ are not traversable. This scenario is highlighted in Figure \ref{fig:pruningrules}(b). 

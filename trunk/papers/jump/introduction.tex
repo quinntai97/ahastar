@@ -13,8 +13,12 @@ component, that the graph contains no negative weight edges and, in the case of
 A*, that an admissible heuristic is available.  It is often the case however
 that these same algorithms are usually deployed on problem domains which are
 much less relaxed: undirected positively weighted graphs where each node
-corresponds to a location on a 2D Euclidean plane.  Perhaps the most common
-example of such a domain is the ubiquitous grid map.
+corresponds to a location on a 2D Euclidean plane.
+%The latter restriction is commonly exploited by researchers in order to develop
+%more efficient search algorithms; for example in the context of the TSP. 
+%By making use of the triangle inequality, researchers are able to identify 
+%pruning opportunities which ... <something>
+Perhaps the most common example of such a domain is the ubiquitous grid map.
 
 Frequently the object of academic study \cite{yap02,botea04,bjornsson06} and
 widely employed in application areas such as robotics \cite{choset05} and video
