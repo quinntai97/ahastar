@@ -4,12 +4,24 @@ individual node expansions. We now extend this idea in order to define a
 macro-step operator which speeds up optimal search by identifying dead ends in the 
 search space much sooner than would otherwise be the case.
 The basic idea can be outlined as such:  following a pruning operation on some
-arbitrary node $x$, we defer the immediate generation of all remaining neighbours 
-and instead, continue travelling in the same direction until we reach an obstacle 
-or identify an eventual successor which satisfies certain properties and which 
-we term a \emph{jump node}.
-If we find such a jump node, we generate it as a successor of $x$; if we do not 
-find a jump node, we generate nothing.
+arbitrary node $x$, we defer the immediate generation of each remaining
+neighbour and, instead, continue travelling in the same direction as the
+neighbour. At each step, we apply the appropriate pruning rules (straight or
+diagonal) and continue this process until we reach an obstacle or identify an 
+eventual successor which satisfies certain properties and which we term a 
+\emph{jump point}.
+If we find such a jump point, we generate it as a successor of $x$; if we do not 
+find a jump point, we generate nothing.
+
+\begin{definition}
+A node $n$ is designated a jump point if it satisfies at least one of the following
+conditions:
+\begin{enumerate}
+\item{$n$ is reachanble by a straight (or diagonal) transition and has
+has more than 1 (3) neighbours remaining after applying pruning.}
+\item{$n$ is located on the same row or column of the grid as the goal.}
+\end{enumerate}
+\end{definition}
 
 \subsection{Straight Jump Nodes}
 
