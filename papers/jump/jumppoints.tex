@@ -3,10 +3,12 @@ In the previous section we developed rules for pruning neighbours during
 individual node expansions. We now extend this idea in order to define a 
 macro-step operator which speeds up optimal search by identifying dead ends in the 
 search space much sooner than would otherwise be the case.
+
 The basic idea can be outlined as such:  following a pruning operation on some
 arbitrary node $x$, we defer the immediate generation of each remaining
-neighbour and, instead, continue travelling in the same direction as the
-neighbour. At each step, we apply the appropriate pruning rules (straight or
+neighbour and, instead, continue travelling in the same direction as from $x$
+to the neighbour. 
+At each step, we apply the appropriate pruning rules (straight or
 diagonal) and continue this process until we reach an obstacle or identify an 
 eventual successor which satisfies certain properties and which we term a 
 \emph{jump point}.
@@ -18,26 +20,20 @@ find a jump point, we generate nothing.
 A node $n$ is designated a jump point if it satisfies at least one of the following
 conditions:
 \begin{itemize}
-\item{$n$ is reachable by a straight (or diagonal) move but to which we
-cannot apply Straight Pruning Rule 4 (Diagonal Pruning Rule 3).}
-\item{$n$ is located on the same row or column of the grid as the goal.}
+\item{$n$ is a node which, after pruning, is adjacent to at least one neighbour
+whose evaluation is forced according to the rules in Section
+\ref{sec:prunestraight} and Section \ref{sec:prunediagonal}.}
 \item{$n$ has one or more neighbours which are themselves jump points.}
+\item{$n$ is located on the same row or column of the grid as the goal.}
 \end{itemize}
 \end{definition}
 
 \noindent
 Figure \ref{fig:pruningrules}(b) shows an example of jump point which satisfies the
-first condition of Defintion \ref{def:jump}: we cannot apply Straight Pruning
+first condition of Defintion \ref{def:jump}: here we cannot apply Straight Pruning
 Rule 4 as the evaluation of neighbour 3 is forced.
-The same is true of the example in Figure \ref{pruningrules}(d): we cannot
+The same is true of the example in Figure \ref{fig:pruningrules}(d): we cannot
 apply Diagonal Pruning Rule 3 as the evaluation of neighbour 1 is forced.
-
-
-\subsection{Straight Jump Points}
-
-
-\subsection{Diagonal Jump Points}
-
 
 
 \subsection{Optimality}
