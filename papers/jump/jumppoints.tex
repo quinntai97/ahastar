@@ -14,19 +14,29 @@ If we find such a jump point, we generate it as a successor of $x$; if we do not
 find a jump point, we generate nothing.
 
 \begin{definition}
+\label{def:jump}
 A node $n$ is designated a jump point if it satisfies at least one of the following
 conditions:
-\begin{enumerate}
-\item{$n$ is reachanble by a straight (or diagonal) transition and has
-has more than 1 (3) neighbours remaining after applying pruning.}
+\begin{itemize}
+\item{$n$ is reachable by a straight (or diagonal) move but to which we
+cannot apply Straight Pruning Rule 4 (Diagonal Pruning Rule 3).}
 \item{$n$ is located on the same row or column of the grid as the goal.}
-\end{enumerate}
+\item{$n$ has one or more neighbours which are themselves jump points.}
+\end{itemize}
 \end{definition}
 
-\subsection{Straight Jump Nodes}
+\noindent
+Figure \ref{fig:pruningrules}(b) shows an example of jump point which satisfies the
+first condition of Defintion \ref{def:jump}: we cannot apply Straight Pruning
+Rule 4 as the evaluation of neighbour 3 is forced.
+The same is true of the example in Figure \ref{pruningrules}(d): we cannot
+apply Diagonal Pruning Rule 3 as the evaluation of neighbour 1 is forced.
 
 
-\subsection{Diagonal Jump Nodes}
+\subsection{Straight Jump Points}
+
+
+\subsection{Diagonal Jump Points}
 
 
 
