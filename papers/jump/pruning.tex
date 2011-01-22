@@ -96,6 +96,7 @@ argument over the cost associated with any expanded node, often called its
 $g$-value. 
 
 \begin{theorem}
+\label{thm:pruningoptimality}
 The $g$-value of each node expanded during search is the same 
 with or without the application of straight and diagonal node pruning.
 \end{theorem}
@@ -123,3 +124,12 @@ length that only mentions the nodes $\lbrace p(x), p(n), n\rbrace$.
 Both possibilities contradict the supposition that $g(n)$ is sub-optimal. 
 \end{proof}
 
+% \begin{corollary}
+%The number of nodes expanded is the same, with or without the application of 
+%straight and diagonal node pruning.
+%\end{corollary}
+%\begin{proof}
+%By Theorem \ref{thm:pruningoptimality}, we only prune neighbours which could
+%not be improved. 
+%\end{proof}
+%

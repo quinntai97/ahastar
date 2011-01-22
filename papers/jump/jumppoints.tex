@@ -1,13 +1,31 @@
 \section{Jump Points}
-In the previous section we developed rules for pruning neighbours during 
+In the previous section we developed simple rules for pruning neighbours during 
 individual node expansions. We now extend this idea in order to define a 
-macro-step operator which speeds up optimal search by identifying dead ends in the 
-search space much sooner than would otherwise be the case.
+macro-step operator which speeds up optimal search by selectively expanding
+only certain nodes on a grid map which we term \emph{jump points}.
 
-The basic idea can be outlined as such:  following a pruning operation on some
-arbitrary node $x$, we defer the immediate generation of each remaining
-neighbour and, instead, continue travelling in the same direction as from $x$
-to the neighbour. 
+\begin{definition}
+\label{def:jump}
+A node $x$ is designated a jump point if it satisfies at least one of the following
+conditions:
+\begin{itemize}
+\item{$x$ is a node which, after pruning, is adjacent to at least one neighbour
+whose evaluation is forced according to the rules in Section
+\ref{sec:prunestraight} and Section \ref{sec:prunediagonal}.}
+\item{$x$ has one or more neighbours which are themselves jump points.}
+\item{$x$ is located on the same row or column of the grid as the goal.}
+\end{itemize}
+\end{definition}
+
+
+\subsection{Search}
+
+The general process for searching with jump points can be outlined as 
+such: following a pruning operation on some arbitrary node $x$, we defer the immediate 
+generation of each remaining neighbour $n$ and, instead, continue travelling in the same direction as from $x$
+to $n$.
+Thus, we travel past $n$ and instead consider a node $m$ which is two steps
+removed from $x$.
 At each step, we apply the appropriate pruning rules (straight or
 diagonal) and continue this process until we reach an obstacle or identify an 
 eventual successor which satisfies certain properties and which we term a 
@@ -15,18 +33,6 @@ eventual successor which satisfies certain properties and which we term a
 If we find such a jump point, we generate it as a successor of $x$; if we do not 
 find a jump point, we generate nothing.
 
-\begin{definition}
-\label{def:jump}
-A node $n$ is designated a jump point if it satisfies at least one of the following
-conditions:
-\begin{itemize}
-\item{$n$ is a node which, after pruning, is adjacent to at least one neighbour
-whose evaluation is forced according to the rules in Section
-\ref{sec:prunestraight} and Section \ref{sec:prunediagonal}.}
-\item{$n$ has one or more neighbours which are themselves jump points.}
-\item{$n$ is located on the same row or column of the grid as the goal.}
-\end{itemize}
-\end{definition}
 
 \noindent
 Figure \ref{fig:pruningrules}(b) shows an example of jump point which satisfies the
@@ -35,6 +41,23 @@ Rule 4 as the evaluation of neighbour 3 is forced.
 The same is true of the example in Figure \ref{fig:pruningrules}(d): we cannot
 apply Diagonal Pruning Rule 3 as the evaluation of neighbour 1 is forced.
 
+\input alg_jumpexpansion
+
+\begin{figure}[tb]
+       \begin{center}
+		   \includegraphics[scale=0.35, trim = 10mm 10mm 10mm 0mm]
+			{diagrams/jumppoints.png}
+       \end{center}
+	\vspace{-3pt}
+       \caption{A caption will eventually reside here.}
+       \label{fig:jumppoints}
+\end{figure}
+
+
+
+After pruning, any neighbour which is forced is immediately generated.
+We try to defer the generation of the other neighbours by seeing if we can 
+jump to a location further away in the same direction.
 
 \subsection{Optimality}
 Sketch: show that each pruning rule discards only neighbours

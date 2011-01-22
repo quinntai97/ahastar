@@ -1,0 +1,50 @@
+\begin{algorithm}
+\caption{Generating Successors Using jump Points}
+\label{alg:jump}
+\begin{algorithmic}[1]
+\REQUIRE $x$: the node to be expanded, $g$: the goal node 
+
+\STATE $successors(x) \leftarrow \emptyset$
+
+\FORALL{$n \in neighbours(x)$}
+\IF{$n$ is a neighbour whose evaluation is forced}
+\STATE add $n$ to $successors(x)$ 
+\ELSE
+\STATE $n \leftarrow jump(n, direction(x, n), g)$
+\STATE add $n$ to $successors(x)$
+\ENDIF
+\ENDFOR
+
+\end{algorithmic}
+\end{algorithm}
+
+\begin{algorithm}
+\caption{$jump$ Function}
+\label{alg:findjump}
+\begin{algorithmic}[1]
+\REQUIRE $x$: candidate node, $dir$: travel direction, $g$: goal
+
+\IF{$x$ is on the same grid row or column as $g$}
+	\RETURN $x$
+\ENDIF
+\IF{$n \in neighbours(x) $ s.t. evaluation of $n$ is forced}
+	\RETURN $x$
+\ENDIF
+\STATE $next \leftarrow step(x, dir)$
+\IF{$next = \varnothing$}
+	\RETURN $\varnothing$
+\ENDIF
+\IF{$dir$ is straight}
+	\RETURN $jump(next, dir, g)$
+\ENDIF
+
+\FORALL{$n \in neighbours(x) \setminus next$}
+
+	\STATE $dir_{xn} \leftarrow direction(x, n)$	
+	\IF{$jump(n, dir_{xn}, g) \neq \varnothing$}
+		\RETURN $x$
+	\ENDIF
+\ENDFOR
+\RETURN $jump(next, dir, g)$
+\end{algorithmic}
+\end{algorithm}
