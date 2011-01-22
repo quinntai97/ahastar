@@ -4,6 +4,8 @@ individual node expansions. We now extend this idea in order to define a
 macro-step operator which speeds up optimal search by selectively expanding
 only certain nodes on a grid map. We term these nodes \emph{jump points}.
 
+% DH: why should jump points work? no intuition given here.
+
 \begin{definition}
 \label{def:jump}
 A node $x$ is designated a jump point if it satisfies at least one of the following
@@ -23,6 +25,7 @@ This is a fine but important distinction as in our work a neighbour can be a
 successor but the converse is not necessarily true.
 Thus, when expand $x$, we will only consider its successors.
 
+
 \subsection{Generating Successors}
 The process by which we generate the set of successors necessary to expand a
 node $x$ is given in Algorithm \ref{alg:successors}.
@@ -40,29 +43,49 @@ If we find such a node, we add it to the set of successors instead of $n$.
 In the case where we fail to find a jump point, we add nothing.
 The process continues until the set of neighbours for $x$ is exhausted.
 
-\subsection{Finding Jump Nodes}
-The general process for searching with jump points can be outlined as 
-such: following a pruning operation on some arbitrary node $x$, we defer the immediate 
-generation of each remaining neighbour $n$ and, instead, continue travelling in the same direction as from $x$
-to $n$.
-Thus, we travel past $n$ and instead consider a node $m$ which is two steps
-removed from $x$.
-At each step, we apply the appropriate pruning rules (straight or
-diagonal) and continue this process until we reach an obstacle or identify an 
-eventual successor which satisfies certain properties and which we term a 
-\emph{jump point}.
-If we find such a jump point, we generate it as a successor of $x$; if we do not 
-find a jump point, we generate nothing.
-
-
-\noindent
-Figure \ref{fig:pruningrules}(b) shows an example of jump point which satisfies the
-first condition of Defintion \ref{def:jump}: here we cannot apply Straight Pruning
-Rule 4 as the evaluation of neighbour 3 is forced.
-The same is true of the example in Figure \ref{fig:pruningrules}(d): we cannot
-apply Diagonal Pruning Rule 3 as the evaluation of neighbour 1 is forced.
-
 \input alg_jumpexpansion
+
+\subsection{Jumping}
+The process by which we identfy jump points is given in Algorithm
+\ref{alg:jump}; it requires an initial node $x$, a direction of travel $dir$
+(e.g. up, down, left right, etc) and the goal node $g$.
+In rough overview, the algorithm attempts to establish whether $x$ has any 
+jump point successors by iteratively stepping in a direction $dir$ and testing
+if the node $n$ at that location satisfies the constraints outlined in 
+Definition \ref{def:jump}.
+When this is the case, $n$ is designated a jump point and returned (lines 5, 7
+and 13).
+When $n$ is not a jump node the algorithm recurses and steps again in direction
+$dir$ but this time $n$ is the new initial node (lines 9, 12 and 14).
+The recursion terminates when an obstacle is encountered and no further
+steps can be taken (lines 1:3).
+\par
+Consider Figure \ref{fig:jumppoints} where we illustrate this process by
+example.
+In the case of Figure \ref{fig:jumppoints}(a) $x$ is the initial node and the
+direction of travel is \emph{right}. The algorithm steps four times (recursing
+at line 9 each time) before
+encountering a successor $y$ which has a forced neighbour $z$; thus satisfying
+the first constraint of Definition \ref{def:jump}. $y$ is returned and becomes
+a successor of $x$.
+In the case of Figure \ref{fig:jumppoints}(b) the direction of travel is
+\emph{up-and-right}.
+Here the algorithm steps 3 times before encountering a node $y$ which is
+located on the same row as the goal node $g$; thus satisfying constraint 2 of
+Definition \ref{def:jump}.
+Notice however that before stepping diagonally (line 14) the algorithm 
+looks for jump points by stepping in the straight directions \emph{right} and
+\emph{up} (lines 11:13).
+This allows us to prove that no potential successors were missed and is
+criticial to retain optimality.
+
+%\noindent
+%Figure \ref{fig:pruningrules}(b) shows an example of jump point which satisfies the
+%first condition of Defintion \ref{def:jump}: here we cannot apply Straight Pruning
+%Rule 4 as the evaluation of neighbour 3 is forced.
+%The same is true of the example in Figure \ref{fig:pruningrules}(d): we cannot
+%apply Diagonal Pruning Rule 3 as the evaluation of neighbour 1 is forced.
+
 
 \begin{figure}[tb]
        \begin{center}
@@ -74,11 +97,8 @@ apply Diagonal Pruning Rule 3 as the evaluation of neighbour 1 is forced.
        \label{fig:jumppoints}
 \end{figure}
 
-
-
-After pruning, any neighbour which is forced is immediately generated.
-
 \subsection{Optimality}
+
 Sketch: show that each pruning rule discards only neighbours
 which cannot belong to the optimal path for the problem at hand.
 Then, by induction, demonstrate that jump points have the same 
