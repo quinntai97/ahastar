@@ -2,24 +2,45 @@
 In the previous section we developed simple rules for pruning neighbours during 
 individual node expansions. We now extend this idea in order to define a 
 macro-step operator which speeds up optimal search by selectively expanding
-only certain nodes on a grid map which we term \emph{jump points}.
+only certain nodes on a grid map. We term these nodes \emph{jump points}.
 
 \begin{definition}
 \label{def:jump}
 A node $x$ is designated a jump point if it satisfies at least one of the following
 conditions:
-\begin{itemize}
+\begin{enumerate}
 \item{$x$ is a node which, after pruning, is adjacent to at least one neighbour
 whose evaluation is forced according to the rules in Section
 \ref{sec:prunestraight} and Section \ref{sec:prunediagonal}.}
-\item{$x$ has one or more neighbours which are themselves jump points.}
 \item{$x$ is located on the same row or column of the grid as the goal.}
-\end{itemize}
+\item{$x$ has one or more successors which are themselves jump points.}
+\end{enumerate}
 \end{definition}
 
+Note that we distinguish between a neighbour, which is immediately adjacent to
+$x$ on the grid, and a successor which may not be. 
+This is a fine but important distinction as in our work a neighbour can be a 
+successor but the converse is not necessarily true.
+Thus, when expand $x$, we will only consider its successors.
 
-\subsection{Search}
+\subsection{Generating Successors}
+The process by which we generate the set of successors necessary to expand a
+node $x$ is given in Algorithm \ref{alg:successors}.
+We start with the pruned set of neighbours immediately adjacent to $x$ (line 2).
+Any neighbouring node $n$ whose inclusion into this set is forced, according the 
+rules outlined in Section \ref{sec:prunestraight} and Section 
+\ref{sec:prunediagonal}, is immediately generated as a successor for $x$ 
+(lines 3:4).
+We then attempt to defer the generation of each remaining neighbour by seeing if 
+we can ``jump'' to another node further away from $x$ but lying in the same 
+relative direction to $x$ as $n$ (lines 5:7). For example, if the edge $(x, n)$ constitutes a
+straight move travelling \emph{right} from $x$, we look for a jump point among
+the nodes immediately to the right of $x$.
+If we find such a node, we add it to the set of successors instead of $n$.
+In the case where we fail to find a jump point, we add nothing.
+The process continues until the set of neighbours for $x$ is exhausted.
 
+\subsection{Finding Jump Nodes}
 The general process for searching with jump points can be outlined as 
 such: following a pruning operation on some arbitrary node $x$, we defer the immediate 
 generation of each remaining neighbour $n$ and, instead, continue travelling in the same direction as from $x$
@@ -56,8 +77,6 @@ apply Diagonal Pruning Rule 3 as the evaluation of neighbour 1 is forced.
 
 
 After pruning, any neighbour which is forced is immediately generated.
-We try to defer the generation of the other neighbours by seeing if we can 
-jump to a location further away in the same direction.
 
 \subsection{Optimality}
 Sketch: show that each pruning rule discards only neighbours
