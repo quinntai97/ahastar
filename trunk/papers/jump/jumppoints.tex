@@ -3,8 +3,22 @@ In the previous section we developed simple rules for pruning neighbours during
 individual node expansions. We now extend this idea in order to define a 
 macro-step operator which speeds up optimal search by selectively expanding
 only certain nodes on a grid map. We term these nodes \emph{jump points}.
-
-% DH: why should jump points work? no intuition given here.
+\par
+The basic idea is straightforward: we give a simple example in Figure 
+\ref{fig:jumppoints}(a).
+Here we observe that when moving straight there are many cases where
+the expanded node has only a single successor.
+Since this successor cannot create or improve any nodes on the open list we 
+propose to evaluate it immediately, thereby avoiding an unnecessary list
+maintenance operation. 
+If we keep moving in the same direction we can continue this process until we 
+either reach a node with more than one successor (a jump point), which we add to the open list instead of the nodes whose evaluation we expedited, or we find an 
+obstacle which indicates that further search in this direction is fruitless.
+\par
+In the remainder of this section we will develop a macro-step operator which 
+speeds up node expansion by identifying jump point successors in the case of
+both straight and diagonal moves. We begin by making precise the concept of a
+jump point:
 
 \begin{definition}
 \label{def:jump}
@@ -59,25 +73,27 @@ When $n$ is not a jump node the algorithm recurses and steps again in direction
 $dir$ but this time $n$ is the new initial node (lines 9, 12 and 14).
 The recursion terminates when an obstacle is encountered and no further
 steps can be taken (lines 1:3).
+Note that before recursing diagonally the algorithm must first 
+fail to detect any straight jump points (lines 10:13).
 \par
-Consider Figure \ref{fig:jumppoints} where we illustrate this process by
-example.
-In the case of Figure \ref{fig:jumppoints}(a) $x$ is the initial node and the
-direction of travel is \emph{right}. The algorithm steps four times (recursing
-at line 9 each time) before
-encountering a successor $y$ which has a forced neighbour $z$; thus satisfying
-the first constraint of Definition \ref{def:jump}. $y$ is returned and becomes
-a successor of $x$.
-In the case of Figure \ref{fig:jumppoints}(b) the direction of travel is
-\emph{up-and-right}.
-Here the algorithm steps 3 times before encountering a node $y$ which is
-located on the same row as the goal node $g$; thus satisfying constraint 2 of
-Definition \ref{def:jump}.
-Notice however that before stepping diagonally (line 14) the algorithm 
-looks for jump points by stepping in the straight directions \emph{right} and
-\emph{up} (lines 11:13).
-This allows us to prove that no potential successors were missed and is
-criticial to retain optimality.
+%Consider Figure \ref{fig:jumppoints} where we illustrate this process by
+%example.
+%In the case of Figure \ref{fig:jumppoints}(a) $x$ is the initial node and the
+%direction of travel is \emph{right}. The algorithm steps four times (recursing
+%at line 9 each time) before
+%encountering a successor $y$ which has a forced neighbour $z$; thus satisfying
+%the first constraint of Definition \ref{def:jump}. $y$ is returned and becomes
+%a successor of $x$.
+%In the case of Figure \ref{fig:jumppoints}(b) the direction of travel is
+%\emph{up-and-right}.
+%Here the algorithm steps 3 times before encountering a node $y$ which is
+%located on the same row as the goal node $g$; thus satisfying constraint 2 of
+%Definition \ref{def:jump}.
+%Notice however that before stepping diagonally (line 14) the algorithm 
+%looks for jump points by stepping in the straight directions \emph{right} and
+%\emph{up} (lines 11:13).
+%This allows us to prove that no potential successors were missed and is
+%criticial to retain optimality.
 
 %\noindent
 %Figure \ref{fig:pruningrules}(b) shows an example of jump point which satisfies the
@@ -93,7 +109,9 @@ criticial to retain optimality.
 			{diagrams/jumppoints.png}
        \end{center}
 	\vspace{-3pt}
-       \caption{A caption will eventually reside here.}
+       \caption{Examples of straight (a) and diagonal (b) jump points.
+Dashed lines indicate a sequence of interim node evaluations that reached
+a dead end. Strong lines indicate eventual successor nodes.}
        \label{fig:jumppoints}
 \end{figure}
 
