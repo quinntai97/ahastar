@@ -1,4 +1,4 @@
-\begin{algorithm}[t]
+\begin{algorithm}[b]
 \caption{Generating Successors Using Jump Points}
 \label{alg:successors}
 \begin{algorithmic}[1]
@@ -20,31 +20,31 @@
 
 \begin{algorithm}[b]
 \caption{$jump$ Function}
-\label{alg:findjump}
+\label{alg:jump}
 \begin{algorithmic}[1]
-\REQUIRE $x$: candidate node, $dir$: travel direction, $g$: goal
+\REQUIRE $x$: initial node, $dir$: travel direction, $g$: goal
 
-\IF{$x$ is on the same grid row or column as $g$}
-	\RETURN $x$
-\ENDIF
-\IF{$n \in neighbours(x) $ s.t. evaluation of $n$ is forced}
-	\RETURN $x$
-\ENDIF
-\STATE $next \leftarrow step(x, dir)$
-\IF{$next = \varnothing$}
+\STATE $n \leftarrow step(x, dir)$
+\IF{$n = \varnothing$}
 	\RETURN $\varnothing$
 \ENDIF
+\IF{$n$ is on the same grid row or column as $g$}
+	\RETURN $n$
+\ENDIF
+\IF{$k \in neighbours(n) $ s.t. evaluation of $k$ is forced}
+	\RETURN $n$
+\ENDIF
 \IF{$dir$ is straight}
-	\RETURN $jump(next, dir, g)$
+	\RETURN $jump(n, dir, g)$
 \ENDIF
 
-\FORALL{$n \in neighbours(x) \setminus next$}
-
-	\STATE $dir_{xn} \leftarrow direction(x, n)$	
-	\IF{$jump(n, dir_{xn}, g) \neq \varnothing$}
-		\RETURN $x$
+\FORALL{$k \in neighbours(n)$}
+	\IF{$direction(n, k)$ is straight}
+		\IF{$jump(n, direction(n, k), g) \neq \varnothing$}
+			\RETURN $n$
+		\ENDIF
 	\ENDIF
 \ENDFOR
-\RETURN $jump(next, dir, g)$
+\RETURN $jump(n, dir, g)$
 \end{algorithmic}
 \end{algorithm}
