@@ -31,8 +31,8 @@
 	\RETURN $n$
 \ENDIF
 \IF{$dir$ is diagonal}
-	\FORALL{$k \in neighbours(x)$ s.t. $direction(x, k)$ is straight}
-		\IF{$jump(x, direction(x, k), g) \neq \varnothing$}
+	\FORALL{$k \in neighbours(n)$ s.t. $direction(n, k)$ is straight}
+		\IF{$jump(n, direction(n, k), g) \neq \varnothing$}
 			\RETURN $n$
 		\ENDIF
 	\ENDFOR
