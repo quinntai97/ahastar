@@ -8,7 +8,7 @@ The basic idea is straightforward: we give a simple example in Figure
 \ref{fig:jumppoints}(a).
 Here we observe that when moving straight there are many cases where
 the expanded node has only a single successor.
-Since this successor cannot create or improve any nodes on the open list we 
+Since this successor cannot improve any other nodes on the open list we 
 propose to evaluate it immediately, thereby avoiding an unnecessary list
 maintenance operation. 
 If we keep moving in the same direction we can continue this process until we 
@@ -44,13 +44,10 @@ Thus, when expand $x$, we will only consider its successors.
 The process by which we generate the set of successors necessary to expand a
 node $x$ is given in Algorithm \ref{alg:successors}.
 We start with the pruned set of neighbours immediately adjacent to $x$ (line 2).
-Any neighbouring node $n$ whose inclusion into this set is forced, according the 
-rules outlined in Section \ref{sec:prunestraight} and Section 
-\ref{sec:prunediagonal}, is immediately generated as a successor for $x$ 
-(lines 3:4).
-We then attempt to defer the generation of each remaining neighbour by seeing if 
-we can ``jump'' to another node further away from $x$ but lying in the same 
-relative direction to $x$ as $n$ (lines 5:7). For example, if the edge $(x, n)$ constitutes a
+Then, instead of immediately adding each neighbour $n$ to the set of successors
+for $x$, we try to ``jump'' to a node that is further away but which lies in the 
+same relative direction to $x$ as $n$ (lines 3:4). 
+For example, if the edge $(x, n)$ constitutes a
 straight move travelling \emph{right} from $x$, we look for a jump point among
 the nodes immediately to the right of $x$.
 If we find such a node, we add it to the set of successors instead of $n$.
@@ -64,17 +61,19 @@ The process by which we identfy jump points is given in Algorithm
 \ref{alg:jump}; it requires an initial node $x$, a direction of travel $dir$
 (e.g. up, down, left right, etc) and the goal node $g$.
 In rough overview, the algorithm attempts to establish whether $x$ has any 
-jump point successors by iteratively stepping in a direction $dir$ and testing
+jump point successors by stepping in the direction $dir$ and testing
 if the node $n$ at that location satisfies the constraints outlined in 
 Definition \ref{def:jump}.
 When this is the case, $n$ is designated a jump point and returned (lines 5, 7
-and 13).
+and 11).
 When $n$ is not a jump node the algorithm recurses and steps again in direction
-$dir$ but this time $n$ is the new initial node (lines 9, 12 and 14).
+$dir$ but this time $n$ is the new initial node (line 12).
 The recursion terminates when an obstacle is encountered and no further
-steps can be taken (lines 1:3).
-Note that before recursing diagonally the algorithm must first 
-fail to detect any straight jump points (lines 10:13).
+steps can be taken (line 3).
+Note that before each diagonal step the algorithm must first 
+fail to detect any straight jump points (lines 9:11). 
+This check corresponds to the third constraint of Definition \ref{def:jump} 
+and is essential for preserving optimality.
 \par
 %Consider Figure \ref{fig:jumppoints} where we illustrate this process by
 %example.

@@ -7,12 +7,8 @@
 \STATE $successors(x) \leftarrow \emptyset$
 
 \FORALL{$n \in neighbours(x)$}
-\IF{$n$ is a neighbour whose evaluation is forced}
-\STATE add $n$ to $successors(x)$ 
-\ELSE
-\STATE $n \leftarrow jump(n, direction(x, n), g)$
+\STATE $n \leftarrow jump(x, direction(x, n), g)$
 \STATE add $n$ to $successors(x)$
-\ENDIF
 \ENDFOR
 
 \end{algorithmic}
@@ -31,20 +27,16 @@
 \IF{$n$ is on the same grid row or column as $g$}
 	\RETURN $n$
 \ENDIF
-\IF{$k \in neighbours(n) $ s.t. evaluation of $k$ is forced}
+\IF{$n \in neighbours(x) $ s.t. evaluation of $n$ is forced}
 	\RETURN $n$
 \ENDIF
-\IF{$dir$ is straight}
-	\RETURN $jump(n, dir, g)$
-\ENDIF
-
-\FORALL{$k \in neighbours(n)$}
-	\IF{$direction(n, k)$ is straight}
-		\IF{$jump(n, direction(n, k), g) \neq \varnothing$}
+\IF{$dir$ is diagonal}
+	\FORALL{$k \in neighbours(x)$ s.t. $direction(x, k)$ is straight}
+		\IF{$jump(x, direction(x, k), g) \neq \varnothing$}
 			\RETURN $n$
 		\ENDIF
-	\ENDIF
-\ENDFOR
+	\ENDFOR
+\ENDIF
 \RETURN $jump(n, dir, g)$
 \end{algorithmic}
 \end{algorithm}
