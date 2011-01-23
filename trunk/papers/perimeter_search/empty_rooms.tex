@@ -1,33 +1,35 @@
 \section{Rooms-based Symmetry Reduction}
 \begin{figure}[]
        \begin{center}
-                       \includegraphics[scale=0.30]{diagrams/symmetry_example.png}
+                       \includegraphics[scale=0.40]{diagrams/symmetry_example.png}
        \end{center}
        \caption{A pathfinding instance with high symmetry. We highlight the
 eventual solution returned by A* (strong line) and a number of symmetric 
-alternatives (dashed lines). All but one grey tiles must expanded during search. }
+alternatives (dashed lines).}
        \label{fig-symmetry}
 		\vspace{-0.5em}
 \end{figure}
-In a pathfinding context, search space symmetry manifests itself as identical
-length paths connecting arbitrary pairs of nodes in a graph. 
-Symmetry is undesirable in this case as it forces search algorithms to evaluate 
-many equivalent states and prevents real progress toward the goal.
+Symmetry is generally regarded as an undesirable characteristic in a search
+space.
+In the presence of symmetry, search algorithms are usually forced to evaluate 
+many equivalent states, wasting time and making little real progress toward the goal.
+Consider for example Figure \ref{fig-symmetry} where the majority of search
+effort is expended evaluating nodes on symmetric paths to the eventual solution.
+\par
+The problem of how to deal with symmetry is well studied and appears regularly
+in the literature; usually in the context of planning and constraint programming
+but also bin packing and operations research. 
+Despite this, there are very few works that explicitly identify and deal with the 
+problem of symmetry in a pathfinding context. To address this, we begin by first
+making precise the notion of symmetric relationship between paths:
+\begin{definition}
+Two paths $\pi_{1}$ and $\pi_{2}$ are symmetric if they share the same start and
+goal node and one can be derived from the other by interchanging the order of the
+moves.
+\end{definition}
 
-As a motivating example, consider the pathfinding instance in Figure~\ref{fig-symmetry}. 
-Notice that this problem has many solutions and that A* will
-discover them all before returning even one. This situation is typical in many
-types of grid maps but particularly in cases where large open areas must be
-traversed in order to reach the goal.
-In addition, notice that most (all but one) gray locations must be expanded
-in standard A* search, since their $f$
-value is smaller than the $f$ value of the target. Yet, the Octile heuristic
-for these tiles is almost perfect, differing from the perfect value by at most 2.
-Therefore, an almost perfect heuristic in pathfinding could still require
-expanding many nodes on the map.
-
-We will deal with symmetries by using the following high-level strategy to
-identify and eliminate path symmetries from uniform cost grid maps:
+We will employ the following high-level strategy to
+identify and eliminate path symmetries from 4 and 8-connected uniform cost grid maps:
 \input alg_rsr
 
 In \cite{harabor10} the same approach is used to develop the 4ERR algorithm.
@@ -58,12 +60,12 @@ is the primary motivation
 for our final enhancement: a novel online pruning strategy which attempts to
 reduce the number of neighbours that need to be considered during each node 
 expansion operation.
-\par
-Both speedup enhancements, which we discuss in an upcoming section,
-are applicable to 4 and 8-connected grid maps and both preserve optimality
-during search.
-We term the resultant algorithm \emph{Rooms-based Symmetry Reduction} 
-(or RSR for short).
+%\par
+%Both speedup enhancements, which we discuss in an upcoming section,
+%are applicable to 4 and 8-connected grid maps and both preserve optimality
+%during search.
+%We term the resultant algorithm \emph{Rooms-based Symmetry Reduction} 
+%(or RSR for short).
 %\newline \\
 %\textbf{Symmetry Reduction in 8-connected Grid Maps:}
 %Consider a path which enters an empty room $R$ at some perimeter node $m$ and exits at some other

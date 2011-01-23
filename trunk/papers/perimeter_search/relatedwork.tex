@@ -13,15 +13,15 @@ These enhancements make RSR more widely applicable than 4ERR and,
 on the subset of problems to which both algorithms are suited, 
 RSR dominates the performance of 4ERR. 
 \par
-MSA* \cite{bolanca09} is another recent optimality preserving search algorithm which attempts to speed up search 
-on grid maps by exploiting path equivalence in empty rectangular rooms. 
-Rather than pruning nodes from the interior of an empty room however MSA* attempts to speed up 
-search by generating macro edges on the fly.
-An improvement over conventional A* is reported but the algorithm is also
-shown to expand a large number of nodes from the interior of empty rooms, which hampers its performance.
-It is also worth noting that MSA* uses a different empty room decomposition method
-from the one described in our work.
-\par
+%MSA* \cite{bolanca09} is another recent optimality preserving search algorithm which attempts to speed up search 
+%on grid maps by exploiting path equivalence in empty rectangular rooms. 
+%Rather than pruning nodes from the interior of an empty room however MSA* attempts to speed up 
+%search by generating macro edges on the fly.
+%An improvement over conventional A* is reported but the algorithm is also
+%shown to expand a large number of nodes from the interior of empty rooms, which hampers its performance.
+%It is also worth noting that MSA* uses a different empty room decomposition method
+%from the one described in our work.
+%\par
 Our work is also similar to that of \citeauthor{pochter10}~\shortcite{pochter10}. 
 They introduce \emph{swamps}, an alternative search space reduction algorithm
 which requires decomposing a graph into so called ``swamp'' areas that can be 
@@ -40,7 +40,7 @@ any given area.
 %effective when this is not the case.
 Thus the two methods are in some sense complementary.
 \par
-RSR bears some similarity to new heuristic methods aimed at improving the 
+Finally, RSR bears some similarity to new heuristic methods aimed at improving the 
 performance of standard A* on grid maps \cite{bjornsson06}.
 In that work, like in ours, grid maps are decomposed into obstacle-free zones connected by entrances 
 and exits.
