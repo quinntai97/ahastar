@@ -1,18 +1,21 @@
 \section{Related Work}
 The work most closely related to ours is due to
-\citeauthor{harabor10}~\shortcite{harabor10}. They introduce Empty Rectangular Rooms, 
+\citeauthor{harabor10}~\shortcite{harabor10}. 
+They introduce empty rectangular rooms,
 a symmetry breaking technique specific to 4-connected grid maps
 which we will refer to as 4ERR.
-Like our work, 4ERR decomposes maps into obstacle-free rectangular rooms.
-We generalise this approach to 8-connected grid maps and introduce a new 
-offline node pruning algorithm that can significantly 
-reduce the number of nodes which need to be explored during search.
-We also give a new online pruning technique which can often reduce the
-branching factor associated with a given node and further improve search times.
-These enhancements make RSR more widely applicable than 4ERR and, 
-on the subset of problems to which both algorithms are suited, 
-RSR dominates the performance of 4ERR. 
-\par
+Main differences between 4ERR and our work are mentioned in 
+Sections \ref{introduction} and \ref{rooms-based symmetry reduction}.
+%Like our work, 4ERR decomposes maps into obstacle-free rectangles.
+%We generalise this approach to 8-connected grid maps and introduce a new 
+%offline node pruning algorithm that can significantly 
+%reduce the number of nodes which need to be explored during search.
+%We also give a new online pruning technique which can often reduce the
+%branching factor associated with a given node and further improve search times.
+%These enhancements make RSR more widely applicable than 4ERR and, 
+%on the subset of problems to which both algorithms are suited, 
+%RSR dominates the performance of 4ERR. 
+%\par
 %MSA* \cite{bolanca09} is another recent optimality preserving search algorithm which attempts to speed up search 
 %on grid maps by exploiting path equivalence in empty rectangular rooms. 
 %Rather than pruning nodes from the interior of an empty room however MSA* attempts to speed up 
@@ -22,7 +25,7 @@ RSR dominates the performance of 4ERR.
 %It is also worth noting that MSA* uses a different empty room decomposition method
 %from the one described in our work.
 %\par
-Our work is also similar to that of \citeauthor{pochter10}~\shortcite{pochter10}. 
+Our work is also related to that of \citeauthor{pochter10}~\shortcite{pochter10}. 
 They introduce \emph{swamps}, an alternative search space reduction algorithm
 which requires decomposing a graph into so called ``swamp'' areas that can be 
 ignored because there always exists a symmetric path that does not cross any 
@@ -40,7 +43,7 @@ any given area.
 %effective when this is not the case.
 Thus the two methods are in some sense complementary.
 \par
-Finally, RSR bears some similarity to new heuristic methods aimed at improving the 
+RSR bears some similarity to new heuristic methods aimed at improving the 
 performance of standard A* on grid maps \cite{bjornsson06}.
 In that work, like in ours, grid maps are decomposed into obstacle-free zones connected by entrances 
 and exits.
@@ -48,6 +51,18 @@ A preliminary online search in the decomposed graph identifies zones that do not
 on any path between the start and goal node, thus yielding the \emph{dead-end heuristic}.
 It can be seen as a technique for detecting areas that don't have to be searched
 in the instance at hand.
+
+Handling symmetry is a regularly appearing topic in the literature.
+This is not surprising, given that,
+in the presence of symmetry, search algorithms could be forced to evaluate 
+many equivalent states, wasting time and making little real progress toward the
+goal.
+Dealing with symmetry is a regularly appearing topic in the literature. 
+Symmetry has been addressed in planning \cite{},
+constraint programming \cite{},
+but also bin packing and operations research. 
+
+
 %\par
 %Contraction Hierarchies (CHs) \cite{geisberger08} are another recent technique 
 %for reducing the size of the search space for the purpose of pathfinding.

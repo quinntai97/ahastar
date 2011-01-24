@@ -50,7 +50,6 @@ In each of the two directions, the last node in the fan is either
 the node placed diagonally, at 45 degrees, from $t_1$ (e.g., $t_2$ in Figure \ref{fig-macroedges} bottom),
 or the node on the corner of the perimeter (whichever is encountered first when progressing away from the
 middle of the fan).
-
 For example, in Figure \ref{fig-macroedges} (bottom), there is no need to add a macro-edge between $t_1$
 and nodes beyond $t_2$ (e.g., $t_3$). Node $t_3$ can be reached optimally from $t_1$ via the path
 $\lbrace t_1, t_2, \dots, t_3 \rbrace$.
@@ -60,8 +59,8 @@ $\lbrace t_1, t_2, \dots, t_3 \rbrace$.
                        \includegraphics[scale=0.5, trim = 10mm 10mm 10mm 0mm]{diagrams/macroedges.png}
        \end{center}
 	\vspace{-3pt}
-       \caption{(Top) Macro edges between tiles on orthogonal sides of an empty room. 
-(Bottom) Each tile on the perimeter is connected to a set of tiles on the opposite side of the room.}
+       \caption{(Top) Macro edges between tiles on orthogonal sides of an empty rectangle. 
+(Bottom) Each tile on the perimeter is connected to a set of tiles on the opposite side.}
        \label{fig-macroedges}
 \end{figure}
 
@@ -88,11 +87,10 @@ possibly involves one macro edge.
 
 \begin{proof}
 We split the proof over the 3 cases discussed earlier:
-\begin{enumerate}
-\item{$m$ and $n$ are on the same side of the perimeter;}
-\item{$m$ and $n$ are on orthogonal sides of the perimeter;}
-\item{\label{lemma-rooms-step3} $m$ and $n$ are on opposite sides of the perimeter.}
-\end{enumerate}
+1) {$m$ and $n$ are on the same side of the perimeter;}
+2) {$m$ and $n$ are on orthogonal sides of the perimeter;} and
+3) {\label{lemma-rooms-step3} $m$ and $n$ are on opposite sides of the perimeter.}
+
 In the first case we can simply walk along the perimeter from $m$ to $n$; the optimality of this path is immediate. 
 In the second and third case we argue as follows: if $m$ and $n$ are not connected by a macro edge
 we can walk along the perimeter from $m$ to the first intermediate node $m'$
@@ -112,20 +110,18 @@ of a search.
 Our method is an adaptation of \citeauthor{harabor10}'s re-insertion algorithm
 that specifically deals with 8-connected grids.
 It proceeds as follows:
-
-\begin{enumerate}
-\item{If the start and goal are interior nodes in the same room no insertion is necessary; an optimal
+{If the start and goal are interior nodes in the same room no insertion is necessary; an optimal
 path is trivially available. }
-\item{If the start and goal are not in the same room, add four ``fans'' (collections) of macro edges.
+{On the other hand, if the start and goal are not in the same room, add four ``fans'' (collections) of macro edges.
 Each fan connects the start (target) node to a set of nodes on one side of the room's perimeter.
-The procedure is very similar to step 2 in the offline procedure: the fan should not go beyond tiles
-placed diagonally with respect to the start (goal) tile at hand.}
-\end{enumerate}
+Fans are built as shown earlier.}
+
 Given the simple geometry of rectangular rooms,
 in an efficient implementation it is possible to identify in constant time the set of tiles which 
 the start or goal must be connected to.
 Further, these neighbours could be generated on the fly.
-This means the time complexity associated with insertion can be as low as $O(1)$.
+
+%This means the time complexity associated with insertion can be as low as $O(1)$.
 \begin{lemma}
 \label{lemma-insertion}
 Let $R$ be an empty rectangular room in an 8-connected grid map.

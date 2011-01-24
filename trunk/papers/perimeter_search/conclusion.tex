@@ -20,17 +20,17 @@ classes of instances where either RSR or swamps is more suitable.
 In our experiments swamps appear to be more useful on maps with small open areas
 while RSR becomes more effective as larger open areas are available on a map.
 \par
-Our speedup technique is quite different from traditional approaches 
-that include hierarchical abstraction and memory-based heuristics.
-While also effective, both of these methods have their shortcomings.
-For example, hierarchical algorithm such as HPA*~\cite{botea04} and 
-PRA*~\cite{sturtevant05} are fast and memory-effective but produce 
-sub-optimal paths.
-Memory-based admissible heuristics preserve the optimality of 
-solutions but carry a significant memory overhead~
-\cite{sturtevant09,goldberg05,Cazenave:06}. %,bjornsson06}.
-By comparison, RSR is not only fast and optimal but also has very little
-memory overhead.
+%Other pathfinding techniques,
+%such as hierarchical abstraction and memory-based heuristics,
+%While also effective, both of these methods have their shortcomings.
+%For example, hierarchical algorithms such as HPA*~\cite{botea04} and 
+%PRA*~\cite{sturtevant05} are fast and memory-effective but produce 
+%sub-optimal paths.
+%Memory-based admissible heuristics preserve the optimality of 
+%solutions but carry a significant memory overhead~
+%\cite{sturtevant09,goldberg05,Cazenave:06}. %,bjornsson06}.
+%By comparison, RSR is not only fast and optimal but also has very little
+%memory overhead.
 
 %Recent work~\cite{pochter10,harabor10} has introduced
 %techniques that are fast, produce optimal solutions and
@@ -58,9 +58,9 @@ development of better map decompositions and stronger online node pruning
 strategies.
 %We have observed cases where the number of expanded nodes is reasonably small
 %but a relatively large branching factor increases the number of visited nodes significantly.
-Another interesting topic is combining swamps and RSR, which tend to complement each other.
-We are also interested in applying our ideas to more general types of graphs that exhibit
-(local) symmetry, such as the search graphs of planning instances.
+Another interesting topic is combining swamps and RSR.
+%We are also interested in applying our ideas to more general types of graphs that exhibit
+%(local) symmetry, such as the search graphs of planning instances.
 
 %Perimeter Search is a symmetric path elimination technique which extends the the
 %work of \citeauthor{harabor10}~\shortcite{harabor10} from 4-connected grid maps
