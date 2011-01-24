@@ -32,18 +32,21 @@ As we will see this optimisation can have a dramatic effect on the average perfo
 A* on certain types of maps.
 
 \begin{figure}[t]
-       \begin{center}
-                       \includegraphics[scale=0.5, trim = 10mm 10mm 10mm 0mm]{diagrams/branching.png}
-       \end{center}
+	\begin{center}
+	\includegraphics[scale=0.5, trim = 10mm 10mm 10mm 0mm]
+	{diagrams/branching.png}
+	\end{center}
 	\vspace{-3pt}
-       \caption{(Top) From each empty room we prune all (dark grey) tiles which have no neighbours in any adjacent room. 
-Remaining tiles are then connected directly.
-\\
-		(Bottom) Assume that $t_{1}$ is the parent of $t_2$. When $t_2$ is expanded,
-there is no need to generate its secondary neighbors, which are on the same side as $t_1$.
-These can be reached on a shorter path directly from $t_1$ without passing through $t_2$.
+	\caption{(Top) From each empty room we prune all (dark grey) tiles which
+	have no neighbours in any adjacent room.
+	Remaining tiles are then connected directly.
+	(Bottom) Assume that $t_{1}$ is the parent of $t_2$. When $t_2$
+	is expanded,
+	there is no need to generate its secondary neighbors, which are on the same side
+	as $t_1$.  These can be reached on a shorter path directly from $t_1$ without
+	passing through $t_2$.
 }
-       \label{fig-branching}
+\label{fig-branching}
 \end{figure}
 
 %\par \noindent \newline
