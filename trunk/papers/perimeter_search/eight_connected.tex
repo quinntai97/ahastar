@@ -19,29 +19,29 @@ defining a \emph{dominance} relation between macro-edges.
 %\par
 
 \begin{definition}
+\label{def:dominance}
 A macro-edge connecting two arbitrary nodes $t_1$ and $t_2$ in a perimeter
 clique is non-dominated if all other paths between $t_1$ and $t_2$ in the
 perimeter clique have a cost strictly larger than the macro-edge at hand.
 \end{definition}
 
-Our strategy keeps non-dominated macro-edges and prunes all other macro-edges
-from a perimeter clique.  Just by applying the definition, it is easy to see
-that the non-dominated macro-edges are precisely the ones that we identify
-below.  There are three cases to discuss: connections between nodes on the same
-room side, connections between orthogonal room sides, and connections between
-opposite room sides.
+By starting with a perimeter clique and applying Definition \ref{dominance} it
+is easy to see that the set of non-dominated macro-edges are precisely the ones
+that we identify below.  There are three cases to discuss: connections between
+nodes on the same room side, connections between orthogonal room sides, and
+connections between opposite room sides.
 
-The first case is simple: adjacent nodes from a room $R$ are connected just as in the original
-grid.  In the second case, two nodes on orthogonal sides of $R$ are
-connected \emph{iff} the shortest path between them is a diagonal (45-degree)
-line; this is illustrated in Figure \ref{fig-macroedges} (top).  Notice that in
-both cases we introduce no more than two macro edges per node.  In the third
-case, we generate for each perimeter node a ``fan'' of neighbours from the
-opposide side $R$.  Figure \ref{fig-macroedges} (bottom), illustrates
+The first case is simple: adjacent nodes from a room $R$ are connected just as
+in the original grid.  In the second case, two nodes on orthogonal sides of $R$
+are connected \emph{iff} the shortest path between them is a diagonal
+(45-degree) line; this is illustrated in Figure \ref{fig-macroedges} (top).
+Notice that in both cases we introduce no more than two macro edges per node.
+In the third case, we generate for each perimeter node a ``fan'' of neighbours
+from the opposide side $R$.  Figure \ref{fig-macroedges} (bottom), illustrates
 this idea.  Starting from a node such as $t_{1}$ we step to the closest
-neighbour from the opposite side of $R$ and extend the fan by progressing
-away from the middle in both directions adding each node we encounter.  The last
-node on either side of the fan is placed diagonally, at 45 degrees, from $t_{1}$
+neighbour from the opposite side of $R$ and extend the fan by progressing away
+from the middle in both directions adding each node we encounter.  The last node
+on either side of the fan is placed diagonally, at 45 degrees, from $t_{1}$
 (such as $t_{2}$) or located in the corner of the perimeter (whichever we
 encounter first).  There is no need to add further nodes, such as $t_{3}$, as
 these can be reached optimally from $t_1$ via the path $\lbrace t_1, t_2, \dots,
