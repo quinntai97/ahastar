@@ -17,7 +17,12 @@ We will discuss performance in terms of search times and compare each algorithm
 by looking at the average speedup experienced by A* when running with and
 without pruning methods applied to the grid map.  Using this metric a speedup of
 2.0 is twice as fast and so on (higher is better).
-
+\par
+Note that on approximately 2\% of all instances the start and goal are located 
+in the same room and RSR was able to compute the optimal solution without
+search.
+We exclude these from our results on the basis that they are 
+outliers. 
 \begin{figure*}[t]
        \begin{center}
                        \includegraphics[width=1.90\columnwidth, trim = 10mm 10mm 10mm 0mm]{diagrams/speedup.pdf}
@@ -35,10 +40,10 @@ This allows us to conclude that that RSR is the better choice on 4-connected map
 \par
 When analysing the impact of each enhancement, we note that 4ERR+PR yielded the
 biggest improvement on all three benchmarks.
-The most dramatic example can be seen on the Rooms benchmark (Figure \ref{fig-speedup}C) 
-where 4ERR+PR speeds up A* by over 18 times.
-By comparison, 4ERR+OP yields much smaller gains across the same
-benchmarks: usually beating 4ERR by between 10-12\%.
+The most dramatic example can be seen on Rooms (Figure \ref{fig-speedup}C) 
+where 4ERR+PR speeds up A* by 20 times.
+Meanwhile, 4ERR+OP compares well with PR on both Adaptive Depth and
+Baldur's Gate but is of little benefit on Rooms.
 %In an additional experiment, we evaluated the impact of OP on 8-connected
 %grids and observed that its contribution to speedup was more significant than in 
 %the 4-connected case.
