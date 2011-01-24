@@ -1,24 +1,21 @@
 \section{Conclusion}
-We introduce RSR, a new search space reduction algorithm
-which makes use of an Empty Rectangular Rooms decomposition
-to identify and reduce path symmetries in 4 and 8 connected
-grid maps.
-We undertake an analysis of RSR on a range of benchmarks from the
-literature and show our new algorithm is up to 38 times faster than
-traditional A* running on an unmodified grid map.
-Further, we show that RSR can be up to five times faster than two recent
-state-of-the-art search space reduction techniques.
+We introduce RSR, a new search space reduction algorithm which makes use of an
+empty rectangle decomposition to identify and reduce path symmetries in
+4 and 8 connected grid maps.  We undertake an analysis of RSR on a range of
+benchmarks from the literature and show our new algorithm is up to 38 times
+faster than traditional A* running on an unmodified grid map.  Further, we show
+that RSR can be up to five times faster than two recent state-of-the-art search
+space reduction techniques.
 \par
-We demonstrate that RSR is not only more generally applicable
-than the algorithm of \citeauthor{harabor10}~\shortcite{harabor10} 
-(on which it is based) but also significantly faster on the set of 
-instances where both methods can be applied (i.e., 4-connected maps).
-We also compare RSR with the swamps-based reduction
-of \citeauthor{pochter10}~\shortcite{pochter10}.
-We show that the two algorithms have complementary strengths and identify 
-classes of instances where either RSR or swamps is more suitable.
-In our experiments swamps appear to be more useful on maps with small open areas
-while RSR becomes more effective as larger open areas are available on a map.
+We demonstrate that RSR is not only more generally applicable than the algorithm
+of \citeauthor{harabor10}~\shortcite{harabor10} (on which it is based) but also
+significantly faster on the set of instances where both methods can be applied
+(i.e., 4-connected maps).  We also compare RSR with the swamps-based reduction
+of \citeauthor{pochter10}~\shortcite{pochter10}.  We show that the two
+algorithms have complementary strengths and identify classes of instances where
+either RSR or swamps is more suitable.  In our experiments swamps appear to be
+more useful on maps with small open areas while RSR becomes more effective as
+larger open areas are available on a map.
 \par
 %Other pathfinding techniques,
 %such as hierarchical abstraction and memory-based heuristics,

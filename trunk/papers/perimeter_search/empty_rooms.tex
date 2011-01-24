@@ -1,5 +1,5 @@
 \section{Rectangle-based Symmetry Reduction}
-\label{rooms-based symmetry reduction}
+\label{sec:rsr}
 
 \begin{figure}[]
        \begin{center}
@@ -32,12 +32,12 @@ Our approach has similarities with the one used by
 \citeauthor{harabor10}~\shortcite{harabor10}.  The main differences are: (i) a
 generalisation of the empty rectangles method to allow optimal traversal in
 8-connected grid maps (ii) an offline pruning operator for reducing the size of
-a room's perimeter and (iii) a new online pruning strategy that allows faster
+a rectangle's perimeter and (iii) a new online pruning strategy that allows faster
 node expansion and further speeds up search.
 
 The generalisation to 8-connected grids is more challenging than it might look
-at a first glance.  On a 4-connected map no tile requires more than one
-macro-edge (to the closest tile on the opposite side of the perimeter) to retain
+at a first glance.  On a 4-connected map no node requires more than one
+macro-edge (to the closest node on the opposite side of the perimeter) to retain
 optimality~\cite{harabor10}.  Thus, it is easy to maintain a low branching
 factor.
 As we show in the next section, many more macro-edges are

@@ -19,7 +19,7 @@ without pruning methods applied to the grid map.  Using this metric a speedup of
 2.0 is twice as fast and so on (higher is better).
 \par
 Note that on approximately 2\% of all instances the start and goal are located 
-in the same room and RSR was able to compute the optimal solution without
+in the same rectangle and RSR was able to compute the optimal solution without
 search.
 We exclude these from our results on the basis that they are 
 outliers. 
@@ -53,7 +53,7 @@ Baldur's Gate but is of little benefit on Rooms.
 %On the other hand, 8ERR (i.e. RSR without OP and PR speedup enhancements) 
 %can introduce larger branching factors. Therefore, there are more opportunities for 
 %online pruning in the latter case. 
-%Other details (and charts) are left out because of room limitations.
+%Other details (and charts) are left out because of rectangle limitations.
 \par
 Finally, it is interesting to note the sometimes large performance variation 
 from one benchmark to another. This is indicative of how effectively we can 
@@ -69,7 +69,7 @@ speedups and is shown consistently better than Swamps. However, on Baldur's
 Gate, this trend is reversed.  
 It is interesting to note that on the
 benchmarks where RSR performs well there are usually large open areas and the
-terrain can often be naturally decomposed into rectangular rooms.  This is not
+terrain can often be naturally decomposed into rectangles.  This is not
 true for the Baldur's Gate benchmark where Swamps-based pruning appears to be
 more effective.
 \par
@@ -85,10 +85,10 @@ Infact, if we limit our attention to problems of similar length to those seen
 on the original maps we notice that the performance of Swamps actually
 decreases.
 \par
-The observed performance characteristics are not unexpected: 
-Swamps prune out areas that can be avoided without introducing a detour while 
-rectangle-based symmetry reduction allows for a faster exploration of areas that need to be searched.
-Since it appears that the two algorithms are orthogonal, a natural extension of this work would 
-be to combine the two: 
-first, apply 4(or 8)ERR+PR (as appropriate) to a grid in order to eliminate as many interior nodes 
-as possible; then, apply a Swamps-based decomposition to the resultant graph.
+The observed performance characteristics are not unexpected: Swamps prune out
+areas that can be avoided without introducing a detour while rectangle-based
+symmetry reduction allows for a faster exploration of areas that need to be
+searched.  Since it appears that the two algorithms are orthogonal, a natural
+extension of this work would be to combine the two: first, apply 4(or 8)ERR+PR
+(as appropriate) to a grid in order to eliminate as many interior nodes as
+possible; then, apply a Swamps-based decomposition to the resultant graph.
