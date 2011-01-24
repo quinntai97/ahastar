@@ -1,20 +1,21 @@
 \section{Introduction}
-Pathfinding systems which operate on regular grids are commonly found in
-academic literature; for example in application areas such as robotics 
-\cite{choset05} and video games \cite{botea04,sturtevant05,bjornsson06}.
-%planning \cite{thayer10,DBLP:conf/aips/HernandezMSK09,DBLP:conf/aips/WangB08,DBLP:conf/aips/BulitkoBLSS07}.
-\par
-In the context of single-agent pathfinding, and real-time video games in particular, 
-it is often the case that queries sent to the pathfinding system  need to be solved as quickly as possible.
-Traditionally, this requirement is either met through the application of hierarchical
-decompostion techniques or the development of improved heuristics to better guide the search.
-In the case of hierarchical decomposition, algorithms such as HPA*~\cite{botea04} and PRA*
-~\cite{sturtevant05} transform the search space into a much
-smaller approximate representation. They can solve large problems very quickly,
-particular when compared to the classical A* algorithm \cite{hart68}, but only by sacrificing optimality.
-Meanwhile, in case of the improved heuristics, it has frequently been shown
-that obtaining better informed results than the popular
-Manhattan or Octile heuristic usually incurs significant memory overhead \cite{sturtevant09,goldberg05,Cazenave:06}. %,bjornsson06}.
+Grid-based pathfinding systems are commonly found in academic literature; for
+example in application areas such as robotics \cite{choset05} and video games
+\cite{botea04,sturtevant05,bjornsson06}.  
+In such contexts it is often the case that queries sent to the pathfinding
+system need to be solved as quickly as possible.  Traditionally, this
+requirement is met either through the application of hierarchical decompostion
+techniques or the development of improved heuristics to better guide the search.
+In the case of hierarchical decomposition, algorithms such as
+HPA*~\cite{botea04} and PRA* ~\cite{sturtevant05} transform the search space
+into a much smaller approximate representation. They can solve large problems
+very quickly, particularly when compared to the classical A* algorithm
+\cite{hart68}, but only by sacrificing optimality.  Meanwhile, in case of the
+improved heuristics, it has frequently been shown that obtaining better informed
+results than the popular Manhattan or Octile heuristic (both analogous to
+Euclidean distance but optimised to 4 and 8-connected grids) usually incurs
+significant memory overhead \cite{sturtevant09,goldberg05,Cazenave:06}.
+%,bjornsson06}.
 %\par
 %Recent work \cite{bjornsson06,pochter10,harabor10}
 %has introduced techniques that aim at eliminating drawbacks
