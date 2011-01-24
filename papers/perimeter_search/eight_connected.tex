@@ -1,23 +1,58 @@
-\section{Generalising to 8-Connected Grid Maps}
-Successfully applying Algorithm \ref{alg:rsr} to 8-connected grid maps 
-involves adding a set of macro-edges between selected pairs of 
-tiles on the perimeter of each empty rectangular room. 
-We outline this process in two steps: 
-\par
-In the first step (Figure \ref{fig-macroedges} top), we add a series of macro 
-edges between pairs of perimeter tiles on orthogonal sides of $R$. 
-We connect two tiles only if the proposed macro edge represents a path through the interior of $R$ that involves
-only diagonal transitions. Notice that this operation maintains the branching factor low.
-It introduces no more than two macro-edges per tile.
-\par
-In the second step (Figure \ref{fig-macroedges} bottom), we add a series of macro 
-edges between pairs of perimeter tiles on opposite sides of $R$.
-We connect two tiles only if the proposed macro edge represents a path through the interior of $R$ which is shorter
-than any alternative path involving only tiles from the perimeter and possibly one (other) macro edge.
-For a perimeter tile such as $t_1$ we generate a ``fan'' of neighbours on the opposite side. The end tile $t_2$
-in the fan is placed diagonally with respect to $t_1$. There is no need to add a macro-edge between $t_1$
-and nodes beyond $t_2$ (e.g., $t_3$). Tile $t_3$ can be reached optimally from $t_1$ via the path
-$\lbrace t_1, t_2, t_3 \rbrace$.
+\section{Optimal Room Traversal with Macro-Edges}
+
+After interior nodes are eliminated, 
+macro-edges between selected pairs of perimeter nodes 
+have to be added to ensure that rooms can be traversed optimally.
+A straightforward approach would be adding a macro-edge between 
+any two nodes on the perimeter of a room. 
+We call a \emph{perimeter clique} the graph of all perimeter nodes and
+all pair-wise macro-edges.
+While using perimeter cliques would maintain optimality, it has the disadvantage
+of creating a large branching factor, slowing down a search.
+
+We introduce a strategy that creates much fewer macro-edges, 
+using a \emph{dominance} relation between macro-edges.
+As we prove later, optimality is preserved.
+%
+%Successfully applying Algorithm \ref{alg:rsr} to 8-connected grid maps 
+%involves adding a set of macro-edges between selected pairs of 
+%tiles on the perimeter of each empty rectangular room. 
+%We outline this process in two steps: 
+%\par
+
+\begin{definition}
+A macro-edge connecting two 
+arbitrary nodes $t_1$ and $t_2$ in a perimeter clique
+is non-dominated if all other paths between $t_1$ and $t_2$
+in the perimeter clique have a cost strictly larger than the macro at hand.
+\end{definition}
+
+Our strategy keeps non-dominated macro-edges and prunes all other macro-edges
+from a perimeter clique.
+Just by applying the definition, 
+it is easy to see that non-dominated macro-edges are precisely the ones that
+we identify below.
+There are three cases to discuss: connections between nodes
+on the same room side,
+connections between orthogonal room sides, 
+and connections between opposite room sides.
+
+The first case is simple: adjacent nodes are connected just as in the original grid.
+As illustrated in Figure \ref{fig-macroedges} (top),
+two nodes on orthogonal room sides are connected if and only if
+the shortest path between them is a diagonal (45-degree) line.
+Notice that these two cases maintain the branching factor low.
+Each of them introduces no more than two macro-edges per node.
+Figure \ref{fig-macroedges} (bottom), illustrates adding macro 
+edges between pairs of perimeter nodes on opposite sides of a room $R$.
+For a perimeter node such as $t_1$ we generate a ``fan'' of neighbours on the opposite side. 
+In each of the two directions, the last node in the fan is either 
+the node placed diagonally, at 45 degrees, from $t_1$ (e.g., $t_2$ in Figure \ref{fig-macroedges} bottom),
+or the node on the corner of the perimeter (whichever is encountered first).
+
+For example, in Figure \ref{fig-macroedges} (bottom), there is no need to add a macro-edge between $t_1$
+and nodes beyond $t_2$ (e.g., $t_3$). Node $t_3$ can be reached optimally from $t_1$ via the path
+$\lbrace t_1, t_2, \dots, t_3 \rbrace$.
 
 \begin{figure}[tb]
        \begin{center}
@@ -28,7 +63,20 @@ $\lbrace t_1, t_2, t_3 \rbrace$.
 (Bottom) Each tile on the perimeter is connected to a set of tiles on the opposite side of the room.}
        \label{fig-macroedges}
 \end{figure}
-We claim this method preserves optimality when traversing arbitrary empty rooms in an 8-connected grid map.
+
+We argue that all macro-edges computed as shown earlier are both necessary and sufficient
+to ensure that rooms can be traversed optimally between any two perimeter nodes:
+
+\begin{proposition}
+All non-dominated macro-edges are necessary to ensure optimal paths in a perimeter clique.
+\end{proposition}
+\begin{proof}
+By definition, a non-dominated edge $e$ is the only way to travel optimally between 
+its end nodes in a perimeter clique. Therefore, dropping $e$ would result in losing path optimality
+in the perimeter clique.
+\end{proof}
+
+%We claim this method preserves optimality when traversing arbitrary empty rooms in an 8-connected grid map.
 \begin{lemma}
 \label{lemma-rooms}
 Let $R$ be an empty rectangular room in an 8-connected grid map.
@@ -38,10 +86,10 @@ possibly involves one macro edge.
 \end{lemma}
 
 \begin{proof}
-There are three cases to consider:
+We split the proof over the 3 cases discussed earlier:
 \begin{enumerate}
-\item{$m$ and $n$ are on the same side of the perimeter.}
-\item{$m$ and $n$ are on orthogonal sides of the perimeter.}
+\item{$m$ and $n$ are on the same side of the perimeter;}
+\item{$m$ and $n$ are on orthogonal sides of the perimeter;}
 \item{\label{lemma-rooms-step3} $m$ and $n$ are on opposite sides of the perimeter.}
 \end{enumerate}
 In the first case we can simply walk along the perimeter from $m$ to $n$; the optimality of this path is immediate. 
