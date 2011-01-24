@@ -1,71 +1,64 @@
 \section{Optimal Room Traversal with Macro-Edges}
 
-After interior nodes are eliminated, 
-macro-edges between selected pairs of perimeter nodes 
-have to be added to ensure that rooms can be traversed optimally.
-A straightforward approach would be adding a macro-edge between 
-any two nodes on the perimeter of a room. 
-We call a \emph{perimeter clique} the graph of all perimeter nodes and
-all pair-wise macro-edges.
-While using perimeter cliques would maintain optimality, it has the disadvantage
-of creating a large branching factor, slowing down a search.
+After interior nodes are eliminated, macro-edges between selected pairs of
+perimeter nodes have to be added to ensure that rooms can be traversed
+optimally.  A straightforward approach would be adding a macro-edge between any
+two nodes on the perimeter of a room.  We will call the subgraph resulting from
+such an operation a \emph{perimeter clique}.
 
-We introduce a strategy that creates much fewer macro-edges, 
-using a \emph{dominance} relation between macro-edges.
+Although the perimeter clique approach guarantees optimality, it has the
+disadvantage of creating a large branching factor and slowing down search.  We
+introduce an alternative strategy that creates much fewer macro-edges by
+defining a \emph{dominance} relation between macro-edges.
 %As we prove later, optimality is preserved.
 %
 %Successfully applying Algorithm \ref{alg:rsr} to 8-connected grid maps 
 %involves adding a set of macro-edges between selected pairs of 
-%tiles on the perimeter of each empty rectangular room. 
+%nodes on the perimeter of each empty rectangular room. 
 %We outline this process in two steps: 
 %\par
 
 \begin{definition}
-A macro-edge connecting two 
-arbitrary nodes $t_1$ and $t_2$ in a perimeter clique
-is non-dominated if all other paths between $t_1$ and $t_2$
-in the perimeter clique have a cost strictly larger than the macro at hand.
+A macro-edge connecting two arbitrary nodes $t_1$ and $t_2$ in a perimeter
+clique is non-dominated if all other paths between $t_1$ and $t_2$ in the
+perimeter clique have a cost strictly larger than the macro-edge at hand.
 \end{definition}
 
 Our strategy keeps non-dominated macro-edges and prunes all other macro-edges
-from a perimeter clique.
-Just by applying the definition, 
-it is easy to see that the non-dominated macro-edges are precisely the ones that
-we identify below.
-There are three cases to discuss: connections between nodes
-on the same room side,
-connections between orthogonal room sides, 
-and connections between opposite room sides.
+from a perimeter clique.  Just by applying the definition, it is easy to see
+that the non-dominated macro-edges are precisely the ones that we identify
+below.  There are three cases to discuss: connections between nodes on the same
+room side, connections between orthogonal room sides, and connections between
+opposite room sides.
 
-The first case is simple: adjacent nodes are connected just as in the original grid.
-As illustrated in Figure \ref{fig-macroedges} (top),
-two nodes on orthogonal room sides are connected if and only if
-the shortest path between them is a diagonal (45-degree) line.
-Notice that these two cases maintain the branching factor low.
-Each of them introduces no more than two macro-edges per node.
-Figure \ref{fig-macroedges} (bottom), illustrates adding macro 
-edges between pairs of perimeter nodes on opposite sides of a room $R$.
-For a perimeter node such as $t_1$ we generate a ``fan'' of neighbours on the opposite side. 
-In each of the two directions, the last node in the fan is either 
-the node placed diagonally, at 45 degrees, from $t_1$ (e.g., $t_2$ in Figure \ref{fig-macroedges} bottom),
-or the node on the corner of the perimeter (whichever is encountered first when progressing away from the
-middle of the fan).
-For example, in Figure \ref{fig-macroedges} (bottom), there is no need to add a macro-edge between $t_1$
-and nodes beyond $t_2$ (e.g., $t_3$). Node $t_3$ can be reached optimally from $t_1$ via the path
-$\lbrace t_1, t_2, \dots, t_3 \rbrace$.
+The first case is simple: adjacent nodes from a room $R$ are connected just as in the original
+grid.  In the second case, two nodes on orthogonal sides of $R$ are
+connected \emph{iff} the shortest path between them is a diagonal (45-degree)
+line; this is illustrated in Figure \ref{fig-macroedges} (top).  Notice that in
+both cases we introduce no more than two macro edges per node.  In the third
+case, we generate for each perimeter node a ``fan'' of neighbours from the
+opposide side $R$.  Figure \ref{fig-macroedges} (bottom), illustrates
+this idea.  Starting from a node such as $t_{1}$ we step to the closest
+neighbour from the opposite side of $R$ and extend the fan by progressing
+away from the middle in both directions adding each node we encounter.  The last
+node on either side of the fan is placed diagonally, at 45 degrees, from $t_{1}$
+(such as $t_{2}$) or located in the corner of the perimeter (whichever we
+encounter first).  There is no need to add further nodes, such as $t_{3}$, as
+these can be reached optimally from $t_1$ via the path $\lbrace t_1, t_2, \dots,
+t_3\rbrace$.
 
 \begin{figure}[tb]
        \begin{center}
                        \includegraphics[scale=0.45, trim = 10mm 10mm 10mm 0mm]{diagrams/macroedges.png}
        \end{center}
 	\vspace{-3pt}
-       \caption{(Top) Macro edges between tiles on orthogonal sides of an empty rectangle. 
-(Bottom) Each tile on the perimeter is connected to a set of tiles on the opposite side.}
+       \caption{(Top) Macro edges between nodes on orthogonal sides of an empty rectangle. 
+(Bottom) Each node on the perimeter is connected to a set of nodes on the opposite side.}
        \label{fig-macroedges}
 \end{figure}
 
-We argue that all macro-edges computed as shown earlier are both necessary and sufficient
-to ensure that rooms can be traversed optimally between any two perimeter nodes:
+We argue that the non-dominated macro-edges computed using our strategy are both necessary and sufficient
+to ensure optimal traversal between any two perimeter nodes.
 
 \begin{proposition}
 All non-dominated macro-edges are necessary to ensure optimal paths in a perimeter clique.
@@ -88,7 +81,7 @@ possibly involves one macro edge.
 \begin{proof}
 We split the proof over the 3 cases discussed earlier:
 1) {$m$ and $n$ are on the same side of the perimeter;}
-2) {$m$ and $n$ are on orthogonal sides of the perimeter;} and
+2) {\label{lemma-rooms-step2}$m$ and $n$ are on orthogonal sides of the perimeter;} and
 3) {\label{lemma-rooms-step3} $m$ and $n$ are on opposite sides of the perimeter.}
 
 In the first case we can simply walk along the perimeter from $m$ to $n$; the optimality of this path is immediate. 
@@ -97,27 +90,27 @@ we can walk along the perimeter from $m$ to the first intermediate node $m'$
 which has a macro-edge incident with $n$. 
 Since $m'$ is the first such node, the weight of the macro-edge $(m', n)$ is equal to
 the diagonal distance between $m'$ and $n$. 
-It is now easy to show that the length of the resultant path ${m, m', n}$ is equal to the octile distance between 
+It is now easy to show that the length of the resultant path ${m, m', n}$ is equal to the ocnode distance between 
 $m$ and $n$ and therefore optimal.
 \end{proof}
 
 \noindent
 \textbf{Node Insertion:}
-It is often the case that a tile from the interior of an empty room is required as a start or goal location for an
-agent. 
-To handle such situations we give an online procedure that temporarily re-inserts tiles back into the map for the duration
-of a search. 
-Our method is an adaptation of \citeauthor{harabor10}'s re-insertion algorithm
-that specifically deals with 8-connected grids.
-It proceeds as follows:
-{If the start and goal are interior nodes in the same room no insertion is necessary; an optimal
-path is trivially available. }
-{On the other hand, if the start and goal are not in the same room, add four ``fans'' (collections) of macro edges.
-Each fan connects the start (target) node to a set of nodes on one side of the room's perimeter.
-Fans are built as shown earlier.}
+Sometimes a node from the interior of an empty room is required as a start or
+goal location for an agent.  To handle such situations we give an online
+procedure that temporarily re-inserts nodes back into the map for the duration
+of a search.  
+%Our method is an adaptation of \citeauthor{harabor10}'s
+%re-insertion algorithm that specifically deals with 8-connected grids.  
+It proceeds as follows: {If the start and goal are interior nodes in the same
+room no insertion is necessary; an optimal path is trivially available. } {On
+the other hand, if the start and goal are not in the same room, add four
+``fans'' (collections) of macro edges.  Each fan connects the start (goal) node
+to a set of nodes on one side of the room's perimeter.  Fans are built as shown
+earlier.}
 
 Given the simple geometry of rectangular rooms,
-in an efficient implementation it is possible to identify in constant time the set of tiles which 
+in an efficient implementation it is possible to identify in constant time the set of nodes which 
 the start or goal must be connected to.
 Further, these neighbours could be generated on the fly.
 
@@ -131,12 +124,12 @@ find an optimal length path which mentions no interior nodes except for $m$.
 \begin{proof}
 Our re-insertion procedure connects the start or goal to a set of nodes on each side of $R$.
 The procedure in each case is the same as the one given when connecting two nodes on opposite sides of $R$.
-To prove optimality we can simply run the argument given for Step \ref{lemma-rooms-step3} of Lemma \ref{lemma-rooms} for each
+To prove optimality we can simply run the argument given for Step 3 of Lemma \ref{lemma-rooms} for each
 node on the perimeter of $R$, in each case substituting $m$ for the newly inserted node.
 \end{proof}
 
 %We claim that using the temporary macro edges added by this algorithm it is possible to travel optimally from the start or goal 
-%location to any tile on the perimeter of the start or goal room. 
+%location to any node on the perimeter of the start or goal room. 
 %\par \noindent
 %\newline
 We claim that the symmetry elimination procedure outlined in this section preserves the optimality of solutions:
@@ -149,7 +142,7 @@ Consider an optimal path $\pi$ on the original map and a room $R$ that is crosse
 Let $m$ and $n$ be the two perimeter points along $\pi$. According to Lemma~\ref{lemma-rooms},
 there is a way to connect $m$ and $n$ optimally in the modified graph. Thus, we can replace the
 original segment $[m \dots n]$ in $\pi$ with the cost-wise equivalent segment that corresponds to the modified graph.
-The case when $m$ (or $n$) is the start or target node is addressed similarly using Lemma~\ref{lemma-insertion}.
+The case when $m$ (or $n$) is the start or goal node is addressed similarly using Lemma~\ref{lemma-insertion}.
 By performing such a path segment replacement for all rooms intersected by $\pi$, we obtain a path $\pi'$
 that satisfies the desired properties.
 \end{proof}
@@ -157,7 +150,7 @@ that satisfies the desired properties.
 %\textbf{Optimality:} We claim the symmetry elimination procedure outlined in this section is sufficient to guarantee
 %that A*, running on a modified 8-connected grid map, will always find an optimal length solution if one exists.
 %Our argument follows from Lemma \ref{lemma-rooms} and Lemma \ref{lemma-insertion}.
-%It is based on the observation that for every segment of an optimal length path, which enters a room at some tile $m$,
-%traverses through the interior of the room and exits at some tile $n$, there is an equivalent length path that mentions only 
+%It is based on the observation that for every segment of an optimal length path, which enters a room at some node $m$,
+%traverses through the interior of the room and exits at some node $n$, there is an equivalent length path that mentions only 
 %nodes from the perimeter of that room and possibly one macro edge.
 

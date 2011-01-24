@@ -1,30 +1,22 @@
 \section{Related Work}
+Dealing with symmetry is a regularly appearing topic in the literature.
+It has been addressed in areas as diverse as planning \cite{}, constraint programming
+\cite{}, bin packing \cite{} and operations research \cite{}.
+This is not surprising given that, in the presence of symmetry, search algorithms 
+often evaluate many equivalent states and make little 
+real progress toward the goal.  
+Despite receiving significant attention in a general context, there are very few
+works that explicitly identify and deal with the problem of symmetry in a 
+pathfinding context.
+\par
 The work most closely related to ours is due to
 \citeauthor{harabor10}~\shortcite{harabor10}. 
 They introduce empty rectangular rooms,
 a symmetry breaking technique specific to 4-connected grid maps
 which we will refer to as 4ERR.
-Main differences between 4ERR and our work are mentioned in 
+We discuss the main differences between 4ERR and our work in 
 Sections \ref{introduction} and \ref{rooms-based symmetry reduction}.
-%Like our work, 4ERR decomposes maps into obstacle-free rectangles.
-%We generalise this approach to 8-connected grid maps and introduce a new 
-%offline node pruning algorithm that can significantly 
-%reduce the number of nodes which need to be explored during search.
-%We also give a new online pruning technique which can often reduce the
-%branching factor associated with a given node and further improve search times.
-%These enhancements make RSR more widely applicable than 4ERR and, 
-%on the subset of problems to which both algorithms are suited, 
-%RSR dominates the performance of 4ERR. 
-%\par
-%MSA* \cite{bolanca09} is another recent optimality preserving search algorithm which attempts to speed up search 
-%on grid maps by exploiting path equivalence in empty rectangular rooms. 
-%Rather than pruning nodes from the interior of an empty room however MSA* attempts to speed up 
-%search by generating macro edges on the fly.
-%An improvement over conventional A* is reported but the algorithm is also
-%shown to expand a large number of nodes from the interior of empty rooms, which hampers its performance.
-%It is also worth noting that MSA* uses a different empty room decomposition method
-%from the one described in our work.
-%\par
+\par
 Our work is also related to that of \citeauthor{pochter10}~\shortcite{pochter10}. 
 They introduce \emph{swamps}, an alternative search space reduction algorithm
 which requires decomposing a graph into so called ``swamp'' areas that can be 
@@ -52,47 +44,3 @@ on any path between the start and goal node, thus yielding the \emph{dead-end he
 It can be seen as a technique for detecting areas that don't have to be searched
 in the instance at hand.
 
-Handling symmetry is a regularly appearing topic in the literature.
-This is not surprising, given that,
-in the presence of symmetry, search algorithms could be forced to evaluate 
-many equivalent states, wasting time and making little real progress toward the
-goal.
-Dealing with symmetry is a regularly appearing topic in the literature. 
-Symmetry has been addressed in planning \cite{},
-constraint programming \cite{},
-but also bin packing and operations research. 
-
-
-%\par
-%Contraction Hierarchies (CHs) \cite{geisberger08} are another recent technique 
-%for reducing the size of the search space for the purpose of pathfinding.
-%Originally developed in the context of road networks, CHs exploit the topology 
-%of such graphs in order to create short-cut edges that allow a search algorithm to 
-%reach the goal sooner.
-%Though road networks are quite different to grid maps\footnote{Roadmaps tend to
-%have a very high branching factor and often feature a small set of edges (representing freeways) 
-%that frequently appear on many optimal paths between different nodes.} recent work has 
-%shown that, on a popular grid-based benchmark, the technique can be up to six times faster, on average, 
-%than standard A* search \cite{sturtevant10}.
-
-% \par
-% Fringe Search \cite{bjornsson05} is a general purpose graph search algorithm which also
-% aims to improve on the performance of A*.
-% This work is quite different from others we have discussed in that it does not
-% rely on any specific decomposition technique nor on the development of any new heuristics
-% to guide the search.
-% Rather, it uses a novel iterative deepening technique that resumes each subsequent iteration from where the last
-% iteration left off. 
-% It is provably optimal if maximum search depth is sufficiently large and 
-% it has been shown to run between 25-40\% faster than A*.
-% As our work is predominately an offline graph-pruning technique, it could be combined with any search algorithm, including
-% Fringe Search.
-% \par
-% Another effective method for solving path planning problems is to reformulate the original problem
-% into an equivalent one in a much smaller abstract search space.
-% Algorithms in this category are usually fast, memory-efficient and suboptimal.
-% The HPA* algorithm \cite{botea04} uses a map decomposition approach,
-% dividing a grid map into a series of fixed-size clusters connected 
-% by entrances.
-% As with Fringe Search, HPA* could be combined with our work on symmetry breaking.
-% For example, first apply our pruning strategy and then apply HPA* to the resulting grid map.
