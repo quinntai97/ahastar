@@ -72,7 +72,7 @@ legend("topleft", c("Nodes Expanded", "Search Time"),  lty=c(1,2), cex=1.25)
 
 plot(rooms_trend$ne_speedup ~ rooms_trend$opl, type="l", lty=1,   
 main="Average Speedup: Rooms", ylab="Avg. Speedup Factor", 
-xlab="Path Length", ylim=c(1,10), cex.main=2)
+xlab="Path Length", ylim=c(1,20), cex.main=2)
 lines(rooms_trend$st_speedup ~ rooms_trend$opl, type="l", lty=2)
 legend("topleft", c("Nodes Expanded", "Search Time"),  lty=c(1,2), cex=1.25)
 

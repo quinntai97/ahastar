@@ -15,10 +15,10 @@ graphsize <- rbind(graphsize, read.table("adaptive-depth/results_graphsize",
 col.names=gsnames, colClasses=gsclasses, header=FALSE, se=","))
 graphsize$map <- sub("\t([a-z])*/(([a-z])*/)*", "", graphsize$map)
 
-astar <- astar <- read.table("bgmaps/results_ClusterAStar", col.names=astarnames, colClasses=astarclasses, header=FALSE, sep=",")
-astar <- rbind(astar, read.table("rooms/results_ClusterAStar",
+astar <- astar <- read.table("bgmaps/results_FlexibleAStar", col.names=astarnames, colClasses=astarclasses, header=FALSE, sep=",")
+astar <- rbind(astar, read.table("rooms/results_FlexibleAStar",
 col.names=astarnames, colClasses=astarclasses, header=FALSE, sep=","))
-astar <- rbind(astar, read.table("adaptive-depth/results_ClusterAStar",
+astar <- rbind(astar, read.table("adaptive-depth/results_FlexibleAStar",
 col.names=astarnames, colClasses=astarclasses, header=FALSE, sep=","))
 astar$map <- sub("\t([a-z])*/(([a-z])*/)*", "", astar$map)
 
