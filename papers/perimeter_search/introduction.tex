@@ -1,5 +1,5 @@
 \section{Introduction}
-\label{introduction}
+\label{sec:introduction}
 
 Grid-based pathfinding systems are commonly found in academic literature; for
 example in application areas such as robotics \cite{choset05} and video games
@@ -38,22 +38,22 @@ significant memory overhead \cite{sturtevant09,goldberg05,Cazenave:06}.
 %Additionally, they can significantly improve the performance of well known graph
 %search algorithms such as A*.
 \par
-In this paper we present Room-based Symmetry Reduction (RSR): a
+In this paper we present Rectangle-based Symmetry Reduction (RSR): a
 memory efficient, optimality preserving graph pruning algorithm which reduces
 the size of the search space by identifying and eliminating path symmetries from
 undirected grid maps.
-RSR makes use of an off-line Empty Rectangular Rooms (ERR) decomposition, originally described in
-\cite{harabor10}, to convert an arbitrary grid map into an equivalent grid map where only tiles from the 
-perimeter of each empty room need to be explored during search.
+RSR makes use of an off-line empty rectangle decomposition, originally described in
+\cite{harabor10}, to convert an arbitrary grid map into an equivalent grid map where only nodes from the 
+perimeter of each empty rectangle need to be explored during search.
 %Though effective, the method is limited to 4-connected grid maps where only straight moves, and not diagonal, are
 %allowed.
-We extend ERR in several directions: (i) we generalise the method from 4-connected grid maps to 
+We extend that work in several directions: (i) we generalise the method from 4-connected grid maps to 
 the much more common 8-connected case and show how the higher branching factor associated 
 with this domain makes effective symmetry elimination more challenging;
 (ii) we develop a new offline pruning technique that reduces the number of nodes which
 need to be explored during search;
 (iii) we give a novel online pruning strategy which speeds up node expansion by selectively 
-evaluating either all neighbours associated with a particular tile or only a small subset.
+evaluating either all neighbours associated with a particular node or only a small subset.
 We show that in each case both optimality and completeness are preserved.
 \par
 We perform a thorough empirical analysis, comparing RSR with two similar
@@ -70,7 +70,7 @@ have complementary strengths and identify classes of instances where
 either RSR or swamps is more suitable.
 We conclude that swamps are better suited for maps with
 small open areas and their effectiveness reduces on maps with larger open areas.
-In contrast, larger open areas allow RSR to build larger empty rooms and in such
+In contrast, larger open areas allow RSR to build larger empty rectangles and in such
 cases there is a corresponding improvement in its search performance.
 In particular, our results show a wide range of instances where
 RSR is clearly the better choice, dominating convincingly the benchmark algorithms.
