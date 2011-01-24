@@ -1,17 +1,15 @@
 \section{Results}
 \label{sec-results}
 We will measure the effectiveness of RSR by first comparing against the 4ERR
-described in \cite{harabor10}.  Here we restrict our attention to 4-connected
-grid maps, since 4ERR does not work on the 8-connected variant.  In order to
-assess the individual impact of both perimeter reduction (PR) and online node
-pruning (OP) we develop and include in the comparison two variants algorithms:
-4ERR+OP and 4ERR+PR.  
-\par
-Next, we willl compare and contrast the performance of RSR
-with the Swamps algorithm described in \cite{pochter10}.  To demonstrate the
-relative strengths and weaknesses of these two techniques we ran one set of
-experiments on the original maps from each benchmark and another set where we
-scaled all maps by a factor of 3.  When evaluating Swamps we used the authors'
+described in \cite{harabor10}. Here we restrict our attention to 4-connected
+grid maps. Included in this comparison are two variant algorithms: 4ERR+PR and 
+4ERR+OP which we developed in order to measure the individual impact of both
+perimeter reduction (PR) and online node pruning (OP).
+We also compare and contrast the performance of RSR
+with the Swamps algorithm described in \cite{pochter10}.
+Here we use the 8-connected variants of each benchmark, both in their original 
+size and scaled by a factor of 3.
+When evaluating Swamps we used the authors'
 source code and ran all experiments using their recommended running parameters:
 a swamp seed radius of 6 and ``no change limit'' of 2.  
 \par 
@@ -35,13 +33,10 @@ As per Figure \ref{fig-speedup} (A to C), we note is that RSR shows a convincing
 speed-up improvement over 4ERR and all its variants across all input maps.
 This allows us to conclude that that RSR is the better choice on 4-connected maps.
 \par
-When analysing the impact of each enhancement, (PR and OP respectively)
-we note that the single biggest improvement on each
-benchmark occurs when we apply PR to the basic 4ERR method.
-The most dramatic improvement can be seen on the Rooms benchmark (Figure \ref{fig-speedup}C) 
-where 4ERR+PR is over 18 times faster than A* search on an unmodified grid map.
-Smaller but still significant gains are also observed on the remaining two
-benchmarks.
+When analysing the impact of each enhancement, we note that 4ERR+PR yielded the
+biggest improvement on all three benchmarks.
+The most dramatic example can be seen on the Rooms benchmark (Figure \ref{fig-speedup}C) 
+where 4ERR+PR speeds up A* by over 18 times.
 By comparison, 4ERR+OP yields much smaller gains across the same
 benchmarks: usually beating 4ERR by between 10-12\%.
 %In an additional experiment, we evaluated the impact of OP on 8-connected
@@ -60,19 +55,17 @@ from one benchmark to another. This is indicative of how effectively we can
 decompose the different maps into rectangular shaped regions.
 For example, the maps in the Rooms set are highly suited to this approach but those
 from Baldur's Gate, which have an unusual 45-degree orientation, are not.
-In such cases there are fewer opportunities to build large empty rooms and to apply perimeter reduction.
-This leads to larger search spaces and reduced performance. 
 \par \noindent \newline
 \textbf{Comparison to Swamps:}
 Figure \ref{fig-speedup} (D to F) gives search time speedup results for both RSR
-and swamps running on the 8-connected variants of our three benchmark problem
+and Swamps running on the 8-connected variants of our three benchmark problem
 sets.  The results are mixed; on Adaptive Depth and Rooms, RSR achieves higher
 speedups and is shown consistently better than Swamps. However, on Baldur's
 Gate, this trend is reversed.  
 It is interesting to note that on the
 benchmarks where RSR performs well there are usually large open areas and the
 terrain can often be naturally decomposed into rectangular rooms.  This is not
-true for the Baldur's Gate benchmark where swamps-based pruning appears to be
+true for the Baldur's Gate benchmark where Swamps-based pruning appears to be
 more effective.
 \par
 To test this hypothesis we scaled each map in every benchmark by a factor of 3
@@ -81,19 +74,16 @@ Scaling has the effect of producing larger open areas and allows
 us to measure the impact of this variable on search time speedup.
 We present our findings in  Figure \ref{fig-speedup} (G to I).
 We observe that while the maximum speedup achieved by both algorithms has
-increased, the gain for Swamps is very small and quite dramatic for RSR.
+increased, the gain for Swamps is very small while RSR shows dramatic
+improvement.
 Infact, if we limit our attention to problems of similar length to those seen 
 on the original maps we notice that the performance of Swamps actually
 decreases.
 \par
-The observed performance characteristics of both swamps and RSR
-are not unexpected.
-The complementary tendencies of the two algorithms
-are consistent with the fact that 
-the basic ideas behind swamps and Empty Rectangular Rooms are quite different:
-swamps prune out areas that can be avoided without introducing a detour while 
+The observed performance characteristics are not unexpected: 
+Swamps prune out areas that can be avoided without introducing a detour while 
 rectangle-based symmetry reduction allows for a faster exploration of areas that need to be searched.
 Since it appears that the two algorithms are orthogonal, a natural extension of this work would 
-be to create a new symmetry-based search space reduction which combines the two: 
+be to combine the two: 
 first, apply 4(or 8)ERR+PR (as appropriate) to a grid in order to eliminate as many interior tiles 
-as possible; then, apply a swamps-based decomposition to the resultant graph.
+as possible; then, apply a Swamps-based decomposition to the resultant graph.
