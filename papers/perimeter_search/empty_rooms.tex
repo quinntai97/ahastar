@@ -9,13 +9,14 @@ alternatives (dashed lines).}
        \label{fig-symmetry}
 		\vspace{-0.5em}
 \end{figure}
-Symmetry is generally regarded as an undesirable characteristic in a search
-space.
-In the presence of symmetry, search algorithms are usually forced to evaluate 
+%Symmetry is generally regarded as an undesirable characteristic in a search
+%space.
+In the presence of symmetry, search algorithms could be forced to evaluate 
 many equivalent states, wasting time and making little real progress toward the
-goal; for example as in Figure \ref{fig-symmetry}.
-The problem of how to deal with symmetry is well studied and appears regularly
-in the literature; usually in the context of planning and constraint programming
+goal.
+Dealing with symmetry is a regularly appearing topic in the literature. 
+Symmetry has been addressed in planning \cite{},
+constraint programming \cite{},
 but also bin packing and operations research. 
 Despite this, there are very few works that explicitly identify and deal with the 
 problem of symmetry in a pathfinding context. To address this, we begin by first
@@ -26,38 +27,47 @@ goal node and one can be derived from the other by interchanging the order of th
 moves.
 \end{definition}
 
+See, for example, the pathfinding instance illustrated in Figure \ref{fig-symmetry}.
+There are many symmetrical paths, some of which are marked in the figure.
+With the popular Octile heuristic in use,
+most nodes along symmetrical optimal paths have an $f$ 
+value smaller than the $f$ value of the goal. 
+Running A* on the original grid will needlessly expand all such nodes.
+
 We will employ the following high-level strategy to
 identify and eliminate path symmetries from 4 and 8-connected uniform cost grid maps:
 \input alg_rsr
 
-In \cite{harabor10} the same approach is used to develop the 4ERR algorithm.
-Here, we extend that work as follows:
+As indicated in the introduction, our approach has similarities with the one used by 
+\citeauthor{harabor10}~\shortcite{harabor10}.
+Some of the main differences include:
 \begin{enumerate}
 \item{
 We extend Step \ref{alg:rsr:2} of Algorithm \ref{alg:rsr} 
 to include pruning of nodes from the perimeter of an empty room.
 }
 \item{
-We modify Steps \ref{alg:rsr:3} and \ref{alg:rsr:4} of Algorithm
+We extend Steps \ref{alg:rsr:3} and \ref{alg:rsr:4} of Algorithm
 \ref{alg:rsr} in order to facilitate optimal room traversal in 8-connected grid
 maps. 
 \item{We introduce a new online pruning strategy that allows faster node
 expansion and further speeds up search.}
 }
 \end{enumerate}
-As we will see, the first enhancement can significantly reduce the number of nodes
-in the search space and results in a considerable speedup when compared to 4ERR.
-The generalisation to 8-connected grids however is more challenging.
-In particular, the branching factor associated with each remaining perimeter tile 
-can become linear in the size of the largest dimension (length or width) of the local room. 
-This number is often much larger than 8. 
-By comparison, on a 4-connected map no tile requires more than one macro-edge 
-to retain optimality and thus the branching factor remains low.
+%The first and the third enhancements work for both 4-connected and 8-connected grids.
+%As we will see, the first enhancement can significantly reduce the number of nodes
+%in the search space and results in a considerable speedup when compared to 4ERR.
+The generalisation to 8-connected grids is more challenging than it might look at a first glance.
+On a 4-connected map no tile requires more than one macro-edge
+(to the closest tile on the opposite side of the perimeter)
+to retain optimality~\cite{harabor10}.
+Thus, it is easy to maintain a branching factor on 4-connected maps.
+As we show in the next section, many more macro-edges are needed to preserve optimality
+on 8-connected maps. We will identify a set of macro-edges that is necessary and sufficient
+to ensure that empty rectangles can be crossed optimally.
 Keeping the branching factor within reasonable limits on 8-connected maps
-is the primary motivation
-for our final enhancement: a novel online pruning strategy which attempts to
-reduce the number of neighbours that need to be considered during each node 
-expansion operation.
+is a primary motivation for the enhancements that we report in the next sections.
+
 %\par
 %Both speedup enhancements, which we discuss in an upcoming section,
 %are applicable to 4 and 8-connected grid maps and both preserve optimality
