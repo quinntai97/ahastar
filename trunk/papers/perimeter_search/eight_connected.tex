@@ -12,7 +12,7 @@ of creating a large branching factor, slowing down a search.
 
 We introduce a strategy that creates much fewer macro-edges, 
 using a \emph{dominance} relation between macro-edges.
-As we prove later, optimality is preserved.
+%As we prove later, optimality is preserved.
 %
 %Successfully applying Algorithm \ref{alg:rsr} to 8-connected grid maps 
 %involves adding a set of macro-edges between selected pairs of 
@@ -30,7 +30,7 @@ in the perimeter clique have a cost strictly larger than the macro at hand.
 Our strategy keeps non-dominated macro-edges and prunes all other macro-edges
 from a perimeter clique.
 Just by applying the definition, 
-it is easy to see that non-dominated macro-edges are precisely the ones that
+it is easy to see that the non-dominated macro-edges are precisely the ones that
 we identify below.
 There are three cases to discuss: connections between nodes
 on the same room side,
@@ -48,7 +48,8 @@ edges between pairs of perimeter nodes on opposite sides of a room $R$.
 For a perimeter node such as $t_1$ we generate a ``fan'' of neighbours on the opposite side. 
 In each of the two directions, the last node in the fan is either 
 the node placed diagonally, at 45 degrees, from $t_1$ (e.g., $t_2$ in Figure \ref{fig-macroedges} bottom),
-or the node on the corner of the perimeter (whichever is encountered first).
+or the node on the corner of the perimeter (whichever is encountered first when progressing away from the
+middle of the fan).
 
 For example, in Figure \ref{fig-macroedges} (bottom), there is no need to add a macro-edge between $t_1$
 and nodes beyond $t_2$ (e.g., $t_3$). Node $t_3$ can be reached optimally from $t_1$ via the path
@@ -71,7 +72,7 @@ to ensure that rooms can be traversed optimally between any two perimeter nodes:
 All non-dominated macro-edges are necessary to ensure optimal paths in a perimeter clique.
 \end{proposition}
 \begin{proof}
-By definition, a non-dominated edge $e$ is the only way to travel optimally between 
+By definition, a non-dominated macro-edge $e$ is the only way to travel optimally between 
 its end nodes in a perimeter clique. Therefore, dropping $e$ would result in losing path optimality
 in the perimeter clique.
 \end{proof}

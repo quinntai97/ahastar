@@ -4,8 +4,9 @@
 \begin{algorithmic}
 \REQUIRE A grid map 
 \begin{enumerate}
-\item{\label{alg:rsr:1} Decompose the grid map into a series of empty rooms, rectangular in shape, which are free of any obstacles.}
-\item{\label{alg:rsr:2} Prune all tiles from the interior of each room $R$.}
+\item{\label{alg:rsr:1} Decompose the grid map into a series of disjoint rectangles that are free of any obstacles.}
+\item{\label{alg:rsr:2} Prune all tiles from the interior of each rectangle $R$
+and possibly some from the perimeter.}
 %, and any tiles from the
 %perimeter which have no neighbours in any adjacent room.} 
 \item{\label{alg:rsr:3} Add to each empty room $R$ a series of \emph{macro edges} between 
