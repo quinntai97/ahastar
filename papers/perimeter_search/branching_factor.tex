@@ -1,17 +1,19 @@
 \section{Reducing The Branching Factor}
 Consider an empty room of width $w$ and height $h$ where $w > h$.  After adding
-all macro edges, each tile from the perimeter will have between $h$ to $2h-1$
+all non-dominated macro edges, each tile from the perimeter will have between $h$ to $2h-1$
 neighbours from the opposite side of the room, up to 2 neighbours from the same
 side of the room and up to 5 other neighbours from adjacent rooms.  Such a high
 branching factor is undesirable as individual node expansion operations take
-longer and make it more difficult to reach the goal.  \par In this section we
+longer.
+
+In this section we
 study two branching factor reduction methods.  The first is an offline technique
 that prunes tiles from the perimeter of each room.  The second is an online
 pruning strategy which we apply during individual node expansion operations.  We
 discuss both methods in the context of 8-connected grid maps however they are
 equally applicable to 4-connected maps.
-%\par \noindent \newline
-\\ \par \noindent
+
+\noindent
 \textbf{Perimeter Reduction:}
 We observe that in many cases there are tiles on the perimeter of an empty room which have no neighbours from any 
 adjacent room. 
@@ -27,7 +29,7 @@ A* on certain types of maps.
 Perimeter reduction preserves path optimality.
 \end{lemma}
 \begin{proof}
-We provide only a sketch:
+Sketch:
 Each time we prune a node from the perimeter we add a new edge between all its
 neighbours with weight equal to the heuristic distance between each pair of 
 neighbours.
@@ -38,7 +40,7 @@ Further, the length of this path is unchanged.
 
 \begin{figure}[t]
 	\begin{center}
-	\includegraphics[scale=0.5, trim = 10mm 10mm 10mm 0mm]
+	\includegraphics[scale=0.45, trim = 10mm 10mm 10mm 0mm]
 	{diagrams/branching.png}
 	\end{center}
 	\vspace{-3pt}
@@ -52,7 +54,7 @@ Further, the length of this path is unchanged.
 \label{fig-branching}
 \end{figure}
 
-\par \noindent \newline
+\noindent
 \textbf{Online Node Pruning:} 
 When expanding an arbitrary node from the perimeter of a room we observe that
 it is not necessary to consider any secondary neighbours if both the node
@@ -70,10 +72,10 @@ Primary neighbours are all the rest.}
 its parent process all primary and secondary neighbours. Otherwise, process only primary neighbours.}
 
 \begin{lemma}
-The ``Online Node Pruning'' strategy preserves optimality during search.
+Online node pruning preserves path optimality.
 \end{lemma}
 \begin{proof}
-We just provide a proof sketch. 
+Sketch:
 Let $m$ be a node on the perimeter of a room. Assume that its parent $p$ belongs
 to the same room.
 Let $n$ be a secondary successor of $m$.
