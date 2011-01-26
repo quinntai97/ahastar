@@ -8,7 +8,7 @@ from such an operation a \emph{perimeter clique}.
 
 Although the perimeter clique approach guarantees optimality, it has the
 disadvantage of creating a large branching factor and slowing down search.  We
-introduce an alternative strategy that creates much fewer macro-edges by
+introduce an alternative strategy, that creates much fewer macro-edges, by
 defining a \emph{dominance} relation between macro-edges.
 %As we prove later, optimality is preserved.
 %
@@ -31,8 +31,9 @@ ones that we identify below.  There are three cases to discuss: connections
 between nodes on the same rectangle side, connections between orthogonal
 rectangle sides, and connections between opposite rectangle sides.
 
-The first case is simple: adjacent nodes from a rectangle $R$ are connected just
-as in the original grid.  In the second case, two nodes on orthogonal sides of
+The first case is simple: adjacent nodes on the same perimeter side are connected
+just as in the original grid. Such macro-edges have a length of 1.
+In the second case, two nodes on orthogonal sides of the perimeter of a rectangle
 $R$ are connected \emph{iff} the shortest path between them is a diagonal
 (45-degree) line; this is illustrated in Figure \ref{fig-macroedges} (top).
 Notice that in both cases we introduce no more than two macro edges per node.
@@ -59,7 +60,8 @@ t_3\rbrace$.
        \label{fig-macroedges}
 \end{figure}
 
-We argue that the non-dominated macro-edges computed using our strategy are both
+In the rest of this paper, by macro-edge we will mean a non-dominated macro-edge.
+We show next that the non-dominated macro-edges computed using our strategy are both
 necessary and sufficient to ensure optimal traversal between any two perimeter
 nodes.
 
@@ -74,26 +76,23 @@ result in losing path optimality in the perimeter clique.
 
 %We claim this method preserves optimality when traversing arbitrary empty rectangles in an 8-connected grid map.
 \begin{lemma} \label{lemma-rooms} Let $R$ be an empty rectangle in
-an 8-connected grid map.  Further, let $m$ and $n$ be two locations along its
-perimeter.  Then, $m$ and $n$ can be connected optimally through a path that
-mentions only nodes on the perimeter of $R$ and possibly involves one macro
-edge.  
+an 8-connected grid map. Let $m$ and $n$ be two perimeter locations.
+Then, $m$ and $n$ can be connected optimally through a path that
+contains only non-dominated macro-edges.
 \end{lemma}
 
-\begin{proof}
+\begin{proof}Sketch:
 We split the proof over the 3 cases discussed earlier: 1) {$m$ and $n$ are on
 the same side of the perimeter;} 2) {\label{lemma-rooms-step2}$m$ and $n$ are on
 orthogonal sides of the perimeter;} and 3) {\label{lemma-rooms-step3} $m$ and
 $n$ are on opposite sides of the perimeter.}
 
 In the first case we can simply walk along the perimeter from $m$ to $n$; the
-optimality of this path is immediate.  In the second and third case we argue as
-follows: if $m$ and $n$ are not connected by a macro edge we can walk along the
-perimeter from $m$ to the first intermediate node $m'$ which has a macro-edge
-incident with $n$.  Since $m'$ is the first such node, the weight of the
-macro-edge $(m', n)$ is equal to the diagonal distance between $m'$ and $n$.  It
-is now easy to show that the length of the resultant path ${m, m', n}$ is equal
-to the ocnode distance between $m$ and $n$ and therefore optimal.
+optimality of this path is immediate. In the second and third case we argue as
+follows:
+the two nodes can be connected through an optimal path that has one diagonal macro-edge
+(at one end of the path) and zero or more straight macro-edges.
+See again the example of travelling from $t_1$ to $t_3$ in Figure \ref{fig-macroedges} (bottom).
 \end{proof}
 
 \noindent
@@ -133,8 +132,8 @@ inserted node.
 %location to any node on the perimeter of the start or goal rectangle. 
 %\par \noindent
 %\newline
-We claim that the symmetry elimination procedure outlined in this section 
-preserves the optimality of solutions:
+We claim that eliminating symmetries as outlined earlier
+preserves the completeness and the solution optimality:
 \begin{theorem}
 For every optimal path $\pi$ on an original grid, there exists an optimal path
 $\pi'$ on the modified graph with the property that $\pi$ and $\pi'$ have the
