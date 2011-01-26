@@ -1,4 +1,4 @@
-\section{Reducing The Branching Factor}
+\section{Reducing The Branching Factor Further}
 Consider an empty rectangle of width $w$ and height $h$ where $w > h$.  After
 adding all non-dominated macro edges, each node from the perimeter will have
 between $h$ to $2h-1$ neighbours from the opposite side of the rectangle, up to
@@ -17,10 +17,10 @@ grid maps however they are equally applicable to 4-connected maps.
 We observe that in many cases there are nodes on the perimeter of an empty
 rectangle which have no neighbours from any adjacent rectangle.  These nodes
 represent intermediate locations between entry and exit points that lead into
-and out of each empty rectangle.  To speed up search we propose pruning from the
+and out of each empty rectangle. To speed up search we propose pruning from the
 perimeter of each rectangle all such nodes.  To preserve optimality, we will
 connect the neighbours of each pruned node directly to each other.  The weight
-of each new edge is therefore equal to the octile distance between the two
+of each new edge is set appropriately to the octile distance between the two
 neighbours.  Figure \ref{fig-branching} (Top) shows an example.  As we will see
 this optimisation can have a dramatic effect on the average performance of A* on
 certain types of maps.
@@ -30,7 +30,7 @@ Perimeter reduction preserves path optimality.
 \end{lemma}
 \begin{proof}
 Sketch: Each time we prune a node from the perimeter we add a new edge between
-all its neighbours with weight equal to the heuristic distance between each pair
+all its neighbours with weight equal to the distance between each pair
 of neighbours.  Thus, if a path exists between a pair of nodes before the
 application of perimeter reduction it is guaranteed to exist afterward.
 Further, the length of this path is unchanged.
@@ -53,20 +53,23 @@ Further, the length of this path is unchanged.
 \end{figure}
 
 \noindent
-\textbf{Online Node Pruning:} 
+\textbf{Online Node Pruning:}
+Given a perimeter node $n$, let us partition its macro neighbors 
+(connected to $n$ by macro-edges)
+on the perimeter into 
+\emph{primary neighbours} and \emph{secondary neighbours}.  Secondary neighbours are those
+which are located on the opposite side of the perimeter to as compared to $n$
+(excluding any corner nodes).  Primary neighbours are all the rest.
+
 When expanding an arbitrary node from the perimeter of a rectangle we observe
 that it is not necessary to consider any secondary neighbours if both the node
 and its predecessor belong to the same rectangle. Figure \ref{fig-branching}
 (Bottom) shows an example of such a situation; any path to a secondary neighbour
-is strictly dominated by an alternative path through the predecessor.  We apply
-this observation as follows: 1) {Divide the neighbours associated with each node
-on the perimeter of an empty rectangle into two distinct sets: \emph{primary
-neighbours} and \emph{secondary neighbours}.  Secondary neighbours are those
-which are located on the opposite side of the room to the current node
-(excluding any corner nodes).  Primary neighbours are all the rest.} 2) {During
+is strictly dominated by an alternative path through the predecessor. 
+We apply this observation as follows: {During
 node expansion, determine which rectangle the parent of the current node belongs
-to.} 3) {If the current node has no parent or it belongs to a different
-rectangle than its parent process all primary and secondary neighbours.
+to.} {If the current node has no parent or the parent belongs to a different
+rectangle, then process (i.e., generate) all primary and secondary neighbours.
 Otherwise, process only primary neighbours.}
 
 \begin{lemma}
