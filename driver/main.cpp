@@ -290,49 +290,55 @@ void mousePressedButton(int button, int state, int x, int y)
 //			return;
 //		}
 	
-	
-		if ((button == GLUT_RIGHT_BUTTON) || ((button == GLUT_LEFT_BUTTON) && (modifiers == GLUT_ACTIVE_CTRL))) { // pan
-			if (gTrackball) { // if we are currently tracking, end trackball
-				gTrackball = GL_FALSE;
-				if (gTrackBallRotation[0] != 0.0)
-					addToRotationTrackball (gTrackBallRotation, pContextInfo->worldRotation);
-				gTrackBallRotation [0] = gTrackBallRotation [1] = gTrackBallRotation [2] = gTrackBallRotation [3] = 0.0f;
-			} 
-			else if (gDolly) { // if we are currently dollying, end dolly
+
+		if (button == GLUT_LEFT_BUTTON)
+		{
+			if(modifiers == GLUT_ACTIVE_SHIFT) // zoom
+			{ 
+				if (gTrackball) { // if we are currently tracking, end trackball
+					gTrackball = GL_FALSE;
+					if (gTrackBallRotation[0] != 0.0)
+						addToRotationTrackball (gTrackBallRotation, pContextInfo->worldRotation);
+					gTrackBallRotation [0] = gTrackBallRotation [1] = gTrackBallRotation [2] = gTrackBallRotation [3] = 0.0f;
+				} 
+				else if (gPan) { // if we are currently panning, end pan
+					gPan = GL_FALSE;
+				}
+				gDollyPanStartPoint[0] = (long) x;
+				gDollyPanStartPoint[1] = (long) y;
+				gDolly = GL_TRUE;
+				gTrackingContextInfo = pContextInfo;
+			}
+			else if(modifiers == GLUT_ACTIVE_CTRL) // rotate
+			{
+				if (gDolly) { // if we are currently dollying, end dolly
 					gDolly = GL_FALSE;
+					gTrackingContextInfo = NULL;
+				}
+				else if (gPan) { // if we are currently panning, end pan
+					gPan = GL_FALSE;
+					gTrackingContextInfo = NULL;
+				}
+				startTrackball((long) x, (long) y, (long)pContextInfo->camera.viewOriginX, (long)pContextInfo->camera.viewOriginY, pContextInfo->camera.viewWidth, pContextInfo->camera.viewHeight);
+				gTrackball = GL_TRUE;
+				gTrackingContextInfo = pContextInfo;
 			}
-			gDollyPanStartPoint[0] = (GLint) x;
-			gDollyPanStartPoint[1] = (GLint) y;
-			gPan = GL_TRUE;
-			gTrackingContextInfo = pContextInfo;
-		} 
-		else if ((button == GLUT_MIDDLE_BUTTON) || ((button == GLUT_LEFT_BUTTON) && (modifiers == GLUT_ACTIVE_SHIFT))) { // dolly
-			if (gTrackball) { // if we are currently tracking, end trackball
-				gTrackball = GL_FALSE;
-				if (gTrackBallRotation[0] != 0.0)
-					addToRotationTrackball (gTrackBallRotation, pContextInfo->worldRotation);
-				gTrackBallRotation [0] = gTrackBallRotation [1] = gTrackBallRotation [2] = gTrackBallRotation [3] = 0.0f;
-			} 
- 			else if (gPan) { // if we are currently panning, end pan
-				gPan = GL_FALSE;
+			else // pan
+			{
+				if (gTrackball) { // if we are currently tracking, end trackball
+					gTrackball = GL_FALSE;
+					if (gTrackBallRotation[0] != 0.0)
+						addToRotationTrackball (gTrackBallRotation, pContextInfo->worldRotation);
+					gTrackBallRotation [0] = gTrackBallRotation [1] = gTrackBallRotation [2] = gTrackBallRotation [3] = 0.0f;
+				} 
+				else if (gDolly) { // if we are currently dollying, end dolly
+						gDolly = GL_FALSE;
+				}
+				gDollyPanStartPoint[0] = (GLint) x;
+				gDollyPanStartPoint[1] = (GLint) y;
+				gPan = GL_TRUE;
+				gTrackingContextInfo = pContextInfo;
 			}
-			gDollyPanStartPoint[0] = (long) x;
-			gDollyPanStartPoint[1] = (long) y;
-			gDolly = GL_TRUE;
-			gTrackingContextInfo = pContextInfo;
-		} 
-		else if (button == GLUT_LEFT_BUTTON)  { // trackball
-			if (gDolly) { // if we are currently dollying, end dolly
-				gDolly = GL_FALSE;
-				gTrackingContextInfo = NULL;
-			}
-			else if (gPan) { // if we are currently panning, end pan
-				gPan = GL_FALSE;
-				gTrackingContextInfo = NULL;
-			}
-			startTrackball((long) x, (long) y, (long)pContextInfo->camera.viewOriginX, (long)pContextInfo->camera.viewOriginY, pContextInfo->camera.viewWidth, pContextInfo->camera.viewHeight);
-			gTrackball = GL_TRUE;
-			gTrackingContextInfo = pContextInfo;
 		} 
 	}
 	// stop trackball, pan, or dolly
