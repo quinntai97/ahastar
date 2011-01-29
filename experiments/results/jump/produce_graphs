@@ -1,26 +1,5 @@
 #### Speedup Graphs #### 
 
-ad8jump <- as.data.frame(ams(ad_astar$ne/ad_jump$ne, ad_astar$opl, 15))
-ad8jump <- cbind(ad8jump[,1:2], ams(ad_astar$st/ad_jump$st, ad_astar$opl,
-15)[,2:3])
-names(ad8jump) <- c("opl", "ne_speedup", "st_speedup", "num_exp")
-
-bg8jump <- as.data.frame(ams(bg_astar$ne/bg_jump$ne, bg_astar$opl, 25))
-bg8jump <- cbind(bg8jump[,1:2], ams(bg_astar$st/bg_jump$st, bg_astar$opl,
-25)[,2:3])
-names(bg8jump) <- c("opl", "ne_speedup", "st_speedup", "num_exp")
-
-rooms8jump <- as.data.frame(ams(rooms_astar$ne/rooms_jump$ne, rooms_astar$opl, 25))
-rooms8jump <- cbind(rooms8jump[,1:2], ams(rooms_astar$st/rooms_jump$st, rooms_astar$opl,
-25)[,2:3])
-names(rooms8jump) <- c("opl", "ne_speedup", "st_speedup", "num_exp")
-
-
-# drop points for which we have insufficient experiments
-ad8jump <- ad8jump[ad8jump$num_exp >= 10,]
-bg8jump <- bg8jump[bg8jump$num_exp >= 10,]
-rooms8jump <- rooms8jump[rooms8jump$num_exp >= 10, ] # remaining buckets have < 10 data points
-
 # load comparative tables
 load("../opthpa/rsr_tables.RObject")
 load("../opthpa/swamp_tables.RObject")
