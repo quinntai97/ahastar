@@ -205,7 +205,19 @@ createSimulation(unitSimulation * &unitSim)
 
 	algName = (char*)"";
 	Map* map = new Map(gDefaultMap);
-	//map->scale(100, 100);
+	std::cout << "map: "<<gDefaultMap;
+
+	int scalex = map->getMapWidth();
+	int scaley = map->getMapHeight();
+	if(scenariomgr.getNumExperiments() > 0)
+	{
+		scalex = scenariomgr.getNthExperiment(0)->getXScale();
+		scaley = scenariomgr.getNthExperiment(0)->getYScale();
+		if(scalex > 1 && scaley > 1) // stupid v3 scenario files 
+			map->scale(scalex, scaley);
+	}
+	std::cout << " width: "<<map->getMapWidth()<<" height: ";
+	std::cout <<map->getMapHeight()<<std::endl;
 
 	mapAbstraction* aMap = 0;
 	switch(absType)
@@ -271,8 +283,8 @@ createSimulation(unitSimulation * &unitSim)
 			<<numAbsEdges;
 		std::cout << "\navg_room_size: "<<avgClusterSize;
 		std::cout <<" avg_nodes_pruned: "<<avgNodesPruned;
-		std::cout << std::endl;
 	}
+	std::cout << std::endl;
 	 
 	if(hog_gui)
 	{
@@ -306,6 +318,9 @@ gogoGadgetNOGUIScenario(mapAbstraction* aMap)
 	{
 		expnum = i;
 		nextExperiment = (Experiment*)scenariomgr.getNthExperiment(i);
+		nextExperiment->print(std::cout);
+		std::cout << std::endl;
+
 		node* from = aMap->getNodeFromMap(nextExperiment->getStartX(), 
 				nextExperiment->getStartY());
 		node* to = aMap->getNodeFromMap(nextExperiment->getGoalX(), 
@@ -514,6 +529,7 @@ myAllPurposeCLHandler(char* argument[], int maxNumArgs)
 		{
 			argsParsed++;
 			absType = HOG::FLAT;
+			checkOptimality = false;
 		}
 		else if(strcmp(argument[1], "flatjump") == 0)
 		{
@@ -735,7 +751,7 @@ runNextExperiment(unitSimulation *unitSim)
 
 	if(runAStar)
 	{
-		searchAlgorithm* alg = newSearchAlgorithm(aMap); 
+		searchAlgorithm* alg = newSearchAlgorithm(aMap, true); 
 		alg->verbose = verbose;
 		algName = (char*)alg->getName();
 		nextUnit = new searchUnit(nextExperiment->getStartX(), 
@@ -757,12 +773,12 @@ runNextExperiment(unitSimulation *unitSim)
 		nextTarget->setColor(0.5,0.1,0.1);
 		runAStar=true;
 	}
-	std::cout << "running "<<algName<<" experiment"<<std::endl;
 	nextUnit->setSpeed(0.15);
 
 	unitSim->clearAllUnits();
 	unitSim->addUnit(nextTarget);
 	unitSim->addUnit(nextUnit);
+	std::cout << "running "<<algName<<" experiment"<<std::endl;
 }
 
 ExpansionPolicy* 
