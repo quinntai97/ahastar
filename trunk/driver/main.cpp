@@ -93,28 +93,31 @@ int main(int argc, char** argv)
 	
 	pContextInfo = new recContext;
 	//resetCamera(&(pContextInfo->camera));
-
-	glutInit(&argc, argv);
-	glutInitDisplayMode(GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGBA);
-	glutInitWindowPosition(100, 100);
-	glutInitWindowSize(700, 700);
-	glutCreateWindow("Map Abstraction");
-	glutReshapeFunc(resizeWindow);
-	glutDisplayFunc(renderScene);
-	glutIdleFunc(renderScene);
-	glutMouseFunc(mousePressedButton);
-	glutMotionFunc(mouseMovedButton);
-	glutKeyboardFunc(keyPressed);
-	
-	initialConditions(pContextInfo);
-	buildGL();
-	createMenus();
-	
-	// Initialize the tank model
-	//initTankTextures();
-	
 	atexit (cleanup);
-	glutMainLoop();
+
+	if(!getDisableGUI())
+	{
+		glutInit(&argc, argv);
+		glutInitDisplayMode(GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGBA);
+		glutInitWindowPosition(100, 100);
+		glutInitWindowSize(700, 700);
+		glutCreateWindow("Map Abstraction");
+		glutReshapeFunc(resizeWindow);
+		glutDisplayFunc(renderScene);
+		glutIdleFunc(renderScene);
+		glutMouseFunc(mousePressedButton);
+		glutMotionFunc(mouseMovedButton);
+		glutKeyboardFunc(keyPressed);
+		
+		initialConditions(pContextInfo);
+		buildGL();
+		createMenus();
+		glutMainLoop();
+	}
+	else
+	{
+		createSimulation(pContextInfo->unitLayer);
+	}
 	
 	return 0;
 }

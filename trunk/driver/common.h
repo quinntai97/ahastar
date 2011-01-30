@@ -291,5 +291,7 @@ point3d GetOGLPos(int x, int y);
 
 char* getHome();
 void setHome(char* );
+void setDisableGUI(bool gui);
+bool getDisableGUI();
 
 #endif
