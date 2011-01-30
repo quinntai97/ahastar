@@ -28,6 +28,13 @@ lines(rooms8rsr_pr_bfr$st_speedup ~ rooms8rsr_pr_bfr$opl, type="l", lty=2)
 lines(rooms8swamps_r6_nc2$st_speedup ~ rooms8swamps_r6_nc2$opl, type="l", lty=3)
 legend("topleft", c("Jump Points", "RSR", "Swamps"),  lty=c(1,2,3), cex=1.25)
 
+plot(dao8jump$st_speedup ~ dao8jump$opl, type="l", lty=1,   
+main="Average Speedup: Rooms (8C)", ylab="Avg. Speedup Factor", 
+xlab="Path Length", ylim=c(1,30), cex.main=1.6)
+lines(dao8rsr_pr_bfr$st_speedup ~ dao8rsr_pr_bfr$opl, type="l", lty=2)
+lines(dao8swamps_r6_nc2$st_speedup ~ dao8swamps_r6_nc2$opl, type="l", lty=3)
+legend("topleft", c("Jump Points", "RSR", "Swamps"),  lty=c(1,2,3), cex=1.25)
+
 dev.off()
 
 # branching factor stats
