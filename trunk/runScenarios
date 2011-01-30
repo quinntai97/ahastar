@@ -1,5 +1,14 @@
 #!/bin/bash
+echo `date "+%d/%m/%y %H:%M:%S"`" runScenarios"
+echo `date "+%d/%m/%y %H:%M:%S"`" runScenarios" >> log
+
 for i in $(ls $1*map.scen*);
 do
-	   ./bin/hog -scenario $i -nogui $2
+		echo "$i"
+	   ./bin/hog -scenario $i -nogui $2 >> log
+	   if [ "$?" -ne "0"  ]
+	   then
+		   echo "hog exited with error code $?. terminating";
+		   echo "hog exited with error code $?. terminating" >> log
+	   fi
 done
