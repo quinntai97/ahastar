@@ -304,6 +304,7 @@ createSimulation(unitSimulation * &unitSim)
 void 
 gogoGadgetNOGUIScenario(mapAbstraction* aMap)
 {
+	int exitVal = 0;
 	FlexibleAStar* astar;
 	astar = new FlexibleAStar(newExpansionPolicy(aMap), newHeuristic());
 	astar->verbose = verbose;
@@ -359,6 +360,7 @@ gogoGadgetNOGUIScenario(mapAbstraction* aMap)
 			std::cout << " distanceTravelled: "<<tmp2<<std::endl;
 			std::cout << " previously, opt: "<<optlen<<" distanceTravelled: "
 				<<distanceTravelled<<std::endl;
+			exitVal = 1;
 			break;
 		}
 	}
@@ -366,7 +368,8 @@ gogoGadgetNOGUIScenario(mapAbstraction* aMap)
 	delete alg;
 	delete astar;
 	delete aMap;
-	exit(0);
+
+	exit(exitVal);
 }
 
 
@@ -539,14 +542,14 @@ myAllPurposeCLHandler(char* argument[], int maxNumArgs)
 		{
 			std::cout << argument[1] << ": invalid abstraction type.\n";
 			printCommandLineArguments();
-			exit(-1);
+			exit(1);
 		}
 	}
 	else
 	{
 		std::cout << argument[0] << ": invalid parameter. \n";
 		printCommandLineArguments();
-		exit(-1);
+		exit(1);
 	}
 
 	return argsParsed;
@@ -568,7 +571,7 @@ myScenarioGeneratorCLHandler(char *argument[], int maxNumArgs)
 	{
 		std::cout << "-genscenarios invoked with insufficient parameters\n";
 		printCommandLineArguments();
-		exit(-1);
+		exit(1);
 	}
 
 	std::string map(argument[1]);
@@ -589,7 +592,7 @@ myScenarioGeneratorCLHandler(char *argument[], int maxNumArgs)
 	string outfile = map + ".scenario"; 
 	scenariomgr.writeScenarioFile(outfile.c_str());
 	std::cout << "writing scenario file: "<<outfile<<std::endl;
-	exit(-1);
+	exit(1);
 }
 
 int 
