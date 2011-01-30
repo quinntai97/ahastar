@@ -55,6 +55,7 @@ char gDefaultMap[1024] = "";
 const recVec gOrigin = { 0.0, 0.0, 0.0 };
 
 char* HOGHOME=0;
+bool disable_gui = false;
 using namespace std;
 
 static std::vector<commandLineCallbackData *> commandLineCallbacks;
@@ -471,3 +472,13 @@ point3d GetOGLPos(int x, int y)
 
 char* getHome() { return HOGHOME; }
 void setHome(char* val) { HOGHOME=val; std::cout<<"\nHOGHOME="<<HOGHOME<<". Can be overridden by setting the HOGHOME environment variable."<<std::endl; }
+
+bool getDisableGUI()
+{
+	return disable_gui;
+}
+
+void setDisableGUI(bool val)
+{
+	disable_gui = val;
+}

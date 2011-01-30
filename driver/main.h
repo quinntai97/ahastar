@@ -74,5 +74,4 @@ pRecContext getCurrentContext();
 void setupHOGHOME();
 void cleanupHOGHOME();
 
-
 bool startTrajRecap;

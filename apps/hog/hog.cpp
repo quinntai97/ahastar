@@ -59,7 +59,6 @@ Experiment* nextExperiment;
 int expnum=0;
 bool runAStar=true;
 bool scenario=false;
-bool hog_gui=true;
 bool verbose = false;
 bool allowDiagonals = true;
 bool reducePerimeter = false;
@@ -97,7 +96,7 @@ processStats(statCollection* stat, const char* unitname)
 	int ne, nt, ng, absne, absnt, abspm, insne, insnt, inspm;
 	double st, absst, insst, pathdist;
 	int expId = expnum;
-	if(strcmp(unitname, "HPAStar2") == 0 && hog_gui)
+	if(strcmp(unitname, "HPAStar2") == 0 && !getDisableGUI())
 		expId--;
 
 	ss << "_"<<unitname;
@@ -157,7 +156,7 @@ processStats(statCollection* stat, const char* unitname)
 
 	}
 	
-	if(!hog_gui)
+	if(getDisableGUI())
 	{
 		exists = stat->lookupStat("distanceMoved", unitname, val);
 		assert(exists);
@@ -178,7 +177,7 @@ void
 createSimulation(unitSimulation * &unitSim)
 {
 	std::cout << "createSimulation.";
-	std::cout << " nogui="<<(bfReduction?"true":"false");
+	std::cout << " nogui="<<(getDisableGUI()?"true":"false");
 	std::cout << " cardinal="<<(!allowDiagonals?"true":"false");
 	std::cout << " pr="<<(reducePerimeter?"true":"false");
 	std::cout << " bfr="<<(bfReduction?"true":"false");
@@ -286,7 +285,7 @@ createSimulation(unitSimulation * &unitSim)
 	}
 	std::cout << std::endl;
 	 
-	if(hog_gui)
+	if(!getDisableGUI())
 	{
 		unitSim = new unitSimulation(aMap);	
 		unitSim->setCanCrossDiagonally(true);
@@ -484,7 +483,7 @@ myAllPurposeCLHandler(char* argument[], int maxNumArgs)
 	}
 	else if(strcmp(argument[0], "-nogui") == 0)
 	{
-		hog_gui = false;
+		setDisableGUI(true);
 		argsParsed++;
 	}
 	else if(strcmp(argument[0], "-v") == 0)
