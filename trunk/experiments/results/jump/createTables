@@ -1,0 +1,103 @@
+### Vanilla A* with Jump Points ####
+ad8jump <- as.data.frame(ams(ad_astar$ne/ad_jump$ne, ad_astar$opl, 15))
+ad8jump <- cbind(ad8jump[,1:2], ams(ad_astar$st/ad_jump$st, ad_astar$opl,
+15)[,2:3])
+names(ad8jump) <- c("opl", "ne_speedup", "st_speedup", "num_exp")
+
+bgm8jump <- as.data.frame(ams(bgm_astar$ne/bgm_jump$ne, bgm_astar$opl, 25))
+bgm8jump <- cbind(bgm8jump[,1:2], ams(bgm_astar$st/bgm_jump$st, bgm_astar$opl,
+25)[,2:3])
+names(bgm8jump) <- c("opl", "ne_speedup", "st_speedup", "num_exp")
+
+bg8jump <- as.data.frame(ams(bg_astar$ne/bg_jump$ne, bg_astar$opl, 25))
+bg8jump <- cbind(bg8jump[,1:2], ams(bg_astar$st/bg_jump$st, bg_astar$opl,
+25)[,2:3])
+names(bg8jump) <- c("opl", "ne_speedup", "st_speedup", "num_exp")
+
+rooms8jump <- as.data.frame(ams(rooms_astar$ne/rooms_jump$ne, rooms_astar$opl, 25))
+rooms8jump <- cbind(rooms8jump[,1:2], ams(rooms_astar$st/rooms_jump$st, rooms_astar$opl,
+25)[,2:3])
+names(rooms8jump) <- c("opl", "ne_speedup", "st_speedup", "num_exp")
+
+dao8jump <- as.data.frame(ams(dao_astar$ne/dao_jump$ne, dao_astar$opl, 25))
+dao8jump <- cbind(dao8jump[,1:2], ams(dao_astar$st/dao_jump$st, dao_astar$opl,
+25)[,2:3])
+names(dao8jump) <- c("opl", "ne_speedup", "st_speedup", "num_exp")
+
+
+# drop points for which we have insufficient experiments
+ad8jump <- ad8jump[ad8jump$num_exp >= 10,]
+bgm8jump <- bgm8jump[bgm8jump$num_exp >= 10,]
+bg8jump <- bg8jump[bg8jump$num_exp >= 10,]
+rooms8jump <- rooms8jump[rooms8jump$num_exp >= 10, ] # remaining buckets have < 10 data points
+dao8jump <- dao8jump[dao8jump$num_exp >= 10, ] # remaining buckets have < 10 data points
+
+### HPA* ####
+ad8hpa <- as.data.frame(ams(ad_astar$ne/ad_hpa$ne, ad_astar$opl, 15))
+ad8hpa <- cbind(ad8hpa[,1:2], ams(ad_astar$st/ad_hpa$st, ad_astar$opl,
+15)[,2:3])
+names(ad8hpa) <- c("opl", "ne_speedup", "st_speedup", "num_exp")
+
+bgm8hpa <- as.data.frame(ams(bgm_astar$ne/bgm_hpa$ne, bgm_astar$opl, 25))
+bgm8hpa <- cbind(bgm8hpa[,1:2], ams(bgm_astar$st/bgm_hpa$st, bgm_astar$opl,
+25)[,2:3])
+names(bgm8hpa) <- c("opl", "ne_speedup", "st_speedup", "num_exp")
+
+bg8hpa <- as.data.frame(ams(bg_astar$ne/bg_hpa$ne, bg_astar$opl, 25))
+bg8hpa <- cbind(bg8hpa[,1:2], ams(bg_astar$st/bg_hpa$st, bg_astar$opl,
+25)[,2:3])
+names(bg8hpa) <- c("opl", "ne_speedup", "st_speedup", "num_exp")
+
+rooms8hpa <- as.data.frame(ams(rooms_astar$ne/rooms_hpa$ne, rooms_astar$opl, 25))
+rooms8hpa <- cbind(rooms8hpa[,1:2], ams(rooms_astar$st/rooms_hpa$st, rooms_astar$opl,
+25)[,2:3])
+names(rooms8hpa) <- c("opl", "ne_speedup", "st_speedup", "num_exp")
+
+dao8hpa <- as.data.frame(ams(dao_astar$ne/dao_hpa$ne, dao_astar$opl, 25))
+dao8hpa <- cbind(dao8hpa[,1:2], ams(dao_astar$st/dao_hpa$st, dao_astar$opl,
+25)[,2:3])
+names(dao8hpa) <- c("opl", "ne_speedup", "st_speedup", "num_exp")
+
+
+# drop points for which we have insufficient experiments
+ad8hpa <- ad8hpa[ad8hpa$num_exp >= 10,]
+bgm8hpa <- bgm8hpa[bgm8hpa$num_exp >= 10,]
+bg8hpa <- bg8hpa[bg8hpa$num_exp >= 10,]
+rooms8hpa <- rooms8hpa[rooms8hpa$num_exp >= 10, ] # remaining buckets have < 10 data points
+dao8hpa <- dao8hpa[dao8hpa$num_exp >= 10, ] # remaining buckets have < 10 data points
+
+### RSR ####
+
+include <- bgm_rsr$ne > 1
+bgm8rsr_pr_bfr <- as.data.frame(ams(bgm_astar$ne[include]/bgm_rsr$ne[include], bgm_astar$opl[include], 25))
+bgm8rsr_pr_bfr <- cbind(bgm8rsr_pr_bfr[,1:2], ams(bgm_astar$st[include]/bgm_rsr$st[include], bgm_astar$opl[include],
+25)[,2:3])
+names(bgm8rsr_pr_bfr) <- c("opl", "ne_speedup", "st_speedup", "num_exp")
+
+include <- dao_rsr$ne > 1
+dao8rsr_pr_bfr <- as.data.frame(ams(dao_astar$ne[include]/dao_rsr$ne[include], dao_astar$opl[include], 25))
+dao8rsr_pr_bfr <- cbind(dao8rsr_pr_bfr[,1:2], ams(dao_astar$st[include]/dao_rsr$st[include], dao_astar$opl[include],
+25)[,2:3])
+names(dao8rsr_pr_bfr) <- c("opl", "ne_speedup", "st_speedup", "num_exp")
+
+
+# drop points for which we have insufficient experiments
+bgm8rsr_pr_bfr <- bgm8rsr_pr_bfr[bgm8rsr_pr_bfr$num_exp >= 10,]
+dao8rsr_pr_bfr <- dao8rsr_pr_bfr[dao8rsr_pr_bfr$num_exp >= 10, ] # remaining buckets have < 10 data points
+
+
+### SWAMPS ####
+bgm8swamps_r6_nc2 <- as.data.frame(ams(bgm_jastar$ne/bgm_swamps$ne, bgm_jastar$opl, 25))
+bgm8swamps_r6_nc2 <- cbind(bgm8swamps_r6_nc2[,1:2], ams(bgm_jastar$st/bgm_swamps$st, bgm_jastar$opl,
+25)[,2:3])
+names(bgm8swamps_r6_nc2) <- c("opl", "ne_speedup", "st_speedup", "num_exp")
+
+dao8swamps_r6_nc2 <- as.data.frame(ams(dao_jastar$ne/dao_swamps$ne, dao_jastar$opl, 25))
+dao8swamps_r6_nc2 <- cbind(dao8swamps_r6_nc2[,1:2], ams(dao_jastar$st/dao_swamps$st, dao_jastar$opl,
+25)[,2:3])
+names(dao8swamps_r6_nc2) <- c("opl", "ne_speedup", "st_speedup", "num_exp")
+
+# drop points for which we have insufficient experiments
+bgm8swamps_r6_nc2 <- bgm8swamps_r6_nc2[bgm8swamps_r6_nc2$num_exp >= 10,]
+dao8swamps_r6_nc2 <- dao8swamps_r6_nc2[dao8swamps_r6_nc2$num_exp >= 10, ] # remaining buckets have < 10 data points
+

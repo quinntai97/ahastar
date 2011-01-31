@@ -4,104 +4,99 @@ tablenames <- c("id", "name", "ne", "nt", "ng", "st", "opl", "map")
 tableclasses <- c("integer", "character", "integer", "integer", "integer", "double", "double", "character")
 hpanames <- c("exp", "name", "ne", "nt", "pm", "st", "insne", "insnt", "inspm", "insst", "opl", "map")
 hpaclasses <- c("integer", "character", "integer", "integer", "integer", "double", "integer", "integer", "integer", "double", "double", "character")
+jastarnames <- c("id", "name", "ne", "nt", "ng", "st", "opl", "map")
+jastarclasses <- c("integer", "character", "integer", "integer", "integer", "double", "double", "character")
 
-jump <- read.table("bgmaps/results_FlexibleAStarJump", col.names=tablenames, colClasses=tableclasses, header=FALSE, sep=",")
-jump <- rbind(jump, read.table("dao/results_FlexibleAStarJump",
-col.names=tablenames, colClasses=tableclasses, header=FALSE, sep=","))
-jump <- rbind(jump, read.table("rooms/results_FlexibleAStarJump",
-col.names=tablenames, colClasses=tableclasses, header=FALSE, sep=","))
-jump <- rbind(jump, read.table("ad/results_FlexibleAStarJump",
-col.names=tablenames, colClasses=tableclasses, header=FALSE, sep=","))
-
-rooms_jump <- jump[grep("*room*", jump$map),]
-rooms_jump$map <- sub("\t([a-z])*/(([a-z])*/)*", "", rooms_jump$map)
-bg_jump <- jump[grep("AR*", jump$map),]
+### JUMP POINTS ###
+bg_jump <- read.table("bg/results_FlexibleAStarJump", 
+col.names=tablenames, colClasses=tableclasses, header=FALSE, sep=",")
 bg_jump$map <- sub("\t([a-z])*/(([a-z])*/)*", "", bg_jump$map)
-ad_jump <- jump[grep("adaptive-depth*", jump$map),]
-ad_jump$map <- sub("\t([a-z])*/(([a-z])*/)*", "", ad_jump$map)
-dao_jump <- jump[grep("dao", jump$map),]
+
+bgm_jump <- read.table("bgm/results_FlexibleAStarJump", 
+col.names=tablenames, colClasses=tableclasses, header=FALSE, sep=",")
+bgm_jump$map <- sub("\t([a-z])*/(([a-z])*/)*", "", bgm_jump$map)
+
+dao_jump <- read.table("dao/results_FlexibleAStarJump",
+col.names=tablenames, colClasses=tableclasses, header=FALSE, sep=",")
 dao_jump$map <- sub("\t([a-z])*/(([a-z])*/)*", "", dao_jump$map)
 
+rooms_jump <- read.table("rooms/results_FlexibleAStarJump",
+col.names=tablenames, colClasses=tableclasses, header=FALSE, sep=",")
+rooms_jump$map <- sub("\t([a-z])*/(([a-z])*/)*", "", rooms_jump$map)
+
+ad_jump <- read.table("ad/results_FlexibleAStarJump",
+col.names=tablenames, colClasses=tableclasses, header=FALSE, sep=",")
+ad_jump$map <- sub("\t([a-z])*/(([a-z])*/)*", "", ad_jump$map)
+
 ### ASTAR ###
-
-astar <- read.table("bgmaps/results_FlexibleAStar", col.names=tablenames, colClasses=tableclasses, header=FALSE, sep=",")
-astar <- rbind(astar, read.table("dao/results_FlexibleAStar",
-col.names=tablenames, colClasses=tableclasses, header=FALSE, sep=","))
-astar <- rbind(astar, read.table("rooms/results_FlexibleAStar",
-col.names=tablenames, colClasses=tableclasses, header=FALSE, sep=","))
-astar <- rbind(astar, read.table("ad/results_FlexibleAStar",
-col.names=tablenames, colClasses=tableclasses, header=FALSE, sep=","))
-
-rooms_astar <- astar[grep("*room*", astar$map),]
-rooms_astar$map <- sub("\t([a-z])*/(([a-z])*/)*", "", rooms_astar$map)
-bg_astar <- astar[grep("AR*", astar$map),]
+bg_astar <- read.table("bg/results_FlexibleAStar", 
+col.names=tablenames, colClasses=tableclasses, header=FALSE, sep=",")
 bg_astar$map <- sub("\t([a-z])*/(([a-z])*/)*", "", bg_astar$map)
-ad_astar <- astar[grep("adaptive-depth*", astar$map),]
-ad_astar$map <- sub("\t([a-z])*/(([a-z])*/)*", "", ad_astar$map)
-dao_astar <- astar[grep("dao/*", astar$map),]
+
+bgm_astar <- read.table("bgm/results_FlexibleAStar", 
+col.names=tablenames, colClasses=tableclasses, header=FALSE, sep=",")
+bgm_astar$map <- sub("\t([a-z])*/(([a-z])*/)*", "", bgm_astar$map)
+
+dao_astar <- read.table("dao/results_FlexibleAStar",
+col.names=tablenames, colClasses=tableclasses, header=FALSE, sep=",")
 dao_astar$map <- sub("\t([a-z])*/(([a-z])*/)*", "", dao_astar$map)
 
-### HPA ###
-hpa <- read.table("bgmaps/results_HPAStar2", col.names=hpanames, colClasses=hpaclasses, header=FALSE, sep=",")
-hpa <- rbind(hpa, read.table("rooms/results_HPAStar2",
-col.names=hpanames, colClasses=hpaclasses, header=FALSE, sep=","))
-hpa <- rbind(hpa, read.table("ad/results_HPAStar2",
-col.names=hpanames, colClasses=hpaclasses, header=FALSE, sep=","))
-hpa <- rbind(hpa, read.table("dao/results_HPAStar2",
-col.names=hpanames, colClasses=hpaclasses, header=FALSE, sep=","))
+rooms_astar <- read.table("rooms/results_FlexibleAStar",
+col.names=tablenames, colClasses=tableclasses, header=FALSE, sep=",")
+rooms_astar$map <- sub("\t([a-z])*/(([a-z])*/)*", "", rooms_astar$map)
 
-rooms_hpa <- hpa[grep("*room*", hpa$map),]
-rooms_hpa$map <- sub("\t([a-z])*/(([a-z])*/)*", "", rooms_hpa$map)
-bg_hpa <- hpa[grep("AR*", hpa$map),]
+ad_astar <- read.table("ad/results_FlexibleAStar",
+col.names=tablenames, colClasses=tableclasses, header=FALSE, sep=",")
+ad_astar$map <- sub("\t([a-z])*/(([a-z])*/)*", "", ad_astar$map)
+
+
+### HPA ###
+bg_hpa <- read.table("bg/results_HPAStar2", 
+col.names=hpanames, colClasses=hpaclasses, header=FALSE, sep=",")
 bg_hpa$map <- sub("\t([a-z])*/(([a-z])*/)*", "", bg_hpa$map)
-ad_hpa <- hpa[grep("adaptive-depth*", hpa$map),]
-ad_hpa$map <- sub("\t([a-z])*/(([a-z])*/)*", "", ad_hpa$map)
-dao_hpa <- hpa[grep("dao/*", hpa$map),]
+
+bgm_hpa <- read.table("bgm/results_HPAStar2", 
+col.names=hpanames, colClasses=hpaclasses, header=FALSE, sep=",")
+bgm_hpa$map <- sub("\t([a-z])*/(([a-z])*/)*", "", bgm_hpa$map)
+
+dao_hpa <- read.table("dao/results_HPAStar2",
+col.names=hpanames, colClasses=hpaclasses, header=FALSE, sep=",")
 dao_hpa$map <- sub("\t([a-z])*/(([a-z])*/)*", "", dao_hpa$map)
 
-### RSR ###
-rsr <- read.table("bgmaps/results_HPAStar2RSR", col.names=hpanames, 
-colClasses=hpaclasses, header=FALSE, sep=",")
-rsr <- rbind(rsr, read.table("dao/results_HPAStar2RSR",
-col.names=hpanames, colClasses=hpaclasses, header=FALSE, sep=","))
-rsr <- rbind(rsr, read.table("rooms/results_HPAStar2RSR",
-col.names=hpanames, colClasses=hpaclasses, header=FALSE, sep=","))
-rsr <- rbind(rsr, read.table("ad/results_HPAStar2RSR",
-col.names=hpanames, colClasses=hpaclasses, header=FALSE, sep=","))
+rooms_hpa <- read.table("rooms/results_HPAStar2",
+col.names=hpanames, colClasses=hpaclasses, header=FALSE, sep=",")
+rooms_hpa$map <- sub("\t([a-z])*/(([a-z])*/)*", "", rooms_hpa$map)
 
-bg_rsr <- rsr[grep("AR*", rsr$map),]
-bg_rsr$map <- sub("\t([a-z])*/(([a-z])*/)*", "", bg_rsr$map)
-dao_rsr <- rsr[grep("dao/*", rsr$map),]
+ad_hpa <- read.table("ad/results_HPAStar2",
+col.names=hpanames, colClasses=hpaclasses, header=FALSE, sep=",")
+ad_hpa$map <- sub("\t([a-z])*/(([a-z])*/)*", "", ad_hpa$map)
+
+### RSR (movingai benchmarks only: i.e. bg and dao) ###
+bgm_rsr <- read.table("bgm/results_HPAStar2RSR", 
+col.names=hpanames, colClasses=hpaclasses, header=FALSE, sep=",")
+bgm_rsr$map <- sub("\t([a-z])*/(([a-z])*/)*", "", bgm_rsr$map)
+
+dao_rsr <- read.table("dao/results_HPAStar2RSR",
+col.names=hpanames, colClasses=hpaclasses, header=FALSE, sep=",")
 dao_rsr$map <- sub("\t([a-z])*/(([a-z])*/)*", "", dao_rsr$map)
-rooms_rsr <- rsr[grep("*room*", rsr$map),]
-rooms_rsr$map <- sub("\t([a-z])*/(([a-z])*/)*", "", rooms_rsr$map)
-ad_rsr <- rsr[grep("adaptive-depth*", rsr$map),]
-ad_rsr$map <- sub("\t([a-z])*/(([a-z])*/)*", "", ad_rsr$map)
 
 # subtract insertion time (this can be constant time)
-bg_rsr$st <- bg_rsr$st - bg_rsr$insst
+bgm_rsr$st <- bgm_rsr$st - bgm_rsr$insst
 dao_rsr$st <- dao_rsr$st - dao_rsr$insst
-ad_rsr$st <- ad_rsr$st - ad_rsr$insst
-rooms_rsr$st <- rooms_rsr$st - rooms_rsr$insst
 
+### SWAMPS +  JAVA A* (for baseline comparisons) ###
+bgm_swamps <- read.table("bgm/results_AStarSwamps", 
+col.names=jastarnames, colClasses=jastarclasses, header=FALSE, sep=",")
+bgm_swamps$map <- sub("\t([a-z])*/(([a-z])*/)*", "", bgm_swamps$map)
 
-### drop subset of instances for which RSR does no search
-bg_hpa <- bg_hpa[bg_rsr$ne > 1,]
-dao_hpa <- dao_hpa[dao_rsr$ne > 1,]
-ad_hpa <- ad_hpa[ad_rsr$ne > 1,]
-rooms_hpa <- rooms_hpa[rooms_rsr$ne > 1,]
+dao_swamps <- read.table("dao/results_AStarSwamps",
+col.names=jastarnames, colClasses=jastarclasses, header=FALSE, sep=",")
+dao_swamps$map <- sub("\t([a-z])*/(([a-z])*/)*", "", dao_swamps$map)
 
-bg_jump <- bg_jump[bg_rsr$ne > 1,]
-dao_jump <- dao_jump[dao_rsr$ne > 1,]
-ad_jump <- ad_jump[ad_rsr$ne > 1,]
-rooms_jump <- rooms_jump[rooms_rsr$ne > 1,]
+bgm_jastar <- read.table("bgm/results_AStarRegular", 
+col.names=jastarnames, colClasses=jastarclasses, header=FALSE, sep=",")
+bgm_jastar$map <- sub("\t([a-z])*/(([a-z])*/)*", "", bgm_jastar$map)
 
-bg_astar <- bg_astar[bg_rsr$ne > 1,]
-dao_astar <- dao_astar[dao_rsr$ne > 1,]
-ad_astar <- ad_astar[ad_rsr$ne > 1,]
-rooms_astar <- rooms_astar[rooms_rsr$ne > 1,]
-
-bg_rsr <- bg_rsr[bg_rsr$ne > 1,]
-dao_rsr <- dao_rsr[dao_rsr$ne > 1,]
-ad_rsr <- ad_rsr[ad_rsr$ne > 1,]
-rooms_rsr <- rooms_rsr[rooms_rsr$ne > 1,]
+dao_jastar <- read.table("dao/results_AStarRegular",
+col.names=jastarnames, colClasses=jastarclasses, header=FALSE, sep=",")
+dao_jastar$map <- sub("\t([a-z])*/(([a-z])*/)*", "", dao_jastar$map)
