@@ -112,7 +112,11 @@ GenericClusterAbstraction::insertStartAndGoalNodesIntoAbstractGraph(
 		node* s, node* g)
 	throw(std::invalid_argument)
 {
-	assert(insertedStartNode == 0 && insertedGoalNode == 0);
+
+	nodesExpanded = nodesTouched = nodesGenerated = 0;
+	searchTime = 0;
+	
+	//assert(insertedStartNode == 0 && insertedGoalNode == 0);
 	if(s->getLabelL(kParent) == -1)
 	{
 		ClusterNode* start = dynamic_cast<ClusterNode*>(s);
@@ -131,7 +135,7 @@ GenericClusterAbstraction::insertStartAndGoalNodesIntoAbstractGraph(
 		graph* absg = this->getAbstractGraph(1);
 		insertedStartNode = dynamic_cast<ClusterNode*>(
 				absg->getNode(start->getLabelL(kParent)));
-		assert(insertedStartNode);
+		//assert(insertedStartNode);
 	}
 
 	if(g->getLabelL(kParent) == -1)
@@ -152,7 +156,7 @@ GenericClusterAbstraction::insertStartAndGoalNodesIntoAbstractGraph(
 		graph* absg = this->getAbstractGraph(1);
 		insertedGoalNode = dynamic_cast<ClusterNode*>(
 				absg->getNode(goal->getLabelL(kParent)));
-		assert(insertedGoalNode);
+		//assert(insertedGoalNode);
 	}
 }
 
@@ -170,7 +174,7 @@ GenericClusterAbstraction::removeStartAndGoalNodesFromAbstractGraph()
 			std::cout << "removing inserted goal node"<<std::endl;
 
 		cluster->removeParent(insertedGoalNode);
-		assert(insertedGoalNode->getNumEdges() == 0);
+		//assert(insertedGoalNode->getNumEdges() == 0);
 		absg->removeNode(insertedGoalNode->getNum());
 		delete insertedGoalNode;
 		insertedGoalNode = 0;
@@ -186,7 +190,7 @@ GenericClusterAbstraction::removeStartAndGoalNodesFromAbstractGraph()
 
 		cluster->removeParent(insertedStartNode);
 		delete insertedStartNode;
-		assert(insertedStartNode->getNumEdges() == 0);
+		//assert(insertedStartNode->getNumEdges() == 0);
 		absg->removeNode(insertedStartNode->getNum());
 		insertedStartNode = 0;
 	}
