@@ -330,18 +330,11 @@ gogoGadgetNOGUIScenario(mapAbstraction* aMap)
 		node* to = aMap->getNodeFromMap(nextExperiment->getGoalX(), 
 				nextExperiment->getGoalY());
 		
-		if(checkOptimality)
-		{
-			// run A* to check the optimal path length
-			path* p = astar->getPath(aMap, from, to);
-			optlen = aMap->distance(p);
-			delete p;
-		}
 
 		//std::cout << "HPA*"<<std::endl;
 		algName = (char*)alg->getName();
 		alg->verbose = verbose;
-		p = alg->getPath(aMap, from, to);
+		path* p = alg->getPath(aMap, from, to);
 		double distanceTravelled = aMap->distance(p);
 		stats.addStat("distanceMoved", algName, distanceTravelled);
 		alg->logFinalStats(&stats);
@@ -349,6 +342,14 @@ gogoGadgetNOGUIScenario(mapAbstraction* aMap)
 		stats.clearAllStats();
 		delete p;
 		//std::cout << "Fin HPA*"<<std::endl;
+
+		if(checkOptimality)
+		{
+			// run A* to check the optimal path length
+			p = astar->getPath(aMap, from, to);
+			optlen = aMap->distance(p);
+			delete p;
+		}
 
 		if(!fequal(optlen, distanceTravelled) && checkOptimality)
 		{
