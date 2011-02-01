@@ -20,6 +20,7 @@
  *
  */
 
+#include "aStar3.h"
 #include "ClusterAStar.h"
 #include "ClusterAStar.h"
 #include "ClusterAStarFactory.h"
@@ -305,9 +306,12 @@ void
 gogoGadgetNOGUIScenario(mapAbstraction* aMap)
 {
 	int exitVal = 0;
-	FlexibleAStar* astar;
-	astar = new FlexibleAStar(newExpansionPolicy(aMap), newHeuristic());
-	astar->verbose = verbose;
+//	FlexibleAStar* astar;
+//	astar = new FlexibleAStar(newExpansionPolicy(aMap), newHeuristic());
+//	astar->verbose = verbose;
+
+
+	aStarOld* astar = new aStarOld();
 
 	searchAlgorithm* alg = newSearchAlgorithm(aMap, false);
 
@@ -326,10 +330,13 @@ gogoGadgetNOGUIScenario(mapAbstraction* aMap)
 		node* to = aMap->getNodeFromMap(nextExperiment->getGoalX(), 
 				nextExperiment->getGoalY());
 		
-		// run A* to check the optimal path length
-		path* p = astar->getPath(aMap, from, to);
-		optlen = aMap->distance(p);
-		delete p;
+		if(checkOptimality)
+		{
+			// run A* to check the optimal path length
+			path* p = astar->getPath(aMap, from, to);
+			optlen = aMap->distance(p);
+			delete p;
+		}
 
 		//std::cout << "HPA*"<<std::endl;
 		algName = (char*)alg->getName();
@@ -835,6 +842,7 @@ newSearchAlgorithm(mapAbstraction* aMap, bool refineAbsPath)
 
 		default:
 		{
+			//alg = new aStarOld();
 			alg = new FlexibleAStar(newExpansionPolicy(aMap), newHeuristic());
 			alg->verbose = verbose;
 			break;
