@@ -36,8 +36,8 @@ TESTINCLUDES = -I./tests/util -I./tests/aha -I./tests/hpa -I./tests/opthpa
 
 # compiler flags
 CC = c++
-CFLAGS = -Wall -Wno-long-long -g -ggdb -ansi -pedantic $(HOGINCLUDES) $(TESTINCLUDES)
-#CFLAGS = -O3 $(HOGINCLUDES) -ansi
+#CFLAGS = -Wall -Wno-long-long -g -ggdb -ansi -pedantic $(HOGINCLUDES) $(TESTINCLUDES)
+CFLAGS = -O3 $(HOGINCLUDES) -ansi
 
 # locations of library files program depends on
 LIBFLAGS = -Lapps/libs 
@@ -61,9 +61,10 @@ LIBFLAGS = -Lapps/libs -L/usr/X11R6/lib64 -L/usr/X11R6/lib -L/usr/lib -L$(HOME)/
  ifeq ("$(OPENGL)", "STUB")
   CFLAGS += -I./driver/STUB/ -I./driver/STUB/GL/ -DNO_OPENGL
  else
-  CFLAGS += -I/usr/include/GL
-  LIBFLAGS +=  -lGL -lGLU -lglut -lXi -lXmu -lcppunit -lmockpp
+  CFLAGS += -I/usr/include/GL 
+  LIBFLAGS +=  -lGL -lGLU -lglut -lXi -lXmu  
  endif
+ CFLAGS += -Dlinux
 endif
 
 ifeq ("$(CPU)", "G5")
@@ -78,7 +79,7 @@ all: cleanapps $(TARGETS)
 
 targets: cleanapps $(TARGETS)
 
-$(TARGETS) : % : lib%.a hog
+$(TARGETS) : % : lib%.a hogcore
 	$(CC)	$(CFLAGS) $(LIBFLAGS) -o $(addprefix bin/,$(@)) \
 		$(DRIVER_OBJ) $(UTIL_OBJ) $(SIMULATION_OBJ) $(ABSTRACTION_OBJ) $(SHARED_OBJ) \
 		$(AHASTAR_OBJ) $(HPASTAR_OBJ) $(OPTHPA_OBJ) $(JUMP_OBJ) \
@@ -88,8 +89,8 @@ $(addprefix lib, $(addsuffix .a, $(TARGETS))) :
 	@echo $(MAKE) -f $(patsubst lib%,%.mk,$(basename $(@))) OPENGL=$(OPENGL) $(@); cd ..
 	@cd apps; $(MAKE); $(MAKE) -f $(patsubst lib%,%.mk,$(basename $(@))) OPENGL=$(OPENGL) $(@); cd ..
 
-.PHONY: hog
-hog : $(DRIVER_OBJ) $(UTIL_OBJ) $(SIMULATION_OBJ) $(ABSTRACTION_OBJ) $(SHARED_OBJ) \
+.PHONY: hogcore
+hogcore : $(DRIVER_OBJ) $(UTIL_OBJ) $(SIMULATION_OBJ) $(ABSTRACTION_OBJ) $(SHARED_OBJ) \
 	  $(AHASTAR_OBJ) $(HPASTAR_OBJ) $(OPTHPA_OBJ) $(JUMP_OBJ)
 
 $(UTIL_OBJ) : $(UTIL_SRC) $(UTIL_SRC:.cpp=.h)
@@ -120,7 +121,7 @@ $(JUMP_OBJ) : $(JUMP_SRC) $(JUMP_SRC:.cpp=.h)
 	$(CC) $(CFLAGS) -c -o $(@) $(subst .o,.cpp, $(subst objs/,jump/,$(@)))
 
 .PHONY: tests
-tests : hog $(UTILTESTS_OBJ) $(AHASTARTESTS_OBJ) $(HPASTARTESTS_OBJ) \
+tests : hogcore $(UTILTESTS_OBJ) $(AHASTARTESTS_OBJ) $(HPASTARTESTS_OBJ) \
 		$(OPTHPATESTS_OBJ) libtests.a
 	$(CC)	$(CFLAGS) $(LIBFLAGS) ${TESTLIBFLAGS} -o $(addprefix bin/,$(@)) \
 		$(UTIL_OBJ) $(SIMULATION_OBJ) $(ABSTRACTION_OBJ) $(SHARED_OBJ) \
