@@ -8,10 +8,6 @@ jastarnames <- c("id", "name", "ne", "nt", "ng", "st", "opl", "map")
 jastarclasses <- c("integer", "character", "integer", "integer", "integer", "double", "double", "character")
 
 ### JUMP POINTS ###
-bg_jump <- read.table("bg/results_FlexibleAStarJump", 
-col.names=tablenames, colClasses=tableclasses, header=FALSE, sep=",")
-bg_jump$map <- sub("\t([a-z])*/(([a-z])*/)*", "", bg_jump$map)
-
 bgm_jump <- read.table("bgm/results_FlexibleAStarJump", 
 col.names=tablenames, colClasses=tableclasses, header=FALSE, sep=",")
 bgm_jump$map <- sub("\t([a-z])*/(([a-z])*/)*", "", bgm_jump$map)
@@ -29,10 +25,6 @@ col.names=tablenames, colClasses=tableclasses, header=FALSE, sep=",")
 ad_jump$map <- sub("\t([a-z])*/(([a-z])*/)*", "", ad_jump$map)
 
 ### ASTAR ###
-bg_astar <- read.table("bg/results_FlexibleAStar", 
-col.names=tablenames, colClasses=tableclasses, header=FALSE, sep=",")
-bg_astar$map <- sub("\t([a-z])*/(([a-z])*/)*", "", bg_astar$map)
-
 bgm_astar <- read.table("bgm/results_FlexibleAStar", 
 col.names=tablenames, colClasses=tableclasses, header=FALSE, sep=",")
 bgm_astar$map <- sub("\t([a-z])*/(([a-z])*/)*", "", bgm_astar$map)
@@ -51,10 +43,6 @@ ad_astar$map <- sub("\t([a-z])*/(([a-z])*/)*", "", ad_astar$map)
 
 
 ### HPA ###
-bg_hpa <- read.table("bg/results_HPAStar2", 
-col.names=hpanames, colClasses=hpaclasses, header=FALSE, sep=",")
-bg_hpa$map <- sub("\t([a-z])*/(([a-z])*/)*", "", bg_hpa$map)
-
 bgm_hpa <- read.table("bgm/results_HPAStar2", 
 col.names=hpanames, colClasses=hpaclasses, header=FALSE, sep=",")
 bgm_hpa$map <- sub("\t([a-z])*/(([a-z])*/)*", "", bgm_hpa$map)
