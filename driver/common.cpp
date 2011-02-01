@@ -104,6 +104,18 @@ void installKeyboardHandler(keyboardCallback kf, const char *title, const char *
 	}
 }
 
+void cleanupHandlers()
+{
+	for(unsigned int i=0; i<256; i++)
+		delete keyboardCallbacks[i];
+	for(unsigned int i=0; i<commandLineCallbacks.size(); i++)
+		delete commandLineCallbacks.at(i);
+	for(unsigned int i=0; i<mouseCallbacks.size(); i++)
+		delete mouseCallbacks.at(i);
+	for(unsigned int i=0; i<joystickCallbacks.size(); i++)
+		delete joystickCallbacks.at(i);
+}
+
 void printKeyboardAssignments()
 {
 	printf("Legal Keyboard Commands\n-----------------------\n");

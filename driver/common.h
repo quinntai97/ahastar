@@ -269,6 +269,7 @@ void installKeyboardHandler(keyboardCallback kf, const char *title, const char *
 void printKeyboardAssignments();
 void installCommandLineHandler(commandLineCallback, const char *, const char *, const char *);
 void printCommandLineArguments();
+void cleanupHandlers();
 
 //void initializeApplication(pRecContext pContextInfo);
 void processCommandLineArgs(int argc, char *argv[]);

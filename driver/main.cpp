@@ -62,6 +62,7 @@ void cleanup (void)
 	delete pContextInfo;
 	assert(graph_object::gobjCount == 0);
 	free(getHome());
+	cleanupHandlers();
 }
 
 
