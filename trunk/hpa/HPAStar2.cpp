@@ -50,7 +50,7 @@ HPAStar2::getPath(graphAbstraction* aMap, node* from, node* to,
 		return NULL;
 
 	GenericClusterAbstraction* hpamap = dynamic_cast<GenericClusterAbstraction*>(aMap);
-	assert(hpamap != 0); 		
+	//assert(hpamap != 0); 		
 
 	Timer t;
 	path* thepath=0;
@@ -79,8 +79,8 @@ HPAStar2::getPath(graphAbstraction* aMap, node* from, node* to,
 		std::cout << "searching for path in abstract graph"<<std::endl;
 
 	path* abspath = astar->getPath(hpamap, absstart, absgoal);
-	for(path* tmp = abspath; tmp != 0; tmp = tmp->next)
-		assert(tmp->n->drawColor == 2);
+//	for(path* tmp = abspath; tmp != 0; tmp = tmp->next)
+//		assert(tmp->n->drawColor == 2);
 
 	updateMetrics();
 	
@@ -170,7 +170,7 @@ path* HPAStar2::refinePath(path* abspath, GenericClusterAbstraction* hpamap)
 					mypath->next->n->getLabelL(kFirstData+1));
 
 			segment = astar->getPath(hpamap, llstart, llgoal); 
-			assert(segment != 0);
+			//assert(segment != 0);
 			updateMetrics();
 
 			if(verbose) 

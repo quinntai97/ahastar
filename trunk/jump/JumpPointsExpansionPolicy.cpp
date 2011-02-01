@@ -268,7 +268,7 @@ JumpPointsExpansionPolicy::computeNeighbourSet()
 				nodeId = target->nodeNeighborNext(iter))
 		{
 			node* n = g->getNode(nodeId);
-			assert(n);
+			//assert(n);
 			neighbours.push_back(n);
 		}
 	}
