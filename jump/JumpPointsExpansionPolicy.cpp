@@ -394,14 +394,6 @@ JumpPointsExpansionPolicy::findJumpNode(JPEP::Direction d, int x, int y)
 				if(n == 0)
 					break;
 
-				double fVal = gVal + steps;
-				if(fgreater(fVal, n->getLabelF(kTemporaryLabel)))
-				{
-					// don't inspect regions we've alredy visited with lower cost 
-					n = 0;
-					break;
-				}
-
 				// (ny == goaly) implies n is a jump node 
 				if(ny == goaly)
 					break;
@@ -433,14 +425,6 @@ JumpPointsExpansionPolicy::findJumpNode(JPEP::Direction d, int x, int y)
 				if(n == 0)
 					break;
 
-				double fVal = gVal + steps;
-				if(fgreater(fVal, n->getLabelF(kTemporaryLabel)))
-				{
-					// don't inspect regions we've alredy visited with lower cost 
-					n = 0;
-					break;
-				}
-
 				if(ny == goaly)
 					break;
 
@@ -467,14 +451,6 @@ JumpPointsExpansionPolicy::findJumpNode(JPEP::Direction d, int x, int y)
 				n = map->getNodeFromMap(nx, y);
 				if(n == 0)
 					break;
-
-				double fVal = gVal + steps;
-				if(fgreater(fVal, n->getLabelF(kTemporaryLabel)))
-				{
-					// don't inspect regions we've alredy visited with lower cost 
-					n = 0;
-					break;
-				}
 
 				if(nx == goalx)
 					break;
@@ -503,14 +479,6 @@ JumpPointsExpansionPolicy::findJumpNode(JPEP::Direction d, int x, int y)
 				n = map->getNodeFromMap(nx, y);
 				if(n == 0)
 					break;
-
-				double fVal = gVal + steps;
-				if(fgreater(fVal, n->getLabelF(kTemporaryLabel)))
-				{
-					// don't inspect regions we've alredy visited with lower cost 
-					n = 0;
-					break;
-				}
 
 				if(nx == goalx)
 					break;
@@ -541,14 +509,6 @@ JumpPointsExpansionPolicy::findJumpNode(JPEP::Direction d, int x, int y)
 				// stop if we hit an obstacle (no jump node exists)
 				if(n == 0)
 					break;
-
-				double fVal = gVal + steps*ROOT_TWO;
-				if(fgreater(fVal, n->getLabelF(kTemporaryLabel)))
-				{
-					// don't inspect regions we've alredy visited with lower cost 
-					n = 0;
-					break;
-				}
 
 				// n is jump node if it share a row or column with the goal 
 				if(nx == goalx || ny == goaly)
@@ -589,14 +549,6 @@ JumpPointsExpansionPolicy::findJumpNode(JPEP::Direction d, int x, int y)
 				if(n == 0)
 					break;
 
-				double fVal = gVal + steps*ROOT_TWO;
-				if(fgreater(fVal, n->getLabelF(kTemporaryLabel)))
-				{
-					// don't inspect regions we've alredy visited with lower cost 
-					n = 0;
-					break;
-				}
-
 				if(nx == goalx || ny == goaly)
 					break;
 				
@@ -629,14 +581,6 @@ JumpPointsExpansionPolicy::findJumpNode(JPEP::Direction d, int x, int y)
 				if(n == 0)
 					break;
 
-				double fVal = gVal + steps*ROOT_TWO;
-				if(fgreater(fVal, n->getLabelF(kTemporaryLabel)))
-				{
-					// don't inspect regions we've alredy visited with lower cost 
-					n = 0;
-					break;
-				}
-
 				if(nx == goalx || ny == goaly)
 					break;
 
@@ -668,14 +612,6 @@ JumpPointsExpansionPolicy::findJumpNode(JPEP::Direction d, int x, int y)
 				n = map->getNodeFromMap(nx, ny);
 				if(n == 0)
 					break;
-
-				double fVal = gVal + steps*ROOT_TWO;
-				if(fgreater(fVal, n->getLabelF(kTemporaryLabel)))
-				{
-					// don't inspect regions we've alredy visited with lower cost 
-					n = 0;
-					break;
-				}
 
 				if(nx == goalx || ny == goaly)
 					break;
