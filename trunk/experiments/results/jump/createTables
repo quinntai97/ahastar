@@ -9,11 +9,6 @@ bgm8jump <- cbind(bgm8jump[,1:2], ams(bgm_astar$st/bgm_jump$st, bgm_astar$opl,
 25)[,2:3])
 names(bgm8jump) <- c("opl", "ne_speedup", "st_speedup", "num_exp")
 
-bg8jump <- as.data.frame(ams(bg_astar$ne/bg_jump$ne, bg_astar$opl, 25))
-bg8jump <- cbind(bg8jump[,1:2], ams(bg_astar$st/bg_jump$st, bg_astar$opl,
-25)[,2:3])
-names(bg8jump) <- c("opl", "ne_speedup", "st_speedup", "num_exp")
-
 rooms8jump <- as.data.frame(ams(rooms_astar$ne/rooms_jump$ne, rooms_astar$opl, 25))
 rooms8jump <- cbind(rooms8jump[,1:2], ams(rooms_astar$st/rooms_jump$st, rooms_astar$opl,
 25)[,2:3])
@@ -28,7 +23,6 @@ names(dao8jump) <- c("opl", "ne_speedup", "st_speedup", "num_exp")
 # drop points for which we have insufficient experiments
 ad8jump <- ad8jump[ad8jump$num_exp >= 10,]
 bgm8jump <- bgm8jump[bgm8jump$num_exp >= 10,]
-bg8jump <- bg8jump[bg8jump$num_exp >= 10,]
 rooms8jump <- rooms8jump[rooms8jump$num_exp >= 10, ] # remaining buckets have < 10 data points
 dao8jump <- dao8jump[dao8jump$num_exp >= 10, ] # remaining buckets have < 10 data points
 
@@ -42,11 +36,6 @@ bgm8hpa <- as.data.frame(ams(bgm_astar$ne/bgm_hpa$ne, bgm_astar$opl, 25))
 bgm8hpa <- cbind(bgm8hpa[,1:2], ams(bgm_astar$st/bgm_hpa$st, bgm_astar$opl,
 25)[,2:3])
 names(bgm8hpa) <- c("opl", "ne_speedup", "st_speedup", "num_exp")
-
-bg8hpa <- as.data.frame(ams(bg_astar$ne/bg_hpa$ne, bg_astar$opl, 25))
-bg8hpa <- cbind(bg8hpa[,1:2], ams(bg_astar$st/bg_hpa$st, bg_astar$opl,
-25)[,2:3])
-names(bg8hpa) <- c("opl", "ne_speedup", "st_speedup", "num_exp")
 
 rooms8hpa <- as.data.frame(ams(rooms_astar$ne/rooms_hpa$ne, rooms_astar$opl, 25))
 rooms8hpa <- cbind(rooms8hpa[,1:2], ams(rooms_astar$st/rooms_hpa$st, rooms_astar$opl,
@@ -62,7 +51,6 @@ names(dao8hpa) <- c("opl", "ne_speedup", "st_speedup", "num_exp")
 # drop points for which we have insufficient experiments
 ad8hpa <- ad8hpa[ad8hpa$num_exp >= 10,]
 bgm8hpa <- bgm8hpa[bgm8hpa$num_exp >= 10,]
-bg8hpa <- bg8hpa[bg8hpa$num_exp >= 10,]
 rooms8hpa <- rooms8hpa[rooms8hpa$num_exp >= 10, ] # remaining buckets have < 10 data points
 dao8hpa <- dao8hpa[dao8hpa$num_exp >= 10, ] # remaining buckets have < 10 data points
 
