@@ -91,7 +91,11 @@ a dead end. Strong lines indicate eventual successor nodes.}
 
 \subsection{Optimality}
 In the following theorem we prove that search with jump points preserves
-optimality. As with Theorem \ref{thm:pruning} we will show this is true
+optimality. We achive this by showing that for every optimal length path between 
+two arbitrarily chosen nodes there is an equivalent length path which mentions
+only jump point nodes. 
+
+As with Theorem \ref{thm:pruning} we will show this is true
 by an inductive argument over the $g$-value of an arbitrary node chosen
 for expansion.
 
@@ -117,27 +121,61 @@ for expansion.
 %
 %
 
+\begin{lemma}
+\label{lemma:jumping}
+For each optimal length path between two jump point nodes on a grid there exists
+an equivalent length path that mentions only jump point nodes.
+\end{lemma}
+\begin{proof}
+Sketch: let $\pi$ be an arbitrarily chosen optimal path between two nodes on the
+grid which are designated jump points.
+We will show that for each $\pi$ there exists a symmetric path $\pi'$ which has
+the same length and mentions only nodes that are jump points.
+\par
+First, divide the optimal path into a series of adjacent
+segments s.t. $\pi = \lbrace \pi_{0}, \ldots, \pi_{n} \rbrace$. Each $\pi_{i}
+\in \pi$ is a subpath comprised of one or more contiguous steps in the same
+direction (e.g.  only steps ``up'' or ``down'' etc).  Next, rewrite $\pi$ to
+minimise the number of segments.  This is a greedy procedure which we
+outline in Algorithm \ref{alg:segments}; the idea is to rewrite $\pi$ s.t steps
+in one direction, when possible, are taken together rather than interleaved with
+steps in a second direction (e.g. ``up'', ``up'', ``right'' instead of ``up'',
+``right'', ``up'').  
+%After rewriting $\pi$, each node at the beginning and end
+%of a segment $\pi_{i}$ is a turning point where the optimal path is forced to change
+%direction. If this were not true, we could continue rewriting $\pi$ until it is.
+\par
+Since each $\pi_{i}$ consists only of moves in a single direction
+(straight or diagonal) we can construct an equivalent segment $\pi'_{i}$ to optimally 
+jump from the node at the start of each $\pi_{i}$ to the node at the end by only 
+inspecting, and not necessarily expanding, every node in between.  
+By Corollary \ref{corollary:turningpoints}, each turning point along $\pi$ is
+also a jump point and must therefore be expanded during search.  
+We thus construct $\pi' = \lbrace \pi'_{0}, \ldots, \pi'_{n}\rbrace$. Since each
+$\pi'_{i}$ is equivalent to each $\pi_{i}$, it follows that $\pi'$ is equivalent
+to $\pi$ and thus optimal.
+\end{proof}
+
+\begin{corollary}
+\label{corollary:turningpoints}
+Each turning point along a path re-written by Algorith \ref{alg:segments} is
+also a jump point.
+\end{corollary}
+\begin{proof}
+\end{proof}
 
 \begin{theorem}
-Travelling from one jump point to another is optimal.
+\label{theorem:jumpoptimal}
+Searching with jump points is optimal.
 \end{theorem}
 \begin{proof}
-Sketch: let $\pi$ be an arbitrarily chosen optimal path on the grid. 
-We will show that for each $\pi$ there exists a symmetric alternative $\pi'$
-which has the same length and mentions only nodes that are jump points.
-First, split the optimal path into a series of adjacent segments s.t. $\pi = \lbrace \pi_{0}, \ldots, \pi_{n}
-\rbrace$. Each $\pi_{i} \in \pi$ is a subpath comprised of one or more
-contiguous steps in the same direction (e.g. only steps ``up'' or ``down'' etc).
-Next, rewrite $\pi$ to minimise the number of segments.
-This is a simple greedy procedure which we outline in Algorithm
-\ref{alg:segments}. The idea is to form an equivalent path where all steps in one direction are taken 
-together rather than interleaved with steps in another direction. 
-Thus, each node at the beginning and end of a segment is a turning point where 
-the optimal path must change direction.
-By Lemma \ref{lemma:turningpoints}, each such node is also a jump point and therefore 
-expanded during search.
-Since each path segment consists only of moves in a single direction
-(straight or diagonal) we can optimally travel from the node at the start of a
-segment to the node at the end by only inspecting, and not necessarily expanding, every node
-in between.
+Let $s$ and $g$ be arbitrarily chosen locations on a grid that represent
+and goal location associated with a particular pathfinding query.
+By definition $s$ is a jump point. Since it has no parent we jump in every 
+allowable direction away from $s$, inspecting nodes until we discover a jump point 
+successor. 
+The goal node $g$ is by definition also a jump point.
+By Lemma \ref{lemma:jumping} we can travel optimally from the
+successors of $s$ to any other jump point on the grid, including $g$.
 \end{proof}
+
