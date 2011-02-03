@@ -95,20 +95,49 @@ optimality. As with Theorem \ref{thm:pruning} we will show this is true
 by an inductive argument over the $g$-value of an arbitrary node chosen
 for expansion.
 
+%\begin{theorem}
+%\label{thm:jump}
+%Each jump point, when expanded, has an optimal $g$-value.
+%\end{theorem}
+%\begin{proof}
+%Let $x$ be an arbitrary jump point node selected for expansion and suppose, 
+%for a contradiction, that $g(x)$ is sub-optimal. 
+%For this to happen, the immediate predecessor of $x$ on the optimal path must
+%have been expanded earlier and 
+%
+%Sketch: show that each pruning rule discards only neighbours
+%which cannot belong to the optimal path for the problem at hand.
+%Then, by induction, demonstrate that jump points have the same 
+%property. 
+%
+%Complications:
+% - jump points when passing the row or column associated with the goal
+% - no jump points at the top of a row/column ending in an obstacle.
+%\end{proof}
+%
+%
+
+
 \begin{theorem}
-\label{thm:jump}
-Each jump point, when expanded, has an optimal $g$-value.
+Travelling from one jump point to another is optimal.
 \end{theorem}
 \begin{proof}
-Sketch: show that each pruning rule discards only neighbours
-which cannot belong to the optimal path for the problem at hand.
-Then, by induction, demonstrate that jump points have the same 
-property. 
-
-Complications:
- - jump points when passing the row or column associated with the goal
- - no jump points at the top of a row/column ending in an obstacle.
+Sketch: let $\pi$ be an arbitrarily chosen optimal path on the grid. 
+We will show that for each $\pi$ there exists a symmetric alternative $\pi'$
+which has the same length and mentions only nodes that are jump points.
+First, split the optimal path into a series of adjacent segments s.t. $\pi = \lbrace \pi_{0}, \ldots, \pi_{n}
+\rbrace$. Each $\pi_{i} \in \pi$ is a subpath comprised of one or more
+contiguous steps in the same direction (e.g. only steps ``up'' or ``down'' etc).
+Next, rewrite $\pi$ to minimise the number of segments.
+This is a simple greedy procedure which we outline in Algorithm
+\ref{alg:segments}. The idea is to form an equivalent path where all steps in one direction are taken 
+together rather than interleaved with steps in another direction. 
+Thus, each node at the beginning and end of a segment is a turning point where 
+the optimal path must change direction.
+By Lemma \ref{lemma:turningpoints}, each such node is also a jump point and therefore 
+expanded during search.
+Since each path segment consists only of moves in a single direction
+(straight or diagonal) we can optimally travel from the node at the start of a
+segment to the node at the end by only inspecting, and not necessarily expanding, every node
+in between.
 \end{proof}
-
-
-
