@@ -64,7 +64,7 @@ bool verbose = false;
 bool allowDiagonals = true;
 bool reducePerimeter = false;
 bool bfReduction = false;
-bool checkOptimality = true;
+bool checkOptimality = false;
 char* algName;
 HOG::AbstractionType absType = HOG::FLAT;
 
@@ -349,27 +349,27 @@ gogoGadgetNOGUIScenario(mapAbstraction* aMap)
 			p = astar->getPath(aMap, from, to);
 			optlen = aMap->distance(p);
 			delete p;
-		}
 
-		if(!fequal(optlen, distanceTravelled) && checkOptimality)
-		{
-			astar->verbose = true;
-			alg->verbose = true;
-			path* p = astar->getPath(aMap, from, to);
-			double tmp = aMap->distance(p);
-			delete p;
-			p = 0;
-			p = alg->getPath(aMap, from, to);
-			double tmp2 = aMap->distance(p);
-			delete p;
+			if(!fequal(optlen, distanceTravelled))
+			{
+				astar->verbose = true;
+				alg->verbose = true;
+				path* p = astar->getPath(aMap, from, to);
+				double tmp = aMap->distance(p);
+				delete p;
+				p = 0;
+				p = alg->getPath(aMap, from, to);
+				double tmp2 = aMap->distance(p);
+				delete p;
 
-			std::cout << optlen << " vs " << distanceTravelled<<std::endl;
-			std::cout << "\n opt: "<<tmp;
-			std::cout << " distanceTravelled: "<<tmp2<<std::endl;
-			std::cout << " previously, opt: "<<optlen<<" distanceTravelled: "
-				<<distanceTravelled<<std::endl;
-			exitVal = 1;
-			break;
+				std::cout << optlen << " vs " << distanceTravelled<<std::endl;
+				std::cout << "\n opt: "<<tmp;
+				std::cout << " distanceTravelled: "<<tmp2<<std::endl;
+				std::cout << " previously, opt: "<<optlen<<" distanceTravelled: "
+					<<distanceTravelled<<std::endl;
+				exitVal = 1;
+				break;
+			}
 		}
 	}
 	
@@ -468,6 +468,10 @@ initializeHandlers()
 			"Disallow diagonal moves during search "
 			"(default = false)");
 
+	installCommandLineHandler(myAllPurposeCLHandler, "-checkopt", "-checkopt", 
+			"Verify each experiment ran is solved optimally."
+			"(default = false)");
+
 	installCommandLineHandler(myAllPurposeCLHandler, "-abs", 
 			"-abs [flat | flatjump | hpa | err | err_pr | err_bfr | err_pr_bfr]", 
 			"Abstraction Type:\n"
@@ -502,13 +506,17 @@ myAllPurposeCLHandler(char* argument[], int maxNumArgs)
 		verbose = true;
 		argsParsed++;
 	}
+	else if(strcmp(argument[0], "-checkopt") == 0)
+	{
+		checkOptimality = true;
+		argsParsed++;
+	}
 	else if(strcmp(argument[0], "-abs") == 0)
 	{
 		argsParsed++;
 		if(strcmp(argument[1], "hpa") == 0)
 		{
 			absType = HOG::HPA; 
-			checkOptimality = false;
 			argsParsed++;
 		}
 		else if(strcmp(argument[1], "err") == 0)
@@ -539,7 +547,6 @@ myAllPurposeCLHandler(char* argument[], int maxNumArgs)
 		{
 			argsParsed++;
 			absType = HOG::FLAT;
-			checkOptimality = false;
 		}
 		else if(strcmp(argument[1], "flatjump") == 0)
 		{
