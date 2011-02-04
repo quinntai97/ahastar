@@ -1,90 +1,13 @@
 load("../Rscripts/Rhelpers.Rdata")
 
-tablenames <- c("id", "name", "ne", "nt", "ng", "st", "opl", "map")
-tableclasses <- c("integer", "character", "integer", "integer", "integer", "double", "double", "character")
-hpanames <- c("exp", "name", "ne", "nt", "pm", "st", "insne", "insnt", "inspm", "insst", "opl", "map")
-hpaclasses <- c("integer", "character", "integer", "integer", "integer", "double", "integer", "integer", "integer", "double", "double", "character")
-jastarnames <- c("id", "name", "ne", "nt", "ng", "st", "opl", "map")
-jastarclasses <- c("integer", "character", "integer", "integer", "integer", "double", "double", "character")
+source("processResults_ad")
+source("processResults_bg")
+source("processResults_bgm")
+source("processResults_dao")
+source("processResults_rooms")
 
-### JUMP POINTS ###
-bgm_jump <- read.table("bgm/results_FlexibleAStarJump", 
-col.names=tablenames, colClasses=tableclasses, header=FALSE, sep=",")
-bgm_jump$map <- sub("\t([a-z])*/(([a-z])*/)*", "", bgm_jump$map)
+load("../opthpa/swamp_tables.RObject")
+rooms8swamps <- rooms8swamps_r6_nc2
+ad8swamps <- ad8swamps_r6_nc2
+bg8swamps <- bg8swamps_r6_nc2
 
-dao_jump <- read.table("dao/results_FlexibleAStarJump",
-col.names=tablenames, colClasses=tableclasses, header=FALSE, sep=",")
-dao_jump$map <- sub("\t([a-z])*/(([a-z])*/)*", "", dao_jump$map)
-
-rooms_jump <- read.table("rooms/results_FlexibleAStarJump",
-col.names=tablenames, colClasses=tableclasses, header=FALSE, sep=",")
-rooms_jump$map <- sub("\t([a-z])*/(([a-z])*/)*", "", rooms_jump$map)
-
-ad_jump <- read.table("ad/results_FlexibleAStarJump",
-col.names=tablenames, colClasses=tableclasses, header=FALSE, sep=",")
-ad_jump$map <- sub("\t([a-z])*/(([a-z])*/)*", "", ad_jump$map)
-
-### ASTAR ###
-bgm_astar <- read.table("bgm/results_FlexibleAStar", 
-col.names=tablenames, colClasses=tableclasses, header=FALSE, sep=",")
-bgm_astar$map <- sub("\t([a-z])*/(([a-z])*/)*", "", bgm_astar$map)
-
-dao_astar <- read.table("dao/results_FlexibleAStar",
-col.names=tablenames, colClasses=tableclasses, header=FALSE, sep=",")
-dao_astar$map <- sub("\t([a-z])*/(([a-z])*/)*", "", dao_astar$map)
-
-rooms_astar <- read.table("rooms/results_FlexibleAStar",
-col.names=tablenames, colClasses=tableclasses, header=FALSE, sep=",")
-rooms_astar$map <- sub("\t([a-z])*/(([a-z])*/)*", "", rooms_astar$map)
-
-ad_astar <- read.table("ad/results_FlexibleAStar",
-col.names=tablenames, colClasses=tableclasses, header=FALSE, sep=",")
-ad_astar$map <- sub("\t([a-z])*/(([a-z])*/)*", "", ad_astar$map)
-
-
-### HPA ###
-bgm_hpa <- read.table("bgm/results_HPAStar2", 
-col.names=hpanames, colClasses=hpaclasses, header=FALSE, sep=",")
-bgm_hpa$map <- sub("\t([a-z])*/(([a-z])*/)*", "", bgm_hpa$map)
-
-dao_hpa <- read.table("dao/results_HPAStar2",
-col.names=hpanames, colClasses=hpaclasses, header=FALSE, sep=",")
-dao_hpa$map <- sub("\t([a-z])*/(([a-z])*/)*", "", dao_hpa$map)
-
-rooms_hpa <- read.table("rooms/results_HPAStar2",
-col.names=hpanames, colClasses=hpaclasses, header=FALSE, sep=",")
-rooms_hpa$map <- sub("\t([a-z])*/(([a-z])*/)*", "", rooms_hpa$map)
-
-ad_hpa <- read.table("ad/results_HPAStar2",
-col.names=hpanames, colClasses=hpaclasses, header=FALSE, sep=",")
-ad_hpa$map <- sub("\t([a-z])*/(([a-z])*/)*", "", ad_hpa$map)
-
-### RSR (movingai benchmarks only: i.e. bg and dao) ###
-bgm_rsr <- read.table("bgm/results_HPAStar2RSR", 
-col.names=hpanames, colClasses=hpaclasses, header=FALSE, sep=",")
-bgm_rsr$map <- sub("\t([a-z])*/(([a-z])*/)*", "", bgm_rsr$map)
-
-dao_rsr <- read.table("dao/results_HPAStar2RSR",
-col.names=hpanames, colClasses=hpaclasses, header=FALSE, sep=",")
-dao_rsr$map <- sub("\t([a-z])*/(([a-z])*/)*", "", dao_rsr$map)
-
-# subtract insertion time (this can be constant time)
-bgm_rsr$st <- bgm_rsr$st - bgm_rsr$insst
-dao_rsr$st <- dao_rsr$st - dao_rsr$insst
-
-### SWAMPS +  JAVA A* (for baseline comparisons) ###
-bgm_swamps <- read.table("bgm/results_AStarSwamps", 
-col.names=jastarnames, colClasses=jastarclasses, header=FALSE, sep=",")
-bgm_swamps$map <- sub("\t([a-z])*/(([a-z])*/)*", "", bgm_swamps$map)
-
-dao_swamps <- read.table("dao/results_AStarSwamps",
-col.names=jastarnames, colClasses=jastarclasses, header=FALSE, sep=",")
-dao_swamps$map <- sub("\t([a-z])*/(([a-z])*/)*", "", dao_swamps$map)
-
-bgm_jastar <- read.table("bgm/results_AStarRegular", 
-col.names=jastarnames, colClasses=jastarclasses, header=FALSE, sep=",")
-bgm_jastar$map <- sub("\t([a-z])*/(([a-z])*/)*", "", bgm_jastar$map)
-
-dao_jastar <- read.table("dao/results_AStarRegular",
-col.names=jastarnames, colClasses=jastarclasses, header=FALSE, sep=",")
-dao_jastar$map <- sub("\t([a-z])*/(([a-z])*/)*", "", dao_jastar$map)
