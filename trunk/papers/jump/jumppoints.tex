@@ -162,8 +162,16 @@ Each turning point of $\pi'$ is also a jump point.
 \end{corollary}
 \begin{proof}
 Let $n_{k}$ be an arbitrary turning point node along $\pi'$. 
+%First, we observe that exactly of the edges $(n_{k-1}, n_{k})$ or $(n_{k}, n_{k+1})$ 
+%must involve a diagonal step (Corollary \ref{corollary:diagonalturn}).
 There are two cases to consider, depending on whether $n_{k}$ is next
 to an obstacle or not.
+In the first case, the obstacle must be blocking of the four cardinal 
+moves (``up'', ``down'', ``left'' or ``right''); otherwise we can re-write 
+$\pi'$ s.t. $n_{k}$ is no longer mentioned.
+If one of the four cardinal moves is blocked, $n_{k}$ has at least one
+forced neighbour and is by definition a jump point.
+In the second case $\ldots$
 \end{proof}
 
 \begin{theorem}
