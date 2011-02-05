@@ -25,10 +25,10 @@ jump point:
 A node $x$ is designated a jump point if it satisfies at least one of the following
 conditions:
 \begin{enumerate}
+\item{$x$ is the start or goal node.}
 \item{$x$ is a node which, after pruning, is adjacent to at least one neighbour
 whose evaluation is forced according to the rules in Section
 \ref{sec:prunestraight} and Section \ref{sec:prunediagonal}.}
-\item{$x$ is located on the same row or column of the grid as the goal.}
 \item{$x$ has one or more successors which are themselves jump points.}
 \end{enumerate}
 \end{definition}
@@ -171,12 +171,18 @@ In the first case, the obstacle must be blocking of the four cardinal
 moves (``up'', ``down'', ``left'' or ``right''); otherwise we can re-write 
 $\pi'$ s.t. $n_{k}$ is no longer mentioned.
 If one of the four cardinal moves is blocked, $n_{k}$ has at least one
-forced neighbour and is by definition a jump point.
+forced neighbour. This satisfies the second condition in Definition
+\ref{def:jump} and we conclude $n_{k}$ is a jump point.
 \par
 In the second case $n_{k}$ is not adjacent to any obstacle but the edge
 from its predecessor $n_{k-1}$ must be a diagonal step; otherwise we can 
-again re-write $\pi'$ s.t. $n_{k}$ is no longer mentioned.
-$\ldots$
+re-write $\pi'$ s.t. $n_{k}$ is no longer mentioned.
+Since $n_{k}$ is not adjacent to an obstacle, the next turning point along 
+$\pi'$ must be; otherwise we can once more re-write $\pi'$ s.t $n_{k}$ is no longer
+mentioned. Further, the next turning point along $\pi'$ must be reachable 
+by a series of straight moves; otherwise $\pi'$ is not optimal.
+This is sufficient to satisfy the third condition in Definition \ref{def:jump} and
+we conclude $n_{k}$ is a jump point.
 \end{proof}
 
 \begin{theorem}
