@@ -150,28 +150,33 @@ Intermediate expansions may occur but the fact that we reach $n_{k}$
 optimally from $n_{0}$ is guaranteed.
 It remains to show only that both $n_{0}$ and $n_{k}$ are identified as
 jump points and thus necessarily expanded. 
-By Corollary \ref{corollary:turningpoints} each turning point is 
+By Lemma \ref{lemma:turningpoints} each turning point is 
 also a jump point, so every turning point node must be expanded during search.
 Only the start and goal remain. These are jump points by definition and must
 also be expanded.
 \end{proof}
 
-\begin{corollary}
-\label{corollary:turningpoints}
+\begin{lemma}
+\label{lemma:turningpoints}
 Each turning point of $\pi'$ is also a jump point.
-\end{corollary}
+\end{lemma}
 \begin{proof}
 Let $n_{k}$ be an arbitrary turning point node along $\pi'$. 
 %First, we observe that exactly of the edges $(n_{k-1}, n_{k})$ or $(n_{k}, n_{k+1})$ 
 %must involve a diagonal step (Corollary \ref{corollary:diagonalturn}).
 There are two cases to consider, depending on whether $n_{k}$ is next
 to an obstacle or not.
+\par
 In the first case, the obstacle must be blocking of the four cardinal 
 moves (``up'', ``down'', ``left'' or ``right''); otherwise we can re-write 
 $\pi'$ s.t. $n_{k}$ is no longer mentioned.
 If one of the four cardinal moves is blocked, $n_{k}$ has at least one
 forced neighbour and is by definition a jump point.
-In the second case $\ldots$
+\par
+In the second case $n_{k}$ is not adjacent to any obstacle but the edge
+from its predecessor $n_{k-1}$ must be a diagonal step; otherwise we can 
+again re-write $\pi'$ s.t. $n_{k}$ is no longer mentioned.
+$\ldots$
 \end{proof}
 
 \begin{theorem}
