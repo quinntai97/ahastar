@@ -91,10 +91,11 @@ a dead end. Strong lines indicate eventual successor nodes.}
 
 \subsection{Optimality}
 In this section we prove that for each optimal length path in a grid map there
-exists an equivalent length path which mentions only jump points (Theorem
-\ref{theorem:jumpoptimal}).  Our result is derived by splitting each optimal 
-length path into contiguous segments and proving that each \emph{turning point}
-along the path is also a jump point.
+exists an equivalent length path which can be found by only expanding jump
+point nodes during search (Theorem \ref{theorem:jumping}).  Our result is
+derived by identifying for each optimal path a symmetric alternative which we
+split into contiguous segments. We then prove that each \emph{turning point}
+along this path is also a jump point.
 
 \begin{definition}
 \label{def:turningpoint}
@@ -106,11 +107,11 @@ of travel from $n_{i}$ to the subsequent node $n_{i+1}$.
 Before proving our main result, we will first derive an interim result that
 in which we show jumping from one jump point node to any other is optimal.
 
-\begin{lemma}
-\label{lemma:jumping}
+\begin{theorem}
+\label{theorem:jumping}
 For each optimal length path between two jump point nodes on a grid there exists
 an equivalent length path that mentions only jump point nodes.
-\end{lemma}
+\end{theorem}
 \begin{proof}
 Let $\pi$ be an arbitrarily chosen optimal path between two jump point nodes
 on a grid.  
@@ -134,13 +135,12 @@ We apply this procedure repeatedly until no further re-ordering of the moves
 is possible and return $\pi'$, a new optimal path which is symmetric
 to the original.
 \par
-Next, we divide $\pi'$ into a series of adjacent
-segments s.t. $\pi' = \lbrace \pi'_{0}, \ldots, \pi'_{n} \rbrace$. Each $\pi'_{i} 
-= \lbrace n_{0}, n_{1}, \ldots, n_{k-1}, n_{k} \rbrace$
-is a subpath where all edges involve stepping in the same direction 
-(e.g.  only ``up'' or ``down'' etc).  Notice that with the
-exception of the start and goal, every node at the beginning and end of a
-segment is also a turning point.
+Next, we divide $\pi'$ into a series of adjacent segments s.t. 
+$\pi' = \pi'_{0} + \pi'_{1} + \ldots + \pi'_{n} $. Each $\pi'_{i} = \lbrace n_{0}, n_{1},
+\ldots, n_{k-1}, n_{k} \rbrace$ is a subpath along which all moves involve
+travelling in the same direction (e.g.  only ``up'' or ``down'' etc).  Notice
+that with the exception of the start and goal, every node at the beginning and
+end of a segment is also a turning point.
 \par
 Since each $\pi'_{i}$ consists only of moves in a single direction
 (straight or diagonal) we can use Algorithm \ref{alg:jump} to jump from $n_{0}
@@ -150,16 +150,16 @@ Intermediate expansions may occur but the fact that we reach $n_{k}$
 optimally from $n_{0}$ is guaranteed.
 It remains to show only that both $n_{0}$ and $n_{k}$ are identified as
 jump points and thus necessarily expanded. 
-By Lemma \ref{lemma:turningpoints} each turning point is 
+By Corollary \ref{lemma:turningpoints} each turning point is 
 also a jump point, so every turning point node must be expanded during search.
 Only the start and goal remain. These are jump points by definition and must
 also be expanded.
 \end{proof}
 
-\begin{lemma}
+\begin{corollary}
 \label{lemma:turningpoints}
 Each turning point of $\pi'$ is also a jump point.
-\end{lemma}
+\end{corollary}
 \begin{proof}
 Let $n_{k}$ be an arbitrary turning point node along $\pi'$. 
 %First, we observe that exactly of the edges $(n_{k-1}, n_{k})$ or $(n_{k}, n_{k+1})$ 
@@ -185,18 +185,18 @@ This is sufficient to satisfy the third condition in Definition \ref{def:jump} a
 we conclude $n_{k}$ is a jump point.
 \end{proof}
 
-\begin{theorem}
-\label{theorem:jumpoptimal}
-Searching with jump points is optimal.
-\end{theorem}
-\begin{proof}
-Let $s$ and $g$ be arbitrarily chosen locations on a grid that represent
-and goal location associated with a particular pathfinding query.
-By definition $s$ is a jump point. Since it has no parent 
-allowable direction away from $s$ computing all possible jump point successors.
-By Lemma \ref{lemma:jumping} we can travel optimally from the
-successors of $s$ to any other jump point on the grid.
-Since the goal $g$ is a jump point by definition, it follows that an optimal
-length path from $s$ to $g$ is returned.
-\end{proof}
-
+%\begin{theorem}
+%\label{theorem:jumpoptimal}
+%Searching with jump points is optimal.
+%\end{theorem}
+%\begin{proof}
+%Let $s$ and $g$ be arbitrarily chosen locations on a grid that represent
+%and goal location associated with a particular pathfinding query.
+%By definition $s$ is a jump point. Since it has no parent 
+%allowable direction away from $s$ computing all possible jump point successors.
+%By Lemma \ref{lemma:jumping} we can travel optimally from the
+%successors of $s$ to any other jump point on the grid.
+%Since the goal $g$ is a jump point by definition, it follows that an optimal
+%length path from $s$ to $g$ is returned.
+%\end{proof}
+%
