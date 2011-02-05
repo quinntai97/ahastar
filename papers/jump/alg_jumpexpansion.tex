@@ -18,13 +18,13 @@
 \caption{$jump$ Function}
 \label{alg:jump}
 \begin{algorithmic}[1]
-\REQUIRE $x$: initial node, $dir$: travel direction, $g$: goal
+\REQUIRE $x$: initial node, $dir$: direction, $g$: goal, $s$: start
 
 \STATE $n \leftarrow step(x, dir)$
 \IF{$n = \varnothing$}
 	\RETURN $\varnothing$
 \ENDIF
-\IF{$n$ is on the same grid row or column as $g$}
+\IF{$n = g$ or $x = s$}
 	\RETURN $n$
 \ENDIF
 \IF{$n \in neighbours(x) $ s.t. evaluation of $n$ is forced}
