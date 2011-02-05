@@ -93,10 +93,11 @@ a dead end. Strong lines indicate eventual successor nodes.}
 In this section we prove that for each optimal length path in a grid map there
 exists an equivalent length path which mentions only jump points (Theorem
 \ref{theorem:jumpoptimal}).  Our result is derived by splitting each optimal 
-length path into contiguous segments and identifying special nodes along each segment 
-called \emph{turning points}.
+length path into contiguous segments and proving that each \emph{turning point}
+along the path is also a jump point.
 
 \begin{definition}
+\label{def:turningpoint}
 A \emph{turning point} is any node $n_{i}$ along a path where the direction of
 travel from the previous node $n_{i-1}$ to $n_{i}$ is different to the direction
 of travel from $n_{i}$ to the subsequent node $n_{i+1}$.
@@ -116,47 +117,54 @@ on a grid.
 %We will show that for each $\pi$ there exists a symmetric path $\pi'$ which has
 %the same length and mentions only nodes that are jump points.
 \par
-First, divide the optimal path into a series of adjacent
-segments s.t. $\pi = \lbrace \pi_{0}, \ldots, \pi_{n} \rbrace$. Each $\pi_{i} 
-= \lbrace n_{k}, n_{k+1}, \ldots, n_{l-1}, n_{l} \rbrace$
-is a subpath comprised of one or more contiguous steps in the same
-direction (e.g.  only steps ``up'' or ``down'' etc).  Next, rewrite $\pi$ to
-minimise the number of segments.  This is a greedy procedure which we
-outline in Algorithm \ref{alg:segments}; the idea is to rewrite $\pi$ s.t steps
-in one direction, when possible, are taken together rather than interleaved with
-steps in a second direction (e.g. ``up'', ``up'', ``right'' instead of ``up'',
-``right'', ``up'').  
-%After rewriting $\pi$, each node at the beginning and end
-%of a segment $\pi_{i}$ is a turning point where the optimal path is forced to change
-%direction. If this were not true, we could continue rewriting $\pi$ until it is.
+First, we re-order $\pi$ s.t. diagonal moves appearing along the path are taken
+as early as possible. This is a simple operation performed on pairs of adjacent
+edges appearing along $\pi$ where $(i, j)$ is a straight edge and $(j, k)$ is a
+diagonal edge.
+The objective is to replace each such pair of edges with two new edges: 
+$(i, j')$, which is a diagonal move and $(j', k)$ which is a straight move. 
+The operation is successful if:
+\begin{itemize}
+\item $(i, j'$) and $(j', k)$ are both valid moves; i.e. node $j'$ is not an
+obstacle.
+\item $(i, j') + (j', k) = (i, j) + (j + k)$; i.e. the cost of
+the path $\pi$ is unchanged by the operation.
+\end{itemize}
+We apply this procedure repeatedly until no further re-ordering of the moves
+is possible and return $\pi'$, a new optimal path which is symmetric
+to the original.
 \par
-Since each $\pi_{i}$ consists only of moves in a single direction
-(straight or diagonal) we can construct an equivalent segment $\pi'_{i}$ that
-mentions only the turning point nodes at the start and end of each $\pi_{i}$.
-Clearly the length of $\pi'_{i}$ is optimal.
-It remains to show only that we expand each node mentioned by every $\pi'_{i}$.
-Notice that, with the exception of the start and goal, each such node is also a 
-turning point. 
+Next, we divide $\pi'$ into a series of adjacent
+segments s.t. $\pi' = \lbrace \pi'_{0}, \ldots, \pi'_{n} \rbrace$. Each $\pi'_{i} 
+= \lbrace n_{0}, n_{1}, \ldots, n_{k-1}, n_{k} \rbrace$
+is a subpath where all edges involve stepping in the same direction 
+(e.g.  only ``up'' or ``down'' etc).  Notice that with the
+exception of the start and goal, every node at the beginning and end of a
+segment is also a turning point.
+\par
+Since each $\pi'_{i}$ consists only of moves in a single direction
+(straight or diagonal) we can use Algorithm \ref{alg:jump} to jump from $n_{0}
+\in \pi'_{i}$, the node at beginning of each segment to $n_{k} \in \pi'_{i}$, the
+node at the end, without necessarily stopping to expand every node in between.
+Intermediate expansions may occur but the fact that we reach $n_{k}$
+optimally from $n_{0}$ is guaranteed.
+It remains to show only that both $n_{0}$ and $n_{k}$ are identified as
+jump points and thus necessarily expanded. 
 By Corollary \ref{corollary:turningpoints} each turning point is 
 also a jump point, so every turning point node must be expanded during search.
 Only the start and goal remain. These are jump points by definition and must
 also be expanded.
-We thus construct $\pi' = \lbrace \pi'_{0}, \ldots, \pi'_{n}\rbrace$. Since each
-$\pi'_{i}$ is equivalent to each $\pi_{i}$, it follows that $\pi'$ is equivalent
-to $\pi$ and thus optimal.
 \end{proof}
 
 \begin{corollary}
 \label{corollary:turningpoints}
-Each turning point along a path returned by Algorithm \ref{alg:segments} is
-also a jump point.
+Each turning point of $\pi'$ is also a jump point.
 \end{corollary}
 \begin{proof}
-A proof will go here. It will spell out that each turning point is either
-located next to an obstacle or has a jump point successor.
+Let $n_{k}$ be an arbitrary turning point node along $\pi'$. 
+There are two cases to consider, depending on whether $n_{k}$ is next
+to an obstacle or not.
 \end{proof}
-
-\input alg_segments
 
 \begin{theorem}
 \label{theorem:jumpoptimal}
@@ -165,7 +173,7 @@ Searching with jump points is optimal.
 \begin{proof}
 Let $s$ and $g$ be arbitrarily chosen locations on a grid that represent
 and goal location associated with a particular pathfinding query.
-By definition $s$ is a jump point. Since it has no parent we jump in every 
+By definition $s$ is a jump point. Since it has no parent 
 allowable direction away from $s$ computing all possible jump point successors.
 By Lemma \ref{lemma:jumping} we can travel optimally from the
 successors of $s$ to any other jump point on the grid.
