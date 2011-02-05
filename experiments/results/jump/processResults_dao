@@ -61,12 +61,29 @@ dao8hpa <- cbind(dao8hpa[,1:2], ams(dao_astar$st/dao_hpa$st, dao_astar$opl,
 names(dao8hpa) <- c("opl", "ne_speedup", "st_speedup", "num_exp")
 
 ### SWAMPS ###
-dao_swamps <- read.table("dao/results_AStarSwamps",
+dao_swamps1 <- read.table("dao/results_AStarSwamps.1",
 col.names=jastarnames, colClasses=jastarclasses, header=FALSE, sep=",")
-dao_swamps$map <- sub("\t([a-z])*/(([a-z])*/)*", "", dao_swamps$map)
-dao_jastar <- read.table("dao/results_AStarRegular",
+dao_swamps1$map <- sub("\t([a-z])*/(([a-z])*/)*", "", dao_swamps1$map)
+dao_jastar1 <- read.table("dao/results_AStarRegular.1",
 col.names=jastarnames, colClasses=jastarclasses, header=FALSE, sep=",")
-dao_jastar$map <- sub("\t([a-z])*/(([a-z])*/)*", "", dao_jastar$map)
+dao_jastar1$map <- sub("\t([a-z])*/(([a-z])*/)*", "", dao_jastar1$map)
+dao_swamps2 <- read.table("dao/results_AStarSwamps.2",
+col.names=jastarnames, colClasses=jastarclasses, header=FALSE, sep=",")
+dao_swamps2$map <- sub("\t([a-z])*/(([a-z])*/)*", "", dao_swamps2$map)
+dao_jastar2 <- read.table("dao/results_AStarRegular.2",
+col.names=jastarnames, colClasses=jastarclasses, header=FALSE, sep=",")
+dao_jastar2$map <- sub("\t([a-z])*/(([a-z])*/)*", "", dao_jastar2$map)
+dao_swamps3 <- read.table("dao/results_AStarSwamps.3",
+col.names=jastarnames, colClasses=jastarclasses, header=FALSE, sep=",")
+dao_swamps3$map <- sub("\t([a-z])*/(([a-z])*/)*", "", dao_swamps3$map)
+dao_jastar3 <- read.table("dao/results_AStarRegular.3",
+col.names=jastarnames, colClasses=jastarclasses, header=FALSE, sep=",")
+dao_jastar3$map <- sub("\t([a-z])*/(([a-z])*/)*", "", dao_jastar3$map)
+
+dao_swamps <- dao_swamps1;
+dao_swamps$st <- rowMeans(cbind(dao_swamps1$st, dao_swamps2$st, dao_swamps3$st))
+dao_jastar <- dao_jastar1;
+dao_jastar$st <- rowMeans(cbind(dao_jastar1$st, dao_jastar2$st, dao_jastar3$st))
 dao8swamps <- as.data.frame(ams(dao_jastar$ne/dao_swamps$ne, dao_jastar$opl, 25))
 dao8swamps <- cbind(dao8swamps[,1:2], ams(dao_jastar$st/dao_swamps$st, dao_jastar$opl,
 25)[,2:3])
