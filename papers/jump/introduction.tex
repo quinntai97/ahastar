@@ -33,37 +33,32 @@ to waste time discovering identical solutions and prevents real progress toward
 the goal.
 
 In this paper we deal with path symmetries by developing a macro step move
-operator that selectively expands only certain nodes on a grid map which
-we call \emph{jump points}. Moving from one jump point to the next involves 
-travelling in a fixed direction while repeatedly applying a set of simple
-neighbour pruning rules until either a dead-end or a jump point is reached.
-Because we do not expand any intermediate nodes between jump points
-our strategy can have a dramatic positive effect on search performance.
-Furthermore, computed solutions are guaranteed to be optimal.
-Unlike other recent methods for speeding up optimal search, such as the Dead-end
-Heuristic
-\cite{bjornsson05}, Empty Rectangular Rooms \cite{harabor10} and Swamp-based
-pathfinding \cite{pochter10}, our algorithm is applied online and requires no
-pre-processing.  Additionally, unlike many sub-optimal techniques that make use 
-of abstraction to improve performance (e.g. HPA* \cite{botea04} and PRA*
-\cite{sturtevant05}), we require
-no additional memory.
+operator that selectively expands only certain nodes on a grid map which we call
+\emph{jump points}. Moving from one jump point to the next involves travelling
+in a fixed direction while repeatedly applying a set of simple neighbour pruning
+rules until either a dead-end or a jump point is reached.  Because we do not
+expand any intermediate nodes between jump points our strategy can have a
+dramatic positive effect on search performance.  Furthermore, computed solutions
+are guaranteed to be optimal.  Our algorithm is largely orthogonal to all
+existing speedup techniques which are applicable to grid maps.  Unlike other
+recent methods for speeding up optimal search however, such as the Dead-end
+Heuristic \cite{bjornsson05}, Empty Rectangular Rooms \cite{harabor10} and
+Swamp-based pathfinding \cite{pochter10}, our algorithm is applied online and
+requires no pre-processing.  Additionally, unlike many sub-optimal techniques
+that make use of abstraction to improve performance (e.g. HPA* \cite{botea04}
+and PRA* \cite{sturtevant05}), we require no additional memory.
 
-We make the following contributions: (i) a detailed description of the 
-jump points algorithm; (ii) a theoretical result which shows that searching
-with jump points preserves optimality;  (iii) an empirical analysis 
-comparing our method with a number of recent search space reduction
-algorithms.
-We run experiments on both synthetic and real-world 
-benchamarks, including two taken from the popular video games \emph{Dragon Age:
-Origins} and \emph{Baldur's Gate}.  
-Our results indicate that searching with jump points achieves more than an 
-order of magnitude performance improvement when compared to standard A* search. 
-We also report significant performance gains over the current state of the art
-including, in many cases, performance competitive with a well known sub-optimal 
+We make the following contributions: (i) a detailed description of the jump
+points algorithm; (ii) a theoretical result which shows that searching with jump
+points preserves optimality;  (iii) an empirical analysis comparing our method
+with a number of recent search space reduction algorithms.  We run experiments
+on both synthetic and real-world benchamarks, including two taken from the
+popular video games \emph{Dragon Age: Origins} and \emph{Baldur's Gate}.  Our
+results indicate that searching with jump points achieves more than an order of
+magnitude performance improvement when compared to standard A* search.  We also
+report significant performance gains over the current state of the art
+including, in many cases, performance competitive with a well known sub-optimal
 pathfinding algorithm.
-Finally, our technique is largely orthogonal to all existing speedup techniques which are applicable to grid maps.
-
 %In contrast to other techniques for representing
 %low-dimensional Euclidean planes, such as roadmap methods \cite{geraerts05} or
 %navigation mesh approaches \cite{demyen07}, grid maps are highly regular, less
