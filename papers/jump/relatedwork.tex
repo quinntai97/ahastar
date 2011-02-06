@@ -1,2 +1,56 @@
 \section{Related Work}
-Related work goes here.
+\label{sec:relatedwork}
+The academic literature is rich in works that deal with the problem of symmetry
+in search.  Approaches for identifying and eliminating symmetry have been
+proposed in areas as as diverse as planning \cite{fox99}, constraint programming
+\cite{gent00}, and combinatorial optimization \cite{fukunaga08}. Until recently
+however, very few works explicity identify and deal with symmetry in pathfinding
+domains such as grid maps.
+%This is not surprising given that, in the
+%presence of symmetry, search algorithms often evaluate many equivalent states
+%and make little real progress toward the goal.  Despite receiving significant
+%attention in other areas, there are very few works that explicitly identify and
+%deal with symmetry in pathfinding domains such as grid maps.
+\par
+One recent study which attempts to redress this oversight is due to
+\citeauthor{harabor10}~\shortcite{harabor10}.  They introduce Empty Rectangular
+Rooms, a symmetry breaking technique specific to 4-connected grid maps.  Using
+this method a grid map is  decomposed into a set of obstacle free rectangles.
+Nodes from the interior of each rectangle are then pruned and replaced by a
+series of macro edges that facilitate optimal travel from any node on the
+perimeter of a rectangle to any other.  Being specific to 4-connected maps this
+approach is less general than our jump point technique. It also requires offline
+pre-processing whereas our method is online.
+\par
+Related to our work is the graph pruning technique of
+\citeauthor{pochter10}~\shortcite{pochter10}.  They introduce \emph{swamps}, a
+search space reduction algorithm which involves decomposing a graph into so
+called ``swamp'' areas that can be ignored because there always exists a
+symmetric path that does not cross any nodes in the swamp.  Each search instance
+is then limited to an a corridor of inter-dependent swamp (and non-swamp areas).
+It therefore seems that the focus of swamp pruning is in identifying regions of
+the search space which can be ignored for the search at hand.  This is in
+contrast to our work which focuses on reducing the effort required to explore
+any given area in the search space.  Another difference is that swamp
+identification is usually performed offline while we identify jump points
+online.
+\par
+Searching with jump points bears some similarity to the graph pruning work of
+\citeauthor{bjornsson06}~\shortcite{bjornsson06}.  This study introduces the
+\emph{Dead-end heuristic}; an optimality preserving
+ method for improving the performance of A* on grid maps.
+As with Swamps and Empty Rooms, an offline pre-processing step is required where
+the map is decomposed into a set of zones.  The main idea is to speed up the
+search instance at hand by running a preliminary search in the decomposed graph
+to identify areas that don't have to be searched for the search instance at
+hand.  The basic idea is similar in some ways to the one employed by
+\citeauthor{pochter10}~\shortcite{pochter10} but reported results suggest it is
+not as effective.
+\par
+Abstraction-based pathfinding methods are pervasive in cases where optimality is
+not required.  The main idea is to improve performance by reducing the 
+search space (usually a grid map) into a much smaller approximation.  Algorithms
+of this type usually fast and memory-efficient but also suboptimal.  The HPA*
+algorithm \cite{botea04} is one such example.  It uses a map decomposition
+approach, dividing a grid map into a series of fixed-size clusters connected by
+entrances.
