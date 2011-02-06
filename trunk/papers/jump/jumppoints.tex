@@ -45,7 +45,65 @@ Lastly, we prove that the process of ``jumping'' nodes, such as as $x$ in
 Figure \ref{fig:jumppoints}(a), has no effect on the optimality of search.
 
 \subsection{Neighbour Pruning Rules} 
-$\ldots$
+\label{sec:pruning}
+
+In this section we develop rules for pruning the set of adjacent neighbours
+associated with a node $x$ on the grid.  The objective is to identify from each
+set $neighbours(x)$ any nodes $n$ that do not need to be evaluated in order to
+reach the goal optimally.  There are two cases to consider, depending on
+whether the transition to $x$ from its parent $p(x)$ involves a straight move or
+a diagonal move.
+
+\begin{figure}[tb]
+       \begin{center}
+		   \includegraphics[scale=0.4, trim = 10mm 10mm 10mm 0mm]{diagrams/pruningrules.png}
+       \end{center}
+	\vspace{-3pt}
+       \caption{We show several cases where a node $x$ is reached from its
+parent $p(x)$ by either a straight or diagonal move. When $x$ is expanded we can
+prune from consideration all nodes marked gray.}
+       \label{fig:pruning}
+\end{figure}
+\par \noindent
+\textbf{Straight Moves:} We prune any node $n \in neighbours(x)$ which satisfies
+the following dominance constraint: 
+\begin{equation}
+d(p(x), n) \leq d(p(x), x) + d(x, n)
+\end{equation}
+Figure \ref{fig:pruning}(a) shows an example. Here $p(x) = 4$ and we prune
+ all neighbours except $n = 5$.
+%In some cases we may be \emph{forced} to evaluate a neighbour which would be
+%dominated except for the presence of obstacles that are adjacent to $x$.  We
+%show an example of this situation in Figure \ref{fig:pruning}(b); notice that 
+%in addition to $n = 5$ we are also forced to consider $n = 3$. 
+\par \noindent
+\textbf{Diagonal Moves:} This case is similar to the pruning rules we developed
+for straight moves; the only difference is that $d(p(x), n)$ must be strictly
+dominant: 
+\begin{equation}
+d(p(x), n) < d(p(x), x) + d(x, n) 
+\end{equation}
+Figure \ref{fig:pruning}(c) shows an example. Here $p(x) = 6$ and we prune all
+neighbours except $n = 2$, $n = 3$ and $n = 5$.  
+%As before when $x$ is adjacent
+%to an obstacle we may be forced to evaluate additional neighbours. For example
+%in Figure \ref{fig:pruning} the evaluation of node $n = 1$ is forced.
+\par
+It is important to note at this stage that for both straight and diagonal moves
+there are cases where we may not be able to prune a neighbour due to the
+presence of obstacles that are adjacent to $x$.  If this occurs we say that the
+evaluation of such a neighbour is \emph{forced}.
+
+\begin{definition}
+A node $n \in neighbours(x)$ is forced if:
+$$h(p(x), n) < d(p(x), x) + d(x, n)$$
+\end{definition}
+\par \noindent
+In Figure \ref{fig:pruning}(b) we show an example of a straight move where 
+the evaluation of $n = 3$ is forced. Figure \ref{fig:pruning}(d)  
+shows an similar example involving a diagonal move; here the evaluation of
+ $n = 1$ is forced. 
+
 \subsection{Algorithmic Description}
 We begin by making precise the concept of a jump point:
 
