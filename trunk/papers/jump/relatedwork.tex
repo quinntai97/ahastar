@@ -40,14 +40,13 @@ Searching with jump points bears some similarity to the graph pruning work of
 \emph{Dead-end heuristic}; an optimality preserving
  method for improving the performance of A* on grid maps.
 As with Swamps and Empty Rooms, an offline pre-processing step is required where
-the map is decomposed into a set of zones.  The main idea is to 
-identify areas that can be ignored for the search instance at hand by running a 
-preliminary search in the decomposed graph.
-The approach has similar goals to the one employed by
-\citeauthor{pochter10}~\shortcite{pochter10} but reported results suggest it is
-not as effective.
+the map is decomposed into a set of zones.  The main idea is to identify areas
+that can be ignored for the search instance at hand by running a preliminary
+search in the decomposed graph.  The approach has similar goals to the one
+employed by \citeauthor{pochter10}~\shortcite{pochter10} but reported results
+suggest it is not as effective.
 \par
-Abstraction-based pathfinding methods are pervasive in cases where optimality is
+Hierarchical pathfinding methods are pervasive in cases where optimality is
 not required.  The main idea is to improve performance by reducing the 
 search space (usually a grid map) into a much smaller approximation.  Algorithms
 of this type usually fast and memory-efficient but also suboptimal.  The HPA*
