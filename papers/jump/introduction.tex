@@ -5,14 +5,14 @@
 % (which always have a fixed number of neighbours in the same location relative
 % to any given node) to identfy pruning opportunities. 
 
-The most popular and successful pathfinding algorithms, such as Bellman-Ford,
-Dijkstra's Algorithm and A*, have all been developed in the context of general
+The most popular and successful pathfinding algorithms, such as A*, Bellman-Ford
+and Dijkstra's Algorithm have all been developed in the context of general
 purpose problem graphs.  Finding a shortest path in such domains usually
 requires only that the start and goal locations belong to the same connected
 component, that the graph contains no negative weight edges and, in the case of
 A*, that an admissible heuristic is available.  It is often the case however
 that these same algorithms are usually deployed on problem domains which are
-much less relaxed: undirected positively weighted graphs where each node
+more constrained: undirected positively weighted graphs where each node
 corresponds to a location on a 2D Euclidean plane.
 %The latter restriction is commonly exploited by researchers in order to develop
 %more efficient search algorithms; for example in the context of the TSP. 
@@ -22,38 +22,48 @@ Perhaps the most common example of such a domain is the ubiquitous grid map.
 
 Frequently the object of academic study \cite{yap02,botea04,bjornsson06} and
 widely employed in application areas such as robotics \cite{choset05} and video
-games \cite{sturtevant07,jurney07}, grid maps are highly regular domains which
+games \cite{sturtevant07}, grid maps are highly regular domains which
 typically feature a high degree of path symmetry \cite{harabor10,pochter10}.
 Symmetry in this case manifests itself as paths (or path segments) which share
 the same start and end point, have the same length and are otherwise identical
-save for the order in which moves occur; Figure \ref{fig:symmetry} shows a
-typical example.  Symmetry is usually undesirable as it forces search algorithms
+save for the order in which moves occur.
+%; Figure \ref{fig:symmetry} shows a typical example.  
+Symmetry is usually undesirable as it forces search algorithms
 to waste time discovering identical solutions and prevents real progress toward
 the goal.
 
-In this paper we study a novel search strategy for dealing with path symmetries
-on grid maps. Our approach involves the development of a series of simple
-pruning rules for speeding up individual node expansion operations.  In
-particular, we identify and discard those neighbours that cannot appear on
- the optimal path and neighbours that can be reached with the same cost via
-some alternative path involving the parent of the current node.  Unlike other
-recent methods for speeding up optimal search, such as the Dead-end Heuristic
+In this paper we deal with path symmetries by developing a macro step move
+operator that selectively expands only certain nodes on a grid map which
+we call \emph{jump points}. Moving from one jump point to the next involves 
+travelling in a fixed direction while repeatedly applying a set of simple
+neighbour pruning rules until either a dead-end or a jump point is reached.
+Because we do not expand any intermediate nodes between jump points
+our strategy can have a dramatic positive effect on search performance.
+Furthermore, computed solutions are guaranteed to be optimal.
+Unlike other recent methods for speeding up optimal search, such as the Dead-end
+Heuristic
 \cite{bjornsson05}, Empty Rectangular Rooms \cite{harabor10} and Swamp-based
-pathfinding \cite{pochter10}, our method is applied online and requires no
-pre-processing.  We also require no additional memory overhead, which is
-commonly the case with sub-optimal techniques that make use of abstraction to
-improve performance; for example HPA* \cite{botea04} and PRA*
-\cite{sturtevant05}.
+pathfinding \cite{pochter10}, our algorithm is applied online and requires no
+pre-processing.  Additionally, unlike many sub-optimal techniques that make use 
+of abstraction to improve performance (e.g. HPA* \cite{botea04} and PRA*
+\cite{sturtevant05}), we require
+no additional memory.
 
-We give a detailed description of our new method and a theoretical analysis that
-proves its optimality preserving characteristics.  We then evaluate its
-effectiveness on a number of synthetic and real-world benchamrks taken from the
-literature, including two from the popular video games \emph{Dragon Age:
-Origins} and \emph{Baldur's Gate}.  Our results show that the method is highly
-effective; we achieve an more than a ten times improvement over standard A* and
-and report significant performance gains over the current state of the art.
-Perhaps most encouraging is that our technique is largely orthogonal to all
-existing speedup techniques which are applicable to grid maps.
+We make the following contributions: (i) a detailed description of the 
+jump points algorithm; (ii) a theoretical result which shows that searching
+with jump points preserves optimality;  (iii) an empirical analysis 
+comparing our method with a number of recent search space reduction
+algorithms.
+We run experiments on both synthetic and real-world 
+benchamarks, including two taken from the popular video games \emph{Dragon Age:
+Origins} and \emph{Baldur's Gate}.  
+Our results indicate that searching with jump points achieves more than an 
+order of magnitude performance improvement when compared to standard A* search. 
+We also report significant performance gains over the current state of the art
+including, in many cases, performance competitive with a well known sub-optimal 
+pathfinding algorithm.
+Perhaps most encouraging however is that our technique is largely orthogonal to 
+all existing speedup techniques which are applicable to grid maps.
 
 %In contrast to other techniques for representing
 %low-dimensional Euclidean planes, such as roadmap methods \cite{geraerts05} or
