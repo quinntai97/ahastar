@@ -35,10 +35,10 @@ Using this metric a speedup of 2.0 is twice as fast (higher is better).
 As per Figure \ref{fig:speedup}(A-D), jump point pruning shows a convincing
 improvement over Swamps across all benchmarks. 
 The largest differences are observed on Baldur's Gate and Dragon Age where jump 
-points achieve between 20-26 times search time speedup compared with Swamps with 
+points achieve between 20-26 times search speedup compared with Swamps with 
 only attains a 3-5 times speedup.
 On the Rooms benchmark the difference is much smaller: jump points pruning
-speeds up search times by a factor of 11 while Swamps achieves a 7 times
+speeds up search by a factor of 11 while Swamps achieves a 7 times
 speedup.
 The observed performance characteristics are not unexpected: Swamps prune out
 areas that can be avoided without introducing a detour. However, Swamps are of
@@ -46,5 +46,29 @@ little benefit if the areas which remain are large and need to be explored
 throroughly.
 By comparison, jump points pruning rapidly explores large areas by proving
 that many node expansion operations are unnecessary.
+\par
+Since it appears that the two algorithms have complementary strengths, a natural
+extension of this work would be to combine Swamps with jump points:
+first, apply Swamps decomposition to identify areas that do not have to be
+explored for the instance at hand. Then, apply jump points to quickly explore the
+remaining search space.
+\par
 \textbf{Comparison with HPA*: }
-$\ldots$
+As per Figure \ref{fig:speedup}(A-D), jump points pruning is shown to be 
+highly competitive with HPA*.
+On Adaptive Depth, Baldur's Gate and Rooms jump points are shown to have an 
+advantage, improving on HPA* search times by several factors in some cases.
+On the Dragon Age benchmark however this trend is reversed; HPA* speeds up
+search by up to 27 times while jump points achieve a maximum speedup of 22
+times.
+It is interesting to note that jump point pruning achieves the largest relative
+speedup on instances with smaller path lenghts
+($\leq 100$). Here HPA* search times are dominated by the overhead required to
+insert the start and goal into the abstract graph.
+As path length increases the advantage provided by jump point pruning is eroded
+and, as we see on Dragon Age, HPA* eventually becomes faster.
+\par
+Jump points and HPA* appear to have complementary strengths.
+One direction for further work would be to use jump point pruning to speed up
+HPA* insertion times. Furthermore,  jump points could be used to speed up 
+HPA* path refinement once an abstract solution is found.
