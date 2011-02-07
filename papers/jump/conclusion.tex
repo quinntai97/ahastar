@@ -1,2 +1,25 @@
 \section{Conclusion}
-Concluding remarks go here.
+In this paper we develop a new online node pruning
+strategy for speeding up pathfinding on grid maps.
+Our algorithm identifies and selectively expands only certain
+nodes from a grid map which we call \emph{jump points}.
+Moving between jump points involves only travelling in a
+fixed direction, either straight or diagonal.
+We prove that intermediate nodes on a path between two
+jump points never need to be expanded and ``jumping'' over them
+does not affect the optimality of search.
+\par
+We undertake an thorough experimental evaluation of our method on
+a range of synthetic and real-world bechmarks, including two taken
+from the popular video games \emph{Baldur's Gate II: Shadows of Amn}
+and \emph{Dragon Age: Origins}.
+We show that in each case jump point pruning is many times faster 
+than Swamps \cite{pochter10}, a recent state-of-the-art optimality preserving
+pruning technique.
+We also show that jump point pruning is competitive with, and in many instances
+faster than, HPA*; a popular though sub-optimal pathfinding technique which is 
+often employed in performance sensitive applications such as video games.
+\par
+One interesting direction for further work is to combine jump points with other
+speedup techniques such as Swamps and HPA* to achieve better results.
+Another direction is to generalise the jump points method to weighted grid maps.

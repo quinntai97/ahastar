@@ -1,23 +1,42 @@
 \section{Experimental Setup}
 We evaluate the performance of RSR on four benchmarks taken from the freely
 available pathfinding library Hierarchical Open Graph
-(HOG)\footnote{\url{http://www.googlecode.com/p/hog2}}: {\textbf{Adaptive Depth}
+(HOG)\footnote{\url{http://www.googlecode.com/p/hog2}}: 
+\begin{itemize}
+
+\item{\textbf{Adaptive Depth}
 is a set of 12 maps of size 100$\times$100 in which approximately $\frac{1}{3}$
 of each map is divided into rectangular rooms of varying size and a large
-open area interspersed with large randomly placed obstacles.} {\textbf{Baldur's
-Gate} and \textbf{Dragon Age} are map sets taken from BioWare's popular
-roleplaying games \emph{Baldur's Gate II: Shadows of Amn} and \emph{Dragon Age:
-Origns}.  Baldur's Gate often appears as a standard
-benchmark in the literature \cite{bjornsson06,harabor10,pochter10}. 
-There are 120 maps in total which have all been scaled to size $512\times512$.
-Dragon Age is a comparatively newer benchmark but has appeaed previously in the
+open area interspersed with large randomly placed obstacles.
+} 
+
+\item{\textbf{Baldur's Gate} is a set map set taken from BioWare's popular
+roleplaying games \emph{Baldur's Gate II: Shadows of Amn}.
+Appearing regularly as a standard benchmark in the literature
+\cite{bjornsson06,harabor10,pochter10}, 
+it consists of 120 maps of various sizes which have all been scaled to
+$512\times512$. 
+}
+
+\item{\textbf{Dragn Age} is another realistic benchmark; this time taken from
+BioWare's recent roleplaying game \emph{Dragon Age: Origins}.
+This is a newer benchmark than Baldur's Gate but has appeaed previously in the
 literature; e.g. \cite{sturtevant07}. It consists of 156 maps which range in size
-from $30\times21$ to $1104\times1260$.}
-{\textbf{Rooms} is a set of 300 maps of size
+}
+
+
+\item{\textbf{Rooms} is a set of 300 maps of size
 256$\times$256 which are divided into symmetric rows of small rectangular areas
 ($7\times7$), connected by randomly placed entrances. This benchmark has
-previously appeared in \cite{pochter10}.}
+previously appeared in \cite{pochter10}.
+}
+\end{itemize}
 
-Our test machine had a 2.93GHz Intel Core 2 Duo processor, 4GB RAM and ran OSX 
+As there are no problem instances provided with Adaptive Depth and Rooms
+we randomly generated 100 valid problems per map.
+Both Baldur's Gate and Dragon Age comes a range of pre-generated problem 
+instances; 93160 total in the case of the former, and 159507 for the latter. 
+\par
+Our test machine is a 2.93GHz Intel Core 2 Duo processor with 4GB RAM running OSX 
 10.6.4.  Our implementation of A* is based on one provided in HOG, which we 
 adapted to facilitate online neighbour pruning and jump point identification. 
