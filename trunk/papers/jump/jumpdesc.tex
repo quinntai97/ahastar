@@ -1,0 +1,58 @@
+\subsection{Algorithmic Description}
+We begin by making precise the concept of a jump point:
+
+\begin{definition}
+\label{def:jump}
+A node $x$ is designated a jump point if it satisfies at least one of the following
+conditions:
+\begin{enumerate}
+\item{$x$ is the start or goal node.}
+\item{$x$ is adjacent to at least one neighbour
+whose evaluation is forced according to Definition \ref{def:forced}.}
+\item{$x$ has one or more successors which are themselves jump points.}
+\end{enumerate}
+\end{definition}
+
+Note that we distinguish between a neighbour, which is immediately adjacent to
+$x$ on the grid, and a successor which may not be. 
+This is a fine but important distinction as in our work a neighbour can be a 
+successor but the converse is not necessarily true.
+Thus, when expand $x$, we will only consider its successors.
+
+\input alg_jumpexpansion
+
+The process by which we generate the set of successors necessary to expand a
+node $x$ is given in Algorithm \ref{alg:successors}.
+We start with the pruned set of neighbours immediately adjacent to $x$ (line 2).
+Then, instead of immediately adding each neighbour $n$ to the set of successors
+for $x$, we try to ``jump'' to a node that is further away but which lies in the 
+same relative direction to $x$ as $n$ (lines 3:4). 
+For example, if the edge $(x, n)$ constitutes a
+straight move travelling \emph{right} from $x$, we look for a jump point among
+the nodes immediately to the right of $x$.
+If we find such a node, we add it to the set of successors instead of $n$.
+In the case where we fail to find a jump point, we add nothing.
+The process continues until the set of neighbours for $x$ is exhausted.
+
+The process by which we identfy jump points is given in Algorithm
+\ref{alg:jump}; it requires an initial node $x$, a direction of travel $dir$
+(e.g. up, down, left right, etc), the start node $s$ and the goal node $g$.
+In rough overview, the algorithm attempts to establish whether $x$ has any 
+jump point successors by stepping in the direction $dir$ and testing
+if the node $n$ at that location satisfies Definition \ref{def:jump}.
+When this is the case, $n$ is designated a jump point and returned (lines 5, 7
+and 11).
+When $n$ is not a jump node the algorithm recurses and steps again in direction
+$dir$ but this time $n$ is the new initial node (line 12).
+The recursion terminates when an obstacle is encountered and no further
+steps can be taken (line 3).
+Note that before each diagonal step the algorithm must first 
+fail to detect any straight jump points (lines 9:11). 
+This check corresponds to the third condition of Definition \ref{def:jump} 
+and is essential for preserving optimality.
+We give an example of diagonal jump point identification in Figure
+\ref{fig:jumppoints}(b); $x$ is the current node and $p(x)$ is its parent.
+Dashed lines indicate failed attempts at finding a straight jump point (each
+attempt leads to a dead end in this example). 
+The search eventually identifies node $y$ as a diagonal jump point due to the
+presence of a successor $z$ (which has a forced neighbour).
