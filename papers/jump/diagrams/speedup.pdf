@@ -2,8 +2,8 @@
 %âãÏÓ\r
 1 0 obj
 <<
-/CreationDate (D:20110207124729)
-/ModDate (D:20110207124729)
+/CreationDate (D:20110207133350)
+/ModDate (D:20110207133350)
 /Title (R Graphics Output)
 /Producer (R 2.12.1)
 /Creator (R)
@@ -126,7 +126,7 @@ S
 Q q 0.00 270.00 360.00 270.00 re W n
 BT
 0.000 0.000 0.000 rg
-/F3 1 Tf 12.00 0.00 -0.00 12.00 80.11 511.19 Tm [(Sear) 20 (c) 10 (h Time Speedup: Adaptive Depth )] TJ
+/F3 1 Tf 12.00 0.00 -0.00 12.00 72.44 511.19 Tm [(A. Sear) 20 (c) 10 (h Time Speedup: Adaptive Depth )] TJ
 ET
 BT
 /F2 1 Tf 10.00 0.00 -0.00 10.00 165.19 285.54 Tm [(P) 40 (ath Length)] TJ
@@ -291,7 +291,7 @@ S
 Q q 360.00 270.00 360.00 270.00 re W n
 BT
 0.000 0.000 0.000 rg
-/F3 1 Tf 12.00 0.00 -0.00 12.00 419.51 511.19 Tm [(Sear) 20 (c) 10 (h Time Speedup: Baldur) 15 (s Gate \(512x512\))] TJ
+/F3 1 Tf 12.00 0.00 -0.00 12.00 411.84 511.19 Tm [(B. Sear) 20 (c) 10 (h Time Speedup: Baldur) 15 (s Gate \(512x512\))] TJ
 ET
 BT
 /F2 1 Tf 10.00 0.00 -0.00 10.00 525.19 285.54 Tm [(P) 40 (ath Length)] TJ
@@ -476,7 +476,7 @@ S
 Q q 0.00 0.00 360.00 270.00 re W n
 BT
 0.000 0.000 0.000 rg
-/F3 1 Tf 12.00 0.00 -0.00 12.00 105.44 241.19 Tm [(Sear) 20 (c) 10 (h Time Speedup: Rooms)] TJ
+/F3 1 Tf 12.00 0.00 -0.00 12.00 97.78 241.19 Tm [(C. Sear) 20 (c) 10 (h Time Speedup: Rooms)] TJ
 ET
 BT
 /F2 1 Tf 10.00 0.00 -0.00 10.00 165.19 15.54 Tm [(P) 40 (ath Length)] TJ
@@ -752,7 +752,7 @@ S
 Q q 360.00 0.00 360.00 270.00 re W n
 BT
 0.000 0.000 0.000 rg
-/F3 1 Tf 12.00 0.00 -0.00 12.00 451.78 241.19 Tm [(Sear) 20 (c) 10 (h Time Speedup: Dra) 10 (gon Ag) -10 (e)] TJ
+/F3 1 Tf 12.00 0.00 -0.00 12.00 444.11 241.19 Tm [(D. Sear) 20 (c) 10 (h Time Speedup: Dra) 10 (gon Ag) -10 (e)] TJ
 ET
 BT
 /F2 1 Tf 10.00 0.00 -0.00 10.00 525.19 15.54 Tm [(P) 40 (ath Length)] TJ
@@ -1021,7 +1021,7 @@ Q
 endstream
 endobj
 7 0 obj
-18249
+18260
 endobj
 3 0 obj
 <<
@@ -1068,14 +1068,14 @@ xref
 0000000000 65535 f 
 0000000021 00000 n 
 0000000164 00000 n 
-0000018616 00000 n 
-0000018699 00000 n 
+0000018627 00000 n 
+0000018710 00000 n 
 0000000213 00000 n 
 0000000293 00000 n 
-0000018595 00000 n 
-0000018791 00000 n 
-0000019048 00000 n 
-0000019144 00000 n 
+0000018606 00000 n 
+0000018802 00000 n 
+0000019059 00000 n 
+0000019155 00000 n 
 trailer
 <<
 /Size 11
@@ -1083,5 +1083,5 @@ trailer
 /Root 2 0 R
 >>
 startxref
-19246
+19257
 %%EOF
