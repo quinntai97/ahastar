@@ -18,8 +18,8 @@ fixed cluster size of 10 (as recommended by the original authors).
 \par
 We discuss performance in terms of search times and compare 
 the average speedup experienced by A* when running with and
-without pruning methods applied to the map.  Using this metric a speedup of
-2.0 is twice as fast (higher is better).
+without pruning methods applied to the map.  
+Using this metric a speedup of 2.0 is twice as fast (higher is better).
 
 \begin{figure*}[t]
    \begin{center}
@@ -30,3 +30,21 @@ without pruning methods applied to the map.  Using this metric a speedup of
 	Results are given in terms of relative search time improvement.}
 \label{fig:speedup}
 \end{figure*}
+
+\textbf{Comparison with Swamps: }
+As per Figure \ref{fig:speedup}(A-D), jump point pruning shows a convincing
+improvement over Swamps across all benchmarks. 
+The largest differences are observed on Baldur's Gate and Dragon Age where jump 
+points achieve between 20-26 times search time speedup compared with Swamps with 
+only attains a 3-5 times speedup.
+On the Rooms benchmark the difference is much smaller: jump points pruning
+speeds up search times by a factor of 11 while Swamps achieves a 7 times
+speedup.
+The observed performance characteristics are not unexpected: Swamps prune out
+areas that can be avoided without introducing a detour. However, Swamps are of
+little benefit if the areas which remain are large and need to be explored 
+throroughly.
+By comparison, jump points pruning rapidly explores large areas by proving
+that many node expansion operations are unnecessary.
+\textbf{Comparison with HPA*: }
+$\ldots$
