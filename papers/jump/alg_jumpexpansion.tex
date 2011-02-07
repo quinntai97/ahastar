@@ -1,5 +1,5 @@
 \begin{algorithm}[b]
-\caption{Generating Successors Using Jump Points}
+\caption{$generateSuccessors$}
 \label{alg:successors}
 \begin{algorithmic}[1]
 \REQUIRE $x$: the node to be expanded, $g$: the goal node 
@@ -10,12 +10,13 @@
 \STATE $n \leftarrow jump(x, direction(x, n), g)$
 \STATE add $n$ to $successors(x)$
 \ENDFOR
+\RETURN $successors(x)$
 
 \end{algorithmic}
 \end{algorithm}
 
 \begin{algorithm}[b]
-\caption{$jump$ Function}
+\caption{$jump$}
 \label{alg:jump}
 \begin{algorithmic}[1]
 \REQUIRE $x$: initial node, $dir$: direction, $g$: goal, $s$: start
