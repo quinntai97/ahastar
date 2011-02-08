@@ -15,7 +15,7 @@ domains such as grid maps.
 One recent study which attempts to redress this oversight is due to
 \citeauthor{harabor10}~\shortcite{harabor10}.  They introduce Empty Rectangular
 Rooms, a symmetry breaking technique specific to 4-connected grid maps.  Using
-this method a grid map is  decomposed into a set of obstacle free rectangles.
+this method a grid map is  decomposed into a set of obstacle-free rectangles.
 Nodes from the interior of each rectangle are then pruned and replaced by a
 series of macro edges that facilitate optimal travel from any node on the
 perimeter of a rectangle to any other.  Being specific to 4-connected maps this
@@ -27,7 +27,7 @@ Related to our work is the graph pruning technique of
 search space reduction algorithm which involves decomposing a graph into so
 called ``swamp'' areas that can be ignored because there always exists a
 symmetric path that does not cross any nodes in the swamp.  Each search instance
-is then limited to an a corridor of inter-dependent swamp (and non-swamp areas).
+is then limited to a corridor of inter-dependent swamp (and non-swamp areas).
 The focus of swamp pruning is in identifying regions of
 the search space which can be ignored for the search at hand.  This is in
 contrast to our work which focuses on reducing the effort required to explore
@@ -36,8 +36,8 @@ identification is usually performed offline while we identify jump points
 online.
 \par
 Searching with jump points bears some similarity to the graph pruning work of
-\citeauthor{bjornsson06}~\shortcite{bjornsson06}.  This study introduces the
-\emph{Dead-end heuristic}; an optimality preserving
+\citeauthor{bjornsson06}~\shortcite{bjornsson06}.  These authors introduce the
+\emph{Dead-end Heuristic}; an optimality preserving
  method for improving the performance of A* on grid maps.
 As with Swamps and Empty Rooms, an offline pre-processing step is required where
 the map is decomposed into a set of zones.  The main idea is to identify areas
@@ -49,7 +49,7 @@ suggest it is not as effective.
 Hierarchical pathfinding methods are pervasive in cases where optimality is
 not required.  The main idea is to improve performance by reducing the 
 search space (usually a grid map) into a much smaller approximation.  Algorithms
-of this type usually fast and memory-efficient but also suboptimal.  The HPA*
+of this type are  usually fast and memory-efficient but also suboptimal.  The HPA*
 algorithm \cite{botea04} is one such example.  It uses a map decomposition
 approach, dividing a grid map into a series of fixed-size clusters connected by
 entrances.

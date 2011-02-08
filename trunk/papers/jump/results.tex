@@ -13,8 +13,8 @@ against the HPA* algorithm of \citeauthor{botea04}~\shortcite{botea04}.
 Though sub-optimal, HPA* is very fast and therefore widely applied in video
 games. We compare against it to establish whether or not jump points are 
 equally applicable in similar contexts. 
-When evaluating HPA* we used a custom implementation of the algorithm and a
-fixed cluster size of 10 (as recommended by the original authors).
+When evaluating HPA* we used our own implementation of the algorithm which we 
+configued with a fixed cluster size of 10 (as recommended by the original authors).
 \par
 We discuss performance in terms of search times and compare 
 the average speedup experienced by A* when running with and
@@ -35,9 +35,9 @@ Using this metric a speedup of 2.0 is twice as fast (higher is better).
 As per Figure \ref{fig:speedup}(A-D), jump point pruning shows a convincing
 improvement over Swamps across all benchmarks. 
 The largest differences are observed on Baldur's Gate and Dragon Age where jump 
-points achieve between 20-26 times search speedup compared with Swamps with 
+points achieve between 20-26 times search speedup compared with Swamps
 only attains a 3-5 times speedup.
-On the Rooms benchmark the difference is much smaller: jump points pruning
+On the Rooms benchmark the difference is smaller: jump points pruning
 speeds up search by a factor of 11 while Swamps achieves a 7 times
 speedup.
 The observed performance characteristics are not unexpected: Swamps prune out

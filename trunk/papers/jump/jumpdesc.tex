@@ -1,5 +1,9 @@
 \subsection{Algorithmic Description}
-We begin by making precise the concept of a jump point:
+We begin by making precise the concept of a jump point.  
+In doing so we will distinguish between a neighbour, which is immediately
+adjacent to a node $x$ on the grid, and a successor which may not be.
+This is a fine but important distinction as when expanding a jump point node
+we will only consider its successors.
 
 \begin{definition}
 \label{def:jump}
@@ -7,17 +11,11 @@ A node $x$ is designated a jump point if it satisfies at least one of the follow
 conditions:
 \begin{enumerate}
 \item{$x$ is the start or goal node.}
-\item{$x$ is adjacent to at least one neighbour
+\item{$x$ has at least one neighbour
 whose evaluation is forced according to Definition \ref{def:forced}.}
-\item{$x$ has one or more successors which are themselves jump points.}
+\item{$x$ has one or more successors which satisfy conditions 1 and 2.}
 \end{enumerate}
 \end{definition}
-
-Note that we distinguish between a neighbour, which is immediately adjacent to
-$x$ on the grid, and a successor which may not be. 
-This is a fine but important distinction as in our work a neighbour can be a 
-successor but the converse is not necessarily true.
-Thus, when expand $x$, we will only consider its successors.
 
 \input alg_jumpexpansion
 
@@ -34,9 +32,9 @@ If we find such a node, we add it to the set of successors instead of $n$.
 In the case where we fail to find a jump point, we add nothing.
 The process continues until the set of neighbours for $x$ is exhausted.
 
-The process by which we identfy jump points is given in Algorithm
+The process by which we identify jump points is given in Algorithm
 \ref{alg:jump}; it requires an initial node $x$, a direction of travel $dir$
-(e.g. up, down, left right, etc), the start node $s$ and the goal node $g$.
+(e.g. up, down, left, right, etc.), the start node $s$ and the goal node $g$.
 In rough overview, the algorithm attempts to establish whether $x$ has any 
 jump point successors by stepping in the direction $dir$ and testing
 if the node $n$ at that location satisfies Definition \ref{def:jump}.

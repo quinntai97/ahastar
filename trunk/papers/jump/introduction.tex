@@ -1,10 +1,4 @@
 \section{Introduction}
-% DH: I feel this section needs better motivation; it should discuss why
-% the 2D Euclidean constraint is important to our work: i.e. we use the
-% triangle inequality together with the regular properties of grids 
-% (which always have a fixed number of neighbours in the same location relative
-% to any given node) to identfy pruning opportunities. 
-
 The most popular and successful pathfinding algorithms, such as A*, Bellman-Ford
 and Dijkstra's Algorithm have all been developed in the context of general
 purpose problem graphs.  Finding a shortest path in such domains usually
@@ -28,47 +22,33 @@ Symmetry in this case manifests itself as paths (or path segments) which share
 the same start and end point, have the same length and are otherwise identical
 save for the order in which moves occur.
 %; Figure \ref{fig:symmetry} shows a typical example.  
-Symmetry is usually undesirable as it forces search algorithms
-to waste time discovering identical solutions and prevents real progress toward
+Unless it is handled properly, symmetry can force search algorithms 
+to evaluate many equivalent states and prevents real progress toward
 the goal.
 
-In this paper we deal with path symmetries by developing a macro step move
+In this paper we deal with path symmetries by developing a macro 
 operator that selectively expands only certain nodes on a grid map which we call
 \emph{jump points}. Moving from one jump point to the next involves travelling
 in a fixed direction while repeatedly applying a set of simple neighbour pruning
 rules until either a dead-end or a jump point is reached.  Because we do not
 expand any intermediate nodes between jump points our strategy can have a
 dramatic positive effect on search performance.  Furthermore, computed solutions
-are guaranteed to be optimal.  Our algorithm is largely orthogonal to all
-existing speedup techniques which are applicable to grid maps.  Unlike other
-recent methods for speeding up optimal search however, such as the Dead-end
-Heuristic \cite{bjornsson06}, Empty Rectangular Rooms \cite{harabor10} and
-Swamp-based pathfinding \cite{pochter10}, our algorithm is applied online and
-requires no pre-processing.  Additionally, unlike many sub-optimal techniques
-that make use of abstraction hierarchies to improve performance (e.g. HPA* \cite{botea04}
-and PRA* \cite{sturtevant05}), we require no additional memory.
+are guaranteed to be optimal.  Unlike other recent methods for speeding up
+optimal search, such as the Dead-end Heuristic \cite{bjornsson06}, Empty
+Rectangular Rooms \cite{harabor10} and Swamp-based pathfinding \cite{pochter10},
+our method is applied online, requires no pre-processing and has no associated
+memory overheads.  As we will discuss later, jump points are also largely
+orthogonal to all many existing speedup techniques that are applicable to grid
+maps.
 
 We make the following contributions: (i) a detailed description of the jump
 points algorithm; (ii) a theoretical result which shows that searching with jump
 points preserves optimality;  (iii) an empirical analysis comparing our method
-with a number of recent search space reduction algorithms.  We run experiments
-on both synthetic and real-world benchamarks, including two taken from the
-popular video games \emph{Dragon Age: Origins} and \emph{Baldur's Gate}.  Our
-results indicate that searching with jump points achieves more than an order of
-magnitude performance improvement when compared to standard A* search.  We also
-report significant performance gains over the current state of the art
-including, in many cases, performance competitive with a well known sub-optimal
-pathfinding algorithm.
-%In contrast to other techniques for representing
-%low-dimensional Euclidean planes, such as roadmap methods \cite{geraerts05} or
-%navigation mesh approaches \cite{demyen07}, grid maps are highly regular, less
-%sparse and typically require more memory to store.  However, grid maps have
-%several advantages that other map representations do not. Perhaps most obvious
-%is their simplicity; it is trivial to overlay a grid map over a
-%Euclidean plane for the purposes of finding shortest paths between points.
-%There also exist a number of well known and highly popular admissible
-%heuristics, such as Manhattan distance, which are specific to grid maps.
-%Finally, grid maps are guaranteed to have a fixed branching factor which
-%provides constant-time guarantees for the amount of time required to expand any
-%particular node during search. 
-% 
+with two state-of-the-art search space reduction algorithms.  We run experiments
+on synthetic and real-world benchmarks, including two sets of maps taken from
+the popular video games \emph{Dragon Age: Origins} and \emph{Baldur's Gate II:
+Shadows of Amn}.  Our results indicate that searching with jump points improves
+the search time performance of standard A* by more than on order of magnitude.
+We also report significant improvement over Swamps \cite{pochter10}, a recent
+optimalty preserving pruning technique, and performance competitive with HPA*
+\cite{botea04}, a well known sub-optimal pathfinding algorithm.
