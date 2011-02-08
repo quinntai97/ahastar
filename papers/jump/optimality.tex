@@ -13,59 +13,91 @@ travel from the previous node $n_{i-1}$ to $n_{i}$ is different to the direction
 of travel from $n_{i}$ to the subsequent node $n_{i+1}$.
 \end{definition}
 
-Before proving our main result, we will first develop an equivalence between
+Figure \ref{fig:turningpoints} depicts the four possible
+kinds of turning points which we may encounter. 
+A diagonal-to-diagonal turning point $n_{k}$ for example (Figure
+\ref{fig:turningpoints}(a)) involves a diagonal step from its parent $n_{k-1}$ 
+followed by a second diagonal step, this time in a different direction,
+from $n_{k}$ to its successor $n_{k+1}$.
+Similarly, a straight-to-diagonal turning point (Figure
+\ref{fig:turningpoints}(c)) 
+involves a straight step to reach $n_{k}$ followed by a diagonal step to reach its 
+successor. 
+
+We are now ready to develop an equivalence relation between
 jump points and the turning points that appear along certain optimal length 
-symmetric paths.
+symmetric paths which we term \emph{diagonal-first}.
  
-\begin{lemma}
-\label{lemma:piprime}
-Given an optimal length path $\pi$ on a grid map, it is always possible to
-derive a symmetric path $\pi'$ along which every diagonal step is taken as
-early as possible.
-\end{lemma}
-\begin{proof}
-We proceed by examining pairs of adjacent edges appearing along $\pi$ where
-where $(i, j)$ is a straight move and $(j, k)$ is a diagonal move.
-The objective is to replace each such pair of edges with two new edges: 
-$(i, j')$, which is a diagonal move and $(j', k)$ which is a straight move. 
-The operation is successful if:
-\begin{itemize}
-\item $(i, j'$) and $(j', k)$ are both valid moves; i.e. node $j'$ is not an
-obstacle.
-\item $(i, j') + (j', k) = (i, j) + (j + k)$; i.e. the cost of
-the path $\pi$ is unchanged by the operation.
-\end{itemize}
-We apply this procedure repeatedly until no further re-ordering of the moves
-is possible and return $\pi'$, a new optimal path which is symmetric
-to the original and along which diagonal moves appear as early as possible.
-\end{proof}
+\begin{definition}
+A path $\pi$ is diagonal-first if it contains no straight-to-diagonal turning point
+which could be replaced by an equivalent diagonal-to-straight turning point s.t.
+the length of $\pi$ remains unchanged.
+\end{definition}
+
+Given an arbitrary optimal length path $\pi$, we can always derive a symmetric
+diagonal-first path $\pi'$ by applying Algorithm \ref{alg:dfirst} to $\pi$.
+
+\input alg_dfirst
 
 \begin{lemma}
 \label{lemma:turningpoints}
-Each turning point of $\pi'$ is also a jump point.
+Each turning point along a diagonal-first path $\pi'$ is also a jump point.
 \end{lemma}
 \begin{proof}
 Let $n_{k}$ be an arbitrary turning point node along $\pi'$. 
-There are two cases to consider, depending on whether $n_{k}$ is next
-to an obstacle or not.
-\par
-In the first case, the obstacle must be blocking of the four cardinal 
-moves (``up'', ``down'', ``left'' or ``right''); otherwise we can re-write 
-$\pi'$ s.t. $n_{k}$ is no longer mentioned.
-If one of the four cardinal moves is blocked, $n_{k}$ has at least one
-forced neighbour. This satisfies the second condition in Definition
-\ref{def:jump} and we conclude $n_{k}$ is a jump point.
-\par
-In the second case $n_{k}$ is not adjacent to any obstacle but the edge
-from its predecessor $n_{k-1}$ must be a diagonal step; otherwise we can 
-re-write $\pi'$ s.t. $n_{k}$ is no longer mentioned.
-Since $n_{k}$ is not adjacent to an obstacle, the next turning point along 
-$\pi'$ must be; otherwise we can once more re-write $\pi'$ s.t $n_{k}$ is no longer
-mentioned. Further, the next turning point along $\pi'$ must be reachable 
-by a series of straight moves; otherwise $\pi'$ is not optimal.
-This is sufficient to satisfy the third condition in Definition \ref{def:jump} and
-we conclude $n_{k}$ is a jump point.
+We will consider four cases, each one corresponding to one of the four
+possible kinds of turning points illustrated in Figure \ref{fig:turningpoints}. 
+
+\textbf{Diagonal-to-Diagonal:} Since $\pi'$ is optimal, there must be an
+obstacle adjacent to both $n_{k}$ and $n_{k-1}$ which is forcing a detour.
+We know this because if there were no obstacle we would have 
+$d(n_{k-1}, n_{k+1}) < d(n_{k-1}, n_{k}) + d(n_{k}, n_{k+1})$ which contradicts
+the fact that $\pi'$ is optimal.
+We conclude that $n_{k+1}$ is a forced neighbour of $n_{k}$.
+This is sufficient to satisfy the second condition of Definition
+\ref{def:forced}, making $n_{k}$ a jump point.
+
+\textbf{Straight-to-Straight:} We can ignore this case as it contradicts the 
+optimality of $\pi'$. In particular, we have: 
+$d(n_{k-1}, n_{k+1}) < d(n_{k-1}, n_{k}) + d(n_{k}, n_{k+1})$.
+
+\textbf{Straight-to-Diagonal:} In this case there must be an 
+obstacle adjacent to $n_{k}$. 
+If this were not true $n_{k}$ could be replaced by a
+Diagonal-to-Straight turning point which contradicts the fact that $\pi'$ is
+diagonal-first.
+Since $\pi'$ is guaranteed to be diagonal-first we derive the fact that $n_{k+1}$ is 
+a forced neighbour of $n_{k}$.
+This satisfies second condition of Definition \ref{def:forced} and we conclude
+$n_{k}$ is a jump point.
+
+\textbf{Diagonal-to-Straight:} There are two possibilities in this case, 
+depending on whether the goal is reachable by a series of straight steps
+from $n_{k}$ or whether $\pi'$ has additional turning points. If the goal
+is reachable then $n_{k}$ has a jump point successor which satisfies the
+third condition of Definition \ref{def:forced} and we conclude $n_{k}$ is
+also a jump point.
+If $n_{k}$ is followed by another turning point, $n_{l}$, then that turning
+point must be Straight-to-Diagonal and, by the argument for that case, 
+also a jump point.
+%If this were not true we derive a contradiction either on the optimality of
+%$\pi'$ or on the fact that $\pi'$ is diagonal-first. Since both 
+%properties are guaranteed we derive the fact that $n_{k}$ has
+We again conclude that $n_{k}$ has a jump point successor which satisfies
+the third condition of Definition \ref{def:forced}. Thus, $n_{k}$ is
+also a jump point.
 \end{proof}
+
+\begin{figure}[tb]
+       \begin{center}
+		   \includegraphics[width=0.95\columnwidth, trim = 10mm 10mm 10mm 0mm]
+			{diagrams/turningpoints.png}
+       \end{center}
+	\vspace{-3pt}
+       \caption{Types of turning points. (a) Diagonal-to-Diagonal
+(b) Straight-to-Straight (c) Straight-to-Diagonal (d) Diagonal-to-Straight.}
+       \label{fig:turningpoints}
+\end{figure}
 
 \begin{theorem}
 \label{theorem:jumping}

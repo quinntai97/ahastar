@@ -1,0 +1,24 @@
+\begin{algorithm}[h]
+\caption{Compute Diagonal First Path}
+\label{alg:dfirst}
+\begin{algorithmic}[1]
+\REQUIRE $\pi$: an arbitrary optimal length path
+
+\STATE{\textbf{select} an adjacent pair of edges appearing along $\pi$ where
+$(i, j)$ is a straight move and $(j, k)$ is a diagonal move.}
+\STATE{ \textbf{replace} $(i, j)$ and $(j, k)$ with two new edges: $(i, j')$, 
+which is a diagonal move and $(j', k)$ which is a straight move. 
+The operation is successful if:
+\begin{itemize}
+\item $(i, j'$) and $(j', k)$ are both valid moves; i.e. node $j'$ is not an
+obstacle.
+\item $(i, j') + (j', k) = (i, j) + (j + k)$; i.e. the cost of
+the path $\pi$ is unchanged by the operation.
+\end{itemize}
+}
+\STATE \textbf{repeat} lines 1 and 2, selecting and replacing adjacent edges, 
+until no further changes can be made to $\pi$.
+\RETURN $\pi$ 
+
+\end{algorithmic}
+\end{algorithm}
