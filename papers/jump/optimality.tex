@@ -101,17 +101,16 @@ also a jump point.
 
 \begin{theorem}
 \label{theorem:jumping}
-For each optimal length path between two nodes on a grid there exists
-an equivalent length symmetric path that mentions only jump point nodes.
+Searching with jump point pruning always returns an optimal solution. 
 \end{theorem}
 \begin{proof}
 Let $\pi$ be an arbitrarily chosen optimal path between two nodes
-on a grid.  
-We begin by re-ordering $\pi$ according to Lemma \ref{lemma:piprime} and derive
-a new symmetric path $\pi'$ along which diagonal steps are taken as early as 
-possible.
+on a grid and $\pi'$ a diagonal-first symmetric equivalent which is derived
+by applying Algorithm \ref{alg:dfirst} to $\pi$.
+We will show that every turning point mentioned by $\pi'$ is expanded optimally 
+when searching with jump point pruning. We argue as follows:
 \par
-Next, we divide $\pi'$ into a series of adjacent segments s.t. 
+Divide $\pi'$ into a series of adjacent segments s.t. 
 $\pi' = \pi'_{0} + \pi'_{1} + \ldots + \pi'_{n} $. Each $\pi'_{i} = \lbrace n_{0}, n_{1},
 \ldots, n_{k-1}, n_{k} \rbrace$ is a subpath along which all moves involve
 travelling in the same direction (e.g.  only ``up'' or ``down'' etc).  Notice

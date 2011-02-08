@@ -6,7 +6,8 @@ associated with a node $x$ on the grid.  The objective is to identify from each
 set $neighbours(x)$ any nodes $n$ that do not need to be evaluated in order to
 reach the goal optimally.  There are two cases to consider, depending on
 whether the transition to $x$ from its parent $p(x)$ involves a straight move or
-a diagonal move.
+a diagonal move. 
+Note that we use the function $d$ to refer to actual distance between two nodes.
 
 \begin{figure}[tb]
        \begin{center}
@@ -15,7 +16,7 @@ a diagonal move.
 	\vspace{-3pt}
        \caption{We show several cases where a node $x$ is reached from its
 parent $p(x)$ by either a straight or diagonal move. When $x$ is expanded we can
-prune from consideration all nodes marked gray.}
+prune from consideration all nodes marked grey.}
        \label{fig:pruning}
 \end{figure}
 \par \noindent
@@ -43,7 +44,7 @@ neighbours except $n = 2$, $n = 3$ and $n = 5$.
 %to an obstacle we may be forced to evaluate additional neighbours. For example
 %in Figure \ref{fig:pruning} the evaluation of node $n = 1$ is forced.
 \par
-It is important to note at this stage that for both straight and diagonal moves
+It is important to mention at this stage that for both straight and diagonal moves
 there are cases where we may not be able to prune a neighbour due to the
 presence of obstacles that are adjacent to $x$.  If this occurs we say that the
 evaluation of such a neighbour is \emph{forced}.
@@ -54,7 +55,9 @@ A node $n \in neighbours(x)$ is forced if:
 $$h(p(x), n) < d(p(x), x) + d(x, n)$$
 \end{definition}
 \par \noindent
+Note that $h$ is a heuristic function that returns either 
+straight-line distance or octile distance between two nodes on a grid.
 In Figure \ref{fig:pruning}(b) we show an example of a straight move where 
 the evaluation of $n = 3$ is forced. Figure \ref{fig:pruning}(d)  
 shows an similar example involving a diagonal move; here the evaluation of
- $n = 1$ is forced. 
+$n = 1$ is forced.

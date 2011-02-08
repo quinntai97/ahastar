@@ -2,7 +2,7 @@
 In this section we introduce a search strategy for speeding up
 optimal search by selectively expanding only certain nodes on a grid map
 which we term \emph{jump points}.
-The basic idea is straightforward: we give an example in Figure 
+We give an example of the basic idea in Figure \ref{fig:jumppoints}.
 \ref{fig:jumppoints}(a).
 
 \begin{figure}[tb]
@@ -20,17 +20,18 @@ a dead end. Strong lines indicate eventual successor nodes.}
 Here the search is expanding a node $x$ which has as its parent $p(x)$;
 the direction of travel from $p(x)$ to $x$ is a straight move to the right.
 When expanding $x$ we may notice that there is little point to evaluating any
-neighbour highlighted grey as the path induced by such a move is always dominated 
-by another path of lower or equal cost which mentions $p(x)$ but not $x$.
+neighbour highlighted grey as the path induced by such a move is always
+dominated by (i.e. no better than) an alternative path which mentions 
+$p(x)$ but not $x$.
 We will make this idea more precise in the next section but for now it is 
-sufficient to observe that the only neighbour of $x$ for which this is not 
-true lies immediately to the right.
+sufficient to observe that the only non-dominated neighbour of $x$ 
+lies immediately to the right.
 Rather than generating this neighbour and adding it to the open list we propose 
 to simply step to the right and continue moving in this direction until we
 encounter a node such as $y$; which has at least one other non-dominated
 neighbour (here $z$). 
 If we find a node such as $y$ (a jump point) we generate it as a successor 
-of $x$ with $g(y) = g(x) + d(x, y)$.
+of $x$ with cost $g(y) = g(x) + d(x, y)$.
 Alternatively, if we reach an obstacle we conclude that further search in this
 direction is fruitless and generate nothing.
 \par
@@ -41,7 +42,7 @@ pruning rules to determine whether a node should be generated
 or skipped. 
 This will allow us to make precise the notion of a jump point and 
 give a detailed description of the jump points algorithm.
-Lastly, we prove that the process of ``jumping'' nodes, such as as $x$ in 
+Then, we prove that the process of ``jumping'' nodes, such as as $x$ in 
 Figure \ref{fig:jumppoints}(a), has no effect on the optimality of search.
 
 \input pruning
