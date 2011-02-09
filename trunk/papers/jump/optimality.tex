@@ -127,6 +127,7 @@ It remains to show only that both $n_{0}$ and $n_{k}$ are identified as
 jump points and thus necessarily expanded. 
 By Lemma \ref{lemma:turningpoints} each turning point along $\pi'$ is 
 also a jump point, so every turning point node must be expanded during search.
-Only the start and goal remain. These are jump points by definition and must
-also be expanded.
+Only the start and goal remain. The start node is necessarily expanded at the
+beginning of each search while the goal node is a jump point by definition.
+Thus both are expanded.
 \end{proof}
