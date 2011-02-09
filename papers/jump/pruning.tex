@@ -4,10 +4,15 @@
 In this section we develop rules for pruning the set of adjacent neighbours
 associated with a node $x$ on the grid.  The objective is to identify from each
 set $neighbours(x)$ any nodes $n$ that do not need to be evaluated in order to
-reach the goal optimally.  There are two cases to consider, depending on
+reach the goal optimally. We achieve this by comparing the length of two paths:
+$\pi$, which begins with node $p(x)$ visits $x$ and ends with $n$ and another
+path $\pi'$ which also begins at node $p(x)$ and ends with $n$ but does not 
+mention $x$. 
+Additionally, each node mentioned by either $\pi$ or $\pi$ must belong to 
+$neighbours(x)$.
+There are two cases to consider, depending on
 whether the transition to $x$ from its parent $p(x)$ involves a straight move or
 a diagonal move. 
-Note that we use the function $d$ to refer to actual distance between two nodes.
 
 \begin{figure}[h]
        \begin{center}
@@ -20,10 +25,11 @@ prune from consideration all nodes marked grey.}
        \label{fig:pruning}
 \end{figure}
 \par \noindent
-\textbf{Straight Moves:} We prune any node $n \in neighbours(x)$ which satisfies
-the following dominance constraint: 
+\textbf{Straight Moves:} We prune any node $n \in neighbours(x)$ which 
+satisfies the following dominance constraint:
 \begin{equation}
-d(p(x), n) \leq d(p(x), x) + d(x, n)
+\pi' = \lbrace p(x), \ldots, n \rbrace \setminus x  
+\leq \pi = \lbrace p(x), x, n \rbrace
 \end{equation}
 Figure \ref{fig:pruning}(a) shows an example. Here $p(x) = 4$ and we prune
  all neighbours except $n = 5$.
@@ -33,10 +39,11 @@ Figure \ref{fig:pruning}(a) shows an example. Here $p(x) = 4$ and we prune
 %in addition to $n = 5$ we are also forced to consider $n = 3$. 
 \par \noindent
 \textbf{Diagonal Moves:} This case is similar to the pruning rules we developed
-for straight moves; the only difference is that $d(p(x), n)$ must be strictly
+for straight moves; the only difference is that the path $\pi'$ must be strictly
 dominant: 
 \begin{equation}
-d(p(x), n) < d(p(x), x) + d(x, n) 
+\pi' = \lbrace p(x), \ldots, n \rbrace \setminus x  
+< \pi = \lbrace p(x), x, n \rbrace
 \end{equation}
 Figure \ref{fig:pruning}(c) shows an example. Here $p(x) = 6$ and we prune all
 neighbours except $n = 2$, $n = 3$ and $n = 5$.  
@@ -51,12 +58,13 @@ evaluation of such a neighbour is \emph{forced}.
 
 \begin{definition}
 \label{def:forced}
-A node $n \in neighbours(x)$ is forced if:
-$$h(p(x), n) < d(p(x), x) + d(x, n)$$
+A node $n \in neighbours(x)$ is forced if: 
+\begin{equation}
+\pi = \lbrace p(x), x, n
+\rbrace < \pi' = \lbrace p(x), \ldots, n \rbrace \setminus x
+\end{equation}
 \end{definition}
 \par \noindent
-Note that $h$ is a heuristic function that returns either 
-straight-line distance or octile distance between two nodes on a grid.
 In Figure \ref{fig:pruning}(b) we show an example of a straight move where 
 the evaluation of $n = 3$ is forced. Figure \ref{fig:pruning}(d)  
 shows an similar example involving a diagonal move; here the evaluation of

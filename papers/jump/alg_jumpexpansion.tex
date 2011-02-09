@@ -19,9 +19,9 @@
 \caption{$jump$}
 \label{alg:jump}
 \begin{algorithmic}[1]
-\REQUIRE $x$: initial node, $dir$: direction, $g$: goal, $s$: start
+\REQUIRE $x$: initial node, $\vec{d}$: direction, $g$: goal, $s$: start
 
-\STATE $n \leftarrow step(x, dir)$
+\STATE $n \leftarrow step(x, \vec{d})$
 \IF{$n = \varnothing$}
 	\RETURN $\varnothing$
 \ENDIF
@@ -31,7 +31,7 @@
 \IF{$n \in neighbours(x) $ s.t. evaluation of $n$ is forced}
 	\RETURN $n$
 \ENDIF
-\IF{$dir$ is diagonal}
+\IF{$\vec{d}$ is diagonal}
 	\FORALL{$k \in neighbours(n)$ s.t. $direction(n, k)$ is straight}
 		\IF{$jump(n, direction(n, k), g) \neq \varnothing$}
 			\RETURN $n$

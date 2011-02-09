@@ -14,7 +14,7 @@ Though sub-optimal, HPA* is very fast and therefore widely applied in video
 games. We compare against it to establish whether or not jump points are 
 equally applicable in similar contexts. 
 When evaluating HPA* we used our own implementation of the algorithm which we 
-configued with a fixed cluster size of 10 (as recommended by the original authors).
+configured with a fixed cluster size of 10 (as recommended by the original authors).
 \par
 We discuss performance in terms of search times and compare 
 the average speedup experienced by A* when running with and
@@ -23,7 +23,7 @@ Using this metric a speedup of 2.0 is twice as fast (higher is better).
 
 \begin{figure*}[t]
    \begin{center}
-	   \includegraphics[width=1.75\columnwidth, trim = 10mm 10mm 10mm 0mm]
+	   \includegraphics[width=2.0\columnwidth, trim = 10mm 10mm 10mm 0mm]
 		{diagrams/speedup.pdf}
    \end{center}
    \caption{Average A* speedup on each of our four benchmarks. 
@@ -43,7 +43,7 @@ speedup.
 The observed performance characteristics are not unexpected: Swamps prune out
 areas that can be avoided without introducing a detour. However, Swamps are of
 little benefit if the areas which remain are large and need to be explored 
-throroughly.
+thoroughly.
 By comparison, jump points pruning rapidly explores large areas by proving
 that many node expansion operations are unnecessary.
 \par
@@ -62,7 +62,7 @@ On the Dragon Age benchmark however this trend is reversed; HPA* speeds up
 search by up to 27 times while jump points achieve a maximum speedup of 22
 times.
 It is interesting to note that jump point pruning achieves the largest relative
-speedup on instances with smaller path lenghts
+speedup on instances with smaller path lengths
 ($\leq 100$). Here HPA* search times are dominated by the overhead required to
 insert the start and goal into the abstract graph.
 As path length increases the advantage provided by jump point pruning is eroded

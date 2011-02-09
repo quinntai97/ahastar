@@ -2,8 +2,7 @@
 In this section we introduce a search strategy for speeding up
 optimal search by selectively expanding only certain nodes on a grid map
 which we term \emph{jump points}.
-We give an example of the basic idea in Figure \ref{fig:jumppoints}.
-\ref{fig:jumppoints}(a).
+We give an example of the basic idea in Figure \ref{fig:jumppoints}(a).
 
 \begin{figure}[tb]
        \begin{center}
@@ -26,7 +25,8 @@ $p(x)$ but not $x$.
 We will make this idea more precise in the next section but for now it is 
 sufficient to observe that the only non-dominated neighbour of $x$ 
 lies immediately to the right.
-Rather than generating this neighbour and adding it to the open list we propose 
+Rather than generating this neighbour and adding it to the open list,
+as in the classical A* algorithm, we propose 
 to simply step to the right and continue moving in this direction until we
 encounter a node such as $y$; which has at least one other non-dominated
 neighbour (here $z$). 
