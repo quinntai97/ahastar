@@ -1,19 +1,18 @@
 We thank all reviewers for their time and considered comments.
 
-Review 1
+Review_1
 -----------
 1. Favourable decompositions for RSR are those which yield large rectangles and
-a small number of transition points between neighbouring rectangles.  These
+a small number of transitions between neighbouring rectangles.  These
 features ensure a small graph with low branching factor.  We use the greedy
 decomposition described in [Harabor and Botea 2010] which works well on Rooms
-and Adaptive Depth but less well on Baldur's Gate.  An exploration of the effect
+and Adaptive Depth but less well on Baldur's Gate.  Exploring the effect
 that different decomposition approaches have on search time is the subject of
 further work.
 
-2. In our experience, the largest non-scaled map (320x320) takes less than a
-second to pre-process. Scaled maps take significantly longer, but never more
-than 30s. This cost is amortised over each of the many subsequent searches.
-This is much faster than Swamps, which takes 20s and 200s respectively on the
+2. In our experience, the largest non-scaled map (320x320) takes 1-3 seconds to
+preprocess. Scaled maps take significantly longer, but never more
+than 30s. By comparison, Swamps takes 20s and 200s respectively on the
 largest map (original and scaled).
 
 3. RSR has a very small memory overhead. We store (i) the id of the parent
@@ -25,38 +24,36 @@ We will provide a brief complexity analysis of RSR
 4. Excellent suggestions. Thank you!
 
 
-Review 2
+Review_2
 -----------
-The reviewer makes three critiques: (1) RSR only works on unform cost grids (2)
-RSR appers to be a reinvention of prior work (3) RSR is not compared with
-routing algorithms. We address each in turn:
+The reviewer makes three critiques: (1) RSR only works on uniform cost grids (2)
+RSR appears to reinvent prior work (3) RSR is not compared with
+routing algorithms. 
 
-1. In this work we focus on uniform-cost grids.
-There is a large body of work in the literature which deals with this domain (usually
-in the context of video games but also robotics) and this is where we make our
-contribution. RSR can in principle be applied to non-uniform cost grids. 
+1. In this work we focus on uniform-cost grids.  There is a large body of work
+in the literature which deals with this domain and this is where we make our
+contribution.  RSR can in principle be applied to non-uniform cost grids.
 Simply apply Definition 2 to generate a set of non-dominated macro-edges.
 
 2. While RSR may appear similar to PBTDH (Goldenberg et al 2010) the two
-algorithms are entirely orthogonal.  Most of the similarity is in the
-preprocessing approach: both methods use an optimality-preserving decomposition
-which factors the search space into regions that can be explored quickly.
-Despite this, the underlying problem-solving approach used by the two methods
-are very different. In particular:
+algorithms are entirely orthogonal.  
+
+Most of the similarity is in the preprocessing: both methods use an
+optimality-preserving decomposition which factors the search space into regions
+that can be explored quickly.
 
 PBTDH belongs to the family of memory-based heuristics, which we discuss in
-Section 1 and 2. Such techniques identify selected points on the map and
-pre-compute distance tables between all pairs of such points.  This approach is
-fast but can introduce substantial memory overheads.  In (Goldenberg et al 2010)
-PBTDH requires O(n^2) memory where n is the number of identified "portal" nodes.
-Authors note that on domains such as Baldur's Gate this requirement is so
-prohibitive that some portal-based heuristics could not be applied.
+Section 1 and 2.  This approach is fast but can introduce substantial memory
+overheads.  In (Goldenberg et al 2010) PBTDH requires O(n^2) memory where n is
+the number of identified "portal" nodes.  Authors note that on domains such as
+Baldur's Gate this requirement is so prohibitive that some portal-based
+heuristics could not be applied.
 
-By comparison, RSR uses no distance tables and has a memory overhead that is
-never larger than O(2|V|).  Speedup is obtained by using simple heuristics to
-compute exact distances between nodes on the perimeter of empty rectangles. This
-method exploits path symmetries in uniform-cost grid maps and is a novel
-approach which has received very little attention in the literature.
+RSR uses no distance tables and has a memory overhead that is never larger than
+O(|V| + total rectangles).  Speedup is obtained by using simple heuristics to
+quickly travel across empty rectangular regions.
+This method exploits path symmetries in grids and is a novel approach which
+has received very little attention in the literature.
 
 While we agree that a direct comparison between RSR and PBTDH would be nice, we
 respectfully point out that (Goldenberg et al 2010) was published a scant 6
@@ -66,24 +63,23 @@ exact evaluation is the subject of further work.
 
 3. We did not compare RSR with routing algorithms as the latter are specific to
 road networks -- a domain very different to grid maps.  A recent paper applying
-routing algorithm to grids (Sturtevant and Geisberger 2010) shows that while a
+routing ideas to grids (Sturtevant and Geisberger 2010) shows that while a
 speedup can be achieved the methods are not well suited to domains that do not
 feature backbone nodes and edges between locations (i.e. highways).
 
 
-Review 3
+Review_3
 --------------
-1. There are two challenges when generalising to 8-connected grids: ensuring
-optimality and keeping the branching factor low. There is some discussion of
-these at the beginning of Section 4 and 5.  Though it may appear simple, the
-identification of a small set of macro-edges that allow optimal travel through
-an empty rectangle was non-obvious.  The proof that this approach preserves
-optimality was also non-obvious.
+1. We not only generalise (Harabor and Botea 2010) to 8-connected grids but also
+improve it via perimeter reduction and online node pruning.  There are two
+challenges when generalising to 8-connected grids: ensuring optimality and
+keeping the branching factor low. There is some discussion of these at the
+beginning of Section 4 and 5. Though it may appear simple, this approach (and
+its proof) were non-obvious.
 
-2. The speedup factor metric is described in paragraph 3 of Section 7.
-It is a measure of relative improvement when comparing the 
-search time (i.e., the CPU time required by A* to solve an instance) 
-on a pruned grid vs an unpruned grid.
+2. The speedup factor metric is described in paragraph 3 of Section 7.  It is a
+measure of relative improvement when comparing the CPU time (= search time)
+required by A* to solve an instance on a pruned grid vs an unpruned grid.
 
 3. PRA* and HPA* build and search within small approximations of the original
 grid map.  Not every path in the original grid can be found in the approximate
@@ -93,6 +89,3 @@ detail due to lack of space.
 4. A straight edge has a cost of 1. A diagonal edge has a cost of sqrt(2).
 The cost of a macro-edge is the cost of a shortest path between the two
 endpoints of the macro.
-
-
-
