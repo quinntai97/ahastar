@@ -32,6 +32,7 @@
 #include "EmptyCluster.h"
 #include "FlexibleAStar.h"
 #include "fpUtil.h"
+#include "HierarchicalSearch.h"
 #include "HPAClusterAbstraction.h"
 #include "HPAClusterFactory.h"
 #include "HPAStar2.h"
@@ -40,6 +41,8 @@
 #include "mapFlatAbstraction.h"
 #include "MacroNodeFactory.h"
 #include "ManhattanHeuristic.h"
+#include "NoInsertionPolicy.h"
+#include "OctileDistanceRefinementPolicy.h"
 #include "OctileHeuristic.h"
 #include "PerimeterSearch.h"
 #include "PerimeterSearchFactory.h"
@@ -766,8 +769,8 @@ runNextExperiment(unitSimulation *unitSim)
 	unit* nextTarget = new unit(nextExperiment->getGoalX(), 
 			nextExperiment->getGoalY());
 
-	if(runAStar)
-	{
+	//if(runAStar)
+	//{
 		searchAlgorithm* alg = newSearchAlgorithm(aMap, true); 
 		alg->verbose = verbose;
 		algName = (char*)alg->getName();
@@ -777,19 +780,19 @@ runNextExperiment(unitSimulation *unitSim)
 		nextTarget->setColor(0.1,0.1,0.5);
 		expnum++;
 		runAStar=false;
-	}
-	else
-	{
-		FlexibleAStar* astar = new FlexibleAStar(newExpansionPolicy(aMap), 
-				newHeuristic());	
-		astar->verbose = verbose;
-		algName = (char*)astar->getName();
-		nextUnit = new searchUnit(nextExperiment->getStartX(), 
-				nextExperiment->getStartY(), nextTarget, astar); 
-		nextUnit->setColor(0.5,0.1,0.1);
-		nextTarget->setColor(0.5,0.1,0.1);
-		runAStar=true;
-	}
+//	}
+//	else
+//	{
+//		FlexibleAStar* astar = new FlexibleAStar(newExpansionPolicy(aMap), 
+//				newHeuristic());	
+//		astar->verbose = verbose;
+//		algName = (char*)astar->getName();
+//		nextUnit = new searchUnit(nextExperiment->getStartX(), 
+//				nextExperiment->getStartY(), nextTarget, astar); 
+//		nextUnit->setColor(0.5,0.1,0.1);
+//		nextTarget->setColor(0.5,0.1,0.1);
+//		runAStar=true;
+//	}
 	nextUnit->setSpeed(0.15);
 
 	unitSim->clearAllUnits();
@@ -843,8 +846,11 @@ newSearchAlgorithm(mapAbstraction* aMap, bool refineAbsPath)
 		}
 		case HOG::FLATJUMP:
 		{
-			alg = new FlexibleAStar(new JumpPointsExpansionPolicy(), 
-					newHeuristic());
+			alg = new HierarchicalSearch(new NoInsertionPolicy(),
+						new FlexibleAStar(
+							new JumpPointsExpansionPolicy(), 
+								newHeuristic()),
+						new OctileDistanceRefinementPolicy(aMap));
 			break;
 		}
 

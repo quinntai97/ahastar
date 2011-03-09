@@ -377,8 +377,6 @@ JumpPointsExpansionPolicy::findJumpNode(JPEP::Direction d, int x, int y)
 
 //	node* n = 0; // jump node in Direction d
 	node* n = map->getNodeFromMap(x, y);
-	double gVal = n->getLabelF(kTemporaryLabel) -
-		problem->getHeuristic()->h(n, problem->getGoalNode());
 
 	int goalx = problem->getGoalNode()->getLabelL(kFirstData);
 	int goaly = problem->getGoalNode()->getLabelL(kFirstData+1);
