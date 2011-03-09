@@ -23,7 +23,8 @@ HierarchicalSearch::~HierarchicalSearch()
 }
 
 
-path* HierarchicalSearch::getPath(graphAbstraction *aMap, node *from, 
+path* 
+HierarchicalSearch::getPath(graphAbstraction *aMap, node *from, 
 		node *to, reservationProvider *rp)
 {
 	resetMetrics();
@@ -46,19 +47,8 @@ path* HierarchicalSearch::getPath(graphAbstraction *aMap, node *from,
 	return refinedPath;
 }
 
-void HierarchicalSearch::logFinalStats(statCollection* stats)
-{
-	alg->logFinalStats(stats);
-	if(insertPolicy)
-	{
-		stats->addStat("insNodesExpanded",getName(),getInsertNodesExpanded());
-		stats->addStat("insNodesTouched",getName(),getInsertNodesTouched());
-		stats->addStat("insNodesGenerated",getName(),getInsertNodesGenerated());
-		stats->addStat("insSearchTime",getName(),getInsertSearchTime());
-	}
-}
-
-void HierarchicalSearch::resetMetrics()
+void 
+HierarchicalSearch::resetMetrics()
 {
 	if(insertPolicy)
 		insertPolicy->resetMetrics();
@@ -69,3 +59,39 @@ void HierarchicalSearch::resetMetrics()
 	searchTime = 0;
 }
 
+long 
+HierarchicalSearch::getInsertNodesExpanded() 
+{ 
+	return insertPolicy->getInsertNodesExpanded(); 
+}
+
+long 
+HierarchicalSearch::getInsertNodesTouched() 
+{
+   	return insertPolicy->getInsertNodesTouched(); 
+}
+
+long 
+HierarchicalSearch::getInsertNodesGenerated() 
+{ 
+	return insertPolicy->getInsertNodesGenerated(); 
+}
+
+double 
+HierarchicalSearch::getInsertSearchTime() 
+{ 
+	return insertPolicy->getInsertSearchTime(); 
+}
+
+void 
+HierarchicalSearch::logFinalStats(statCollection* stats)
+{
+	alg->logFinalStats(stats);
+	if(insertPolicy)
+	{
+		stats->addStat("insNodesExpanded",getName(),getInsertNodesExpanded());
+		stats->addStat("insNodesTouched",getName(),getInsertNodesTouched());
+		stats->addStat("insNodesGenerated",getName(),getInsertNodesGenerated());
+		stats->addStat("insSearchTime",getName(),getInsertSearchTime());
+	}
+}

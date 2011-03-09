@@ -27,14 +27,13 @@ class HierarchicalSearch : public searchAlgorithm
 		virtual path *getPath(graphAbstraction *aMap, node *from, node *to, 
 				reservationProvider *rp = 0);	
 
-		long getInsertNodesExpanded() { return insertNodesExpanded; }
-		long getInsertNodesTouched() { return insertNodesTouched; }
-		long getInsertNodesGenerated() { return insertNodesGenerated; }
-		double getInsertSearchTime() { return insertSearchTime; }
+		long getInsertNodesExpanded();
+		long getInsertNodesTouched();
+		long getInsertNodesGenerated();
+		double getInsertSearchTime();
 		virtual void logFinalStats(statCollection* sc);
 
 	private:
-		void updateMetrics();  
 		bool checkParameters(node* from, node* to);
 		void resetMetrics();
 
