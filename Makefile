@@ -36,8 +36,8 @@ TESTINCLUDES = -I./tests/util -I./tests/aha -I./tests/hpa -I./tests/opthpa
 
 # compiler flags
 CC = c++
-#CFLAGS = -Wall -Wno-long-long -g -ggdb -ansi -pedantic $(HOGINCLUDES) $(TESTINCLUDES)
-CFLAGS = -O3 $(HOGINCLUDES) -ansi
+CFLAGS = -Wall -Wno-long-long -g -ggdb -ansi -pedantic $(HOGINCLUDES) $(TESTINCLUDES)
+#CFLAGS = -O3 $(HOGINCLUDES) -ansi
 
 # locations of library files program depends on
 LIBFLAGS = -Lapps/libs 
