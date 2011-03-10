@@ -18,92 +18,42 @@ DefaultInsertionPolicy::~DefaultInsertionPolicy()
 
 // insert start and goal nodes into the abstract graph before running
 // any search.
-void
-DefaultInsertionPolicy::insertStartAndGoalNodesIntoAbstractGraph(
-		node* s, node* g)
+node*
+DefaultInsertionPolicy::insert(node* n)
 	throw(std::invalid_argument)
 {
-
-	nodesExpanded = nodesTouched = nodesGenerated = 0;
-	searchTime = 0;
-	
+	node* retVal = 0;
 	//assert(insertedStartNode == 0 && insertedGoalNode == 0);
-	if(s->getLabelL(kParent) == -1)
+	if(n->getLabelL(kParent) == -1)
 	{
-		ClusterNode* start = dynamic_cast<ClusterNode*>(s);
-		AbstractCluster* cluster = this->getCluster(
-			start->getParentClusterId());
+		ClusterNode* target = dynamic_cast<ClusterNode*>(n);
+		AbstractCluster* cluster = map->getCluster(
+			target->getParentClusterId());
 
 		if(getVerbose())
 		{
-			const int x = start->getLabelL(kFirstData);
-			const int y = start->getLabelL(kFirstData+1);
-			std::cout << "inserting start node ("<<x<<", "<<y<<") "
+			const int x = target->getLabelL(kFirstData);
+			const int y = target->getLabelL(kFirstData+1);
+			std::cout << "inserting node ("<<x<<", "<<y<<") "
 				"into abstract graph"<<std::endl;
 		}
 
-		cluster->addParent(start);
-		graph* absg = this->getAbstractGraph(1);
-		insertedStartNode = dynamic_cast<ClusterNode*>(
-				absg->getNode(start->getLabelL(kParent)));
-		//assert(insertedStartNode);
+		cluster->addParent(target);
+		graph* absg = map->getAbstractGraph(1);
+		retVal = absg->getNode(target->getLabelL(kParent));
+		addNode(retVal);
+		//assert(retVal);
 	}
+	else
+		retVal = n;
 
-	if(g->getLabelL(kParent) == -1)
-	{
-		ClusterNode* goal = dynamic_cast<ClusterNode*>(g);
-		AbstractCluster* cluster = this->getCluster(
-			goal->getParentClusterId());
-
-		if(getVerbose())
-		{
-			const int x = goal->getLabelL(kFirstData);
-			const int y = goal->getLabelL(kFirstData+1);
-			std::cout << "inserting goal node ("<<x<<", "<<y<<") "
-				"into abstract graph"<<std::endl;
-		}
-
-		cluster->addParent(goal);
-		graph* absg = this->getAbstractGraph(1);
-		insertedGoalNode = dynamic_cast<ClusterNode*>(
-				absg->getNode(goal->getLabelL(kParent)));
-		//assert(insertedGoalNode);
-	}
+	return retVal;
 }
 
 void 
-DefaultInsertionPolicy::removeStartAndGoalNodesFromAbstractGraph() 
+DefaultInsertionPolicy::remove(node* n) 
 	throw(std::runtime_error)
 {
-	graph* absg = this->getAbstractGraph(1);
-	if(insertedGoalNode)
-	{
-		AbstractCluster* cluster = this->getCluster(
-				insertedGoalNode->getParentClusterId());
-
-		if(getVerbose())
-			std::cout << "removing inserted goal node"<<std::endl;
-
-		cluster->removeParent(insertedGoalNode);
-		//assert(insertedGoalNode->getNumEdges() == 0);
-		absg->removeNode(insertedGoalNode->getNum());
-		delete insertedGoalNode;
-		insertedGoalNode = 0;
-	}
-
-	if(insertedStartNode)
-	{
-		AbstractCluster* cluster = this->getCluster(
-				insertedStartNode->getParentClusterId());
-
-		if(getVerbose())
-			std::cout << "removing inserted start node"<<std::endl;
-
-		cluster->removeParent(insertedStartNode);
-		delete insertedStartNode;
-		//assert(insertedStartNode->getNumEdges() == 0);
-		absg->removeNode(insertedStartNode->getNum());
-		insertedStartNode = 0;
-	}
+	removeNode(n);
 }
 

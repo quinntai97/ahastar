@@ -27,6 +27,7 @@
 #include "ClusterNodeFactory.h"
 #include "common.h"
 #include "hog.h"
+#include "DefaultInsertionPolicy.h"
 #include "DefaultRefinementPolicy.h"
 #include "EdgeFactory.h"
 #include "EmptyClusterAbstraction.h"
@@ -36,7 +37,6 @@
 #include "HierarchicalSearch.h"
 #include "HPAClusterAbstraction.h"
 #include "HPAClusterFactory.h"
-#include "HPAStar2.h"
 #include "IncidentEdgesExpansionPolicy.h"
 #include "JumpPointsExpansionPolicy.h"
 #include "mapFlatAbstraction.h"
@@ -831,17 +831,15 @@ newSearchAlgorithm(mapAbstraction* aMap, bool refineAbsPath)
 	switch(absType)
 	{
 		case HOG::HPA:
-		{
-			alg = new HPAStar2(newExpansionPolicy(aMap), newHeuristic(), 
-					refineAbsPath, false);
-			alg->verbose = verbose;
-			break;
-		}
-
+			// same as ERR
 		case HOG::ERR:
 		{
-			alg = new HPAStar2(newExpansionPolicy(aMap), newHeuristic(), 
-					refineAbsPath, false);
+			GenericClusterAbstraction* map = 
+				dynamic_cast<GenericClusterAbstraction*>(aMap);
+			alg = new HierarchicalSearch(new DefaultInsertionPolicy(map),
+					new FlexibleAStar(newExpansionPolicy(map), 
+						newHeuristic()),
+					new DefaultRefinementPolicy(map));
 			alg->verbose = verbose;
 			break;
 		}
@@ -852,14 +850,12 @@ newSearchAlgorithm(mapAbstraction* aMap, bool refineAbsPath)
 							new JumpPointsExpansionPolicy(), 
 								newHeuristic()),
 						new OctileDistanceRefinementPolicy(aMap));
-//						new DefaultRefinementPolicy(aMap));
 			((HierarchicalSearch*)alg)->setName("JPS");
 			break;
 		}
 
 		default:
 		{
-			//alg = new aStarOld();
 			alg = new FlexibleAStar(newExpansionPolicy(aMap), newHeuristic());
 			alg->verbose = verbose;
 			break;

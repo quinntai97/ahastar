@@ -1,5 +1,7 @@
 #include "InsertionPolicy.h"
 
+#include "graph.h"
+
 InsertionPolicy::InsertionPolicy()
 {
 	resetMetrics();
@@ -21,10 +23,21 @@ void InsertionPolicy::resetMetrics()
 
 void InsertionPolicy::addNode(node* n)
 {
-
+	insertedNodes->push_back(n);
 }
 
 void InsertionPolicy::removeNode(node* n)
 {
+	for(std::vector<node*>::iterator it = insertedNodes->begin();
+			it != insertedNodes->end();
+			it++)	
+	{
+		node* m = *it; 
+		if(n->getUniqueID() == m->getUniqueID())
+		{
+			insertedNodes->erase(it);
+			break;
+		}
+	}
 
 }
