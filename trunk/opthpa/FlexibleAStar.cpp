@@ -256,7 +256,8 @@ FlexibleAStar::extractBestPath(node* goal)
 	for(node* n = goal; n != 0; n = n->backpointer)
 	{
 		p = new path(n, p);
-		assert(n->drawColor == 2);
+		if(markForVis)
+			assert(n->drawColor == 2);
 	}
 
 	return p;

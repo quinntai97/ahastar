@@ -6,9 +6,8 @@
 #include "path.h"
 
 OctileDistanceRefinementPolicy::OctileDistanceRefinementPolicy(
-		mapAbstraction* _map)
+		mapAbstraction* _map) : RefinementPolicy(_map)
 {
-	map = _map;
 }
 
 OctileDistanceRefinementPolicy::~OctileDistanceRefinementPolicy()
@@ -48,8 +47,6 @@ OctileDistanceRefinementPolicy::refine(path* abspath)
 		}
 		else
 		{
-			if(segment == 0 || tail == 0)
-				std::cout << "hrm\n";
 			tail->next = segment->next;
 			tail = segtail;
 			segment->next = 0;
@@ -66,8 +63,6 @@ OctileDistanceRefinementPolicy::nextStep(node* first, node* last)
 		int fy = first->getLabelL(kFirstData+1);
 		int lx = last->getLabelL(kFirstData);
 		int ly = last->getLabelL(kFirstData+1);
-		if(fx == 20 && fy == 17)
-			std::cout << "hrm\n";
 
 		int dx = lx - fx; 
 		int dy = ly - fy;

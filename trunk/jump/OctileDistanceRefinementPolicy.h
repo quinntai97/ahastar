@@ -29,7 +29,6 @@ class OctileDistanceRefinementPolicy : public RefinementPolicy
 
 	private:
 		node* nextStep(node* first, node* last);
-		mapAbstraction* map;
 };
 
 #endif
