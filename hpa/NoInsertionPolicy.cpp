@@ -9,12 +9,14 @@ NoInsertionPolicy::~NoInsertionPolicy()
 {
 }
 
-node* NoInsertionPolicy::insert(node* n)
+void NoInsertionPolicy::insertStartAndGoalNodesIntoAbstractGraph(
+	node* s, node* g) throw(std::invalid_argument)
 {
 	return n;
 }
 
-void NoInsertionPolicy::remove(node* n)
+void NoInsertionPolicy::removeStartAndGoalNodesFromAbstractGraph()
+	throw(std::runtime_error)
 {
 	return;
 }

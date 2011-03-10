@@ -6,16 +6,19 @@
 // Defines a general class of insertion algorithms
 // for use during hierarchical pathfinding.
 //
-// An insertion algorithm takes a node from a low-level graph
-// (usually the grid, but not always) and inserts it into
+// An insertion algorithm takes the start and goal nodes from a low-level graph
+// (usually the grid, but not always) and inserts them into
 // a higher level graph.
 //
 // As the insertion is usually temporary, this class also defines
-// function stubs for a ::remove method -- which deletes inserted nodes.
+// function stubs for a remove method -- which deletes inserted nodes.
 //
 // @author: dharabor
 // @created: 08/03/2011
 //
+
+#include <stdexcept>
+#include <vector>
 
 class statCollection;
 class node;
@@ -25,11 +28,8 @@ class InsertionPolicy
 		InsertionPolicy();
 		virtual ~InsertionPolicy();
 
-		// param: initial node; return: inserted node
-		virtual node* insert(node* n) = 0;
-
-		// param: node to be removed.
-		virtual void remove(node* n) = 0;
+		virtual void insert(node* n) throw(std::invalid_argument) = 0;
+		virtual void remove(node* n) throw(std::runtime_error) = 0;
 
 		// metrics
 		long getInsertNodesExpanded() { return insertNodesExpanded; }
@@ -38,11 +38,17 @@ class InsertionPolicy
 		double getInsertSearchTime() { return insertSearchTime; }
 		void resetMetrics();
 
+	protected:
+		void addNode(node* n);
+		void removeNode(node* n);
+
 	private:
 		long insertNodesExpanded;
 		long insertNodesTouched;
 		long insertNodesGenerated;
 		double insertSearchTime;
+
+		std::vector<node*>* insertedNodes;
 
 };
 
