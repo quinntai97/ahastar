@@ -12,7 +12,9 @@ HierarchicalSearch::HierarchicalSearch(InsertionPolicy* _inspol,
 {
 	insertPolicy = _inspol;
 	alg = _alg;
+	name = alg->getName();
 	refinePolicy = _refpol;
+
 }
 
 HierarchicalSearch::~HierarchicalSearch()
@@ -20,6 +22,13 @@ HierarchicalSearch::~HierarchicalSearch()
 	delete insertPolicy;
 	delete alg;
 	delete refinePolicy;
+}
+
+
+void
+HierarchicalSearch::setName(const char* _name)
+{
+	name = _name;
 }
 
 

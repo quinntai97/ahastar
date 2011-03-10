@@ -27,6 +27,7 @@
 #include "ClusterNodeFactory.h"
 #include "common.h"
 #include "hog.h"
+#include "DefaultRefinementPolicy.h"
 #include "EdgeFactory.h"
 #include "EmptyClusterAbstraction.h"
 #include "EmptyCluster.h"
@@ -851,6 +852,8 @@ newSearchAlgorithm(mapAbstraction* aMap, bool refineAbsPath)
 							new JumpPointsExpansionPolicy(), 
 								newHeuristic()),
 						new OctileDistanceRefinementPolicy(aMap));
+//						new DefaultRefinementPolicy(aMap));
+			((HierarchicalSearch*)alg)->setName("JPS");
 			break;
 		}
 

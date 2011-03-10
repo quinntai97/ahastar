@@ -14,11 +14,18 @@
 // @created: 08/03/2011
 //
 
+class mapAbstraction;
 class path;
 class RefinementPolicy
 {
 	public:
+		RefinementPolicy(mapAbstraction* map);
+		virtual ~RefinementPolicy();
+
 		virtual path* refine(path* abspath) = 0;
+
+	protected:
+		mapAbstraction* map;
 };
 
 #endif

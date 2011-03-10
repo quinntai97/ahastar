@@ -22,7 +22,8 @@ class HierarchicalSearch : public searchAlgorithm
 		HierarchicalSearch(InsertionPolicy*, searchAlgorithm*, 
 				RefinementPolicy*);
 		virtual ~HierarchicalSearch();
-		virtual const char* getName() { return alg->getName(); }
+		virtual const char* getName() { return name.c_str(); }
+		void setName(const char* _name);
 
 		virtual path *getPath(graphAbstraction *aMap, node *from, node *to, 
 				reservationProvider *rp = 0);	
@@ -45,6 +46,8 @@ class HierarchicalSearch : public searchAlgorithm
 		long insertNodesTouched;
 		long insertNodesGenerated;
 		double insertSearchTime;
+
+		std::string name;
 };
 
 #endif
