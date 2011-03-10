@@ -18,10 +18,8 @@ class NoInsertionPolicy : public InsertionPolicy
 		NoInsertionPolicy();
 		virtual ~NoInsertionPolicy();
 
-		virtual void insertStartAndGoalNodesIntoAbstractGraph(
-			node* s, node* g) throw(std::invalid_argument);
-		virtual void removeStartAndGoalNodesFromAbstractGraph()
-			throw(std::runtime_error);
+		virtual node* insert(node* n) throw(std::invalid_argument);
+		virtual void remove(node* n) throw(std::runtime_error);
 };
 
 #endif

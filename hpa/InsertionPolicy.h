@@ -28,7 +28,7 @@ class InsertionPolicy
 		InsertionPolicy();
 		virtual ~InsertionPolicy();
 
-		virtual void insert(node* n) throw(std::invalid_argument) = 0;
+		virtual node* insert(node* n) throw(std::invalid_argument) = 0;
 		virtual void remove(node* n) throw(std::runtime_error) = 0;
 
 		// metrics

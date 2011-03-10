@@ -13,9 +13,6 @@ GenericClusterAbstraction::GenericClusterAbstraction(Map* m, IClusterFactory* cf
 		INodeFactory* nf, IEdgeFactory* ef, bool allowDiagonals_) throw(std::invalid_argument)
 	: mapAbstraction(m), allowDiagonals(allowDiagonals_)
 {
-	nodesExpanded = nodesTouched = nodesGenerated = 0;
-	searchTime = 0;
-
 	node* n = nf->newNode("test");
 	if(!dynamic_cast<ClusterNode*>(n))
 	{
@@ -31,7 +28,6 @@ GenericClusterAbstraction::GenericClusterAbstraction(Map* m, IClusterFactory* cf
 		
 	abstractions.push_back(getMapGraph(this->getMap(), nf, ef, allowDiagonals)); 
 	abstractions.push_back(new graph());	
-	insertedGoalNode = insertedStartNode = 0;
 	drawClusters=true;
 	verbose = false;
 

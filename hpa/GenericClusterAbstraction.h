@@ -43,32 +43,15 @@ class GenericClusterAbstraction : public mapAbstraction
 
 		virtual void buildClusters() = 0;
 		virtual void buildEntrances();
-		virtual void insertStartAndGoalNodesIntoAbstractGraph(node*, node*) 
-			throw(std::invalid_argument);
-		virtual void removeStartAndGoalNodesFromAbstractGraph() 
-			throw(std::runtime_error);
 	
 		// manhattan or octile if allowDiag
 		virtual double h(node *a, node *b); 
 		
-		ClusterNode* getInsertedStartNode() { return insertedStartNode; }
-		ClusterNode* getInsertedGoalNode() { return insertedGoalNode; }
-
 		// path caching for quick refinement 
 		void addPathToCache(edge* e, path* p);
 		path* getPathFromCache(edge* e);
 		void deletePathFromCache(edge* e);
 		int getPathCacheSize() { return pathCache.size(); }
-
-		// measure insertion effort 
-		long getNodesExpanded() { return nodesExpanded; }
-		void setNodesExpanded(long num) { nodesExpanded = num; } 
-		long getNodesTouched() { return nodesTouched; }
-		void setNodesTouched(long num) { nodesTouched = num; } 
-		long getNodesGenerated() { return nodesGenerated; }
-		void setNodesGenerated(long num) { nodesGenerated = num; } 
-		double getSearchTime() { return searchTime; }
-		void setSearchTime(double num) { searchTime = num; }
 
 		// drawing and overlay methods 
 		virtual void openGLDraw(); 
@@ -106,15 +89,9 @@ class GenericClusterAbstraction : public mapAbstraction
 		int getNumberOfAbstractionLevels() { return abstractions.size(); }
 		void printUniqueIdsOfAllNodesInGraph(graph *g);
 
-		ClusterNode *insertedStartNode, *insertedGoalNode;
 		bool drawClusters; 
 		bool verbose;
 		bool allowDiagonals;
-
-		long nodesExpanded; 
-		long nodesTouched; 
-		double searchTime;
-		long nodesGenerated;
 	
 	private:
 		Heuristic* heuristic;

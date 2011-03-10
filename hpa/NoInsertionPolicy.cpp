@@ -2,6 +2,7 @@
 #include "graph.h"
 
 NoInsertionPolicy::NoInsertionPolicy()
+	: InsertionPolicy()
 {
 }
 
@@ -9,13 +10,14 @@ NoInsertionPolicy::~NoInsertionPolicy()
 {
 }
 
-void NoInsertionPolicy::insertStartAndGoalNodesIntoAbstractGraph(
-	node* s, node* g) throw(std::invalid_argument)
+node*
+NoInsertionPolicy::insert(node* n) throw(std::invalid_argument)
 {
 	return n;
 }
 
-void NoInsertionPolicy::removeStartAndGoalNodesFromAbstractGraph()
+void 
+NoInsertionPolicy::remove(node* n)
 	throw(std::runtime_error)
 {
 	return;
