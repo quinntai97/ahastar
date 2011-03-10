@@ -393,7 +393,8 @@ JumpPointsExpansionPolicy::findJumpNode(JPEP::Direction d, int x, int y)
 					break;
 
 				// (ny == goaly) implies n is a jump node 
-				if(ny == goaly)
+//				if(ny == goaly)
+				if(x == goalx && ny == goaly)
 					break;
 
 				// n is a jump node if we cannot prove a shorter path to 
@@ -423,7 +424,8 @@ JumpPointsExpansionPolicy::findJumpNode(JPEP::Direction d, int x, int y)
 				if(n == 0)
 					break;
 
-				if(ny == goaly)
+				//if(ny == goaly)
+				if(x == goalx && ny == goaly)
 					break;
 
 				if(!map->getNodeFromMap(x-1, ny) && 
@@ -450,7 +452,8 @@ JumpPointsExpansionPolicy::findJumpNode(JPEP::Direction d, int x, int y)
 				if(n == 0)
 					break;
 
-				if(nx == goalx)
+//				if(nx == goalx)
+				if(nx == goalx && y == goaly)
 					break;
 
 				if(!map->getNodeFromMap(nx, y-1) && 
@@ -478,7 +481,8 @@ JumpPointsExpansionPolicy::findJumpNode(JPEP::Direction d, int x, int y)
 				if(n == 0)
 					break;
 
-				if(nx == goalx)
+//				if(nx == goalx)
+				if(nx == goalx && y == goaly)
 					break;
 
 				if(!map->getNodeFromMap(nx, y-1) && 
@@ -509,7 +513,8 @@ JumpPointsExpansionPolicy::findJumpNode(JPEP::Direction d, int x, int y)
 					break;
 
 				// n is jump node if it share a row or column with the goal 
-				if(nx == goalx || ny == goaly)
+				//if(nx == goalx || ny == goaly)
+				if(nx == goalx && ny == goaly)
 					break;
 
 				// n is a jump node if a SE neighbour exists which cannot be
@@ -547,7 +552,8 @@ JumpPointsExpansionPolicy::findJumpNode(JPEP::Direction d, int x, int y)
 				if(n == 0)
 					break;
 
-				if(nx == goalx || ny == goaly)
+				//if(nx == goalx || ny == goaly)
+				if(nx == goalx && ny == goaly)
 					break;
 				
 				if(!map->getNodeFromMap(nx, ny-1) && 
@@ -579,7 +585,8 @@ JumpPointsExpansionPolicy::findJumpNode(JPEP::Direction d, int x, int y)
 				if(n == 0)
 					break;
 
-				if(nx == goalx || ny == goaly)
+				//if(nx == goalx || ny == goaly)
+				if(nx == goalx && ny == goaly)
 					break;
 
 				if(!map->getNodeFromMap(nx, ny+1) && 
@@ -611,7 +618,8 @@ JumpPointsExpansionPolicy::findJumpNode(JPEP::Direction d, int x, int y)
 				if(n == 0)
 					break;
 
-				if(nx == goalx || ny == goaly)
+				//if(nx == goalx || ny == goaly)
+				if(nx == goalx && ny == goaly)
 					break;
 
 				if(!map->getNodeFromMap(nx, ny-1) && 
