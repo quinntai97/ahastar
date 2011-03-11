@@ -43,6 +43,12 @@ class AbstractCluster
 		virtual void addTransition(node* from, node* to, double edgeweight)
 			throw(std::invalid_argument);
 
+		// metrics for the insertion of new parent nodes into the cluster 
+		long getNodesExpanded() { return nodesExpanded; }
+		long getNodesTouched() { return nodesTouched; }
+		long getNodesGenerated() { return nodesGenerated; }
+		double getSearchTime() { return searchTime; }
+
 		// getters and setters
 		inline int getId() { return clusterId; }
 		inline void setId(const int newid) { clusterId = newid; }
@@ -70,6 +76,11 @@ class AbstractCluster
 		HPAUtil::nodeTable nodes;
 		HPAUtil::nodeTable parents; // transition points
 		GenericClusterAbstraction* map;
+
+		long nodesExpanded;
+		long nodesTouched;
+		long nodesGenerated;
+		double searchTime;
 
 	private:
 		static unsigned int uniqueClusterIdCnt;

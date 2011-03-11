@@ -9,7 +9,7 @@
 DefaultRefinementPolicy::DefaultRefinementPolicy(mapAbstraction* _map)
 		: RefinementPolicy(_map)
 {
-	verbose = true;
+	verbose = false;
 	astar = new FlexibleAStar(new IncidentEdgesExpansionPolicy(_map),
 				new OctileHeuristic());
 	astar->verbose = false; 
@@ -32,7 +32,15 @@ DefaultRefinementPolicy::~DefaultRefinementPolicy()
 path*
 DefaultRefinementPolicy::refine(path* abspath)
 {
+	//std::cout << "refining path: \n";
+	//DebugUtility debuug(map, astar->getHeuristic());
+	//debuug.printPath(abspath); 
+	//std::cout << std::endl;
+	if(abspath == 0)
+		return 0;
+
 	path* thepath = 0;
+	path* tail = 0;
 	for(path* current = abspath; current->next != 0; current = current->next)
 	{
 		node* start = map->getNodeFromMap(
@@ -53,14 +61,17 @@ DefaultRefinementPolicy::refine(path* abspath)
 
 		// append segment to refined path
 		if(thepath == 0)
+		{
 			thepath = segment;										
-		path* tail = thepath->tail();	
+			tail = segment->tail();
+		}
 
 		//avoid overlap between successive segments 
 		//(i.e one segment ends with the same node as the next begins)
 		if(tail->n->getNum() == segment->n->getNum()) 
 		{
 			tail->next = segment->next;
+			tail = segment->tail();
 			segment->next = 0;
 			delete segment;
 		}

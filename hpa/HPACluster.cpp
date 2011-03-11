@@ -135,6 +135,7 @@ HPACluster::connectParent(node* absStart) throw(std::invalid_argument)
 		node* absGoal = (*nodeIter).second;
 		graph* absg = map->getAbstractGraph(1);
 		
+		alg->markForVis = false;
 		alg->setCorridorNodes(&nodes);
 
 		// get low-level nodes
@@ -378,7 +379,7 @@ HPACluster::openGLDraw()
 
 	Map* themap = map->getMap();
 	GLdouble xx, yy, zz,rr;
-	glLineWidth(2.0f);
+	glLineWidth(3.0f);
 	glColor3f(0.2, 0.6, 0.2);
 
 	glBegin(GL_LINE_STRIP);
