@@ -295,10 +295,7 @@ createSimulation(unitSimulation * &unitSim)
 		unitSim = new unitSimulation(aMap);	
 		unitSim->setCanCrossDiagonally(true);
 		if(scenario)
-		{
 			unitSim->setNextExperimentPtr(&runNextExperiment);
-			runNextExperiment(unitSim);
-		}
 	}
 	else
 	{
@@ -800,6 +797,8 @@ runNextExperiment(unitSimulation *unitSim)
 	unitSim->addUnit(nextTarget);
 	unitSim->addUnit(nextUnit);
 	std::cout << "running "<<algName<<" experiment"<<std::endl;
+	nextExperiment->print(std::cout);
+	std::cout << std::endl;
 }
 
 ExpansionPolicy* 
@@ -840,6 +839,7 @@ newSearchAlgorithm(mapAbstraction* aMap, bool refineAbsPath)
 					new FlexibleAStar(newExpansionPolicy(map), 
 						newHeuristic()),
 					new DefaultRefinementPolicy(map));
+			((HierarchicalSearch*)alg)->setName("HPA");
 			alg->verbose = verbose;
 			break;
 		}
@@ -851,6 +851,7 @@ newSearchAlgorithm(mapAbstraction* aMap, bool refineAbsPath)
 								newHeuristic()),
 						new OctileDistanceRefinementPolicy(aMap));
 			((HierarchicalSearch*)alg)->setName("JPS");
+			alg->verbose = verbose;
 			break;
 		}
 
