@@ -155,15 +155,9 @@ HPACluster::connectParent(node* absStart) throw(std::invalid_argument)
 		}
 
 		/* record some metrics about the operation */
-		HPAClusterAbstraction* mymap = dynamic_cast<HPAClusterAbstraction*>(
-				getMap());
-		mymap->setNodesExpanded(mymap->getNodesExpanded() + 
-				alg->getNodesExpanded());
-		mymap->setNodesTouched(mymap->getNodesTouched() + 
-				alg->getNodesTouched());
-		mymap->setNodesGenerated(mymap->getNodesGenerated() + 
-				alg->getNodesGenerated());
-		mymap->setSearchTime(mymap->getSearchTime() + alg->getSearchTime());
+		nodesExpanded = alg->getNodesExpanded();
+		nodesGenerated = alg->getNodesGenerated();
+		nodesTouched = alg->getNodesTouched();
 	}
 }
 
@@ -389,23 +383,29 @@ HPACluster::openGLDraw()
 
 	glBegin(GL_LINE_STRIP);
 
+	themap->getOpenGLCoord(0, 0, xx, yy, zz, rr);
+	double offset = xx;
+	themap->getOpenGLCoord(1, 0, xx, yy, zz, rr);
+	offset = (xx-offset)*0.5;
+
+
 	themap->getOpenGLCoord(this->getHOrigin(), this->getVOrigin(), xx, yy, zz, rr);
-	glVertex3f(xx, yy, zz-rr*0.5);
+	glVertex3f(xx-offset, yy-offset, zz-rr*0.5);
 
 	themap->getOpenGLCoord(this->getHOrigin()+width-1, this->getVOrigin(), 
 			xx, yy, zz, rr);
-	glVertex3f(xx, yy, zz-rr*0.5);
+	glVertex3f(xx+offset, yy-offset, zz-rr*0.5);
 
 	themap->getOpenGLCoord(this->getHOrigin()+width-1, 
 			this->getVOrigin()+height-1, xx, yy, zz, rr);
-	glVertex3f(xx, yy, zz-rr*0.5);
+	glVertex3f(xx+offset, yy+offset, zz-rr*0.5);
 
 	themap->getOpenGLCoord(this->getHOrigin(), this->getVOrigin()+height-1, 
 			xx, yy, zz, rr);
-	glVertex3f(xx, yy, zz-rr*0.5);
+	glVertex3f(xx-offset, yy+offset, zz-rr*0.5);
 
 	themap->getOpenGLCoord(this->getHOrigin(), this->getVOrigin(), xx, yy, zz, rr);
-	glVertex3f(xx, yy, zz-rr*0.5);
+	glVertex3f(xx-offset, yy-offset, zz-rr*0.5);
 
 	glEnd();
 
