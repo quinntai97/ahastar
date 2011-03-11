@@ -48,10 +48,10 @@ HierarchicalSearch::getPath(graphAbstraction *aMap, node *from,
 	insertPolicy->remove(start);
 	insertPolicy->remove(goal);
 
-	nodesExpanded = alg->getNodesExpanded() + insertPolicy->getInsertNodesExpanded();
-	nodesGenerated = alg->getNodesGenerated() + insertPolicy->getInsertNodesGenerated();
-	nodesTouched = alg->getNodesTouched() + insertPolicy->getInsertNodesTouched();
-	searchTime = alg->getSearchTime() + insertPolicy->getInsertSearchTime();
+	nodesExpanded = alg->getNodesExpanded() + insertPolicy->getNodesExpanded();
+	nodesGenerated = alg->getNodesGenerated() + insertPolicy->getNodesGenerated();
+	nodesTouched = alg->getNodesTouched() + insertPolicy->getNodesTouched();
+	searchTime = alg->getSearchTime() + insertPolicy->getSearchTime();
 
 	return refinedPath;
 }
@@ -71,36 +71,37 @@ HierarchicalSearch::resetMetrics()
 long 
 HierarchicalSearch::getInsertNodesExpanded() 
 { 
-	return insertPolicy->getInsertNodesExpanded(); 
+	return insertPolicy->getNodesExpanded(); 
 }
 
 long 
 HierarchicalSearch::getInsertNodesTouched() 
 {
-   	return insertPolicy->getInsertNodesTouched(); 
+   	return insertPolicy->getNodesTouched(); 
 }
 
 long 
 HierarchicalSearch::getInsertNodesGenerated() 
 { 
-	return insertPolicy->getInsertNodesGenerated(); 
+	return insertPolicy->getNodesGenerated(); 
 }
 
 double 
 HierarchicalSearch::getInsertSearchTime() 
 { 
-	return insertPolicy->getInsertSearchTime(); 
+	return insertPolicy->getSearchTime(); 
 }
 
 void 
 HierarchicalSearch::logFinalStats(statCollection* stats)
 {
-	alg->logFinalStats(stats);
-	if(insertPolicy)
-	{
-		stats->addStat("insNodesExpanded",getName(),getInsertNodesExpanded());
-		stats->addStat("insNodesTouched",getName(),getInsertNodesTouched());
-		stats->addStat("insNodesGenerated",getName(),getInsertNodesGenerated());
-		stats->addStat("insSearchTime",getName(),getInsertSearchTime());
-	}
+	stats->addStat("nodesExpanded",getName(),alg->getNodesExpanded());
+	stats->addStat("nodesTouched",getName(),alg->getNodesTouched());
+	stats->addStat("nodesGenerated",getName(),alg->getNodesGenerated());
+	stats->addStat("searchTime",getName(),alg->getSearchTime());
+
+	stats->addStat("insNodesExpanded",getName(),getInsertNodesExpanded());
+	stats->addStat("insNodesTouched",getName(),getInsertNodesTouched());
+	stats->addStat("insNodesGenerated",getName(),getInsertNodesGenerated());
+	stats->addStat("insSearchTime",getName(),getInsertSearchTime());
 }

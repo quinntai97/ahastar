@@ -78,7 +78,8 @@ apps.mk : $(TARGS) Makefile
 #	@echo 'HPASTARTESTS_SRC = $(value DLR)(wildcard ../tests/hpa/*.cpp)' >> $(@)
 
 clean:
-	@-$(RM) apps.mk $(wildcard $(addsuffix /objs/*,$(APPS)/objs/*.o)) $(TARGS)
+	@-$(RM) -f $(addsuffix /objs/*.o,$(APPS))
+	@-$(RM) apps.mk $(TARGS)
 	@-$(RM) $(addsuffix .a,$(addprefix libs/lib,$(APPS)))
 	@-$(RM) libs/libtests.a;
 	@-$(RM) tests/objs/RunTests.o

@@ -32,22 +32,22 @@ class InsertionPolicy
 		virtual void remove(node* n) throw(std::runtime_error) = 0;
 
 		// metrics
-		long getInsertNodesExpanded() { return insertNodesExpanded; }
-		long getInsertNodesTouched() { return insertNodesTouched; }
-		long getInsertNodesGenerated() { return insertNodesGenerated; }
-		double getInsertSearchTime() { return insertSearchTime; }
+		long getNodesExpanded() { return nodesExpanded; }
+		long getNodesTouched() { return nodesTouched; }
+		long getNodesGenerated() { return nodesGenerated; }
+		double getSearchTime() { return searchTime; }
 		void resetMetrics();
 
 	protected:
 		void addNode(node* n);
-		void removeNode(node* n);
+		bool removeNode(node* n);
+
+		long nodesExpanded;
+		long nodesTouched;
+		long nodesGenerated;
+		double searchTime;
 
 	private:
-		long insertNodesExpanded;
-		long insertNodesTouched;
-		long insertNodesGenerated;
-		double insertSearchTime;
-
 		std::vector<node*>* insertedNodes;
 
 };

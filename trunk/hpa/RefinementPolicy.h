@@ -23,9 +23,22 @@ class RefinementPolicy
 		virtual ~RefinementPolicy();
 
 		virtual path* refine(path* abspath) = 0;
+		
+		// metrics
+		long getNodesExpanded() { return nodesExpanded; }
+		long getNodesTouched() { return nodesTouched; }
+		long getNodesGenerated() { return nodesGenerated; }
+		double getSearchTime() { return searchTime; }
+		void resetMetrics();
 
 	protected:
 		mapAbstraction* map;
+	
+	private:
+		long nodesExpanded;
+		long nodesTouched;
+		long nodesGenerated;
+		double searchTime;
 };
 
 #endif

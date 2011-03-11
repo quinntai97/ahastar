@@ -13,20 +13,24 @@ InsertionPolicy::~InsertionPolicy()
 
 }
 
-void InsertionPolicy::resetMetrics()
+void 
+InsertionPolicy::resetMetrics()
 {
-	insertNodesExpanded = 0;
-	insertNodesTouched = 0;
-	insertNodesGenerated = 0;
-	insertSearchTime = 0;
+	nodesExpanded = 0;
+	nodesTouched = 0;
+	nodesGenerated = 0;
+	searchTime = 0;
 }
 
-void InsertionPolicy::addNode(node* n)
+void 
+InsertionPolicy::addNode(node* n)
 {
 	insertedNodes->push_back(n);
 }
 
-void InsertionPolicy::removeNode(node* n)
+// returns true if an inserted node is successfully deleted.
+bool 
+InsertionPolicy::removeNode(node* n)
 {
 	for(std::vector<node*>::iterator it = insertedNodes->begin();
 			it != insertedNodes->end();
@@ -36,8 +40,10 @@ void InsertionPolicy::removeNode(node* n)
 		if(n->getUniqueID() == m->getUniqueID())
 		{
 			insertedNodes->erase(it);
-			break;
+			return true;
 		}
 	}
+
+	return false;
 
 }

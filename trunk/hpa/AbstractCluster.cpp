@@ -5,6 +5,7 @@
 #include "HPAUtil.h"
 #include "IEdgeFactory.h"
 #include "INodeFactory.h"
+#include "timer.h"
 
 #include <cassert>
 unsigned AbstractCluster::uniqueClusterIdCnt = 0;
@@ -19,6 +20,9 @@ AbstractCluster::AbstractCluster(const int x, const int y,
 	this->starty = y;
 	this->map = map;
 	this->clusterId = ++uniqueClusterIdCnt;
+
+	nodesExpanded = nodesGenerated = nodesTouched = 0;
+	searchTime = 0;
 
 }
 
@@ -47,6 +51,8 @@ AbstractCluster::~AbstractCluster()
 void 
 AbstractCluster::addParent(node* _p) throw(std::invalid_argument)
 {
+	Timer t;
+	t.startTimer();
 	ClusterNode* p = dynamic_cast<ClusterNode*>(_p);
 
 	if(p == 0)
@@ -81,6 +87,7 @@ AbstractCluster::addParent(node* _p) throw(std::invalid_argument)
 	p->setParentClusterId(this->getId());
 	parents.insert(std::pair<int, node*>(p->getUniqueID(), p));
 	connectParent(p);
+	searchTime = t.endTimer();
 }
 
 void 
