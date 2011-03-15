@@ -415,6 +415,50 @@ graph *getMapGraph(Map *m)
 graph* getMapGraph(Map* m, INodeFactory* nf, IEdgeFactory* ef, bool allowDiagonals)
 {
 	// printf("Getting graph representation of world\n");
+	graph* g = makeMapNodes(m, nf);
+	for (int y = 0; y < m->getMapHeight(); y++)
+	{
+		for (int x = 0; x < m->getMapWidth(); x++)
+		{
+			//cout << "Trying (x, y) = (" << x << ", " << y << ")" << endl;
+			addMapEdges(m, g, ef, x, y, allowDiagonals);
+			//			if (!g->verifyGraph())
+			//			{
+			//				cerr << "Broken at (x, y) = (" << x << ", " << y << ")" << endl;
+			//			}
+		}
+	}
+	// printf("Done\n");
+	
+	// verify graph is correct
+#if 0
+	{
+		node_iterator ni = g->getNodeIter();
+		for (n = g->nodeIterNext(ni); n; n = g->nodeIterNext(ni))
+		{
+			int numEdges = n->getNumOutgoingEdges() + n->getNumIncomingEdges();
+			
+			edge *ee;
+			edge_iterator eie = n->getEdgeIter();
+			for (int x = 0; x < numEdges; x++)
+			{
+				ee = n->edgeIterNext(eie);
+				if (ee == 0)
+				{ cout << "**That's impossible; we were told we had " << numEdges << ":(" << n->getNumOutgoingEdges() << "+" << n->getNumIncomingEdges() <<
+					") edges, we're on #" << x << " and we got nil!";
+					cout << "(node " << n->getNum() << ")" << endl;
+					break;
+				}
+			}			
+		}
+	}
+#endif
+	
+	return g;
+}
+
+graph* makeMapNodes(Map* m, INodeFactory* nf)
+{
 	char name[32];
 	graph *g = new graph();
 	node *n;
@@ -478,46 +522,10 @@ graph* getMapGraph(Map* m, INodeFactory* nf, IEdgeFactory* ef, bool allowDiagona
 			}
 		}
 	}
-	for (int y = 0; y < m->getMapHeight(); y++)
-	{
-		for (int x = 0; x < m->getMapWidth(); x++)
-		{
-			//cout << "Trying (x, y) = (" << x << ", " << y << ")" << endl;
-			addMapEdges(m, g, ef, x, y, allowDiagonals);
-			//			if (!g->verifyGraph())
-			//			{
-			//				cerr << "Broken at (x, y) = (" << x << ", " << y << ")" << endl;
-			//			}
-		}
-	}
-	// printf("Done\n");
-	
-	// verify graph is correct
-#if 0
-	{
-		node_iterator ni = g->getNodeIter();
-		for (n = g->nodeIterNext(ni); n; n = g->nodeIterNext(ni))
-		{
-			int numEdges = n->getNumOutgoingEdges() + n->getNumIncomingEdges();
-			
-			edge *ee;
-			edge_iterator eie = n->getEdgeIter();
-			for (int x = 0; x < numEdges; x++)
-			{
-				ee = n->edgeIterNext(eie);
-				if (ee == 0)
-				{ cout << "**That's impossible; we were told we had " << numEdges << ":(" << n->getNumOutgoingEdges() << "+" << n->getNumIncomingEdges() <<
-					") edges, we're on #" << x << " and we got nil!";
-					cout << "(node " << n->getNum() << ")" << endl;
-					break;
-				}
-			}			
-		}
-	}
-#endif
-	
+
 	return g;
 }
+
 
 /**
 * addMapEdges(map, graph, x, y)

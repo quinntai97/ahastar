@@ -76,8 +76,13 @@ private:
 	unsigned long levelDraw;
 };
 
+// methods for creating graph objects from Map objects
 graph* getMapGraph(Map* m, INodeFactory* nf, IEdgeFactory* ef, bool allowDiagonals);
 graph *getMapGraph(Map *m);
+
+// support methods for getMapGraph
 void addMapEdges(Map *m, graph *g, IEdgeFactory* ef, int x, int y, bool allowDiagonals);
+graph* makeMapNodes(Map* m, INodeFactory* nf);
 
 #endif
+
