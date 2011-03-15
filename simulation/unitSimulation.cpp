@@ -69,6 +69,7 @@ unitSimulation::unitSimulation(mapAbstraction *_aMap, bool keepStats)
 	lockstepTime = false;
 	keepHistory = keepStats;
 	nextExperiment=0;
+	clearMap = true;
 }
 
 /** delete a unit simulation.
