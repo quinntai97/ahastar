@@ -20,6 +20,9 @@ class AnnotatedNodeFactory : public INodeFactory
 		virtual ~AnnotatedNodeFactory() {}
 		virtual node* newNode(const char* name) throw(std::invalid_argument);
 		virtual node* newNode(const node* name) throw(std::invalid_argument);
+
+		virtual AnnotatedNodeFactory* 
+			clone() { return new AnnotatedNodeFactory(); }
 };
 
 #endif
