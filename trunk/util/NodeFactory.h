@@ -21,6 +21,7 @@
 	public:
 		virtual node* newNode(const char* name) throw(std::invalid_argument);
 		virtual node* newNode(const node* n) throw(std::invalid_argument);
+		virtual NodeFactory* clone() { return new NodeFactory(); }
  };
 
 #endif
