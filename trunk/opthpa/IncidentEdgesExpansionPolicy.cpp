@@ -35,7 +35,7 @@ IncidentEdgesExpansionPolicy::n_impl()
 	if(g && target && which < target->getNumEdges())
 	{
 		edge* e = target->getEdge(which);
-		assert(e);
+		//assert(e);
 
 		int neighbourid = e->getFrom()==target->getNum()?e->getTo():e->getFrom();
 		neighbour = g->getNode(neighbourid);

@@ -28,8 +28,8 @@
 #include "graph.h"
 #include "path.h"
 
-#ifndef graphAbstraction_H
-#define graphAbstraction_H
+#ifndef GRAPHABSTRACTION_H
+#define GRAPHABSTRACTION_H
 #include <vector>
 #include "constants.h"
 

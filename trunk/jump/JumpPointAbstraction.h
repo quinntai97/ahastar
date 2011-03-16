@@ -22,13 +22,12 @@ class graph;
 class JumpPointAbstraction : public mapAbstraction
 {
 	public:
-		JumpPointAbstraction(Map* _m);
+		JumpPointAbstraction(Map*, INodeFactory*, IEdgeFactory*);
 		virtual ~JumpPointAbstraction();
-
 		virtual mapAbstraction *clone(Map *);
+
 		virtual bool pathable(node*, node*);
 		virtual void verifyHierarchy();
-		
 		virtual void removeNode(node *n);
 		virtual void removeEdge(edge *e, unsigned int absLevel);
 		virtual void addNode(node *n);
