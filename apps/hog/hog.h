@@ -25,7 +25,7 @@ namespace HOG
 {
 	typedef enum
 	{ 
-		HPA, ERR, FLAT, FLATJUMP
+		HPA, ERR, FLAT, FLATJUMP, JPA
 	} 
 	AbstractionType;
 }

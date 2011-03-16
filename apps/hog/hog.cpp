@@ -38,10 +38,12 @@
 #include "HPAClusterAbstraction.h"
 #include "HPAClusterFactory.h"
 #include "IncidentEdgesExpansionPolicy.h"
+#include "JumpPointAbstraction.h"
 #include "JumpPointsExpansionPolicy.h"
 #include "mapFlatAbstraction.h"
 #include "MacroNodeFactory.h"
 #include "ManhattanHeuristic.h"
+#include "NodeFactory.h"
 #include "NoInsertionPolicy.h"
 #include "OctileDistanceRefinementPolicy.h"
 #include "OctileHeuristic.h"
@@ -197,6 +199,9 @@ createSimulation(unitSimulation * &unitSim)
 		case HOG::FLATJUMP:
 			std::cout << "FLATJUMP";
 			break;
+		case HOG::JPA:
+			std::cout << "JPA";
+			break;
 		default:
 			std::cout << "Unknown?? Fix me!!";
 			break;
@@ -241,6 +246,12 @@ createSimulation(unitSimulation * &unitSim)
 			dynamic_cast<HPAClusterAbstraction*>(aMap)->buildEntrances();
 			dynamic_cast<HPAClusterAbstraction*>(aMap)->clearColours();
 
+			break;
+		}
+		case HOG::JPA:
+		{
+			aMap = new JumpPointAbstraction(map, new NodeFactory(), 
+					new EdgeFactory());
 			break;
 		}
 		default:
@@ -558,6 +569,11 @@ myAllPurposeCLHandler(char* argument[], int maxNumArgs)
 			argsParsed++;
 			absType = HOG::FLATJUMP;
 		}
+		else if(strcmp(argument[1], "jpa") == 0)
+		{
+			argsParsed++;
+			absType = HOG::JPA;
+		}
 		else
 		{
 			std::cout << argument[1] << ": invalid abstraction type.\n";
@@ -833,6 +849,7 @@ newSearchAlgorithm(mapAbstraction* aMap, bool refineAbsPath)
 			alg->verbose = verbose;
 			break;
 		}
+
 		case HOG::FLATJUMP:
 		{
 			alg = new HierarchicalSearch(new NoInsertionPolicy(),
