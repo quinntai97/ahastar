@@ -9,9 +9,9 @@
 JumpPointAbstraction::JumpPointAbstraction(Map* _m, INodeFactory* _nf, 
 		IEdgeFactory* _ef) : mapAbstraction(_m)
 {
-	abstractions.push_back(getMapGraph(_m));
 	nf = _nf;
 	ef = _ef;
+	abstractions.push_back(getJumpPointGraph());
 }
 
 JumpPointAbstraction::~JumpPointAbstraction()
@@ -136,20 +136,57 @@ graph*
 JumpPointAbstraction::getJumpPointGraph()
 {
 	graph* g = makeMapNodes(this->getMap(), nf);
+	Map* m = getMap();
 
 	JumpPointsExpansionPolicy expander;
 	for(int i=0; i < g->getNumNodes(); i++)
 	{
 		node* n = g->getNode(i);
-		expander.expand(n); 
-
-		for(node* neighbour = expander.n(); 
-				neighbour != 0; 
-				neighbour = expander.next())
+		for(int j = 1; j<9; j++)
 		{
-			edge* e = new edge(n->getNum(), neighbour->getNum(),
-					this->h(n, neighbour));
-			n->addEdge(e);
+			int nx = n->getLabelL(kFirstData);
+			int ny = n->getLabelL(kFirstData+1);
+			switch(j)
+			{
+				case 1:
+					n->backpointer = g->getNode(m->getNodeNum(nx, ny-1));
+					break;
+				case 2:
+					n->backpointer = g->getNode(m->getNodeNum(nx+1, ny-1));
+					break;
+				case 3:
+					n->backpointer = g->getNode(m->getNodeNum(nx+1, ny));
+					break;
+				case 4:
+					n->backpointer = g->getNode(m->getNodeNum(nx+1, ny+1));
+					break;
+				case 5:
+					n->backpointer = g->getNode(m->getNodeNum(nx, ny+1));
+					break;
+				case 6:
+					n->backpointer = g->getNode(m->getNodeNum(nx-1, ny+1));
+					break;
+				case 7:
+					n->backpointer = g->getNode(m->getNodeNum(nx-1, ny));
+					break;
+				case 8:
+					n->backpointer = g->getNode(m->getNodeNum(nx-1, ny-1));
+					break;
+			}
+
+			// find a jump point in the direction (parent(n), n)
+			if(n->backpointer)
+			{
+				expander.expand(n); 
+				for(node* neighbour = expander.n(); 
+						neighbour != 0; 
+						neighbour = expander.next())
+				{
+					edge* e = new edge(n->getNum(), neighbour->getNum(),
+							this->h(n, neighbour));
+					n->addEdge(e);
+				}
+			}
 		}
 	}
 
