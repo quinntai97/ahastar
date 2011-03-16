@@ -17,6 +17,7 @@ class EdgeFactory : public IEdgeFactory
 {
 	public:
 		virtual edge* newEdge(unsigned int fromId, unsigned int toId, double weight);
+		virtual EdgeFactory* clone() { return new EdgeFactory(); }
 };
 
 #endif
