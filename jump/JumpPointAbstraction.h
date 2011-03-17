@@ -11,6 +11,7 @@
 //
 
 #include "mapAbstraction.h"
+#include "Jump.h"
 
 class IEdgeFactory;
 class INodeFactory;
@@ -38,7 +39,9 @@ class JumpPointAbstraction : public mapAbstraction
 		INodeFactory* nf;
 		IEdgeFactory* ef;
 
-		graph* getJumpPointGraph();		
+		void makeJumpPointGraph();		
+		node* findJumpNode(Jump::Direction d, int x, int y);
+		node* findObstacleJumpNode(Jump::Direction d, int x, int y);
 };
 
 #endif

@@ -39,12 +39,12 @@ JumpPointsExpansionPolicy::computeNeighbourSet()
 
 	if(target->backpointer != 0)
 	{
-		JPEP::Direction which = directionToParent(target->backpointer);
+		Jump::Direction which = directionToParent(target->backpointer);
 		switch(which)
 		{
-			case JPEP::N:
+			case Jump::N:
 			{
-				node* n = findJumpNode(JPEP::S, x, y);
+				node* n = findJumpNode(Jump::S, x, y);
 				if(n)
 					neighbours.push_back(n);
 
@@ -64,17 +64,17 @@ JumpPointsExpansionPolicy::computeNeighbourSet()
 				break;
 			}
 
-			case JPEP::NE:
+			case Jump::NE:
 			{
-				node* n = findJumpNode(JPEP::SW, x, y);
+				node* n = findJumpNode(Jump::SW, x, y);
 				if(n)
 					neighbours.push_back(n);
 
-				n = findJumpNode(JPEP::S, x, y);
+				n = findJumpNode(Jump::S, x, y);
 				if(n)
 					neighbours.push_back(n);
 
-				n = findJumpNode(JPEP::W, x, y);
+				n = findJumpNode(Jump::W, x, y);
 				if(n)
 					neighbours.push_back(n);
 
@@ -96,9 +96,9 @@ JumpPointsExpansionPolicy::computeNeighbourSet()
 				break;
 			}
 
-			case JPEP::E:
+			case Jump::E:
 			{
-				node* n = findJumpNode(JPEP::W, x, y);
+				node* n = findJumpNode(Jump::W, x, y);
 				if(n)
 					neighbours.push_back(n);
 
@@ -118,17 +118,17 @@ JumpPointsExpansionPolicy::computeNeighbourSet()
 				break;
 			}
 
-			case JPEP::SE:
+			case Jump::SE:
 			{
-				node* n = findJumpNode(JPEP::NW, x, y); 
+				node* n = findJumpNode(Jump::NW, x, y); 
 				if(n)
 					neighbours.push_back(n);
 
-				n = findJumpNode(JPEP::N, x, y);
+				n = findJumpNode(Jump::N, x, y);
 				if(n)
 					neighbours.push_back(n);
 
-				n = findJumpNode(JPEP::W, x, y);
+				n = findJumpNode(Jump::W, x, y);
 				if(n)
 					neighbours.push_back(n);
 
@@ -150,9 +150,9 @@ JumpPointsExpansionPolicy::computeNeighbourSet()
 				break;
 			}
 
-			case JPEP::S:
+			case Jump::S:
 			{
-				node* n = findJumpNode(JPEP::N, x, y);
+				node* n = findJumpNode(Jump::N, x, y);
 				if(n)
 					neighbours.push_back(n);
 
@@ -172,17 +172,17 @@ JumpPointsExpansionPolicy::computeNeighbourSet()
 				break;
 			}
 
-			case JPEP::SW:
+			case Jump::SW:
 			{
-				node* n = findJumpNode(JPEP::NE, x, y); 
+				node* n = findJumpNode(Jump::NE, x, y); 
 				if(n)
 					neighbours.push_back(n);
 
-				n = findJumpNode(JPEP::N, x, y);
+				n = findJumpNode(Jump::N, x, y);
 				if(n)
 					neighbours.push_back(n);
 
-				n = findJumpNode(JPEP::E, x, y);
+				n = findJumpNode(Jump::E, x, y);
 				if(n)
 					neighbours.push_back(n);
 
@@ -204,9 +204,9 @@ JumpPointsExpansionPolicy::computeNeighbourSet()
 				break;
 			}
 
-			case JPEP::W:
+			case Jump::W:
 			{
-				node* n = findJumpNode(JPEP::E, x, y);
+				node* n = findJumpNode(Jump::E, x, y);
 				if(n)
 					neighbours.push_back(n);
 
@@ -226,17 +226,17 @@ JumpPointsExpansionPolicy::computeNeighbourSet()
 				break;
 			}
 
-			case JPEP::NW:
+			case Jump::NW:
 			{
-				node* n = findJumpNode(JPEP::SE, x, y);
+				node* n = findJumpNode(Jump::SE, x, y);
 				if(n)
 					neighbours.push_back(n);
 
-				n = findJumpNode(JPEP::S, x, y);
+				n = findJumpNode(Jump::S, x, y);
 				if(n)
 					neighbours.push_back(n);
 
-				n = findJumpNode(JPEP::E, x, y);
+				n = findJumpNode(Jump::E, x, y);
 				if(n)
 					neighbours.push_back(n);
 
@@ -324,7 +324,7 @@ JumpPointsExpansionPolicy::hasNext()
 }
 
 
-JPEP::Direction 
+Jump::Direction 
 JumpPointsExpansionPolicy::directionToParent(node* n)
 {
 	node* parent = target->backpointer;	
@@ -336,30 +336,30 @@ JumpPointsExpansionPolicy::directionToParent(node* n)
 	if(py == y)
 	{
 		if(px > x)
-			return JPEP::E;
+			return Jump::E;
 		else
-			return JPEP::W;
+			return Jump::W;
 	}
 
 	if(py < y)
 	{
 		if(px < x)
-			return JPEP::NW;
+			return Jump::NW;
 		else if(px > x)
-			return JPEP::NE;
+			return Jump::NE;
 		else
-			return JPEP::N;
+			return Jump::N;
 
 	}
 
 	if(py > y)
 	{
 		if(px < x)
-			return JPEP::SW;
+			return Jump::SW;
 		else if(px > x)
-			return JPEP::SE;
+			return Jump::SE;
 		else
-			return JPEP::S;
+			return Jump::S;
 	}
 
 	throw std::logic_error("JumpPointsExpansionPolicy::directionToParent"
@@ -371,7 +371,7 @@ JumpPointsExpansionPolicy::directionToParent(node* n)
 //
 // @return: a jump node (null  if none is found)
 node*
-JumpPointsExpansionPolicy::findJumpNode(JPEP::Direction d, int x, int y)
+JumpPointsExpansionPolicy::findJumpNode(Jump::Direction d, int x, int y)
 {
 	mapAbstraction* map = problem->getMap();
 
@@ -383,7 +383,7 @@ JumpPointsExpansionPolicy::findJumpNode(JPEP::Direction d, int x, int y)
 
 	switch(d)
 	{
-		case JPEP::N:
+		case Jump::N:
 		{
 			for(int steps=1; steps <= jumplimit ; steps++)
 			{
@@ -415,7 +415,7 @@ JumpPointsExpansionPolicy::findJumpNode(JPEP::Direction d, int x, int y)
 			break;
 		}
 
-		case JPEP::S:
+		case Jump::S:
 		{
 			for(int steps=1; steps <= jumplimit ; steps++)
 			{
@@ -443,7 +443,7 @@ JumpPointsExpansionPolicy::findJumpNode(JPEP::Direction d, int x, int y)
 			break;
 		}
 
-		case JPEP::E:
+		case Jump::E:
 		{
 			for(int steps=1; steps <= jumplimit ; steps++)
 			{
@@ -471,7 +471,7 @@ JumpPointsExpansionPolicy::findJumpNode(JPEP::Direction d, int x, int y)
 			break;
 		}
 
-		case JPEP::W:
+		case Jump::W:
 		{
 
 			for(int steps=1; steps <= jumplimit ; steps++)
@@ -500,7 +500,7 @@ JumpPointsExpansionPolicy::findJumpNode(JPEP::Direction d, int x, int y)
 			break;
 		}
 
-		case JPEP::NE:
+		case Jump::NE:
 		{
 			for(int steps=1; steps <= jumplimit ; steps++)
 			{
@@ -535,14 +535,14 @@ JumpPointsExpansionPolicy::findJumpNode(JPEP::Direction d, int x, int y)
 			
 				// n is a jump node if we can reach other jump nodes by
 				// travelling vertically or horizontally 
-				if(findJumpNode(JPEP::N, nx, ny) || 
-						findJumpNode(JPEP::E, nx, ny))
+				if(findJumpNode(Jump::N, nx, ny) || 
+						findJumpNode(Jump::E, nx, ny))
 					break;
 			}
 			break;
 		}
 
-		case JPEP::SE:
+		case Jump::SE:
 		{
 			for(int steps=1; steps <= jumplimit ; steps++)
 			{
@@ -568,14 +568,14 @@ JumpPointsExpansionPolicy::findJumpNode(JPEP::Direction d, int x, int y)
 					break;
 				}
 
-				if(findJumpNode(JPEP::S, nx, ny) || 
-						findJumpNode(JPEP::E, nx, ny))
+				if(findJumpNode(Jump::S, nx, ny) || 
+						findJumpNode(Jump::E, nx, ny))
 					break;
 			}
 			break;
 		}
 
-		case JPEP::NW:
+		case Jump::NW:
 		{
 			for(int steps=1; steps <= jumplimit ; steps++)
 			{
@@ -601,14 +601,14 @@ JumpPointsExpansionPolicy::findJumpNode(JPEP::Direction d, int x, int y)
 					break;
 				}
 
-				if(findJumpNode(JPEP::N, nx, ny) || 
-						findJumpNode(JPEP::W, nx, ny))
+				if(findJumpNode(Jump::N, nx, ny) || 
+						findJumpNode(Jump::W, nx, ny))
 					break;
 			}
 			break;
 		}
 
-		case JPEP::SW:
+		case Jump::SW:
 		{
 			for(int steps=1; steps <= jumplimit ; steps++)
 			{
@@ -634,8 +634,8 @@ JumpPointsExpansionPolicy::findJumpNode(JPEP::Direction d, int x, int y)
 					break;
 				}
 
-				if(findJumpNode(JPEP::S, nx, ny) || 
-						findJumpNode(JPEP::W, nx, ny))
+				if(findJumpNode(Jump::S, nx, ny) || 
+						findJumpNode(Jump::W, nx, ny))
 					break;
 			}
 			break;

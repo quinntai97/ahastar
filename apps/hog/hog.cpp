@@ -38,6 +38,7 @@
 #include "HPAClusterAbstraction.h"
 #include "HPAClusterFactory.h"
 #include "IncidentEdgesExpansionPolicy.h"
+#include "JPAExpansionPolicy.h"
 #include "JumpPointAbstraction.h"
 #include "JumpPointsExpansionPolicy.h"
 #include "mapFlatAbstraction.h"
@@ -858,6 +859,17 @@ newSearchAlgorithm(mapAbstraction* aMap, bool refineAbsPath)
 								newHeuristic()),
 						new OctileDistanceRefinementPolicy(aMap));
 			((HierarchicalSearch*)alg)->setName("JPS");
+			alg->verbose = verbose;
+			break;
+		}
+		case HOG::JPA:
+		{
+			alg = new HierarchicalSearch(new NoInsertionPolicy(),
+						new FlexibleAStar(
+							new JPAExpansionPolicy(), 
+								newHeuristic()),
+						new OctileDistanceRefinementPolicy(aMap));
+			((HierarchicalSearch*)alg)->setName("JPAS");
 			alg->verbose = verbose;
 			break;
 		}
