@@ -20,15 +20,9 @@
 // @created: 06/01/2010
 
 #include "ExpansionPolicy.h"
+#include "Jump.h"
 #include <vector>
 #include <stdexcept>
-
-namespace JPEP
-{
-	typedef enum 
-	{N, S, E, W, NE, NW, SE, SW} 
-	Direction;
-}
 
 class JumpPointsExpansionPolicy : public ExpansionPolicy
 {
@@ -47,9 +41,9 @@ class JumpPointsExpansionPolicy : public ExpansionPolicy
 		int jumplimit; 
 
 	private:
-		JPEP::Direction directionToParent(node* n);
+		Jump::Direction directionToParent(node* n);
 		void computeNeighbourSet();
-		node* findJumpNode(JPEP::Direction d, int x, int y);
+		node* findJumpNode(Jump::Direction d, int x, int y);
 
 		std::vector<node*> neighbours;
 		unsigned int neighbourIndex; 
