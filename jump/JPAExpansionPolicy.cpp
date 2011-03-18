@@ -63,10 +63,10 @@ JPAExpansionPolicy::n()
 	int gx = problem->getGoalNode()->getLabelL(kFirstData);
 	int gy = problem->getGoalNode()->getLabelL(kFirstData+1);
 
+	// the edge (target, n) crosses both row and column of the goal node
 	if(((tx < gx <= nx) || (tx > gx >= nx)) && 
 			((ty < gy <= ny) || (ty > gy >= ny)))
 	{
-		// the edge (target, n) crosses both row and column of the goal node
 		int deltay = abs(gy - ty);
 		int deltax = abs(gx - tx);
 
@@ -81,19 +81,37 @@ JPAExpansionPolicy::n()
 			nx = (nx > tx)?(tx + deltay):(tx - deltay);
 		}
 	}
+	// the edge (target, n) crosses only the row of the goal node
 	else if((tx < gx <= nx) || (tx > gx >= nx))
 	{
-		// the edge (target, n) crosses only the row of the goal node
-		ny = gy;
 		int deltay = abs(gy - ty);
-		nx = (nx > tx)?(tx + deltay):(tx - deltay);
+		if(ty == ny)
+		{
+			// straight transition
+			nx = tx + deltax;
+		}
+		else
+		{
+			// diagonal transition
+			ny = gy;
+			nx = (nx > tx)?(tx + deltay):(tx - deltay);
+		}
 	}
+	// the edge (target, n) crosses only the column of the goal node
 	else if((ty < gy <= ny) || (ty > gy >= ny))
 	{
-		// the edge (target, n) crosses only the column of the goal node
 		int deltax = abs(gx - tx);
-		nx = gx;
-		ny = (ny > ty)?(ty + deltax):(ty - deltax);
+		if(tx == nx)
+		{
+			// straight transition
+			ny = ty + deltay;
+		}
+		else
+		{
+			// diagonal transition
+			nx = gx;
+			ny = (ny > ty)?(ty + deltax):(ty - deltax);
+		}
 	}
 
 	n = problem->getMap()->getNodeFromMap(nx, ny);
