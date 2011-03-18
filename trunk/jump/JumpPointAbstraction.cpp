@@ -150,6 +150,7 @@ JumpPointAbstraction::makeJumpPointGraph()
 			// connect n to a jump point in every direction
 			int nx = n->getLabelL(kFirstData);
 			int ny = n->getLabelL(kFirstData+1);
+
 			node* neighbour = 0;
 			switch(j)
 			{

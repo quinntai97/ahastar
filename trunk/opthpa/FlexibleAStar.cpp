@@ -140,6 +140,7 @@ FlexibleAStar::expand(node* current, node* goal, altheap* openList,
 	}
 
 	nodesExpanded++;
+	nodesTouched++;
 
 	policy->expand(current);
 	for(node* neighbour = policy->first(); neighbour != 0; 

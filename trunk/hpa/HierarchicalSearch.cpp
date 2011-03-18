@@ -37,6 +37,7 @@ HierarchicalSearch::getPath(graphAbstraction *aMap, node *from,
 		node *to, reservationProvider *rp)
 {
 	resetMetrics();
+	alg->verbose = verbose;
 
 	node* start = insertPolicy->insert(from);
 	node* goal = insertPolicy->insert(to);
