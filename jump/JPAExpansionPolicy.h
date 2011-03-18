@@ -16,6 +16,7 @@
 //
 
 #include "ExpansionPolicy.h"
+#include <vector>
 
 class node;
 class JPAExpansionPolicy : public ExpansionPolicy
@@ -29,6 +30,10 @@ class JPAExpansionPolicy : public ExpansionPolicy
 		virtual node* n();
 		virtual double cost_to_n();
 		virtual bool hasNext();
+
+	private:
+		unsigned int neighbourIndex;
+		std::vector<node*> neighbours;
 };
 
 #endif

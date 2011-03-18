@@ -17,6 +17,9 @@ OctileDistanceRefinementPolicy::~OctileDistanceRefinementPolicy()
 path* 
 OctileDistanceRefinementPolicy::refine(path* abspath)
 {
+	if(!abspath)
+		return 0;
+
 	path* refinedpath = 0;
 	path* tail = 0;
 	for(path* current = abspath; current->next != 0; 
