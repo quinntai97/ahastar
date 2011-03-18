@@ -88,7 +88,7 @@ JPAExpansionPolicy::n()
 		if(ty == ny)
 		{
 			// straight transition
-			nx = tx + deltax;
+			nx = tx + deltay;
 		}
 		else
 		{
@@ -104,7 +104,7 @@ JPAExpansionPolicy::n()
 		if(tx == nx)
 		{
 			// straight transition
-			ny = ty + deltay;
+			ny = ty + deltax;
 		}
 		else
 		{
