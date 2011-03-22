@@ -9,6 +9,7 @@ JPAExpansionPolicy::JPAExpansionPolicy()
 	: ExpansionPolicy()
 {
 	neighbourIndex = 0;
+	lastcost = 0; // cost from target to last node returned by ::n
 }
 
 
@@ -63,66 +64,53 @@ JPAExpansionPolicy::n()
 	int gx = problem->getGoalNode()->getLabelL(kFirstData);
 	int gy = problem->getGoalNode()->getLabelL(kFirstData+1);
 
-	// the edge (target, n) crosses both row and column of the goal node
-	if(((tx < gx <= nx) || (tx > gx >= nx)) && 
-			((ty < gy <= ny) || (ty > gy >= ny)))
-	{
-		int deltay = abs(gy - ty);
-		int deltax = abs(gx - tx);
+	int deltay = abs(gy - ty);
+	int deltax = abs(gx - tx);
 
-		if(deltax < deltay)
+	// the edge (target, n) crosses both row and column of the goal node
+	if(((tx < gx && gx <= nx) || (tx > gx && gx >= nx)) && 
+			((ty < gy && gy <= ny) || (ty > gy && gy >= ny)))
+	{
+		// pick from the two possible n nodes the one closer to g
+		if(deltax < deltay) 
 		{
 			nx = gx;
 			ny = (ny > ty)?(ty + deltax):(ty - deltax);
 		}
 		else
 		{
-			ny = gy;
-			nx = (nx > tx)?(tx + deltay):(tx - deltay);
-		}
-	}
-	// the edge (target, n) crosses only the row of the goal node
-	else if((tx < gx <= nx) || (tx > gx >= nx))
-	{
-		int deltay = abs(gy - ty);
-		if(ty == ny)
-		{
-			// straight transition
-			nx = tx + deltay;
-		}
-		else
-		{
-			// diagonal transition
 			ny = gy;
 			nx = (nx > tx)?(tx + deltay):(tx - deltay);
 		}
 	}
 	// the edge (target, n) crosses only the column of the goal node
-	else if((ty < gy <= ny) || (ty > gy >= ny))
+	else if((tx < gx && gx <= nx) || (tx > gx && gx >= nx))
 	{
-		int deltax = abs(gx - tx);
-		if(tx == nx)
-		{
-			// straight transition
-			ny = ty + deltax;
-		}
-		else
-		{
-			// diagonal transition
-			nx = gx;
+		nx = gx;
+
+		// (target, n) is a diagonal transition 
+		if(ty != ny)
 			ny = (ny > ty)?(ty + deltax):(ty - deltax);
-		}
+	}
+	// the edge (target, n) crosses only the row of the goal node
+	else if((ty < gy && gy <= ny) || (ty > gy && gy >= ny))
+	{
+		ny = gy;
+
+		// (target, n) is a diagonal transition 
+		if(tx != nx)
+			nx = (nx > tx)?(tx + deltay):(tx - deltay);
 	}
 
 	n = problem->getMap()->getNodeFromMap(nx, ny);
+	lastcost = problem->getHeuristic()->h(target, n);
 	return n;
 }
 
 double
 JPAExpansionPolicy::cost_to_n()
 {
-	node* current = n();
-	return problem->getHeuristic()->h(target, current);
+	return lastcost;
 }
 
 bool

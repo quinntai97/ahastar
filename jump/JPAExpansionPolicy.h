@@ -28,11 +28,14 @@ class JPAExpansionPolicy : public ExpansionPolicy
 		virtual node* first();
 		virtual node* next();
 		virtual node* n();
-		virtual double cost_to_n();
 		virtual bool hasNext();
+
+		// cost of transition b/w target node and last node returned by ::n
+		virtual double cost_to_n();
 
 	private:
 		unsigned int neighbourIndex;
+		int lastcost;
 		std::vector<node*> neighbours;
 };
 
