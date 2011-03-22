@@ -89,6 +89,7 @@ AHAExperiment* AHAScenarioManager::generateSingleExperiment(mapAbstraction* absM
 }
 
 void AHAScenarioManager::loadScenarioFile(const char* filelocation)
+	throw(std::invalid_argument)
 {
 	ifstream infile;
 	infile.open(filelocation,ios::in);

@@ -47,6 +47,7 @@
 
 #include <iostream>
 #include <fstream>
+#include <stdexcept>
 
 using namespace std;
 
@@ -81,7 +82,8 @@ class AHAScenarioManager: public AbstractScenarioManager
 			throw(TooManyTriesException);
 		virtual void generateExperiments(mapAbstraction* absMap, int numexperiments)
 			throw(TooManyTriesException);
-		virtual void loadScenarioFile(const char* filelocation);
+		virtual void loadScenarioFile(const char* filelocation) 
+			throw(std::invalid_argument);
 
 	protected:
 		AHAExperiment* generateSingleExperiment(mapAbstraction*, int capability, int minagentsize);
