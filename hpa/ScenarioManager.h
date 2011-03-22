@@ -6,6 +6,7 @@
 #include <fstream>
 #include <iostream>
 #include <sstream>
+#include <stdexcept>
 
 namespace ScenarioManagerNS
 {
@@ -51,7 +52,8 @@ class AbstractScenarioManager
 		
 		virtual void generateExperiments(mapAbstraction* absMap, int numexperiments) 
 			throw(TooManyTriesException) = 0;
-		virtual void loadScenarioFile(const char* filelocation) = 0;
+		virtual void loadScenarioFile(const char* filelocation) 
+			 throw(std::invalid_argument) = 0;
 		void writeScenarioFile(const char* filelocation);
 		void clearExperiments() { experiments.clear(); }
 	
@@ -70,7 +72,8 @@ class ScenarioManager : public AbstractScenarioManager
 		generateExperiments(mapAbstraction* absMap, int numexperiments)
 		throw(TooManyTriesException);
 
-		virtual void loadScenarioFile(const char* filelocation);
+		virtual void loadScenarioFile(const char* filelocation)
+			 throw(std::invalid_argument);
 
 	protected:
 		Experiment* generateSingleExperiment(mapAbstraction* absMap);
