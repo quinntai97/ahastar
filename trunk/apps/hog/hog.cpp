@@ -57,7 +57,9 @@
 #include "statCollection.h"
 
 #include <cstdlib>
+#include <iostream>
 #include <sstream>
+#include <stdexcept>
 
 bool mouseTracking;
 int px1, py1, px2, py2;
@@ -640,7 +642,16 @@ myExecuteScenarioCLHandler(char *argument[], int maxNumArgs)
 	
 	//std::cout << "\n -scenario call: "<<argument[1] << std::endl;
 	std::string infile(argument[1]);
-	scenariomgr.loadScenarioFile(infile.c_str());	
+	try
+	{
+		scenariomgr.loadScenarioFile(infile.c_str());	
+	}
+	catch(std::invalid_argument& e)
+	{
+		std::cerr << e.what() <<std::endl;
+		exit(1);
+	}
+
 	strncpy(gDefaultMap, scenariomgr.getNthExperiment(0)->getMapName(), 1024);
 	
 	scenario=true;

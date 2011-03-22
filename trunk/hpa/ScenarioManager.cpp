@@ -96,9 +96,17 @@ Experiment* ScenarioManager::generateSingleExperiment(mapAbstraction* absMap)
 }
 
 void ScenarioManager::loadScenarioFile(const char* filelocation)
+	throw(std::invalid_argument)
 {
 	std::ifstream infile;
 	infile.open(filelocation,std::ios::in);
+
+	if(!infile.good())
+	{
+		std::stringstream ss;
+		ss << "Invalid scenario file: "<<filelocation;
+		throw std::invalid_argument(ss.str());
+	}
 
 
 	// Check if a version number is given
