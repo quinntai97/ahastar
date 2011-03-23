@@ -16,6 +16,7 @@
 //
 
 #include "ExpansionPolicy.h"
+#include "Jump.h"
 #include <vector>
 
 class node;
@@ -34,9 +35,9 @@ class JPAExpansionPolicy : public ExpansionPolicy
 		virtual double cost_to_n();
 
 	private:
-		unsigned int neighbourIndex;
+		Jump::Direction directionToParent();
 		double lastcost;
-		std::vector<node*> neighbours;
+		std::vector<Jump::Direction> neighbours;
 };
 
 #endif
