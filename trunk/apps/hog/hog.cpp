@@ -255,6 +255,7 @@ createSimulation(unitSimulation * &unitSim)
 		{
 			aMap = new JumpPointAbstraction(map, new NodeFactory(), 
 					new EdgeFactory());
+			dynamic_cast<JumpPointAbstraction*>(aMap)->setVerbose(verbose);
 			break;
 		}
 		default:
