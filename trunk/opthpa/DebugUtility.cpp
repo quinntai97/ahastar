@@ -66,8 +66,10 @@ void DebugUtility::printNode(std::string msg, node* n, node* goal)
 	}
 }
 
-// a node is correctly closed only if its fCost is smaller than the cost of
-// of any path through an alternative parent.
+// a node is correctly closed only if its fCost is <= the cost of
+// of any path through an alternative parent. Here node c is being expanded
+// and it contains the closed neighbour n. We want to make sure 
+// f(n) <= g(c) + d(c, n) + h(n, goal)
 void DebugUtility::debugClosedNode(node* c, node* n, double c_to_n_cost, node* goal)
 {
 	double fclosed = n->getLabelF(kTemporaryLabel);

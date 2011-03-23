@@ -41,16 +41,7 @@ FlexibleAStar::getPath(graphAbstraction *aMap, node *start, node *goal,
 	policy->setProblemInstance(new ProblemInstance(start, goal, 
 				dynamic_cast<mapAbstraction*>(aMap), heuristic));
 	path* p = search(start, goal);
-	if(verbose)
-	{
-		std::cout << "solution: ";
-		if(p)
-			debug->printPath(p);
-		else
-			std::cout << "none!";
-		std::cout << std::endl;
-				
-	}
+
 	delete debug;
 	return p;
 }
