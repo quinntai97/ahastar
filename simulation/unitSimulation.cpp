@@ -781,10 +781,10 @@ void unitSimulation::stepUnitTime(unitInfo *theUnit)
 	int newy = theUnit->curry + ((where&kS)?1:0) - ((where&kN)?1:0);
 	
 	// Check if the move is valid
-	//if ((map->getTerrainType(newx, newy)>>terrainBits) == (kGround>>terrainBits))
-	//if (map->canStep(theUnit->currx, theUnit->curry, newx, newy))
-	if (aMap->getAbstractGraph(0)->findEdge(map->getNodeNum(theUnit->currx, theUnit->curry),
-																					map->getNodeNum(newx, newy)))
+//	if (aMap->getAbstractGraph(0)->findEdge(
+//			map->getNodeNum(theUnit->currx, theUnit->curry),
+//			map->getNodeNum(newx, newy)))
+	if(true) 
 	{
 		if ((stochasticity > 0) && ((rand()%1023)/1024.0 < stochasticity))
 		{
