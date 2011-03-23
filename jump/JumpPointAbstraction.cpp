@@ -7,11 +7,14 @@
 #include "OctileHeuristic.h"
 
 JumpPointAbstraction::JumpPointAbstraction(Map* _m, INodeFactory* _nf, 
-		IEdgeFactory* _ef) : mapAbstraction(_m)
+		IEdgeFactory* _ef, bool _verbose) : mapAbstraction(_m), 
+	verbose(_verbose)
 {
 	nf = _nf;
 	ef = _ef;
+
 	makeJumpPointGraph();
+	verifyHierarchy();
 }
 
 JumpPointAbstraction::~JumpPointAbstraction()
@@ -35,21 +38,22 @@ JumpPointAbstraction::pathable(node* n, node* m)
 void
 JumpPointAbstraction::verifyHierarchy()
 {
-	graph* g = abstractions[0];
-
-	if(g->getNumEdges() != 0)
-	{
-		repairAbstraction();
-		return;
-	}
+	graph* g = getAbstractGraph(0); 
 
 	for(int i=0; i<g->getNumNodes(); i++)
 	{
-		node* n = g->getNode(i);
-		if(n->getNumIncomingEdges() != 0)
+		node* p = g->getNode(i);
+
+		if(p->getNumOutgoingEdges() != 0)
+		{
+			repairAbstraction();			
+			break;
+		}
+
+		if(p->getNumIncomingEdges() != 0)
 		{
 			repairAbstraction();
-			return;
+			break;
 		}
 	}
 }
@@ -57,14 +61,16 @@ JumpPointAbstraction::verifyHierarchy()
 void
 JumpPointAbstraction::removeNode(node* n)
 {
-	graph* g = abstractions[0];
+	graph* g = getAbstractGraph(0); 
 
 	edge_iterator it = n->getEdgeIter();
 	for(edge* e = n->edgeIterNext(it); e != 0; e = n->edgeIterNext(it))
 	{
-		n->removeEdge(e);
+		g->removeEdge(e);
+		delete e;
 	}
 	g->removeNode(n);
+	delete n;
 }
 
 void 
@@ -73,18 +79,15 @@ JumpPointAbstraction::removeEdge(edge *e, unsigned int absLevel)
 	if(absLevel != 0)
 		return;
 
-	graph* g = abstractions[0];
-	node* from = g->getNode(e->getFrom());	
-	if(from == 0)
-		return;
-
-	from->removeEdge(e);
+	graph* g = getAbstractGraph(0);
+	g->removeEdge(e);
+	delete e;
 }
 
 void 
 JumpPointAbstraction::addNode(node *n)
 {
-	graph* g = abstractions[0];
+	graph* g = getAbstractGraph(0);
 	g->addNode(n);
 }
 
@@ -94,41 +97,22 @@ JumpPointAbstraction::addEdge(edge *e, unsigned int absLevel)
 	if(absLevel != 0)
 		return;
 
-	graph* g = abstractions[0];
-	node* from = g->getNode(e->getFrom());
-	if(from == 0)
-		return;
-
-	from->addEdge(e);
+	graph* g = getAbstractGraph(1); 
+	g->addDirectedEdge(e);
 }
 
 void 
 JumpPointAbstraction::repairAbstraction()
 {
-	graph* g = abstractions[0];
-	edge_iterator it = g->getEdgeIter();
-	for(edge *e = g->edgeIterNext(it); e != 0; e = g->edgeIterNext(it))
-	{
-		g->removeEdge(e);
-		delete e;
-	}
-	
-	for(int i=0; i < g->getNumNodes(); i++)
-	{
-		node* n = g->getNode(i);
-		edge_iterator it = n->getEdgeIter();
-		for(edge* e = n->edgeIterNext(it); e != 0; e = n->edgeIterNext(it))
-		{
-			node* n1 = g->getNode(e->getFrom());
-			node* n2 = g->getNode(e->getTo());
-			n1->removeEdge(e);
-			n2->removeEdge(e);
-			delete e;
-		}
-	}
+	if(verbose)
+		std::cout << "repairAbstraction"<<std::endl;
 
-	delete g;
+	if(getNumAbstractGraphs() > 1)
+		return;
+
+	graph* g = getAbstractGraph(0);
 	abstractions.pop_back();
+	delete g;
 
 	makeJumpPointGraph();
 }
@@ -200,7 +184,15 @@ JumpPointAbstraction::makeJumpPointGraph()
 			{
 					edge* e = new edge(n->getNum(), neighbour->getNum(),
 							heuristic.h(n, neighbour));
-					n->addEdge(e);
+					g->addDirectedEdge(e);
+					if(verbose)
+					{
+						std::cout << "jpa edge: ("<< n->getLabelL(kFirstData) << ", "
+							<<n->getLabelL(kFirstData+1) << ") -> ("<<
+							neighbour->getLabelL(kFirstData)<<","<<
+							neighbour->getLabelL(kFirstData+1)<<")"<<
+							" cost: "<<heuristic.h(n, neighbour)<<std::endl;
+					}
 			}
 		}
 	}

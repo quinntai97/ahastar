@@ -35,7 +35,7 @@ class JPAExpansionPolicy : public ExpansionPolicy
 
 	private:
 		unsigned int neighbourIndex;
-		int lastcost;
+		double lastcost;
 		std::vector<node*> neighbours;
 };
 

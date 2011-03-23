@@ -23,7 +23,7 @@ class graph;
 class JumpPointAbstraction : public mapAbstraction
 {
 	public:
-		JumpPointAbstraction(Map*, INodeFactory*, IEdgeFactory*);
+		JumpPointAbstraction(Map*, INodeFactory*, IEdgeFactory*, bool _verbose = false);
 		virtual ~JumpPointAbstraction();
 		virtual mapAbstraction *clone(Map *);
 
@@ -35,7 +35,11 @@ class JumpPointAbstraction : public mapAbstraction
 		virtual void addEdge(edge *e, unsigned int absLevel);
 		virtual void repairAbstraction();
 
+		bool getVerbose() { return verbose; }
+		void setVerbose(bool _verbose) { this->verbose = _verbose; }
+
 	private:
+		bool verbose;
 		INodeFactory* nf;
 		IEdgeFactory* ef;
 

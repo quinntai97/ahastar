@@ -53,7 +53,8 @@ JPAExpansionPolicy::n()
 	edge_iterator iter = target->getOutgoingEdgeIter() + neighbourIndex;
 	edge* e = target->edgeIterNextOutgoing(iter);
 
-	node* n = problem->getMap()->getAbstractGraph(0)->getNode(e->getTo());
+	graph* g = problem->getMap()->getAbstractGraph(0);
+	node* n = g->getNode(e->getTo());
 
 	int tx = target->getLabelL(kFirstData);
 	int ty = target->getLabelL(kFirstData+1);
