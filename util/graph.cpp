@@ -167,6 +167,20 @@ void graph::addEdge(edge *e)
   }
 }
 
+void graph::addDirectedEdge(edge* e)
+{
+	if (e)
+	{
+		_edges.push_back(e);
+		e->edgeNum = _edges.size()-1;
+
+		if (e->getFrom() < _nodes.size())
+			_nodes[e->getFrom()]->addOutgoingEdge(e);
+		else
+			cerr << "Adding edge from illegal index" << endl;
+	}
+}
+
 edge *graph::findDirectedEdge(unsigned int from, unsigned int to)
 {
   node *n = getNode(from);
@@ -870,6 +884,18 @@ void node::addEdge(edge *e)
     else
       cerr << "Added an adge that doesn't belong to this node (" << nodeNum << ")" << endl;
   }
+}
+
+void node::addOutgoingEdge(edge* e)
+{
+	if (e)
+	{
+		_allEdges.push_back(e);
+	if (e->getFrom() == nodeNum)
+		_edgesOutgoing.push_back(e);
+	else
+	  cerr << "Added an outgoing adge that doesn't originate from this node (" << nodeNum << ")" << endl;
+	}
 }
 
 void node::removeEdge(edge *e)

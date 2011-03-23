@@ -84,6 +84,7 @@ public:
   int addNode(node *);
   node *getNode(unsigned int num);
   void addEdge(edge *);
+  void addDirectedEdge(edge* );
   edge *findDirectedEdge(unsigned int from, unsigned int to);
   edge *findEdge(unsigned int from, unsigned int to);
 	
@@ -192,6 +193,7 @@ public:
   const char *getName() const { return name; }
   unsigned int getNum() const { return nodeNum; }
   void addEdge(edge *);
+  void addOutgoingEdge(edge*);
   void removeEdge(edge *);
 
   // iterator over incoming edges
