@@ -1,6 +1,8 @@
 #include "HierarchicalSearch.h"
 
+#include "DebugUtility.h"
 #include "InsertionPolicy.h"
+#include "OctileHeuristic.h"
 #include "path.h"
 #include "RefinementPolicy.h"
 #include "statCollection.h"
@@ -53,6 +55,17 @@ HierarchicalSearch::getPath(graphAbstraction *aMap, node *from,
 	nodesGenerated = alg->getNodesGenerated() + insertPolicy->getNodesGenerated();
 	nodesTouched = alg->getNodesTouched() + insertPolicy->getNodesTouched();
 	searchTime = alg->getSearchTime() + insertPolicy->getSearchTime();
+
+	if(verbose)
+	{
+		if(refinedPath)
+		{
+			std::cout << "refined path: \n";
+			OctileHeuristic heuristic;
+			DebugUtility debug(aMap, &heuristic);
+			debug.printPath(refinedPath);
+		}
+	}
 
 	return refinedPath;
 }
