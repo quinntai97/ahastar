@@ -36,6 +36,9 @@ class JPAExpansionPolicy : public ExpansionPolicy
 
 	private:
 		Jump::Direction directionToParent();
+		int calculateEdgeIndex(Jump::Direction dir);
+		void computeNeighbourSet();
+
 		double lastcost;
 		std::vector<Jump::Direction> neighbours;
 };

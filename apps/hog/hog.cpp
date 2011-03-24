@@ -254,8 +254,7 @@ createSimulation(unitSimulation * &unitSim)
 		case HOG::JPA:
 		{
 			aMap = new JumpPointAbstraction(map, new NodeFactory(), 
-					new EdgeFactory());
-			dynamic_cast<JumpPointAbstraction*>(aMap)->setVerbose(verbose);
+					new EdgeFactory(), verbose);
 			break;
 		}
 		default:
