@@ -16,58 +16,15 @@ JPAExpansionPolicy::~JPAExpansionPolicy()
 {
 }
 
-
 node* 
 JPAExpansionPolicy::first()
 {
-	neighbours.clear();
-	switch(directionToParent())
+	computeNeighbourSet();
+	if(hasNext()) 
 	{
-		case Jump::N:
-			neighbours.push_back(Jump::S);
-			break;
-		case Jump::S:
-			neighbours.push_back(Jump::N);
-			break;
-		case Jump::E:
-			neighbours.push_back(Jump::W);
-			break;
-		case Jump::W:
-			neighbours.push_back(Jump::E);
-			break;
-		case Jump::NE:
-			neighbours.push_back(Jump::SW);
-			neighbours.push_back(Jump::S);
-			neighbours.push_back(Jump::W);
-			break;
-		case Jump::SE:
-			neighbours.push_back(Jump::NW);
-			neighbours.push_back(Jump::N);
-			neighbours.push_back(Jump::W);
-			break;
-		case Jump::SW:
-			neighbours.push_back(Jump::NE);
-			neighbours.push_back(Jump::N);
-			neighbours.push_back(Jump::E);
-			break;
-		case Jump::NW:
-			neighbours.push_back(Jump::SE);
-			neighbours.push_back(Jump::S);
-			neighbours.push_back(Jump::E);
-			break;
-		default: // all neighbours when target has no parent (e.g. start node) 
-			neighbours.push_back(Jump::S);
-			neighbours.push_back(Jump::N);
-			neighbours.push_back(Jump::W);
-			neighbours.push_back(Jump::E);
-			neighbours.push_back(Jump::SW);
-			neighbours.push_back(Jump::NW);
-			neighbours.push_back(Jump::NE);
-			neighbours.push_back(Jump::SE);
-			break;
+		return n();
 	}
-
-	return n();
+	return 0;
 }
 
 node* 
@@ -75,6 +32,7 @@ JPAExpansionPolicy::next()
 {
 	node* nextnode = 0;
 
+	neighbours.pop_back();
 	if(hasNext())
 	{
 		nextnode = n();
@@ -84,7 +42,8 @@ JPAExpansionPolicy::next()
 }
 
 // Returns the current neighbour of the target node being expanded.
-// Usually the neighbour is a node incident with the target -- however
+// Usually the neighbour is a destination for one of the outgoing edges.
+// However, there is one important exception:
 // if the edge (target, neighbour) is a transition which involves jumping
 // over the row or column of the goal node we return instead the node
 // on the row or column of the goal node. 
@@ -94,40 +53,7 @@ JPAExpansionPolicy::next()
 node*
 JPAExpansionPolicy::n()
 {
-	Jump::Direction dir = neighbours.back();
-	neighbours.pop_back();
-
-	int offset = 0;
-	switch(dir)
-	{
-		case Jump::NONE:
-			std::cerr << "JPAExpansionPolicy::n neighbour in direction Jump::NONE?!";
-			exit(1);
-		case Jump::N:
-			break;
-		case Jump::NE:
-			offset++;
-			break;
-		case Jump::E:
-			offset+=2;
-			break;
-		case Jump::SE:
-			offset+=3;
-			break;
-		case Jump::S:
-			offset+=4;
-			break;
-		case Jump::SW:
-			offset+=5;
-			break;
-		case Jump::W:
-			offset+=6;
-			break;
-		case Jump::NW:
-			offset+=7;
-			break;
-	}
-
+	int offset = calculateEdgeIndex(neighbours.back());
 	edge_iterator iter = target->getOutgoingEdgeIter() + offset;
 	edge* e = target->edgeIterNextOutgoing(iter);
 
@@ -195,7 +121,18 @@ bool
 JPAExpansionPolicy::hasNext()
 {
 	if(neighbours.size() > 0)
+	{
+		int offset = calculateEdgeIndex(neighbours.back());
+		edge_iterator iter = target->getOutgoingEdgeIter() + offset;
+		edge* e = target->edgeIterNextOutgoing(iter);
+		if(e->getFrom() == e->getTo())
+		{
+			neighbours.pop_back();
+			return hasNext();
+		}
+
 		return true;
+	}
 	return false;
 }
 
@@ -243,3 +180,228 @@ JPAExpansionPolicy::directionToParent()
 	throw std::logic_error("JPAExpansionPolicy::directionToParent"
 			" failed to determine direction to parent!");
 }
+
+// given a direction for a neighbour, return the corresponding index
+// for the edge to that neighbour in the array of edges stored by the 
+// target node.
+int
+JPAExpansionPolicy::calculateEdgeIndex(Jump::Direction dir)
+{
+	int idx = 0;
+	switch(dir)
+	{
+		case Jump::NONE:
+			std::cerr << "JPAExpansionPolicy::n neighbour in direction Jump::NONE?!";
+			exit(1);
+		case Jump::N:
+			break;
+		case Jump::NE:
+			idx++;
+			break;
+		case Jump::E:
+			idx+=2;
+			break;
+		case Jump::SE:
+			idx+=3;
+			break;
+		case Jump::S:
+			idx+=4;
+			break;
+		case Jump::SW:
+			idx+=5;
+			break;
+		case Jump::W:
+			idx+=6;
+			break;
+		case Jump::NW:
+			idx+=7;
+			break;
+	}
+	return idx;
+}
+
+void 
+JPAExpansionPolicy::computeNeighbourSet()
+{
+	mapAbstraction* map = problem->getMap();
+	int x = target->getLabelL(kFirstData);
+	int y = target->getLabelL(kFirstData+1);
+
+	Jump::Direction which = directionToParent();
+	switch(which)
+	{
+		case Jump::N:
+		{
+			neighbours.push_back(Jump::S);
+
+			// check if we also need to add diagonal neighbours
+			if(!map->getNodeFromMap(x+1, y))
+			{
+				if(map->getNodeFromMap(x+1, y+1))
+					neighbours.push_back(Jump::SE);
+			}
+			if(!map->getNodeFromMap(x-1, y))
+			{
+				if(map->getNodeFromMap(x-1, y+1))
+					neighbours.push_back(Jump::SW);
+			}
+			break;
+		}
+
+		case Jump::NE:
+		{
+			neighbours.push_back(Jump::SW);
+			neighbours.push_back(Jump::S);
+			neighbours.push_back(Jump::W);
+
+			// add NW neighbour only if N neighbour is null
+			if(!map->getNodeFromMap(x, y-1))
+			{
+				if(map->getNodeFromMap(x-1, y-1))
+					neighbours.push_back(Jump::NW);
+			}
+
+			// add SE neighbour only if E neighbour is null
+			if(!map->getNodeFromMap(x+1, y))
+			{
+				if(map->getNodeFromMap(x+1, y+1)) 
+					neighbours.push_back(Jump::SE);
+			}
+			break;
+		}
+
+		case Jump::E:
+		{
+			neighbours.push_back(Jump::W);
+
+			// check if we also need to add diagonal neighbours
+			if(!map->getNodeFromMap(x, y-1))
+			{
+				if(map->getNodeFromMap(x-1, y-1))
+					neighbours.push_back(Jump::NW);
+			}
+			if(!map->getNodeFromMap(x, y+1))
+			{
+				if(map->getNodeFromMap(x-1, y+1))
+					neighbours.push_back(Jump::SW);
+			}
+			break;
+		}
+
+		case Jump::SE:
+		{
+			neighbours.push_back(Jump::NW);
+			neighbours.push_back(Jump::W);
+			neighbours.push_back(Jump::N);
+
+			// add SW neighbour only if S neighbour is null
+			if(!map->getNodeFromMap(x, y+1))
+			{
+				if(map->getNodeFromMap(x-1, y+1))
+					neighbours.push_back(Jump::SW);
+			}
+
+			// add NE neighbour only if E neighbour is null
+			if(!map->getNodeFromMap(x+1, y))
+			{
+				if(map->getNodeFromMap(x+1, y-1))
+					neighbours.push_back(Jump::NE);
+			}
+			break;
+		}
+
+		case Jump::S:
+		{
+			neighbours.push_back(Jump::N);
+
+			// check if we also need to add diagonal neighbours
+			if(!map->getNodeFromMap(x+1, y))
+			{
+				if(map->getNodeFromMap(x+1, y-1))
+					neighbours.push_back(Jump::NE);
+			}
+			if(!map->getNodeFromMap(x-1, y))
+			{
+				if(map->getNodeFromMap(x-1, y-1))
+					neighbours.push_back(Jump::NW);
+			}
+			break;
+		}
+
+		case Jump::SW:
+		{
+			neighbours.push_back(Jump::NE);
+			neighbours.push_back(Jump::N);
+			neighbours.push_back(Jump::E);
+		
+			// add SE neighbour only if S neighbour is null
+			if(!map->getNodeFromMap(x, y+1))
+			{
+				if(map->getNodeFromMap(x+1, y+1))
+					neighbours.push_back(Jump::SE);
+			}
+
+			// add NW neighbour only if W neighbour is null
+			if(!map->getNodeFromMap(x-1, y))
+			{
+				if(map->getNodeFromMap(x-1, y-1))
+					neighbours.push_back(Jump::NW);
+			}
+			break;
+		}
+
+		case Jump::W:
+		{
+
+			neighbours.push_back(Jump::E);
+
+			// check if we also need to add diagonal neighbours
+			if(!map->getNodeFromMap(x, y-1))
+			{
+				if(map->getNodeFromMap(x+1, y-1))
+					neighbours.push_back(Jump::NE);
+			}
+			if(!map->getNodeFromMap(x, y+1))
+			{
+				if(map->getNodeFromMap(x+1, y+1))
+					neighbours.push_back(Jump::SE);
+			}
+			break;
+		}
+
+		case Jump::NW:
+		{
+			neighbours.push_back(Jump::SE);
+			neighbours.push_back(Jump::E);
+			neighbours.push_back(Jump::S);
+
+			// add NE neighbour only if N neighbour is null
+			if(!map->getNodeFromMap(x, y-1))
+			{
+				if(map->getNodeFromMap(x+1, y-1))
+					neighbours.push_back(Jump::NE);
+			}
+
+			// add SW neighbour only if W neighbour is null
+			if(!map->getNodeFromMap(x-1, y))
+			{
+				if(map->getNodeFromMap(x-1, y+1))
+					neighbours.push_back(Jump::SW);
+			}
+			break;
+		}
+		case Jump::NONE:
+		{
+			neighbours.push_back(Jump::S);
+			neighbours.push_back(Jump::N);
+			neighbours.push_back(Jump::W);
+			neighbours.push_back(Jump::E);
+			neighbours.push_back(Jump::SW);
+			neighbours.push_back(Jump::NW);
+			neighbours.push_back(Jump::NE);
+			neighbours.push_back(Jump::SE);
+			break;
+		}
+	}
+}
+

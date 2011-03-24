@@ -180,19 +180,27 @@ JumpPointAbstraction::makeJumpPointGraph()
 					break;
 			}
 
+			edge* e = 0;
 			if(neighbour && neighbour->getNum() != n->getNum())
 			{
-					edge* e = new edge(n->getNum(), neighbour->getNum(),
-							heuristic.h(n, neighbour));
-					g->addDirectedEdge(e);
-					if(verbose)
-					{
-						std::cout << "jpa edge: ("<< n->getLabelL(kFirstData) << ", "
-							<<n->getLabelL(kFirstData+1) << ") -> ("<<
-							neighbour->getLabelL(kFirstData)<<","<<
-							neighbour->getLabelL(kFirstData+1)<<")"<<
-							" cost: "<<heuristic.h(n, neighbour)<<std::endl;
-					}
+				e = new edge(n->getNum(), neighbour->getNum(),
+						heuristic.h(n, neighbour));
+			}
+			else
+			{
+				// pad out the array when a neighbour doesn't exist
+				// (so we can achieve constant-time lookup of any neighbour) 
+				e = new edge(n->getNum(), n->getNum(), 0); 
+			}
+
+			g->addDirectedEdge(e);
+			if(verbose)
+			{
+				std::cout << "jpa edge: ("<< n->getLabelL(kFirstData) << ", "
+					<<n->getLabelL(kFirstData+1) << ") -> ("<<
+					neighbour->getLabelL(kFirstData)<<","<<
+					neighbour->getLabelL(kFirstData+1)<<")"<<
+					" cost: "<<heuristic.h(n, neighbour)<<std::endl;
 			}
 		}
 	}
@@ -444,6 +452,9 @@ JumpPointAbstraction::findJumpNode(Jump::Direction d, int x, int y)
 			}
 			break;
 		}
+
+		default:
+			break;
 	}
 
 	return n;
@@ -605,6 +616,9 @@ JumpPointAbstraction::findObstacleJumpNode(Jump::Direction d, int x, int y)
 			}
 			break;
 		}
+
+		default:
+			break;
 	}
 
 	return n;
