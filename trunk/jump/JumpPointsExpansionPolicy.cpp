@@ -37,239 +37,236 @@ JumpPointsExpansionPolicy::computeNeighbourSet()
 	int x = target->getLabelL(kFirstData);
 	int y = target->getLabelL(kFirstData+1);
 
-	if(target->backpointer != 0)
+	Jump::Direction which = directionToParent();
+	switch(which)
 	{
-		Jump::Direction which = directionToParent(target->backpointer);
-		switch(which)
+		case Jump::N:
 		{
-			case Jump::N:
+			node* n = findJumpNode(Jump::S, x, y);
+			if(n)
+				neighbours.push_back(n);
+
+			// check if we also need to add diagonal neighbours
+			if(!map->getNodeFromMap(x+1, y))
 			{
-				node* n = findJumpNode(Jump::S, x, y);
+				n = map->getNodeFromMap(x+1, y+1);
 				if(n)
 					neighbours.push_back(n);
-
-				// check if we also need to add diagonal neighbours
-				if(!map->getNodeFromMap(x+1, y))
-				{
-					n = map->getNodeFromMap(x+1, y+1);
-					if(n)
-						neighbours.push_back(n);
-				}
-				if(!map->getNodeFromMap(x-1, y))
-				{
-					n = map->getNodeFromMap(x-1, y+1);
-					if(n)
-						neighbours.push_back(n);
-				}
-				break;
 			}
-
-			case Jump::NE:
+			if(!map->getNodeFromMap(x-1, y))
 			{
-				node* n = findJumpNode(Jump::SW, x, y);
+				n = map->getNodeFromMap(x-1, y+1);
 				if(n)
 					neighbours.push_back(n);
-
-				n = findJumpNode(Jump::S, x, y);
-				if(n)
-					neighbours.push_back(n);
-
-				n = findJumpNode(Jump::W, x, y);
-				if(n)
-					neighbours.push_back(n);
-
-				// add NW neighbour only if N neighbour is null
-				if(!map->getNodeFromMap(x, y-1))
-				{
-					n = map->getNodeFromMap(x-1, y-1);
-					if(n)
-						neighbours.push_back(n);
-				}
-
-				// add SE neighbour only if E neighbour is null
-				if(!map->getNodeFromMap(x+1, y))
-				{
-					n = map->getNodeFromMap(x+1, y+1); 
-					if(n)
-						neighbours.push_back(n);
-				}
-				break;
 			}
-
-			case Jump::E:
-			{
-				node* n = findJumpNode(Jump::W, x, y);
-				if(n)
-					neighbours.push_back(n);
-
-				// check if we also need to add diagonal neighbours
-				if(!map->getNodeFromMap(x, y-1))
-				{
-					n = map->getNodeFromMap(x-1, y-1);
-					if(n)
-						neighbours.push_back(n);
-				}
-				if(!map->getNodeFromMap(x, y+1))
-				{
-					n = map->getNodeFromMap(x-1, y+1);
-					if(n)
-						neighbours.push_back(n);
-				}
-				break;
-			}
-
-			case Jump::SE:
-			{
-				node* n = findJumpNode(Jump::NW, x, y); 
-				if(n)
-					neighbours.push_back(n);
-
-				n = findJumpNode(Jump::N, x, y);
-				if(n)
-					neighbours.push_back(n);
-
-				n = findJumpNode(Jump::W, x, y);
-				if(n)
-					neighbours.push_back(n);
-
-				// add SW neighbour only if S neighbour is null
-				if(!map->getNodeFromMap(x, y+1))
-				{
-					n = map->getNodeFromMap(x-1, y+1);
-					if(n)
-						neighbours.push_back(n);
-				}
-
-				// add NE neighbour only if E neighbour is null
-				if(!map->getNodeFromMap(x+1, y))
-				{
-					n = map->getNodeFromMap(x+1, y-1); 
-					if(n)
-						neighbours.push_back(n);
-				}
-				break;
-			}
-
-			case Jump::S:
-			{
-				node* n = findJumpNode(Jump::N, x, y);
-				if(n)
-					neighbours.push_back(n);
-
-				// check if we also need to add diagonal neighbours
-				if(!map->getNodeFromMap(x+1, y))
-				{
-					n = map->getNodeFromMap(x+1, y-1);
-					if(n)
-						neighbours.push_back(n);
-				}
-				if(!map->getNodeFromMap(x-1, y))
-				{
-					n = map->getNodeFromMap(x-1, y-1);
-					if(n)
-						neighbours.push_back(n);
-				}
-				break;
-			}
-
-			case Jump::SW:
-			{
-				node* n = findJumpNode(Jump::NE, x, y); 
-				if(n)
-					neighbours.push_back(n);
-
-				n = findJumpNode(Jump::N, x, y);
-				if(n)
-					neighbours.push_back(n);
-
-				n = findJumpNode(Jump::E, x, y);
-				if(n)
-					neighbours.push_back(n);
-
-				// add SE neighbour only if S neighbour is null
-				if(!map->getNodeFromMap(x, y+1))
-				{
-					n = map->getNodeFromMap(x+1, y+1);
-					if(n)
-						neighbours.push_back(n);
-				}
-
-				// add NW neighbour only if W neighbour is null
-				if(!map->getNodeFromMap(x-1, y))
-				{
-					n = map->getNodeFromMap(x-1, y-1); 
-					if(n)
-						neighbours.push_back(n);
-				}
-				break;
-			}
-
-			case Jump::W:
-			{
-				node* n = findJumpNode(Jump::E, x, y);
-				if(n)
-					neighbours.push_back(n);
-
-				// check if we also need to add diagonal neighbours
-				if(!map->getNodeFromMap(x, y-1))
-				{
-					n = map->getNodeFromMap(x+1, y-1);
-					if(n)
-						neighbours.push_back(n);
-				}
-				if(!map->getNodeFromMap(x, y+1))
-				{
-					n = map->getNodeFromMap(x+1, y+1);
-					if(n)
-						neighbours.push_back(n);
-				}
-				break;
-			}
-
-			case Jump::NW:
-			{
-				node* n = findJumpNode(Jump::SE, x, y);
-				if(n)
-					neighbours.push_back(n);
-
-				n = findJumpNode(Jump::S, x, y);
-				if(n)
-					neighbours.push_back(n);
-
-				n = findJumpNode(Jump::E, x, y);
-				if(n)
-					neighbours.push_back(n);
-
-				// add NE neighbour only if N neighbour is null
-				if(!map->getNodeFromMap(x, y-1))
-				{
-					n = map->getNodeFromMap(x+1, y-1);
-					if(n)
-						neighbours.push_back(n);
-				}
-
-				// add SW neighbour only if W neighbour is null
-				if(!map->getNodeFromMap(x-1, y))
-				{
-					n = map->getNodeFromMap(x-1, y+1); 
-					if(n)
-						neighbours.push_back(n);
-				}
-				break;
-			}
+			break;
 		}
-	}
-	else
-	{
-		graph* g = map->getAbstractGraph(0);
-		neighbor_iterator iter = target->getNeighborIter();
-		for(int nodeId = target->nodeNeighborNext(iter); 
-				nodeId != -1 ;
-				nodeId = target->nodeNeighborNext(iter))
+
+		case Jump::NE:
 		{
-			node* n = g->getNode(nodeId);
-			//assert(n);
-			neighbours.push_back(n);
+			node* n = findJumpNode(Jump::SW, x, y);
+			if(n)
+				neighbours.push_back(n);
+
+			n = findJumpNode(Jump::S, x, y);
+			if(n)
+				neighbours.push_back(n);
+
+			n = findJumpNode(Jump::W, x, y);
+			if(n)
+				neighbours.push_back(n);
+
+			// add NW neighbour only if N neighbour is null
+			if(!map->getNodeFromMap(x, y-1))
+			{
+				n = map->getNodeFromMap(x-1, y-1);
+				if(n)
+					neighbours.push_back(n);
+			}
+
+			// add SE neighbour only if E neighbour is null
+			if(!map->getNodeFromMap(x+1, y))
+			{
+				n = map->getNodeFromMap(x+1, y+1); 
+				if(n)
+					neighbours.push_back(n);
+			}
+			break;
+		}
+
+		case Jump::E:
+		{
+			node* n = findJumpNode(Jump::W, x, y);
+			if(n)
+				neighbours.push_back(n);
+
+			// check if we also need to add diagonal neighbours
+			if(!map->getNodeFromMap(x, y-1))
+			{
+				n = map->getNodeFromMap(x-1, y-1);
+				if(n)
+					neighbours.push_back(n);
+			}
+			if(!map->getNodeFromMap(x, y+1))
+			{
+				n = map->getNodeFromMap(x-1, y+1);
+				if(n)
+					neighbours.push_back(n);
+			}
+			break;
+		}
+
+		case Jump::SE:
+		{
+			node* n = findJumpNode(Jump::NW, x, y); 
+			if(n)
+				neighbours.push_back(n);
+
+			n = findJumpNode(Jump::N, x, y);
+			if(n)
+				neighbours.push_back(n);
+
+			n = findJumpNode(Jump::W, x, y);
+			if(n)
+				neighbours.push_back(n);
+
+			// add SW neighbour only if S neighbour is null
+			if(!map->getNodeFromMap(x, y+1))
+			{
+				n = map->getNodeFromMap(x-1, y+1);
+				if(n)
+					neighbours.push_back(n);
+			}
+
+			// add NE neighbour only if E neighbour is null
+			if(!map->getNodeFromMap(x+1, y))
+			{
+				n = map->getNodeFromMap(x+1, y-1); 
+				if(n)
+					neighbours.push_back(n);
+			}
+			break;
+		}
+
+		case Jump::S:
+		{
+			node* n = findJumpNode(Jump::N, x, y);
+			if(n)
+				neighbours.push_back(n);
+
+			// check if we also need to add diagonal neighbours
+			if(!map->getNodeFromMap(x+1, y))
+			{
+				n = map->getNodeFromMap(x+1, y-1);
+				if(n)
+					neighbours.push_back(n);
+			}
+			if(!map->getNodeFromMap(x-1, y))
+			{
+				n = map->getNodeFromMap(x-1, y-1);
+				if(n)
+					neighbours.push_back(n);
+			}
+			break;
+		}
+
+		case Jump::SW:
+		{
+			node* n = findJumpNode(Jump::NE, x, y); 
+			if(n)
+				neighbours.push_back(n);
+
+			n = findJumpNode(Jump::N, x, y);
+			if(n)
+				neighbours.push_back(n);
+
+			n = findJumpNode(Jump::E, x, y);
+			if(n)
+				neighbours.push_back(n);
+
+			// add SE neighbour only if S neighbour is null
+			if(!map->getNodeFromMap(x, y+1))
+			{
+				n = map->getNodeFromMap(x+1, y+1);
+				if(n)
+					neighbours.push_back(n);
+			}
+
+			// add NW neighbour only if W neighbour is null
+			if(!map->getNodeFromMap(x-1, y))
+			{
+				n = map->getNodeFromMap(x-1, y-1); 
+				if(n)
+					neighbours.push_back(n);
+			}
+			break;
+		}
+
+		case Jump::W:
+		{
+			node* n = findJumpNode(Jump::E, x, y);
+			if(n)
+				neighbours.push_back(n);
+
+			// check if we also need to add diagonal neighbours
+			if(!map->getNodeFromMap(x, y-1))
+			{
+				n = map->getNodeFromMap(x+1, y-1);
+				if(n)
+					neighbours.push_back(n);
+			}
+			if(!map->getNodeFromMap(x, y+1))
+			{
+				n = map->getNodeFromMap(x+1, y+1);
+				if(n)
+					neighbours.push_back(n);
+			}
+			break;
+		}
+
+		case Jump::NW:
+		{
+			node* n = findJumpNode(Jump::SE, x, y);
+			if(n)
+				neighbours.push_back(n);
+
+			n = findJumpNode(Jump::S, x, y);
+			if(n)
+				neighbours.push_back(n);
+
+			n = findJumpNode(Jump::E, x, y);
+			if(n)
+				neighbours.push_back(n);
+
+			// add NE neighbour only if N neighbour is null
+			if(!map->getNodeFromMap(x, y-1))
+			{
+				n = map->getNodeFromMap(x+1, y-1);
+				if(n)
+					neighbours.push_back(n);
+			}
+
+			// add SW neighbour only if W neighbour is null
+			if(!map->getNodeFromMap(x-1, y))
+			{
+				n = map->getNodeFromMap(x-1, y+1); 
+				if(n)
+					neighbours.push_back(n);
+			}
+			break;
+		}
+		case Jump::NONE:
+		{
+			graph* g = map->getAbstractGraph(0);
+			neighbor_iterator iter = target->getNeighborIter();
+			for(int nodeId = target->nodeNeighborNext(iter); 
+					nodeId != -1 ;
+					nodeId = target->nodeNeighborNext(iter))
+			{
+				node* n = g->getNode(nodeId);
+				//assert(n);
+				neighbours.push_back(n);
+			}
 		}
 	}
 }
@@ -324,10 +321,14 @@ JumpPointsExpansionPolicy::hasNext()
 }
 
 
+// direction from the target (=node being expanded) to its parent
 Jump::Direction 
-JumpPointsExpansionPolicy::directionToParent(node* n)
+JumpPointsExpansionPolicy::directionToParent()
 {
 	node* parent = target->backpointer;	
+	if(!parent)
+		return Jump::NONE;
+
 	int x = target->getLabelL(kFirstData);
 	int y = target->getLabelL(kFirstData+1);
 	int px = parent->getLabelL(kFirstData);
@@ -640,6 +641,8 @@ JumpPointsExpansionPolicy::findJumpNode(Jump::Direction d, int x, int y)
 			}
 			break;
 		}
+		default:
+			break;
 	}
 
 	return n;
