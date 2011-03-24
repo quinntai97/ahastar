@@ -365,28 +365,41 @@ gogoGadgetNOGUIScenario(mapAbstraction* aMap)
 		if(checkOptimality)
 		{
 			// run A* to check the optimal path length
-			p = astar->getPath(aMap, from, to);
+			mapFlatAbstraction* gridmap = new mapFlatAbstraction(
+					new Map(gDefaultMap));
+			node* s = gridmap->getNodeFromMap(nextExperiment->getStartX(),
+					nextExperiment->getStartY());
+			node* g = gridmap->getNodeFromMap(nextExperiment->getGoalX(),
+					nextExperiment->getGoalY());
+
+			p = astar->getPath(gridmap, s, g);
 			optlen = aMap->distance(p);
 			delete p;
+			delete gridmap;
 
 			if(!fequal(optlen, distanceTravelled))
 			{
-				astar->verbose = true;
-				alg->verbose = true;
-				path* p = astar->getPath(aMap, from, to);
-				double tmp = aMap->distance(p);
-				delete p;
-				p = 0;
-				p = alg->getPath(aMap, from, to);
-				double tmp2 = aMap->distance(p);
-				delete p;
+				std::cout << "optimality check failed!";
+				std::cout << "\noptimal path length: "<<optlen<<" computed length: ";
+				std::cout << distanceTravelled<<std::endl;
+				if(verbose)
+				{
+					std::cout << "Running A*: \n";
+					astar->verbose = true;
+					alg->verbose = true;
+					path* p = astar->getPath(aMap, from, to);
+					double tmp = aMap->distance(p);
+					delete p;
+					p = 0;
+					std::cout << "\nRunning "<<alg->getName()<<": \n";
+					p = alg->getPath(aMap, from, to);
+					double tmp2 = aMap->distance(p);
+					delete p;
 
-				std::cout << optlen << " vs " << distanceTravelled<<std::endl;
-				std::cout << "\n opt: "<<tmp;
-				std::cout << " distanceTravelled: "<<tmp2<<std::endl;
-				std::cout << " previously, opt: "<<optlen<<" distanceTravelled: "
-					<<distanceTravelled<<std::endl;
-				exitVal = 1;
+					std::cout << "\n optimal: "<<tmp;
+					std::cout << " computed: "<<tmp2<<std::endl;
+					exitVal = 1;
+				}
 				break;
 			}
 		}
