@@ -16,6 +16,4 @@ for ((x=1;x<=$runs;x++)) ; do
 				exit 1
 			fi
 	done
-	mv results_FlexibleAStar results_FlexibleAStarJump.$x
-#	mv results_HPAStar2 results_HPAStar2RSR.$x
 done
