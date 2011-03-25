@@ -71,3 +71,7 @@ bgm8swamps <- as.data.frame(ams(bgm_jastar$ne/bgm_swamps$ne, bgm_jastar$opl, 25)
 bgm8swamps <- cbind(bgm8swamps[,1:2], ams(bgm_jastar$st/bgm_swamps$st, bgm_jastar$opl,
 25)[,2:3])
 names(bgm8swamps) <- c("opl", "ne_speedup", "st_speedup", "num_exp")
+
+## JUMP POINTS ABSTRACTION ##
+bgm_jpas <- loadResults("bgm/results_JPAS", tablenames, tableclasses)
+bgm8jpas <- speedup(bgm_jpas, bgm_astar, 25)

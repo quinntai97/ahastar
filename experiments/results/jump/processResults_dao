@@ -88,3 +88,7 @@ dao8swamps <- as.data.frame(ams(dao_jastar$ne/dao_swamps$ne, dao_jastar$opl, 25)
 dao8swamps <- cbind(dao8swamps[,1:2], ams(dao_jastar$st/dao_swamps$st, dao_jastar$opl,
 25)[,2:3])
 names(dao8swamps) <- c("opl", "ne_speedup", "st_speedup", "num_exp")
+
+## JUMP POINTS ABSTRACTION ##
+dao_jpas <- loadResults("dao/results_JPAS", tablenames, tableclasses)
+dao8jpas <- speedup(dao_jpas, dao_astar, 25)

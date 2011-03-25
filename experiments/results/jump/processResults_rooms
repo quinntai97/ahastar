@@ -60,3 +60,7 @@ rooms8hpa <- cbind(rooms8hpa[,1:2], ams(rooms_astar$st/rooms_hpa$st, rooms_astar
 25)[,2:3])
 names(rooms8hpa) <- c("opl", "ne_speedup", "st_speedup", "num_exp")
 rooms8hpa <- rooms8hpa[rooms8hpa$num_exp > 10,]
+
+## JUMP POINTS ABSTRACTION ##
+rooms_jpas <- loadResults("rooms/results_JPAS", tablenames, tableclasses)
+rooms8jpas <- speedup(rooms_jpas, rooms_astar, 25)
