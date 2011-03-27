@@ -155,6 +155,14 @@ void mapAbstraction::openGLDraw()
 				glVertex3f(xx+rr, yy+rr, zz);
 				glVertex3f(xx+rr, yy-rr, zz);
 			}
+			if(cur->drawColor == 3)
+			{
+				glColor3f(0.0, 0.6, 0.0);
+				glVertex3f(xx-rr, yy-rr, zz);
+				glVertex3f(xx-rr, yy+rr, zz);
+				glVertex3f(xx+rr, yy+rr, zz);
+				glVertex3f(xx+rr, yy-rr, zz);
+			}
 			glEnd();
 
 			glColor3f (0.5F, 0.5F, 0.5F);
