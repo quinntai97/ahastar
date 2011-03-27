@@ -49,3 +49,25 @@ speedup <- function(target, baseline, stepsize=25)
 	results <- results[results$num_exp > 10,]
 	results
 }
+
+summary <- function(series, dist, runs=1, stepsize=25)
+{
+	runrows = length(series)/runs	
+	first <- 1
+	last <- runrows	
+	retval <- ams(series[first:last], dist[first:last], 
+			stepsize)[,1:2]
+
+	if(runs > 1)
+	{
+		for(i in seq(2, runs, by=1))
+		{
+			first <- first + runrows;
+			last <- last + runrows;
+			retval <- cbind(retval, ams(series[first:last],
+				dist[first:last], stepsize)$avgseries)
+		}
+	}
+	names(retval) <- c("dist", seq(1, runs, by=1))
+	retval
+}
