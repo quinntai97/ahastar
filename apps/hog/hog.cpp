@@ -325,15 +325,18 @@ void
 gogoGadgetNOGUIScenario(mapAbstraction* aMap)
 {
 	int exitVal = 0;
-//	FlexibleAStar* astar;
-//	astar = new FlexibleAStar(newExpansionPolicy(aMap), newHeuristic());
-//	astar->verbose = verbose;
 
-
-	aStarOld* astar = new aStarOld();
+	aStarOld* astar = 0;
+	mapFlatAbstraction* gridmap = 0;
+	if(checkOptimality)
+	{
+		// reference map and search alg for checking optimality
+		astar = new aStarOld();
+		gridmap = new mapFlatAbstraction(
+				new Map(gDefaultMap));
+	}
 
 	searchAlgorithm* alg = newSearchAlgorithm(aMap, false);
-
 	statCollection stats;
 	double optlen=0;
 	
@@ -365,8 +368,6 @@ gogoGadgetNOGUIScenario(mapAbstraction* aMap)
 		if(checkOptimality)
 		{
 			// run A* to check the optimal path length
-			mapFlatAbstraction* gridmap = new mapFlatAbstraction(
-					new Map(gDefaultMap));
 			node* s = gridmap->getNodeFromMap(nextExperiment->getStartX(),
 					nextExperiment->getStartY());
 			node* g = gridmap->getNodeFromMap(nextExperiment->getGoalX(),
@@ -375,7 +376,6 @@ gogoGadgetNOGUIScenario(mapAbstraction* aMap)
 			p = astar->getPath(gridmap, s, g);
 			optlen = aMap->distance(p);
 			delete p;
-			delete gridmap;
 
 			if(!fequal(optlen, distanceTravelled))
 			{
@@ -406,8 +406,13 @@ gogoGadgetNOGUIScenario(mapAbstraction* aMap)
 	}
 	
 	delete alg;
-	delete astar;
 	delete aMap;
+
+	if(checkOptimality)
+	{
+		delete astar;
+		delete gridmap;
+	}
 
 	exit(exitVal);
 }

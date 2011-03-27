@@ -46,16 +46,17 @@ JumpPointsExpansionPolicy::computeNeighbourSet()
 			if(n)
 				neighbours.push_back(n);
 
-			// check if we also need to add diagonal neighbours
+			// add SE neighbour only if E neighbour is null 
 			if(!map->getNodeFromMap(x+1, y))
 			{
-				n = map->getNodeFromMap(x+1, y+1);
+				n = findJumpNode(Jump::SE, x, y); 
 				if(n)
 					neighbours.push_back(n);
 			}
+			// add SW neighbour only if W neighbour is null
 			if(!map->getNodeFromMap(x-1, y))
 			{
-				n = map->getNodeFromMap(x-1, y+1);
+				n = findJumpNode(Jump::SW, x, y); 
 				if(n)
 					neighbours.push_back(n);
 			}
@@ -79,7 +80,7 @@ JumpPointsExpansionPolicy::computeNeighbourSet()
 			// add NW neighbour only if N neighbour is null
 			if(!map->getNodeFromMap(x, y-1))
 			{
-				n = map->getNodeFromMap(x-1, y-1);
+				n = findJumpNode(Jump::NW, x, y); 
 				if(n)
 					neighbours.push_back(n);
 			}
@@ -87,7 +88,7 @@ JumpPointsExpansionPolicy::computeNeighbourSet()
 			// add SE neighbour only if E neighbour is null
 			if(!map->getNodeFromMap(x+1, y))
 			{
-				n = map->getNodeFromMap(x+1, y+1); 
+				n = findJumpNode(Jump::SE, x, y);
 				if(n)
 					neighbours.push_back(n);
 			}
@@ -100,16 +101,17 @@ JumpPointsExpansionPolicy::computeNeighbourSet()
 			if(n)
 				neighbours.push_back(n);
 
-			// check if we also need to add diagonal neighbours
+		 	// add NW neighbour only if N neighbour is null	
 			if(!map->getNodeFromMap(x, y-1))
 			{
-				n = map->getNodeFromMap(x-1, y-1);
+				n = findJumpNode(Jump::NW, x, y);
 				if(n)
 					neighbours.push_back(n);
 			}
+			// add SW neighbour only if S neighbour is null
 			if(!map->getNodeFromMap(x, y+1))
 			{
-				n = map->getNodeFromMap(x-1, y+1);
+				n = findJumpNode(Jump::SW, x, y); 
 				if(n)
 					neighbours.push_back(n);
 			}
@@ -133,7 +135,7 @@ JumpPointsExpansionPolicy::computeNeighbourSet()
 			// add SW neighbour only if S neighbour is null
 			if(!map->getNodeFromMap(x, y+1))
 			{
-				n = map->getNodeFromMap(x-1, y+1);
+				n = findJumpNode(Jump::SW, x, y); 
 				if(n)
 					neighbours.push_back(n);
 			}
@@ -141,7 +143,7 @@ JumpPointsExpansionPolicy::computeNeighbourSet()
 			// add NE neighbour only if E neighbour is null
 			if(!map->getNodeFromMap(x+1, y))
 			{
-				n = map->getNodeFromMap(x+1, y-1); 
+				n = findJumpNode(Jump::NE, x, y); 
 				if(n)
 					neighbours.push_back(n);
 			}
@@ -154,16 +156,17 @@ JumpPointsExpansionPolicy::computeNeighbourSet()
 			if(n)
 				neighbours.push_back(n);
 
-			// check if we also need to add diagonal neighbours
+			// add NE neighbour only if E neighbour is null 
 			if(!map->getNodeFromMap(x+1, y))
 			{
-				n = map->getNodeFromMap(x+1, y-1);
+				n = findJumpNode(Jump::NE, x, y); 
 				if(n)
 					neighbours.push_back(n);
 			}
+			// add NW neighbour only if W neighbour is null
 			if(!map->getNodeFromMap(x-1, y))
 			{
-				n = map->getNodeFromMap(x-1, y-1);
+				n = findJumpNode(Jump::NW, x, y);
 				if(n)
 					neighbours.push_back(n);
 			}
@@ -187,7 +190,7 @@ JumpPointsExpansionPolicy::computeNeighbourSet()
 			// add SE neighbour only if S neighbour is null
 			if(!map->getNodeFromMap(x, y+1))
 			{
-				n = map->getNodeFromMap(x+1, y+1);
+				n = findJumpNode(Jump::SE, x, y);
 				if(n)
 					neighbours.push_back(n);
 			}
@@ -195,7 +198,7 @@ JumpPointsExpansionPolicy::computeNeighbourSet()
 			// add NW neighbour only if W neighbour is null
 			if(!map->getNodeFromMap(x-1, y))
 			{
-				n = map->getNodeFromMap(x-1, y-1); 
+				n = findJumpNode(Jump::NW, x, y);
 				if(n)
 					neighbours.push_back(n);
 			}
@@ -208,16 +211,17 @@ JumpPointsExpansionPolicy::computeNeighbourSet()
 			if(n)
 				neighbours.push_back(n);
 
-			// check if we also need to add diagonal neighbours
+		 	// add NE neighbour only if N neighbour is null 
 			if(!map->getNodeFromMap(x, y-1))
 			{
-				n = map->getNodeFromMap(x+1, y-1);
+				n = findJumpNode(Jump::NE, x, y);
 				if(n)
 					neighbours.push_back(n);
 			}
+			// add SE neighbour only if S neighbour is null
 			if(!map->getNodeFromMap(x, y+1))
 			{
-				n = map->getNodeFromMap(x+1, y+1);
+				n = findJumpNode(Jump::SE, x, y);
 				if(n)
 					neighbours.push_back(n);
 			}
@@ -241,7 +245,7 @@ JumpPointsExpansionPolicy::computeNeighbourSet()
 			// add NE neighbour only if N neighbour is null
 			if(!map->getNodeFromMap(x, y-1))
 			{
-				n = map->getNodeFromMap(x+1, y-1);
+				n = findJumpNode(Jump::NE, x, y); 
 				if(n)
 					neighbours.push_back(n);
 			}
@@ -249,7 +253,7 @@ JumpPointsExpansionPolicy::computeNeighbourSet()
 			// add SW neighbour only if W neighbour is null
 			if(!map->getNodeFromMap(x-1, y))
 			{
-				n = map->getNodeFromMap(x-1, y+1); 
+				n = findJumpNode(Jump::SW, x, y);
 				if(n)
 					neighbours.push_back(n);
 			}
@@ -257,16 +261,37 @@ JumpPointsExpansionPolicy::computeNeighbourSet()
 		}
 		case Jump::NONE:
 		{
-			graph* g = map->getAbstractGraph(0);
-			neighbor_iterator iter = target->getNeighborIter();
-			for(int nodeId = target->nodeNeighborNext(iter); 
-					nodeId != -1 ;
-					nodeId = target->nodeNeighborNext(iter))
-			{
-				node* n = g->getNode(nodeId);
-				//assert(n);
+			node* n = findJumpNode(Jump::N, x, y);
+			if(n)
 				neighbours.push_back(n);
-			}
+
+			n = findJumpNode(Jump::S, x, y);
+			if(n)
+				neighbours.push_back(n);
+
+			n = findJumpNode(Jump::E, x, y);
+			if(n)
+				neighbours.push_back(n);
+
+			n = findJumpNode(Jump::W, x, y);
+			if(n)
+				neighbours.push_back(n);
+
+			n = findJumpNode(Jump::NE, x, y);
+			if(n)
+				neighbours.push_back(n);
+
+			n = findJumpNode(Jump::NW, x, y);
+			if(n)
+				neighbours.push_back(n);
+
+			n = findJumpNode(Jump::SE, x, y);
+			if(n)
+				neighbours.push_back(n);
+
+			n = findJumpNode(Jump::SW, x, y);
+			if(n)
+				neighbours.push_back(n);
 		}
 	}
 }

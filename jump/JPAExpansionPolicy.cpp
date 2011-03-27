@@ -392,14 +392,14 @@ JPAExpansionPolicy::computeNeighbourSet()
 		}
 		case Jump::NONE:
 		{
-			neighbours.push_back(Jump::S);
 			neighbours.push_back(Jump::N);
-			neighbours.push_back(Jump::W);
+			neighbours.push_back(Jump::S);
 			neighbours.push_back(Jump::E);
-			neighbours.push_back(Jump::SW);
-			neighbours.push_back(Jump::NW);
+			neighbours.push_back(Jump::W);
 			neighbours.push_back(Jump::NE);
+			neighbours.push_back(Jump::NW);
 			neighbours.push_back(Jump::SE);
+			neighbours.push_back(Jump::SW);
 			break;
 		}
 	}
