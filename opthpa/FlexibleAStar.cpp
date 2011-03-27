@@ -102,6 +102,9 @@ FlexibleAStar::search(node* start, node* goal)
 	searchTime = t.endTimer();
 	closedList.clear();
 
+	start->drawColor = 3;
+	goal->drawColor = 3;
+
 	if(verbose)
 	{
 		std::cout << "\n";
