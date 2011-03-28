@@ -261,7 +261,18 @@ JumpPointsExpansionPolicy::computeNeighbourSet()
 		}
 		case Jump::NONE:
 		{
-			node* n = findJumpNode(Jump::N, x, y);
+			graph* g = map->getAbstractGraph(0);
+			neighbor_iterator iter = target->getNeighborIter();
+			for(int nodeId = target->nodeNeighborNext(iter); 
+							nodeId != -1 ;
+							nodeId = target->nodeNeighborNext(iter))
+			{
+					node* n = g->getNode(nodeId);
+					//assert(n);
+					neighbours.push_back(n);
+			}
+			
+/*			node* n = findJumpNode(Jump::N, x, y);
 			if(n)
 				neighbours.push_back(n);
 
@@ -292,6 +303,7 @@ JumpPointsExpansionPolicy::computeNeighbourSet()
 			n = findJumpNode(Jump::SW, x, y);
 			if(n)
 				neighbours.push_back(n);
+*/
 		}
 	}
 }
