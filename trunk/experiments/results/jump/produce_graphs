@@ -3,37 +3,41 @@
 pdf(width=20, height=5, file="speedup.pdf")
 par(mfrow=c(1,4))
 
-plot(ad8jump$st_speedup ~ ad8jump$opl, type="l", lty=1,   
+plot(ad8jpas$st_speedup ~ ad8jpas$opl, type="l", lty=1,   
 main="Average Speedup: Adaptive Depth ", ylab="Avg. Speedup Factor", 
 xlab="Path Length", ylim=c(1,35), cex.main=1.6)
-lines(ad8rsr$st_speedup ~ ad8rsr$opl, type="l", lty=2)
+lines(ad8jump$st_speedup ~ ad8jump$opl, type="l", lty=2)
+#lines(ad8rsr$st_speedup ~ ad8rsr$opl, type="l", lty=2)
 lines(ad8swamps$st_speedup ~ ad8swamps$opl, type="l", lty=3)
 lines(ad8hpa$st_speedup ~ ad8hpa$opl, type="l", lty=4)
-legend("topleft", c("Jump Points", "RSR", "Swamps", "HPA*"),  lty=c(1,2,3,4), cex=1.25)
+legend("topleft", c("JPS+PP", "JPS", "Swamps", "HPA*"),  lty=c(1,2,3,4), cex=1.25)
 
-plot(bgm8jump$st_speedup ~ bgm8jump$opl, type="l", lty=1,   
+plot(bgm8jpas$st_speedup ~ bgm8jpas$opl, type="l", lty=1,   
 main="Average Speedup: Baldurs Gate ", ylab="Avg. Speedup Factor", 
-xlab="Path Length", ylim=c(1,35), cex.main=1.6)
-lines(bgm8rsr$st_speedup ~ bgm8rsr$opl, type="l", lty=2)
+xlab="Path Length", ylim=c(1,500), cex.main=1.6)
+lines(bgm8jump$st_speedup ~ bgm8jump$opl, type="l", lty=2)
+#lines(bgm8rsr$st_speedup ~ bgm8rsr$opl, type="l", lty=2)
 lines(bgm8swamps$st_speedup ~ bgm8swamps$opl, type="l", lty=3)
 lines(bgm8hpa$st_speedup ~ bgm8hpa$opl, type="l", lty=4)
-legend("topleft", c("Jump Points", "RSR", "Swamps", "HPA*"),  lty=c(1,2,3,4), cex=1.25)
+legend("topleft", c("JPS+PP", "JPS", "Swamps", "HPA*"),  lty=c(1,2,3,4), cex=1.25)
 
-plot(rooms8jump$st_speedup ~ rooms8jump$opl, type="l", lty=1,   
+plot(rooms8jpas$st_speedup ~ rooms8jpas$opl, type="l", lty=1,   
 main="Average Speedup: Rooms", ylab="Avg. Speedup Factor", 
 xlab="Path Length", ylim=c(1,35), cex.main=1.6)
-lines(rooms8rsr$st_speedup ~ rooms8rsr$opl, type="l", lty=2)
+lines(rooms8jump$st_speedup ~ rooms8jump$opl, type="l", lty=2)
+#lines(rooms8rsr$st_speedup ~ rooms8rsr$opl, type="l", lty=2)
 lines(rooms8swamps$st_speedup ~ rooms8swamps$opl, type="l", lty=3)
 lines(rooms8hpa$st_speedup ~ rooms8hpa$opl, type="l", lty=4)
-legend("topleft", c("Jump Points", "RSR", "Swamps", "HPA*"),  lty=c(1,2,3,4), cex=1.25)
+legend("topleft", c("JPS+PP", "JPS", "Swamps", "HPA*"),  lty=c(1,2,3,4), cex=1.25)
 
-plot(dao8jump$st_speedup ~ dao8jump$opl, type="l", lty=1,   
+plot(dao8jpas$st_speedup ~ dao8jpas$opl, type="l", lty=1,   
 main="Average Speedup: Dragon Age", ylab="Avg. Speedup Factor", 
-xlab="Path Length", ylim=c(1,35), cex.main=1.6)
-lines(dao8rsr$st_speedup ~ dao8rsr$opl, type="l", lty=2)
+xlab="Path Length", ylim=c(1,100), cex.main=1.6)
+lines(dao8jump$st_speedup ~ dao8jump$opl, type="l", lty=2)
+#lines(dao8rsr$st_speedup ~ dao8rsr$opl, type="l", lty=2)
 lines(dao8swamps$st_speedup ~ dao8swamps$opl, type="l", lty=3)
 lines(dao8hpa$st_speedup ~ dao8hpa$opl, type="l", lty=4)
-legend("topleft", c("Jump Points", "RSR", "Swamps", "HPA*"),  lty=c(1,2,3,4), cex=1.25)
+legend("topleft", c("JPS+PP", "JPS", "Swamps", "HPA*"),  lty=c(1,2,3,4), cex=1.25)
 
 dev.off()
 
