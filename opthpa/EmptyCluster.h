@@ -13,6 +13,7 @@
 #include "AbstractCluster.h"
 
 class EmptyClusterAbstraction;
+class MacroNode;
 class EmptyCluster : public AbstractCluster
 {
 	public:
@@ -48,11 +49,22 @@ class EmptyCluster : public AbstractCluster
 		virtual void openGLDraw();
 
 	private:
-		// support methods for ::buildCluster and ::buildEntrances
+		// support methods for ::buildCluster 
 		bool canExtendClearanceSquare();
 		bool canExtendHorizontally();
 		bool canExtendVertically();
+
+		// support methods for ::buildEntrances
 		void frameCluster();
+		void addInterEdges();
+		void addMacroEdges();
+		void addCardinalMacroEdges();
+		void addDiagonalMacroEdges();
+		void addDiagonalFanMacroEdges();
+		MacroNode* nextNodeInColumn(int x, int y, bool topToBottom);
+		MacroNode* nextNodeInRow(int x, int y, bool leftToRight);
+
+		// support methods for both
 		bool isIncidentWithInterEdge(node* n_);
 		void addSingleMacroEdge(node* from, node* to, double weight, 
 				graph* absg, bool secondaryEdge = false);
