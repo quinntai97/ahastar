@@ -24,8 +24,7 @@ class GenericClusterAbstraction;
 class AbstractCluster
 {
 	public:
-		AbstractCluster(const int x, const int y, 
-				GenericClusterAbstraction* map);
+		AbstractCluster(GenericClusterAbstraction* map);
 		virtual ~AbstractCluster();
 
 		// implement these
@@ -58,10 +57,6 @@ class AbstractCluster
 		inline HPAUtil::nodeTable* getParents() { return &parents; }
 		inline void setVerbose(bool _v) { verbose = _v; }
 		inline bool getVerbose() { return verbose; }
-		inline void setVOrigin(int starty_) { starty = starty_; }
-		inline void setHOrigin(int startx_) { startx = startx_; }
-		inline int getVOrigin() { return starty; }
-		inline int getHOrigin() { return startx; }
 
 		// debugging and display functions
 		void printParents();
@@ -84,7 +79,6 @@ class AbstractCluster
 
 	private:
 		static unsigned int uniqueClusterIdCnt;
-		int startx, starty;
 };
 
 #endif

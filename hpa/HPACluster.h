@@ -51,6 +51,11 @@ class HPACluster : public AbstractCluster
 		inline int getHeight() { return height; }
 		inline void setHeight(int _height) { height = _height; }
 
+		inline void setVOrigin(int starty_) { starty = starty_; }
+		inline void setHOrigin(int startx_) { startx = startx_; }
+		inline int getVOrigin() { return starty; }
+		inline int getHOrigin() { return startx; }
+
 		virtual void openGLDraw();
 		virtual void print(std::ostream& out);
 
@@ -59,8 +64,8 @@ class HPACluster : public AbstractCluster
 
 	
 	private:
-		void init(  const int _width, const int _height, 
-					AbstractClusterAStar* _alg) 
+		void init(const int _x, const int _y, const int _width, 
+				const int _height, AbstractClusterAStar* _alg) 
 			throw(std::invalid_argument);
 
 		void insertNodeIntoAbstractGraph(node* n);
@@ -73,6 +78,8 @@ class HPACluster : public AbstractCluster
 		int findHorizontalEntranceLength(int x, int y);
 
 		int width, height;
+		int startx, starty;
+
 		AbstractClusterAStar* alg;
 		bool allowDiagonals;
 		

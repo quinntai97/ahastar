@@ -21,11 +21,11 @@
 #include <GL/gl.h>
 #endif
 
-HPACluster::HPACluster(const int x, const int y, const int _w, const int _h, 
+HPACluster::HPACluster(const int _x, const int _y, const int _w, const int _h, 
 		AbstractClusterAStar* _alg, HPAClusterAbstraction* map) 
-	throw(std::invalid_argument) : AbstractCluster(x, y, map)
+	throw(std::invalid_argument) : AbstractCluster(map)
 {
-	init(_w, _h, _alg);
+	init(_x, _y, _w, _h, _alg);
 
 	if(!dynamic_cast<HPAClusterAbstraction*>(map))
 		throw std::invalid_argument("HPACluster requires an abstraction of"
@@ -33,15 +33,23 @@ HPACluster::HPACluster(const int x, const int y, const int _w, const int _h,
 }
 
 void 
-HPACluster::init(const int _width, const int _height, 
-		AbstractClusterAStar* _alg) 
-throw(std::invalid_argument)
+HPACluster::init(const int _x, const int _y, const int _width, 
+		const int _height, AbstractClusterAStar* _alg) 
+	throw(std::invalid_argument)
 {
-	if(_width <= 0 || _height <= 0)
-		throw std::invalid_argument("HPACluster::HPACluster: cluster height and width cannot be <= 0");
-	if(_alg == NULL)
-		throw std::invalid_argument("HPACluster::HPACluster: search algorithm parameter cannot be null");
+	if(_x < 0 || _y < 0)
+		throw std::invalid_argument("AbstractCluster::AbstractCluster: "
+				"cluster (x,y) coordinates must be >= 0");
 
+	if(_width <= 0 || _height <= 0)
+		throw std::invalid_argument("HPACluster::HPACluster: cluster height "
+				"and width cannot be <= 0");
+	if(_alg == NULL)
+		throw std::invalid_argument("HPACluster::HPACluster: search algorithm" 
+				"parameter cannot be null");
+
+	startx = _x;
+	starty = _y;
 	width = _width;
 	height = _height;
 	alg = _alg;
