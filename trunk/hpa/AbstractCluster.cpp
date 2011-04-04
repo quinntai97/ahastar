@@ -10,14 +10,8 @@
 #include <cassert>
 unsigned AbstractCluster::uniqueClusterIdCnt = 0;
 
-AbstractCluster::AbstractCluster(const int x, const int y, 
-		GenericClusterAbstraction* map)
+AbstractCluster::AbstractCluster(GenericClusterAbstraction* map)
 {
-	if(x < 0 || y < 0)
-		throw std::invalid_argument("AbstractCluster::AbstractCluster: cluster (x,y) coordinates must be >= 0");
-
-	this->startx = x;
-	this->starty = y;
 	this->map = map;
 	this->clusterId = ++uniqueClusterIdCnt;
 
