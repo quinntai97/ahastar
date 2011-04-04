@@ -48,9 +48,7 @@
 #include "NoInsertionPolicy.h"
 #include "OctileDistanceRefinementPolicy.h"
 #include "OctileHeuristic.h"
-#include "PerimeterSearch.h"
-#include "PerimeterSearchFactory.h"
-#include "RectangularRoomFactory.h"
+#include "EmptyClusterFactory.h"
 #include "RRExpansionPolicy.h"
 #include "ScenarioManager.h"
 #include "searchUnit.h"
@@ -242,12 +240,12 @@ createSimulation(unitSimulation * &unitSim)
 		case HOG::ERR:
 		{
 			aMap = new EmptyClusterAbstraction(map, 
-					new RectangularRoomFactory(), new MacroNodeFactory(),
+					new EmptyClusterFactory(), new MacroNodeFactory(),
 				   	new EdgeFactory(), allowDiagonals, reducePerimeter, 
 					bfReduction);
-			dynamic_cast<HPAClusterAbstraction*>(aMap)->buildClusters();
-			dynamic_cast<HPAClusterAbstraction*>(aMap)->buildEntrances();
-			dynamic_cast<HPAClusterAbstraction*>(aMap)->clearColours();
+			dynamic_cast<EmptyClusterAbstraction*>(aMap)->buildClusters();
+			dynamic_cast<EmptyClusterAbstraction*>(aMap)->buildEntrances();
+			dynamic_cast<EmptyClusterAbstraction*>(aMap)->clearColours();
 
 			break;
 		}
@@ -639,7 +637,7 @@ myScenarioGeneratorCLHandler(char *argument[], int maxNumArgs)
 	int numScenarios = atoi(argument[2]);
 
 	EmptyClusterAbstraction aMap(new Map(map.c_str()), 
-			new RectangularRoomFactory(), new MacroNodeFactory(), 
+			new EmptyClusterFactory(), new MacroNodeFactory(), 
 			new EdgeFactory(), allowDiagonals, reducePerimeter, bfReduction);
 	
 	scenariomgr.generateExperiments(&aMap, numScenarios);

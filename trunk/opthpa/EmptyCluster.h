@@ -3,84 +3,66 @@
 
 // EmptyCluster.h
 //
-// An empty cluster is one which contains no obstacles.
-// It features a perimeter of abstract nodes connected to each other 
-// such that an optimal traversal is always possible from any perimeter node 
-// to any other.
-//
-// NB: This is an abstract class. To make it concrete it is necessary to
-// implement ::buildCluster, which is responsible for adding a set of nodes 
-// to the cluster. 
-//
-// For concrete examples of empty clusters, see:
-// 	[Harabor and Botea, 2010] 
-// 	[Harabor and Botea, 2011]
+// An older implementation of Empty Rectangular Rooms
+// this class does not fit into the newer EmptyCluster
+// hierarchy.
 //
 // @author: dharabor
-// @created: 29/10/2010
+// @created: 6/1/2011
 
 #include "AbstractCluster.h"
-#include <vector>
 
-namespace EmptyClusterNS
-{
-	typedef enum 
-	{N, S, E, W, NE, NW, SE, SW} 
-	Direction;
-}
-
-class graph;
-class node;
-class edge;
 class EmptyClusterAbstraction;
 class EmptyCluster : public AbstractCluster
 {
 	public:
-		EmptyCluster(int x, int y, EmptyClusterAbstraction*, 
-				bool pr=false, bool bfr=false);
+		EmptyCluster(const int x, const int y,
+			   EmptyClusterAbstraction* map, bool pr=false, bool bfr=false);
 		virtual ~EmptyCluster();
 
-		virtual void buildCluster() = 0; 
+		virtual void buildCluster();
+		virtual void buildEntrances();
+		virtual void connectParent(node*) 
+			throw(std::invalid_argument);
 
-		virtual void buildEntrances(); 
-		virtual void connectParent(node* n) throw(std::invalid_argument);
-		virtual void removeParent(node* n);
+		inline void setPerimeterReduction(bool pr) 
+		{ this->perimeterReduction = pr; }
 
-		void setPerimeterReduction(bool pr) { this->perimeterReduction = pr; }
-		void setBFReduction(bool bfr) { this->bfReduction = bfr; }
+		inline void setBFReduction(bool bfr) 
+		{ this->bfReduction = bfr; }
 
 		edge* findSecondaryEdge(unsigned int fromId, unsigned int toId);
-		unsigned int getNumSecondaryEdges() { return secondaryEdges.size(); }
+		inline unsigned int getNumSecondaryEdges() { return secondaryEdges.size(); }
 		int macro; // macro edge refcount
+		
+		// cluster dimensions
+		inline void setVOrigin(int starty_) { starty = starty_; }
+		inline void setHOrigin(int startx_) { startx = startx_; }
+		inline int getVOrigin() { return starty; }
+		inline int getHOrigin() { return startx; }
+		inline int getWidth() { return width; }
+		inline void setWidth(int _width) { width = _width; }
+		inline int getHeight() { return height; }
+		inline void setHeight(int _height) { height = _height; }
 
 		virtual void openGLDraw();
 
-
 	private:
+		// support methods for ::buildCluster and ::buildEntrances
+		bool canExtendClearanceSquare();
+		bool canExtendHorizontally();
+		bool canExtendVertically();
 		void frameCluster();
-		void reducePerimeter();
-
-		void addMacroEdges(node* parent);
-		void addCardinalMacroEdges(node* n);
-		void addAdjacentEdges(node* parent);
-		void addDiagonalFanMacroEdgeSet(node* parent, 
-				EmptyClusterNS::Direction cd, 
-				EmptyClusterNS::Direction dd);
-		void addShortcutMacroEdges(node *n);
-		void addCardinalMacroEdgeSet(node* n);
-
-		ClusterNode* findPerimeterNode(node* n, EmptyClusterNS::Direction d, 
-				unsigned int maxsteps = UINT_MAX);
-		bool isPerimeterNode(node* n);
-
+		bool isIncidentWithInterEdge(node* n_);
 		void addSingleMacroEdge(node* from, node* to, double weight, 
 				graph* absg, bool secondaryEdge = false);
 
+		int width, height;
+		int startx, starty;
 		bool perimeterReduction;
 		bool bfReduction;
 		std::vector<edge*> secondaryEdges; 
-
+		
 };
 
 #endif
-
