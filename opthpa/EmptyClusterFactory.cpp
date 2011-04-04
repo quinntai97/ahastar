@@ -1,17 +1,17 @@
-#include "RectangularRoomFactory.h"
-#include "RectangularRoom.h"
+#include "EmptyClusterFactory.h"
+#include "EmptyCluster.h"
 #include "EmptyClusterAbstraction.h"
 
-RectangularRoomFactory::RectangularRoomFactory()
+EmptyClusterFactory::EmptyClusterFactory()
 {
 }
 
-RectangularRoomFactory::~RectangularRoomFactory()
+EmptyClusterFactory::~EmptyClusterFactory()
 {
 }
 
 AbstractCluster* 
-RectangularRoomFactory::createCluster(int x, int y, 
+EmptyClusterFactory::createCluster(int x, int y, 
 	GenericClusterAbstraction* map_)
 {
 	EmptyClusterAbstraction *map = dynamic_cast<EmptyClusterAbstraction*>(map_);
@@ -22,9 +22,9 @@ RectangularRoomFactory::createCluster(int x, int y,
 	return createCluster(x, y, map, false, false);
 }
 
-RectangularRoom*
-RectangularRoomFactory::createCluster(int x, int y,
+EmptyCluster*
+EmptyClusterFactory::createCluster(int x, int y,
 	EmptyClusterAbstraction* map, bool pr, bool bfr)
 {
-	return new RectangularRoom(x, y, map, pr, bfr);
+	return new EmptyCluster(x, y, map, pr, bfr);
 }
