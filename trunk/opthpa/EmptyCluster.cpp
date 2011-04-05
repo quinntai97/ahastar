@@ -21,6 +21,22 @@ EmptyCluster::EmptyCluster(const int _x, const int _y,
 
 EmptyCluster::~EmptyCluster()
 {
+	graph* absg = map->getAbstractGraph(1);
+	while(secondaryEdges.size() > 0)
+	{
+		edge* e = secondaryEdges.at(0);
+		MacroNode* from = dynamic_cast<MacroNode*>(
+				absg->getNode(e->getFrom()));
+		assert(from);
+		MacroNode* to = dynamic_cast<MacroNode*>(
+				absg->getNode(e->getTo()));
+		assert(to);
+
+		from->removeSecondaryEdge(e->getEdgeNum());
+		to->removeSecondaryEdge(e->getEdgeNum());
+		secondaryEdges.erase(secondaryEdges.begin());
+		delete e;
+	}
 }
 
 // Starting from a seed location (startx, starty), build a maximally
@@ -305,6 +321,12 @@ EmptyCluster::frameCluster()
 void 
 EmptyCluster::buildEntrances()
 {
+	if(getVerbose())
+	{
+		std::cout << "EmptyCluster::buildEntrances. Cluster origin: "
+			<<getHOrigin()<<", "<<getVOrigin()<<std::endl;
+	}
+
 	// identfy perimeter nodes
 	frameCluster();
 
@@ -361,7 +383,6 @@ EmptyCluster::addSingleMacroEdge(node* from_, node* to_, double weight,
 	MacroNode* from = static_cast<MacroNode*>(from_);
 	MacroNode* to = static_cast<MacroNode*>(to_);
 
-
 	assert(from && to);
 	assert(from->getParentClusterId() == to->getParentClusterId());
 
@@ -389,8 +410,8 @@ EmptyCluster::addSingleMacroEdge(node* from_, node* to_, double weight,
 			std::cout << "added";
 			if(secondaryEdge)
 				std::cout << " secondary ";
-			std::cout << " macro edge: [("<<from->getLabelL(kFirstData)<<", ";
-			std::cout <<from->getLabelL(kFirstData+1)<<") <-> (";
+			std::cout << " macro edge: [ "<<from->getNum()<<" ("<<from->getLabelL(kFirstData)<<", ";
+			std::cout <<from->getLabelL(kFirstData+1)<<") <-> "<<to->getNum()<<" (";
 			std::cout << to->getLabelL(kFirstData) << ", ";
 			std::cout << to->getLabelL(kFirstData+1);
 			std::cout <<") wt: "<<weight<< " ] "<<std::endl;
