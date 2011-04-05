@@ -32,6 +32,9 @@ class EmptyCluster : public AbstractCluster
 		inline void setBFReduction(bool bfr) 
 		{ this->bfReduction = bfr; }
 
+		MacroNode* nextNodeInColumn(int x, int y, bool topToBottom);
+		MacroNode* nextNodeInRow(int x, int y, bool leftToRight);
+
 		edge* findSecondaryEdge(unsigned int fromId, unsigned int toId);
 		inline unsigned int getNumSecondaryEdges() { return secondaryEdges.size(); }
 		int macro; // macro edge refcount
@@ -61,8 +64,6 @@ class EmptyCluster : public AbstractCluster
 		void addCardinalMacroEdges();
 		void addDiagonalMacroEdges();
 		void addDiagonalFanMacroEdges();
-		MacroNode* nextNodeInColumn(int x, int y, bool topToBottom);
-		MacroNode* nextNodeInRow(int x, int y, bool leftToRight);
 
 		// support methods for both
 		bool isIncidentWithInterEdge(node* n_);
