@@ -390,22 +390,29 @@ EmptyCluster::addSingleMacroEdge(node* from_, node* to_, double weight,
 			absg->findEdge(from->getNum(), to->getNum()));
 	if(e == 0 && from->getParentClusterId() == to->getParentClusterId())
 	{
-		e = static_cast<MacroEdge*>(findSecondaryEdge(from->getNum(), to->getNum()));
-		if(e == 0 && secondaryEdge && bfReduction)
+		if(secondaryEdge && bfReduction)
 		{
-			e = new MacroEdge(from->getNum(), to->getNum(), weight);
-			from->addSecondaryEdge(e);
-			to->addSecondaryEdge(e);
-			secondaryEdges.push_back(e);
+			e = static_cast<MacroEdge*>(
+					findSecondaryEdge(from->getNum(), to->getNum()));
+			if(e == 0)
+			{
+				e = new MacroEdge(from->getNum(), to->getNum(), weight);
+				from->addSecondaryEdge(e);
+				to->addSecondaryEdge(e);
+				secondaryEdges.push_back(e);
+				macro++;
+			}
+			else
+				e = 0;
 		}
 		else
 		{
 			e = new MacroEdge(from->getNum(), to->getNum(), weight);
 			absg->addEdge(e);
+			macro++;
 		}
 
-		macro++;
-		if(getVerbose())
+		if(e && getVerbose())
 		{
 			std::cout << "added";
 			if(secondaryEdge)
@@ -950,7 +957,7 @@ EmptyCluster::findSecondaryEdge(unsigned int fromId, unsigned int toId)
 		if((e->getFrom() == fromId && e->getTo() == toId) ||
 			(e->getTo() == fromId && e->getFrom() == toId))
 		{
-			e = retVal;
+			retVal = e;
 			break;
 		}
 	}
