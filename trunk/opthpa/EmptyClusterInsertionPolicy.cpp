@@ -39,7 +39,12 @@ EmptyClusterInsertionPolicy::insert(node* _n)
 				absg->getNode(n->getLabelL(kParent)));
 
 		if(map->getAllowDiagonals())
-			connect(retVal);
+		{
+			if(nCluster->getHeight() == 1 || nCluster->getWidth() == 1)
+				cardinalConnect(retVal);
+			else
+				connect(retVal);
+		}
 		else
 			cardinalConnect(retVal);
 
