@@ -38,9 +38,14 @@ class InsertionPolicy
 		double getSearchTime() { return searchTime; }
 		void resetMetrics();
 
+		inline void setVerbose(bool _v) { verbose = _v; }
+		inline bool getVerbose() { return verbose; }
+
 	protected:
 		void addNode(node* n);
 		bool removeNode(node* n);
+		int getNumInserted() { return insertedNodes->size(); }
+		node* getInsertedAtIndex(int idx) { return insertedNodes->at(idx); }
 
 		long nodesExpanded;
 		long nodesTouched;
@@ -49,6 +54,7 @@ class InsertionPolicy
 
 	private:
 		std::vector<node*>* insertedNodes;
+		bool verbose;
 
 };
 

@@ -36,9 +36,10 @@ class EmptyClusterInsertionPolicy : public InsertionPolicy
 		virtual void remove(node* _n) throw(std::runtime_error);
 	
 	private:
-		void connectSG(MacroNode* absNode);
-		void cardinalConnectSG(MacroNode* absNode);
-		void connectSGToNeighbour(MacroNode* absNode, MacroNode* absNeighbour);
+		void connect(MacroNode* absNode);
+		void cardinalConnect(MacroNode* absNode);
+		void addMacroEdge(MacroNode* absNode, MacroNode* absNeighbour);
+		void connectInserted(MacroNode* n);
 
 		EmptyClusterAbstraction* map;
 };

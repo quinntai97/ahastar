@@ -2,7 +2,10 @@
 
 #include "EmptyCluster.h"
 #include "EmptyClusterAbstraction.h"
+#include "IEdgeFactory.h"
+#include "MacroEdge.h"
 #include "MacroNode.h"
+#include "timer.h"
 
 EmptyClusterInsertionPolicy::EmptyClusterInsertionPolicy(
 	EmptyClusterAbstraction* _map) : InsertionPolicy(), map(_map)
@@ -18,29 +21,83 @@ node*
 EmptyClusterInsertionPolicy::insert(node* _n) 
 	throw(std::invalid_argument)
 {
-	ClusterNode* n = dynamic_cast<ClusterNode*>(_n);
-	if(n == 0)
-	return 0;
+	resetMetrics();
+	MacroNode* retVal = 0;
 
-	if(n->getParentClusterId() == -1)
-	return 0;
+	Timer t;
+	t.startTimer();
 
-	if(map->getAllowDiagonals())
-		connectSG(n);
+	MacroNode* n = dynamic_cast<MacroNode*>(_n);
+	if(n->getLabelL(kParent) == -1)
+	{
+		EmptyCluster* nCluster = dynamic_cast<EmptyCluster*>(
+				map->getCluster(n->getParentClusterId()));
+
+		nCluster->addParent(n);
+		graph* absg = map->getAbstractGraph(1);
+		retVal = dynamic_cast<MacroNode*>(
+				absg->getNode(n->getLabelL(kParent)));
+
+		if(map->getAllowDiagonals())
+			connect(retVal);
+		else
+			cardinalConnect(retVal);
+
+		connectInserted(retVal);
+		addNode(retVal);
+	}
 	else
-		cardinalConnectSG(n);
+	{
+		retVal = dynamic_cast<MacroNode*>(
+				map->getAbstractGraph(1)->getNode(
+				n->getLabelL(kParent)));
+	}
+
+	searchTime = t.endTimer();
+	return retVal;
 }
 
 void 
-EmptyClusterInsertionPolicy::remove(node* n)
+EmptyClusterInsertionPolicy::remove(node* _n) 
 	throw(std::runtime_error)
 {
+	if(removeNode(_n))
+	{
+		// then remove it from the abstract graph and its parent cluster
+		graph* g = map->getAbstractGraph(1);
+		MacroNode* n = dynamic_cast<MacroNode*>(g->getNode(_n->getNum()));
+
+		if(n)
+		{               
+			edge_iterator ei = n->getEdgeIter();
+			edge* e = n->edgeIterNext(ei);
+			while(e)
+			{
+					g->removeEdge(e);
+					delete e;
+					ei = n->getEdgeIter();
+					e = n->edgeIterNext(ei);
+			}
+
+			AbstractCluster* parentCluster = dynamic_cast<GenericClusterAbstraction*>(
+					map)->getCluster(n->getParentClusterId());
+			parentCluster->removeParent(n);
+			g->removeNode(n->getNum()); 
+
+			node* originalN = map->getNodeFromMap(n->getLabelL(kFirstData), 
+							n->getLabelL(kFirstData+1));
+			originalN->setLabelL(kParent, -1);
+			delete n;
+			n = 0;
+		}
+	}
 }
 
 void 
-EmptyClusterAbstraction::connectSG(MacroNode* absNode)
+EmptyClusterInsertionPolicy::connect(MacroNode* absNode)
 {
-	EmptyCluster* nCluster = map->getCluster(absNode->getParentClusterId());
+	EmptyCluster* nCluster = dynamic_cast<EmptyCluster*>(
+			map->getCluster(absNode->getParentClusterId()));
 	graph* absg = map->getAbstractGraph(1);
 
 	const int x = absNode->getLabelL(kFirstData);
@@ -70,7 +127,7 @@ EmptyClusterAbstraction::connectSG(MacroNode* absNode)
 						absg->getNode(
 						map->getNodeFromMap(nx, ny)->getLabelL(kParent)));
 		if(absNeighbour && &*absNeighbour != &*absNode)
-				connectSGToNeighbour(absNode, absNeighbour);
+				addMacroEdge(absNode, absNeighbour);
 	}
 
 	// try to connect to nearest entrance along the top border not in the fan 
@@ -78,20 +135,20 @@ EmptyClusterAbstraction::connectSG(MacroNode* absNode)
 	if(nCluster->getHeight() > 1 && nCluster->getWidth() > 1)
 	{
 		if(maxDiagSteps == 0)
-			absNeighbour = nCluster->nextNodeInRow(minx-1, ny, map, false);
+			absNeighbour = nCluster->nextNodeInRow(minx-1, ny, false);
 		else
-			absNeighbour = nCluster->nextNodeInRow(minx, ny, map, false);
+			absNeighbour = nCluster->nextNodeInRow(minx, ny, false);
 
 		if(absNeighbour)
-			connectSGToNeighbour(absNode, absNeighbour);
+			addMacroEdge(absNode, absNeighbour);
 
 		if(maxDiagSteps == 0)
-			absNeighbour = nCluster->nextNodeInRow(maxx+1, ny, map, true);
+			absNeighbour = nCluster->nextNodeInRow(maxx+1, ny, true);
 		else
-			absNeighbour = nCluster->nextNodeInRow(maxx, ny, map, true);
+			absNeighbour = nCluster->nextNodeInRow(maxx, ny, true);
 
 		if(absNeighbour)
-				connectSGToNeighbour(absNode, absNeighbour);
+				addMacroEdge(absNode, absNeighbour);
 	}
 
 	if(getVerbose())
@@ -114,7 +171,7 @@ EmptyClusterAbstraction::connectSG(MacroNode* absNode)
 						absg->getNode(
 						map->getNodeFromMap(nx, ny)->getLabelL(kParent)));
 		if(absNeighbour && &*absNeighbour != &*absNode)
-			connectSGToNeighbour(absNode, absNeighbour);
+			addMacroEdge(absNode, absNeighbour);
 	}
 
 	// try to connect to nearest entrance along the bottom border not in the 
@@ -122,20 +179,20 @@ EmptyClusterAbstraction::connectSG(MacroNode* absNode)
 	if(nCluster->getHeight() > 1 && nCluster->getWidth() > 1)
 	{
 		if(maxDiagSteps == 0)
-			absNeighbour = nCluster->nextNodeInRow(minx-1, ny, map, false);
+			absNeighbour = nCluster->nextNodeInRow(minx-1, ny, false);
 		else
-			absNeighbour = nCluster->nextNodeInRow(minx, ny, map, false);
+			absNeighbour = nCluster->nextNodeInRow(minx, ny, false);
 
 		if(absNeighbour)
-			connectSGToNeighbour(absNode, absNeighbour);
+			addMacroEdge(absNode, absNeighbour);
 
 		if(maxDiagSteps == 0)
-			absNeighbour = nCluster->nextNodeInRow(maxx+1, ny, map, true);
+			absNeighbour = nCluster->nextNodeInRow(maxx+1, ny, true);
 		else
-			absNeighbour = nCluster->nextNodeInRow(maxx, ny, map, true);
+			absNeighbour = nCluster->nextNodeInRow(maxx, ny, true);
 
 		if(absNeighbour)
-			connectSGToNeighbour(absNode, absNeighbour);
+			addMacroEdge(absNode, absNeighbour);
 
 	}
 	
@@ -159,27 +216,27 @@ EmptyClusterAbstraction::connectSG(MacroNode* absNode)
 						absg->getNode(
 						map->getNodeFromMap(nx, ny)->getLabelL(kParent)));
 		if(absNeighbour && &*absNeighbour != &*absNode)
-			connectSGToNeighbour(absNode, absNeighbour);
+			addMacroEdge(absNode, absNeighbour);
 	}
 
 	// connect to nearest nodes outside fan area (if necessary)
 	if(nCluster->getHeight() > 1 && nCluster->getWidth() > 1)
 	{
 		if(maxDiagSteps == 0)
-			absNeighbour = nCluster->nextNodeInColumn(nx, miny-1, map, false);
+			absNeighbour = nCluster->nextNodeInColumn(nx, miny-1, false);
 		else
-			absNeighbour = nCluster->nextNodeInColumn(nx, miny, map, false);
+			absNeighbour = nCluster->nextNodeInColumn(nx, miny, false);
 
 		if(absNeighbour)
-			connectSGToNeighbour(absNode, absNeighbour);
+			addMacroEdge(absNode, absNeighbour);
 
 		if(maxDiagSteps == 0)
-			absNeighbour = nCluster->nextNodeInColumn(nx, maxy+1, map, true);
+			absNeighbour = nCluster->nextNodeInColumn(nx, maxy+1, true);
 		else
-			absNeighbour = nCluster->nextNodeInColumn(nx, maxy, map, true);
+			absNeighbour = nCluster->nextNodeInColumn(nx, maxy, true);
 
 		if(absNeighbour)
-			connectSGToNeighbour(absNode, absNeighbour);
+			addMacroEdge(absNode, absNeighbour);
 	}
 
 	if(getVerbose())
@@ -202,32 +259,32 @@ EmptyClusterAbstraction::connectSG(MacroNode* absNode)
 						absg->getNode(
 						map->getNodeFromMap(nx, ny)->getLabelL(kParent)));
 		if(absNeighbour && &*absNeighbour != &*absNode)
-			connectSGToNeighbour(absNode, absNeighbour);
+			addMacroEdge(absNode, absNeighbour);
 	}
 
 	// connect to nearest nodes outside fan area (if necessary)
 	if(nCluster->getHeight() > 1 && nCluster->getWidth() > 1)
 	{
 		if(maxDiagSteps == 0)
-			absNeighbour = nCluster->nextNodeInColumn(nx, miny-1, map, false);
+			absNeighbour = nCluster->nextNodeInColumn(nx, miny-1, false);
 		else
-			absNeighbour = nCluster->nextNodeInColumn(nx, miny, map, false);
+			absNeighbour = nCluster->nextNodeInColumn(nx, miny, false);
 
 		if(absNeighbour)
-			connectSGToNeighbour(absNode, absNeighbour);
+			addMacroEdge(absNode, absNeighbour);
 
 		if(maxDiagSteps == 0)
-			absNeighbour = nCluster->nextNodeInColumn(nx, maxy+1, map, true);
+			absNeighbour = nCluster->nextNodeInColumn(nx, maxy+1, true);
 		else
-			absNeighbour = nCluster->nextNodeInColumn(nx, maxy, map, true);
+			absNeighbour = nCluster->nextNodeInColumn(nx, maxy, true);
 
 		if(absNeighbour)
-			connectSGToNeighbour(absNode, absNeighbour);
+			addMacroEdge(absNode, absNeighbour);
 	}
 }
 
 void 
-EmptyClusterAbstraction::cardinalConnectSG(MacroNode* absNode)
+EmptyClusterInsertionPolicy::cardinalConnect(MacroNode* absNode)
 {
         graph* absg = map->getAbstractGraph(1);
         EmptyCluster* nodeCluster = map->getCluster(absNode->getParentClusterId());
@@ -247,16 +304,16 @@ EmptyClusterAbstraction::cardinalConnectSG(MacroNode* absNode)
 						map->getNodeFromMap(nx, ny)->getLabelL(kParent)));
         if(absNeighbour == 0 || absNeighbour->getNum() == absNode->getNum())
         {
-			absNeighbour = nodeCluster->nextNodeInRow(nx+1, ny, map, true);
+			absNeighbour = nodeCluster->nextNodeInRow(nx+1, ny, true);
 			if(absNeighbour)
-				connectSGToNeighbour(absNode, absNeighbour);
+				addMacroEdge(absNode, absNeighbour);
 
-			absNeighbour =  nodeCluster->nextNodeInRow(nx-1, ny, map, false);
+			absNeighbour =  nodeCluster->nextNodeInRow(nx-1, ny, false);
 			if(absNeighbour)
-				connectSGToNeighbour(absNode, absNeighbour);
+				addMacroEdge(absNode, absNeighbour);
         }
         else
-                connectSGToNeighbour(absNode, absNeighbour);
+                addMacroEdge(absNode, absNeighbour);
 
         // connect to neighbour below
         ny = nodeCluster->getVOrigin()+nodeCluster->getHeight()-1;
@@ -266,16 +323,16 @@ EmptyClusterAbstraction::cardinalConnectSG(MacroNode* absNode)
 						map->getNodeFromMap(nx, ny)->getLabelL(kParent)));
         if(absNeighbour == 0 || absNeighbour->getNum() == absNode->getNum())
         {
-                absNeighbour = nodeCluster->nextNodeInRow(nx+1, ny, map, true);
+                absNeighbour = nodeCluster->nextNodeInRow(nx+1, ny, true);
                 if(absNeighbour)
-                        connectSGToNeighbour(absNode, absNeighbour);
+                        addMacroEdge(absNode, absNeighbour);
 
-                absNeighbour =  nodeCluster->nextNodeInRow(nx-1, ny, map, false);
+                absNeighbour =  nodeCluster->nextNodeInRow(nx-1, ny, false);
                 if(absNeighbour)
-                        connectSGToNeighbour(absNode, absNeighbour);
+                        addMacroEdge(absNode, absNeighbour);
         }
         else
-                connectSGToNeighbour(absNode, absNeighbour);
+                addMacroEdge(absNode, absNeighbour);
                 
 
         // connect to neighbour to the left
@@ -286,16 +343,16 @@ EmptyClusterAbstraction::cardinalConnectSG(MacroNode* absNode)
 						map->getNodeFromMap(nx, ny)->getLabelL(kParent)));
         if(absNeighbour == 0 || absNeighbour->getNum() == absNode->getNum())
         {
-                absNeighbour = nodeCluster->nextNodeInColumn(nx, ny+1, map, true);
+                absNeighbour = nodeCluster->nextNodeInColumn(nx, ny+1, true);
                 if(absNeighbour)
-                        connectSGToNeighbour(absNode, absNeighbour);
+                        addMacroEdge(absNode, absNeighbour);
 
-                absNeighbour =  nodeCluster->nextNodeInColumn(nx, ny-1, map, false);
+                absNeighbour =  nodeCluster->nextNodeInColumn(nx, ny-1, false);
                 if(absNeighbour)
-                        connectSGToNeighbour(absNode, absNeighbour);
+                        addMacroEdge(absNode, absNeighbour);
         }
         else
-                connectSGToNeighbour(absNode, absNeighbour);
+                addMacroEdge(absNode, absNeighbour);
 
 
         // connect to neighbour to the right
@@ -305,20 +362,20 @@ EmptyClusterAbstraction::cardinalConnectSG(MacroNode* absNode)
                         absg->getNode(map->getNodeFromMap(nx, ny)->getLabelL(kParent)));
         if(absNeighbour == 0 || absNeighbour->getNum() == absNode->getNum())
         {
-                absNeighbour = nodeCluster->nextNodeInColumn(nx, ny+1, map, true);
+                absNeighbour = nodeCluster->nextNodeInColumn(nx, ny+1, true);
                 if(absNeighbour)
-                        connectSGToNeighbour(absNode, absNeighbour);
+                        addMacroEdge(absNode, absNeighbour);
 
-                absNeighbour =  nodeCluster->nextNodeInColumn(nx, ny-1, map, false);
+                absNeighbour =  nodeCluster->nextNodeInColumn(nx, ny-1, false);
                 if(absNeighbour)
-                        connectSGToNeighbour(absNode, absNeighbour);
+                        addMacroEdge(absNode, absNeighbour);
         }
         else
-                connectSGToNeighbour(absNode, absNeighbour);
+                addMacroEdge(absNode, absNeighbour);
 }
 
 void 
-EmptyClusterAbstraction::connectSGToNeighbour(
+EmptyClusterInsertionPolicy::addMacroEdge(
 		MacroNode* absNode, MacroNode* absNeighbour)
 {
 //	assert(map->getNodeFromMap(absNode->getLabelL(kFirstData),
@@ -334,8 +391,8 @@ EmptyClusterAbstraction::connectSGToNeighbour(
 	assert((int)absNeighbour->getNum() < absg->getNumNodes());
 	assert((int)absNode->getNum() < absg->getNumNodes());
 
-	MacroEdge* e = new MacroEdge(absNode->getNum(), absNeighbour->getNum(), 
-			h(absNode, absNeighbour));
+	edge* e = map->getEdgeFactory()->newEdge(absNode->getNum(), absNeighbour->getNum(), 
+			map->h(absNode, absNeighbour));
 	absg->addEdge(e);
 
 	if(getVerbose())
@@ -346,3 +403,23 @@ EmptyClusterAbstraction::connectSGToNeighbour(
 	}
 }
 	
+void 
+EmptyClusterInsertionPolicy::connectInserted(MacroNode* n)
+{
+	// TODO: only add edges if node is in the interior (and not the
+	// perimeter) of the cluster. At the moment, we add edges unnecessarily
+	// when this is not the case.
+
+	if(getVerbose())
+			std::cout << "connecting to other inserted nodes from the "
+				"interior of the cluster"<<std::endl;
+
+	for(int i=0; i < getNumInserted(); i++)
+	{
+		MacroNode* neighbour = dynamic_cast<MacroNode*>(
+				getInsertedAtIndex(i));
+
+		if(n->getParentClusterId() == neighbour->getParentClusterId())
+			addMacroEdge(n, neighbour);
+	}
+}

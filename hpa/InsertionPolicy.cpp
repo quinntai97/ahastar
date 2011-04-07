@@ -6,6 +6,7 @@ InsertionPolicy::InsertionPolicy()
 {
 	resetMetrics();
 	insertedNodes = new std::vector<node*>();
+	verbose = false;
 }
 
 InsertionPolicy::~InsertionPolicy()
