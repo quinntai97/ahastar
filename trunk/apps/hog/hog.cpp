@@ -30,8 +30,9 @@
 #include "DefaultInsertionPolicy.h"
 #include "DefaultRefinementPolicy.h"
 #include "EdgeFactory.h"
-#include "EmptyClusterAbstraction.h"
 #include "EmptyCluster.h"
+#include "EmptyClusterInsertionPolicy.h"
+#include "EmptyClusterAbstraction.h"
 #include "FlexibleAStar.h"
 #include "fpUtil.h"
 #include "HierarchicalSearch.h"
@@ -879,12 +880,12 @@ newSearchAlgorithm(mapAbstraction* aMap, bool refineAbsPath)
 		}
 		case HOG::ERR:
 		{
-			GenericClusterAbstraction* map = 
-				dynamic_cast<GenericClusterAbstraction*>(aMap);
-			alg = new HierarchicalSearch(new DefaultInsertionPolicy(map),
+			EmptyClusterAbstraction* map = 
+				dynamic_cast<EmptyClusterAbstraction*>(aMap);
+			alg = new HierarchicalSearch(new EmptyClusterInsertionPolicy(map),
 					new FlexibleAStar(newExpansionPolicy(map), 
 						newHeuristic()),
-					new DefaultRefinementPolicy(map));
+					new OctileDistanceRefinementPolicy(map));
 			((HierarchicalSearch*)alg)->setName("RSR");
 			alg->verbose = verbose;
 			break;
