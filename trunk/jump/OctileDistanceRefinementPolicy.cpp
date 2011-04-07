@@ -27,7 +27,9 @@ OctileDistanceRefinementPolicy::refine(path* abspath)
 	{
 		path* segment = 0;
 		path* segtail = 0;
-		for(node* first = current->n;
+		for(node* first = map->getNodeFromMap(
+					current->n->getLabelL(kFirstData),
+					current->n->getLabelL(kFirstData+1)); 
 				first != 0; 
 				first = nextStep(first, current->next->n))
 		{
