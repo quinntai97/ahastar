@@ -28,6 +28,7 @@ class ProblemInstance
 		ProblemInstance(node* start, node* goal, mapAbstraction* map, 
 				Heuristic* heuristic);
 		virtual ~ProblemInstance();
+		virtual ProblemInstance* clone();
 
 		node* getStartNode();
 		node* getGoalNode(); 

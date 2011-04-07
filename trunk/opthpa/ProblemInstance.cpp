@@ -20,6 +20,12 @@ ProblemInstance::~ProblemInstance()
 {
 }
 
+ProblemInstance*
+ProblemInstance::clone()
+{
+	return new ProblemInstance(start, goal, map, heuristic);
+}
+
 node* 
 ProblemInstance::getGoalNode()
 {

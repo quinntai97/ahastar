@@ -6,6 +6,7 @@
 #include "MacroNode.h"
 #include "graphAbstraction.h"
 #include "graph.h"
+#include "ProblemInstance.h"
 
 RRExpansionPolicy::RRExpansionPolicy(graphAbstraction* map) :
 
@@ -27,6 +28,9 @@ RRExpansionPolicy::~RRExpansionPolicy()
 
 void RRExpansionPolicy::expand(node* target_) throw(std::logic_error)
 {
+	if(!primary->getProblemInstance())
+		primary->setProblemInstance(problem->clone());
+
 	primary->expand(target_);
 
 	ExpansionPolicy::expand(target_);
