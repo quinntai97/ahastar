@@ -24,6 +24,8 @@ DefaultInsertionPolicy::insert(node* n)
 	throw(std::invalid_argument)
 {
 	node* retVal = 0;
+	resetMetrics();
+
 	//assert(insertedStartNode == 0 && insertedGoalNode == 0);
 	if(n->getLabelL(kParent) == -1)
 	{
