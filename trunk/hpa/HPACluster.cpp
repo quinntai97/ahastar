@@ -163,10 +163,12 @@ HPACluster::connectParent(node* absStart) throw(std::invalid_argument)
 			map->addPathToCache(e, solution);				
 		}
 
-		/* record some metrics about the operation */
-		nodesExpanded = alg->getNodesExpanded();
-		nodesGenerated = alg->getNodesGenerated();
-		nodesTouched = alg->getNodesTouched();
+		// record some metrics about the operation
+		// NB: searchTime is measured by AbstractCluster::addParent (which calls
+		// this function)
+		nodesExpanded += alg->getNodesExpanded();
+		nodesGenerated += alg->getNodesGenerated();
+		nodesTouched += alg->getNodesTouched();
 	}
 }
 
