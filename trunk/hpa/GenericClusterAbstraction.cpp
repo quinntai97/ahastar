@@ -77,7 +77,6 @@ GenericClusterAbstraction::buildEntrances()
 			this->clusterIterNext(it));
 	while(cluster)
 	{
-		cluster->setVerbose(getVerbose());
 		cluster->buildEntrances();
 		cluster = static_cast<AbstractCluster*>(
 				this->clusterIterNext(it));

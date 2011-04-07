@@ -243,6 +243,8 @@ createSimulation(unitSimulation * &unitSim)
 					new EmptyClusterFactory(), new MacroNodeFactory(),
 				   	new EdgeFactory(), allowDiagonals, reducePerimeter, 
 					bfReduction);
+
+			dynamic_cast<EmptyClusterAbstraction*>(aMap)->setVerbose(verbose);
 			dynamic_cast<EmptyClusterAbstraction*>(aMap)->buildClusters();
 			dynamic_cast<EmptyClusterAbstraction*>(aMap)->buildEntrances();
 			dynamic_cast<EmptyClusterAbstraction*>(aMap)->clearColours();
@@ -864,8 +866,6 @@ newSearchAlgorithm(mapAbstraction* aMap, bool refineAbsPath)
 	switch(absType)
 	{
 		case HOG::HPA:
-			// same as ERR
-		case HOG::ERR:
 		{
 			GenericClusterAbstraction* map = 
 				dynamic_cast<GenericClusterAbstraction*>(aMap);
@@ -874,6 +874,18 @@ newSearchAlgorithm(mapAbstraction* aMap, bool refineAbsPath)
 						newHeuristic()),
 					new DefaultRefinementPolicy(map));
 			((HierarchicalSearch*)alg)->setName("HPA");
+			alg->verbose = verbose;
+			break;
+		}
+		case HOG::ERR:
+		{
+			GenericClusterAbstraction* map = 
+				dynamic_cast<GenericClusterAbstraction*>(aMap);
+			alg = new HierarchicalSearch(new DefaultInsertionPolicy(map),
+					new FlexibleAStar(newExpansionPolicy(map), 
+						newHeuristic()),
+					new DefaultRefinementPolicy(map));
+			((HierarchicalSearch*)alg)->setName("RSR");
 			alg->verbose = verbose;
 			break;
 		}
