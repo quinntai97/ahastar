@@ -19,12 +19,13 @@ identifying regions of the search space that can be ignored.  By comparison, RSR
 tries to reduce the search effort involved in exploring any given area. Thus the
 two methods have complementary aims.
 \par
-A similar graph pruning technique, known as as the \emph{dead-end heuristic},
-is due to \citeauthor{bjornsson06}~\shortcite{bjornsson06}.  Like RSR, this method
+A similar graph pruning technique, known as as the \emph{dead-end heuristic}, is
+due to \citeauthor{bjornsson06}~\shortcite{bjornsson06}.  Like RSR, this method
 decomposes grid maps into obstacle-free zones connected by entrances and exits.
 A preliminary online search in the decomposed graph is then used to identify
-zones that cannot lead to the goal.  The central idea is to avoid exploring such
-``dead ends'' during a subsequent search in the original grid.  This approach is
-similar to the one employed by \citeauthor{pochter10}~\shortcite{pochter10} but
-reported results suggest it is not as effective.
+zones that are not relevant for reaching the goal.  The central idea is to avoid
+exploring such ``dead ends'' during a subsequent search in the original grid.
+This approach is similar to the one employed by
+\citeauthor{pochter10}~\shortcite{pochter10} but reported results suggest it is
+not as effective.
 
