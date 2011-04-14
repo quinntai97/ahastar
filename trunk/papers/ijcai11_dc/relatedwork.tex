@@ -9,17 +9,17 @@ but there are very few works that explicitly identify and deal with symmetry in
 pathfinding domains such as grid maps. 
 \par
 \citeauthor{pochter10}~\shortcite{pochter10} describe a search space
-reduction algorithm called \emph{Swamps} which bears some similarity to RSR.
-This approach involves decomposing a map into so called ``swamp'' areas that can
+reduction algorithm which bears some similarity to RSR.
+Their approach involves decomposing a map into so called \emph{Swamp} areas that can
 be ignored because there always exists a symmetric path that does not cross any
-nodes in the swamp. Each search instance is then limited to an a corridor of
+nodes in the swamp. Each search instance is then limited to a corridor of
 inter-dependent swamp (and non-swamp areas) and all remaining nodes in the graph
 are ignored. This algorithm is rather different to RSR in that the focus appears
 to be on identifying regions of the search space that can be ignored.  
 By comparison, RSR aims to reduce the search effort involved in exploring any
 given area. Thus the two methods are in some sense complementary.
 \par
-RSR is also similar to the \emph{dead-end heuristic}; a recent graph pruning
+RSR is also similar to the \emph{dead-end heuristic}; a graph pruning
 technique due to \citeauthor{bjornsson06}~\shortcite{bjornsson06}.
 The authors describe a method which, like RSR, decomposes grid maps into
 obstacle-free zones connected by entrances and exits.  A preliminary online

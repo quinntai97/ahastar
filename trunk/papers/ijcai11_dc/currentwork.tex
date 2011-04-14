@@ -5,7 +5,7 @@ grid maps, which allow straight but not diagonal movement.  Although less popula
 than 8-connected grid maps, this domain appears regularly in the literature
 \cite{yap02} and is often found in the pathfinding systems of
 modern video games; e.g Square Enix's \emph{Children of Mana} (Gameboy Advance)
-and Astraware's \emph{Little Tank} (iPhone).
+and Astraware's \emph{My Little Tank} (iPhone).
 \par 
 In \cite{harabor10} my co-author and I propose the following offline strategy 
 for identifying and eliminating symmetric paths in 4-connected grid maps:
@@ -31,7 +31,7 @@ Each insertion operation can be performed in constant time.
 Furthermore, if the start and goal are located in the same empty rectangle
 an optimal path is immediately available -- obviating the need for search.
 \par
-We prove the optimality of this approach and evaluate its effectiveness by 
+We prove the optimality of this approach and evaluate it empirically by 
 comparing the performance of A* when searching on pruned vs. un-pruned grids.
 We run experiments on a wide range of realistic game maps including one well
 known set from the game \emph{Baldur's Gate II}.  Results show that in many
@@ -41,32 +41,31 @@ improvements to average search times by a factor of up to 3.5.
 \section{Symmetries in 8-connected Grid Maps}
 I am currently studying symmetry breaking methods for the much more 
 common 8-connected grid map domain.
-My co-authors and I have recently proposed RSR \cite{harabor11a}, a new algorithm
-which extends the empty rectangle decomposition described in \cite{harabor10} in
-several directions: (i) we generalise the method from 4-connected grid maps to
-the 8-connected case where the branching factor makes effective symmetry
-elimination more challenging; (ii) we develop a new offline pruning technique
-that reduces the number of nodes which need to be explored during search; (iii)
-we give a novel online pruning strategy which speeds up node expansion by
-selectively evaluating either all neighbours associated with a particular node
-or only a small subset.  We prove that in each case both optimality and
-completeness are preserved.
+To that end, my co-authors and I propose Rectangular Symmetry Reduction (RSR): 
+a new algorithm which extends the empty rooms decomposition described in
+\cite{harabor10} in several directions: (i) we generalise the method from
+4-connected grid maps to the 8-connected case where the branching factor makes
+effective symmetry elimination more challenging; (ii) we develop a stronger
+offline pruning technique to further reduce the number of nodes which need to 
+be explored during search; (iii) we give a novel online pruning strategy which
+speeds up node expansion by selectively evaluating either all neighbours
+associated with a particular node or only a small subset.  We then prove that 
+each proposed extension preserves both optimality and completeness during
+search.
 \par
-We perform a thorough empirical analysis, comparing RSR with two similar
-state-of-the-art graph pruning algorithms ~\cite{pochter10,harabor10}
-on a number of synthetic and realistic benchmarks, including one well known set 
-from the popular roleplaying game \emph{Baldur's Gate II}.
-%Our analysis allows us to identify distinct advantages over both benchmark algorithms.
+We evaluate RSR on a range of synthetic and realistic benchmarks from the
+literature.
 Compared to Harabor and Botea's method \shortcite{harabor10}, 
 we both extend the applicability and improve the speed
 on the subset of instances where both methods are applicable.
-Furthermore, we show that RSR and the swamp-based method of 
-\citeauthor{pochter10}~\shortcite{pochter10}
+When compared to the Swamp-based method of 
+\citeauthor{pochter10}~\shortcite{pochter10}, we find that the two algorithms
 have complementary strengths and identify classes of instances where
-either RSR or swamps is more suitable.
-We conclude that swamps are better suited for maps with
+either RSR or Swamps is more suitable.
+We find that Swamps are better on maps with
 small open areas and their effectiveness reduces on maps with larger open areas.
-In contrast, larger open areas allow RSR to build larger empty rectangles,
+The opposite is true for RSR: larger open areas allow for larger empty rectangles,
 leading to a corresponding improvement in performance.
-In particular, our results show a wide range of instances where
-RSR is clearly the better choice, dominating convincingly the benchmark algorithms.
+Our results to date are encouraging: we identify a wide range of instances where
+RSR is clearly the better choice, dominating convincingly across a range of
+benchmarks. 
