@@ -1,8 +1,0 @@
-\section{Path refinement}
-\label{ia-sec:refinement}
-Once a set of non-dominated hierarchical paths are computed, we refine each one in order to extract the optimal length path inside the corridor represented by the hierarchical path.
-When a true cost for the path is available, we use it to see if any remaining hierarchical paths are dominated and can be immediately pruned.
-A hierarchical path $a$ is dominated by another path $b$ whose true cost $C_{b}$ is known iff: $C_{b} \leq g_{b}$ where $g_{b}$ represents the lower-bound traversal cost for $b$.
-We continue in this way until all hierarchical paths are dominated or refined, at which point the optimal path is known.
-
-\emph{NB} We might be able to limit the effort required during the refinement process by carefully choosing which hierarchial paths to expand first. Possibilities include: ordering paths by their upper bound, picking paths with the tightest interval (smallest difference between $<w, W>$)
