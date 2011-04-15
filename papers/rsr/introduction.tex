@@ -3,76 +3,52 @@
 
 Grid-based pathfinding systems are commonly found in academic literature; for
 example in application areas such as robotics \cite{choset05} and video games
-\cite{botea04,sturtevant05,bjornsson06}.  
-In such contexts it is often the case that queries sent to the pathfinding
-system need to be solved as quickly as possible.  Traditionally, this
-requirement is met through the application of hierarchical decompostion
-techniques such as HPA*~\cite{botea04} and PRA* ~\cite{sturtevant05} which
-transform the search space into a much smaller approximate representation.
-Such methods
-can solve large problems very quickly, particularly when compared to the
-classical A* algorithm, but only by sacrificing optimality.  An
-alternative speedup method is to develop better heuristics to guide the
-search~\cite{sturtevant09}.  Though usually fast and
-more effective than the popular Manhattan or Octile heuristic (both
-analogous to Euclidean distance but optimised to 4 and 8-connected grids), they
-have the disadvantage of requiring significant memory overhead.
-
-%,bjornsson06}.
-%\par
-%Recent work \cite{bjornsson06,pochter10,harabor10}
-%has introduced techniques that aim at eliminating drawbacks
-%such as a large memory overhead or solution suboptimality.
-%Algorithms of this type are shown to produce 
-%results that are not only optimal but also memory efficient, particularly when compared 
-%with memory-based heuristics.
-%Additionally, they can significantly improve the performance of well known graph
-%search algorithms such as A*.
-%Our contributions fit into this category.
-%
-%Very recently a third class of methods, based on the idea of search space
-%reduction, has emerged as a promising alternative for speeding up pathfinding
-%search.
-%Algorithms of this type \cite{bjornsson06,pochter10,harabor10} are shown to produce 
-%results that are not only optimal but also memory efficient, particularly when compared 
-%with memory-based heuristics.
-%Additionally, they can significantly improve the performance of well known graph
-%search algorithms such as A*.
+\cite{botea04,sturtevant05,bjornsson06}.  In such contexts it is often the case
+that queries sent to the pathfinding system need to be solved as quickly as
+possible.  Traditionally, this requirement is met through the application of
+hierarchical decompostion techniques such as HPA*~\cite{botea04} and PRA*
+~\cite{sturtevant05} that transform the search space into a much smaller
+approximate representation.  Such methods are very fast, particularly when
+compared to the classical A* algorithm, but have the disadvantage that solutions
+found in the abstract state space are often not optimal when mapped back to the
+original grid map.  An alternative speedup method is to develop better
+heuristics to guide the search~\cite{sturtevant09}.  Though usually fast and
+more effective than the popular Manhattan or Octile heuristic (both analogous to
+Euclidean distance but optimised to 4 and 8-connected grids), they have the
+disadvantage of requiring significant memory overhead.
 \par
-In this paper we present Rectangular Symmetry Reduction (RSR): a
-memory efficient, optimality preserving graph pruning algorithm which reduces
-the size of the search space by identifying and eliminating path symmetries from
-undirected grid maps.
-RSR makes use of an off-line empty rectangle decomposition, originally described in
-\cite{harabor10}, to convert an arbitrary grid map into an equivalent grid map where only nodes from the 
-perimeter of each empty rectangle need to be explored during search.
-%Though effective, the method is limited to 4-connected grid maps where only straight moves, and not diagonal, are
-%allowed.
-We extend that work in several directions: (i) we generalise the method from
-4-connected grid maps to the 8-connected case where the branching factor makes
-effective symmetry elimination more challenging;
-(ii) we develop a new offline pruning technique that reduces the number of nodes which
-need to be explored during search;
-(iii) we give a novel online pruning strategy which speeds up node expansion by selectively 
-evaluating either all neighbours associated with a particular node or only a small subset.
-We prove that in each case both optimality and completeness are preserved.
+In this paper we present Rectangular Symmetry Reduction (RSR): a graph pruning
+algorithm for undirected uniform-cost grid maps which is fast, memory efficient,
+optimality preserving and which can, in some cases, eliminate entirely the need
+to search.  The central idea that we will explore involves the identification
+and elimination of path symmetries from the search space. 
+For our purposes, we will (informally for the moment) say that two paths are
+symmetric if they are identical save for the order in which the individual moves
+(or steps) occur.  To deal with path symmetries RSR makes use of an off-line
+empty rectangle decomposition, originally described in \cite{harabor10}, that
+converts an arbitrary grid map into an equivalent one where only nodes from the
+perimeter of each empty rectangle need to be explored during search.  We extend
+that work in several directions: (i) we generalise the method from 4-connected
+grid maps to the 8-connected case where the branching factor makes effective
+symmetry elimination more challenging; (ii) we develop a new offline pruning
+technique that reduces the number of nodes which need to be explored during
+search; (iii) we give a novel online pruning strategy which speeds up node
+expansion by selectively evaluating either all neighbours associated with a
+particular node or only a small subset.  We prove that in each case both
+optimality and completeness are preserved.
 \par
 We perform a thorough empirical analysis, comparing RSR with two similar
-state-of-the-art graph pruning algorithms ~\cite{pochter10,harabor10}
-on a number of synthetic and realistic benchmarks, including one well known set 
-from the popular roleplaying game \emph{Baldur's Gate II}.
-%Our analysis allows us to identify distinct advantages over both benchmark algorithms.
-Compared to Harabor and Botea's method \cite{harabor10}, 
-we both extend the applicability and improve the speed
-on the subset of instances where both methods are applicable.
-Furthermore, we show that RSR and the swamp-based method of 
-~\cite{pochter10}
-have complementary strengths and identify classes of instances where
-either RSR or swamps is more suitable.
-We conclude that swamps are better suited for maps with
-small open areas and their effectiveness reduces on maps with larger open areas.
-In contrast, larger open areas allow RSR to build larger empty rectangles,
-leading to a corresponding improvement in performance.
-In particular, our results show a wide range of instances where
-RSR is clearly the better choice, dominating convincingly the benchmark algorithms.
+state-of-the-art graph pruning algorithms ~\cite{pochter10,harabor10} on a
+number of synthetic and realistic benchmarks, including one well known set from
+the popular roleplaying game \emph{Baldur's Gate II}.  Compared to Harabor and
+Botea's method \cite{harabor10}, we both extend the applicability and improve
+the speed on the subset of instances where both methods are applicable.
+Furthermore, we show that RSR and the Swamps method of ~\cite{pochter10}
+have complementary strengths and identify classes of instances where either RSR
+or Swamps is more suitable.  We conclude that Swamp-based pruning is better
+for maps with small open areas and that its effectiveness decreases on maps
+with larger open areas.  In contrast, larger open areas allow RSR to build
+larger empty rectangles, leading to a corresponding improvement in performance.
+In particular, our results show a wide range of instances where RSR is clearly
+the better choice, dominating convincingly the benchmark algorithms.
 
