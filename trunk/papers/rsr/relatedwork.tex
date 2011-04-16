@@ -35,12 +35,28 @@ Swamp and non-Swamp areas and all remaining nodes in the graph are ignored.
 The \emph{portal heuristic} \cite{goldenberg10} is a new memory-based technique
 which also attempts to speed up optimal pathfinding on grid maps.  Like RSR, it
 too proceeds to decompose the map into a series of adjacent areas.  It then
-pre-computes and stores exact distances between all pairs of so called
-``portal'' nodes that transition from one area to another. The main idea is to
-use this information to improve the accuracy of cost-to-go estimates and in the
-process reduce the number states expanded by A* on the way to the goal.  Perhaps
-the main difference between this approach and other similar techniques
-\cite{sturtevant09,felner09,bjornsson09}, is its variable memory requirements:
-by building larger or smaller areas it can control the number of portal nodes
-that must be considered and thus trade heuristic accurary for a smaller memory
-footprint.
+pre-computes and stores exact distances between all pairs of so called ``portal nodes''
+i.e. nodes that transition from one area to another. The main idea is to
+use this information to improve the accuracy of cost-to-go estimates during
+search and in the process reduce the number states expanded by A* on the way to
+the goal.  Perhaps the main difference between this approach and other similar
+techniques \cite{sturtevant09,felner09,bjornsson09}, is its variable memory
+requirements: by building larger or smaller areas it can control the number of
+portal nodes that must be considered and thus trade heuristic accuracy for 
+memory.
+\par
+In the algorithm engineering community the problem of quickly computing optimal
+shortest paths has received significant attention.
+State of the art methods such as TRANSIT \cite{bast06} and Contraction Hierarchies
+\cite{geisberger08} are based
+on a combination of Dijkstra's algorithm together with memory-intensive 
+abstractions that reduce the search space by way of node elimination or the
+introduction of short-cut edges.  Though these algorithms are very fast, they are
+also highly optimised for road networks in which certain topological properties
+hold true: for example, the existence of ``highway'' edges that appear on most
+shortest paths between arbitrary pairs of nodes. Though these ideas are mostly
+orthogonal to RSR, there has been very
+little work applying them to searching on grid maps. One recent result
+however \cite{sturtevant10} suggests they are not as effective when the underlying 
+graph contains a high degree of path symmetry. Future work may involve 
+cross-fertiziling ideas from these two areas to develop better approaches.
