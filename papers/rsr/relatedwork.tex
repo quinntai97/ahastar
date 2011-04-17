@@ -37,12 +37,12 @@ The \emph{gateway heuristic} \cite{bjornsson06} and the \emph{portal heuristic}
 to speed up optimal pathfinding on grid maps.  Like RSR, they too proceed to
 decompose the map into a series of adjacent areas.  Both then pre-compute a
 database of exact distances between all pairs of nodes that transition from area
-to another (called variously ``portal nodes'' or ``gateways'').  The main idea
+to another (called variously ``'portals'' or ``gates'').  The main idea
 is to use this information to improve the accuracy of cost-to-go estimates
 during search as a way of reducing the number states expanded by A* on the way
-to the goal. Where these approaches differ from other similar techniques
-\cite{sturtevant09,felner09} is that they exploit the decomposed graph to
-further prune the state space. This is done via an online search in the
+to the goal. Where the portal heuristic differs from other similar works
+\cite{bjornsson06,sturtevant09,felner09} is in its use of the decomposed
+graph to further prune the state space. This is done via an online search in the
 decomposed graph that identifies a corridor of relevant areas which must be 
 explored on the way to the goal. Nodes in other areas are ignored.
 \par
