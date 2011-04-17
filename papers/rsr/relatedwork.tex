@@ -9,11 +9,11 @@ Despite receiving significant attention in other areas, there are very few
 works that explicitly identify and deal with symmetry in pathfinding domains 
 such as grid maps. 
 \par
-The work most closely related to ours is due to \cite{harabor10}.  They
-introduce Empty Rectangular Rooms, a symmetry breaking technique specific to
-4-connected uniform-cost grid maps.  We refer to this work 4ERR and discuss the
-main differences between it and our present work in Sections
-\ref{sec:introduction} and \ref{sec:rsr}.
+The work most closely related to ours is Empty Rectangular Rooms
+\cite{harabor10}: a symmetry breaking technique specific to 4-connected
+uniform-cost grid maps which we will refer to as 4ERR.  We discuss the main
+differences between 4ERR and RSR in Sections \ref{sec:introduction} and
+\ref{sec:rsr}.
 \par
 The \emph{dead-end heuristic} \cite{bjornsson06} and \emph{Swamps-based
 pathfinding} \cite{pochter10} are two closely-related graph pruning techniques
@@ -42,9 +42,10 @@ is to use this information to improve the accuracy of cost-to-go estimates
 during search as a way of reducing the number states expanded by A* on the way
 to the goal. Where the portal heuristic differs from other similar works
 \cite{bjornsson06,sturtevant09,felner09} is in its use of the decomposed
-graph to further prune the state space. This is done via an online search in the
-decomposed graph that identifies a corridor of relevant areas which must be 
-explored on the way to the goal. Nodes in other areas are ignored.
+graph to further prune the state space. This is done via preliminary online 
+search in the decomposed graph that identifies portals relevant to
+the search instance at hand. Any nodes in an area that contains no relevant
+portals are ignored.
 \par
 In the algorithm engineering community the problem of quickly computing optimal
 shortest paths has received significant attention.  State of the art methods
