@@ -1,4 +1,4 @@
-\section{Rectangle-based Symmetry Reduction}
+\section{Rectangular Symmetry Reduction}
 \label{sec:rsr}
 
 \begin{figure}[]
@@ -12,7 +12,8 @@ alternatives (dashed lines).}
 		\vspace{-0.5em}
 \end{figure}
 
-We begin by making precise the notion of a symmetric relationship between paths:
+We begin by making precise the notion of a symmetric relationship between paths
+in a uniform cost graph:
 \begin{definition}
 Two paths $\pi_{1}$ and $\pi_{2}$ are symmetric if they share the same start and
 goal node and one can be derived from the other by interchanging the order of the
@@ -21,7 +22,8 @@ moves.
 
 Consider the pathfinding instance illustrated in Figure \ref{fig-symmetry}.
 There are many symmetrical paths, some of which are marked in the figure.  With
-the popular Octile heuristic in use, most nodes along symmetrical optimal paths
+the popular Octile heuristic in use (which is analogous to Manhattan distance,
+but optimised for 8-connected grids) most nodes along symmetrical optimal paths
 have an $f$ value smaller than the $f$ value of the goal.  Running A* on the
 original grid will needlessly expand all such nodes.  We address this problem by
 employing the following high-level strategy to identify and eliminate path
@@ -35,7 +37,7 @@ generalisation of the empty rectangles method to allow optimal traversal in
 a rectangle's perimeter and (iii) a new online pruning strategy that allows faster
 node expansion and further speeds up search.
 
-The generalisation to 8-connected grids is more challenging than it might look
+The generalisation to uniform-cost 8-connected grids is more challenging than it might look
 at a first glance.  On a 4-connected map no node requires more than one
 macro-edge (to the closest node on the opposite side of the perimeter) to retain
 optimality~\cite{harabor10}.  Thus, it is easy to maintain a low branching

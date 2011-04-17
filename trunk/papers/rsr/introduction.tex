@@ -11,7 +11,7 @@ hierarchical decompostion techniques such as HPA*~\cite{botea04} and PRA*
 approximate representation.  Such methods are very fast, particularly when
 compared to the classical A* algorithm, but have the disadvantage that solutions
 found in the abstract state space are often not optimal when mapped back to the
-original grid map.  An alternative speedup method is to develop better
+original grid.  An alternative speedup method is to develop better
 heuristics to guide the search~\cite{sturtevant09}.  Though usually fast and
 more effective than the popular Manhattan or Octile heuristic (both analogous to
 Euclidean distance but optimised to 4 and 8-connected grids), they have the
@@ -22,20 +22,21 @@ algorithm for undirected uniform-cost grid maps which is fast, memory efficient,
 optimality preserving and which can, in some cases, eliminate entirely the need
 to search.  The central idea that we will explore involves the identification
 and elimination of path symmetries from the search space. 
-For our purposes, we will (informally for the moment) say that two paths are
-symmetric if they are identical save for the order in which the individual moves
-(or steps) occur.  To deal with path symmetries RSR makes use of an off-line
-empty rectangle decomposition, originally described in \cite{harabor10}, that
-converts an arbitrary grid map into an equivalent one where only nodes from the
-perimeter of each empty rectangle need to be explored during search.  We extend
-that work in several directions: (i) we generalise the method from 4-connected
-grid maps to the 8-connected case where the branching factor makes effective
-symmetry elimination more challenging; (ii) we develop a new offline pruning
-technique that reduces the number of nodes which need to be explored during
-search; (iii) we give a novel online pruning strategy which speeds up node
-expansion by selectively evaluating either all neighbours associated with a
-particular node or only a small subset.  We prove that in each case both
-optimality and completeness are preserved.
+%For our purposes, we will (informally for the moment) say that two paths are
+%symmetric if they are identical save for the order in which the individual moves
+%(or steps) occur.  
+To deal with path symmetries RSR makes use of an off-line
+empty rectangle decomposition. Originally described in \cite{harabor10}, this
+method converts an arbitrary grid map into an equivalent one where only nodes
+from the perimeter of each empty rectangle need to be explored during search.
+We extend \cite{harabor10} in several directions: (i) we generalise the method
+from 4-connected grid maps to the 8-connected case where the increase in
+branching factor makes effective symmetry elimination more challenging; (ii) we
+develop a new offline pruning technique that reduces the number of nodes which
+need to be explored during search; (iii) we give a novel online pruning strategy
+which speeds up node expansion by selectively evaluating either all neighbours
+associated with a particular node or only a small subset.  We prove that in each
+case both optimality and completeness are preserved.
 \par
 We perform a thorough empirical analysis, comparing RSR with two similar
 state-of-the-art graph pruning algorithms ~\cite{pochter10,harabor10} on a
@@ -43,12 +44,13 @@ number of synthetic and realistic benchmarks, including one well known set from
 the popular roleplaying game \emph{Baldur's Gate II}.  Compared to Harabor and
 Botea's method \cite{harabor10}, we both extend the applicability and improve
 the speed on the subset of instances where both methods are applicable.
-Furthermore, we show that RSR and the Swamps method of ~\cite{pochter10}
-have complementary strengths and identify classes of instances where either RSR
-or Swamps is more suitable.  We conclude that Swamp-based pruning is better
-for maps with small open areas and that its effectiveness decreases on maps
-with larger open areas.  In contrast, larger open areas allow RSR to build
-larger empty rectangles, leading to a corresponding improvement in performance.
-In particular, our results show a wide range of instances where RSR is clearly
-the better choice, dominating convincingly the benchmark algorithms.
+Furthermore, we show that RSR and the Swamps method of Pochter \emph{et
+al}~\cite{pochter10} have complementary strengths and identify classes of
+instances where either RSR or Swamps is more suitable.  We conclude that
+Swamp-based pruning is better for maps with small open areas and that its
+effectiveness decreases on maps with larger open areas.  In contrast, larger
+open areas allow RSR to build larger empty rectangles, leading to a
+corresponding improvement in performance.  In particular, our results show a
+wide range of instances where RSR is clearly the better choice, dominating
+convincingly the benchmark algorithms.
 

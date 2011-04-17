@@ -7,7 +7,9 @@ two nodes on the perimeter of a rectangle.  We will call the subgraph resulting
 from such an operation a \emph{perimeter clique}.
 
 Although the perimeter clique approach guarantees optimality, it has the
-disadvantage of creating a large branching factor and slowing down search.  We
+disadvantage of creating up a large branching factor and slowing down search
+(the number of necessary macro edges is quadratic in the number of 
+perimeter nodes).  We
 introduce an alternative strategy, that creates much fewer macro-edges, by
 defining a \emph{dominance} relation between macro-edges.
 %As we prove later, optimality is preserved.
@@ -30,9 +32,12 @@ it is easy to see that the set of non-dominated macro-edges are precisely the
 ones that we identify below.  There are three cases to discuss: connections
 between nodes on the same rectangle side, connections between orthogonal
 rectangle sides, and connections between opposite rectangle sides.
+In the discussion that follows note that the length of each added macro-edge 
+is equal to the heuristic distance between its two endpoints -- as measured
+using Octile distance.
 
 The first case is simple: adjacent nodes on the same perimeter side are connected
-just as in the original grid. Such macro-edges have a length of 1.
+just as in the original grid. 
 In the second case, two nodes on orthogonal sides of the perimeter of a rectangle
 $R$ are connected \emph{iff} the shortest path between them is a diagonal
 (45-degree) line; this is illustrated in Figure \ref{fig-macroedges} (top).

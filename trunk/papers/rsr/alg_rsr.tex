@@ -4,7 +4,9 @@
 \begin{algorithmic}
 \REQUIRE A grid map 
 \begin{enumerate}
-\item{\label{alg:rsr:1} Decompose the grid map into a series of disjoint rectangles that are free of any obstacles.}
+\item{\label{alg:rsr:1} Decompose the grid map into a series of disjoint rectangles that are free of any obstacles.
+As per \cite{harabor10}, the size and placement of the rectangles can vary across a
+map, depending on the positions of obstacles.}
 \item{\label{alg:rsr:2} Prune all tiles from the interior of each rectangle $R$
 and possibly some from the perimeter (border).}
 %, and any tiles from the
