@@ -7,17 +7,15 @@ This equates to an $O(|V|)$ memory overhead, where $V$ is the set of nodes
 in the underlying graph.
 Due to the simple geometric nature of empty rectangles, the set of macro
 edges associated with each perimeter node can be computed on-the-fly in
-constant time. Thus, there are no additional space requirements.
+constant time. 
 \newline \noindent
 \textbf{Dynamic Environments: }
 In many application areas, most notably video games, the assumption of a static 
-environment can not be reasonably expected to hold.
+environment is sometimes unreasonable.
 For example: obstacles may appear on the grid or existing obstacles may be
 destroyed as the game progresses.
 In such cases the underlying graph representing the world must be updated.
-In the case of RSR, the corresponding pruned grid can be locally repaired.
-In the case where a new obstacle appears (or an existing one is destroyed) 
-we simply invalidate the affected rectangles and recompute new ones.
-As we will show, preprocessing even an entire map in most cases is very fast
-which implies that a localised repair can reasonably be performed
-online.
+If a new obstacle appears, or an existing one is destroyed,
+we can simply invalidate the affected rectangles and recompute new ones.
+The repair operation must be very fast as most such applications run in real
+time. As we will show, RSR appears particularly well suited for this task.

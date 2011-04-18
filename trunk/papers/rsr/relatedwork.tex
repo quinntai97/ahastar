@@ -36,16 +36,16 @@ The \emph{gateway heuristic} \cite{bjornsson06} and the \emph{portal heuristic}
 \cite{goldenberg10} are two similar memory-based techniques which also attempt
 to speed up optimal pathfinding on grid maps.  Like RSR, they too proceed to
 decompose the map into a series of adjacent areas.  Both then pre-compute a
-database of exact distances between all pairs of nodes that transition from area
-to another (called variously ``'portals'' or ``gates'').  The main idea
+database of exact distances between all pairs of nodes that transition from one
+area to another (called variously ``'portals'' or ``gates'').  The main idea
 is to use this information to improve the accuracy of cost-to-go estimates
-during search as a way of reducing the number states expanded by A* on the way
-to the goal. Where the portal heuristic differs from other similar works
+during search as a way of reducing the number states expanded by A*. 
+Where the portal heuristic differs from other similar works
 \cite{bjornsson06,sturtevant09,felner09} is in its use of the decomposed
-graph to further prune the state space. This is done via preliminary online 
-search in the decomposed graph that identifies portals relevant to
-the search instance at hand. Any nodes in an area that contains no relevant
-portals are ignored.
+graph to further prune the state space. A preliminary search in this graph 
+identifies portals relevant to the problem instance at hand. 
+During a subsequent search in the original grid, 
+any nodes from an area that contains no relevant portals are ignored.
 \par
 In the algorithm engineering community the problem of quickly computing optimal
 shortest paths has received significant attention.  State of the art methods
