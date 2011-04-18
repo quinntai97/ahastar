@@ -6,7 +6,7 @@ example in application areas such as robotics \cite{choset05} and video games
 \cite{botea04,sturtevant05,bjornsson06}.  In such contexts it is often the case
 that queries sent to the pathfinding system need to be solved as quickly as
 possible.  Traditionally, this requirement is met through the application of
-hierarchical decompostion techniques such as HPA*~\cite{botea04} and PRA*
+hierarchical decomposition techniques such as HPA*~\cite{botea04} and PRA*
 ~\cite{sturtevant05} that transform the search space into a much smaller
 approximate representation.  Such methods are very fast, particularly when
 compared to the classical A* algorithm, but have the disadvantage that solutions
@@ -38,19 +38,16 @@ which speeds up node expansion by selectively evaluating either all neighbours
 associated with a particular node or only a small subset.  We prove that in each
 case both optimality and completeness are preserved.
 \par
-We perform a thorough empirical analysis, comparing RSR with two similar
-state-of-the-art graph pruning algorithms ~\cite{pochter10,harabor10} on a
+We perform a thorough empirical analysis, comparing RSR with three similar
+state-of-the-art graph pruning algorithms on a
 number of synthetic and realistic benchmarks, including one well known set from
 the popular roleplaying game \emph{Baldur's Gate II}.  Compared to Harabor and
 Botea's method \cite{harabor10}, we both extend the applicability and improve
-the speed on the subset of instances where both methods are applicable.
-Furthermore, we show that RSR and the Swamps method of Pochter \emph{et
-al}~\cite{pochter10} have complementary strengths and identify classes of
-instances where either RSR or Swamps is more suitable.  We conclude that
-Swamp-based pruning is better for maps with small open areas and that its
-effectiveness decreases on maps with larger open areas.  In contrast, larger
-open areas allow RSR to build larger empty rectangles, leading to a
-corresponding improvement in performance.  In particular, our results show a
-wide range of instances where RSR is clearly the better choice, dominating
-convincingly the benchmark algorithms.
+the speed on the subset of instances where both algorithms are applicable.
+We also compare RSR to the recent Swamps-based pruning method of Pochter \emph{et
+al}~\cite{pochter10} and the enhanced Portal Heuristic of Goldenberg \emph{et
+al}~\cite{goldenberg10}. 
+We show that RSR has complementary strengths compared to both of these methods 
+and identify classes of instances RSR is clearly the better choice, 
+dominating convincingly across a large number of instances.
 
