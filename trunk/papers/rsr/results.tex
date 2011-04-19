@@ -1,13 +1,9 @@
 \section{Results}
 \label{sec-results}
-To evaluate the effectiveness of RSR we will use a generic implementation of A* 
-which we run on both original and pruned grid maps.
-We discuss performance in terms of \emph{average relative speedup}: 
-that is, the improvement to the average time A* needs to solve an instance
-%and averarage A* node expansions 
-when running on a pruned  vs. unpruned grid.
-Using this metric a search time speedup of 2.0 is twice as fast (higher is
-better).
+To evaluate RSR we use a generic implementation of A* and discuss performance 
+in terms search time speedup. That is, the relative improvement to the average 
+time A* needs to solve an instance when running on a pruned  vs. unpruned grid.
+For example, a speedup of 2.0 is twice as fast (higher is better).
 %
 %while
 %a node expansion speedup of 2.0 indicates half the number of nodes were expanded.
@@ -117,7 +113,7 @@ Table 1 summarises the main result.
 \begin{center}
 \begin{tabular}{|c|c|c|c|}
 \hline
-\textbf{Algorithm} & \textbf{Mem} & \textbf{Baldur's Gate} & \textbf{Rooms}  \\ \hline
+\textbf{Algorithm} & \textbf{Memory Overhead} & \textbf{Baldur's Gate} & \textbf{Rooms}  \\ \hline
 PH-e & $O(2|V|)$ & 3.16 &  11.9 \\ \hline
 PH-e & $O(8|V|)$ & 3.07 &  17.54 \\ \hline
 RSR & $O(|V|)$ & 2.8 & 18.2 \\ \hline
@@ -125,29 +121,30 @@ RSR & $O(|V|)$ & 2.8 & 18.2 \\ \hline
 \end{center}
 \caption{Average A* search time speedup: RSR vs. enhanced Portal
 Heuristic (PH-e). RSR figures are across all maps on each benchmark. PH-e
-figures are for a small subset selected by the authors (1 map of 120 from
+figures are for a small subset selected by the authors (1 of 120 from
 Baldur's Gate and 5 of 300 from Rooms). }
 \end{table}
-
-First, note PH-e requires a pre-defined memory overhead limit. In most cases $O(2|V|)$ is
-sufficient to achieve a large proportion of the total speedup reported in
-\cite{goldenberg10}. We also compare against the case where the authors allow 
-PH-e a maximum of $O(8|V|)$ extra memory.
-On Baldur's Gate, the performance of the two algorithms is very similar. PH-e is slightly
-faster than RSR on average but, as per Figure \ref{fig-speedup} (B), RSR achieves
-identical performance for some path lengths. 
-On the Rooms benchmark RSR dominates convincingly when the two algorithms are
-allowed a similar amount of memory. When PH-e is allowed $O(8|V|)$ extra memory
- its performance becomes once more comparable with RSR.
-Note that, as per Figure \ref{fig-speedup} (C), RSR is able to achieve up to 20 times
-average search time speedup using only $O(|V|)$ extra memory. 
-\par
+%First, note PH-e requires a pre-defined memory overhead limit. In most cases $O(2|V|)$ is
+%sufficient to achieve a large proportion of the total speedup reported in
+%\cite{goldenberg10}. We also compare against the case where the authors allow 
+%PH-e a maximum of $O(8|V|)$ extra memory.
+%On Baldur's Gate, the performance of the two algorithms is very similar. PH-e is slightly
+%faster than RSR on average but, as per Figure \ref{fig-speedup} (B), RSR achieves
+%identical performance for some path lengths. 
+%On the Rooms benchmark RSR dominates convincingly when the two algorithms are
+%allowed a similar amount of memory. When PH-e is allowed $O(8|V|)$ extra memory
+% its performance becomes once more comparable with RSR.
+%Note that, as per Figure \ref{fig-speedup} (C), RSR is able to achieve up to 20 times
+%average search time speedup using only $O(|V|)$ extra memory. 
+%\par
 PH-e performs well when it can decompose the map into areas of similar size with
 few transitionary nodes connecting them.
 RSR performs well when it can decompose the map into large rectangles with few
 perimeter nodes.
 On Rooms, both decomposition approaches are highly effective. 
 On Baldur's Gate both are comparatively less effective.
+Notice however that PH-e requires up to 7 times more memory than RSR to achieve
+similar results.
 As with Swamps, we believe PH-e is entirely orthogonal to RSR and the two can be 
 easily combined. For example, RSR could be used to speed up pathfinding between
 successive pairs of portals during PH-e's refinement phase.
@@ -174,7 +171,6 @@ Baldur's Gate & 4507 & 16557 & 0.65 \\ \hline
 Rooms & 51437 & 166417 & 0.39 \\ \hline
 \end{tabular}
 \end{center}
-\caption{Average size of input maps and average RSR pre-processing times (in
-seconds). }
+\caption{Average input map size and RSR pre-processing times (in seconds). }
 \end{table}
 

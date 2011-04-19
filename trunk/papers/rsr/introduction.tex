@@ -1,21 +1,22 @@
 \section{Introduction}
 \label{sec:introduction}
 
-Grid-based pathfinding systems are commonly found in academic literature; for
-example in application areas such as robotics \cite{choset05} and video games
-\cite{botea04,sturtevant05,bjornsson06}.  In such contexts it is often the case
-that queries sent to the pathfinding system need to be solved as quickly as
+Pathfinding on uniform-cost undirected grid maps is a problem commonly appearing in
+the literature: for example in application areas such as robotics \cite{lee09}
+artificial intelligence \cite{wang09} and video games \cite{davis00}.  
+In such contexts it is often the
+case that queries sent to the pathfinding system need to be solved as quickly as
 possible.  Traditionally, this requirement is met through the application of
-hierarchical decomposition techniques such as HPA*~\cite{botea04} and PRA*
-~\cite{sturtevant05} that transform the search space into a much smaller
-approximate representation.  Such methods are very fast, particularly when
-compared to the classical A* algorithm, but have the disadvantage that solutions
-found in the abstract state space are often not optimal when mapped back to the
-original grid.  An alternative speedup method is to develop better
-heuristics to guide the search~\cite{sturtevant09}.  Though usually fast and
-more effective than the popular Manhattan or Octile heuristic (both analogous to
-Euclidean distance but optimised to 4 and 8-connected grids), they have the
-disadvantage of requiring significant memory overhead.
+hierarchical decomposition techniques that transform the search space into a
+much smaller approximate representation \cite{botea04,sturtevant10}.
+Such methods are very fast, particularly when compared to the classical A*
+algorithm, but have the disadvantage that solutions found in the abstract state
+space are often not optimal when mapped back to the original grid.  An
+alternative speedup method is to develop better heuristics to guide the
+search~\cite{bjornsson06,sturtevant09,goldenberg10}.  Though usually
+fast, optimal and more effective than the popular Manhattan or Octile heuristic (both
+analogous to Euclidean distance but optimised to 4 and 8-connected grids), they
+have the disadvantage of requiring significant memory overhead.
 \par
 In this paper we present Rectangular Symmetry Reduction (RSR): a graph pruning
 algorithm for undirected uniform-cost grid maps which is fast, memory efficient,
@@ -26,10 +27,10 @@ and elimination of path symmetries from the search space.
 %symmetric if they are identical save for the order in which the individual moves
 %(or steps) occur.  
 To deal with path symmetries RSR makes use of an off-line
-empty rectangle decomposition. Originally described in \cite{harabor10}, this
-method converts an arbitrary grid map into an equivalent one where only nodes
+empty rectangle decomposition \cite{harabor10} that converts an arbitrary
+undirected uniform-cost grid map into an equivalent one where only nodes
 from the perimeter of each empty rectangle need to be explored during search.
-We extend \cite{harabor10} in several directions: (i) we generalise the method
+We extend this approach in several directions: (i) we generalise the method
 from 4-connected grid maps to the 8-connected case where the increase in
 branching factor makes effective symmetry elimination more challenging; (ii) we
 develop a new offline pruning technique that reduces the number of nodes which
@@ -48,6 +49,6 @@ We also compare RSR to the recent Swamps-based pruning method of Pochter \emph{e
 al}~\cite{pochter10} and the enhanced Portal Heuristic of Goldenberg \emph{et
 al}~\cite{goldenberg10}. 
 We show that RSR has complementary strengths compared to both of these methods 
-and identify classes of instances RSR is clearly the better choice, 
+and identify classes of instances where RSR is clearly the better choice, 
 dominating convincingly across a large number of instances.
 
