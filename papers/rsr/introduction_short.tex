@@ -1,0 +1,36 @@
+\section{Introduction}
+\label{sec:introduction}
+Pathfinding on undirected uniform-cost grid maps is a problem commonly appearing in
+the literature: for example in application areas such as robotics \cite{lee09}
+artificial intelligence \cite{wang09} and video games \cite{davis00,sturtevant10}.  
+To solve pathfinding problems quickly practitioners usually apply
+%In such contexts it is often the
+%case that queries sent to the pathfinding system need to be solved as quickly as
+%possible.  Traditionally, this requirement is met through the application of
+hierarchical decomposition techniques such as HPA* \cite{botea04,sturtevant10} or 
+develop more accurate heuristics to guide search~\cite{bjornsson06,sturtevant09,goldenberg10}.  
+Each of these has disadvantages: either the returned solutions are
+not guaranteed optimal or a substantial memory overhead is incurred.
+\par
+In this paper we present Rectangular Symmetry Reduction (RSR): a graph pruning
+algorithm for undirected uniform-cost grid maps which is fast, memory efficient,
+optimality preserving and which can, in some cases, eliminate entirely the need
+to search.  
+The central idea that we will explore involves the identification
+and elimination of path symmetries from the search space. 
+Along the way we generalise a pruning technique proposed in \cite{harabor10} 
+which is only applicable to 4-connected uniform cost grid maps.
+\par
+When compared to other pruning methods from the literature we
+find RSR has complementary strengths. We identify classes of instances
+where RSR is clearly the better choice and show that it can often dominate convincingly
+across a variety of synthetic and realistic benchmarks.
+
+%When compared to \cite{harabor10}, we find that RSR extends the applicability 
+%and improve the performance  of the earlier method.
+%We also find that RSR has complementary strengths compared to both Swamp-based
+%pathfinding~\cite{pochter10} and the enhanced Portal Heuristic
+%\cite{goldenberg10}. We then identify classes of instances where RSR is clearly
+%the better choice, and show that it dominates convincingly across a large number
+%of instances.
+%

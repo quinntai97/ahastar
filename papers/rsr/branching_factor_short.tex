@@ -1,0 +1,45 @@
+\section{Reducing The Branching Factor Further}
+In this section we study two branching factor reduction methods: the first
+is an offline perimeter pruning technique. The second is an online pruning
+method applied during individual node expansions.
+Both retain the optimality of computed solutions. We omit the
+relevant proofs due to lack of space.
+
+\noindent
+\textbf{Perimeter Reduction:}
+Along the perimeter of an empty rectangle there are often nodes
+which have no neighbours from any adjacent rectangle.  
+These represent intermediate locations between entry and exit points into and
+out of each rectangle.
+To speed up search we will prune all such intermediate nodes.
+To preserve optimality, we will
+connect the neighbours of each pruned node directly to each other.  The weight
+of each new edge is set appropriately to the octile distance between the two
+neighbours.  Figure \ref{fig-branching} (Left) shows an example.  
+
+\begin{figure}[t]
+	\begin{center}
+	\includegraphics[width=0.97\columnwidth, trim = 10mm 10mm 10mm 0mm]
+	{diagrams/branching_wide.png}
+	\end{center}
+	\vspace{-3pt}
+	\caption{(Left) From each empty rectangle we prune all (dark grey) nodes which
+	have no neighbours in any adjacent rectangle.
+	Remaining nodes are then connected directly.
+	(Right) Assume $t_{1}$ is the parent of $t_2$. When $t_2$
+	is expanded, we do not generate neighbors from the opposite side.
+	These can be reached from $t_1$ via a shorter or equal-length path.
+}
+\label{fig-branching}
+\end{figure}
+
+\noindent
+\textbf{Online Node Pruning:}
+When expanding a node during pathfinding search we observe that if the current
+node, and its parent, both belong to the same rectangle, then it is not
+necessary to consider any neighbours from the opposite side of the rectangle.
+Figure \ref{fig-branching} (Right) shows an example of such a situation; any
+path to a neighbour on the opposite side is strictly dominated by an alternative
+path through the predecessor of the current node.  If the current node has no
+parent or the parent belongs to a different rectangle we process all its
+neighbours.
