@@ -21,7 +21,7 @@ and out of each empty rectangle. To speed up search we propose pruning from the
 perimeter of each rectangle all such nodes.  To preserve optimality, we will
 connect the neighbours of each pruned node directly to each other.  The weight
 of each new edge is set appropriately to the octile distance between the two
-neighbours.  Figure \ref{fig-branching} (Top) shows an example.  As we will see
+neighbours.  Figure \ref{fig-branching} (Left) shows an example.  As we will see
 this optimisation can have a dramatic effect on the average performance of A* on
 certain types of maps.
 
@@ -42,10 +42,10 @@ Further, the length of this path is unchanged.
 	{diagrams/branching_wide.png}
 	\end{center}
 	\vspace{-3pt}
-	\caption{(Top) From each empty rectangle we prune all (dark grey) nodes which
+	\caption{(Left) From each empty rectangle we prune all (dark grey) nodes which
 	have no neighbours in any adjacent rectangle.
 	Remaining nodes are then connected directly.
-	(Bottom) Assume that $t_{1}$ is the parent of $t_2$. When $t_2$
+	(Right) Assume that $t_{1}$ is the parent of $t_2$. When $t_2$
 	is expanded, there is no need to generate its secondary neighbors.
 	These can be reached directly from $t_1$ on a shorter or equal-length path.
 }
@@ -64,7 +64,7 @@ which are located on the opposite side of the perimeter to as compared to $n$
 When expanding an arbitrary node from the perimeter of a rectangle we observe
 that it is not necessary to consider any secondary neighbours if both the node
 and its predecessor belong to the same rectangle. Figure \ref{fig-branching}
-(Bottom) shows an example of such a situation; any path to a secondary neighbour
+(Right) shows an example of such a situation; any path to a secondary neighbour
 is strictly dominated by an alternative path through the predecessor. 
 We apply this observation as follows: {During
 node expansion, determine which rectangle the parent of the current node belongs

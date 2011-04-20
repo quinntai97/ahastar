@@ -40,10 +40,10 @@ The first case is simple: adjacent nodes on the same perimeter side are connecte
 just as in the original grid. 
 In the second case, two nodes on orthogonal sides of the perimeter of a rectangle
 $R$ are connected \emph{iff} the shortest path between them is a diagonal
-(45-degree) line; this is illustrated in Figure \ref{fig-macroedges} (top).
+(45-degree) line; this is illustrated in Figure \ref{fig-macroedges} (left).
 Notice that in both cases we introduce no more than two macro edges per node.
 In the third case, we generate for each perimeter node a ``fan'' of neighbours
-from the opposite side $R$.  Figure \ref{fig-macroedges} (bottom), illustrates
+from the opposite side $R$.  Figure \ref{fig-macroedges} (right), illustrates
 this idea.  Starting from a node such as $t_{1}$ we step to the closest
 neighbour from the opposite side of $R$ and extend the fan by progressing away
 from the middle in both directions adding each node we encounter.  The last node
@@ -59,8 +59,8 @@ t_3\rbrace$.
 			{diagrams/macroedges_wide.png}
        \end{center}
 	\vspace{-3pt}
-       \caption{(Top) Macro edges between nodes on orthogonal sides of an empty
-       rectangle. (Bottom) Each node on the perimeter is connected to a set of 
+       \caption{(Left) Macro edges between nodes on orthogonal sides of an empty
+       rectangle. (Right) Each node on the perimeter is connected to a set of 
 		nodes on the opposite side.}
        \label{fig-macroedges}
 \end{figure}
@@ -97,7 +97,8 @@ optimality of this path is immediate. In the second and third case we argue as
 follows:
 the two nodes can be connected through an optimal path that has one diagonal macro-edge
 (at one end of the path) and zero or more straight macro-edges.
-See again the example of travelling from $t_1$ to $t_3$ in Figure \ref{fig-macroedges} (bottom).
+See again the example of travelling from $t_1$ to $t_3$ in Figure
+\ref{fig-macroedges} (Right).
 \end{proof}
 
 \noindent
