@@ -5,9 +5,9 @@ article: *.tex references.bib
 	pdflatex article
 	pdflatex  article
 short: references.bib
-	pdflatex article_short.tex
-	bibtex article_short.tex
-	pdflatex article_short.tex
-	pdflatex  article_short.tex
+	pdflatex short_article
+	bibtex short_article
+	pdflatex short_article
+	pdflatex  short_article
 clean:
 	rm -f *.aux *.bbl *.blg *.log *.dvi *.ps *.pdf 
