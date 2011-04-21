@@ -3,6 +3,8 @@
 \textbf{Memory Requirements: }
 In the most straightforward implementation, RSR requires storing only the id of the
 parent rectangle for each node in the original grid. 
+Given the simple geometric nature of empty rectangles, the set of macro
+for each perimeter node can be computed on-the-fly in constant time. 
 This equates to an $O(|V|)$ memory overhead, where $V$ is the set of nodes
 in the underlying graph.
 \newline \noindent

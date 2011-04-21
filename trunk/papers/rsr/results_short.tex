@@ -13,16 +13,7 @@ in the same rectangle and RSR computes the optimal solution without
 search.  We exclude these instances from our results on the basis that they are 
 outliers, even though RSR solves them in constant time.
 
-\par 
-\begin{figure}[t]
-       \begin{center}
-				   \includegraphics[width=0.97\columnwidth, trim = 10mm 10mm 10mm 0mm]{diagrams/speedup.pdf}
-       \end{center}
-       \caption{Average A* speedup on each of our three benchmarks. 
-		Results are given in terms of relative improvement to A* search time (i.e. speedup).}
-\label{fig-speedup}
-\end{figure}
-
+\input table_results
 
 \textbf{Pre-processing Times: } 
 RSR takes very little time to pre-process all input maps. 
@@ -32,8 +23,8 @@ Thus RSR appears well suited to
 pathfinding in dynamic environments as outlined in Section \ref{sec:memory}.
 
 \textbf{Comparison to 4ERR: }
-We now compare the performance RSR against the 4ERR~\cite{harabor10} graph
-pruning algorithm. Here we restrict our attention to 4-connected maps.  To
+We now compare the performance of RSR against the 4ERR~\cite{harabor10} symmetry-breaking
+algorithm. Here we restrict our attention to 4-connected maps.  To
 assess the individual impact of both perimeter reduction (PR) and online node
 pruning (OP) we also develop and compare two variant algorithms: 4ERR+PR and
 4ERR+OP. 
@@ -46,7 +37,7 @@ Of the variants, 4ERR+PR yields the biggest improvement, speeding up A* by up to
 Rooms where perimeter pruning has already reduced the branching factor.
 \par
 \textbf{Comparison to Swamps:}
-Next, we RSR with Swamps-based pruning~\cite{pochter10}.  
+Next, we compare RSR with Swamps~\cite{pochter10}.  
 We used the authors' source code, including their own implementation of A*, and 
 ran all experiments using their recommended parameters: a swamp seed radius of 6 
 and ``no change limit'' of 2. Figure \ref{fig-speedup} (D to F) gives the main
@@ -77,7 +68,7 @@ on 4-connected variants of Baldur's Gate and Rooms.
 \par
 PH-e performs well when it can decompose the map into areas of similar size with
 few transitionary nodes connecting them.
-RSR performs well when it can decompose the map into large rectangles with few
+RSR performs well when it can decompose the map into (ideally large) rectangles with few
 perimeter nodes.
 On Rooms, both decomposition approaches are highly effective. 
 On Baldur's Gate both are comparatively less effective.

@@ -1,21 +1,14 @@
-\section{Optimal Room Traversal with Macro-Edges}
+\section{Optimal Travel via Macro-Edges}
 
-After interior nodes are eliminated, macro-edges between selected pairs of
-perimeter nodes have to be added to ensure that rectangles can be traversed
-optimally.  A straightforward approach would be adding a macro-edge between any
-two nodes on the perimeter of a rectangle
-This strategy is optimal but has the disadvantage of creating a branching 
-factor quadratic in the number of perimeter nodes. 
-We introduce an alternative strategy, that creates much fewer
-macro-edges, by defining a \emph{dominance} relation between macro-edges.
-
-\begin{definition}
-\label{def:dominance}
-A macro-edge connecting two arbitrary nodes $t_1$ and $t_2$ in a perimeter
-clique is non-dominated if all other paths between $t_1$ and $t_2$ in the
-perimeter clique have a cost strictly larger than the macro-edge at hand.
-\end{definition}
-
+After interior nodes are eliminated, macro-edges have to be added between perimeter
+nodes to ensure rectangles are traversed optimally.
+A straightforward approach is to add a macro-edge between any
+two nodes on the perimeter of a rectangle. This strategy is optimal but creates
+an unnecessarily large branching factor. 
+We will do better by adding only \emph{non-dominated} macro edges; i.e. edges whose 
+lengths are strictly less than any other edge between the same pair of nodes.
+%By definition, all non-dominated edges are necessary to ensure optimality.
+\par
 There are three cases to discuss. In each case the length of each added macro-edge 
 is equal to the heuristic distance between its two endpoints -- as measured
 using Octile distance.
@@ -27,22 +20,17 @@ just as in the original grid.
 These are connected \emph{iff} the shortest path between them is a diagonal
 (45-degree) line; this is illustrated in Figure \ref{fig-macroedges} (Left).
 \par \noindent
-\textbf{Case 3:} nodes on opposite sides of the perimeter. For each such node we
-generate a ``fan'' of neighbours from the opposite side.  
-Figure \ref{fig-macroedges} (Right), illustrates
-this idea.  Starting from a node such as $t_{1}$ we step to the closest
-neighbour from the opposite side of the rectangle and extend the fan by progressing away
-from the middle in both directions adding each node we encounter.  The last node
+\textbf{Case 3:} nodes on opposite sides of the perimeter. 
+For each such node we generate a ``fan'' of neighbours from the opposite side; this is shown in Figure
+\ref{fig-macroedges}.
+Starting from a node such as $t_{1}$ we step to the closest
+neighbour from the opposite side and extend the fan away
+from the middle, adding each node we encounter.  The last node
 on either side of the fan is placed diagonally, at 45 degrees, from $t_{1}$
-(such as $t_{2}$) or located in the corner of the perimeter (whichever we
-encounter first).  There is no need to add further nodes, such as $t_{3}$, as
-these can be reached optimally from $t_1$ via the path $< t_1, t_2, \dots,
+(such as $t_{2}$) or located in the corner of the perimeter (whichever is encountered first).  
+We do not add further nodes, such as $t_{3}$, as
+these can be reached optimally via the path $< t_1, t_2, \dots,
 t_3 > $.
-
-\par
-Using Definition \ref{def:dominance} it is easy to see that each edge we compute
-is non dominated. Further, all non-dominated edges are necessary to ensure
-optimality. 
 
 \begin{lemma} \label{lemma-rooms} Let $R$ be an empty rectangle in
 an 8-connected grid map. Let $m$ and $n$ be two perimeter locations.
