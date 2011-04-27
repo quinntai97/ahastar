@@ -17,7 +17,7 @@ outliers, even though RSR solves them in constant time.
 
 \textbf{Pre-processing Times: } 
 RSR takes very little time to pre-process all input maps. 
-We did not encounter any map that took longer than a second; most required 
+We did not encounter any non-scaled map that took longer than a second; most required 
 half a second or less.
 Thus RSR appears well suited to
 pathfinding in dynamic environments as outlined in Section \ref{sec:memory}.
@@ -28,8 +28,7 @@ algorithm. Here we restrict our attention to 4-connected maps.  To
 assess the individual impact of both perimeter reduction (PR) and online node
 pruning (OP) we also develop and compare two variant algorithms: 4ERR+PR and
 4ERR+OP. 
-\par
-Figure \ref{fig-speedup} (A to C) presents our main result. RSR dominates
+Table \ref{table-results} (rows 1-4) presents our main result. RSR dominates
 convincingly across all instances allowing us to conclude it is the better
 choice on 4-connected maps. 
 Of the variants, 4ERR+PR yields the biggest improvement, speeding up A* by up to 20 times.
@@ -40,7 +39,7 @@ Rooms where perimeter pruning has already reduced the branching factor.
 Next, we compare RSR with Swamps~\cite{pochter10}.  
 We used the authors' source code, including their own implementation of A*, and 
 ran all experiments using their recommended parameters: a swamp seed radius of 6 
-and ``no change limit'' of 2. Figure \ref{fig-speedup} (D to F) gives the main
+and ``no change limit'' of 2. Table \ref{table-results} (rows 5-6) gives the main
 result on the 8-connected variants of our three benchmarks.
 On Adaptive Depth and Rooms, where the terrain can be naturally decomposed into
 rectangles, RSR achieves higher speedups and is shown consistently better than Swamps. 
@@ -49,8 +48,7 @@ effective.
 \par
 To measure the effect that larger open areas have on search time, we scaled
 every map in each benchmark by a factor of 3. We then generated a new set of 100
-problem instances per map. Figure \ref{fig-speedup} (G
-to I) show the results.  
+problem instances per map. Table \ref{table-results} (rows 7-8) show the results.  
 The overall gain for Swamps is very small while RSR show dramatic improvement.
 This is not surprising: Swamps prune out
 areas that can be avoided without detour while symmetry reduction allows
@@ -62,20 +60,20 @@ decomposition to the resultant graph.
 \input table_portals
 
 \textbf{Comparison to Portal Heuristic:}
-Table 2 compares RSR against published results for the enhanced variant of the
+Table \ref{table-phspeedup} compares RSR against published results for the enhanced variant of the
 recent Portal Heuristic algorithm~\cite{goldenberg10}.  As in that work we focus
 on 4-connected variants of Baldur's Gate and Rooms.
-\par
-PH-e performs well when it can decompose the map into areas of similar size with
-few transitionary nodes connecting them.
-RSR performs well when it can decompose the map into (ideally large) rectangles with few
-perimeter nodes.
+PH-e seems to perform well when it can decompose the map into areas of similar 
+size with few transitionary nodes. Smaller is better but requires
+more memory. Coarser decompositions require less memory but paths take longer
+to refine. 
+By contrast, RSR performs well when it can decompose the map into (ideally large) 
+rectangles with few perimeter nodes.
 On Rooms, both decomposition approaches are highly effective. 
 On Baldur's Gate both are comparatively less effective.
 Notice however that PH-e requires up to 7 times more memory than RSR to achieve
 similar results.
-As with Swamps, we believe PH-e is entirely orthogonal to RSR and the two can be 
-easily combined. For example, PH-e could be used to more accurately guide search
-on a map pruned by RSR. Alternatively, symmetry elimination could be used to 
-speed up pathfinding between successive pairs of portals during PH-e's refinement phase.
+As with Swamps, we believe PH-e is entirely orthogonal to RSR: e.g.
+it could be used to guide search on a map pruned by RSR. Alternatively, 
+symmetry elimination could be used to speed up pathfinding during PH-e's refinement phase.
 
