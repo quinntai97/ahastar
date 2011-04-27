@@ -1,21 +1,27 @@
 \begin{table}[ht]
-\label{table:results}
 \begin{center}
-\begin{tabular}{rrrrrrr}
+\begin{tabular}{lccc}
   \hline
- & \multicolumn{2}{c}{AD} & \multicolumn{2}{c}{BG} & \multicolumn{2}{c}{Rooms} \\
- & time & nodes & time & nodes & time & nodes \\ 
+ & {\textbf{Adaptive Depth}} & {\textbf{Baldur's Gate}} & {\textbf{Rooms}} \\
   \hline
-  4ERR & 3.05 & 3.06 & 2.18 & 2.21 & 2.11 & 2.00 \\ 
-  4ERR+PR & 4.24 & 4.42 & 2.47 & 2.57 & 17.81 & 13.64 \\ 
-  4ERR+OP & 3.66 & 3.05 & 2.50 & 2.21 & 2.67 & 2.00 \\ 
-  4RSR & 4.89 & 4.42 & 2.78 & 2.57 & 18.19 & 13.64 \\ 
-  Swamps & 1.60 & 1.89 & 2.91 & 3.26 & 4.66 & 4.70 \\ 
-  RSR & 3.94 & 4.55 & 2.18 & 2.50 & 7.91 & 6.12 \\ 
-  Swamps\_3x3 & 1.86 & 2.04 & 3.82 & 4.03 & 8.10 & 7.22 \\ 
-  RSR\_3x3 & 9.38 & 13.36 & 4.98 & 6.59 & 30.99 & 24.05 \\ 
+  4ERR & 3.05 & 2.18 &  2.11 \\ 
+  4ERR+PR & 4.24 & 2.47 & 17.81 \\ 
+  4ERR+OP & 3.66 &  2.50 & 2.67  \\ 
+  RSR & 4.89 & 2.78 & 18.19  \\  
+  \hline \hline
+   \multicolumn{4}{c}{\textbf{8-connected Maps}} \\ 
+	\hline 
+  Swamps & 1.60 & 2.91 & 4.66 \\ 
+  RSR & 3.94 & 2.18 & 7.91 \\ 
+\hline \hline
+ \multicolumn{4}{c}{\textbf{3x3 Scaled-up Maps}} \\ 
+ \hline
+  Swamps & 2.04 & 4.03 & 7.22 \\ 
+  RSR & 9.38 & 4.98 & 30.99 \\ 
    \hline
 \end{tabular}
 \end{center}
+\caption{Avg. A* search time speedup on each benchmark.} 
+\label{table-results}
 \end{table}
 
