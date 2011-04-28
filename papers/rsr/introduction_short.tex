@@ -1,7 +1,7 @@
 \section{Introduction}
 \label{sec:introduction}
 Pathfinding on undirected uniform-cost grid maps commonly appears in 
-application areas such as robotics \cite{lee09}
+areas such as robotics \cite{lee09},
 artificial intelligence \cite{wang09} and video games \cite{davis00,sturtevant10}.  
 To solve problems quickly practitioners usually apply
 hierarchical decomposition techniques such as HPA* \cite{botea04,sturtevant10} or 
@@ -16,9 +16,9 @@ to search.
 The central idea that we will explore involves the identification
 and elimination of path symmetries from the search space. 
 Along the way we generalise a similar pruning method proposed in \cite{harabor10},
-which is specific to 4-connected uniform-cost grid maps.
+which is limited to 4-connected uniform-cost grid maps.
 \par
-When compared to other pruning methods from the literature we
+When compared to related methods from the literature we
 find RSR has complementary strengths. We identify classes of instances
 where RSR is clearly the better choice and show that it can often dominate convincingly
 across a variety of synthetic and realistic benchmarks.
