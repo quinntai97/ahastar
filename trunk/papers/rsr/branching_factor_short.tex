@@ -33,7 +33,7 @@ neighbours.  Figure \ref{fig-branching} (Left) shows an example.
 \textbf{Online Node Pruning:}
 When expanding a node during pathfinding search we observe that if the current
 node, and its parent, both belong to the same rectangle, then it is not
-necessary to consider any neighbours from the opposite side of the rectangle.
+necessary to consider any successors from the opposite side of the rectangle.
 Figure \ref{fig-branching} (Right) shows an example of such a situation. 
 When the current node has no parent, or the parent belongs to a different rectangle, 
-we process all its neighbours.
+we process all its successors.

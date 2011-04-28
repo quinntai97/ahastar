@@ -22,7 +22,7 @@ These are connected \emph{iff} the shortest path between them is a diagonal
 \par \noindent
 \textbf{Case 3:} nodes on opposite sides of the perimeter. 
 For each such node we generate a ``fan'' of neighbours from the opposite side; this is shown in Figure
-\ref{fig-macroedges}.
+\ref{fig-macroedges} (Right).
 Starting from a node such as $t_{1}$ we step to the closest
 neighbour from the opposite side and extend the fan away
 from the middle, adding each node we encounter.  The last node
@@ -75,7 +75,7 @@ for Case 3 of Lemma \ref{lemma-rooms}, substituting $m$ for the newly inserted n
 \par
 Given the simple geometry of rectangles, it is possible to identify in constant
 time the set of nodes which the start or goal must be connected to.  Further,
-these neighbours could be generated on-the-fly.
+these successors could be generated on-the-fly.
 
 %We claim that using the temporary macro edges added by this algorithm it is possible to travel optimally from the start or goal 
 %location to any node on the perimeter of the start or goal rectangle. 
@@ -83,7 +83,7 @@ these neighbours could be generated on-the-fly.
 %\newline
 \begin{theorem}
 For every optimal path $\pi$ on an original grid, there exists an optimal path
-$\pi'$ on the modified graph with the property that $\pi$ and $\pi'$ have the
+$\pi'$ on the reformulated grid such that $\pi$ and $\pi'$ have the
 same cost.
 \end{theorem}
 \begin{proof}

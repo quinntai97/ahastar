@@ -16,9 +16,9 @@ outliers, even though RSR solves them in constant time.
 \input table_results
 
 \textbf{Pre-processing Times: } 
-RSR takes very little time to pre-process all input maps. 
-We did not encounter any non-scaled map that took longer than a second; most required 
-half a second or less.
+RSR takes very little time to pre-process maps from each of the 3
+benchmark sets.
+None took longer than a second; most required half a second or less.
 Thus RSR appears well suited to
 pathfinding in dynamic environments as outlined in Section \ref{sec:memory}.
 
@@ -47,12 +47,12 @@ On Baldur's Gate, where this is not the case, Swamps-based pruning is more
 effective. 
 \par
 To measure the effect that larger open areas have on search time, we scaled
-every map in each benchmark by a factor of 3. We then generated a new set of 100
-problem instances per map. Table \ref{table-results} (rows 7-8) show the results.  
+every map in each benchmark by a factor of 3. We then generated 100
+new instances per map. Table \ref{table-results} (rows 7-8) shows the results.  
 The overall gain for Swamps is very small while RSR show dramatic improvement.
-This is not surprising: Swamps prune out
-areas that can be avoided without detour while symmetry reduction allows
-faster exploration of areas to be searched.
+This is not surprising: symmetry reduction quickly explores large
+areas that must be searched while Swamps-pruning avoids areas
+that do not need to be searched.
 Since the two ideas are orthogonal, a natural extension would be to combine them: 
 first, apply symmetry reduction to a grid; then, apply a Swamps-based 
 decomposition to the resultant graph.
@@ -60,8 +60,8 @@ decomposition to the resultant graph.
 \input table_portals
 
 \textbf{Comparison to Portal Heuristic:}
-Table \ref{table-phspeedup} compares RSR against published results for the enhanced variant of the
-recent Portal Heuristic algorithm~\cite{goldenberg10}.  As in that work we focus
+Table \ref{table-phspeedup} compares RSR against published results for PH-e: the enhanced 
+Portal Heuristic algorithm~\cite{goldenberg10}.  As in that work we focus
 on 4-connected variants of Baldur's Gate and Rooms.
 PH-e seems to perform well when it can decompose the map into areas of similar 
 size with few transitionary nodes. Smaller is better but requires
