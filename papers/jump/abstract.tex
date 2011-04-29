@@ -1,6 +1,7 @@
-Pathfinding in a grid-based environment is a problem which commonly arises in
-many application areas: for example robotics and video games.  The
-state-of-the-art in this area is dominated by hierarchical pathfinding
+\begin{abstract}
+Pathfinding in uniform-cost grid environments is problem commonly found in
+application areas such as robotics and video games.  The
+state-of-the-art is dominated by hierarchical pathfinding
 algorithms which are fast and have small memory overheads but usually return
 suboptimal paths.  
 In this paper we present a novel search strategy, specific to grids, which is
@@ -9,9 +10,9 @@ a macro operator which identifies and selectively expands only certain
 nodes in a grid map which we call \emph{jump points}.  Intermediate nodes on a
 path connecting two jump points are never expanded.  We prove  
 that this approach always computes optimal solutions and then undertake
-a thorough empirical analysis, comparing our method with other recent search
-space reduction algorithms.  We find that searching with jump points can speed
+a thorough empirical analysis, comparing our method with related works 
+from the literature. 
+We find that searching with jump points can speed
 up A* by an order of magnitude and more and report significant improvement over
-the current state of the art.  We obtain these results on both synthetic and
-real-world benchmarks taken from the literature, including two from the popular
-video games \emph{Dragon Age: Origins} and \emph{Baldur's Gate II}.
+the current state of the art.  
+\end{abstract}
