@@ -26,19 +26,20 @@ Unless it is handled properly, symmetry can force search algorithms
 to evaluate many equivalent states and prevents real progress toward
 the goal.
 
-In this paper we deal with path symmetries by developing a macro 
-operator that selectively expands only certain nodes on a grid map which we call
+In this paper we deal with path symmetries in uniform-cost grid maps by 
+developing a macro operator that selectively expands only certain nodes from the grid, 
+which we call
 \emph{jump points}. Moving from one jump point to the next involves travelling
 in a fixed direction while repeatedly applying a set of simple neighbour pruning
 rules until either a dead-end or a jump point is reached.  Because we do not
 expand any intermediate nodes between jump points our strategy can have a
 dramatic positive effect on search performance.  Furthermore, computed solutions
-are guaranteed to be optimal.  Unlike other recent methods for speeding up
+are guaranteed to be optimal.  Unlike other methods for speeding up
 optimal search, such as the Dead-end Heuristic \cite{bjornsson06}, Empty
 Rectangular Rooms \cite{harabor10} and Swamp-based pathfinding \cite{pochter10},
 our method is applied online, requires no pre-processing and has no associated
 memory overheads.  As we will discuss later, jump points are also largely
-orthogonal to all many existing speedup techniques that are applicable to grid
+orthogonal to many existing speedup techniques that are also applicable to grid
 maps.
 
 We make the following contributions: (i) a detailed description of the jump
