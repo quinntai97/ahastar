@@ -6,47 +6,44 @@ proposed in areas as as diverse as planning \cite{fox99}, constraint programming
 \cite{gent00}, and combinatorial optimization \cite{fukunaga08}. Until recently
 however, very few works explicitly identify and deal with symmetry in pathfinding
 domains such as grid maps.
-%This is not surprising given that, in the
-%presence of symmetry, search algorithms often evaluate many equivalent states
-%and make little real progress toward the goal.  Despite receiving significant
-%attention in other areas, there are very few works that explicitly identify and
-%deal with symmetry in pathfinding domains such as grid maps.
-\par
-One recent study which attempts to redress this oversight 
-Empty Rectangular Rooms~\cite{harabor10}: a symmetry breaking technique specific to 4-connected uniform-cost grid maps.
-This offline algorithm decomposes the search space into a series of obstacle-free rectangles.
-Nodes from the interior of each rectangle are then pruned and
-replaced by a series of macro edges that facilitate optimal travel from any node
-on the perimeter of a rectangle to any other.  Being specific to 4-connected
-maps this approach is less general than our jump point technique. It also
-requires offline pre-processing whereas our method is online.
-\par
-Related to our work are two similar search space reduction techniques: the
+
+A recent algorithm which attempts to redress this oversight is Empty Rectangular
+Rooms~\cite{harabor10}: an offline symmetry breaking technique specific to
+4-connected uniform-cost grid maps.  The main idea is to decompose the search
+space into a series of obstacle-free rectangles and prune all nodes from the interior
+of each rectangle. These are replaced by a series of macro edges that
+facilitate optimal travel from any node on the perimeter of a rectangle to any
+other.  Being specific to 4-connected maps this approach is less general than
+our jump point technique. It also requires offline pre-processing whereas our
+method is online.
+
+Also related to our work are two similar search space reduction techniques: the
 \emph{dead-end heuristic} \cite{bjornsson06} and \emph{Swamps} \cite{pochter10}.
 Both methods use an offline pre-processing step to decompose a grid into a
 series of adjacent areas.  Later, a preliminary online search in the decomposed
 graph identifies areas that do not have to be explored in order to optimally
-reach the goal.  This objective is similar yet orthogonal our work where
+reach the goal.  This objective is similar yet orthogonal to our work where
 the aim is to reduce the effort required to explore any given area in the search
 space.
-\par
-A different method for pruning the state-space is to identify \emph{dead} and 
-\emph{redundant} cells~\cite{sturtevant10}.
-Developed in the context of learning-based heuristic search, these approaches 
-are used to speed up pathfinding in real-time settings.
-Unlike jump points, a speedup is only obtained after running multiple 
-iterations of the plan-learn-execute cycle. Further, the identification of
-redundant cells requires additional memory overheads which jump points do not have. 
-\par
+
+A different method for pruning the search space is to identify \emph{dead} and
+\emph{redundant} cells~\cite{sturtevant10}.  Developed in the context of
+learning-based heuristic search, this method is used to speed up pathfinding in
+real-time settings.  Unlike jump points however, a benefit is only obtained
+after running multiple iterations of an iterative deepening algorithm (each
+identifying new pruning opportunities).  Further, the identification of
+redundant cells requires additional memory overheads which jump points do not
+have.
+
 A recent suggestion for speeding up optimal A* search is to \emph{fast expand}
 nodes~\cite{sun09}.  This approach avoids unnecessary open list operations by
 identifying and immediately expanding successor nodes which are just as good or
 better than the node currently at the top of the open list.  Jump points are a
 similar yet fundamentally different idea: they allow us to identify large sets
 of nodes that would be ordinarily expanded but which can be skipped entirely.
-\par
-In cases where optimality is not required, hierarchical pathfinding methods are pervasive.
-The main idea is to improve performance by decomposing the 
+ 
+In cases where optimality is not required, hierarchical pathfinding methods
+are pervasive.  The main idea is to improve performance by decomposing the
 search space (usually a grid map) into a much smaller approximation.  Algorithms
-of this type, such as HPA*~\cite{botea04}, are  usually fast and memory-efficient 
-but also suboptimal.  
+of this type, such as HPA*~\cite{botea04}, are  usually fast and
+memory-efficient but also suboptimal.
