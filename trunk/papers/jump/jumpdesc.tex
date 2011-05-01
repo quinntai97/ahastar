@@ -2,50 +2,43 @@
 We begin by making precise the concept of a jump point.  
 To do so, we use the notation $\vec{d}$ 
 to refer to one of the eight unit moves that can be taken from a node.  
-We write $y = x + k \vec{d}$ when node~$y$ can be reached 
-by taking $k$ unit moves $\vec{d}$ from node~$x$.  
+We write $y = x + k_{x}\vec{d}$ when node~$y$ can be reached 
+by taking $k_{x}$ unit moves from node~$x$ in direction $\vec{d}$.
 According to the pruning rules defined above, 
 if move~$\vec{d}$ from node~$p(x)$ to node~$x$ is diagonal, 
 then two straight moves are enabled from node~$x$ 
-(see Figure~\ref{fig:pruning}-c); 
+(see Figure~\ref{fig:pruning}(c)); 
 these two moves are denoted by $\vec{d_1}$ and $\vec{d_2}$.  
 
 \begin{definition}
 \label{def:jump}
-Node~$y$ is the \emph{jump point} from node~$x$ heading direction~$\vec{d}$ 
-if it minimizes the value $k$ such that $y = x + k \vec{d}$ and one of the following conditions holds: 
+Node~$y$ is the \emph{jump point} from node~$x$ heading in direction~$\vec{d}$ 
+if it minimises the value $k_x$ such that $y = x + k_{x} \vec{d}$ and one of the following conditions holds: 
 \begin{enumerate}
 \item{Node~$y$ is the goal node.}
 \item{Node~$y$ has at least one neighbour whose evaluation is forced according 
 to Definition \ref{def:forced}.}
 \item{$\vec{d}$ is a diagonal move and there exists 
-a node $z = y + k \vec{d_{i}}$ which lies in direction $d_i \in \{d_1,d_2\}$ s.t
+a node $z = y + k_{y} \vec{d_{i}}$ which lies in direction $\vec{d_i} \in \{\vec{d_1},\vec{d_2}\}$ s.t
 $z$ satisfies condition 1 or condition 2 }
 \end{enumerate}
 \end{definition}
 
-Figure \ref{fig:jumppoints}(b) shows an example of a jump node which is
+Figure \ref{fig:jumppoints}(b) shows an example of a jump point which is
 identified by way of condition 3.
 Here we start at $x$ and travel diagonally until encountering node $y$. 
 We identify $y$ as a jump point of $x$ by applying condition 3 of 
 Definition \ref{def:jump}. This in turn invokes condition 2 to identify $z$ 
 as a jump point from $y$.
 
-When expanding a node $x$ we will define its successors as the set of jump
-points which are reachable from $x$.  Each jump point successor is reached by
-travelling in the direction of a neighbour adjacent to $x$ which was not pruned
-by the rules defined in Section \ref{sec:pruning}.  In this way we distinguish
-between a neighbour, which is immediately adjacent to a node $x$ on the grid,
-and a successor which may not be.
-
 \input alg_jumpexpansion
 
 The process by which we generate the set of successors during the expansion of 
 node $x$ is given in Algorithm \ref{alg:successors}.
-We start with the pruned set of neighbours immediately adjacent to $x$ (line 2).
+We start with the pruned set of neighbours immediately adjacent to $x$ (line 3).
 Then, instead of immediately adding each neighbour $n$ to the set of successors
 for $x$, we try to ``jump'' to a node that is further away but which lies in the 
-same relative direction to $x$ as $n$ (lines 3:4). 
+same relative direction to $x$ as $n$ (lines 4:5). 
 For example, if the edge $(x, n)$ constitutes a
 straight move travelling \emph{right} from $x$, we look for a jump point among
 the nodes immediately to the right of $x$.
@@ -62,7 +55,7 @@ jump point successors by stepping in the direction $\vec{d}$ and testing
 if the node $n$ at that location satisfies Definition \ref{def:jump}.
 When this is the case, $n$ is designated a jump point and returned (lines 5, 7
 and 11).
-When $n$ is not a jump node the algorithm recurses and steps again in direction
+When $n$ is not a jump point the algorithm recurses and steps again in direction
 $\vec{d}$ but this time $n$ is the new initial node (line 12).
 The recursion terminates when an obstacle is encountered and no further
 steps can be taken (line 3).

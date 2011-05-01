@@ -1,12 +1,13 @@
 \section{Notation and Terminology}
 \label{sec:notation}
-Each node in the grid is either traversable or not. 
-The cost of a single straight move, from one traversable node to another, 
-is 1. The cost of a diagonal move is approximately $\sqrt 2$.
-Moves involving non-traversable nodes (or obstacles) are disallowed.
+We work with undirected uniform-cost grid maps.
+Each node has $\leq 8$ neighbours and is either traversable or not. 
+A straight move, from a traversable node to one of its neighbours, 
+has a cost of 1; diagonal moves cost approx. $\sqrt 2$.
+Moves involving non-traversable (obstacle) nodes are disallowed.
 
 A path $\pi =~<n_{0}, n_{1}, \ldots , n_{k}>$ is a
-cycle-free ordered walk starting at $n_{0}$ and ending at 
+cycle-free ordered walk starting at node $n_{0}$ and ending at 
 $n_{k}$.
 We will sometimes use the setminus operator in the context of a path:
 for example $\pi \setminus x$. This means that the subtracted node $x$
