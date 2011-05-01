@@ -1,9 +1,10 @@
 \subsection{Neighbour Pruning Rules} 
 \label{sec:pruning}
 
-In this section we develop rules for pruning the set of adjacent neighbours
-associated with a node $x$ on the grid.  The objective is to identify from each
-set $neighbours(x)$ any nodes $n$ that do not need to be evaluated in order to
+In this section we develop rules for pruning the set of nodes immediately 
+adjacent to some node $x$ from the grid.
+The objective is to identify from each
+set of such neighbours, i.e. $neighbours(x)$, any nodes $n$ that do not need to be evaluated in order to
 reach the goal optimally. We achieve this by comparing the length of two paths:
 $\pi$, which begins with node $p(x)$ visits $x$ and ends with $n$ and another
 path $\pi'$ which also begins at node $p(x)$ and ends with $n$ but does not 
@@ -16,7 +17,8 @@ a diagonal move.
 
 \begin{figure}[h]
        \begin{center}
-		   \includegraphics[scale=0.4, trim = 10mm 10mm 10mm 0mm]{diagrams/pruningrules.png}
+		   \includegraphics[scale=0.4, trim = 10mm 10mm 10mm 0mm]
+			{diagrams/pruningrules.png}
        \end{center}
 	\vspace{-3pt}
        \caption{We show several cases where a node $x$ is reached from its
@@ -28,8 +30,8 @@ prune from consideration all nodes marked grey.}
 \textbf{Straight Moves:} We prune any node $n \in neighbours(x)$ which 
 satisfies the following dominance constraint:
 \begin{equation}
-\pi' = \lbrace p(x), \ldots, n \rbrace \setminus x  
-\leq \pi = \lbrace p(x), x, n \rbrace
+len(~<p(x), \ldots, n> \setminus x~)
+\leq len(~<p(x), x, n >~)
 \end{equation}
 Figure \ref{fig:pruning}(a) shows an example. Here $p(x) = 4$ and we prune
  all neighbours except $n = 5$.
@@ -39,11 +41,10 @@ Figure \ref{fig:pruning}(a) shows an example. Here $p(x) = 4$ and we prune
 %in addition to $n = 5$ we are also forced to consider $n = 3$. 
 \par \noindent
 \textbf{Diagonal Moves:} This case is similar to the pruning rules we developed
-for straight moves; the only difference is that the path $\pi'$ must be strictly
-dominant: 
+for straight moves; the only difference is that the path which excludes $x$ must 
+be strictly dominant: 
 \begin{equation}
-\pi' = \lbrace p(x), \ldots, n \rbrace \setminus x  
-< \pi = \lbrace p(x), x, n \rbrace
+len(~<p(x), \ldots, n> \setminus x~) < len(~<p(x), x, n>~)
 \end{equation}
 Figure \ref{fig:pruning}(c) shows an example. Here $p(x) = 6$ and we prune all
 neighbours except $n = 2$, $n = 3$ and $n = 5$.  
@@ -51,18 +52,21 @@ neighbours except $n = 2$, $n = 3$ and $n = 5$.
 %to an obstacle we may be forced to evaluate additional neighbours. For example
 %in Figure \ref{fig:pruning} the evaluation of node $n = 1$ is forced.
 \par
-It is important to mention at this stage that for both straight and diagonal moves
-there are cases where we may not be able to prune a neighbour due to the
-presence of obstacles that are adjacent to $x$.  If this occurs we say that the
-evaluation of such a neighbour is \emph{forced}.
+Assuming $neighbours(x)$ contains no obstacles, we will refer to the nodes
+that remain after the application of straight or diagonal pruning (as
+appropriate) as the \emph{natural neighbours} of $x$. These correspond to the non-gray
+nodes in Figures \ref{fig:pruning}(a) and \ref{fig:pruning}(c).
+When $neighbours(x)$ contains an obstacle, we may not be able to prune
+all non-natural neighbours. If this occurs we say that the evaluation of each
+such neighbour is \emph{forced}.
 
 \begin{definition}
 \label{def:forced}
-A node $n \in neighbours(x)$ is forced if: 
-\begin{equation}
-\pi = \lbrace p(x), x, n
-\rbrace < \pi' = \lbrace p(x), \ldots, n \rbrace \setminus x
-\end{equation}
+A node $n \in neighbours(x)$ is forced if: \\
+\indent
+1. $n$ is not a natural neighbour of $x$\\
+\indent
+2. $ len(~< p(x), x, n >~) < len(~ < p(x), \ldots, n > \setminus x~)$
 \end{definition}
 \par \noindent
 In Figure \ref{fig:pruning}(b) we show an example of a straight move where 

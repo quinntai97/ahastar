@@ -1,0 +1,20 @@
+\section{Notation and Terminology}
+\label{sec:notation}
+Each node in the grid is either traversable or not. 
+The cost of a single straight move, from one traversable node to another, 
+is 1. The cost of a diagonal move is approximately $\sqrt 2$.
+Moves involving non-traversable nodes (or obstacles) are disallowed.
+
+A path $\pi =~<n_{0}, n_{1}, \ldots , n_{k}>$ is a
+cycle-free ordered walk starting at $n_{0}$ and ending at 
+$n_{k}$.
+We will sometimes use the setminus operator in the context of a path:
+for example $\pi \setminus x$. This means that the subtracted node $x$
+does not appear on (i.e. is not mentioned by) the path. 
+We will also use the function $len$ to refer the length of a path 
+and the function $d$ to refer to the distance between two nodes 
+on the grid: e.g. $len(\pi)$ or $d(n_{0}, n_{k})$ respectively.
+As we work with only straight-line distances, applying $d$ requires no search.
+
+
+
