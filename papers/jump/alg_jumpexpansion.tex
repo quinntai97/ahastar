@@ -5,6 +5,7 @@
 \REQUIRE $x$: the node to be expanded, $g$: the goal node 
 
 \STATE $successors(x) \leftarrow \emptyset$
+\STATE $neighbours(x) \leftarrow prune(neighbours(x))$
 
 \FORALL{$n \in neighbours(x)$}
 \STATE $n \leftarrow jump(x, direction(x, n), g)$
