@@ -1,13 +1,14 @@
 \section{Results}
 To evaluate jump points we use a generic implementation of A* and discuss
-performance in terms of \emph{speedup}: i.e. relative improvemement to average 
-search times and average nodes expanded when running with and without 
-graph pruning applied to the grid.  Using this metric a search time speedup
+performance in terms of \emph{speedup}: i.e. relative improvemement to the time 
+taken to solve a given problem and the number of nodes expanded, when searching
+with and without graph pruning applied to the grid.
+Using this metric a search time speedup
 of 2.0 is twice as fast while a node expansion speedup of 2.0 indicates half the
 number of nodes were expanded.  In each case higher is better.
 Figure \ref{fig:speedup} shows average search time speedups across
-each of our four benchmarks and Table \ref{table:nodes} shows average
-node expansion speedups (the best results for each column are in bold).
+each of our four benchmarks. Table \ref{table:nodes} shows average
+node expansion speedups; the best results for each column are in bold.
 
 \input table_nodes
 
@@ -21,59 +22,66 @@ node expansion speedups (the best results for each column are in bold).
 \label{fig:speedup}
 \end{figure*}
 
-
 \textbf{Comparison with Swamps: }
-First we compare and contrast jump points with Swamps\cite{pochter10}.
-Both approaches belong to the same family of methods:
-optimality preserving pruning techniques for speeding up pathfinding.
-When evaluating Swamps we used the authors'
-source code and ran all experiments using their recommended running parameters:
-a swamp seed radius of 6 and ``no change limit'' of 2. 
+We begin by comparing jump points to Swamps\cite{pochter10}: an optimality
+preserving pruning techniques for speeding up pathfinding.  When evaluating
+Swamps we used the authors' source code, and their implementation of A*, and ran
+all experiments using their recommended running parameters: a swamp seed radius
+of 6 and ``no change limit'' of 2.
 
-Search Figure \ref{fig:speedup}(A-D), jump point pruning shows a convincing
-improvement over Swamps across all benchmarks. 
-The largest differences are observed on Baldur's Gate and Dragon Age where jump 
-points achieve between 20-26 times search speedup compared with Swamps
-only attains a 3-5 times speedup.
-On the Rooms benchmark the difference is smaller: jump points pruning
-speeds up search by a factor of 11 while Swamps achieves a 7 times
-speedup.
-The observed performance characteristics are not unexpected: Swamps prune out
-areas that can be avoided without introducing a detour. However, Swamps are of
-little benefit if the areas which remain are large and need to be explored 
-thoroughly.
-By comparison, jump points pruning rapidly explores large areas by proving
-that many node expansion operations are unnecessary.
-\par
-Since it appears that the two algorithms have complementary strengths, a natural
-extension of this work would be to combine Swamps with jump points:
-first, apply Swamps decomposition to identify areas that do not have to be
-explored for the instance at hand. Then, apply jump points to quickly explore the
-remaining search space.
-\par
+As per Figure \ref{fig:speedup}, jump point pruning shows a convincing search
+time improvement over Swamps across all benchmarks.  The largest differences are
+observed on Baldur's Gate and Dragon Age where searching with jump points
+reaches the goal 20-26 times sooner, on average, while Swamps attains only a 3-5
+times speedup.  Similar trends are observed when looking at Table
+\ref{table:nodes}, where the improvement to the total number of nodes expanded
+is even more pronounced.
+
+Based on these results we conclude that while Swamps are effective for
+identifying areas of the map not relevant to reaching the goal, those which
+remain still require significant effort to search.  Jump points use a much
+stronger yet orthogonal strategy to prove that many nodes in the search space
+never require expansion.  As the two ideas are complementary we posit that they
+could be easily combined: first, apply a Swamps-based decomposition to prune
+areas not relevant to the current search.  Then, use jump points to search the
+remaining portions of the map.
+
 \textbf{Comparison with HPA*: }
-Next, we compare and contrast the performance of jump points pruning 
-against the HPA* algorithm of \citeauthor{botea04}~\shortcite{botea04}.
-Though sub-optimal, HPA* is very fast and therefore widely applied in video
-games. We compare against it to establish whether or not jump points are 
-equally applicable in similar contexts. 
-When evaluating HPA* we used our own implementation of the algorithm which we 
-configured with a fixed cluster size of 10 (as recommended by the original authors).
-\par
-As per Figure \ref{fig:speedup}(A-D), jump points pruning is shown to be 
+Next, we compare jump points pruning to the HPA* algorithm~\cite{botea04}.
+Though sub-optimal, HPA* is very fast and widely applied in video games. We
+compare against it to establish whether or not jump points are equally
+applicable in similar contexts.  When evaluating HPA* we used our own
+implementation of the algorithm which we configured with a single-level
+hierarchy and a fixed cluster size of 10.  These settings are recommended by the
+original authors who note that larger cluster sizes and more levels can often
+incur significant insertion overhead.
+
+As per Figure \ref{fig:speedup}, jump points pruning is shown to be 
 highly competitive with HPA*.
 On Adaptive Depth, Baldur's Gate and Rooms jump points are shown to have an 
 advantage, improving on HPA* search times by several factors in some cases.
-On the Dragon Age benchmark however this trend is reversed; HPA* speeds up
-search by up to 27 times while jump points achieve a maximum speedup of 22
-times.
+On the Dragon Age benchmark this trend is reversed but the differences are
+reasonably small; 22 vs 27 maximum search time speedups.
+When looking averge node expansion speedups, in Table \ref{table:nodes} however
+we observe that using jump points results in significantly fewer nodes expanded than HPA*.
+From this we conclude that jump points and HPA* 
+HPA*, the amount of effort required to prune nodes, on some benchmarks, is quite
+significant. 
+
+Thus, if optimality is not required, HPA* may be a better choice
+in some cases.
+
+Comparing these figures with those for search times provides some indicator 
+for the amount of "effort" needed to identify jump point successors for each expanded node.
+
+
 It is interesting to note that jump point pruning achieves the largest relative
 speedup on instances with smaller path lengths
 ($\leq 100$). Here HPA* search times are dominated by the overhead required to
 insert the start and goal into the abstract graph.
 As path length increases the advantage provided by jump point pruning is eroded
 and, as we see on Dragon Age, HPA* eventually becomes faster.
-\par
+
 Jump points and HPA* appear to have complementary strengths.
 One direction for further work would be to use jump point pruning to speed up
 HPA* insertion times. Furthermore,  jump points could be used to speed up 
