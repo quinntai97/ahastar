@@ -33,7 +33,7 @@ DefaultRefinementPolicy::refine(path* abspath)
 
 	ReverseClusterFilter *cf = new ReverseClusterFilter();
 	IncidentEdgesExpansionPolicy* policy = new IncidentEdgesExpansionPolicy(map);
-	//policy->addFilter(cf);
+	policy->addFilter(cf);
 	FlexibleAStar *astar = new FlexibleAStar(policy, new OctileHeuristic());
 	astar->verbose = false; 
 	astar->markForVis = false;
