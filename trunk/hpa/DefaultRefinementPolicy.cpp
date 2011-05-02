@@ -1,25 +1,22 @@
 #include "DefaultRefinementPolicy.h"
 
+#include "ReverseClusterFilter.h"
+#include "ClusterNode.h"
 #include "DebugUtility.h"
 #include "FlexibleAStar.h"
 #include "IncidentEdgesExpansionPolicy.h"
 #include "OctileHeuristic.h"
 #include "path.h"
+#include "timer.h"
 
 DefaultRefinementPolicy::DefaultRefinementPolicy(mapAbstraction* _map)
 		: RefinementPolicy(_map)
 {
 	verbose = false;
-	astar = new FlexibleAStar(new IncidentEdgesExpansionPolicy(_map),
-				new OctileHeuristic());
-	astar->verbose = false; 
-	astar->markForVis = false;
 }
 
 DefaultRefinementPolicy::~DefaultRefinementPolicy()
 {
-	delete astar;
-	astar = 0;
 }
 
 // NB: there is bug when trying to visualise all nodes expanded during
@@ -32,6 +29,17 @@ DefaultRefinementPolicy::~DefaultRefinementPolicy()
 path*
 DefaultRefinementPolicy::refine(path* abspath)
 {
+	resetMetrics();
+
+	ReverseClusterFilter *cf = new ReverseClusterFilter();
+	IncidentEdgesExpansionPolicy* policy = new IncidentEdgesExpansionPolicy(map);
+	//policy->addFilter(cf);
+	FlexibleAStar *astar = new FlexibleAStar(policy, new OctileHeuristic());
+	astar->verbose = false; 
+	astar->markForVis = false;
+
+	Timer t;
+	t.startTimer();
 	//std::cout << "refining path: \n";
 	//DebugUtility debuug(map, astar->getHeuristic());
 	//debuug.printPath(abspath); 
@@ -49,7 +57,26 @@ DefaultRefinementPolicy::refine(path* abspath)
 		node* goal =  map->getNodeFromMap(
 				current->next->n->getLabelL(kFirstData), 
 				current->next->n->getLabelL(kFirstData+1));
+
+		// limit search to the two clusters the start and goal are located in
+		if(dynamic_cast<ClusterNode*>(start))
+		{
+			int parentClusterId = dynamic_cast<ClusterNode*>(start)->getParentClusterId();
+			if(parentClusterId != -1)
+				cf->addTargetCluster(parentClusterId);
+		}
+		if(dynamic_cast<ClusterNode*>(goal))
+		{
+			int parentClusterId = dynamic_cast<ClusterNode*>(goal)->getParentClusterId();
+			if(parentClusterId != -1)
+				cf->addTargetCluster(parentClusterId);
+		}
+
 		path* segment = astar->getPath(map, start, goal); 
+
+		nodesExpanded += astar->getNodesExpanded();
+		nodesTouched += astar->getNodesTouched();
+		nodesGenerated += astar->getNodesGenerated();
 
 		if(verbose) 
 		{
@@ -76,6 +103,9 @@ DefaultRefinementPolicy::refine(path* abspath)
 			delete segment;
 		}
 	}
+
+	searchTime = t.endTimer();
+	delete astar; // also deletes policy and filter
 
 	return thepath;
 }

@@ -10,3 +10,10 @@ RefinementPolicy::RefinementPolicy(mapAbstraction* _map)
 RefinementPolicy::~RefinementPolicy()
 {
 }
+
+void
+RefinementPolicy::resetMetrics()
+{
+	searchTime = 0;
+	nodesExpanded = nodesGenerated = nodesTouched = 0;
+}
