@@ -24,6 +24,11 @@ many instances faster than, HPA*; a popular though sub-optimal pathfinding
 technique which is often employed in performance sensitive applications such as
 video games.
 \par
-One interesting direction for further work is to combine jump points with other
+One interesting direction for further work is to extend jump points to other
+types of grids: for example using hexagons or texes~\cite{yap02}.
+Like square grids, these decompositions are highly regular which suggests that
+a series of equivalent neighbur pruning rules could be developed.
+As the branching factor on these grid types is lower than square grids, we posit
+that jump points could be even more effective than we observed in the current paper.
+Another interesting direction is to combine jump points with other
 speedup techniques such as Swamps and HPA* to achieve better results.
-Another direction is to generalise the jump points method to weighted grid maps.

@@ -30,7 +30,7 @@ symmetric paths which we term \emph{diagonal-first}.
  
 \begin{definition}
 A path $\pi$ is diagonal-first if it contains no straight-to-diagonal turning point
-which could be replaced by an equivalent diagonal-to-straight turning point s.t.
+which could be replaced by a diagonal-to-straight turning point s.t.
 the length of $\pi$ remains unchanged.
 \end{definition}
 
@@ -41,7 +41,7 @@ diagonal-first path $\pi'$ by applying Algorithm \ref{alg:dfirst} to $\pi$.
 
 \begin{lemma}
 \label{lemma:turningpoints}
-Each turning point along a diagonal-first path $\pi'$ is also a jump point.
+Each turning point along an optimal diagonal-first path $\pi'$ is also a jump point.
 \end{lemma}
 \begin{proof}
 Let $n_{k}$ be an arbitrary turning point node along $\pi'$. 
@@ -74,7 +74,7 @@ $n_{k}$ is a jump point.
 \textbf{Diagonal-to-Straight:} There are two possibilities in this case, 
 depending on whether the goal is reachable by a series of straight steps
 from $n_{k}$ or whether $\pi'$ has additional turning points. If the goal
-is reachable then $n_{k}$ has a jump point successor which satisfies the
+is reachable by straight steps then $n_{k}$ has a jump point successor which satisfies the
 third condition of Definition \ref{def:forced} and we conclude $n_{k}$ is
 also a jump point.
 If $n_{k}$ is followed by another turning point, $n_{l}$, then that turning
