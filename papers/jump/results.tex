@@ -54,8 +54,9 @@ Next, we compare jump points pruning to the HPA* algorithm~\cite{botea04}.
 Though sub-optimal, HPA* is very fast and widely applied in video games. We
 compare against it to establish whether or not jump points are equally
 applicable in similar contexts.  When evaluating HPA* we measure the total cost
-of insertion, hierarchical search and abstract path refinement but not
-smoothing.  We configured HPA* with a single-level abstraction hierarchy and a
+of insertion and hierarchical search. We did not perform any path refinement 
+nor path smoothing.
+We configured HPA* with a single-level abstraction hierarchy and a
 fixed cluster size of 10.  These settings are recommended by the original
 authors who note that larger cluster sizes and more levels can often incur
 significant overhead.
