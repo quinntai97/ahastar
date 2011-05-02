@@ -12,15 +12,16 @@ these two moves are denoted by $\vec{d_1}$ and $\vec{d_2}$.
 
 \begin{definition}
 \label{def:jump}
-Node~$y$ is the \emph{jump point} from node~$x$ heading in direction~$\vec{d}$ 
-if it minimises the value $k_x$ such that $y = x + k_{x} \vec{d}$ and one of the following conditions holds: 
+Node~$y$ is the \emph{jump point} from node~$x$, heading in direction~$\vec{d}$,
+if $y$ minimizes the value $k$ such that $y = x + k \vec{d}$ and one of the
+following conditions holds:
 \begin{enumerate}
 \item{Node~$y$ is the goal node.}
 \item{Node~$y$ has at least one neighbour whose evaluation is forced according 
 to Definition \ref{def:forced}.}
-\item{$\vec{d}$ is a diagonal move and there exists 
-a node $z = y + k_{y} \vec{d_{i}}$ which lies in direction $\vec{d_i} \in \{\vec{d_1},\vec{d_2}\}$ s.t
-$z$ satisfies condition 1 or condition 2 }
+\item{$\vec{d}$ is a diagonal move and there exists a node $z = y +
+k_i\vec{d_{i}}$ which lies $k_i \in \{k_1, k_2\}$ steps in direction $d_i \in
+\{d_1,d_2\}$ such that $z$ satisfies condition 1 or condition 2 }
 \end{enumerate}
 \end{definition}
 
@@ -29,29 +30,28 @@ identified by way of condition 3.
 Here we start at $x$ and travel diagonally until encountering node $y$. 
 We identify $y$ as a jump point of $x$ by applying condition 3 of 
 Definition \ref{def:jump}. This in turn invokes condition 2 to identify $z$ 
-as a jump point from $y$.
+as a jump point from $y$. 
 
 \input alg_jumpexpansion
 
-The process by which we generate the set of successors during the expansion of 
-node $x$ is given in Algorithm \ref{alg:successors}.
-We start with the pruned set of neighbours immediately adjacent to $x$ (line 3).
-Then, instead of immediately adding each neighbour $n$ to the set of successors
-for $x$, we try to ``jump'' to a node that is further away but which lies in the 
-same relative direction to $x$ as $n$ (lines 4:5). 
-For example, if the edge $(x, n)$ constitutes a
-straight move travelling \emph{right} from $x$, we look for a jump point among
-the nodes immediately to the right of $x$.
-If we find such a node, we add it to the set of successors instead of $n$.
-In the case where we fail to find a jump point, we add nothing.
-The process continues until the set of neighbours for $x$ is exhausted.
+The process by which individual jump point successors are identified is given in
+Algorithm \ref{alg:successors}.  We start with the pruned set of neighbours
+immediately adjacent to the current node $x$ (line 2).  Then, instead of adding each
+neighbour $n$ to the set of successors for $x$, we try to ``jump'' to a node
+that is further away but which lies in the same relative direction to $x$ as $n$
+(lines 3:5).  For example, if the edge $(x, n)$ constitutes a straight move
+travelling \emph{right} from $x$, we look for a jump point among the nodes
+immediately to the right of $x$.  If we find such a node, we add it to the set
+of successors instead of $n$.  If we fail to find a jump point,
+we add nothing.  The process continues until the set of neighbours is
+exhausted and we return the set of successors for $x$ (line 6).
 
-In order to identify individual successors for $x$ we will apply Algorithm
-\ref{alg:jump} which requires an initial node (here $x$) a direction of travel
-$\vec{d}$ (e.g. up, down, left, right, etc.), 
+In order to identify individual jump point successors we will apply Algorithm
+\ref{alg:jump}. It requires an initial node $x$, a direction of travel
+$\vec{d}$ (e.g. up, down, left, right, etc.), and the identities of the start
 the start node $s$ and the goal node $g$.
 In rough overview, the algorithm attempts to establish whether $x$ has any 
-jump point successors by stepping in the direction $\vec{d}$ and testing
+jump point successors by stepping in the direction $\vec{d}$ (line 1) and testing
 if the node $n$ at that location satisfies Definition \ref{def:jump}.
 When this is the case, $n$ is designated a jump point and returned (lines 5, 7
 and 11).

@@ -1,11 +1,11 @@
 \begin{algorithm}[b]
-\caption{$generateSuccessors$}
+\caption{Identify Successors}
 \label{alg:successors}
 \begin{algorithmic}[1]
-\REQUIRE $x$: the node to be expanded, $g$: the goal node 
+\REQUIRE $x$: current node, $s$: the start node, $g$: the goal node
 
 \STATE $successors(x) \leftarrow \emptyset$
-\STATE $neighbours(x) \leftarrow prune(neighbours(x))$
+\STATE $neighbours(x) \leftarrow prune(x, neighbours(x))$ 
 
 \FORALL{$n \in neighbours(x)$}
 \STATE $n \leftarrow jump(x, direction(x, n), g)$
@@ -29,16 +29,16 @@
 \IF{$n = g$ or $x = s$}
 	\RETURN $n$
 \ENDIF
-\IF{$n \in neighbours(x) $ s.t. evaluation of $n$ is forced}
+\IF{$\exists~n' \in neighbours(n)$ s.t. $n'$ is forced}
 	\RETURN $n$
 \ENDIF
 \IF{$\vec{d}$ is diagonal}
-	\FORALL{$k \in neighbours(n)$ s.t. $direction(n, k)$ is straight}
-		\IF{$jump(n, direction(n, k), g) \neq \varnothing$}
+	\FORALL{$n' \in prune(n, neighbours(n))$ s.t. $direction(n, n')$ is straight}
+		\IF{ $jump(n, direction(n, n'), g, s) \neq \varnothing$ }
 			\RETURN $n$
 		\ENDIF
 	\ENDFOR
 \ENDIF
-\RETURN $jump(n, dir, g)$
+\RETURN $jump(n, \vec{d}, g, s)$
 \end{algorithmic}
 \end{algorithm}
