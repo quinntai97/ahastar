@@ -51,10 +51,14 @@ HierarchicalSearch::getPath(graphAbstraction *aMap, node *from,
 	insertPolicy->remove(start);
 	insertPolicy->remove(goal);
 
-	nodesExpanded = alg->getNodesExpanded() + insertPolicy->getNodesExpanded();
-	nodesGenerated = alg->getNodesGenerated() + insertPolicy->getNodesGenerated();
-	nodesTouched = alg->getNodesTouched() + insertPolicy->getNodesTouched();
-	searchTime = alg->getSearchTime() + insertPolicy->getSearchTime();
+	nodesExpanded = alg->getNodesExpanded() + 
+		insertPolicy->getNodesExpanded() + refinePolicy->getNodesExpanded();
+	nodesGenerated = alg->getNodesGenerated() + 
+		insertPolicy->getNodesGenerated() + refinePolicy->getNodesGenerated();
+	nodesTouched = alg->getNodesTouched() + 
+		insertPolicy->getNodesTouched() + refinePolicy->getNodesTouched();
+	searchTime = alg->getSearchTime() + 
+		insertPolicy->getSearchTime() + refinePolicy->getSearchTime();
 
 	if(verbose)
 	{

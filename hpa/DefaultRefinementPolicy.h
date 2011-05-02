@@ -18,7 +18,6 @@ class DefaultRefinementPolicy : public RefinementPolicy
 
 	private:
 		bool verbose;
-		FlexibleAStar* astar;
 };
 
 

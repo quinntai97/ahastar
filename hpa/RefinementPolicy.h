@@ -33,8 +33,7 @@ class RefinementPolicy
 
 	protected:
 		mapAbstraction* map;
-	
-	private:
+
 		long nodesExpanded;
 		long nodesTouched;
 		long nodesGenerated;
