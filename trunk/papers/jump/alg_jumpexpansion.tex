@@ -8,7 +8,7 @@
 \STATE $neighbours(x) \leftarrow prune(x, neighbours(x))$ 
 
 \FORALL{$n \in neighbours(x)$}
-\STATE $n \leftarrow jump(x, direction(x, n), g)$
+\STATE $n \leftarrow jump(x, direction(x, n), g, s)$
 \STATE add $n$ to $successors(x)$
 \ENDFOR
 \RETURN $successors(x)$
@@ -23,7 +23,8 @@
 \REQUIRE $x$: initial node, $\vec{d}$: direction, $g$: goal, $s$: start
 
 \STATE $n \leftarrow step(x, \vec{d})$
-\IF{$n = \varnothing$}
+%\IF{$n = \varnothing$}
+\IF{$n$ is an obstacle or is outside the grid}
 	\RETURN $\varnothing$
 \ENDIF
 \IF{$n = g$ or $x = s$}
@@ -33,8 +34,10 @@
 	\RETURN $n$
 \ENDIF
 \IF{$\vec{d}$ is diagonal}
-	\FORALL{$n' \in prune(n, neighbours(n))$ s.t. $direction(n, n')$ is straight}
-		\IF{ $jump(n, direction(n, n'), g, s) \neq \varnothing$ }
+%	\FORALL{$n' \in prune(n, neighbours(n))$ s.t. $direction(n, n')$ is straight}
+	\FORALL{$i \in \{1,2\}$}
+%		\IF{ $jump(n, direction(n, n'), g, s) \neq \varnothing$ }
+		\IF{ $jump(n, \vec{d_i}, g, s) \neq \varnothing$ }
 			\RETURN $n$
 		\ENDIF
 	\ENDFOR

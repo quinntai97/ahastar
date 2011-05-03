@@ -1,14 +1,14 @@
 \subsection{Algorithmic Description}
 We begin by making precise the concept of a jump point.  
-To do so, we use the notation $\vec{d}$ 
-to refer to one of the eight unit moves that can be taken from a node.  
-We write $y = x + k_{x}\vec{d}$ when node~$y$ can be reached 
-by taking $k_{x}$ unit moves from node~$x$ in direction $\vec{d}$.
-According to the pruning rules defined above, 
-if move~$\vec{d}$ from node~$p(x)$ to node~$x$ is diagonal, 
-then two straight moves are enabled from node~$x$ 
-(see Figure~\ref{fig:pruning}(c)); 
-these two moves are denoted by $\vec{d_1}$ and $\vec{d_2}$.  
+%To do so, we use the notation $\vec{d}$ 
+%to refer to one of the eight unit moves that can be taken from a node.  
+%We write $y = x + k_{x}\vec{d}$ when node~$y$ can be reached 
+%by taking $k_{x}$ unit moves from node~$x$ in direction $\vec{d}$.
+%According to the pruning rules defined above, 
+%if move~$\vec{d}$ from node~$p(x)$ to node~$x$ is diagonal, 
+%then two straight moves are enabled from node~$x$ 
+%(see Figure~\ref{fig:pruning}(c)); 
+%these two moves are denoted by $\vec{d_1}$ and $\vec{d_2}$.  
 
 \begin{definition}
 \label{def:jump}
@@ -20,17 +20,23 @@ following conditions holds:
 \item{Node~$y$ has at least one neighbour whose evaluation is forced according 
 to Definition \ref{def:forced}.}
 \item{$\vec{d}$ is a diagonal move and there exists a node $z = y +
-k_i\vec{d_{i}}$ which lies $k_i \in \{k_1, k_2\}$ steps in direction $d_i \in
-\{d_1,d_2\}$ such that $z$ satisfies condition 1 or condition 2 }
+%k_i\vec{d_{i}}$ which lies $k_i \in \{k_1, k_2\}$ steps in direction $d_i \in
+k_i\vec{d_{i}}$ which lies $k_i \in \mathbf{N}$ steps in direction $\vec{d_i} \in
+\{\vec{d_1},\vec{d_2}\}$ such that $z$ is a jump point from $y$ by condition 1 or condition~2.}
+%satisfies condition 1 or condition 2 }
 \end{enumerate}
 \end{definition}
 
 Figure \ref{fig:jumppoints}(b) shows an example of a jump point which is
 identified by way of condition 3.
 Here we start at $x$ and travel diagonally until encountering node $y$. 
-We identify $y$ as a jump point of $x$ by applying condition 3 of 
-Definition \ref{def:jump}. This in turn invokes condition 2 to identify $z$ 
-as a jump point from $y$. 
+From $y$, node~$z$ can be reached with $k_i = 2$ horizontal moves; 
+$z$ being a jump point from $y$ by condition~2, 
+$y$ is a jump point from $x$.  
+
+%We identify $y$ as a jump point of $x$ by applying condition 3 of 
+%Definition \ref{def:jump}. This in turn invokes condition 2 to identify $z$ 
+%as a jump point from $y$. 
 
 \input alg_jumpexpansion
 
@@ -48,7 +54,7 @@ exhausted and we return the set of successors for $x$ (line 6).
 
 In order to identify individual jump point successors we will apply Algorithm
 \ref{alg:jump}. It requires an initial node $x$, a direction of travel
-$\vec{d}$ (e.g. up, down, left, right, etc.), and the identities of the start
+$\vec{d}$, and the identities of 
 the start node $s$ and the goal node $g$.
 In rough overview, the algorithm attempts to establish whether $x$ has any 
 jump point successors by stepping in the direction $\vec{d}$ (line 1) and testing
