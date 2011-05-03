@@ -1,4 +1,7 @@
 \subsection{Algorithmic Description}
+
+\input alg_jumpexpansion
+
 We begin by making precise the concept of a jump point.  
 %To do so, we use the notation $\vec{d}$ 
 %to refer to one of the eight unit moves that can be taken from a node.  
@@ -20,25 +23,22 @@ following conditions holds:
 \item{Node~$y$ has at least one neighbour whose evaluation is forced according 
 to Definition \ref{def:forced}.}
 \item{$\vec{d}$ is a diagonal move and there exists a node $z = y +
-%k_i\vec{d_{i}}$ which lies $k_i \in \{k_1, k_2\}$ steps in direction $d_i \in
 k_i\vec{d_{i}}$ which lies $k_i \in \mathbf{N}$ steps in direction $\vec{d_i} \in
 \{\vec{d_1},\vec{d_2}\}$ such that $z$ is a jump point from $y$ by condition 1 or condition~2.}
-%satisfies condition 1 or condition 2 }
 \end{enumerate}
 \end{definition}
 
 Figure \ref{fig:jumppoints}(b) shows an example of a jump point which is
 identified by way of condition 3.
 Here we start at $x$ and travel diagonally until encountering node $y$. 
-From $y$, node~$z$ can be reached with $k_i = 2$ horizontal moves; 
-$z$ being a jump point from $y$ by condition~2, 
-$y$ is a jump point from $x$.  
+From $y$, node~$z$ can be reached with $k_i = 2$ horizontal moves.
+Thus $z$ is a jump point successor of $y$ (by condition~2) and this in turn
+identifies $y$ as a jump point successor of $x$ 
 
 %We identify $y$ as a jump point of $x$ by applying condition 3 of 
 %Definition \ref{def:jump}. This in turn invokes condition 2 to identify $z$ 
 %as a jump point from $y$. 
 
-\input alg_jumpexpansion
 
 The process by which individual jump point successors are identified is given in
 Algorithm \ref{alg:successors}.  We start with the pruned set of neighbours

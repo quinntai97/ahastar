@@ -2,13 +2,13 @@
 \caption{Identify Successors}
 \label{alg:successors}
 \begin{algorithmic}[1]
-\REQUIRE $x$: current node, $s$: the start node, $g$: the goal node
+\REQUIRE $x$: current node, $s$: start, $g$: goal 
 
 \STATE $successors(x) \leftarrow \emptyset$
 \STATE $neighbours(x) \leftarrow prune(x, neighbours(x))$ 
 
 \FORALL{$n \in neighbours(x)$}
-\STATE $n \leftarrow jump(x, direction(x, n), g, s)$
+\STATE $n \leftarrow jump(x, direction(x, n), s, g)$
 \STATE add $n$ to $successors(x)$
 \ENDFOR
 \RETURN $successors(x)$
@@ -17,31 +17,28 @@
 \end{algorithm}
 
 \begin{algorithm}[b]
-\caption{$jump$}
+\caption{Function $jump$}
 \label{alg:jump}
 \begin{algorithmic}[1]
-\REQUIRE $x$: initial node, $\vec{d}$: direction, $g$: goal, $s$: start
+\REQUIRE $x$: initial node, $\vec{d}$: direction, $s$: start, $g$: goal
 
 \STATE $n \leftarrow step(x, \vec{d})$
-%\IF{$n = \varnothing$}
 \IF{$n$ is an obstacle or is outside the grid}
-	\RETURN $\varnothing$
+	\RETURN \textit{null}
 \ENDIF
-\IF{$n = g$ or $x = s$}
+\IF{$n = g$}
 	\RETURN $n$
 \ENDIF
 \IF{$\exists~n' \in neighbours(n)$ s.t. $n'$ is forced}
 	\RETURN $n$
 \ENDIF
 \IF{$\vec{d}$ is diagonal}
-%	\FORALL{$n' \in prune(n, neighbours(n))$ s.t. $direction(n, n')$ is straight}
 	\FORALL{$i \in \{1,2\}$}
-%		\IF{ $jump(n, direction(n, n'), g, s) \neq \varnothing$ }
-		\IF{ $jump(n, \vec{d_i}, g, s) \neq \varnothing$ }
+		\IF{ $jump(n, \vec{d_i}, s, g)$ is not \textit{null} }
 			\RETURN $n$
 		\ENDIF
 	\ENDFOR
 \ENDIF
-\RETURN $jump(n, \vec{d}, g, s)$
+\RETURN $jump(n, \vec{d}, s, g)$
 \end{algorithmic}
 \end{algorithm}

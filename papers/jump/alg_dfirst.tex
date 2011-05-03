@@ -5,10 +5,10 @@
 \REQUIRE $\pi$: an arbitrary optimal length path
 
 \STATE{\textbf{select} an adjacent pair of edges appearing along $\pi$ where
-$(i, j)$ is a straight move and $(j, k)$ is a diagonal move.}
-\STATE{ \textbf{replace} $(i, j)$ and $(j, k)$ with two new edges: $(i, j')$, 
-which is a diagonal move and $(j', k)$ which is a straight move. 
-The operation is successful if $(i, j')$ and $(j', k)$ are both valid moves; i.e. node $j'$ is not an
+$(n_{k-1}, n_k)$ is a straight move and $(n_k, n_{k+1})$ is a diagonal move.}
+\STATE{ \textbf{replace} $(n_{n-1}, n_k)$ and $(n_k, n_{k+1})$ with two new edges: $(n_{k-1}, n_{k}')$, 
+which is a diagonal move and $(n_{k}', n_{k+1})$ which is a straight move. 
+The operation is successful if $(n_{k-1}, n_{k}')$ and $(n_{k}', n_{k+1})$ are both valid moves; i.e. node $n_{k}'$ is not an
 obstacle.}
 \STATE \textbf{repeat} lines 1 and 2, selecting and replacing adjacent edges, 
 until no further changes can be made to $\pi$.

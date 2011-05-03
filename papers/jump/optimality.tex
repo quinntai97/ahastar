@@ -1,4 +1,4 @@
-\subsection{Optimality}
+\section{Optimality}
 In this section we prove that for each optimal length path in a grid map there
 exists an equivalent length path which can be found by only expanding jump
 point nodes during search (Theorem \ref{theorem:jumping}).  Our result is
@@ -13,16 +13,18 @@ travel from the previous node $n_{i-1}$ to $n_{i}$ is different to the direction
 of travel from $n_{i}$ to the subsequent node $n_{i+1}$.
 \end{definition}
 
-Figure \ref{fig:turningpoints} depicts the four possible
-kinds of turning points which we may encounter. 
-A diagonal-to-diagonal turning point $n_{k}$ for example (Figure
-\ref{fig:turningpoints}(a)) involves a diagonal step from its parent $n_{k-1}$ 
-followed by a second diagonal step, this time in a different direction,
-from $n_{k}$ to its successor $n_{k+1}$.
-Similarly, a straight-to-diagonal turning point (Figure
-\ref{fig:turningpoints}(c)) 
-involves a straight step to reach $n_{k}$ followed by a diagonal step to reach its 
-successor. 
+Figure \ref{fig:turningpoints} depicts the three possible kinds of turning
+points which we may encounter on an optimal path. A diagonal-to-diagonal turning
+point at node $n_k$ (Figure \ref{fig:turningpoints}(a)) involves a diagonal step
+from its parent $n_{k-1}$ followed by a second diagonal step, this time in a
+different direction, from $n_{k}$ to its successor $n_{k+1}$.  Similarly, a
+straight-to-diagonal (or diagonal-to-straight) turning point involves a straight
+(diagonal) step from $n_{k-1}$ to reach $n_{k}$ followed by a diagonal
+(straight) step to reach its successor $n_{k+1}$ (Figure
+\ref{fig:turningpoints}(b) and \ref{fig:turningpoints}(c) respectively).  
+Other types of turning points, such as straight-to-straight, are trivially
+suboptimal and not considered here (they are pruned by the rules we developed
+earlier; see again Figure \ref{fig:pruning}).
 
 We are now ready to develop an equivalence relation between
 jump points and the turning points that appear along certain optimal length 
@@ -45,21 +47,17 @@ Each turning point along an optimal diagonal-first path $\pi'$ is also a jump po
 \end{lemma}
 \begin{proof}
 Let $n_{k}$ be an arbitrary turning point node along $\pi'$. 
-We will consider four cases, each one corresponding to one of the four
-possible kinds of turning points illustrated in Figure \ref{fig:turningpoints}. 
+We will consider three cases, each one corresponding to one of the three
+possible kinds of optimal turning points illustrated in Figure \ref{fig:turningpoints}. 
 
 \textbf{Diagonal-to-Diagonal:} Since $\pi'$ is optimal, there must be an
 obstacle adjacent to both $n_{k}$ and $n_{k-1}$ which is forcing a detour.
 We know this because if there were no obstacle we would have 
-$d(n_{k-1}, n_{k+1}) < d(n_{k-1}, n_{k}) + d(n_{k}, n_{k+1})$ which contradicts
+$dist(n_{k-1}, n_{k+1}) < dist(n_{k-1}, n_{k}) + dist(n_{k}, n_{k+1})$ which contradicts
 the fact that $\pi'$ is optimal.
 We conclude that $n_{k+1}$ is a forced neighbour of $n_{k}$.
 This is sufficient to satisfy the second condition of Definition
 \ref{def:forced}, making $n_{k}$ a jump point.
-
-\textbf{Straight-to-Straight:} We can ignore this case as it contradicts the 
-optimality of $\pi'$. In particular, we have: 
-$d(n_{k-1}, n_{k+1}) < d(n_{k-1}, n_{k}) + d(n_{k}, n_{k+1})$.
 
 \textbf{Straight-to-Diagonal:} In this case there must be an 
 obstacle adjacent to $n_{k}$. 
@@ -80,9 +78,6 @@ also a jump point.
 If $n_{k}$ is followed by another turning point, $n_{l}$, then that turning
 point must be Straight-to-Diagonal and, by the argument for that case, 
 also a jump point.
-%If this were not true we derive a contradiction either on the optimality of
-%$\pi'$ or on the fact that $\pi'$ is diagonal-first. Since both 
-%properties are guaranteed we derive the fact that $n_{k}$ has
 We again conclude that $n_{k}$ has a jump point successor which satisfies
 the third condition of Definition \ref{def:forced}. Thus, $n_{k}$ is
 also a jump point.
@@ -94,8 +89,8 @@ also a jump point.
 			{diagrams/turningpoints.png}
        \end{center}
 	\vspace{-3pt}
-       \caption{Types of turning points. (a) Diagonal-to-Diagonal
-(b) Straight-to-Straight (c) Straight-to-Diagonal (d) Diagonal-to-Straight.}
+       \caption{Types of optimal turning points. (a) Diagonal-to-Diagonal
+(b) Straight-to-Diagonal (c) Diagonal-to-Straight.}
        \label{fig:turningpoints}
 \end{figure}
 

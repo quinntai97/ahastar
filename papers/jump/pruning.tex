@@ -1,21 +1,7 @@
 \subsection{Neighbour Pruning Rules} 
 \label{sec:pruning}
 
-In this section we develop rules for pruning the set of nodes immediately 
-adjacent to some node $x$ from the grid.
-The objective is to identify from each
-set of such neighbours, i.e. $neighbours(x)$, any nodes $n$ that do not need to be evaluated in order to
-reach the goal optimally. We achieve this by comparing the length of two paths:
-$\pi$, which begins with node $p(x)$ visits $x$ and ends with $n$ and another
-path $\pi'$ which also begins at node $p(x)$ and ends with $n$ but does not 
-mention $x$. 
-Additionally, each node mentioned by either $\pi$ or $\pi'$ must belong to 
-$neighbours(x)$.
-There are two cases to consider, depending on
-whether the transition to $x$ from its parent $p(x)$ involves a straight move or
-a diagonal move. 
-
-\begin{figure}[h]
+\begin{figure}[tb]
        \begin{center}
 		   \includegraphics[scale=0.4, trim = 10mm 10mm 10mm 0mm]
 			{diagrams/pruningrules.png}
@@ -26,6 +12,23 @@ parent $p(x)$ by either a straight or diagonal move. When $x$ is expanded we can
 prune from consideration all nodes marked grey.}
        \label{fig:pruning}
 \end{figure}
+
+In this section we develop rules for pruning the set of nodes immediately 
+adjacent to some node $x$ from the grid.
+The objective is to identify from each
+set of such neighbours, i.e. $neighbours(x)$, any nodes $n$ that do not need to be evaluated in order to
+reach the goal optimally. We achieve this by comparing the length of two paths:
+$\pi$, which begins with node $p(x)$ visits $x$ and ends with $n$ and another
+path $\pi'$ which also begins at node $p(x)$ and ends with $n$ but does not 
+mention $x$. 
+Additionally, each node mentioned by either $\pi$ or $\pi'$ must belong to 
+$neighbours(x)$. 
+
+There are two cases to consider, depending on
+whether the transition to $x$ from its parent $p(x)$ involves a straight move or
+a diagonal move. Note that if $x$ is the start node $p(x)$ is null and nothing
+is pruned.
+
 \par \noindent
 \textbf{Straight Moves:} We prune any node $n \in neighbours(x)$ which 
 satisfies the following dominance constraint:
@@ -35,10 +38,6 @@ len(~\begin{pth}p(x), \ldots, n\end{pth} \setminus x~)
 \end{equation}
 Figure \ref{fig:pruning}(a) shows an example. Here $p(x) = 4$ and we prune
  all neighbours except $n = 5$.
-%In some cases we may be \emph{forced} to evaluate a neighbour which would be
-%dominated except for the presence of obstacles that are adjacent to $x$.  We
-%show an example of this situation in Figure \ref{fig:pruning}(b); notice that 
-%in addition to $n = 5$ we are also forced to consider $n = 3$. 
 \par \noindent
 \textbf{Diagonal Moves:} This case is similar to the pruning rules we developed
 for straight moves; the only difference is that the path which excludes $x$ must 
