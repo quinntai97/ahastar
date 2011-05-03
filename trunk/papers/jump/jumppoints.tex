@@ -31,7 +31,7 @@ to simply step to the right and continue moving in this direction until we
 encounter a node such as $y$; which has at least one other non-dominated
 neighbour (here $z$). 
 If we find a node such as $y$ (a jump point) we generate it as a successor 
-of $x$ and assign it a $g$-value (or cost-so-far) of $g(y) = g(x) + d(x,
+of $x$ and assign it a $g$-value (or cost-so-far) of $g(y) = g(x) + dist(x,
 y)$.
 Alternatively, if we reach an obstacle we conclude that further search in this
 direction is fruitless and generate nothing.
@@ -49,5 +49,4 @@ Figure \ref{fig:jumppoints}(a), has no effect on the optimality of search.
 
 \input pruning
 \input jumpdesc
-\input optimality
 
