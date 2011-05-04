@@ -2,7 +2,7 @@
 To evaluate jump points we use a generic implementation of A* which we 
 adapted to facilitate online neighbour pruning and jump point identification.
 We discuss
-performance in terms of \emph{speedup}: i.e. relative improvemement to the time 
+performance in terms of \emph{speedup}: i.e. relative improvement to the time 
 taken to solve a given problem, and the number of nodes expanded, when searching
 with and without graph pruning applied to the grid.
 Using this metric a search time speedup
@@ -35,7 +35,7 @@ As per Figure \ref{fig:speedup}, jump point pruning shows a convincing
 improvement to average search times across all benchmarks.
 The largest differences are
 observed on Baldur's Gate and Dragon Age where searching with jump points
-reaches the goal 20-26 times sooner while searching with Swamps attains only a 3-5
+reaches the goal between 25-30 times sooner while searching with Swamps attains only a 3-5
 times speedup.  Similar trends are observed when looking at Table
 \ref{table:nodes}, where the improvement to the total number of nodes expanded
 is even more pronounced.
@@ -51,14 +51,15 @@ portions of the map.
 
 \textbf{Comparison with HPA*: }
 Next, we compare jump points pruning to the HPA* algorithm~\cite{botea04}.
-Though sub-optimal, HPA* is very fast and widely applied in video games. We
-compare against it to establish whether or not jump points are equally
-applicable in similar contexts.  When evaluating HPA* we measure the total cost
-of insertion and hierarchical search. We did not perform any path refinement 
-nor path smoothing.
-We configured HPA* with a single-level abstraction hierarchy and a
+Though sub-optimal, HPA* is very fast and widely applied in video games. 
+To evaluate HPA* we measure the total cost
+of insertion and hierarchical search. We did not refine any abstract paths,
+assuming instead that a database of pre-computed intra-cluster paths was
+available. Such a configuration represents the fastest generic implementation 
+of HPA* but requires additional memory overheads. 
+While searching we used a single-level abstraction hierarchy and a
 fixed cluster size of 10.  These settings are recommended by the original
-authors who note that larger cluster sizes and more levels can often incur
+authors who note that larger clusters and more levels can incur
 significant overhead.
 
 As per Figure \ref{fig:speedup}, jump points pruning is shown to be 
@@ -75,10 +76,10 @@ takes longer.
 We conclude that jump point pruning is a competitive substitute for HPA* and,
 for a wide variety of problems, can help to find solutions significantly faster.
 HPA*
-can still be advantageous, particularly if a small memory overhead is acceptable
+can still be advantageous, particularly if a memory overhead is acceptable
 and optimality is not important, but only if the cost of inserting the start and
-goal nodes into the abstract graph, and the cost of the subsequent refinement
-phase, can be sufficiently amortized over the time required to find an abstract
+goal nodes into the abstract graph (and possibly refinement, if a path database
+is not available), can be sufficiently amortized over the time required to find an abstract
 path.
 One direction for further work could be to use jump
 point pruning to speed up HPA*: for example during insertion and refinement.
